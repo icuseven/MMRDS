@@ -116,6 +116,21 @@ public class Program
         });
 
 
+        app.MapGet("/metadata/ui_specification", (IHttpClientFactory httpClientFactory) =>
+        {
+             var client = httpClientFactory.CreateClient("database_client");
+
+            //var metadata_path = "metadata/mmria-pmss-builder";
+            var metadata_path = "metadata/default_ui_specification";
+
+            var result = client.GetFromJsonAsync<mmria.common.metadata.UI_Specification>(metadata_path).GetAwaiter().GetResult();
+
+            return Results.Ok<mmria.common.metadata.UI_Specification>(result);
+           
+        });
+
+
+
         if(builder.Environment.IsDevelopment())
         {
             app.Run(config["mmria_settings:web_site_url"]);

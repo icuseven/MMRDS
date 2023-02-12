@@ -1,4 +1,5 @@
-﻿<h2>@Metadata.prompt</h2>
+﻿<fieldset>
+    <legend>@Metadata.prompt</legend>
 
 @foreach (var item  in Metadata.children)
 {
@@ -6,9 +7,9 @@
     {
         case "STRING":
         case "NUMBER":
-
             var control_style = "";
             var prompt_style = "";
+
             var p_dictionary_path = $"{Metadata.name}/{item.name}";
             if(UI_Specification.form_design.ContainsKey(p_dictionary_path))
             {
@@ -36,12 +37,12 @@
         break;
         case "GROUP":
             <Group Metadata="@item" UI_Specification="@UI_Specification"> </Group>
-            break;
+        break;
     }
         
 }
 
-
+</fieldset>
 @code 
 {
 
@@ -57,7 +58,6 @@
        // metadata = await GetMetadata();
     }
 
-
     string get_style_string(string p_style_string)
     {
         //"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
@@ -68,27 +68,4 @@
         return result;
     }
 
-/*
-    const default_ui_specification = await $.ajax
-    ({
-        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/ui_specification`,
-    });
-  
-    g_default_ui_specification = default_ui_specification;
-
-
-var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
-	
-get_style_string(style_object.control.style
-
-function get_style_string(p_style_string)
-{
-	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
-	var result = p_style_string.substring(1);
-
-	result = result.replace(/["']/g, "").replace("{","").replace("}","").replace(/,/g, ";");
-
-	return result;
-}
-*/
 }

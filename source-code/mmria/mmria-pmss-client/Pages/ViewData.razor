@@ -24,7 +24,8 @@ else
     }
     </ul>
     
-    <MetadataForm Metadata="@selected_node"> </MetadataForm>
+    <section style="display:block">
+    <MetadataForm Metadata="@selected_node" UI_Specification="@ui_specification"> </MetadataForm>
 
     //var form  =  metadata.children.Where(x=> x.type == "form").FirstOrDefault();
     @foreach (var item  in selected_node.children)
@@ -33,8 +34,21 @@ else
         {
             case "STRING":
             case "NUMBER":
-            <p>@item.prompt</p>
-            <input type="text" value="" />  
+
+            var control_style = "";
+            var prompt_style = "";
+
+            var p_dictionary_path = $"{selected_node.name}/{item.name}";
+            if(ui_specification.form_design.ContainsKey(p_dictionary_path))
+            {
+                var style_object = ui_specification.form_design[p_dictionary_path];
+
+                control_style = get_style_string(style_object.control.style);
+                prompt_style = get_style_string(style_object.prompt.style);
+            }
+
+            <p style="@prompt_style">@item.prompt</p>
+            <input type="text" value="" style="@control_style"/>  
             break;
 
                         
@@ -49,11 +63,16 @@ else
 
             </select> 
             break;
+
+            case "GROUP":
+            <Group Metadata="@selected_node" UI_Specification="@ui_specification"> </Group>
+            break;
         }
 
         break;
           
     }
+    </section>
 }
 
 @code 
@@ -64,11 +83,13 @@ else
     mmria.common.metadata.node selected_node;
 
     mmria.common.metadata.app metadata;
+    mmria.common.metadata.UI_Specification ui_specification;
 
     protected override async Task OnInitializedAsync()
     {
         System.Console.WriteLine("OnInitializedAsync");
         metadata = await GetMetadata();
+        ui_specification = await GetUI_Specification();
         selected_node = metadata.children.Where(x=> x.type == "form").FirstOrDefault();
         
     }
@@ -98,11 +119,35 @@ else
         return result;
     }
 
+
+    async Task<mmria.common.metadata.UI_Specification> GetUI_Specification()
+    {
+        var client = httpFactory.CreateClient("base_client");
+
+        var response = await client.GetStringAsync("metadata/ui_specification");
+
+        System.Console.WriteLine(response.Substring(0, 100));
+
+        var result = System.Text.Json.JsonSerializer.Deserialize<mmria.common.metadata.UI_Specification>(response);
+
+        return result;
+    }
     void NavButtonClick(MouseEventArgs e, string tab)
     {
         CurrentForm = tab;
         selected_node = metadata.children.Where(x=> x.type == "form" && x.name == tab).FirstOrDefault();
 
+    }
+
+    
+    string get_style_string(string p_style_string)
+    {
+        //"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
+        var result = p_style_string.Substring(1);
+
+        result = result.Replace("\"", "").Replace("{","").Replace("}","").Replace(",", ";");
+
+        return result;
     }
 
 }
