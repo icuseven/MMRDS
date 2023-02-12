@@ -3,30 +3,33 @@
 
 @foreach (var item  in Metadata.children)
 {
+    var dictionary_path = $"{MMRIA_Path}/{item.name}";
+    var control_style = "";
+    var prompt_style = "";
+
+    if(UI_Specification.form_design.ContainsKey(dictionary_path))
+    {
+        var style_object = UI_Specification.form_design[dictionary_path];
+
+        if(style_object.control != null)
+        control_style = get_style_string(style_object.control.style);
+
+        if(style_object.prompt != null)
+        prompt_style = get_style_string(style_object.prompt.style);
+    }
+
     @switch (item.type.ToUpper())
     {
         case "STRING":
         case "NUMBER":
-            var control_style = "";
-            var prompt_style = "";
-
-            var p_dictionary_path = $"{Metadata.name}/{item.name}";
-            if(UI_Specification.form_design.ContainsKey(p_dictionary_path))
-            {
-                var style_object = UI_Specification.form_design[p_dictionary_path];
-
-                control_style = get_style_string(style_object.control.style);
-                prompt_style = get_style_string(style_object.prompt.style);
-            }
-
             <p style="@prompt_style">@item.prompt</p>
             <input type="text" value="" style="@control_style"/>  
         break;
 
                     
         case "LIST":
-        <p>@item.prompt</p>
-        <select>
+        <p style="@prompt_style">@item.prompt</p>
+        <select style="@control_style">
 
         @foreach (var option  in item.values)
         {
@@ -36,7 +39,8 @@
         </select> 
         break;
         case "GROUP":
-            <Group Metadata="@item" UI_Specification="@UI_Specification"> </Group>
+            
+            <Group Metadata="@item" UI_Specification="@UI_Specification" MMRIA_Path="@dictionary_path"> </Group>
         break;
     }
         
@@ -51,6 +55,9 @@
 
     [Parameter]
     public mmria.common.metadata.UI_Specification UI_Specification { get; set; }
+
+    [Parameter]
+    public string MMRIA_Path { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

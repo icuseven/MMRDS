@@ -24,54 +24,9 @@ else
     }
     </ul>
     
-    <section style="display:block">
-    <MetadataForm Metadata="@selected_node" UI_Specification="@ui_specification"> </MetadataForm>
+    <section style="display:block;position:absolute;">
+     <MetadataForm Metadata="@selected_node" UI_Specification="@ui_specification"> </MetadataForm>
 
-    //var form  =  metadata.children.Where(x=> x.type == "form").FirstOrDefault();
-    @foreach (var item  in selected_node.children)
-    {
-        @switch (item.type.ToUpper())
-        {
-            case "STRING":
-            case "NUMBER":
-
-            var control_style = "";
-            var prompt_style = "";
-
-            var p_dictionary_path = $"{selected_node.name}/{item.name}";
-            if(ui_specification.form_design.ContainsKey(p_dictionary_path))
-            {
-                var style_object = ui_specification.form_design[p_dictionary_path];
-
-                control_style = get_style_string(style_object.control.style);
-                prompt_style = get_style_string(style_object.prompt.style);
-            }
-
-            <p style="@prompt_style">@item.prompt</p>
-            <input type="text" value="" style="@control_style"/>  
-            break;
-
-                        
-            case "LIST":
-            <p>@item.prompt</p>
-            <select>
-
-            @foreach (var option  in item.values)
-            {
-
-            }
-
-            </select> 
-            break;
-
-            case "GROUP":
-            <Group Metadata="@selected_node" UI_Specification="@ui_specification"> </Group>
-            break;
-        }
-
-        break;
-          
-    }
     </section>
 }
 
