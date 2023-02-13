@@ -73,6 +73,12 @@ function render_queue_result(q)
                 download_button = `<a target="_new" href="stevePRAMS/GetFileResult?FileName=${q.items[i].fileName}">Download</a> |
                 <a href="javascript:delete_file_click('${q.items[i].fileName}')">Delete</a>`;
             }
+
+            if(q.items[i].status == "Cancelled")
+            {
+                download_button = `Cancelled`;
+            }
+            
             html.push(`
             <tr>
             <td style="padding: 15px;">${q.items[i].dateCreated}</td>

@@ -114,6 +114,12 @@ public sealed class steveMMRIAController : Controller
                 ExportType = "steve",
                 Status = "In Progress"
             };
+
+            var time_diff = DateTime.Now - qr.DateCreated;
+            if(time_diff.Hours > 1)
+            {
+                qr.Status = "Cancelled";
+            }
             queue_Result.Items.Add(qr);
         }
 
