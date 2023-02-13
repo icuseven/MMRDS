@@ -1294,7 +1294,7 @@ var $mmria = function()
                                         <input id="cc_reset" class="btn btn-primary m1-3" type="button" value="Reset" onclick="cc_reset_clicked()"/>
                                         <input id="cc_convert" class="btn btn-primary m1-3" type="button" value="Convert" onclick="cc_convert_clicked()" />
                                         <br/><br/>
-                                        <div id="cc_reset_message"style="padding:2px;text-align:center;">Please click the Reset button for additional conversions.</div>
+                                        <div id="cc_reset_message"style="padding:2px;text-align:center;font-size:14px">Please reset fields to perform another conversion.</div>
                                     </div>
 
                                 </div>
