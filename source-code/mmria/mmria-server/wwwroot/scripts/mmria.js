@@ -1291,10 +1291,10 @@ var $mmria = function()
                                     </div>
                                     <br/><br/>
                                     <div style="text-align:right;padding-right: 8px;">
-                                        <input id="cc_reset" class="btn btn-primary m1-3" type="button" value="Reset" onclick="cc_reset_clicked()"/>
-                                        <input id="cc_convert" class="btn btn-primary m1-3" type="button" value="Convert" onclick="cc_convert_clicked()" />
+                                        <input id="cc_reset" class="btn btn-primary m1-3" type="button" value="Reset" onclick="cc_reset_clicked()" />
+                                        <input id="cc_convert" class="btn btn-primary m1-3" type="button" value="Convert" onclick="cc_convert_clicked()" style="border: 1px solid #bdbdbd;" />
                                         <br/><br/>
-                                        <div id="cc_reset_message"style="padding:2px;text-align:center;font-size:14px">Please reset fields to perform another conversion.</div>
+                                        <div id="cc_reset_message"style="padding:2px 5px 2px 2px;text-align:left;font-size:14px">Please reset fields to perform another conversion.</div>
                                     </div>
 
                                 </div>
