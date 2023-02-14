@@ -1248,8 +1248,8 @@ var $mmria = function()
                                 box-sizing: border-box;">
                                 <div id="values-limited-to-1"  style="text-align:left;">Input values are limited to 0.00 - 1000.00</div>
                                 <br/>
-                                    <div style="padding:2px"><b>Height</b>
-                                        <table style="padding:2px">
+                                    <div style="padding:2px"><b>Height</b><br/>
+                                        <table style="padding:2px 2px 2px 2px">
                                             <tr style="padding:2px">
                                                 <td><input id="cc_cm" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_cm">cm</label></td>
                                                 <td>&lt;-- <b>convert</b> --&gt; </td>
@@ -1265,7 +1265,7 @@ var $mmria = function()
 
                                     <hr/>
                                     <br/>
-                                    <div style="padding:2px"><b>Weight</b>
+                                    <div style="padding:2px"><b>Weight</b><br/>
                                         <table style="padding:2px">
                                             <tr style="padding:2px">
                                             <td><input id="cc_kg" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_kg">kg</label></td>
@@ -1284,7 +1284,7 @@ var $mmria = function()
                                     </div>
                                     <hr/>
                                     <br/>
-                                    <div style="padding:2px"><b>Temperature</b>
+                                    <div style="padding:2px"><b>Temperature</b><br/>
                                         <div style="padding:2px">
                                             <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- <b>convert</b> --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
                                         </div>
