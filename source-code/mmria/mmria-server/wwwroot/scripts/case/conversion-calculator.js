@@ -105,7 +105,7 @@ function cc_render_convert(p_value)
 
     if(p_value != null)
     {
-        is_able_to_convert = is_able_to_convert || p_value !== '';
+        is_able_to_convert = is_able_to_convert || (p_value !== '' && p_value !=='.' && p_value >= 0);
     } 
     else
     {
