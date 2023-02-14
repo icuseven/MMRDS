@@ -362,7 +362,8 @@ function cc_convert_clicked()
 
 function cc_cm_to_in(p_value)
 {
-    return p_value  * 0.3937007874;
+    return p_value  * 0.39;
+    //0.3937007874;
 }
 function cc_in_to_cm(p_value)
 {
@@ -373,33 +374,33 @@ function cc_in_to_cm(p_value)
 
 function cc_m_to_ft(p_value)
 {
-    return p_value * 3.28084;
+    return p_value * 3.28; //3.28084
 }
 
 function cc_ft_to_m(p_value)
 {
-    return p_value * 0.3048;
+    return p_value * 0.304; //0.3048
 }
 
 
 
 function cc_lbs_to_kg(p_value)
 {
-    return p_value * 0.4535924;
+    return p_value * 0.45; //0.4535924
 }
 function cc_kg_to_lbs(p_value)
 {
-    return p_value * 2.204623;
+    return p_value * 2.20; //2.204623
 }
 
 
 function cc_oz_to_g(p_value)
 {
-    return p_value * 28.34952;
+    return p_value * 28.35; //28.34952
 }
 function cc_g_to_oz(p_value)
 {
-    return p_value * 0.03527396;
+    return p_value * 0.04; //0.03527396
 }
 
 

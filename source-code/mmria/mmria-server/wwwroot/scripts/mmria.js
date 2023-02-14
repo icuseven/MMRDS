@@ -1246,7 +1246,7 @@ var $mmria = function()
                                 font-family: 'Open Sans';
                                 background-color: #f7f2f7;
                                 box-sizing: border-box;">
-                                <div id="values-limited-to-1"  style="text-align:center;">Input values are limited to 0.00 - 1000.00</div>
+                                <div id="values-limited-to-1"  style="text-align:left;">Input values are limited to 0.00 - 1000.00</div>
                                 <br/>
                                     <div style="padding:2px"><b>Height</b>
                                         <table style="padding:2px">
