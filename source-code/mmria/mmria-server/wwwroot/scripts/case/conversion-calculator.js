@@ -99,13 +99,40 @@ function cc_reset_clicked()
 }
 
 
-function cc_render_convert(p_value)
+function cc_render_convert(p_value, p_length)
 {
     let is_able_to_convert = false;
 
     if(p_value != null)
     {
-        is_able_to_convert = is_able_to_convert || (p_value !== '' && p_value !=='.' && p_value >= 0);
+        if(p_length != null)
+        {
+
+            if(p_length == 0)
+            {
+                if(p_value === -2)
+                {
+                    is_able_to_convert = false;
+                }
+                else
+                {
+                    is_able_to_convert = true;
+                }
+                
+            }
+            else 
+            {
+                is_able_to_convert = is_able_to_convert || 
+                (
+                    p_value !== '' && 
+                    (p_value >= 0 || p_value === -2)
+                );
+            }
+        }
+        else
+        {
+            is_able_to_convert = is_able_to_convert || (p_value !== '' && p_value >= 0);
+        }
     } 
     else
     {
@@ -426,7 +453,11 @@ function cc_only_numeric_input(evt)
     if // preventDefault if
     (
         evt.srcElement.value.length > 12 ||
-        
+        (
+            evt.which == dot &&
+            evt.srcElement.value.indexOf('.') > -1
+        )
+        ||
         /*(
             evt.srcElement.value.length == 0 &&
             (evt.which == dot || evt.which == zero)
@@ -468,7 +499,7 @@ function cc_only_numeric_input(evt)
     }
     else //if (evt.which == cr_enter)
     {
-        cc_render_convert(evt.which - zero);
+        cc_render_convert(evt.which - zero, evt.srcElement.value.length);
         switch(evt.srcElement.id)
         {
 
@@ -516,10 +547,25 @@ function cc_onKeyDown(event)
 
     if( key == BACKSPACE)
     {
-        if(event.srcElement.value.length < 2)
+        if(event.srcElement.value.length <= 2)
         {
             //console.log(event.srcElement.id)
-            cc_render_convert('');
+            if(event.srcElement.value.length == 2)
+            {
+                const val = event.srcElement.value[0];
+                if(val === ".")
+                {
+                    cc_render_convert(-2, 0);
+                }
+                else
+                {
+                    cc_render_convert(val, 0);
+                }
+            }
+            else
+            {
+                cc_render_convert('', event.srcElement.value.length);
+            }
             switch(event.srcElement.id)
             {
 
