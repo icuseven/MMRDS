@@ -103,7 +103,24 @@ function cc_render_convert(p_value, p_length)
 {
     let is_able_to_convert = false;
 
-    if(p_value != null)
+    if
+    (
+    
+        cc_cm_input.readOnly === true &&
+        cc_in_input.readOnly === true &&
+        cc_m_input.readOnly === true &&
+        cc_ft_input.readOnly === true &&
+        cc_lbs_input.readOnly === true &&
+        cc_kg_input.readOnly === true &&
+        cc_oz_input.readOnly === true &&
+        cc_g_input.readOnly === true &&
+        cc_f_input.readOnly === true &&
+        cc_c_input.readOnly === true 
+    )
+    {
+        // do nothing
+    }
+    else if(p_value != null)
     {
         if(p_length != null)
         {
@@ -557,7 +574,7 @@ function cc_onKeyDown(event)
             {
                 cc_render_convert(-2, 0);
             }
-            if(event.srcElement.value.length == 2)
+            else if(event.srcElement.value.length == 2)
             {
                 const val = event.srcElement.value[0];
                 if(val === ".")
@@ -571,6 +588,7 @@ function cc_onKeyDown(event)
             }
             else
             {
+                
                 cc_render_convert('', event.srcElement.value.length);
             }
             switch(event.srcElement.id)
