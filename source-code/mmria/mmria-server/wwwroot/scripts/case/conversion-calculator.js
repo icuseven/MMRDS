@@ -116,7 +116,7 @@ function cc_render_convert(p_value, p_length)
                 }
                 else
                 {
-                    is_able_to_convert = true;
+                    is_able_to_convert = is_able_to_convert || (p_value !== '' && p_value >= 0);
                 }
                 
             }
@@ -550,6 +550,10 @@ function cc_onKeyDown(event)
         if(event.srcElement.value.length <= 2)
         {
             //console.log(event.srcElement.id)
+            if(event.srcElement.value.length == 0)
+            {
+                cc_render_convert(-2, 0);
+            }
             if(event.srcElement.value.length == 2)
             {
                 const val = event.srcElement.value[0];
