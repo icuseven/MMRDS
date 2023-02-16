@@ -475,6 +475,8 @@ function cc_only_numeric_input(evt)
             evt.srcElement.value.indexOf('.') > -1
         )
         ||
+        evt.srcElement.readOnly == true
+        ||
         /*(
             evt.srcElement.value.length == 0 &&
             (evt.which == dot || evt.which == zero)
