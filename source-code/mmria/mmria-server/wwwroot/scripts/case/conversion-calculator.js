@@ -105,7 +105,6 @@ function cc_render_convert(p_value, p_length)
 
     if
     (
-    
         cc_cm_input.readOnly === true &&
         cc_in_input.readOnly === true &&
         cc_m_input.readOnly === true &&

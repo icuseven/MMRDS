@@ -153,6 +153,15 @@ public sealed class SubstanceMigration
                     {
                         continue;
                     }
+            /*
+                    if(case_change_count == 0)
+                    {
+                        case_change_count += 1;
+                        case_has_changed = true;
+                    }
+
+                    case_has_changed = case_has_changed && gs.set_value("host_state", "co", doc);
+*/
 
                     string substance_mapping_url = "https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/substance-mapping";
                     cURL substance_mapping_curl = new cURL("GET", null, substance_mapping_url, null, config_metadata_user_name, config_metadata_value);
