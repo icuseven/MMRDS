@@ -1286,7 +1286,7 @@ var $mmria = function()
                                     <br/>
                                     <div style="padding:2px"><b>Temperature</b><br/>
                                         <div style="padding:2px">
-                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>F &lt;-- <b>convert</b> --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <sup>o</sup>C</div>
+                                            <div><input id="cc_f" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /><label for="cc_f"><sup>o</sup>F</label> &lt;-- <b>convert</b> --&gt; <input id="cc_c" type="text" value="" max="1000" min="1" onchange="cc_render_convert();" style="width:100px;" /> <label for="cc_c"><sup>o</sup>C</label></div>
                                         </div>
                                     </div>
                                     <br/><br/>
