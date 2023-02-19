@@ -163,32 +163,6 @@ public sealed class v3_0_Migration
 					}
 
 
-
-
-					string get_single_form_value(string p_base_path, string p_field)
-					{
-						string result = null;
-
-						value_result = gs.get_value(doc, p_base_path + p_field);
-						if
-						(
-							value_result.result is not null &&
-							value_result.result is string value_string &&
-							!string.IsNullOrWhiteSpace(value_string)
-						)
-						{
-							result = value_string;
-						}
-
-
-						return result;
-					}
-
-
-
-
-
-
 					string primary_occupation = null;
 					string business_industry = null;
 
@@ -209,7 +183,7 @@ public sealed class v3_0_Migration
 						business_industry
 					);
 
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", "", doc);
+					case_has_changed = gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", "", doc);
 					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  "", doc);
 					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  "", doc);
 					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  "", doc);
