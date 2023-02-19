@@ -46,9 +46,9 @@ class Program
         
         /*"fl_dev",*/
         //"uat",
-        //"localhost",
+        "localhost",
         //"qa",
-        "test",
+        //"test",
         //"fl_dev",
         /*"az",
                 "ma",
@@ -92,6 +92,10 @@ class Program
     static HashSet<string> prefix_list = new HashSet<string>()
     {
 
+
+            "as",
+            "cnmi",
+            "vi",
         "aa",
                 "anthc",
                 "cat",
@@ -237,7 +241,7 @@ class Program
         bool is_report_only_mode = true;
 
 
-        RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+        RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
 
         
 
@@ -424,9 +428,24 @@ class Program
 
                     var v2_10 = new migrate.set.v2_10_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     await v2_10.execute();
+
+                    var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    await CVS_Migration.execute();
+
+                    var v3_0_Migration = new migrate.set.v3_0_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_0_Migration.execute();
+
+
+
+
                 }
                 else if(MigrationType == RunTypeEnum.DataMigration)
                 {
+                    
+
+                    var v3_0_Migration = new migrate.set.v3_0_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_0_Migration.execute();
+
 
                     //var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                     //await CVS_Migration.execute();
@@ -436,10 +455,12 @@ class Program
                 }
                 else if(MigrationType == RunTypeEnum.OneTime)
                 {
+                    /*
                     var v2_10_1 = new migrate.set.v2_10_1_CertaintyHotfix(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     v2_10_1.SetConfiguration(Configuration);
                     v2_10_1.SetConfigDB(ConfigurationSet);
                     await v2_10_1.execute();
+                    */
 
                    // var v2_10_1_CVS_Migration = new migrate.set.v2_10_1_CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                    // await v2_10_1_CVS_Migration.execute();
