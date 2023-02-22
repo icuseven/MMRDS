@@ -31,10 +31,11 @@ function jurisdiction_render(p_data, p_path)
 		result.push("<li>");
         if(p_data.name == "/")
         {
-            result.push("Top Folder");
+            result.push("<label>Top Folder");
         }
         else
         {
+            result.push("<label>");
 		    result.push(p_data.name);
         }
 		result.push("&nbsp;");
@@ -45,7 +46,7 @@ function jurisdiction_render(p_data, p_path)
                 if(p_data.name.indexOf(key) == 0)
                 {
                     result.push(`<span>`);
-                    result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })' />");
+                    result.push("<input id='add_child_of_" + p_data._id.replace("/","_") + "' /></label>&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })' />");
                     result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
                     result.push(`</span>`);
                     break;
@@ -57,6 +58,7 @@ function jurisdiction_render(p_data, p_path)
 	else
 	{
 		result.push("<li id='" + p_data.id.replace("/","_") + "'>");
+        result.push("<label>");
 		result.push(p_data.name);
 		result.push("&nbsp;");
 		result.push(`<span>`);
@@ -73,7 +75,7 @@ function jurisdiction_render(p_data, p_path)
             {
                 if(new_path.indexOf(key) == 0)
                 {
-                    result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })' />&nbsp;<input type='button' value='delete' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
+                    result.push("<input id='add_child_of_" + p_data.id.replace("/","_") + "' />&nbsp;<input type='button' value='add' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })' /></label>&nbsp;<input type='button' value='delete' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
                     result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
                     result.push(`</span>`);
                     break;

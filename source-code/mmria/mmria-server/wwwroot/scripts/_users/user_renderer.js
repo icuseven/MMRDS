@@ -17,12 +17,12 @@ function user_render(p_ui, p_created_by)
 	}
 	result.push("<tr><td colspan='6' align='right'>&nbsp;</tr>");
 	result.push("<tr><td colspan='6' align='right' style>");
-	result.push("Enter new user name:<input type='text' id='new_user_name' value=''/><br/>");
+	result.push("<label>Enter new user name:<input type='text' id='new_user_name' value=''/></label><br/>");
 
 	if(g_policy_values.sams_is_enabled.toLowerCase() != "true")
 	{
-		result.push("Password: <input type='password' id='new_user_password' value=''/><br/>");
-		result.push("Verify password: <input type='password' id='new_user_verify' value=''/><br/>");
+		result.push("<label>Password: <input type='password' id='new_user_password' value=''/></label><br/>");
+		result.push("<label>Verify password: <input type='password' id='new_user_verify' value=''/></label><br/>");
 	}
 	
 	result.push(`<span class="spinner-container spinner-small mr-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
@@ -67,8 +67,8 @@ function user_entry_render(p_user, p_i, p_created_by)
 		result.push("<strong>");
 		result.push(p_user.name);
 		result.push("</strong><br/>");
-		result.push("New Password <input type='password' value='' role='confirm_1' path='" + p_user._id + "' />");
-		result.push("<br/>Verify Password<input type='password' value='' role='confirm_2' path='" + p_user._id + "' />");
+		result.push("<label>New Password <input type='password' value='' path='" + p_user._id + "' /></label>");
+		result.push("<br/><label>Verify Password<input type='password' value='' path='" + p_user._id + "' /></label>");
 		result.push("<br/><input type='button' value='Update password' onclick='init_small_loader(function(){ change_password_user_click(\"" + p_user._id + "\") })'/>");
 		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 	}
@@ -80,7 +80,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 	result.push("</td>");
 
 	result.push("<td>");
-	result.push("<select size='7' id='role_list_for_");
+	result.push("<label>Current Role List:<br/><select size='7' id='role_list_for_");
 	result.push(p_user.name);
 	result.push("' onchange='user_role_list_change(this, \"");
 	result.push(p_user._id);
@@ -145,7 +145,7 @@ function user_entry_render(p_user, p_i, p_created_by)
 			result.push("</option>");
 		}
 	}
-	result.push("</select>");
+	result.push("</select></label>");
 	result.push("<br/><input type='button' value='Add New Role' onclick='init_small_loader(function(){ add_role(\"" + p_user._id + "\", \"" + p_created_by + "\") })' />");
 	result.push(`<span class="spinner-container spinner-small"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 	result.push("</td>");	
@@ -455,15 +455,15 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	result.push(p_user_role_jurisdiction.user_id);
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("role_name");
+	result.push("<label for='selected_user_role_for_" + p_user.name + "_role'>role_name</label>");
 	result.push("</td><td>")
-
+    
 
 	Array.prototype.push.apply(result, user_role_render(p_user, p_user_role_jurisdiction));
 
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("case_folder_access");
+	result.push("<label for='selected_user_role_for_" + p_user.name + "_jurisdiction'>case_folder_access</label>");
 	result.push("</td><td>")
 	Array.prototype.push.apply(result, user_role_jurisdiction_render(g_jurisdiction_tree, p_user_role_jurisdiction.jurisdiction_id, 0, p_user.name));
 
