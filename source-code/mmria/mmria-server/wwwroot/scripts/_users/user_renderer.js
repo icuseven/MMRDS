@@ -469,7 +469,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 
 	result.push("</td></tr>")
 	result.push("<tr><td>")
-	result.push("effective_start_date");
+	result.push("<label for='selected_user_role_for_" + p_user.name + "_effective_start_date'>effective_start_date</label>");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_start_date' type='text' size=25 value='")
 	if(p_user_role_jurisdiction.effective_start_date instanceof Date && p_user_role_jurisdiction.effective_start_date != "Invalid Date")
 	{
@@ -482,7 +482,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	}
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
-	result.push("effective_end_date");
+	result.push("<label for='selected_user_role_for_" + p_user.name + "_effective_end_date'>effective_end_date</label>");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_effective_end_date' type='text' size=25 value='")
 	if(p_user_role_jurisdiction.effective_end_date instanceof Date && p_user_role_jurisdiction.effective_end_date != "Invalid Date")
 	{
@@ -496,7 +496,7 @@ function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)
 	
 	result.push("'/> </td></tr>")
 	result.push("<tr><td>")
-	result.push("is_active");
+	result.push("<label for='selected_user_role_for_" + p_user.name + "_is_active'>is_active</label>");
 	result.push("</td><td><input id='selected_user_role_for_" + p_user.name + "_is_active' type='text' value='")
 	result.push(p_user_role_jurisdiction.is_active);
 	result.push("' /> </td></tr>")
