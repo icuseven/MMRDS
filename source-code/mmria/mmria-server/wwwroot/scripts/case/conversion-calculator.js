@@ -405,8 +405,8 @@ function cc_convert_clicked()
 
 function cc_cm_to_in(p_value)
 {
-    return p_value  * 0.39;
-    //0.3937007874;
+    //return p_value  * 0.39;
+    return p_value  * 0.3937007874;
 }
 function cc_in_to_cm(p_value)
 {
@@ -443,7 +443,8 @@ function cc_oz_to_g(p_value)
 }
 function cc_g_to_oz(p_value)
 {
-    return p_value * 0.04; //0.03527396
+    //return p_value * 0.04; //0.03527396
+    return p_value * 0.03527396;
 }
 
 
