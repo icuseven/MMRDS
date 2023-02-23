@@ -313,7 +313,7 @@ async function submit_button_click()
         border-radius: 4px;
         border: 1px solid #FFC2C2;
         background-color: #FFE7E7;
-        "><img src=${location.protocol}//${location.host}/img/TransferError.svg />
+        "><img src=${location.protocol}//${location.host}/img/TransferError.svg  alt="Error when saving."/>
         Current selections could not be saved. Please contact your system administrator for assistance.
         </p>`);
         render();
