@@ -949,7 +949,7 @@ var $mmria = function()
                     <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
                     <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
-                <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div id="mmria_dialog2" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
                         <p><strong>${p_header}</strong></p>
                         ${p_inner_html}
@@ -993,7 +993,7 @@ var $mmria = function()
                     <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
                     <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
-                <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div id="mmria_dialog3" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
                         <p><strong>${p_header}</strong></p>
                         ${p_inner_html}
@@ -1048,7 +1048,7 @@ var $mmria = function()
                     <span id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</span>
                     <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
-                <div id="mmria_dialog" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
                         <p><strong>Links with this icon<span class="sr-only">external icon</span>
                         <span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span> indicate that you are leaving the CDC website.</strong></p>
@@ -1153,7 +1153,7 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,97) + "..." : p_title}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                             <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
                                 <tr class="tr bg-gray-l1 font-weight-bold">
@@ -1236,7 +1236,7 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title">Conversion Calculator</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.converter_calculater_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog6" style="width: 300; height: 500px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body" style="padding-left:12px;">
                                 <div style="width: 377px;
                                 height: 480px;
@@ -1422,7 +1422,7 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.pin_un_pin_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog7" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                                 <div >
                        ${Description_Text[0]}
