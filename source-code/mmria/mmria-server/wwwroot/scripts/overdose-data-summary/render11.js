@@ -14,24 +14,24 @@ ${render_navigation_strip(11)}
 <div>
 <h3>${metadata.title}</h3>
 <p>${metadata.description}</p>
-<ul style="align:center;">
-    <li style="display: inline-block;float:left;width:48%">
+<div style="align:center;">
+    <div style="display: inline-block;float:left;width:48%">
         <div align=center>${await render111_chart(p_post_html, metadata, data_list)}</div>
         <br/>
         <div align=center>${await render111_table(metadata, data_list)}</div>
         </div>
 
-    </li>
+    </div>
 
-    <li style="display: inline-block;float:right;width:48%">
+    <div style="display: inline-block;float:right;width:48%">
         <div align=center>${await render112_chart(p_post_html, metadata2, data_list2)}</div>
         <br/>
         <div align=center>${await render112_table(metadata2, data_list2)}</div>
         </div>
         
-    </li>
+    </div>
    
-</ul>
+</div>
 <p style="clear:both;" align=center>This data has been taken directly from the MMRIA database and is not a final report.</p>
 <br style="clear:both;"/>
 ${render_navigation_strip(11)}
