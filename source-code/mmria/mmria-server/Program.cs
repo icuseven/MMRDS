@@ -557,18 +557,15 @@ public sealed partial class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
-                endpoints.MapControllerRoute
-                (
-                    "default", 
-                    "{controller=Home}/{action=Index}"
-                );
+            app.MapRazorPages();
+            app.MapControllerRoute
+            (
+                "default", 
+                "{controller=Home}/{action=Index}"
+            );
                 
-                endpoints.MapBlazorHub();
-            });
-
+            app.MapBlazorHub();
+            
 
             //app.MapFallbackToPage("/_Host");
 
