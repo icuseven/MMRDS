@@ -619,7 +619,7 @@ function render_pin_un_pin_button
     {
         return `
     
-    <img src="../img/icon_pin.png" title="Pin" style="width:16px;height:32px;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
+    <img src="../img/icon_pin.png" title="Pin" alt="Pin" style="width:16px;height:32px;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
     
     `;
     }
@@ -627,7 +627,7 @@ function render_pin_un_pin_button
     {
         return `
     
-    <img src="../img/icon_unpin.png"  title="Unpin" style="width:16px;height:32px;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
+    <img src="../img/icon_unpin.png"  title="Unpin" alt="Unpin" style="width:16px;height:32px;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
     
     `;
     }
@@ -644,7 +644,7 @@ function render_pin_un_pin_button
 
         return `
     
-    <img src="../img/icon_unpinMultiple.png" title="Unpin" style="width:16px;height:32px;${cursor_pointer}" ${click_event}/>
+    <img src="../img/icon_unpinMultiple.png" title="Unpin" alt="Unpin" style="width:16px;height:32px;${cursor_pointer}" ${click_event}/>
     
     `;
     }
