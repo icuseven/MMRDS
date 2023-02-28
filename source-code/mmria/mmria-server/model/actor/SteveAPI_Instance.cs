@@ -250,6 +250,31 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
         return $"{year}-{month}-{day}";
     }
+
+    string ToBeginDateRequestString(DateTime value)
+    {
+        var utc = value.ToUniversalTime();
+
+        var year = utc.Year.ToString();
+        var month = utc.Month.ToString().PadLeft(2,'0');
+        var day = utc.Day.ToString().PadLeft(2,'0');
+        var hour = (utc.Hour + 5).ToString().PadLeft(2,'0');
+
+        return $"{year}-{month}-{day}T{hour}:00:00Z";
+    }
+
+    string ToEndDateRequestString(DateTime value)
+    {
+        var utc = value.ToUniversalTime();
+
+        var year = utc.Year.ToString();
+        var month = utc.Month.ToString().PadLeft(2,'0');
+        var day = utc.Day.ToString().PadLeft(2,'0');
+
+        var hour = (utc.Hour + 5).ToString().PadLeft(2,'0');
+
+        return $"{year}-{month}-{day}T{hour}:00:00Z";
+    }
 }
 
 
