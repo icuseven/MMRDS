@@ -108,7 +108,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             System.IO.File.WriteAllText
             (
                 download_directory + "/download-log.txt", 
-                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)}\nsuccess:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
+                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)} => {ToBeginDateTimeRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)} => {ToEndDateTimeRequestString(message.EndDate)}\nsuccess:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
             );
 
 
@@ -189,7 +189,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
             
 
-            var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?count=1000&fromDate={ToRequestString(message.BeginDate)}&toDate={ToRequestString(message.EndDate)}";
+            var mailbox_unread_url = $"{base_url}/mailbox/{mail_box.mailboxId}/all?count=1000&fromDate={ToBeginDateTimeRequestString(message.BeginDate)}&toDate={ToEndDateTimeRequestString(message.EndDate)}";
             var mailbox_unread_curl = new cURL("GET", null, mailbox_unread_url, null, null, null);        
             mailbox_unread_curl.AddHeader("Authorization","Bearer " + token); 
             var response = mailbox_unread_curl.execute();
@@ -251,7 +251,18 @@ public sealed class SteveAPI_Instance : ReceiveActor
         return $"{year}-{month}-{day}";
     }
 
-    string ToDateTimeRequestString(DateTime value)
+    string ToBeginDateTimeRequestString(DateTime value)
+    {
+        var yesterday = value.AddDays(- 1);
+
+        var year = yesterday.Year.ToString();
+        var month = yesterday.Month.ToString().PadLeft(2,'0');
+        var day = yesterday.Day.ToString().PadLeft(2,'0');
+
+        return $"{year}-{month}-{day}T19:00:00Z";
+    }
+
+    string ToEndDateTimeRequestString(DateTime value)
     {
 
         var year = value.Year.ToString();
@@ -260,6 +271,8 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
         return $"{year}-{month}-{day}T19:00:00Z";
     }
+
+
 
 }
 
