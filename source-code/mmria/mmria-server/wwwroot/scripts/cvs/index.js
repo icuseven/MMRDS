@@ -62,6 +62,7 @@ async function main_continue()
                 el.innerHTML = "Decedent Resident Address is not available.<br/>Please contact your jurisdiction abstractor to resolve this issue.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
+                window.setTimeout(()=> { const close_button = document.getElementById("close_button"); close_button.focus(); }, 0);
             }
             else if
             (
@@ -73,6 +74,7 @@ async function main_continue()
                 el.innerHTML = "Decedent year of death is out of range.<br/>Decedent year of death is outside of the range that is provided by the Erase MM CVS API.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
+                window.setTimeout(()=> { const close_button = document.getElementById("close_button"); close_button.focus(); }, 0);
             }
             else if(response.file_status == "file ready")
             {
@@ -81,6 +83,7 @@ async function main_continue()
                 spinner.innerHTML = `${render_close_button_html()}&nbsp;${render_download_button_html()}`;
 
                 is_finished = true;
+                window.setTimeout(()=> { const download_button = document.getElementById("download_button"); download_button.focus(); }, 0);
             }
             else if(response.file_status == "error")
             {
@@ -90,6 +93,7 @@ async function main_continue()
                 el.innerHTML = "PDF cannot be generated.<br/><br/><span style='color:FF0000;'>External Community Vital Signs Server is unavailable.</span> <br/><br/> Please wait 60 seconds, then click the refresh button on the browser toolbar. If still unsuccessful, please try again later.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
+                window.setTimeout(()=> { const close_button = document.getElementById("close_button"); close_button.focus(); }, 0);
                 //$mmria.info_dialog_show("Community Vital Sign PDF","An error occured  when calling the Community Vital Signs. Please try again later.");
             }
             else if(response.file_status == "generating")
@@ -102,6 +106,7 @@ async function main_continue()
                 el.innerHTML = "PDF cannot be generated.<br/><span style='color:FF0000;'>External Community Vital Signs Server is unavailable.</span> Please try again later.";
                 spinner.innerHTML = render_close_button_html();
                 is_finished = true;
+                window.setTimeout(()=> { const close_button = document.getElementById("close_button"); close_button.focus(); }, 0);
             }
         }
         else
@@ -112,6 +117,8 @@ async function main_continue()
             spinner.innerHTML = render_close_button_html();
             report_log.push(`CVS reponse Status Code: ${response.status} @ ${new Date()} ${response.detail}`);
             is_finished = true;
+            window.setTimeout(()=> { const close_button = document.getElementById("close_button"); close_button.focus(); }, 0);
+            
         }
 
         report_output_element.innerHTML = `<ul><li>${report_log.join("</li><li>")}</li></ul>`;
