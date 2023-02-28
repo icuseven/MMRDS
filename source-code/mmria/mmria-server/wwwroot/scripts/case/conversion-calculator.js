@@ -65,6 +65,8 @@ function cc_main()
     cc_f_input.addEventListener("keydown",cc_onKeyDown);
     cc_c_input.addEventListener("keydown",cc_onKeyDown);
 
+    cc_cm_input.focus();
+
 }
 
 
