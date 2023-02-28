@@ -1428,8 +1428,8 @@ var $mmria = function()
                        ${Description_Text[0]}
                        <br/><br/>
                                     <div style="text-align:right;padding-right: 8px;">
-                                        <input id="cc_reset" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" ${Button_style[0]}/>
-                                        <input id="cc_convert" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" style="height: 38px;
+                                        <input id="pin_for_everyone_button" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" ${Button_style[0]}/>
+                                        <input id="pin_for_me" class="btn-primary" type="button" value="${Button_Text[1]}" onclick="${Button_Event[1]}" style="height: 38px;
                                         padding-left: 12px;
                                         padding-right: 12px;
                                         border-radius: 4px;
@@ -1455,7 +1455,7 @@ var $mmria = function()
     
                 element.innerHTML = html.join("");
 
-                //window.setTimeout(()=> { cc_main(); }, 0);
+                window.setTimeout(()=> { const pin_for_me = document.getElementById("pin_for_me"); pin_for_me.focus(); }, 0);
     
                 element.showModal();
                 
