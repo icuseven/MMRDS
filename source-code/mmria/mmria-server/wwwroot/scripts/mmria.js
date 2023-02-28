@@ -1172,13 +1172,14 @@ var $mmria = function()
                     </div>
                     <div>
                     <footer class="modal-footer">
-                        <button class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+                        <button id="data_dictionary_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
                     </footer>
                     </div>
                 `);
     
                 element.innerHTML = html.join("");
-    
+                
+                window.setTimeout(()=> { const data_dictionary_dialog_close_button = document.getElementById("data_dictionary_dialog_close_button"); data_dictionary_dialog_close_button.focus(); }, 0);
                 element.showModal();
         },
         data_dictionary_dialog_click: function ()
