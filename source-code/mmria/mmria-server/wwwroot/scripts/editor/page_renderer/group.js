@@ -9,7 +9,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
 
     p_result.push("<fieldset id='");
-    p_result.push(p_metadata.name);
+    p_result.push(convert_object_path_to_jquery_id(p_object_path));
     p_result.push("_id' class='group' style='");
 
     //var key = p_dictionary_path.substring(1);

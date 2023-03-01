@@ -291,8 +291,8 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
 
     p_result.push(">");
     p_result.push("<label for='");
-    p_result.push(p_object_path.replace(/\//g, "--"));
-    p_result.push("' style='");
+    p_result.push(convert_object_path_to_jquery_id(p_object_path));
+    p_result.push("_control' style='");
       if(style_object && style_object.prompt)
       {
           p_result.push(get_style_string(style_object.prompt.style));
