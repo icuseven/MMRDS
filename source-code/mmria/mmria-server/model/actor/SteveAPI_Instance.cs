@@ -269,7 +269,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
         var month = value.Month.ToString().PadLeft(2,'0');
         var day = value.Day.ToString().PadLeft(2,'0');
 
-        return $"{year}-{month}-{day}T19:00:00Z";
+        return $"{year}-{month}-{day}T18:59:00Z";
     }
 
 
