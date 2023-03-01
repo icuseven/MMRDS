@@ -253,6 +253,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
     string ToBeginDateTimeRequestString(DateTime value)
     {
+        /*
         var yesterday = value.AddDays(- 1);
 
         var year = yesterday.Year.ToString();
@@ -260,16 +261,29 @@ public sealed class SteveAPI_Instance : ReceiveActor
         var day = yesterday.Day.ToString().PadLeft(2,'0');
 
         return $"{year}-{month}-{day}T19:00:00Z";
-    }
-
-    string ToEndDateTimeRequestString(DateTime value)
-    {
+        */
 
         var year = value.Year.ToString();
         var month = value.Month.ToString().PadLeft(2,'0');
         var day = value.Day.ToString().PadLeft(2,'0');
 
+        return $"{year}-{month}-{day}";
+    }
+
+    string ToEndDateTimeRequestString(DateTime value)
+    {
+        /*
+        var year = value.Year.ToString();
+        var month = value.Month.ToString().PadLeft(2,'0');
+        var day = value.Day.ToString().PadLeft(2,'0');
+
         return $"{year}-{month}-{day}T18:59:00Z";
+        */
+        var year = value.Year.ToString();
+        var month = value.Month.ToString().PadLeft(2,'0');
+        var day = value.Day.ToString().PadLeft(2,'0');
+
+        return $"{year}-{month}-{day}";
     }
 
 
