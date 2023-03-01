@@ -16,10 +16,10 @@ function dictionary_render(p_metadata, p_path)
 								 value=""
 								 style="width: 170px;"
 								 onchange="search_text_change(this.value)" />
-					<select id="form_filter" class="custom-select mr-2">
+					<select aria-label='form filter' id="form_filter" class="custom-select mr-2">
 						${render_form_filter(g_filter)}
 					</select>
-					<select id="metadata_version_filter" class="custom-select mr-2" onchange="metadata_version_filter_change(this.value)">
+					<select aria-label='metadata version filter' id="metadata_version_filter" class="custom-select mr-2" onchange="metadata_version_filter_change(this.value)">
 						${render_metadata_version_filter()}
 					</select>
 					<button

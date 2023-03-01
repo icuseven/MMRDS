@@ -136,6 +136,7 @@
 {
   <script src="../scripts/_audit/index.js" type="text/javascript"></script>
 }
+<PageTitle>Case Audit Log</PageTitle>
 <h1 class="h2" tabindex="-1">Case Audit Log</h1>
 <input type="button" onclick="window.close();" value="Close Audit Log"/>
 <table border=0>
@@ -159,7 +160,7 @@ Updated By
     </tr>
 <tr>
     <td style="padding:5px;">
-        <select id="user" name="user">
+        <select aria-label="filter updated by" id="user" name="user">
             @if(string.IsNullOrWhiteSpace(Model.user) || Model.user.ToUpper() == "ALL")
             {
                 <option selected="">All</option>
@@ -186,11 +187,11 @@ Updated By
     <td style="padding:5px;">
         @if(!string.IsNullOrWhiteSpace(Model.search_text)&& Model.search_text.ToUpper() == "ALL")
         {
-            <input id="search_text" name="search_text" type="text" value="" />
+            <input aria-label="search text" id="search_text" name="search_text" type="text" value="" />
         }
         else
         {
-            <input id="search_text" name="search_text" type="text" value="@Model.search_text" />
+            <input aria-label="search text" id="search_text" name="search_text" type="text" value="@Model.search_text" />
         }
         
     </td>

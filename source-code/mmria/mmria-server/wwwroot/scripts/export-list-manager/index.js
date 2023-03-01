@@ -104,7 +104,7 @@ function render_de_identified_list()
 {
 
 	var result = [];
-	result.push("<br/><table><tr><th><label label-for='export-list-type'>List Name(s)</label></th><th><label label-for='sort-order'>Sort Order</label></th><th>Action</th></tr><tr><td>");
+	result.push("<br/><table><tr><th><label for='export-list-type'>List Name(s)</label></th><th><label for='sort-order'>Sort Order</label></th><th>Action</th></tr><tr><td>");
 
     
     result.push("<select id='export-list-type' onchange='on_export_list_type_change(this.value)' size=7 >");
@@ -135,7 +135,7 @@ function render_de_identified_list()
     </tr>
 <tr>
 <td colspan=3>
-<label label-for='new_list_name'>Enter new list name</label><br/>
+<label for='new_list_name'>Enter new list name</label><br/>
 <input type='text' id='new_list_name' value='' title='Enter new list name'  style='width:200px;' placeholder='Enter new list name' />
 
 <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
@@ -151,7 +151,7 @@ function render_de_identified_list()
     
     result.push("<hr/><br/>");
 
-    result.push("<label label-for='clone-source'>Clone source</label> <select id='clone-source' onchange='on_clone_source_change(this.value)'>");
+    result.push("<label for='clone-source'>Clone source</label> <select id='clone-source' onchange='on_clone_source_change(this.value)'>");
     
     result.push(`<option value='9999' disabled=''>lists</option>`);
     for (let [key, value] of Object.entries(g_de_identified_list.name_path_list)) 
