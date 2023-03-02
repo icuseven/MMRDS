@@ -32,7 +32,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public SteveAPI_Instance()
     {
-        Receive<DownloadRequest>(message =>
+        ReceiveAsync<DownloadRequest>(async message =>
         {
             var AuthRequestBody = new AuthRequestBody()
             {
@@ -65,8 +65,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
             System.IO.Directory.CreateDirectory(download_directory);
 
-            var ErrorList = new List<string>();
-            var SuccessCount = 0;
+            var OneMailBoxResult = new OneMailBoxResult();
 
             if(message.Mailbox.Equals("all", StringComparison.OrdinalIgnoreCase))
             {
@@ -77,38 +76,40 @@ public sealed class SteveAPI_Instance : ReceiveActor
                     var mailbox_directory = System.IO.Path.Combine(download_directory, item.Value);
 
                     System.IO.Directory.CreateDirectory(mailbox_directory);
-                    OneMailBox
+                    var one_mailbox_response = await OneMailBox
                     (
                         new_message,
                         GetMailboxListResult,
                         base_url,
                         auth_response.token,
-                        mailbox_directory,
-                        ref SuccessCount,
-                        ref ErrorList
+                        mailbox_directory
                     );
+
+                    OneMailBoxResult.SuccessCount += one_mailbox_response.SuccessCount;
+                    OneMailBoxResult.ErrorList.AddRange(one_mailbox_response.ErrorList);
 
                 }
             }
             else
             {
-                OneMailBox
+                var one_mailbox_response = await OneMailBox
                 (
                     message,
                     GetMailboxListResult,
                     base_url,
                     auth_response.token,
-                    download_directory,
-                    ref SuccessCount,
-                    ref ErrorList
+                    download_directory
                 );
+
+                OneMailBoxResult.SuccessCount += one_mailbox_response.SuccessCount;
+                OneMailBoxResult.ErrorList.AddRange(one_mailbox_response.ErrorList);
             }
 
 
             System.IO.File.WriteAllText
             (
                 download_directory + "/download-log.txt", 
-                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)} => {ToBeginDateTimeRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)} => {ToEndDateTimeRequestString(message.EndDate)}\nsuccess:{SuccessCount} errors:{ErrorList.Count}\n{string.Join('\n', ErrorList)}"
+                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)} => {ToBeginDateTimeRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)} => {ToEndDateTimeRequestString(message.EndDate)}\nsuccess:{OneMailBoxResult.SuccessCount} errors:{OneMailBoxResult.ErrorList.Count}\n{string.Join('\n', OneMailBoxResult.ErrorList)}"
             );
 
 
@@ -152,18 +153,16 @@ public sealed class SteveAPI_Instance : ReceiveActor
         });
     }
 
-    void OneMailBox
+    async Task<OneMailBoxResult> OneMailBox
     (
         DownloadRequest message,
         GetMailboxListResult GetMailboxListResult,
         string base_url,
         string token,
-        string download_directory,
-        ref int SuccessCount,
-        ref List<string> ErrorList
+        string download_directory
     )
     {
-        
+        var result = new OneMailBoxResult();
         foreach(var mail_box in GetMailboxListResult.mailboxes)
         {
             if(mail_box.routingCode != "DRH") continue;
@@ -219,6 +218,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
                             using (var client_response = client.GetAsync(download_message_url).Result)
                             {
+                                /*
                                 using (var content = client_response.Content)
                                 {
                                     using (var fs = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
@@ -227,21 +227,62 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                         //await fs.FlushAsync();
                                         
                                     }
+                                }*/
+
+                                
+                                client_response.EnsureSuccessStatusCode();
+
+                                using (System.IO.Stream contentStream = await client_response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
+                                {
+                                    var totalRead = 0L;
+                                    var totalReads = 0L;
+                                    var buffer = new byte[8192];
+                                    var isMoreToRead = true;
+
+                                    do
+                                    {
+                                        var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                                        if (read == 0)
+                                        {
+                                            isMoreToRead = false;
+                                        }
+                                        else
+                                        {
+                                            await fileStream.WriteAsync(buffer, 0, read);
+
+                                            totalRead += read;
+                                            totalReads += 1;
+
+                                            if (totalReads % 2000 == 0)
+                                            {
+                                                //Console.WriteLine(string.Format("total bytes downloaded so far: {0:n0}", totalRead));
+                                            }
+                                        }
+                                    }
+                                    while (isMoreToRead);
                                 }
+                                
                             }
 
-                            SuccessCount += 1;
+                            result.SuccessCount += 1;
                         }
                         catch(Exception ex)
                         {
-                            ErrorList.Add($"{message_path} => {ex.Message}");
+                            result.ErrorList.Add($"{message_path} => {ex.Message}");
                         }
                     }
                 }
             }
         }
+        return result;
     }
 
+    class OneMailBoxResult
+    {
+        public OneMailBoxResult(){}
+        public int SuccessCount {get;set;}
+        public List<string> ErrorList {get;set;} = new();
+    }
     string ToRequestString(DateTime value)
     {
         var year = value.Year.ToString();
