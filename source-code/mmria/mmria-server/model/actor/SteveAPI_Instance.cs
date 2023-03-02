@@ -216,20 +216,21 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
                             //System.IO.File.WriteAllText(message_path, response);
 
-                            using (var client_response = client.GetAsync(download_message_url).Result)
+                            using (var client_response = await client.GetAsync(download_message_url))
                             {
-                                /*
+                                
                                 using (var content = client_response.Content)
                                 {
                                     using (var fs = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
                                     {
-                                        client_response.Content.CopyToAsync(fs).GetAwaiter().GetResult();
-                                        //await fs.FlushAsync();
+                                        //await client_response.Content.CopyToAsync(fs).GetAwaiter().GetResult();
+                                        await client_response.Content.CopyToAsync(fs);
+                                        await fs.FlushAsync();
                                         
                                     }
-                                }*/
+                                }
 
-                                
+                                /*
                                 client_response.EnsureSuccessStatusCode();
 
                                 using (System.IO.Stream contentStream = await client_response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
@@ -260,7 +261,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                         }
                                     }
                                     while (isMoreToRead);
-                                }
+                                }*/
                                 
                             }
 
