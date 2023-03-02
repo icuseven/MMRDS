@@ -197,7 +197,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             if(UnreadMessageResult.messages?.Length > 0)
             {
 
-                using (var client = new System.Net.Http.HttpClient())
+                using (var client = new System.Net.Http.HttpClient(){ Timeout = new TimeSpan(0,5, 0) })
                 {
                     client.DefaultRequestHeaders.Add("Authorization","Bearer " + token);
 
