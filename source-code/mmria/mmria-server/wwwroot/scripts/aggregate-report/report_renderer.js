@@ -453,12 +453,12 @@ function show_filter_dialog()
         </p>
     
         <p align="center">
-        <button class="btn btn-secondary" onclick="close_filter()">Close</button>
+        <button id="close_filter" class="btn btn-secondary" onclick="close_filter()">Close</button>
         <!--button class="btn " onclick="close_filter()">Cancel</button-->
         </p>
     </div>
 `;
-
+window.setTimeout(()=> { const close_filter = document.getElementById("close_filter"); close_filter.focus(); }, 0);
     el.showModal();
 
 }
