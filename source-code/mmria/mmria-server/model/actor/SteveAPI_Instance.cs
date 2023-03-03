@@ -208,17 +208,10 @@ public sealed class SteveAPI_Instance : ReceiveActor
                         var message_path = System.IO.Path.Combine(download_directory, msg.fileName);
                         try
                         {
-                            /*
-                            var download_message_curl = new cURL("GET", null, download_message_url, null, null, null);        
-                            download_message_curl.AddHeader("Authorization","Bearer " + auth_reponse.token); 
-                            response = download_message_curl.execute();
-                            */
-
-                            //System.IO.File.WriteAllText(message_path, response);
 
                             using (var client_response = await client.GetAsync(download_message_url))
                             {
-                                
+                                /*
                                 using (var content = client_response.Content)
                                 {
                                     using (var fs = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
@@ -230,14 +223,15 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                     }
                                 }
 
-                                /*
+                                */
                                 client_response.EnsureSuccessStatusCode();
 
                                 using (System.IO.Stream contentStream = await client_response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
                                 {
+                                    const int number_of_bytes_64 = 8192;
                                     var totalRead = 0L;
                                     var totalReads = 0L;
-                                    var buffer = new byte[8192];
+                                    var buffer = new byte[number_of_bytes_64];
                                     var isMoreToRead = true;
 
                                     do
@@ -254,14 +248,16 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                             totalRead += read;
                                             totalReads += 1;
 
+                                            /*
                                             if (totalReads % 2000 == 0)
                                             {
-                                                //Console.WriteLine(string.Format("total bytes downloaded so far: {0:n0}", totalRead));
+                                                Console.WriteLine(string.Format("total bytes downloaded so far: {0:n0}", totalRead));
                                             }
+                                            */
                                         }
                                     }
                                     while (isMoreToRead);
-                                }*/
+                                }
                                 
                             }
 
