@@ -222,16 +222,14 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                         
                                     }
                                 }
-
                                 */
                                 client_response.EnsureSuccessStatusCode();
 
                                 using (System.IO.Stream contentStream = await client_response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(message_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
                                 {
-                                    const int number_of_bytes_64 = 8192;
-                                    var totalRead = 0L;
-                                    var totalReads = 0L;
-                                    var buffer = new byte[number_of_bytes_64];
+                                    const int number_of_bytes = 8192;
+
+                                    var buffer = new byte[number_of_bytes];
                                     var isMoreToRead = true;
 
                                     do
@@ -244,16 +242,6 @@ public sealed class SteveAPI_Instance : ReceiveActor
                                         else
                                         {
                                             await fileStream.WriteAsync(buffer, 0, read);
-
-                                            totalRead += read;
-                                            totalReads += 1;
-
-                                            /*
-                                            if (totalReads % 2000 == 0)
-                                            {
-                                                Console.WriteLine(string.Format("total bytes downloaded so far: {0:n0}", totalRead));
-                                            }
-                                            */
                                         }
                                     }
                                     while (isMoreToRead);
