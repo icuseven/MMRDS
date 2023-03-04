@@ -61,7 +61,7 @@ function render_de_identified_list()
 
 	var result = [];
 	result.push("<br/>");
-
+    result.push("<label for='export-list-type'>List Name(s)</label><br/>")
     result.push("<select aria-label='export list type' id='export-list-type' onchange='on_export_list_type_change(this.value)'>");
 
 
@@ -86,7 +86,9 @@ function render_de_identified_list()
 
     result.push(`
     <br/><br/>
-    <input aria-label='new list name' type='text' id='new_list_name' value='&nbsp;'/>
+    <label for='new_list_name'>Enter new List Name:</label>
+    <br/>
+    <input title='Enter new list name' type='text' id='new_list_name' value='&nbsp;'/>
     <input type='button' value='Add New List ...' onclick='add_name_path_list_click()'/>
     <br/>
     `);
