@@ -2373,7 +2373,7 @@ function build_delete_dialog(p_values, p_index)
     const hhmmss          = get24HourFormat(dateLastUpdated.toLocaleTimeString());
 
     modal_ui.push(`
-        <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
+        <div  aria-modal="true" id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
@@ -2421,7 +2421,7 @@ function build_delete_grid_dialog(p_number, p_object_path, p_metadata_path, p_di
     const modal_ui = [];
 
     modal_ui.push(`
-        <div id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
+        <div  aria-modal="true" id="case_modal_${p_index}" class="modal modal-${p_index}" tabindex="-1" role="dialog" aria-labelledby="case_modal_label_${p_index}" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-primary">
