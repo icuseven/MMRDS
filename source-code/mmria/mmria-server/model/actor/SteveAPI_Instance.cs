@@ -253,7 +253,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                         }
                         catch(Exception ex)
                         {
-                            result.ErrorList.Add($"{message_path} => {ex.Message}");
+                            result.ErrorList.Add($"{message_path} => {ex.Message} url: {download_message_url}");
                         }
                     }
                 }
