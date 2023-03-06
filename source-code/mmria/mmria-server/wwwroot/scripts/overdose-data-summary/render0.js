@@ -247,9 +247,11 @@ function render_chart_post_html(p_post_html, p_metadata, p_data, p_categories, p
                 description_element.innerText = '${render_chart_508_description(p_metadata, p_data, p_totals)}';
 
                 const svg_char = document.querySelector('#${p_chart_name} svg');
+                
 
                 if(svg_char != null)
                 {
+                    svg_char.setAttribute('alt','${p_metadata.chart_title_508}');
                     const test_title = document.querySelector('#${p_chart_name} svg title');
                     const test_desc = document.querySelector('#${p_chart_name} svg desc');
 
