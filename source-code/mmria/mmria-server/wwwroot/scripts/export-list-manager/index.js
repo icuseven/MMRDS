@@ -197,7 +197,7 @@ function render_de_identified_list()
 	result.push("<tr><th colspan='3' bgcolor='silver' scope='colgroup'>[" + g_selected_list + "] Export Field List (" + selected_list.length + ")</th></tr>");
 	result.push("<tr>");
 	result.push("<th scope='col'>k/p</th>");
-	result.push("<th scope='col'>path</th>");
+	result.push("<th scope='col'><span id='path_label'>path</span></th>");
 	result.push("</tr>");    
 	result.push("<tr><td colspan=3 align=right><input type='button' value='add item' onclick='add_new_item_click()' /></td></tr>")
 
@@ -220,7 +220,7 @@ function render_de_identified_list()
         row_number++;
         result.push(`<td>${row_number} <input type=button value=k onclick=cut_selected(${row_number})>  <input type=button value=p  onclick=paste_selected(${row_number})></td>`)
 		result.push(`<td>`);
-		result.push(`<input id='row_${row_number}' size='120' type='text' title='${item}' value='`);
+		result.push(`<input id='row_${row_number}' size='120' type='text' title='${item}' aria-labelledby='path_label' value='`);
 		result.push(item);
 		result.push("' onblur='update_item("+ i+", this.value)'/></label></td>");
 		result.push("<td><input type=button value=delete onclick='delete_item(" + i + ")' /></td>");
