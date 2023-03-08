@@ -619,7 +619,7 @@ function render_pin_un_pin_button
     {
         return `
     
-    <img src="../img/icon_pin.png" title="Pin this case." alt="Pin this case." style="width:16px;height:32px;cursor: pointer;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
+    <input type="image" src="../img/icon_pin.png" title="Pin this case." alt="Pin this case." style="width:16px;height:32px;vertical-align:middle;" onclick="pin_case_clicked('${p_case_view_item.id}')"/>
     
     `;
     }
@@ -627,24 +627,24 @@ function render_pin_un_pin_button
     {
         return `
     
-    <img src="../img/icon_unpin.png"  title="Unpin this case." alt="Unpin this case." style="width:16px;height:32px;cursor: pointer;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
+    <input type="image" src="../img/icon_unpin.png"  title="Unpin this case." alt="Unpin this case." style="width:16px;height:32px;vertical-align:middle;" onclick="unpin_case_clicked('${p_case_view_item.id}')"/>
     
     `;
     }
     else
     {
         let click_event = ` onclick="unpin_case_clicked('${p_case_view_item.id}')" `;
-        let cursor_pointer = "cursor: pointer;";
+        let cursor_pointer = "";
         if(is_pinned == 2 && g_is_jurisdiction_admin == false)
         {
-            cursor_pointer = "";
+            cursor_pointer = "disabled=disabled";
             click_event = "";
         }
 
 
         return `
     
-    <img src="../img/icon_unpinMultiple.png" title="Unpin this case." alt="Unpin this case." style="width:16px;height:32px;${cursor_pointer}" ${click_event}/>
+    <input type="image" src="../img/icon_unpinMultiple.png" title="Unpin this case." alt="Unpin this case." style="width:16px;height:32px;vertical-align:middle;" ${cursor_pointer} ${click_event}/>
     
     `;
     }
