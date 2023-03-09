@@ -1037,6 +1037,7 @@ var $mmria = function()
                 element.classList.add('p-0');
                 element.classList.add('set-radius');
                 element.setAttribute("id", "confirm-dialog-id");
+                element.setAttribute("role", "dialog");
 
                 document.firstElementChild.appendChild(element);
             }
@@ -1138,6 +1139,7 @@ var $mmria = function()
                     element.classList.add('p-0');
                     element.classList.add('set-radius');
                     element.setAttribute("id", "dictionary-lookup-id");
+                    element.setAttribute("role", "dialog");
     
                     document.firstElementChild.appendChild(element);
                 }
@@ -1222,6 +1224,8 @@ var $mmria = function()
                     element.classList.add('p-0');
                     element.classList.add('set-radius');
                     element.setAttribute("id", "converter-calculater-id");
+                    element.setAttribute("role", "dialog");
+                    element.setAttribute("aria-label","conversion calculator");
     
                     document.firstElementChild.appendChild(element);
                 }
@@ -1312,6 +1316,8 @@ var $mmria = function()
     
                 element.innerHTML = html.join("");
 
+                document.getElementsByTagName("body")[0].setAttribute("aria-hidden", "true");
+
                 window.setTimeout(()=> { cc_main(); }, 0);
     
                 element.showModal();
@@ -1321,6 +1327,7 @@ var $mmria = function()
         {
             //document.removeEventListener('keydown',cc_onKeyDown);
 
+            document.getElementsByTagName("body")[0].setAttribute("aria-hidden", "false");
             let el = document.getElementById("converter-calculater-id");
             el.close();
         },
