@@ -1416,6 +1416,7 @@ var $mmria = function()
                     element.classList.add('p-0');
                     element.classList.add('set-radius');
                     element.setAttribute("id", "pin-unpin-id");
+                    element.setAttribute("aria-modal", "true");
     
                     document.firstElementChild.appendChild(element);
                 }
@@ -1426,11 +1427,11 @@ var $mmria = function()
     
                 let html = [];
                 html.push(`
-                    <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix" role="dialog">
                         <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.pin_un_pin_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog7" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog7" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content" role="dialog">
                         <div class="modal-body">
                                 <div >
                        ${Description_Text[0]}
