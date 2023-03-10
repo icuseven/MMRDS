@@ -1316,7 +1316,7 @@ var $mmria = function()
     
                 element.innerHTML = html.join("");
 
-                document.getElementsByTagName("body")[0].setAttribute("aria-hidden", "true");
+                mmria_pre_modal();
 
                 window.setTimeout(()=> { cc_main(); }, 0);
     
@@ -1327,7 +1327,7 @@ var $mmria = function()
         {
             //document.removeEventListener('keydown',cc_onKeyDown);
 
-            document.getElementsByTagName("body")[0].setAttribute("aria-hidden", "false");
+            mmria_post_modal();
             let el = document.getElementById("converter-calculater-id");
             el.close();
         },
@@ -1667,3 +1667,28 @@ function mmria_count_number_pinned()
 
     return case_set.size;
 }
+
+
+function mmria_pre_modal()
+{
+
+    const body = document.getElementsByTagName("body")[0];
+    body.setAttribute("aria-hidden", "true");
+    for(var i = 0; i < body.children.length; i++)
+    {
+        const item = body.children[i];
+        item.setAttribute("aria-hidden", "true");
+    }
+}
+
+function mmria_post_modal()
+{
+    const body = document.getElementsByTagName("body")[0];
+    body.removeAttribute("aria-hidden");
+    for(var i = 0; i < body.children.length; i++)
+    {
+        const item = body.children[i];
+        item.removeAttribute("aria-hidden");
+    }
+}
+
