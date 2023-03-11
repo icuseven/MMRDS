@@ -39,7 +39,7 @@ public class Program
 
         //builder.Services.AddServerSideBlazor();
 
-        //builder.WebHost.UseStaticWebAssets();
+        builder.WebHost.UseStaticWebAssets();
 /*
         if(builder.Environment.IsDevelopment())
         {
@@ -60,6 +60,7 @@ public class Program
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
         {
+            //app.UseWebAssemblyDebugging();
             app.UseExceptionHandler("/Home/Error");
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             //app.UseHsts();
@@ -76,14 +77,26 @@ public class Program
         provider.Mappings[".css"] = "text/css";
         provider.Mappings[".js"] = "text/javascript";
 
-
+/*
         var static_content_location = Path.Combine
             (
                 Directory.GetCurrentDirectory(),
                 "wwwroot"
             );
- 
-       //app.uses
+*/
+
+        var static_content_location = Path.Combine
+        (
+            Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+        "bin",
+        "Release",
+        "netstandard2.1",
+        "browser-wasm",
+        "publish",
+        "wwwroot"
+        );
+        //app.UseBlazorFrameworkFiles();
+        //app.useb.uses
         app.UseStaticFiles
         (
             
@@ -123,10 +136,10 @@ public class Program
             "default", 
             "{controller=Home}/{action=Index}"
         );
-
+        app.MapBlazorHub();
         app.MapFallbackToFile("index.html");
         app.UseDefaultFiles();
-        app.MapBlazorHub();
+        
         
 
         app.Run(config["mmria_settings:web_site_url"]);
