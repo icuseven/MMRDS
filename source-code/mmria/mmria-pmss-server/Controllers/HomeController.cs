@@ -36,7 +36,7 @@ public sealed class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         string webRootPath = _webHostEnvironment.ContentRootPath;
-        string path = Path.Combine(webRootPath , "index.html");
+        string path = Path.Combine("/opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish" , "index.html");
         return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
     }
 
