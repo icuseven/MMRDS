@@ -105,8 +105,10 @@ public class Program
             
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider
                 (
-                    static_content_location
+                    //static_content_location
                     //Path.Combine("..", "mmria-pmss-client","wwwroot")
+
+                    "wwwroot"
                 ),
                 RequestPath = "",
                 ContentTypeProvider = provider
