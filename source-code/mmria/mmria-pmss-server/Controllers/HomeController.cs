@@ -35,9 +35,21 @@ public sealed class HomeController : Controller
     //[Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> Index()
     {
-        string webRootPath = _webHostEnvironment.ContentRootPath;
-        string path = Path.Combine("/opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish" , "index.html");
-        return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
+        var path = Path.Combine
+            (
+                Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+            "bin",
+            "Release",
+            "netstandard2.1",
+            "browser-wasm",
+            "publish",
+            "wwwroot"
+            );
+        //string webRootPath = _webHostEnvironment.ContentRootPath;
+        //string path = Path.Combine("/opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish" , "index.html");
+        //return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
+
+        return View();
     }
 
 }
