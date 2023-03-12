@@ -97,7 +97,7 @@ public class Program
             );
         //app.UseBlazorFrameworkFiles();
         //app.useb.uses
-        app.UseStaticFiles
+  /*          app.UseStaticFiles
         (
             
             new StaticFileOptions
@@ -114,9 +114,9 @@ public class Program
             }
         );
    
-        
+        */
 
-  /*       app.UseStaticFiles();   */
+     app.UseStaticFiles();   
         app.UseRouting();
 
         app.UseAuthorization();
