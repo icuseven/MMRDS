@@ -1316,7 +1316,7 @@ var $mmria = function()
     
                 element.innerHTML = html.join("");
 
-                mmria_pre_modal();
+                mmria_pre_modal("converter-calculater-id");
 
                 window.setTimeout(()=> { cc_main(); }, 0);
     
@@ -1464,6 +1464,8 @@ var $mmria = function()
     
                 element.innerHTML = html.join("");
 
+                mmria_pre_modal("pin-unpin-id");
+
                 window.setTimeout(()=> { const pin_for_me = document.getElementById("pin_for_me"); pin_for_me.focus(); }, 0);
     
                 element.showModal();
@@ -1471,6 +1473,7 @@ var $mmria = function()
         },
         pin_un_pin_dialog_click: function ()
         {
+            mmria_post_modal();
             const el = document.getElementById("pin-unpin-id");
             if(el != null)
                 el.close();
