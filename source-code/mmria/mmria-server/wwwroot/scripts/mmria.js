@@ -966,11 +966,12 @@ var $mmria = function()
             // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
             
             element.innerHTML = html.join("");
-
+            mmria_pre_modal("case-progress-info-id");
             element.showModal();
         },
         info_dialog_click: function ()
         {
+            mmria_post_modal();
             let el = document.getElementById("case-progress-info-id");
             el.close();
         },
@@ -1016,10 +1017,13 @@ var $mmria = function()
             canel_button.onclick = p_confirm_dialog_cancel_callback;
             modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
 
+            mmria_pre_modal("confirm-dialog-id");
+
             element.showModal();
         },
         confirm_dialog_confirm_close: function ()
         {
+            mmria_post_modal();
             let el = document.getElementById("confirm-dialog-id");
             el.close();
         },
@@ -1083,10 +1087,14 @@ var $mmria = function()
             canel_button.onclick = p_confirm_dialog_cancel_callback;
             modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
 
+
+            mmria_pre_modal("confirm-dialog-id");
+
             element.showModal();
         },
         confirm_external_nav_dialog_confirm_close: function ()
         {
+            mmria_post_modal();
             let el = document.getElementById("confirm-dialog-id");
             el.close();
         },
@@ -1180,12 +1188,15 @@ var $mmria = function()
                 `);
     
                 element.innerHTML = html.join("");
+
+                mmria_pre_modal("dictionary-lookup-id");
                 
                 window.setTimeout(()=> { const data_dictionary_dialog_close_button = document.getElementById("data_dictionary_dialog_close_button"); data_dictionary_dialog_close_button.focus(); }, 0);
                 element.showModal();
         },
         data_dictionary_dialog_click: function ()
         {
+            mmria_post_modal();
             let el = document.getElementById("dictionary-lookup-id");
             el.close();
         },
