@@ -97,7 +97,7 @@ public class Program
             );
         //app.UseBlazorFrameworkFiles();
         //app.useb.uses
-  /*          app.UseStaticFiles
+app.UseStaticFiles
         (
             
             new StaticFileOptions
@@ -107,16 +107,16 @@ public class Program
                 (
                     //static_content_location
                     //Path.Combine("..", "mmria-pmss-client","wwwroot")
-                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
+                    Path.Combine(".", "wwwroot")
                 ),
                 RequestPath = "",
                 ContentTypeProvider = provider
             }
         );
    
-        */
+        
 
-     app.UseStaticFiles();   
+   /*              app.UseStaticFiles();   */
         app.UseRouting();
 
         app.UseAuthorization();
