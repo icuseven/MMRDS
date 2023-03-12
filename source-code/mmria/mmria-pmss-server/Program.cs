@@ -31,25 +31,13 @@ public class Program
 
         //builder.Services.AddRazorPages();
         //builder.Services.AddControllersWithViews();
-        //builder.Services.AddMvc();
+        builder.Services.AddMvc();
         builder.Services.AddRazorPages();
         builder.Services.AddServerSideBlazor();
-        builder.Services.AddControllersWithViews();//.AddNewtonsoftJson();
+        //builder.Services.AddControllersWithViews();//.AddNewtonsoftJson();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-        //builder.Services.AddServerSideBlazor();
-
         builder.WebHost.UseStaticWebAssets();
-/*
-        if(builder.Environment.IsDevelopment())
-        {
-            builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
-                { 
-                    builder.WithOrigins(
-                        "http://*:5000");
-                }));
-        }
-        */
 
 
         var app = builder.Build();
@@ -95,9 +83,8 @@ public class Program
             "publish",
             "wwwroot"
             );
-        //app.UseBlazorFrameworkFiles();
-        //app.useb.uses
-app.UseStaticFiles
+
+        app.UseStaticFiles
         (
             
             new StaticFileOptions
@@ -116,7 +103,7 @@ app.UseStaticFiles
    
         
 
-   /*              app.UseStaticFiles();   */
+
         app.UseRouting();
 
         app.UseAuthorization();
@@ -138,7 +125,7 @@ app.UseStaticFiles
             "{controller=Home}/{action=Index}"
         );
         app.MapBlazorHub();
-        app.MapFallbackToFile("index.html");
+        //app.MapFallbackToFile("index.html");
         app.UseDefaultFiles();
         
         
