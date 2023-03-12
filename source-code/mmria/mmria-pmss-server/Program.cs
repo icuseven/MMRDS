@@ -107,8 +107,7 @@ public class Program
                 (
                     //static_content_location
                     //Path.Combine("..", "mmria-pmss-client","wwwroot")
-
-                    "wwwroot"
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
                 ),
                 RequestPath = "",
                 ContentTypeProvider = provider
