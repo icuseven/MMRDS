@@ -1670,7 +1670,7 @@ function mmria_count_number_pinned()
 }
 
 
-function mmria_pre_modal()
+function mmria_pre_modal(p_id)
 {
 
     const body = document.getElementsByTagName("body")[0];
@@ -1678,7 +1678,21 @@ function mmria_pre_modal()
     for(var i = 0; i < body.children.length; i++)
     {
         const item = body.children[i];
-        item.setAttribute("aria-hidden", "true");
+        if
+        (
+            p_id != null &&
+            item.id != null &&
+            item.id != p_id 
+        )
+        {
+            item.setAttribute("aria-hidden", "true");
+        }
+        else
+        {
+            item.setAttribute("aria-hidden", "true");
+        }
+        
+        
     }
 }
 
