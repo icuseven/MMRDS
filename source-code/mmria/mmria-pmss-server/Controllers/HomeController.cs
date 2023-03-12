@@ -36,10 +36,17 @@ public sealed class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         //string webRootPath = _webHostEnvironment.ContentRootPath;
-        string path = Path.Combine("/opt/app-root/app/wwwroot" , "index.html");
+        //string path = "/opt/app-root/app/wwwroot/index.html";
+        string path = "./wwwroot/index.html";
         return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
-
-        return View();
+/*
+        return File
+        (
+            System.Text.Encoding.UTF8.GetBytes( path ),
+                 "text/plain",
+                  "index.html"
+         );*/
+        //return View();
     }
 
 }
