@@ -107,7 +107,7 @@ app.UseStaticFiles
                 (
                     //static_content_location
                     //Path.Combine("..", "mmria-pmss-client","wwwroot")
-                    Path.Combine(".", "wwwroot")
+                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
                 ),
                 RequestPath = "",
                 ContentTypeProvider = provider
