@@ -125,7 +125,7 @@ public class Program
             "{controller=Home}/{action=Index}"
         );
         app.MapBlazorHub();
-        //app.MapFallbackToFile("index.html");
+        app.MapFallbackToFile("index.html");
         app.UseDefaultFiles();
         
         
