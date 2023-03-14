@@ -153,6 +153,32 @@ public sealed class Process_Export_Queue : UntypedActor
 
             export_queue_item item_to_process = result [0];
 
+            void write_error(export_queue_item i, Exception e)
+            {
+                var message = e.Message;
+                if(message.Length > 100)
+                    message = message.Substring(0, 100);
+
+                i.status = $"Export error... {message}";
+                i.last_updated_by = "mmria-server";
+                i.date_last_updated = DateTime.Now;
+                
+                try
+                {
+                    Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+                    var error_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + i._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+
+                    var responser = error_curl.execute ();
+  
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+            }
+
             item_to_process.date_last_updated = new DateTime?();
             //item_to_process.last_updated_by = g_uid;
 
@@ -193,6 +219,8 @@ public sealed class Process_Export_Queue : UntypedActor
                 }
                 catch(Exception ex)
                 {
+
+                    write_error(item_to_process, ex);
                     System.Console.WriteLine (ex);
                 }
 
@@ -226,6 +254,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 }
                 catch(Exception ex)
                 {
+                    write_error(item_to_process, ex);
                     System.Console.WriteLine (ex);
                 }
 
@@ -257,6 +286,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 }
                 catch(Exception ex)
                 {
+                    write_error(item_to_process, ex);
                     System.Console.WriteLine (ex);
                 }
 
@@ -284,11 +314,13 @@ public sealed class Process_Export_Queue : UntypedActor
                     //mmrds_exporter.Execute (item_to_process);
                     if(!custom_exporter.Execute(item_to_process))
                     {
+                        write_error(item_to_process, new Exception("exporter failed to finish");
                         System.Console.WriteLine ("exporter failed to finish");
                     }
                 }
                 catch(Exception ex)
                 {
+                    write_error(item_to_process, ex);
                     System.Console.WriteLine (ex);
                 }
             }
@@ -420,5 +452,27 @@ public sealed class Process_Export_Queue : UntypedActor
         }
 
     }
+    
+    /*
+        protected override SupervisorStrategy SupervisorStrategy()
+        {
+            return new OneForOneStrategy(
+                maxNrOfRetries: 0,
+                withinTimeRange: TimeSpan.FromMinutes(0),
+                localOnlyDecider: OnError
+                );
+        }
 
+        Directive OnError(Exception ex)
+        {
+            var result = ex switch
+            {
+                ArgumentException ae => Directive.Resume,
+                NullReferenceException ne => Directive.Restart,
+                _ => Directive.Stop
+            };
+            
+            return result;
+        }
+    */
 }
