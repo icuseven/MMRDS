@@ -153,6 +153,30 @@ public sealed class Process_Export_Queue : UntypedActor
 
             export_queue_item item_to_process = result [0];
 
+
+            string get_revision(string p_id)
+            {
+                var result = new export_queue_item();
+                //var get_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue
+                try
+                {
+                    Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+                    settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                    string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
+                    var error_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/{p_id}", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+
+                    var response = error_curl.execute ();
+                    result =  Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(response);
+  
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine (ex);
+                }
+
+                return result._rev;
+
+            }
             void write_error(export_queue_item i, Exception e)
             {
                 var message = e.Message;
@@ -162,6 +186,9 @@ public sealed class Process_Export_Queue : UntypedActor
                 i.status = $"Export error... {message}";
                 i.last_updated_by = "mmria-server";
                 i.date_last_updated = DateTime.Now;
+
+                var revision = get_revision(i._id);
+                i._rev = revision;
                 
                 try
                 {
@@ -170,7 +197,8 @@ public sealed class Process_Export_Queue : UntypedActor
                     string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
                     var error_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + i._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
-                    var responser = error_curl.execute ();
+                    //var response = error_curl.execute ();
+                    error_curl.execute ();
   
                 }
                 catch(Exception ex)
@@ -314,7 +342,7 @@ public sealed class Process_Export_Queue : UntypedActor
                     //mmrds_exporter.Execute (item_to_process);
                     if(!custom_exporter.Execute(item_to_process))
                     {
-                        write_error(item_to_process, new Exception("exporter failed to finish");
+                        write_error(item_to_process, new Exception("exporter failed to finish"));
                         System.Console.WriteLine ("exporter failed to finish");
                     }
                 }
@@ -452,7 +480,7 @@ public sealed class Process_Export_Queue : UntypedActor
         }
 
     }
-    
+
     /*
         protected override SupervisorStrategy SupervisorStrategy()
         {
