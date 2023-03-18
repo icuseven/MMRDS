@@ -284,7 +284,11 @@ public class metadata_mgr
 
 		source_code_builder.AppendLine($@"public class mmria_case
 {{
-	public mmria_case(){{}}");
+	
+	public mmria_case(){{}}
+	
+	public string _id {{ get; set; }}
+	public string _rev {{ get; set; }}");
 			foreach(var child in value.children)
 			{
 				WriteAttribute(child, "", source_code_builder);	

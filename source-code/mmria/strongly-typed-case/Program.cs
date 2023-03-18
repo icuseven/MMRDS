@@ -78,7 +78,12 @@ await httpClient.PostAsJsonAsync<Stock>("https://localhost:12345/stocks/", stock
 
 
         System.Text.StringBuilder builder = new System.Text.StringBuilder();
-        while(metadata_mgr.source_code_builder_stack.Count > 0)
+        builder.AppendLine(@"
+using System;
+using System.Collections.Generic;
+
+namespace mmria.case_version.v1;");
+		while(metadata_mgr.source_code_builder_stack.Count > 0)
         {
             var current = metadata_mgr.source_code_builder_stack.Pop();
 
