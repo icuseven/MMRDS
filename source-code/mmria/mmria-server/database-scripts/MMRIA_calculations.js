@@ -187,7 +187,37 @@ function $get_intersection(p_list_1, p_list_2)
 
     return result;
 }
+
+
 //CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
+function $calc_days
+(
+    start_date, 
+    end_date
+)
+{  
+    const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;  
+    
+    var utc1 = Date.UTC
+    (
+        start_date.getFullYear(), 
+        start_date.getMonth(), 
+        start_date.getDate()
+    );
+      
+    var utc2 = Date.UTC
+    (
+        end_date.getFullYear(), 
+        end_date.getMonth(), 
+        end_date.getDate()
+    ); 
+    
+     return Math.floor((utc2 - utc1) / MILLISECONDS_PER_DAY);
+}
+
+
+//CALCLATE NUMBER OF DAYS BETWEEN 2 DATES
+/*
 function $calc_days(p_start_date, p_end_date) 
 {
     var days = null;
@@ -195,7 +225,7 @@ function $calc_days(p_start_date, p_end_date)
     p_end_date = p_end_date.getTime() / 86400000;
     days = Math.trunc(p_end_date - p_start_date);
     return days;
-}
+}*/
 //CALCLATE NUMBER OF WEEKS BETWEEN 2 DATES
 function $calc_weeks(p_start_date, p_end_date) 
 {
