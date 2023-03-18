@@ -280,20 +280,27 @@ public class metadata_mgr
 	{
 
 		var source_code_builder = new System.Text.StringBuilder();
+		var constructor_builder = new System.Text.StringBuilder();
 		source_code_builder_stack.Push(source_code_builder);
 
-		source_code_builder.AppendLine($@"public class mmria_case
+		source_code_builder.AppendLine($@"
+		
+public class mmria_case
 {{
 	
-	public mmria_case(){{}}
 	
 	public string _id {{ get; set; }}
-	public string _rev {{ get; set; }}");
+	public string _rev {{ get; set; }}
+	
+	");
 			foreach(var child in value.children)
 			{
-				WriteAttribute(child, "", source_code_builder);	
+				WriteAttribute(child, "", source_code_builder, constructor_builder);	
 			}
-			source_code_builder.AppendLine("}");
+			source_code_builder.AppendLine("public mmria_case(){");
+
+			source_code_builder.AppendLine(constructor_builder.ToString());
+			source_code_builder.AppendLine("}}");
 
 					
 		foreach(var child in value.children)
@@ -319,6 +326,7 @@ GridList
 	*/
 
 		System.Text.StringBuilder source_code_builder;
+		var constructor_builder = new System.Text.StringBuilder();
 
 		var current_path = path + $"/{value.name}";
 		if(string.IsNullOrWhiteSpace(path))
@@ -340,12 +348,15 @@ GridList
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($@"public class _{dictionary_set[current_path].hash_value}
 {{
-	public _{dictionary_set[current_path].hash_value}(){{}}");
+	");
 					foreach(var child in value.children)
 					{
-						WriteAttribute(child, current_path, source_code_builder);	
+						WriteAttribute(child, current_path, source_code_builder, constructor_builder);	
 					}
-					source_code_builder.AppendLine("}");
+
+					source_code_builder.AppendLine($"public _{dictionary_set[current_path].hash_value}(){{");
+					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.AppendLine("}}");
 
 					foreach(var child in value.children)
 					{
@@ -360,12 +371,16 @@ GridList
 					source_code_builder.AppendLine($@"public class _{dictionary_set[current_path].hash_value}
 {{
 
-	public _{dictionary_set[current_path].hash_value}(){{}}");
+	");
 					foreach(var child in value.children)
 					{
-						WriteAttribute(child, current_path, source_code_builder);	
+						WriteAttribute(child, current_path, source_code_builder, constructor_builder);	
 					}
-					source_code_builder.AppendLine("}");
+
+
+					source_code_builder.AppendLine($"public _{dictionary_set[current_path].hash_value}(){{");
+					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.AppendLine("}}");
 
 					foreach(var child in value.children)
 					{
@@ -379,12 +394,15 @@ GridList
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($@"public class _{dictionary_set[current_path].hash_value}
 {{
-	public _{dictionary_set[current_path].hash_value}(){{}}");
+	");
 					foreach(var child in value.children)
 					{
-						WriteAttribute(child, current_path, source_code_builder);	
+						WriteAttribute(child, current_path, source_code_builder, constructor_builder);	
 					}
-					source_code_builder.AppendLine("}");
+					
+					source_code_builder.AppendLine($"public _{dictionary_set[current_path].hash_value}(){{");
+					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.AppendLine("}}");
 
 					foreach(var child in value.children)
 					{
@@ -398,12 +416,15 @@ GridList
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($@"public class _{dictionary_set[current_path].hash_value}
 {{
-	public _{dictionary_set[current_path].hash_value}(){{}}");
+	");
 					foreach(var child in value.children)
 					{
-						WriteAttribute(child, current_path, source_code_builder);	
+						WriteAttribute(child, current_path, source_code_builder, constructor_builder);	
 					}
-					source_code_builder.AppendLine("}");
+					
+					source_code_builder.AppendLine($"public _{dictionary_set[current_path].hash_value}(){{");
+					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.AppendLine("}}");
 
 					foreach(var child in value.children)
 					{
@@ -454,7 +475,9 @@ GridList
 	(
 		mmria.common.metadata.node value, 
 		string path, 
-		System.Text.StringBuilder builder
+		System.Text.StringBuilder builder,
+		System.Text.StringBuilder constructorbuilder
+
 	)
 	{
 		// Singleform
@@ -489,6 +512,7 @@ GridList
 				)
 				{
 					builder.AppendLine($@"public List<_{dictionary_set[current_path].hash_value}> {name}{{ get;set;}}");
+					constructorbuilder.AppendLine($@" {name} = new ();");
 				}
 				else
 				{
@@ -500,12 +524,14 @@ GridList
 			break;
 			case "grid":
 				builder.AppendLine($@"public List<_{dictionary_set[current_path].hash_value}> {name}{{ get;set;}}");			
+				constructorbuilder.AppendLine($@" {name} = new ();");
 				break;
 			case "list":
 			
 				if(value.is_multiselect != null && value.is_multiselect.Value)
 				{
 					builder.AppendLine($@"		public List<string> {name} {{ get; set; }}");
+					constructorbuilder.AppendLine($@" {name} = new ();");
 				}
 				else
 				{
