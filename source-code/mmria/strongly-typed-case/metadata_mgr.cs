@@ -283,32 +283,24 @@ public class metadata_mgr
 		var constructor_builder = new System.Text.StringBuilder();
 		source_code_builder_stack.Push(source_code_builder);
 
-		source_code_builder.AppendLine("""
-		public class mmria_case
-		{
-			public mmria_case()
-			{
-		
-		""");
+		source_code_builder.AppendLine("public class mmria_case\n{\n\tpublic mmria_case()\n\t{");
 		foreach(var child in value.children)
 		{
 			WriteConstructorAttribute(child, "", constructor_builder);	
 		}
-		source_code_builder.AppendLine("");
-
-		source_code_builder.AppendLine(constructor_builder.ToString());
-		source_code_builder.AppendLine("}");
+		source_code_builder.Append(constructor_builder.ToString());
+		source_code_builder.AppendLine("\t}");
 
 		source_code_builder.AppendLine("""
-				public string _id { get; set; }
-				public string _rev { get; set; }
+			public string _id { get; set; }
+			public string _rev { get; set; }
 	
 		""");	
 		foreach(var child in value.children)
 		{
 			WriteAttribute(child, "", source_code_builder);	
 		}
-		source_code_builder.AppendLine("\t\t}");
+		source_code_builder.AppendLine("}");
 
 		foreach(var child in value.children)
 		{
@@ -363,7 +355,7 @@ GridList
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
 					}
 
-					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.Append(constructor_builder.ToString());
 					source_code_builder.AppendLine("\t}");
 
 					foreach(var child in value.children)
@@ -383,11 +375,12 @@ GridList
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($"public class _{dictionary_set[current_path].hash_value}\n{{");
-					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n\t{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
 					}
+					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n\t{{");
+					source_code_builder.Append(constructor_builder.ToString());
 					source_code_builder.AppendLine("\t}");
 
 					
@@ -414,7 +407,7 @@ GridList
 					}
 					
 					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n\t{{");
-					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.Append(constructor_builder.ToString());
 					source_code_builder.AppendLine("\t}");
 
 					foreach(var child in value.children)
@@ -441,7 +434,7 @@ GridList
 					}
 					
 					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n\t{{");
-					source_code_builder.AppendLine(constructor_builder.ToString());
+					source_code_builder.Append(constructor_builder.ToString());
 					source_code_builder.AppendLine("\t}");
 
 					foreach(var child in value.children)
