@@ -674,18 +674,28 @@ GridList
 
 			
 			case "string":
-			case "date":
-			
 			case "jurisdiction":
-			case "number":
-			case "textarea":
 			case "hidden":
+			case "textarea":
+				builder.AppendLine($@"		public string {name} {{ get; set; }}");
+				break;
+			case "date":
+				builder.AppendLine($@"		public DateOnly? {name} {{ get; set; }}");
+				break;
+			case "number":
+				builder.AppendLine($@"		public double? {name} {{ get; set; }}");
+				break;
+		
+			
 			case "time":
+				builder.AppendLine($@"		public TimeOnly? {name} {{ get; set; }}");
+				break;
 			case "datetime":
 
 				
-				builder.AppendLine($@"		public string {name} {{ get; set; }}");
-			break;
+				builder.AppendLine($@"		public DateTime? {name} {{ get; set; }}");
+				break;
+			
 			case "label":
 			case "always_enabled_button":
 			case "button":
@@ -714,5 +724,15 @@ GridList
 
 		return result;
 	}
+
+	//
+        // Summary:
+        //     Gets the number of elements contained in the System.Collections.Generic.Stack`1.
+        //
+        // Returns:
+        //     The number of elements contained in the System.Collections.Generic.Stack`1.
+
+
+
 
 }
