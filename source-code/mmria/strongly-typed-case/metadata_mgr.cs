@@ -283,7 +283,7 @@ public class metadata_mgr
 		var constructor_builder = new System.Text.StringBuilder();
 		source_code_builder_stack.Push(source_code_builder);
 
-		source_code_builder.AppendLine("public class mmria_case\n{\n\tpublic mmria_case()\n\t{");
+		source_code_builder.AppendLine("public sealed class mmria_case\n{\n\tpublic mmria_case()\n\t{");
 		foreach(var child in value.children)
 		{
 			WriteConstructorAttribute(child, "", constructor_builder);	
@@ -346,7 +346,7 @@ GridList
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($$"""
-							public class _{{dictionary_set[current_path].hash_value}}
+							public sealed class _{{dictionary_set[current_path].hash_value}}
 							{
 					""");
 					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n{{");
@@ -374,7 +374,7 @@ GridList
 				{
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
@@ -400,7 +400,7 @@ GridList
 			case "group":
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
@@ -427,7 +427,7 @@ GridList
 
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
