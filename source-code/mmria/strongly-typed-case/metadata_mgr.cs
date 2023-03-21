@@ -283,7 +283,7 @@ public class metadata_mgr
 		var constructor_builder = new System.Text.StringBuilder();
 		source_code_builder_stack.Push(source_code_builder);
 
-		source_code_builder.AppendLine("public sealed class mmria_case\n{\n\tpublic mmria_case()\n\t{");
+		source_code_builder.AppendLine("public sealed partial class mmria_case\n{\n\tpublic mmria_case()\n\t{");
 		foreach(var child in value.children)
 		{
 			WriteConstructorAttribute(child, "", constructor_builder);	
@@ -300,30 +300,44 @@ public class metadata_mgr
 		{
 			WriteAttribute(child, "", source_code_builder);	
 		}
+
+		source_code_builder.AppendLine("\tpublic void Convert(IDictionary<string,object> value)\n\t{");	
+
+		foreach(var child in value.children)
+		{
+			WriteFromExpando(child, "", source_code_builder);	
+		}
+
+		source_code_builder.AppendLine("\t}");
 		source_code_builder.AppendLine("}");
 
 		foreach(var child in value.children)
 		{
 			PassTwo(child, "");
 		}
+
+		var top_line = new System.Text.StringBuilder().AppendLine(@"
+using System;
+using System.Collections.Generic;
+
+namespace mmria.case_version.v1;");
+		source_code_builder_stack.Push(top_line);
 	}
 
 
+	string Convert_To_C_Sharp_Attribute_Name(string value)
+	{
+		var result = value;
+		if(value == "class")
+		{
+			result = "@class";
+		}
+
+		return result;
+	}
+
 	public void PassTwo(mmria.common.metadata.node value, string path)
 	{
-		// Singleform
-		// MultifForm
-		// group
-		// grid
-		/*
-
-SingleformList
-MultifFormList
-GroupList
-GridList
-
-	*/
-
 		System.Text.StringBuilder source_code_builder;
 		var constructor_builder = new System.Text.StringBuilder();
 
@@ -362,6 +376,18 @@ GridList
 					{
 						WriteAttribute(child, current_path, source_code_builder);	
 					}
+
+
+					source_code_builder.AppendLine("\tpublic void Convert(IDictionary<string,object> value)\n\t{");	
+
+					foreach(var child in value.children)
+					{
+						WriteFromExpando(child, value.name, source_code_builder);	
+					}
+
+					source_code_builder.AppendLine("\t}");
+
+
 					source_code_builder.AppendLine("}");
 
 					foreach(var child in value.children)
@@ -451,26 +477,14 @@ GridList
 					}
 			break;
 			case "list":
-			/*
-				if(value.is_multiselect != null && value.is_multiselect.Value)
-				{
-
-				}
-
-			break;*/
-
-			
 			case "string":
 			case "date":
-			
 			case "jurisdiction":
 			case "number":
 			case "textarea":
 			case "hidden":
 			case "time":
 			case "datetime":
-					//source_code_builder = source_code_builder_stack.Peek();
-					//source_code_builder.AppendLine($@"		public string {dictionary_set[current_path].Node.name} {{ get; set; }}");
 			break;
 			case "label":
 			case "always_enabled_button":
@@ -640,15 +654,27 @@ GridList
 				//constructorbuilder.AppendLine($@" {name} = new ();");
 				break;
 			case "list":
-			
+				var list_data_type = "string";
+				if(value.data_type != null)
+				{
+					if(value.data_type.ToLower() == "number")
+						list_data_type = "double";
+				}
 				if(value.is_multiselect != null && value.is_multiselect.Value)
 				{
-					builder.AppendLine($"\tpublic List<string> {name} {{ get; set; }}");
+					builder.AppendLine($"\tpublic List<{list_data_type}> {name} {{ get; set; }}");
 					//constructorbuilder.AppendLine($@" {name} = new ();");
 				}
 				else
 				{
-					builder.AppendLine($"\tpublic string {name} {{ get; set; }}");
+					if(list_data_type == "double")
+					{
+						builder.AppendLine($"\tpublic {list_data_type}? {name} {{ get; set; }}");
+					}
+					else
+					{
+						builder.AppendLine($"\tpublic {list_data_type} {name} {{ get; set; }}");
+					}
 				}
 
 			break;
@@ -695,16 +721,124 @@ GridList
 	}
 
 
-	string Convert_To_C_Sharp_Attribute_Name(string value)
+public void WriteFromExpando
+	(
+		mmria.common.metadata.node value, 
+		string path, 
+		System.Text.StringBuilder builder
+	)
 	{
-		var result = value;
-		if(value == "class")
+		// Singleform
+		// MultifForm
+		// group
+		// grid
+		/*
+
+SingleformList
+MultifFormList
+GroupList
+GridList
+
+	*/
+
+		var current_path = path + $"/{value.name}";
+		if(string.IsNullOrWhiteSpace(path))
 		{
-			result = "@class";
+			current_path = $"{value.name}";
 		}
 
-		return result;
+		var name = Convert_To_C_Sharp_Attribute_Name(value.name);
+
+		switch(value.type.ToLower())
+		{
+			
+			case "form":
+				if
+				(
+					value.cardinality == "+" ||
+					value.cardinality == "*"
+				)
+				{
+					builder.AppendLine($"\t\t{name} = mmria_case.GetMultiFormField<_{dictionary_set[current_path].hash_value}>(value, \"{name}\");");
+				}
+				else
+				{
+					builder.AppendLine($"\t\t{name} = mmria_case.GetFormField<_{dictionary_set[current_path].hash_value}>(value, \"{name}\");");
+				}
+			break;
+			case "group":
+					//builder.AppendLine($"\t\t{name} = GetStringField(value, \"{name}\");");
+			break;
+			case "grid":
+				//builder.AppendLine($"\t\t{name} = GetStringField(value, \"{name}\");");
+				break;
+			case "list":
+				var list_data_type = "string";
+				if(value.data_type != null)
+				{
+					if(value.data_type.ToLower() == "number")
+						list_data_type = "double";
+				}
+				if(value.is_multiselect != null && value.is_multiselect.Value)
+				{
+					
+					builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectListField<{list_data_type}>(value, \"{name}\");");
+				}
+				else
+				{
+					builder.AppendLine($"\t{name} = mmria_case.GetListField<{list_data_type}>(value, \"{name}\");");
+				}
+
+			break;
+
+			
+			case "string":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetStringField(value, \"{name}\");");
+				break;
+			case "jurisdiction":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(value, \"{name}\");");
+				break;
+			case "hidden":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(value, \"{name}\");");
+				break;
+			case "textarea":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(value, \"{name}\");");
+				break;
+			case "date":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateField(value, \"{name}\");");
+				break;
+			case "number":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(value, \"{name}\");");
+				break;
+		
+			
+			case "time":
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTimeField(value, \"{name}\");");
+				break;
+			case "datetime":
+
+				
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateTimeField(value, \"{name}\");");
+				break;
+			
+			case "label":
+			case "always_enabled_button":
+			case "button":
+			case "chart":
+			
+			break;
+			default:
+				if(!PassTwoHash.Contains(value.type))
+				{
+					Console.WriteLine($"case \"{value.type}\":");
+					PassTwoHash.Add(value.type);
+				}
+			break;
+			
+		}
 	}
+
+	
 
 	//
         // Summary:
