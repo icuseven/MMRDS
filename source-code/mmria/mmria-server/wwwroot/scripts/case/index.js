@@ -5710,7 +5710,7 @@ function autorecalculate_get_event_date
         break;
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_weeks":
         case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge/gestational_age_days":
-        case "er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
+        case "/er_visit_and_hospital_medical_records/basic_admission_and_discharge_information/date_of_hospital_discharge":
             event_date = autorecalculate_get_event_date_separate(g_data.er_visit_and_hospital_medical_records[p_form_index].basic_admission_and_discharge_information.date_of_hospital_discharge)
         break;
         case "/other_medical_office_visits/visit/date_of_medical_office_visit/gestational_age_weeks":
