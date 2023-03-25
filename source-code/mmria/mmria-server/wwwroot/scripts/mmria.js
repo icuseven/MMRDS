@@ -1428,6 +1428,7 @@ var $mmria = function()
                     element.classList.add('set-radius');
                     element.setAttribute("id", "pin-unpin-id");
                     element.setAttribute("aria-modal", "true");
+                    element.setAttribute("role","dialog");
     
                     document.firstElementChild.appendChild(element);
                 }
