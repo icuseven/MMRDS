@@ -203,6 +203,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
                     foreach(var msg in UnreadMessageResult.messages)
                     {
+                        var is_downloaded = false;
                         var message_id = msg.messageId;
                         var download_message_url = $"{base_url}/file/{message_id}";
                         
@@ -251,6 +252,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                             }
 
                             result.SuccessCount += 1;
+                            is_downloaded = true;
 
 
 
@@ -260,20 +262,23 @@ public sealed class SteveAPI_Instance : ReceiveActor
                             result.ErrorList.Add($"{message_path} => {ex.Message} url: {download_message_url}");
                         }
    
-                        var mark_as_read_message_url = $"{base_url}/mailbox/{message_id}";
-                        try
+                        if(is_downloaded)
                         {
-                            using (var client_response = await client.PatchAsync(mark_as_read_message_url, null))
+                            var mark_as_read_message_url = $"{base_url}/mailbox/{message_id}";
+                            try
                             {
-                                client_response.EnsureSuccessStatusCode();
-                                var responseBody = await client_response.Content.ReadAsStringAsync();
+                                using (var client_response = await client.PatchAsync(mark_as_read_message_url, null))
+                                {
+                                    client_response.EnsureSuccessStatusCode();
+                                    var responseBody = await client_response.Content.ReadAsStringAsync();
 
-                                var MarkAsReadResult = System.Text.Json.JsonSerializer.Deserialize<MarkAsReadResult>(responseBody);
+                                    var MarkAsReadResult = System.Text.Json.JsonSerializer.Deserialize<MarkAsReadResult>(responseBody);
+                                }
                             }
-                        }
-                        catch(Exception ex)
-                        {
-                            result.ErrorList.Add($"Error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
+                            catch(Exception ex)
+                            {
+                                result.ErrorList.Add($"Error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
+                            }
                         }
                    
                     }
