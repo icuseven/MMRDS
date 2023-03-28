@@ -205,6 +205,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                     {
                         var message_id = msg.messageId;
                         var download_message_url = $"{base_url}/file/{message_id}";
+                        
                         var message_path = System.IO.Path.Combine(download_directory, msg.fileName);
                         try
                         {
@@ -250,11 +251,31 @@ public sealed class SteveAPI_Instance : ReceiveActor
                             }
 
                             result.SuccessCount += 1;
+
+
+
                         }
                         catch(Exception ex)
                         {
                             result.ErrorList.Add($"{message_path} => {ex.Message} url: {download_message_url}");
                         }
+                    /* mark as read 
+                        var mark_as_read_message_url = $"{base_url}/mailbox/{message_id}";
+                        try
+                        {
+                            using (var client_response = await client.PatchAsync(mark_as_read_message_url, null))
+                            {
+                                client_response.EnsureSuccessStatusCode();
+                                var responseBody = await client_response.Content.ReadAsStringAsync();
+
+                                var MarkAsReadResult = System.Text.Json.JsonSerializer.Deserialize<MarkAsReadResult>(responseBody);
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            result.ErrorList.Add($"Error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
+                        }
+                    */
                     }
                 }
             }
