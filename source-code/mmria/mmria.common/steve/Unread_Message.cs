@@ -18,3 +18,12 @@ public sealed class MailBoxMessageResult
     public bool? success {get;set;}
     public string message {get;set;}
 }
+
+public sealed class MarkAsReadResult
+{
+    public MarkAsReadResult() {}
+    public bool success {get;set;}
+    public string message {get;set;}
+    public string apiVersion {get;set;}
+    public string messageId {get;set;}
+}
