@@ -259,7 +259,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                         {
                             result.ErrorList.Add($"{message_path} => {ex.Message} url: {download_message_url}");
                         }
-                    /* mark as read 
+   
                         var mark_as_read_message_url = $"{base_url}/mailbox/{message_id}";
                         try
                         {
@@ -275,7 +275,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                         {
                             result.ErrorList.Add($"Error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
                         }
-                    */
+                   
                     }
                 }
             }
