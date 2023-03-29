@@ -277,7 +277,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                             }
                             catch(Exception ex)
                             {
-                                result.ErrorList.Add($"Error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
+                                result.ErrorList.Add($"Warning file downloaded, but error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
                             }
                         }
                    
