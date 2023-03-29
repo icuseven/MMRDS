@@ -578,7 +578,12 @@ function records_per_page_change(p_value)
 function app_is_item_pinned(p_id)
 {
     var is_pin = 0;
-    if(Object.hasOwn(g_pinned_case_set, 'list'))
+    
+    if
+    (
+        g_pinned_case_set!= null && 
+        Object.hasOwn(g_pinned_case_set, 'list')
+    )
     {
         if(Object.hasOwn(g_pinned_case_set.list, 'everyone'))
         {

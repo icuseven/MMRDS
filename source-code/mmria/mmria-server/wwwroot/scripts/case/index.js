@@ -1637,12 +1637,14 @@ async function get_case_set(p_call_back)
 
 
 
-
-    var url = `${location.protocol}//${location.host}/api/pinned_cases`;
-    g_pinned_case_set = await $.ajax
-    ({
-        url: url
-    });
+    if(g_is_data_analyst_mode == null || g_is_data_analyst_mode !="da")
+    {
+        var url = `${location.protocol}//${location.host}/api/pinned_cases`;
+        g_pinned_case_set = await $.ajax
+        ({
+            url: url
+        });
+    }
 
     const case_view_response = await $.ajax({
         url: case_view_url,
