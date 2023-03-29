@@ -1240,7 +1240,11 @@ var g_ui = {
       result.push('case_status=' + this.case_status);
       result.push('field_selection=' + this.field_selection);
       result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
-      result.push('include_pinned_cases=true');
+
+      if(g_is_data_analyst_mode == null || g_is_data_analyst_mode !="da")
+      {
+        result.push('include_pinned_cases=true');
+      }
       
       if (this.search_key)
       {
