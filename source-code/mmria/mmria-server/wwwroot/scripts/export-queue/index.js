@@ -185,7 +185,7 @@ function create_queue_item
     //result.export_type = 'Core CSV';
     if(result.case_file_type == 'xlsx')
     {
-        result.export_type = result.all_or_core + ' XLXS';
+        result.export_type = result.all_or_core + ' XLSX';
     }
     else
     {
@@ -197,7 +197,7 @@ function create_queue_item
     //result.export_type = result.all_or_core + ' CSV';
     if(result.case_file_type == 'xlsx')
     {
-        result.export_type = result.all_or_core + ' XLXS';
+        result.export_type = result.all_or_core + ' XLSX';
     }
     else
     {
