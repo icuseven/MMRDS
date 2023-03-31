@@ -77,7 +77,30 @@ public sealed partial class mmria_case
         {
             result =  new_value.GetDouble();
         }
-        else
+        else if
+        (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
+        {
+            var val = new_value.GetString();
+            if(string.IsNullOrWhiteSpace(val))
+            {
+                // do nothing
+            }
+            else if(double.TryParse(val, out var test))
+            {
+                result = test;
+            }
+            else
+            {
+                System.Console.WriteLine("GetNumberListField tryparse failed");
+            }
+        }
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
         {
             System.Console.WriteLine("GetNumberListField");
         }
@@ -97,16 +120,28 @@ public sealed partial class mmria_case
         )
         {
             result = new List<string>();
-            /*
-            foreach(var item in new_value)
+            var max_index = new_value.GetArrayLength();
+            for(int i = 0; i < max_index; i++)
             {
+                var item = new_value[i];
 
-            }*/
-            //result = new_value.g.GetDouble();
+                if
+                (
+                    item.ValueKind ==  System.Text.Json.JsonValueKind.String
+                )
+                {
+                    result.Add(item.GetString());
+                }
+                else
+                {
+                    System.Console.WriteLine("GetMultiSelectStringListField need a string");
+                }
+            }
+
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetNumberListField");
+            System.Console.WriteLine("GetMultiSelectStringListField");
         }
 
         return result;
@@ -119,15 +154,53 @@ public sealed partial class mmria_case
         if
         (
             value.TryGetProperty(key, out var new_value) &&
-            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
         )
         {
+            
             result = new List<double>();
-           // result = new_value.GetDouble();
+            var max_index = new_value.GetArrayLength();
+            for(int i = 0; i < max_index; i++)
+            {
+                var item = new_value[i];
+
+                if
+                (
+                    item.ValueKind ==  System.Text.Json.JsonValueKind.Number
+                )
+                {
+                    result.Add(item.GetDouble());
+                }
+                else if
+                (
+                    item.ValueKind ==  System.Text.Json.JsonValueKind.String
+                )
+                {
+                    var val = item.GetString();
+                    if(string.IsNullOrWhiteSpace(val))
+                    {
+                        // do nothing
+                    }
+                    if(double.TryParse(item.GetString(), out var test))
+                    {
+                         result.Add(test);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine($"GetMultiSelectNumberListField TryParse Failed need a number value=[{val}]");
+                    }
+                }
+                else 
+                {
+                    System.Console.WriteLine("GetMultiSelectNumberListField need a number");
+                }
+            }
+
+
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetNumberListField");
+            System.Console.WriteLine("GetMultiSelectNumberListField");
         }
         return result;
     }
@@ -155,7 +228,7 @@ public sealed partial class mmria_case
             }
             
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetFormField");
         }
@@ -165,7 +238,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key)
+    public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key) where T : new()
     {
         List<T>? result = null;
 
@@ -177,18 +250,28 @@ public sealed partial class mmria_case
         {
             result = new();
 
-            var con = result as IConvertDictionary;
-            if(con != null)
+            var max_index = new_value.GetArrayLength();
+            for(var i = 0; i < max_index; i++)
             {
-                con.Convert(new_value);
-            }
-            else
-            {
-                System.Console.WriteLine("GetFormField");
+                var item = new_value[i];
+
+                var new_t = new T();
+                
+                var con = new_t as IConvertDictionary;
+                if(con != null)
+                {
+                    con.Convert(item);
+
+                    result.Add(new_t);
+                }
+                else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+                {
+                    System.Console.WriteLine("GetFormField");
+                }
             }
             
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetFormField");
         }
@@ -210,7 +293,7 @@ public sealed partial class mmria_case
         {
             result = new_value.GetString();
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetJurisdictionField");
         }
@@ -229,7 +312,7 @@ public sealed partial class mmria_case
         {
             result = new_value.GetString();
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetHiddenField");
         }
@@ -248,7 +331,7 @@ public sealed partial class mmria_case
         {
             result = new_value.GetString();
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetTextAreaField");
         }
@@ -270,7 +353,11 @@ public sealed partial class mmria_case
                 result = test;
             }   
         }
-        else
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
         {
             System.Console.WriteLine("GetDateField");
         }
@@ -291,7 +378,25 @@ public sealed partial class mmria_case
         {
             result = new_value.GetDouble();
         }
-        else
+        else if(new_value.ValueKind == System.Text.Json.JsonValueKind.String)
+        {
+            var val = new_value.GetString();
+            
+            if(string.IsNullOrWhiteSpace(val))
+            {
+                // do nothing
+            }
+            else if(double.TryParse(val, out var test))
+            {
+                result = test;
+            }
+            else
+            {
+                System.Console.WriteLine($"GetNumberField {val}");
+            }
+            
+        }
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetNumberField");
         }
@@ -316,9 +421,9 @@ public sealed partial class mmria_case
                 result = test;
             }   
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetDateField");
+            System.Console.WriteLine("GetTimeField");
         }
 
         return result;
@@ -339,7 +444,7 @@ public sealed partial class mmria_case
                 result = test;
             }   
         }
-        else
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetDateField");
         }

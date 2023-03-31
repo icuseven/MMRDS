@@ -567,18 +567,18 @@ public void Execute(mmria.server.export_queue_item queue_item)
     Dictionary<string, string> int_to_path_map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     foreach (KeyValuePair<string, int> ptn in path_to_int_map)
     {
-    if (path_to_field_name_map.ContainsKey(ptn.Key))
-    {
-        string key = path_to_field_name_map[ptn.Key];
-        if (int_to_path_map.ContainsKey(key))
+        if (path_to_field_name_map.ContainsKey(ptn.Key))
         {
-        int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
+            string key = path_to_field_name_map[ptn.Key];
+            if (int_to_path_map.ContainsKey(key))
+            {
+            int_to_path_map.Add("_" + ptn.Value.ToString("X"), ptn.Key);
+            }
+            else
+            {
+            int_to_path_map.Add(key, ptn.Key);
+            }
         }
-        else
-        {
-        int_to_path_map.Add(key, ptn.Key);
-        }
-    }
     }
 
 
