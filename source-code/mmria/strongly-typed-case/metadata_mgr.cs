@@ -301,7 +301,7 @@ public class metadata_mgr
 			WriteAttribute(child, "", source_code_builder);	
 		}
 
-		source_code_builder.AppendLine("\tpublic void Convert(IDictionary<string,object> value)\n\t{");	
+		source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
 
 		foreach(var child in value.children)
 		{
@@ -360,7 +360,7 @@ namespace mmria.case_version.v1;");
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
 					source_code_builder.AppendLine($$"""
-							public sealed class _{{dictionary_set[current_path].hash_value}}
+							public sealed class _{{dictionary_set[current_path].hash_value}} : IConvertDictionary
 							{
 					""");
 					source_code_builder.AppendLine($"\tpublic _{dictionary_set[current_path].hash_value}()\n{{");
@@ -378,7 +378,7 @@ namespace mmria.case_version.v1;");
 					}
 
 
-					source_code_builder.AppendLine("\tpublic void Convert(IDictionary<string,object> value)\n\t{");	
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
 
 					foreach(var child in value.children)
 					{
@@ -400,7 +400,7 @@ namespace mmria.case_version.v1;");
 				{
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value} : IConvertDictionary\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
@@ -414,6 +414,16 @@ namespace mmria.case_version.v1;");
 					{
 						WriteAttribute(child, current_path, source_code_builder);	
 					}
+
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
+
+					foreach(var child in value.children)
+					{
+						WriteFromExpando(child, value.name, source_code_builder);	
+					}
+
+					source_code_builder.AppendLine("\t}");
+
 					source_code_builder.AppendLine("}");
 
 					foreach(var child in value.children)
@@ -781,12 +791,26 @@ GridList
 				}
 				if(value.is_multiselect != null && value.is_multiselect.Value)
 				{
-					
-					builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectListField<{list_data_type}>(value, \"{name}\");");
+					if(list_data_type == "double")
+					{					
+						builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectNumberListField(value, \"{name}\");");
+					}
+					else
+					{
+						builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectStringListField(value, \"{name}\");");
+					}
 				}
 				else
 				{
-					builder.AppendLine($"\t{name} = mmria_case.GetListField<{list_data_type}>(value, \"{name}\");");
+					if(list_data_type == "double")
+					{	
+						builder.AppendLine($"\t{name} = mmria_case.GetNumberListField(value, \"{name}\");");
+					}
+					else
+					{
+						builder.AppendLine($"\t{name} = mmria_case.GetStringListField(value, \"{name}\");");
+					}
+					
 				}
 
 			break;

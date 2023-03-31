@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 namespace mmria.case_version.v1;
 
+public interface IConvertDictionary
+{
+    public void Convert(System.Text.Json.JsonElement value);
+}
+
+
+
 public sealed partial class mmria_case
 {
     /*
@@ -12,7 +19,7 @@ public sealed partial class mmria_case
         
         mmria_case result = new mmria_case();
 
-        IDictionary<string,object> d = value as IDictionary<string,object>;
+        System.Text.Json.JsonElement d = value as System.Text.Json.JsonElement;
         if(d != null)
         {
           DateOnly? x = DateOnly.TryParse("", out var data) ? data : null;
@@ -21,205 +28,320 @@ public sealed partial class mmria_case
         return result;
     }*/
 
-    public static string  GetStringField(IDictionary<string,object> d, string key)
+    public static string?  GetStringField(System.Text.Json.JsonElement value, string key)
     {
-        string result = null;
+        string? result = null;
 
-        if(d.ContainsKey(key)  && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            result = d[key].ToString();
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+            result = new_value.GetString();
         }
 
         return result;
     }
 
 
-    public static T?  GetListField<T>(IDictionary<string,object> d, string key)
+    public static string?  GetStringListField(System.Text.Json.JsonElement value, string key)
     {
-        T? result = default(T);
+        string? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            result = (T)d[key];
+            result = new_value.GetString();
+        }
+        else
+        {
+            System.Console.WriteLine("GetStringListField");
+        }
 
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+        return result;
+    }
+
+    public static double?  GetNumberListField(System.Text.Json.JsonElement value, string key)
+    {
+        double? result = null;
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+        )
+        {
+            result =  new_value.GetDouble();
+        }
+        else
+        {
+            System.Console.WriteLine("GetNumberListField");
         }
 
         return result;
     }
 
 
-    public static List<T>?  GetMultiSelectListField<T>(IDictionary<string,object> d, string key)
+    public static List<string>  GetMultiSelectStringListField(System.Text.Json.JsonElement value, string key)
+    {
+        List<string> result = null;
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
+        {
+            result = new List<string>();
+            /*
+            foreach(var item in new_value)
+            {
+
+            }*/
+            //result = new_value.g.GetDouble();
+        }
+        else
+        {
+            System.Console.WriteLine("GetNumberListField");
+        }
+
+        return result;
+    }
+
+    public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key)
+    {
+        List<double> result = null;
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+        )
+        {
+            result = new List<double>();
+           // result = new_value.GetDouble();
+        }
+        else
+        {
+            System.Console.WriteLine("GetNumberListField");
+        }
+        return result;
+    }
+
+
+
+    public static T?  GetFormField<T>(System.Text.Json.JsonElement value, string key) where T :new()
+    {
+        T result = default(T);
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Object
+        )
+        {
+            result = new T();
+            var con = result as IConvertDictionary;
+            if(con != null)
+            {
+                con.Convert(new_value);
+            }
+            else
+            {
+                System.Console.WriteLine("GetFormField");
+            }
+            
+        }
+        else
+        {
+            System.Console.WriteLine("GetFormField");
+        }
+
+
+
+        return result;
+    }
+
+    public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key)
     {
         List<T>? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
         {
-            result = d[key] as List<T>;
+            result = new();
 
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+            var con = result as IConvertDictionary;
+            if(con != null)
+            {
+                con.Convert(new_value);
+            }
+            else
+            {
+                System.Console.WriteLine("GetFormField");
+            }
+            
         }
+        else
+        {
+            System.Console.WriteLine("GetFormField");
+        }
+
 
         return result;
     }
 
-    public static T?  GetFormField<T>(IDictionary<string,object> d, string key)
-    {
-        T? result = default(T);
-
-        if(d.ContainsKey(key) && d[key] != null)
-        {
-            result = (T)d[key];
-
-            //result = DateOnly.TryParse("", out var data) ? data : null;
-        }
-
-        return result;
-    }
-
-
-    public static List<T>?  GetMultiFormField<T>(IDictionary<string,object> d, string key)
-    {
-        List<T>? result = null;
-
-        if(d.ContainsKey(key))
-        {
-            result = d[key] as List<T>;
-
-            //result = DateOnly.TryParse("", out var data) ? data : null;
-        }
-
-        return result;
-    }
-    
-/*
-
-    public static List<T>  GetList<T>(IDictionary<string,object> d, string key)
-    {
-        DateOnly? result = null;
-
-        if(d.ContainsKey(key))
-        {
-            result = d[key] as DateOnly?;
-
-            //result = DateOnly.TryParse("", out var data) ? data : null;
-        }
-
-        return result;
-    }
-
-    public static List<T>  GetList<T>(IDictionary<string,object> d, string key)
-    {
-        DateOnly? result = null;
-
-        if(d.ContainsKey(key))
-        {
-            result = d[key] as DateOnly?;
-
-            //result = DateOnly.TryParse("", out var data) ? data : null;
-        }
-
-        return result;
-    }
-*/
     //case "jurisdiction":
-    public static string  GetJurisctionField(IDictionary<string,object> d, string key)
+    public static string  GetJurisdictionField(System.Text.Json.JsonElement value, string key)
     {
         string result = null;
 
-        if(d.ContainsKey(key)  && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            result = d[key].ToString();
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+            result = new_value.GetString();
         }
-
+        else
+        {
+            System.Console.WriteLine("GetJurisdictionField");
+        }
         return result;
     }
     //case "hidden":
-    public static string  GetHiddenField(IDictionary<string,object> d, string key)
+    public static string  GetHiddenField(System.Text.Json.JsonElement value, string key)
     {
         string result = null;
 
-        if(d.ContainsKey(key)  && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            result = d[key].ToString();
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+            result = new_value.GetString();
         }
-
+        else
+        {
+            System.Console.WriteLine("GetHiddenField");
+        }
         return result;
     }
     //case "textarea":
-   public static string  GetTextAreaField(IDictionary<string,object> d, string key)
+   public static string  GetTextAreaField(System.Text.Json.JsonElement value, string key)
     {
         string result = null;
 
-        if(d.ContainsKey(key)  && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            result = d[key].ToString();
-            //result = DateOnly.TryParse("", out var data) ? data : null;
+            result = new_value.GetString();
         }
-
+        else
+        {
+            System.Console.WriteLine("GetTextAreaField");
+        }
         return result;
     }
     //case "date":
-    public static DateOnly?  GetDateField(IDictionary<string,object> d, string key)
+    public static DateOnly?  GetDateField(System.Text.Json.JsonElement value, string key)
     {
         DateOnly? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            if(DateOnly.TryParse(d[key].ToString(), out var test))
+            if(DateOnly.TryParse(new_value.GetString(), out var test))
             {
                 result = test;
-            }
+            }   
+        }
+        else
+        {
+            System.Console.WriteLine("GetDateField");
         }
 
         return result;
     }
 
     //case "number":
-   public static double?  GetNumberField(IDictionary<string,object> d, string key)
+   public static double?  GetNumberField(System.Text.Json.JsonElement value, string key)
     {
         double? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+        )
         {
-            if(double.TryParse(d[key].ToString(), out var test))
-            {
-                result = test;
-            }
+            result = new_value.GetDouble();
+        }
+        else
+        {
+            System.Console.WriteLine("GetNumberField");
         }
 
         return result;
     }
     
     //case "time":
-    public static TimeOnly?  GetTimeField(IDictionary<string,object> d, string key)
+    public static TimeOnly?  GetTimeField(System.Text.Json.JsonElement value, string key)
     {
         TimeOnly? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            if(TimeOnly.TryParse(d[key].ToString(), out var test))
+            if(TimeOnly.TryParse(new_value.GetString(), out var test))
             {
                 result = test;
-            }
+            }   
+        }
+        else
+        {
+            System.Console.WriteLine("GetDateField");
         }
 
         return result;
     }
     //case "datetime":
-    public static DateTime?  GetDateTimeField(IDictionary<string,object> d, string key)
+    public static DateTime?  GetDateTimeField(System.Text.Json.JsonElement value, string key)
     {
         DateTime? result = null;
 
-        if(d.ContainsKey(key) && d[key] != null)
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
         {
-            if(DateTime.TryParse(d[key].ToString(), out var test))
+            if(DateTime.TryParse(new_value.GetString(), out var test))
             {
                 result = test;
-            }
+            }   
+        }
+        else
+        {
+            System.Console.WriteLine("GetDateField");
         }
 
         return result;
