@@ -436,7 +436,7 @@ namespace mmria.case_version.v1;");
 			case "group":
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value} : IConvertDictionary\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	
@@ -472,7 +472,7 @@ namespace mmria.case_version.v1;");
 
 					source_code_builder = new();
 					source_code_builder_stack.Push(source_code_builder);
-					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value}\n{{");
+					source_code_builder.AppendLine($"public sealed class _{dictionary_set[current_path].hash_value} : IConvertDictionary\n{{");
 					foreach(var child in value.children)
 					{
 						WriteConstructorAttribute(child, current_path, constructor_builder);	

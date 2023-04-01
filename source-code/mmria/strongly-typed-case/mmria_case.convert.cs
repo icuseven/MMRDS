@@ -13,20 +13,6 @@ public interface IConvertDictionary
 
 public sealed partial class mmria_case
 {
-    /*
-    public mmria_case Convert(System.Dynamic.ExpandoObject value)
-    {
-        
-        mmria_case result = new mmria_case();
-
-        System.Text.Json.JsonElement d = value as System.Text.Json.JsonElement;
-        if(d != null)
-        {
-          DateOnly? x = DateOnly.TryParse("", out var data) ? data : null;
-        }
-
-        return result;
-    }*/
 
     public static string?  GetStringField(System.Text.Json.JsonElement value, string key)
     {
@@ -49,17 +35,21 @@ public sealed partial class mmria_case
     {
         string? result = null;
 
-        if
-        (
-            value.TryGetProperty(key, out var new_value) &&
-            new_value.ValueKind == System.Text.Json.JsonValueKind.String
-        )
+        System.Text.Json.JsonElement new_value;
+
+        if(value.TryGetProperty(key, out new_value))
         {
-            result = new_value.GetString();
-        }
-        else
-        {
-            System.Console.WriteLine("GetStringListField");
+            if
+            (
+                new_value.ValueKind == System.Text.Json.JsonValueKind.String
+            )
+            {
+                result = new_value.GetString();
+            }
+            else
+            {
+                System.Console.WriteLine("GetStringListField");
+            }
         }
 
         return result;
@@ -411,33 +401,7 @@ public sealed partial class mmria_case
         }
         return result;
     }
-    //case "date":
-    public static DateOnly?  GetDateField(System.Text.Json.JsonElement value, string key)
-    {
-        DateOnly? result = null;
 
-        if
-        (
-            value.TryGetProperty(key, out var new_value) &&
-            new_value.ValueKind == System.Text.Json.JsonValueKind.String
-        )
-        {
-            if(DateOnly.TryParse(new_value.GetString(), out var test))
-            {
-                result = test;
-            }   
-        }
-        else if
-        (
-            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
-            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
-        )
-        {
-            System.Console.WriteLine("GetDateField");
-        }
-
-        return result;
-    }
 
     //case "number":
    public static double?  GetNumberField(System.Text.Json.JsonElement value, string key)
@@ -470,9 +434,41 @@ public sealed partial class mmria_case
             }
             
         }
-        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
         {
             System.Console.WriteLine("GetNumberField");
+        }
+
+        return result;
+    }
+
+        //case "date":
+    public static DateOnly?  GetDateField(System.Text.Json.JsonElement value, string key)
+    {
+        DateOnly? result = null;
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+        )
+        {
+            if(DateOnly.TryParse(new_value.GetString(), out var test))
+            {
+                result = test;
+            }   
+        }
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
+        {
+            System.Console.WriteLine("GetDateField");
         }
 
         return result;
@@ -490,12 +486,25 @@ public sealed partial class mmria_case
             new_value.ValueKind == System.Text.Json.JsonValueKind.String
         )
         {
-            if(TimeOnly.TryParse(new_value.GetString(), out var test))
+            var val = new_value.GetString();
+            if(string.IsNullOrWhiteSpace(val))
+            {
+                // do nothing
+            }
+            else if(TimeOnly.TryParse(val, out var test))
             {
                 result = test;
-            }   
+            }
+            else
+            {
+                System.Console.WriteLine($"GetTimeField TryParse key:{key} val:{val}");
+            }      
         }
-        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
         {
             System.Console.WriteLine("GetTimeField");
         }
@@ -513,14 +522,27 @@ public sealed partial class mmria_case
             new_value.ValueKind == System.Text.Json.JsonValueKind.String
         )
         {
-            if(DateTime.TryParse(new_value.GetString(), out var test))
+            var val = new_value.GetString();
+            if(string.IsNullOrWhiteSpace(val))
+            {
+                // do nothing
+            }
+            else if(DateTime.TryParse(val, out var test))
             {
                 result = test;
             }   
+            else
+            {
+                System.Console.WriteLine($"GetDateTimeField tryparse key:{key} val:{val}");
+            }
         }
-        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
         {
-            System.Console.WriteLine("GetDateField");
+            System.Console.WriteLine("GetDateTimeField");
         }
 
         return result;
