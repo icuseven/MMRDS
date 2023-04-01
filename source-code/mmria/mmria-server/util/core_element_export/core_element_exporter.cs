@@ -9,46 +9,46 @@ namespace mmria.server.utils;
 
 public sealed class core_element_exporter
 {
-private string auth_token = null;
-private string user_name = null;
-private string value_string = null;
-private string database_path = null;
-private string database_url = null;
-private string item_file_name = null;
-private string item_directory_name = null;
-private string item_id = null;
-private bool is_offline_mode;
+    private string auth_token = null;
+    private string user_name = null;
+    private string value_string = null;
+    private string database_path = null;
+    private string database_url = null;
+    private string item_file_name = null;
+    private string item_directory_name = null;
+    private string item_id = null;
+    private bool is_offline_mode;
 
-private bool is_excel_file_type = false;
-
-
-private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
-private int[] qualitativeStreamCount = new int[] { 0, 0, 0 };
-private const int max_qualitative_length = 31000;
-
-private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit.txt folder for details.";
-
-private string juris_user_name = null;
-
-private mmria.server.model.actor.ScheduleInfoMessage Configuration;
-
-private List<string> Core_Element_Paths;
+    private bool is_excel_file_type = false;
 
 
-private HashSet<string> de_identified_set;
+    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[3];
+    private int[] qualitativeStreamCount = new int[] { 0, 0, 0 };
+    private const int max_qualitative_length = 31000;
 
-System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+    private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit.txt folder for details.";
 
-common.metadata.app current_metadata;
+    private string juris_user_name = null;
 
-private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+    private mmria.server.model.actor.ScheduleInfoMessage Configuration;
 
-public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
-{
-    this.Configuration = configuration;
-    //this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
+    private List<string> Core_Element_Paths;
 
-}
+
+    private HashSet<string> de_identified_set;
+
+    System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
+
+    common.metadata.app current_metadata;
+
+    private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+
+    public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
+    {
+        this.Configuration = configuration;
+        //this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
+
+    }
 public void Execute(mmria.server.export_queue_item queue_item)
 {
 
@@ -159,7 +159,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     foreach (var child in metadata.children)
     {
-    Get_List_Look_Up(List_Look_Up, metadata.lookup, child, path_to_int_map, "/" + child.name);
+        Get_List_Look_Up(List_Look_Up, metadata.lookup, child, path_to_int_map, "/" + child.name);
     }
 
 
@@ -168,21 +168,22 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     foreach (KeyValuePair<string, string> kvp in path_to_grid_map)
     {
-    if (grid_to_multi_form_map.ContainsKey(kvp.Key))
-    {
-        mutiform_grid_set.Add(kvp.Value);
-    }
+        if (grid_to_multi_form_map.ContainsKey(kvp.Key))
+        {
+            mutiform_grid_set.Add(kvp.Value);
+        }
     }
 
     foreach (KeyValuePair<string, string> kvp in path_to_grid_map)
     {
-    if (
-        !mutiform_grid_set.Contains(kvp.Value) &&
-        !flat_grid_set.Contains(kvp.Value)
-    )
-    {
-        flat_grid_set.Add(kvp.Value);
-    }
+        if 
+        (
+            !mutiform_grid_set.Contains(kvp.Value) &&
+            !flat_grid_set.Contains(kvp.Value)
+        )
+        {
+            flat_grid_set.Add(kvp.Value);
+        }
     }
 
     /*
@@ -247,66 +248,26 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
-    if (queue_item.case_filter_type == "custom")
+    try
     {
-        /*
-        foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-        {
-        var check_item = ((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject;
-        if (check_item != null)
-        {
-            var temp = check_item as IDictionary<string, object>;
+        string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-            if
-            (
-            temp != null &&
-            temp.ContainsKey("_id") &&
+        var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+        string case_view_responseFromServer = case_view_curl.execute();
 
-            temp["_id"] != null &&
-            Custom_Case_Id_List.Contains(temp["_id"].ToString())
-            )
-            {
-            all_cases_rows.Add(check_item);
-            }
+        mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
+
+        foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+        {
+            Custom_Case_Id_List.Add(cvi.id);
 
         }
-
-        }*/
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex);
     }
 
-    else
-    {
-        try
-        {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
-
-            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            string case_view_responseFromServer = case_view_curl.execute();
-
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
-
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
-            {
-                Custom_Case_Id_List.Add(cvi.id);
-
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-/*
-        foreach (System.Dynamic.ExpandoObject case_row in all_cases.rows)
-        {
-        all_cases_rows.Add(((IDictionary<string, object>)case_row)["doc"] as System.Dynamic.ExpandoObject);
-        }
-        */
-    }
-
-
-
-    //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
     foreach(string case_id in Custom_Case_Id_List)
     {
 
@@ -315,17 +276,9 @@ public void Execute(mmria.server.export_queue_item queue_item)
         System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
         IDictionary<string, object> case_doc;
-        //if (this.is_offline_mode)
-        //{
+
         case_doc = case_row as IDictionary<string, object>;
-        /*				}
-                else
-                {
-                    case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-                }
-            */
-        //IDictionary<string, object> case_doc = ((IDictionary<string, object>)case_row)["doc"] as IDictionary<string, object>;
-        //IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+        
         if
         (
             case_doc == null ||
@@ -345,19 +298,19 @@ public void Execute(mmria.server.export_queue_item queue_item)
         {
             if (!home_record.ContainsKey("jurisdiction_id"))
             {
-            home_record.Add("jurisdiction_id", "/");
+                home_record.Add("jurisdiction_id", "/");
             }
 
             foreach (var jurisdiction_item in jurisdiction_hashset)
             {
-            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
-            {
-                is_jurisdiction_ok = true;
-                break;
-            }
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                {
+                    is_jurisdiction_ok = true;
+                    break;
+                }
             }
         }
 
@@ -374,29 +327,21 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
         foreach (string path in ordered_column_list)
         {
-            if (
-            !path_to_node_map.ContainsKey(path) ||
-            !path_to_field_name_map.ContainsKey(path) ||
-            !row.Table.Columns.Contains(path_to_field_name_map[path]) ||
-            path_to_node_map[path].type.ToLower() == "app" ||
-            path_to_node_map[path].type.ToLower() == "form" ||
-            path_to_node_map[path].type.ToLower() == "group" ||
-            path_to_node_map[path].mirror_reference != null
-
+            if 
+            (
+                !path_to_node_map.ContainsKey(path) ||
+                !path_to_field_name_map.ContainsKey(path) ||
+                !row.Table.Columns.Contains(path_to_field_name_map[path]) ||
+                path_to_node_map[path].type.ToLower() == "app" ||
+                path_to_node_map[path].type.ToLower() == "form" ||
+                path_to_node_map[path].type.ToLower() == "group" ||
+                path_to_node_map[path].mirror_reference != null
             )
             {
                 continue;
             }
 
-            //System.Console.WriteLine("path {0}", path);
-
             object val = get_value(case_doc as IDictionary<string, object>, path);
-            /*
-                    if (path_to_int_map[path].ToString() == "41")
-                    {
-                        System.Console.Write("pause");
-                    }
-                    */
 
             try
             {
