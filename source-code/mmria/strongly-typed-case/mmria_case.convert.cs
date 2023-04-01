@@ -14,7 +14,7 @@ public interface IConvertDictionary
 public sealed partial class mmria_case
 {
 
-    public static string?  GetStringField(System.Text.Json.JsonElement value, string key)
+    public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
         string? result = null;
 
@@ -31,7 +31,7 @@ public sealed partial class mmria_case
     }
 
 
-    public static string?  GetStringListField(System.Text.Json.JsonElement value, string key)
+    public static string?  GetStringListField(System.Text.Json.JsonElement value, string key, string path)
     {
         string? result = null;
 
@@ -48,14 +48,14 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine("GetStringListField");
+                System.Console.WriteLine($"GetStringListField path: {path}");
             }
         }
 
         return result;
     }
 
-    public static double?  GetNumberListField(System.Text.Json.JsonElement value, string key)
+    public static double?  GetNumberListField(System.Text.Json.JsonElement value, string key, string path)
     {
         double? result = null;
 
@@ -83,7 +83,7 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine("GetNumberListField tryparse failed");
+                System.Console.WriteLine($"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}");
             }
         }
         else if
@@ -99,7 +99,7 @@ public sealed partial class mmria_case
     }
 
 
-    public static List<string>  GetMultiSelectStringListField(System.Text.Json.JsonElement value, string key)
+    public static List<string>  GetMultiSelectStringListField(System.Text.Json.JsonElement value, string key, string path)
     {
         List<string> result = null;
 
@@ -124,7 +124,7 @@ public sealed partial class mmria_case
                 }
                 else
                 {
-                    System.Console.WriteLine("GetMultiSelectStringListField need a string");
+                    System.Console.WriteLine($"GetMultiSelectStringListField need a string  path: {path}");
                 }
             }
 
@@ -137,7 +137,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key)
+    public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key, string path)
     {
         List<double> result = null;
 
@@ -177,7 +177,7 @@ public sealed partial class mmria_case
                     }
                     else
                     {
-                        System.Console.WriteLine($"GetMultiSelectNumberListField TryParse Failed need a number value=[{val}]");
+                        System.Console.WriteLine($"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} val: {val}");
                     }
                 }
                 else 
@@ -197,7 +197,7 @@ public sealed partial class mmria_case
 
 
 
-    public static T?  GetFormField<T>(System.Text.Json.JsonElement value, string key) where T :new()
+    public static T?  GetFormField<T>(System.Text.Json.JsonElement value, string key, string path) where T :new()
     {
         T result = default(T);
         if
@@ -214,13 +214,13 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine("GetFormField");
+                System.Console.WriteLine($"GetFormField  path: {path} key: {key}");
             }
             
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetFormField");
+            System.Console.WriteLine($"GetFormField path: {path} key: {key}");
         }
 
 
@@ -229,7 +229,7 @@ public sealed partial class mmria_case
     }
 
 
-    public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key) where T : new()
+    public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key, string path) where T : new()
     {
         List<T>? result = null;
 
@@ -257,20 +257,20 @@ public sealed partial class mmria_case
                 }
                 else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
                 {
-                    System.Console.WriteLine("GetFormField");
+                    System.Console.WriteLine($"GetFormField path: {path} key: {key}");
                 }
             }
             
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetFormField");
+            System.Console.WriteLine($"GetFormField path: {path} key: {key}");
         }
 
 
         return result;
     }
-    public static T?  GetGroupField<T>(System.Text.Json.JsonElement p_value, string key) where T :new()
+    public static T?  GetGroupField<T>(System.Text.Json.JsonElement p_value, string key, string path) where T :new()
     {
         T result = default(T);
         if
@@ -287,13 +287,13 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine("GetGroupField");
+                System.Console.WriteLine($"GetGroupField path: {path} key: {key}");
             }
             
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetGroupField");
+            System.Console.WriteLine($"GetGroupField path: {path} key: {key}");
         }
 
 
@@ -302,7 +302,7 @@ public sealed partial class mmria_case
     }
 
 
-    public static List<T>?  GetGridField<T>(System.Text.Json.JsonElement p_value, string key) where T : new()
+    public static List<T>?  GetGridField<T>(System.Text.Json.JsonElement p_value, string key, string path) where T : new()
     {
         List<T>? result = null;
 
@@ -330,14 +330,14 @@ public sealed partial class mmria_case
                 }
                 else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
                 {
-                    System.Console.WriteLine("GetGridField");
+                    System.Console.WriteLine($"GetGridField path: {path} key: {key}");
                 }
             }
             
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetGridField");
+            System.Console.WriteLine($"GetGridField {path} key: {key}");
         }
 
 
@@ -345,7 +345,7 @@ public sealed partial class mmria_case
     }
 
     //case "jurisdiction":
-    public static string  GetJurisdictionField(System.Text.Json.JsonElement value, string key)
+    public static string  GetJurisdictionField(System.Text.Json.JsonElement value, string key, string path)
     {
         string result = null;
 
@@ -364,7 +364,7 @@ public sealed partial class mmria_case
         return result;
     }
     //case "hidden":
-    public static string  GetHiddenField(System.Text.Json.JsonElement value, string key)
+    public static string  GetHiddenField(System.Text.Json.JsonElement value, string key, string path)
     {
         string result = null;
 
@@ -378,12 +378,12 @@ public sealed partial class mmria_case
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetHiddenField");
+            System.Console.WriteLine($"GetHiddenField {path} key: {key}");
         }
         return result;
     }
     //case "textarea":
-   public static string  GetTextAreaField(System.Text.Json.JsonElement value, string key)
+   public static string  GetTextAreaField(System.Text.Json.JsonElement value, string key, string path)
     {
         string result = null;
 
@@ -397,14 +397,14 @@ public sealed partial class mmria_case
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetTextAreaField");
+            System.Console.WriteLine($"GetTextAreaField {path} key: {key}");
         }
         return result;
     }
 
 
     //case "number":
-   public static double?  GetNumberField(System.Text.Json.JsonElement value, string key)
+   public static double?  GetNumberField(System.Text.Json.JsonElement value, string key, string path)
     {
         double? result = null;
 
@@ -430,7 +430,7 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetNumberField {val}");
+                System.Console.WriteLine($"GetNumberField {path} key: {key} val:{val}");
             }
             
         }
@@ -440,14 +440,14 @@ public sealed partial class mmria_case
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine("GetNumberField");
+            System.Console.WriteLine($"GetNumberField {path} key: {key}");
         }
 
         return result;
     }
 
         //case "date":
-    public static DateOnly?  GetDateField(System.Text.Json.JsonElement value, string key)
+    public static DateOnly?  GetDateField(System.Text.Json.JsonElement value, string key, string path)
     {
         DateOnly? result = null;
 
@@ -461,6 +461,10 @@ public sealed partial class mmria_case
             {
                 result = test;
             }   
+            else
+            {
+
+            }
         }
         else if
         (
@@ -468,14 +472,14 @@ public sealed partial class mmria_case
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine("GetDateField");
+            System.Console.WriteLine($"GetDateField {path} key: {key}");
         }
 
         return result;
     }
     
     //case "time":
-    public static TimeOnly?  GetTimeField(System.Text.Json.JsonElement value, string key)
+    public static TimeOnly?  GetTimeField(System.Text.Json.JsonElement value, string key, string path)
     {
         TimeOnly? result = null;
 
@@ -497,7 +501,7 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetTimeField TryParse key:{key} val:{val}");
+                System.Console.WriteLine($"GetTimeField TryParse {path} key: {key} val:{val}");
             }      
         }
         else if
@@ -506,13 +510,13 @@ public sealed partial class mmria_case
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine("GetTimeField");
+            System.Console.WriteLine($"GetTimeField {path} key: {key}");
         }
 
         return result;
     }
     //case "datetime":
-    public static DateTime?  GetDateTimeField(System.Text.Json.JsonElement value, string key)
+    public static DateTime?  GetDateTimeField(System.Text.Json.JsonElement value, string key, string path)
     {
         DateTime? result = null;
 
@@ -533,7 +537,7 @@ public sealed partial class mmria_case
             }   
             else
             {
-                System.Console.WriteLine($"GetDateTimeField tryparse key:{key} val:{val}");
+                System.Console.WriteLine($"GetDateTimeField tryparse {path} key: {key} val:{val}");
             }
         }
         else if
@@ -542,7 +546,7 @@ public sealed partial class mmria_case
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine("GetDateTimeField");
+            System.Console.WriteLine($"GetDateTimeField {path} key: {key}");
         }
 
         return result;

@@ -787,18 +787,18 @@ GridList
 					value.cardinality == "*"
 				)
 				{
-					builder.AppendLine($"\t\t{name} = mmria_case.GetMultiFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetMultiFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\", \"{current_path}\");");
 				}
 				else
 				{
-					builder.AppendLine($"\t\t{name} = mmria_case.GetFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\", \"{current_path}\");");
 				}
 			break;
 			case "group":
-					builder.AppendLine($"\t\t{name} = mmria_case.GetGroupField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetGroupField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\", \"{current_path}\");");
 			break;
 			case "grid":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetGridField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetGridField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "list":
 				var list_data_type = "string";
@@ -811,22 +811,22 @@ GridList
 				{
 					if(list_data_type == "double")
 					{					
-						builder.AppendLine($"\t\t{name} = mmria_case.GetMultiSelectNumberListField(p_value, \"{value.name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetMultiSelectNumberListField(p_value, \"{value.name}\", \"{current_path}\");");
 					}
 					else
 					{
-						builder.AppendLine($"t\t{name} = mmria_case.GetMultiSelectStringListField(p_value, \"{value.name}\");");
+						builder.AppendLine($"t\t{name} = mmria_case.GetMultiSelectStringListField(p_value, \"{value.name}\", \"{current_path}\");");
 					}
 				}
 				else
 				{
 					if(list_data_type == "double")
 					{	
-						builder.AppendLine($"\t\t{name} = mmria_case.GetNumberListField(p_value, \"{value.name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetNumberListField(p_value, \"{value.name}\", \"{current_path}\");");
 					}
 					else
 					{
-						builder.AppendLine($"\t\t{name} = mmria_case.GetStringListField(p_value, \"{value.name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetStringListField(p_value, \"{value.name}\", \"{current_path}\");");
 					}
 					
 				}
@@ -835,32 +835,32 @@ GridList
 
 			
 			case "string":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetStringField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetStringField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "jurisdiction":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "hidden":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "textarea":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "date":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetDateField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "number":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 		
 			
 			case "time":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetTimeField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTimeField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "datetime":
 
 				
-				builder.AppendLine($"\t\t{name} = mmria_case.GetDateTimeField(p_value, \"{value.name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateTimeField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			
 			case "label":
