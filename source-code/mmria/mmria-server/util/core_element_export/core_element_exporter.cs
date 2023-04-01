@@ -700,86 +700,86 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     foreach (KeyValuePair<string, mmria.common.metadata.node> kvp in path_to_node_map)
     {
-    var node = kvp.Value;
+        var node = kvp.Value;
 
 
-    if (node.type.ToLower() == "list")
-    {
-
-        try
+        if (node.type.ToLower() == "list")
         {
 
-
-
-        //List_Look_Up
-        var value_list = node.values;
-
-        if (!string.IsNullOrWhiteSpace(node.path_reference))
-        {
-            //var key = node.path_reference.Replace("lookup/", "");
-            var key = "/" + kvp.Key;
-
-            if (List_Look_Up.ContainsKey(key))
+            try
             {
-            foreach (var item in List_Look_Up[key])
+
+
+
+            //List_Look_Up
+            var value_list = node.values;
+
+            if (!string.IsNullOrWhiteSpace(node.path_reference))
             {
+                //var key = node.path_reference.Replace("lookup/", "");
+                var key = "/" + kvp.Key;
+
+                if (List_Look_Up.ContainsKey(key))
+                {
+                foreach (var item in List_Look_Up[key])
+                {
+                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+
+                    if (path_to_file_name_map.ContainsKey(kvp.Key))
+                    {
+                    row["file_name"] = path_to_file_name_map[kvp.Key];
+                    }
+
+                    if (path_to_field_name_map.ContainsKey(kvp.Key))
+                    {
+                    row["column_name"] = path_to_field_name_map[kvp.Key];
+                    }
+
+                    row["mmria_path"] = kvp.Key;
+                    row["mmria_prompt"] = node.prompt;
+                    row["field_description"] = node.description;
+                    row["item_value"] = item.Key;
+                    row["item_display"] = item.Value;
+                    //row["item_description"] = item.description;
+                    mapping_look_up_document.Table.Rows.Add(row);
+                }
+                }
+
+            }
+            else
+            {
+                foreach (var item in value_list)
+                {
                 System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
 
                 if (path_to_file_name_map.ContainsKey(kvp.Key))
                 {
-                row["file_name"] = path_to_file_name_map[kvp.Key];
+                    row["file_name"] = path_to_file_name_map[kvp.Key];
                 }
 
                 if (path_to_field_name_map.ContainsKey(kvp.Key))
                 {
-                row["column_name"] = path_to_field_name_map[kvp.Key];
+                    row["column_name"] = path_to_field_name_map[kvp.Key];
                 }
-
                 row["mmria_path"] = kvp.Key;
                 row["mmria_prompt"] = node.prompt;
                 row["field_description"] = node.description;
-                row["item_value"] = item.Key;
-                row["item_display"] = item.Value;
-                //row["item_description"] = item.description;
+                row["item_value"] = item.value;
+                row["item_display"] = item.display;
+                row["item_description"] = item.description;
+
+
                 mapping_look_up_document.Table.Rows.Add(row);
-            }
+                }
             }
 
-        }
-        else
-        {
-            foreach (var item in value_list)
+
+            }
+            catch (Exception ex)
             {
-            System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
-
-            if (path_to_file_name_map.ContainsKey(kvp.Key))
-            {
-                row["file_name"] = path_to_file_name_map[kvp.Key];
-            }
-
-            if (path_to_field_name_map.ContainsKey(kvp.Key))
-            {
-                row["column_name"] = path_to_field_name_map[kvp.Key];
-            }
-            row["mmria_path"] = kvp.Key;
-            row["mmria_prompt"] = node.prompt;
-            row["field_description"] = node.description;
-            row["item_value"] = item.value;
-            row["item_display"] = item.display;
-            row["item_description"] = item.description;
-
-
-            mapping_look_up_document.Table.Rows.Add(row);
+            System.Console.WriteLine(ex);
             }
         }
-
-
-        }
-        catch (Exception ex)
-        {
-        System.Console.WriteLine(ex);
-        }
-    }
     }
 
     mapping_look_up_document.WriteToStream();
@@ -792,14 +792,14 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     if (!string.IsNullOrWhiteSpace(queue_item.zip_key))
     {
-    encryption_key = queue_item.zip_key;
+        encryption_key = queue_item.zip_key;
     }
 
     folder_compressor.Compress
     (
-    System.IO.Path.Combine(Configuration.export_directory, this.item_file_name),
-    encryption_key,// string password 
-    System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name)
+        System.IO.Path.Combine(Configuration.export_directory, this.item_file_name),
+        encryption_key,// string password 
+        System.IO.Path.Combine(Configuration.export_directory, this.item_directory_name)
     );
 
 
@@ -836,17 +836,17 @@ private void Get_List_Look_Up
     case "grid":
         foreach (mmria.common.metadata.node node in p_metadata.children)
         {
-        Get_List_Look_Up(p_result, p_lookup, node, p_path_to_int_map, p_path + "/" + node.name.ToLower());
+            Get_List_Look_Up(p_result, p_lookup, node, p_path_to_int_map, p_path + "/" + node.name.ToLower());
         }
         break;
     case "list":
         if
         (
-        p_metadata.control_style != null &&
-        p_metadata.control_style.ToLower() == "editable"
+            p_metadata.control_style != null &&
+            p_metadata.control_style.ToLower() == "editable"
         )
         {
-        break;
+            break;
         }
 
 
@@ -855,23 +855,23 @@ private void Get_List_Look_Up
         var value_node_list = p_metadata.values;
         if
         (
-        !string.IsNullOrWhiteSpace(p_metadata.path_reference)
+            !string.IsNullOrWhiteSpace(p_metadata.path_reference)
         )
         {
-        var name = p_metadata.path_reference.Replace("lookup/", "");
-        foreach (var item in p_lookup)
-        {
-            if (item.name.ToLower() == name.ToLower())
+            var name = p_metadata.path_reference.Replace("lookup/", "");
+            foreach (var item in p_lookup)
             {
-            value_node_list = item.values;
-            break;
+                if (item.name.ToLower() == name.ToLower())
+                {
+                value_node_list = item.values;
+                break;
+                }
             }
-        }
         }
 
         foreach (var value in value_node_list)
         {
-        p_result[p_path].Add(value.value, value.display);
+            p_result[p_path].Add(value.value, value.display);
         }
 
         //p_result[file_name].Add(p_path, field_name);
@@ -900,129 +900,128 @@ private void process_multiform_grid
     // flat grid - start
     foreach (KeyValuePair<string, string> ptn in path_to_grid_map)
     {
-    string path = ptn.Key;
-    if (flat_grid_set.Contains(path))
-    {
-        string grid_name = path_to_grid_map[path];
-
-        HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-        foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
+        string path = ptn.Key;
+        if (flat_grid_set.Contains(path))
         {
-        grid_field_set.Add(ptgm.Key);
-        }
+            string grid_name = path_to_grid_map[path];
 
-        create_header_row
-        (
-        path_to_int_map,
-        grid_field_set,
-        path_to_node_map,
-        path_to_csv_writer[grid_name].Table,
-        true,
-        true,
-        true
-        );
+            HashSet<string> grid_field_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-        string[] temp_path = path.Split('/');
-        List<string> form_path_list = new List<string>();
-        for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
-        {
-        form_path_list.Add(temp_path[temp_path_index]);
-        if (temp_path_index == 0)
-        {
-            form_path_list.Add(parent_record_index.ToString());
-        }
-
-        }
-
-        object raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
-        List<object> object_data = raw_data as List<object>;
-
-        if (object_data != null)
-        for (int i = 0; i < object_data.Count; i++)
-        {
-            IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
-
-            if (grid_item_row == null)
+            foreach (KeyValuePair<string, mmria.common.metadata.node> ptgm in path_to_node_map.Where(x => x.Key.StartsWith(path) && x.Key != path))
             {
-            continue;
+                grid_field_set.Add(ptgm.Key);
             }
 
-            System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-            grid_row["_id"] = mmria_case_id;
-            grid_row["_record_index"] = i;
-            grid_row["_parent_record_index"] = parent_record_index;
-            foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+            create_header_row
+            (
+                path_to_int_map,
+                grid_field_set,
+                path_to_node_map,
+                path_to_csv_writer[grid_name].Table,
+                true,
+                true,
+                true
+            );
+
+            string[] temp_path = path.Split('/');
+            List<string> form_path_list = new List<string>();
+            for (int temp_path_index = 0; temp_path_index < temp_path.Length; temp_path_index++)
             {
-            foreach (string node in grid_field_set)
-            {
-                try
+                form_path_list.Add(temp_path[temp_path_index]);
+                if (temp_path_index == 0)
                 {
-                object val = grid_item_row[path_to_node_map[node].name];
-
-                if (de_identified_set.Contains(node))
-                {
-                    val = null;
-                }
-
-                if (val != null)
-                {
-                    string file_field_name = path_to_field_name_map[node];
-
-                    if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
-                    {
-                    if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
-                    {
-                        grid_row[file_field_name] = val;
-                    }
-                    else
-                    {
-                        grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
-                    }
-                    }
-                    else
-                    {
-                    if
-                    (
-                        (
-                        path_to_node_map[path].type.ToLower() == "textarea" ||
-                        path_to_node_map[path].type.ToLower() == "string"
-                        ) &&
-                        val.ToString().Length > max_qualitative_length
-                    )
-                    {
-                        WriteQualitativeData
-                        (
-                        mmria_case_id,
-                        path,
-                        val?.ToString(),
-                        i,
-                        parent_record_index
-                        );
-
-                        val = over_limit_message;
-                    }
-
-                    if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
-                    {
-                        grid_row[file_field_name] = val;
-                    }
-                    else
-                    {
-                        grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
-                    }
-                    }
-                }
-                }
-                catch (Exception)
-                {
-
+                    form_path_list.Add(parent_record_index.ToString());
                 }
             }
+
+            object raw_data = get_value(case_doc as IDictionary<string, object>, string.Join("/", path));
+            List<object> object_data = raw_data as List<object>;
+
+            if (object_data != null)
+            for (int i = 0; i < object_data.Count; i++)
+            {
+                IDictionary<string, object> grid_item_row = object_data[i] as IDictionary<string, object>;
+
+                if (grid_item_row == null)
+                {
+                    continue;
+                }
+
+                System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+                grid_row["_id"] = mmria_case_id;
+                grid_row["_record_index"] = i;
+                grid_row["_parent_record_index"] = parent_record_index;
+                foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
+                {
+                    foreach (string node in grid_field_set)
+                    {
+                        try
+                        {
+                            object val = grid_item_row[path_to_node_map[node].name];
+
+                            if (de_identified_set.Contains(node))
+                            {
+                                val = null;
+                            }
+
+                            if (val != null)
+                            {
+                                string file_field_name = path_to_field_name_map[node];
+
+                                if (path_to_node_map[node].type.ToLower() == "number" && !string.IsNullOrWhiteSpace(val.ToString()))
+                                {
+                                    if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
+                                    {
+                                        grid_row[file_field_name] = val;
+                                    }
+                                    else
+                                    {
+                                        grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
+                                    }
+                                }
+                                else
+                                {
+                                    if
+                                    (
+                                        (
+                                        path_to_node_map[path].type.ToLower() == "textarea" ||
+                                        path_to_node_map[path].type.ToLower() == "string"
+                                        ) &&
+                                        val.ToString().Length > max_qualitative_length
+                                    )
+                                    {
+                                        WriteQualitativeData
+                                        (
+                                            mmria_case_id,
+                                            path,
+                                            val?.ToString(),
+                                            i,
+                                            parent_record_index
+                                        );
+
+                                        val = over_limit_message;
+                                    }
+
+                                    if (path_to_csv_writer[grid_name].Table.Columns.Contains(file_field_name))
+                                    {
+                                        grid_row[file_field_name] = val;
+                                    }
+                                    else
+                                    {
+                                        grid_row[$"{file_field_name}_{path_to_int_map[node].ToString()}"] = val;
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                        }
+                    }
+                }
+                path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
             }
-            path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
         }
-    }
     }
 
 }
@@ -1041,73 +1040,73 @@ private string convert_path_to_field_name(string p_path, Dictionary<string, int>
 
     for (int i = 0; i < temp.Length; i++)
     {
-    string[] temp2 = temp[i].Split('_');
-    for (int j = 0; j < temp2.Length; j++)
-    {
-        if (i == 0 && form_prefix < 3 && i != temp.Length - 1)
+        string[] temp2 = temp[i].Split('_');
+        for (int j = 0; j < temp2.Length; j++)
         {
-        if (!string.IsNullOrWhiteSpace(temp2[j]))
-        {
-            result.Append(temp2[j][0]);
-            is_added_item = true;
-        }
-        form_prefix++;
-        }
-        else if (i == temp.Length - 1)
-        {
-        if (j == 0 && result.Length != 0 && j < temp2.Length - 1)
-        {
-            result.Append("_");
-            if (!string.IsNullOrWhiteSpace(temp2[j]))
+            if (i == 0 && form_prefix < 3 && i != temp.Length - 1)
             {
-            result.Append(temp2[j][0]);
-            is_added_item = true;
+                if (!string.IsNullOrWhiteSpace(temp2[j]))
+                {
+                    result.Append(temp2[j][0]);
+                    is_added_item = true;
+                }
+                form_prefix++;
+            }
+            else if (i == temp.Length - 1)
+            {
+                if (j == 0 && result.Length != 0 && j < temp2.Length - 1)
+                {
+                    result.Append("_");
+                    if (!string.IsNullOrWhiteSpace(temp2[j]))
+                    {
+                        result.Append(temp2[j][0]);
+                        is_added_item = true;
+                    }
+                }
+                else if (j < temp2.Length - 1)
+                {
+                    if (!string.IsNullOrWhiteSpace(temp2[j]))
+                    {
+                        result.Append(temp2[j][0]);
+                        is_added_item = true;
+                    }
+                }
+                else
+                {
+                    result.Append("_");
+                    if (temp2[j].Length > 5)
+                    {
+                        result.Append(temp2[j].Substring(0, 5));
+                    }
+                    else
+                    {
+                        result.Append(temp2[j]);
+                    }
+
+                    /*
+                    result_value = result.ToString();
+                    if(path_to_field_name_map.ContainsKey(p_path))
+                    {
+                        path_to_field_name_map[p_path] = result_value;
+                    }
+                    else
+                    {
+                        path_to_field_name_map.Add(p_path, result_value);
+                    }
+
+                    return result_value;
+                    */
+                }
+
+
+
+            }
+            else if (!string.IsNullOrWhiteSpace(temp2[j]))
+            {
+                result.Append(temp2[j][0]);
+                is_added_item = true;
             }
         }
-        else if (j < temp2.Length - 1)
-        {
-            if (!string.IsNullOrWhiteSpace(temp2[j]))
-            {
-            result.Append(temp2[j][0]);
-            is_added_item = true;
-            }
-        }
-        else
-        {
-            result.Append("_");
-            if (temp2[j].Length > 5)
-            {
-            result.Append(temp2[j].Substring(0, 5));
-            }
-            else
-            {
-            result.Append(temp2[j]);
-            }
-
-            /*
-                        result_value = result.ToString();
-                        if(path_to_field_name_map.ContainsKey(p_path))
-                        {
-                            path_to_field_name_map[p_path] = result_value;
-                        }
-                        else
-                        {
-                            path_to_field_name_map.Add(p_path, result_value);
-                        }
-
-                        return result_value;
-                        */
-        }
-
-
-
-        }
-        else if (!string.IsNullOrWhiteSpace(temp2[j]))
-        {
-        result.Append(temp2[j][0]);
-        is_added_item = true;
-        }
-    }
     }
 
     result_value = result.ToString();
@@ -1115,14 +1114,14 @@ private string convert_path_to_field_name(string p_path, Dictionary<string, int>
     var test_result = get_sass_name(this.current_metadata, "/" + p_path, "");
     if (test_result != null)
     {
-    result_value = test_result;
+        result_value = test_result;
     }
 
     if (path_to_field_name_map.ContainsValue(result_value))
     {
-    //path_to_field_name_map[p_path] = result_value;
-    result_value = result_value + "_" + p_path_to_int_map[p_path];
-    //path_to_field_name_map.Add(p_path, result_value + "_" + p_path_to_int_map[p_path]);
+        //path_to_field_name_map[p_path] = result_value;
+        result_value = result_value + "_" + p_path_to_int_map[p_path];
+        //path_to_field_name_map.Add(p_path, result_value + "_" + p_path_to_int_map[p_path]);
     }
 
     path_to_field_name_map.Add(p_path, result_value);
@@ -1134,12 +1133,12 @@ private string get_sass_name(mmria.common.metadata.app p_metadata, string p_sear
     string result = null;
     for (var i = 0; i < p_metadata.children.Length; i++)
     {
-    var child = p_metadata.children[i];
-    result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
-    if (result != null)
-    {
-        break;
-    }
+        var child = p_metadata.children[i];
+        result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
+        if (result != null)
+        {
+            break;
+        }
     }
 
     return result;
@@ -1149,31 +1148,31 @@ private string get_sass_name(mmria.common.metadata.node p_metadata, string p_sea
     string result = null;
     switch (p_metadata.type.ToLower())
     {
-    case "app":
-    case "form":
-    case "group":
-    case "grid":
-        for (var i = 0; i < p_metadata.children.Length; i++)
-        {
-        var child = p_metadata.children[i];
-        result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
-        if (result != null)
-        {
+        case "app":
+        case "form":
+        case "group":
+        case "grid":
+            for (var i = 0; i < p_metadata.children.Length; i++)
+            {
+                var child = p_metadata.children[i];
+                result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
+                if (result != null)
+                {
+                    break;
+                }
+            }
             break;
-        }
-        }
-        break;
-    default:
-        if
-        (
-        p_metadata.sass_export_name != null &&
-        p_metadata.sass_export_name != "" &&
-        p_search_path == p_path
-        )
-        {
-        result = p_metadata.sass_export_name;
-        }
-        break;
+        default:
+            if
+            (
+                p_metadata.sass_export_name != null &&
+                p_metadata.sass_export_name != "" &&
+                p_search_path == p_path
+            )
+            {
+                result = p_metadata.sass_export_name;
+            }
+            break;
     }
     return result;
 
@@ -1193,66 +1192,65 @@ private void create_header_row
 {
     if (p_Table.Columns.Count > 0)
     {
-    return;
+        return;
     }
 
     System.Data.DataColumn column = null;
     // create header row
     if (p_add_id)
     {
-    column = new System.Data.DataColumn("_id", typeof(string));
-    p_Table.Columns.Add(column);
+        column = new System.Data.DataColumn("_id", typeof(string));
+        p_Table.Columns.Add(column);
     }
 
     if (p_add_record_index)
     {
-    column = new System.Data.DataColumn("_record_index", typeof(long));
-    p_Table.Columns.Add(column);
+        column = new System.Data.DataColumn("_record_index", typeof(long));
+        p_Table.Columns.Add(column);
     }
 
     if (p_add_parent_record_index)
     {
-    column = new System.Data.DataColumn("_parent_record_index", typeof(long));
-    p_Table.Columns.Add(column);
+        column = new System.Data.DataColumn("_parent_record_index", typeof(long));
+        p_Table.Columns.Add(column);
     }
 
     List<string> ordered_column_list = this.Core_Element_Paths;
 
     for (int i = 0; i < ordered_column_list.Count; i++)
     {
-    string path = ordered_column_list[i];
+        string path = ordered_column_list[i];
 
-    if (!p_path_to_csv_set.Contains(path))
-    {
-        continue;
-    }
+        if (!p_path_to_csv_set.Contains(path))
+        {
+            continue;
+        }
 
+        if (!p_path_to_int_map.ContainsKey(path))
+        {
+            continue;
+        }
 
-    if (!p_path_to_int_map.ContainsKey(path))
-    {
-        continue;
-    }
+        string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
+        switch (p_path_to_node_map[path].type.ToLower())
+        {
+            case "app":
+            case "form":
+            case "group":
+            case "grid":
 
-    string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
-    switch (p_path_to_node_map[path].type.ToLower())
-    {
-        case "app":
-        case "form":
-        case "group":
-        case "grid":
+            continue;
+            case "number":
+            column = new System.Data.DataColumn(file_field_name, typeof(double));
 
-        continue;
-        case "number":
-        column = new System.Data.DataColumn(file_field_name, typeof(double));
+            break;
+            default:
 
-        break;
-        default:
+            column = new System.Data.DataColumn(file_field_name, typeof(string));
+            break;
 
-        column = new System.Data.DataColumn(file_field_name, typeof(string));
-        break;
-
-    }
-    p_Table.Columns.Add(column);
+        }
+        p_Table.Columns.Add(column);
     }
 }
 
@@ -1281,14 +1279,14 @@ private void generate_path_map
 
     if (p_metadata.children != null)
     {
-    IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
+        IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
-    if (children != null)
+        if (children != null)
         for (var i = 0; i < children.Count; i++)
         {
-        var child = children[i];
+            var child = children[i];
 
-        generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, false, p_multi_form_to_grid_map, false, p_path_to_flat_map);
+            generate_path_map(child, child.name, p_file_name, p_form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, false, p_multi_form_to_grid_map, false, p_path_to_flat_map);
         }
     }
 }
@@ -1355,40 +1353,40 @@ private void generate_path_map
     }
     else
     {
-    is_grid = p_is_grid_context;
+        is_grid = p_is_grid_context;
     }
 
     if (p_metadata.type.ToLower() == "form" && (p_metadata.cardinality == "*" || p_metadata.cardinality == "+"))
     {
 
-    is_flat_map = false;
-    file_name = this.convert_path_to_file_name(p_path);
-    form_path = p_path;
-    is_multiform = true;
-    p_path_to_multi_form_map.Add(p_path, file_name);
+        is_flat_map = false;
+        file_name = this.convert_path_to_file_name(p_path);
+        form_path = p_path;
+        is_multiform = true;
+        p_path_to_multi_form_map.Add(p_path, file_name);
     }
     else
     {
-    is_multiform = p_is_multiform_context;
+        is_multiform = p_is_multiform_context;
     }
 
     if (is_flat_map && !(is_multiform || is_grid || p_is_grid_context || p_is_multiform_context))
     {
-    p_path_to_flat_map.Add(p_path);
+        p_path_to_flat_map.Add(p_path);
     }
 
     p_path_to_file_name_map.Add(p_path, file_name);
 
     if (p_metadata.children != null)
     {
-    IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
+        IList<mmria.common.metadata.node> children = p_metadata.children as IList<mmria.common.metadata.node>;
 
-    if (children != null)
+        if (children != null)
         for (var i = 0; i < children.Count; i++)
         {
-        var child = children[i];
+            var child = children[i];
 
-        generate_path_map(child, p_path + "/" + child.name, file_name, form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, is_multiform, p_multi_form_to_grid_map, is_grid, p_path_to_flat_map);
+            generate_path_map(child, p_path + "/" + child.name, file_name, form_path, p_path_to_int_map, p_path_to_file_name_map, p_path_to_node_map, p_path_to_grid_map, p_path_to_multi_form_map, is_multiform, p_multi_form_to_grid_map, is_grid, p_path_to_flat_map);
         }
     }
 }
@@ -1403,20 +1401,20 @@ private string convert_path_to_file_name(string p_path)
     string[] temp = p_path.Split('/');
     for (int i = 0; i < temp.Length - 1; i++)
     {
-    string[] temp2 = temp[i].Split('_');
-    for (int j = 0; j < temp2.Length; j++)
-    {
-        if (!string.IsNullOrWhiteSpace(temp2[j]))
+        string[] temp2 = temp[i].Split('_');
+        for (int j = 0; j < temp2.Length; j++)
         {
-        result.Append(temp2[j][0]);
-        is_added_item = true;
+            if (!string.IsNullOrWhiteSpace(temp2[j]))
+            {
+                result.Append(temp2[j][0]);
+                is_added_item = true;
+            }
         }
-    }
     }
 
     if (is_added_item)
     {
-    result.Append("_");
+        result.Append("_");
     }
     result.Append(temp[temp.Length - 1]);
     //result.Append(".csv");
@@ -1424,7 +1422,7 @@ private string convert_path_to_file_name(string p_path)
     string value = result.ToString();
     if (value.Length > 32)
     {
-    value = value.Substring(value.Length - 32, 32);
+        value = value.Substring(value.Length - 32, 32);
     }
 
     return value + ".csv";
@@ -1439,17 +1437,17 @@ private void process_case_row
 {
     foreach (KeyValuePair<string, object> kvp in case_row)
     {
-    if (kvp.Value is IList<object>)
-    {
-    }
-    else if (kvp.Value is IDictionary<string, object>)
-    {
+        if (kvp.Value is IList<object>)
+        {
+        }
+        else if (kvp.Value is IDictionary<string, object>)
+        {
 
-    }
-    else
-    {
-        //string val = this.get_value(
-    }
+        }
+        else
+        {
+            //string val = this.get_value(
+        }
     }
 }
 
@@ -1472,7 +1470,7 @@ public object get_value(IDictionary<string, object> p_object, string p_path, boo
 
     if (de_identified_set.Contains(de_identified_path))
     {
-    return result;
+        return result;
     }
 
     /*
@@ -1483,77 +1481,74 @@ public object get_value(IDictionary<string, object> p_object, string p_path, boo
 
     try
     {
-    string[] path = p_path.Split('/');
+        string[] path = p_path.Split('/');
 
-    System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
+        System.Text.RegularExpressions.Regex number_regex = new System.Text.RegularExpressions.Regex(@"^\d+$");
 
-    //IDictionary<string, object> index = p_object;
-    object index = p_object;
+        //IDictionary<string, object> index = p_object;
+        object index = p_object;
 
-    if (index != null)
+        if (index != null)
         for (int i = 0; i < path.Length; i++)
         {
-        switch (index)
-        {
-
-            case IDictionary<string, object> val:
-            if (i == path.Length - 1)
+            switch (index)
             {
-                if (val != null && val.ContainsKey(path[i]))
-                {
 
-                result = ((IDictionary<string, object>)val)[path[i]];
-                }
-                else if (p_is_grid)
+                case IDictionary<string, object> val:
+                if (i == path.Length - 1)
                 {
-                result = index;
+                    if (val != null && val.ContainsKey(path[i]))
+                    {
+
+                        result = ((IDictionary<string, object>)val)[path[i]];
+                    }
+                    else if (p_is_grid)
+                    {
+                        result = index;
+                    }
+                    else
+                    {
+                    //result = index;
+                    }
+
+                }
+                else if (val != null && val.ContainsKey(path[i]))
+                {
+                    if (val[path[i]] is List<object>)
+                    {
+                        index = val[path[i]] as List<object>;
+                    }
+                    else if (val[path[i]] is IList<object>)
+                    {
+                        index = val[path[i]] as IList<object>;
+                    }
+                    else if (val[path[i]] is IDictionary<string, object>)
+                    {
+                        index = val[path[i]] as IDictionary<string, object>;
+                    }
+                    else
+                    {
+                    //System.Console.WriteLine("This should not happen. {0}", p_path);
+                    }
+                }
+
+                break;
+
+                case IList<object> val:
+                if (number_regex.IsMatch(path[i]))
+                {
+                    int item_index = int.Parse(path[i]);
+                    if (val != null && val.Count > item_index)
+                    {
+                        index = val[item_index] as IDictionary<string, object>;
+                    }
                 }
                 else
                 {
-                //result = index;
+                    //System.Console.WriteLine("This should not happen. {0}", p_path);
                 }
-
+                break;
             }
-            else if (val != null && val.ContainsKey(path[i]))
-            {
-
-                if (val[path[i]] is List<object>)
-                {
-                index = val[path[i]] as List<object>;
-                }
-                else if (val[path[i]] is IList<object>)
-                {
-                index = val[path[i]] as IList<object>;
-                }
-                else if (val[path[i]] is IDictionary<string, object>)
-                {
-                index = val[path[i]] as IDictionary<string, object>;
-                }
-                else
-                {
-                //System.Console.WriteLine("This should not happen. {0}", p_path);
-                }
-            }
-
-            break;
-
-            case IList<object> val:
-            if (number_regex.IsMatch(path[i]))
-            {
-
-                int item_index = int.Parse(path[i]);
-                if (val != null && val.Count > item_index)
-                {
-                index = val[item_index] as IDictionary<string, object>;
-                }
-
-            }
-            else
-            {
-                //System.Console.WriteLine("This should not happen. {0}", p_path);
-            }
-            break;
-        }
 
         }
     }
@@ -1567,7 +1562,8 @@ public object get_value(IDictionary<string, object> p_object, string p_path, boo
 }
 
 
-private void WriteQualitativeData(
+private void WriteQualitativeData
+(
     string p_record_id, 
     string p_mmria_path, 
     string p_data, int p_index, 
@@ -1580,25 +1576,25 @@ private void WriteQualitativeData(
 
     switch (p_mmria_path.Trim().ToLower())
     {
-    case "case_narrative/case_opening_overview":
-        index = 1;
-        break;
-    case "informant_interviews/interview_narrative":
-        index = 2;
-        break;
-    default:
-        index = 0;
-        break;
+        case "case_narrative/case_opening_overview":
+            index = 1;
+            break;
+        case "informant_interviews/interview_narrative":
+            index = 2;
+            break;
+        default:
+            index = 0;
+            break;
     }
 
 
     if (this.qualitativeStreamCount[index] == 0)
     {
-    this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
     }
     else
     {
-    this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+        this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
     }
     this.qualitativeStreamCount[index] += 1;
 }
@@ -1608,33 +1604,33 @@ private void get_core_element_list(ref List<string> p_list, mmria.common.metadat
 {
     switch (p_node.type.ToLowerInvariant())
     {
-    case "group":
-    case "grid":
-        foreach (var child in p_node.children)
-        {
-        get_core_element_list(ref p_list, child, p_path + "/" + p_node.name);
-        }
-        break;
-    case "form":
-        foreach (var child in p_node.children)
-        {
-        get_core_element_list(ref p_list, child, p_node.name);
-        }
-        break;
-    case "app":
-        break;
-    default:
-        if
-        (
-        p_node.is_core_summary != null &&
-        p_node.is_core_summary.HasValue &&
-        p_node.is_core_summary.Value
-        )
-        {
-        p_list.Add(p_path + "/" + p_node.name);
-        }
+        case "group":
+        case "grid":
+            foreach (var child in p_node.children)
+            {
+                get_core_element_list(ref p_list, child, p_path + "/" + p_node.name);
+            }
+            break;
+        case "form":
+            foreach (var child in p_node.children)
+            {
+                get_core_element_list(ref p_list, child, p_node.name);
+            }
+            break;
+        case "app":
+            break;
+        default:
+            if
+            (
+                p_node.is_core_summary != null &&
+                p_node.is_core_summary.HasValue &&
+                p_node.is_core_summary.Value
+            )
+            {
+                p_list.Add(p_path + "/" + p_node.name);
+            }
 
-        break;
+            break;
     }
 }
 
@@ -1649,7 +1645,7 @@ private void get_core_element_list(mmria.common.metadata.app p_metadata)
 
     foreach (var child in p_metadata.children)
     {
-    get_core_element_list(ref this.Core_Element_Paths, child, "");
+        get_core_element_list(ref this.Core_Element_Paths, child, "");
     }
 }
 
