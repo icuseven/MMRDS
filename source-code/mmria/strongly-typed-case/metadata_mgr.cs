@@ -196,7 +196,7 @@ public class metadata_mgr
 			{
 				if(current_type == "grid")
 				{
-					get_metadata_node(ref p_result, node, p_is_multiform, true, p_path + "/" + node.name);
+					get_metadata_node(ref p_result, node, p_is_multiform, true      , p_path + "/" + node.name);
 				}
 				else
 				{
@@ -301,7 +301,7 @@ public class metadata_mgr
 			WriteAttribute(child, "", source_code_builder);	
 		}
 
-		source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
+		source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
 
 		foreach(var child in value.children)
 		{
@@ -378,7 +378,7 @@ namespace mmria.case_version.v1;");
 					}
 
 
-					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
 
 					foreach(var child in value.children)
 					{
@@ -415,7 +415,7 @@ namespace mmria.case_version.v1;");
 						WriteAttribute(child, current_path, source_code_builder);	
 					}
 
-					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement value)\n\t{");	
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
 
 					foreach(var child in value.children)
 					{
@@ -450,6 +450,15 @@ namespace mmria.case_version.v1;");
 					{
 						WriteAttribute(child, current_path, source_code_builder);
 					}
+
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
+
+					foreach(var child in value.children)
+					{
+						WriteFromExpando(child, current_path, source_code_builder);	
+					}
+
+					source_code_builder.AppendLine("\t}");
 					
 					source_code_builder.AppendLine("}");
 
@@ -477,6 +486,15 @@ namespace mmria.case_version.v1;");
 					{
 						WriteAttribute(child, current_path, source_code_builder);	
 					}
+
+					source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
+
+					foreach(var child in value.children)
+					{
+						WriteFromExpando(child, current_path, source_code_builder);	
+					}
+
+					source_code_builder.AppendLine("\t}");
 
 					source_code_builder.AppendLine("}");
 
@@ -769,18 +787,18 @@ GridList
 					value.cardinality == "*"
 				)
 				{
-					builder.AppendLine($"\t\t{name} = mmria_case.GetMultiFormField<_{dictionary_set[current_path].hash_value}>(value, \"{name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetMultiFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
 				}
 				else
 				{
-					builder.AppendLine($"\t\t{name} = mmria_case.GetFormField<_{dictionary_set[current_path].hash_value}>(value, \"{name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetFormField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
 				}
 			break;
 			case "group":
-					//builder.AppendLine($"\t\t{name} = GetStringField(value, \"{name}\");");
+					builder.AppendLine($"\t\t{name} = mmria_case.GetGroupField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
 			break;
 			case "grid":
-				//builder.AppendLine($"\t\t{name} = GetStringField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetGridField<_{dictionary_set[current_path].hash_value}>(p_value, \"{value.name}\");");
 				break;
 			case "list":
 				var list_data_type = "string";
@@ -793,22 +811,22 @@ GridList
 				{
 					if(list_data_type == "double")
 					{					
-						builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectNumberListField(value, \"{name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetMultiSelectNumberListField(p_value, \"{value.name}\");");
 					}
 					else
 					{
-						builder.AppendLine($"\t{name} = mmria_case.GetMultiSelectStringListField(value, \"{name}\");");
+						builder.AppendLine($"t\t{name} = mmria_case.GetMultiSelectStringListField(p_value, \"{value.name}\");");
 					}
 				}
 				else
 				{
 					if(list_data_type == "double")
 					{	
-						builder.AppendLine($"\t{name} = mmria_case.GetNumberListField(value, \"{name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetNumberListField(p_value, \"{value.name}\");");
 					}
 					else
 					{
-						builder.AppendLine($"\t{name} = mmria_case.GetStringListField(value, \"{name}\");");
+						builder.AppendLine($"\t\t{name} = mmria_case.GetStringListField(p_value, \"{value.name}\");");
 					}
 					
 				}
@@ -817,32 +835,32 @@ GridList
 
 			
 			case "string":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetStringField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetStringField(p_value, \"{value.name}\");");
 				break;
 			case "jurisdiction":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(p_value, \"{value.name}\");");
 				break;
 			case "hidden":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\");");
 				break;
 			case "textarea":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(p_value, \"{value.name}\");");
 				break;
 			case "date":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetDateField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateField(p_value, \"{value.name}\");");
 				break;
 			case "number":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(p_value, \"{value.name}\");");
 				break;
 		
 			
 			case "time":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetTimeField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetTimeField(p_value, \"{value.name}\");");
 				break;
 			case "datetime":
 
 				
-				builder.AppendLine($"\t\t{name} = mmria_case.GetDateTimeField(value, \"{name}\");");
+				builder.AppendLine($"\t\t{name} = mmria_case.GetDateTimeField(p_value, \"{value.name}\");");
 				break;
 			
 			case "label":

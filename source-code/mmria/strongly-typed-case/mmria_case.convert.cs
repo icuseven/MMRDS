@@ -6,7 +6,7 @@ namespace mmria.case_version.v1;
 
 public interface IConvertDictionary
 {
-    public void Convert(System.Text.Json.JsonElement value);
+    public void Convert(System.Text.Json.JsonElement p_value);
 }
 
 
@@ -238,6 +238,7 @@ public sealed partial class mmria_case
         return result;
     }
 
+
     public static List<T>?  GetMultiFormField<T>(System.Text.Json.JsonElement value, string key) where T : new()
     {
         List<T>? result = null;
@@ -274,6 +275,79 @@ public sealed partial class mmria_case
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine("GetFormField");
+        }
+
+
+        return result;
+    }
+    public static T?  GetGroupField<T>(System.Text.Json.JsonElement p_value, string key) where T :new()
+    {
+        T result = default(T);
+        if
+        (
+            p_value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Object
+        )
+        {
+            result = new T();
+            var con = result as IConvertDictionary;
+            if(con != null)
+            {
+                con.Convert(new_value);
+            }
+            else
+            {
+                System.Console.WriteLine("GetGroupField");
+            }
+            
+        }
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+        {
+            System.Console.WriteLine("GetGroupField");
+        }
+
+
+
+        return result;
+    }
+
+
+    public static List<T>?  GetGridField<T>(System.Text.Json.JsonElement p_value, string key) where T : new()
+    {
+        List<T>? result = null;
+
+        if
+        (
+            p_value.TryGetProperty(key, out var new_value) &&
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
+        {
+            result = new();
+
+            var max_index = new_value.GetArrayLength();
+            for(var i = 0; i < max_index; i++)
+            {
+                var item = new_value[i];
+
+                var new_t = new T();
+                
+                var con = new_t as IConvertDictionary;
+                if(con != null)
+                {
+                    con.Convert(item);
+
+                    result.Add(new_t);
+                }
+                else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+                {
+                    System.Console.WriteLine("GetGridField");
+                }
+            }
+            
+        }
+        else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+        {
+            System.Console.WriteLine("GetGridField");
         }
 
 
