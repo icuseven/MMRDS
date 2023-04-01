@@ -444,9 +444,10 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
     td(item.last_updated_by);
     td(item.file_name);
     td(item.export_type);
-    const inQueue = item.status.includes('Queue');
+    const inQueue = item.status.includes('Queue') && !item.status.includes("Queue Failed");
     const creating = item.status.includes('Creating');
-    if (inQueue || creating) {
+    if (inQueue || creating) 
+    {
       td(
         `<span class="spinner-container spinner-small spinner-active">
 						<span class="spinner-body text-primary">
@@ -455,8 +456,15 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 						</span>
 					</span>`
       );
-    } else {
-      td(item.status);
+    } 
+    else 
+    {
+        let queue_status = item.status;
+        if(queue_status.length > 100)
+        {
+            queue_status = queue_status.substr(0, 100);
+        }
+      td(queue_status);
     }
     function getButtons() {
       function buttonEl(value) 
