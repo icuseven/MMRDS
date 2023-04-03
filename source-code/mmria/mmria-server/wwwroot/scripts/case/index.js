@@ -6296,6 +6296,11 @@ autocalc_map.safe_set("/home_record/date_of_death/month", arc_birth_2_death);
 autocalc_map.safe_set("/home_record/date_of_death/day", arc_birth_2_death);
 
 
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month", arc_birth_2_death);
+autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_2_death);
+
+/*
 function arc_birth_2_death() 
 {
     var days = null;
@@ -6313,7 +6318,7 @@ function arc_birth_2_death()
         g_data.birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = days;
         $mmria.set_control_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", days);
     }
-}
+}*/
 
 //CALCULATE POST-PARTUM DAYS ON ER-HOSPITAL FORM AT ARRIVAL
 /*
