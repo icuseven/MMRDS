@@ -466,7 +466,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
         }
       td(queue_status);
     }
-    function getButtons() {
+    function getButtons() 
+    {
       function buttonEl(value) 
       {
         if 
