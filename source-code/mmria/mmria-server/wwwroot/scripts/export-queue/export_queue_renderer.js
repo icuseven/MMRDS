@@ -535,7 +535,8 @@ function renderSummarySection(el = undefined)
   );
 }
 
-function export_queue_comfirm_render(p_answer_summary) {
+function export_queue_comfirm_render(p_answer_summary) 
+{
   var result = `
 		<div id="answer-summary-card" class="card">
 			<div class="card-header bg-gray-l3">
@@ -594,7 +595,8 @@ function export_queue_comfirm_render(p_answer_summary) {
 }
 
 // Function returned after promise to update/set answer_summary to new value
-function updateSummarySection(event) {
+function updateSummarySection(event) 
+{
   const tar = event.target;
   const prop = tar.dataset.prop;
   const val = tar.value;
@@ -604,7 +606,8 @@ function updateSummarySection(event) {
   let path;
 
   // if prop doesn't have path
-  if (prop.indexOf('/') < 0) {
+  if (prop.indexOf('/') < 0) 
+  {
     el.forEach((i) => {
       i.innerText = capitalizeFirstLetter(val);
     });
@@ -627,8 +630,10 @@ function updateSummarySection(event) {
       case 'case_jurisdiction':
         const cj_opts = tar.options;
         let cj_html = '';
-        for (let i = 0; i < cj_opts.length; i++) {
-          if (cj_opts[i].selected) {
+        for (let i = 0; i < cj_opts.length; i++) 
+        {
+          if (cj_opts[i].selected) 
+          {
             cj_html += '<li>';
             cj_html += cj_opts[i].text;
             cj_html += '</li>';
@@ -646,7 +651,8 @@ function updateSummarySection(event) {
 }
 
 // Function returned after promise to update/set answer_summary to new value
-function handleElementDisplay(event, str) {
+function handleElementDisplay(event, str) 
+{
   const prop = event.target.dataset.prop;
   const tars = document.querySelectorAll(`[data-show='${prop}']`);
 
@@ -668,15 +674,18 @@ function handleElementDisplay(event, str) {
 }
 
 // Class to dynamically create a new 'numeric' dropdown
-class NumericDropdown {
-  constructor(type) {
+class NumericDropdown 
+{
+  constructor(type) 
+  {
     this.type = type;
     this.iterator = 1;
     this.condition = 1;
     this.opts = '<option value="all" selected>All</option>'; // options should be 'All' by default
   }
 
-  buildNumericDropdown() {
+  buildNumericDropdown() 
+  {
     // based on case type, we change iterator and/or condition
     switch (this.type) {
       case 'y':
@@ -695,7 +704,8 @@ class NumericDropdown {
     }
 
     // iterate through iterator and condition to build the options
-    for (let i = this.iterator; i <= this.condition; i++) {
+    for (let i = this.iterator; i <= this.condition; i++) 
+    {
       this.opts += `<option value='${i}'>`;
       this.opts += i;
       this.opts += '</option>';
