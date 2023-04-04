@@ -109,7 +109,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
             System.IO.File.WriteAllText
             (
                 download_directory + "/download-log.txt", 
-                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)} => {ToBeginDateTimeRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)} => {ToEndDateTimeRequestString(message.EndDate)}\nsuccess:{OneMailBoxResult.SuccessCount} errors:{OneMailBoxResult.ErrorList.Count}\n{string.Join('\n', OneMailBoxResult.ErrorList)}"
+                $"STEVE Mailbox:{message.Mailbox}\nBeginDate:{ToRequestString(message.BeginDate)} => {ToBeginDateTimeRequestString(message.BeginDate)}\nEndDate:{ToRequestString(message.EndDate)} => {ToEndDateTimeRequestString(message.EndDate)}\nsuccess:{OneMailBoxResult.SuccessCount} errors:{OneMailBoxResult.ErrorList.Count} warnings:{OneMailBoxResult.WarningList.Count}\n\nErrors:\n{string.Join('\n', OneMailBoxResult.ErrorList)}\n\nWarnings:\n{string.Join('\n', OneMailBoxResult.WarningList)}"
             );
 
 
@@ -277,7 +277,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
                             }
                             catch(Exception ex)
                             {
-                                result.ErrorList.Add($"Warning file downloaded, but error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
+                                result.WarningList.Add($"Warning file downloaded, but error marking as read {message_path} => {ex.Message} url: {mark_as_read_message_url}");
                             }
                         }
                    
@@ -293,6 +293,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
         public OneMailBoxResult(){}
         public int SuccessCount {get;set;}
         public List<string> ErrorList {get;set;} = new();
+        public List<string> WarningList {get;set;} = new();
     }
     string ToRequestString(DateTime value)
     {
