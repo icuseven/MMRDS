@@ -62,7 +62,11 @@ async function main()
     for (let i in my_role_list_response.rows) 
     {
         let value = my_role_list_response.rows[i].value;
-        if(value.role_name=="abstractor")
+        if
+        (
+            value.role_name=="abstractor" ||
+            value.role_name=="data_analyst"
+        )
         {
             g_user_role_case_folder_list.push(value.jurisdiction_id);
         }
