@@ -269,9 +269,18 @@ async function print_pdf(ctx) {
 					recLenArr.push({ s: startPage, e: endPage, p: header });
 				}
 
+
+
 				// Set the header title
 				let index = recLenArr.findIndex(item => ((currentPage >= item.s) && (currentPage <= item.e)));
-				g_writeText = recLenArr[index].p;
+				if(index > -1)
+                {
+                    g_writeText = recLenArr[index].p;
+                }
+                else
+                {
+                    //debugger;
+                }
 			}
 			else if (g_section_name == 'core-summary') {
 				g_writeText = 'CORE SUMMARY';
