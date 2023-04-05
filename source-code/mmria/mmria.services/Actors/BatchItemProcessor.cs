@@ -4354,21 +4354,21 @@ GNAME 27 50
                 case 0:
                     break;
                 case 1:
-                    value = $"00:0{value}:00";
+                    result = $"00:0{value}:00";
                     break;
                 case 2:
-                    value = $"00:{value}:00";
+                    result = $"00:{value}:00";
                     break;
                 case 3:
-                    value = $"0{value[0]}:{value[1..2]}:00";
+                    result = $"0{value[0]}:{value[1..2]}:00";
                     break;
                 case 4:
-                    value = $"{value[0..1]}:{value[2..3]}:00";
+                    result = $"{value[0..1]}:{value[2..3]}:00";
                     break;
 
 
                 default:
-                    result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
+                    //result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
                     break;
             }
         }
