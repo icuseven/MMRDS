@@ -1884,9 +1884,9 @@ public sealed class BatchItemProcessor : ReceiveActor
                         get_geocode_info
                         (
                             field_set["ADDRESS_D"],
-                            field_set["CITYTXT"],
-                            field_set["STATEC"],
-                            field_set["ZIPCODE"]
+                            field_set["CITY_D"],
+                            "", //field_set["STATEC"],
+                            field_set["ZIPCODE_D"]
                         ), 
                         new_case
                     );
