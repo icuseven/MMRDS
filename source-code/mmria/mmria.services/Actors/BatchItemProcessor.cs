@@ -1163,11 +1163,19 @@ public sealed class BatchItemProcessor : ReceiveActor
                 new_case
             );
 
-            gs.set_value(IJE_to_MMRIA_Path["PLACE_OF_LAST_RESIDENCE_street"], PLACE_OF_LAST_RESIDENCE_street_Rule(mor_field_set["STNUM_R"]
-                                                                                , mor_field_set["PREDIR_R"]
-                                                                                , mor_field_set["STNAME_R"]
-                                                                                , mor_field_set["STDESIG_R"]
-                                                                                , mor_field_set["POSTDIR_R"]), new_case);
+            gs.set_value
+            (
+                IJE_to_MMRIA_Path["PLACE_OF_LAST_RESIDENCE_street"], 
+                PLACE_OF_LAST_RESIDENCE_street_Rule
+                (
+                    mor_field_set["STNUM_R"],
+                    mor_field_set["PREDIR_R"],
+                    mor_field_set["STNAME_R"],
+                    mor_field_set["STDESIG_R"],
+                    mor_field_set["POSTDIR_R"]
+                ), 
+                new_case
+            );
 
             gs.set_value(IJE_to_MMRIA_Path["UNITNUM_R"], mor_field_set["UNITNUM_R"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["CITYTEXT_R"], mor_field_set["CITYTEXT_R"], new_case);
@@ -1521,24 +1529,43 @@ public sealed class BatchItemProcessor : ReceiveActor
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MOM_MED_REC_NUM"], field_set["MOM_MED_REC_NUM"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FNPI"], field_set["FNPI"], new_case);
 
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                    , field_set["PREDIR"]
-                    , field_set["STNAME"]
-                    , field_set["STDESIG"]
-                    , field_set["POSTDIR"]), new_case);
+                    gs.set_value
+                    (
+                        Parent_NAT_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], 
+                        LOCATION_OF_RESIDENCE_street_Rule
+                        (
+                            field_set["STNUM"],
+                            field_set["PREDIR"],
+                            field_set["STNAME"],
+                            field_set["STDESIG"],
+                            field_set["POSTDIR"]
+                        ), 
+                        new_case
+                    );
 
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["METHNIC5"], field_set["METHNIC5"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["FETHNIC5"], field_set["FETHNIC5"], new_case);
 
 
-                    Set_location_of_residence_Gecocode(gs, get_geocode_info(LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"])
-                                                                                                                    , field_set["CITYTEXT"]
-                                                                                                                    , field_set["STATEC"]
-                                                                                                                    , field_set["ZIPCODE"]), new_case);
+                    Set_location_of_residence_Gecocode
+                    (
+                        gs, 
+                        get_geocode_info
+                        (
+                            LOCATION_OF_RESIDENCE_street_Rule
+                            (
+                                field_set["STNUM"],
+                                field_set["PREDIR"], 
+                                field_set["STNAME"],
+                                field_set["STDESIG"],
+                                field_set["POSTDIR"]
+                            ),
+                            field_set["CITYTEXT"],
+                            field_set["STATEC"],
+                            field_set["ZIPCODE"]
+                        ), 
+                        new_case
+                    );
 
 
                     birth_2_death(gs, new_case, field_set["IDOB_YR"], field_set["IDOB_MO"], field_set["IDOB_DY"]
@@ -1817,25 +1844,52 @@ public sealed class BatchItemProcessor : ReceiveActor
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ATTEND_OTH_TXT"], field_set["ATTEND_OTH_TXT"], new_case);
 
 
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"]), new_case);
+                    gs.set_value
+                    (
+                        Parent_FET_IJE_to_MMRIA_Path["LOCATION_OF_RESIDENCE_street"], 
+                        FET_LOCATION_OF_RESIDENCE_street_Rule
+                        (
+                            field_set["STNUM"],
+                            field_set["PREDIR"],
+                            field_set["STNAME"],
+                            field_set["STDESIG"],
+                            field_set["POSTDIR"]
+                        ), 
+                        new_case
+                    );
 
-                    Set_location_of_residence_Gecocode(gs, get_geocode_info(FET_LOCATION_OF_RESIDENCE_street_Rule(field_set["STNUM"]
-                                                                                                                        , field_set["PREDIR"]
-                                                                                                                        , field_set["STNAME"]
-                                                                                                                        , field_set["STDESIG"]
-                                                                                                                        , field_set["POSTDIR"])
-                                                                                                                    , field_set["CITYTXT"]
-                                                                                                                    , field_set["STATEC"]
-                                                                                                                    , field_set["ZIPCODE"]), new_case);
+                    Set_location_of_residence_Gecocode
+                    (
+                        gs,
+                        get_geocode_info
+                        (
+                            FET_LOCATION_OF_RESIDENCE_street_Rule
+                            (
+                                field_set["STNUM"],
+                                field_set["PREDIR"],
+                                field_set["STNAME"],
+                                field_set["STDESIG"],
+                                field_set["POSTDIR"]
+                            ),
+                            field_set["CITYTXT"],
+                            field_set["STATEC"],
+                            field_set["ZIPCODE"]
+                        ), 
+                        new_case
+                    );
 
-                    Set_facility_of_delivery_location_Gecocode(gs, get_geocode_info(field_set["ADDRESS_D"]
-                                                                        , field_set["CITYTXT"]
-                                                                        , field_set["STATEC"]
-                                                                        , field_set["ZIPCODE"]), new_case);
+                    Set_facility_of_delivery_location_Gecocode
+                    (
+                        gs, 
+                        get_geocode_info
+                        (
+                            field_set["ADDRESS_D"],
+                            field_set["CITYTXT"],
+                            field_set["STATEC"],
+                            field_set["ZIPCODE"]
+                        ), 
+                        new_case
+                    );
 
                     birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
                         , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
