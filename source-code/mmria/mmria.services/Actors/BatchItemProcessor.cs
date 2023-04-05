@@ -1498,7 +1498,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"], ""), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["NPCES"], TryPaseToInt_00_To30(field_set["NPCES"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"], ""), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BIRTH_CO"], field_set["BIRTH_CO"], new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["BRTHCITY"], field_set["BRTHCITY"], new_case);
@@ -1792,7 +1792,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_YR"], field_set["DLMP_YR"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_MO"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_MO"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DLMP_DY"], TryPaseToIntOr_DefaultBlank(field_set["DLMP_DY"]), new_case);
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], TryPaseToIntOr_DefaultBlank(field_set["NPCES"], ""), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["NPCES"], TryPaseToInt_00_To30(field_set["NPCES"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["OWGEST"], TryPaseToIntOr_DefaultBlank(field_set["OWGEST"], ""), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["HOSP_D"], field_set["HOSP_D"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["ADDRESS_D"], field_set["ADDRESS_D"], new_case);
@@ -2680,6 +2680,23 @@ if
         string result = defaultString;
 
         if(int.TryParse(value, out int value_result))
+        {
+            result = value_result.ToString();
+        }
+
+        return result;
+    }
+
+    private string TryPaseToInt_00_To30(string value)
+    {
+        string result = "";
+
+        if
+        (
+            int.TryParse(value, out int value_result) &&
+            value_result >= 00 && 
+            value_result <= 30
+        )
         {
             result = value_result.ToString();
         }
@@ -4262,22 +4279,52 @@ GNAME 27 50
 
     private static string ConvertHHmm_To_MMRIATime(string value)
     {
-        string parsedValue;
+        string result = value;
         try
         {
-            //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
-            if (value.Length == 3)
-                value = $"0{value}";
+            /*
+                42 => 00:42:00
+                1945 => 19:45:00
+                1530 => 15:30:00
+                815 => 08:15:00
 
-            parsedValue = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
+
+                42 => 00:42
+                1945 => 19:45
+                1530 => 15:30
+                815 => 08:15
+            */
+            //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
+            switch (value.Length)
+            {
+                case 0:
+                    break;
+                case 1:
+                    value = $"00:0{value}:00";
+                    break;
+                case 2:
+                    value = $"00:{value}:00";
+                    break;
+                case 3:
+                    value = $"0{value[0]}:{value[1..2]}:00";
+                    break;
+                case 4:
+                    value = $"{value[0..1]}:{value[2..3]}:00";
+                    break;
+
+
+                default:
+                    result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
+                    break;
+            }
         }
         catch (Exception ex)
         {
             //Error parsing, eat it and put exact text in as to not lose data on import
-            parsedValue = value;
+            //result = value;
         }
 
-        return parsedValue;
+        return result;
     }
 
     
