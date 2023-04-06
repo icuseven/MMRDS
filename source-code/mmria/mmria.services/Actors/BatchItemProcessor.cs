@@ -4360,15 +4360,16 @@ GNAME 27 50
                     result = $"00:{value}:00";
                     break;
                 case 3:
-                    result = $"0{value[0]}:{value[1..2]}:00";
+                    result = $"0{value[0]}:{value[1..^0]}:00";
                     break;
                 case 4:
-                    result = $"{value[0..1]}:{value[2..3]}:00";
+                    result = $"{value[0..2]}:{value[2..^0]}:00";
                     break;
 
 
                 default:
                     //result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
+                    System.Console.Write("here");
                     break;
             }
         }
