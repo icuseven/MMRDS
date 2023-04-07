@@ -1891,8 +1891,17 @@ public sealed class BatchItemProcessor : ReceiveActor
                         new_case
                     );
 
-                    birth_2_death(gs, new_case, field_set["FDOD_YR"], field_set["FDOD_MO"], field_set["FDOD_DY"]
-                        , mor_field_set["DOD_YR"], mor_field_set["DOD_MO"], mor_field_set["DOD_DY"]);
+                    birth_2_death
+                    (
+                        gs, 
+                        new_case, 
+                        field_set["FDOD_YR"], 
+                        field_set["FDOD_MO"], 
+                        field_set["FDOD_DY"], 
+                        mor_field_set["DOD_YR"], 
+                        mor_field_set["DOD_MO"], 
+                        mor_field_set["DOD_DY"]
+                    );
 
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DSTATE"], field_set["DSTATE"], new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["DPLACE"], DPLACE_Custom_FET_Rule(field_set["DPLACE"]), new_case);
@@ -4369,7 +4378,7 @@ GNAME 27 50
 
                 default:
                     //result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
-                    System.Console.Write("here");
+                    System.Console.Write($"ConvertHHmm_To_MMRIATime unable to convert {value}");
                     break;
             }
         }

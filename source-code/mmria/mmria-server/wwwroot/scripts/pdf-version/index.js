@@ -282,11 +282,15 @@ async function print_pdf(ctx) {
                     //debugger;
                 }
 			}
-			else if (g_section_name == 'core-summary') {
+			else if (g_section_name == 'core-summary') 
+            {
 				g_writeText = 'CORE SUMMARY';
-			} else {
+			} 
+            else 
+            {
 				g_writeText = getSectionTitle(ctx.section_name);
 			}
+
 			let headerObj = [
 				{
 					margin: 10,
@@ -1035,7 +1039,8 @@ function convert_attribute_to_pdf(p_node, p_result)
 				for (let style_index = 0; style_index < style_array.length; style_index++) 
                 {
 					let kvp = style_array[style_index].split(":");
-					switch (kvp[0].trim()) {
+					switch (kvp[0].trim()) 
+                    {
 						case "text-align":
 							result['alignment'] = kvp[1].trim();
 							break;
