@@ -124,8 +124,15 @@ public sealed class v3_0_1_Migration
 			const string sep_m_occupation_code_3_path = "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3";
 
 
-
-
+			const string bcifsri_to_deliv = "birth_certificate_infant_fetal_section/record_identification/time_of_delivery";
+			const string dciai_to_injur = "death_certificate/injury_associated_information/time_of_injury";
+			const string dcci_to_death = "death_certificate/certificate_identification/time_of_death";
+/*
+"TOI_HR" "death_certificate/injury_associated_information/time_of_injury", "dciai_to_injur"
+"TOD" "death_certificate/certificate_identification/time_of_death", "dcci_to_death"
+<< multi form >>
+"TB" birth_certificate_infant_fetal_section/record_identification/time_of_delivery", "bcifsri_to_deliv"
+*/
 			var ExistingRecordIds = await GetExistingRecordIds();
 
 			string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
@@ -159,60 +166,73 @@ public sealed class v3_0_1_Migration
 					}
 
 
-					string primary_occupation = null;
-					string business_industry = null;
-
-					value_result = gs.get_value(doc, "social_and_environmental_profile/socio_economic_characteristics/occupation");
+					value_result = gs.get_value(doc, dciai_to_injur);
 					if
 					(
 						!value_result.is_error && 
 						value_result.result != null &&
-						!string.IsNullOrWhiteSpace(value_result.result.ToString())
+						isInNeedOfConversion(value_result.result.ToString())
 					)
 					{
-						primary_occupation = value_result.result.ToString();
+						var new_value = ConvertHHmm_To_MMRIATime(value_result.result.ToString());
+						case_has_changed = gs.set_value(dciai_to_injur, new_value, doc);
+						
+						var output_text = $"item id: {mmria_id} case_has_changed: Niosh updated: {case_has_changed} record_id:{mmria_record_id} ";
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
 					}
 
-					var niosh_result = get_niosh_codes
-					(
-						primary_occupation,
-						business_industry
-					);
 
-					case_has_changed = gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", "", doc);
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  "", doc);
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  "", doc);
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  "", doc);
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", "", doc);
-					case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", "", doc);
-
-
+					value_result = gs.get_value(doc, dcci_to_death);
 					if
 					(
-						!niosh_result.is_error && 
-						(
-							niosh_result.Industry.Count > 0 ||
-							niosh_result.Occupation.Count > 0 
-						)
+						!value_result.is_error && 
+						value_result.result != null &&
+						isInNeedOfConversion(value_result.result.ToString())
 					)
-					{   
-						if(niosh_result.Industry.Count > 0)                      
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code, doc);
-						if(niosh_result.Industry.Count > 1)
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code, doc);
-						if(niosh_result.Industry.Count > 2)
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code, doc);
-						if(niosh_result.Occupation.Count > 0)
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code, doc);
-						if(niosh_result.Occupation.Count > 1)
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code, doc);
-						if(niosh_result.Occupation.Count > 2)
-						case_has_changed = case_has_changed && gs.set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code, doc);
+					{
+						
+						var new_value = ConvertHHmm_To_MMRIATime(value_result.result.ToString());
+						case_has_changed = case_has_changed && gs.set_value(dcci_to_death, new_value, doc);
+
+						var output_text = $"item id: {mmria_id} case_has_changed: Niosh updated: {case_has_changed} record_id:{mmria_record_id} ";
+						this.output_builder.AppendLine(output_text);
+						Console.WriteLine(output_text);
 					}
 
-					var output_text = $"item id: {mmria_id} case_has_changed: Niosh updated: {case_has_changed} record_id:{mmria_record_id} ";
-					this.output_builder.AppendLine(output_text);
-					Console.WriteLine(output_text);
+					C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(doc, bcifsri_to_deliv);
+					if(!multiform_value_result.is_error)
+					{
+						var is_changed = false;
+						var new_list = new List<(int, object)>();
+
+						foreach(var (index, value_object) in multiform_value_result.result)
+						{
+							if
+							(
+								value_object != null &&
+								isInNeedOfConversion(value_object.ToString())
+							)
+							{
+								var new_value = ConvertHHmm_To_MMRIATime(value_object.ToString());
+								new_list.Add((index, new_value));
+								is_changed = true;
+							}
+							else
+							{
+								new_list.Add((index, value_object));
+							}
+						}
+
+						if(is_changed)
+						{
+							case_has_changed = gs.set_multiform_value(doc, bcifsri_to_deliv, new_list);
+							
+							var output_text = $"item id: {mmria_id} case_has_changed: {bcifsri_to_deliv} updated: {case_has_changed} record_id:{mmria_record_id} {string.Join(",",new_list)} ";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+						}
+					}
 
 
 
@@ -243,16 +263,15 @@ public sealed class v3_0_1_Migration
 
 	bool isInNeedOfConversion(string p_value)
 	{
-		var result = true;
+		var result = false;
 
-		if(p_value != null)
+		if(!string.IsNullOrWhiteSpace(p_value))
 		{
 			if
 			(
-				p_value.Trim() != "1"
-			)
+				p_value.IndexOf(":") < 0			)
 			{
-				result = false;
+				result = true;
 			}
 		}
 
@@ -591,5 +610,56 @@ public sealed class v3_0_1_Migration
 		configDB = value;
 		
 	}
+
+	private string ConvertHHmm_To_MMRIATime(string value)
+    {
+        string result = value;
+        try
+        {
+            /*
+                42 => 00:42:00
+                1945 => 19:45:00
+                1530 => 15:30:00
+                815 => 08:15:00
+
+
+                42 => 00:42
+                1945 => 19:45
+                1530 => 15:30
+                815 => 08:15
+            */
+            //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
+            switch (value.Length)
+            {
+                case 0:
+                    break;
+                case 1:
+                    result = $"00:0{value}:00";
+                    break;
+                case 2:
+                    result = $"00:{value}:00";
+                    break;
+                case 3:
+                    result = $"0{value[0]}:{value[1..^0]}:00";
+                    break;
+                case 4:
+                    result = $"{value[0..2]}:{value[2..^0]}:00";
+                    break;
+
+
+                default:
+                    //result = $"{value.Substring(0,2)}:{value.Substring(2,2)}";
+                    System.Console.Write("here");
+                    break;
+            }
+        }
+        catch (Exception ex)
+        {
+            //Error parsing, eat it and put exact text in as to not lose data on import
+            //result = value;
+        }
+
+        return result;
+    }
 
 }
