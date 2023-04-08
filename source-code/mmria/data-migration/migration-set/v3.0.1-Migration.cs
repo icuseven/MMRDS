@@ -233,9 +233,6 @@ public sealed class v3_0_1_Migration
 							Console.WriteLine(output_text);
 						}
 					}
-
-
-
 /*
 				if(mmria_id == "")
 				{

@@ -44,9 +44,9 @@ class Program
         //"ga",
         //"fl",
         
-        /*"fl_dev",*/
+        "fl_dev",
         //"uat",
-        "localhost",
+        /*"localhost",*/
         //"qa",
         //"test",
         //"fl_dev",
@@ -236,9 +236,9 @@ class Program
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = true;
+        bool is_test_list = false;
         
-        bool is_report_only_mode = true;
+        bool is_report_only_mode = false;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
@@ -435,7 +435,8 @@ class Program
                     var v3_0_Migration = new migrate.set.v3_0_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     await v3_0_Migration.execute();
 
-
+                    var v3_0_1_Migration = new migrate.set.v3_0_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_0_1_Migration.execute();
 
 
                 }
@@ -443,8 +444,8 @@ class Program
                 {
                     
 
-                    var v3_0_Migration = new migrate.set.v3_0_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-                    await v3_0_Migration.execute();
+                    var v3_0_1_Migration = new migrate.set.v3_0_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_0_1_Migration.execute();
 
 
                     //var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
