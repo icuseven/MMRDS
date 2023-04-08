@@ -242,7 +242,7 @@ public sealed class v3_0_1_Migration
 				
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.0");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.0.1");
 				}
 
 			}
