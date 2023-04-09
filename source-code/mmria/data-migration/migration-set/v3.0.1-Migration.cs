@@ -174,12 +174,17 @@ public sealed class v3_0_1_Migration
 						isInNeedOfConversion(value_result.result.ToString())
 					)
 					{
-						var new_value = ConvertHHmm_To_MMRIATime(value_result.result.ToString());
-						case_has_changed = gs.set_value(dciai_to_injur, new_value, doc);
-						
-						var output_text = $"item id: {mmria_id} case_has_changed: Niosh updated: {case_has_changed} record_id:{mmria_record_id} ";
-						this.output_builder.AppendLine(output_text);
-						Console.WriteLine(output_text);
+						var val = value_result.result.ToString();
+						var new_value = ConvertHHmm_To_MMRIATime(val);
+
+						if(val.Trim() != new_value.Trim())
+						{
+							case_has_changed = gs.set_value(dciai_to_injur, new_value, doc);
+							
+							var output_text = $"item id: {mmria_id} case_has_changed: {dciai_to_injur} updated: {case_has_changed} record_id:{mmria_record_id} {val} => {new_value}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+						}
 					}
 
 
@@ -191,13 +196,19 @@ public sealed class v3_0_1_Migration
 						isInNeedOfConversion(value_result.result.ToString())
 					)
 					{
-						
-						var new_value = ConvertHHmm_To_MMRIATime(value_result.result.ToString());
-						case_has_changed = case_has_changed && gs.set_value(dcci_to_death, new_value, doc);
+						var val = value_result.result.ToString();
+						var new_value = ConvertHHmm_To_MMRIATime(val);
 
-						var output_text = $"item id: {mmria_id} case_has_changed: Niosh updated: {case_has_changed} record_id:{mmria_record_id} ";
-						this.output_builder.AppendLine(output_text);
-						Console.WriteLine(output_text);
+						if(val.Trim() != new_value.Trim())
+						{
+							if( !case_has_changed ) case_has_changed = true;
+
+							case_has_changed = case_has_changed && gs.set_value(dcci_to_death, new_value, doc);
+
+							var output_text = $"item id: {mmria_id} case_has_changed: {dcci_to_death} updated: {case_has_changed} record_id:{mmria_record_id} {val} => {new_value}";
+							this.output_builder.AppendLine(output_text);
+							Console.WriteLine(output_text);
+						}
 					}
 
 					C_Get_Set_Value.get_multiform_value_result multiform_value_result = gs.get_multiform_value(doc, bcifsri_to_deliv);
@@ -214,9 +225,21 @@ public sealed class v3_0_1_Migration
 								isInNeedOfConversion(value_object.ToString())
 							)
 							{
-								var new_value = ConvertHHmm_To_MMRIATime(value_object.ToString());
-								new_list.Add((index, new_value));
-								is_changed = true;
+
+								var val = value_object.ToString();
+								var new_value = ConvertHHmm_To_MMRIATime(val);
+								if(val.Trim() != new_value.Trim())
+								{
+									new_list.Add((index, new_value));
+									is_changed = true;
+									var output_text = $"item id: {mmria_id} case_has_changed: {bcifsri_to_deliv}  index: {index} updated: {case_has_changed} record_id:{mmria_record_id} {val} => {new_value} ";
+									this.output_builder.AppendLine(output_text);
+									Console.WriteLine(output_text);
+								}
+								else
+								{
+									new_list.Add((index, value_object));
+								}
 							}
 							else
 							{
@@ -226,7 +249,9 @@ public sealed class v3_0_1_Migration
 
 						if(is_changed)
 						{
-							case_has_changed = gs.set_multiform_value(doc, bcifsri_to_deliv, new_list);
+							if( !case_has_changed ) case_has_changed = true;
+
+							case_has_changed =  case_has_changed && gs.set_multiform_value(doc, bcifsri_to_deliv, new_list);
 							
 							var output_text = $"item id: {mmria_id} case_has_changed: {bcifsri_to_deliv} updated: {case_has_changed} record_id:{mmria_record_id} {string.Join(",",new_list)} ";
 							this.output_builder.AppendLine(output_text);
@@ -262,7 +287,11 @@ public sealed class v3_0_1_Migration
 	{
 		var result = false;
 
-		if(!string.IsNullOrWhiteSpace(p_value))
+		if
+		(
+			!string.IsNullOrWhiteSpace(p_value) &&
+			p_value != "9999" // FL has time values coded as 9999
+		)
 		{
 			if
 			(
