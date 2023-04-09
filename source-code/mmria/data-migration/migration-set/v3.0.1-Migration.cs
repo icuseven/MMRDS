@@ -253,7 +253,7 @@ public sealed class v3_0_1_Migration
 
 							case_has_changed =  case_has_changed && gs.set_multiform_value(doc, bcifsri_to_deliv, new_list);
 							
-							var output_text = $"item id: {mmria_id} case_has_changed: {bcifsri_to_deliv} updated: {case_has_changed} record_id:{mmria_record_id} {string.Join(",",new_list)} ";
+							var output_text = $"item id: {mmria_id} case_has_changed: {bcifsri_to_deliv} updated: {case_has_changed} record_id:{mmria_record_id} whole list: {string.Join(",",new_list)} ";
 							this.output_builder.AppendLine(output_text);
 							Console.WriteLine(output_text);
 						}
