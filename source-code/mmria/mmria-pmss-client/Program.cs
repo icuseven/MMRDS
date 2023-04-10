@@ -33,6 +33,7 @@ public class Program
                 api_server_uri = config["mmria_settings:web_site_url"];
 
                 Console.WriteLine($"api_server_uri: {api_server_uri}");
+                
             }
             
 
@@ -41,7 +42,12 @@ public class Program
         else
         {
             builder.Services.AddHttpClient("base_client", c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+
+            
         }
+        System.Console.WriteLine($"BaseAddress: {builder.HostEnvironment.BaseAddress}");
+        
+      
 
         //builder.Services.AddHttpClient("base_client", c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
         
@@ -64,7 +70,7 @@ services.AddHttpClient<ICatalogService, CatalogService>(client =>
         //builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
         var app = builder.Build();
-
+        
         await app.RunAsync();
     }
 }
