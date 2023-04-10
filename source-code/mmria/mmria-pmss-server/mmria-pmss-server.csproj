@@ -22,8 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\mmria-pmss-client\mmria-pmss-client.csproj"/>
-    <!--ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/-->
+    <!--ProjectReference Include="..\mmria-pmss-client\mmria-pmss-client.csproj"/>
+    <ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/-->
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj"/>
   </ItemGroup>
 
 </Project>

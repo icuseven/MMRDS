@@ -1,15 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = "";
 }
+<!DOCTYPE html>
+<html>
 
-@using mmria_pmss_client.Pages;
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>mmria-pmss</title>
+    <base href="/" />
+    <!--link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" /-->
+</head>
 
-<component type="typeof(mmria_pmss_client.Pages.ViewData)" render-mode="WebAssemblyPrerendered" />
+<body>
+    <app>Loading...</app>
 
-<!--script src="_framework/blazor.webassembly.js"></script-->
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
 
-
-<!--div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div-->
+</html>
