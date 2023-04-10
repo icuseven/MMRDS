@@ -293,8 +293,10 @@ public sealed class v3_0_1_Migration
 			p_value != "9999" // FL has time values coded as 9999
 		)
 		{
+
 			if
 			(
+				int.TryParse(p_value, out var test) &&
 				p_value.IndexOf(":") < 0			)
 			{
 				result = true;
