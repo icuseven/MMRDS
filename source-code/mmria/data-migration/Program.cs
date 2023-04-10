@@ -238,7 +238,7 @@ class Program
 
         bool is_test_list = false;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
