@@ -14,7 +14,7 @@ using System.Net;
 namespace mmria_pmss_server.Controllers;
 
 //[Authorize]
-//[Route("api/[controller]/[action]")]
+[Route("api/[controller]/[action]")]
 
 public sealed class metadataController : Controller
 {
