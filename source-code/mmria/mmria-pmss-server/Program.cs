@@ -60,6 +60,11 @@ public class Program
             "wwwroot"
             );
 
+        if(!builder.Environment.IsDevelopment())
+        {
+            static_content_location = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
+        }
+
             
         app.UseStaticFiles
         (
