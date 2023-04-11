@@ -1,5 +1,5 @@
 
-using Microsoft.AspNetCore.Builder;
+
 namespace mmria_pmss_server;
 
 class Message
@@ -27,35 +27,19 @@ public class Program
         }
 
         builder.Services.AddHttpClient("database_client", c => c.BaseAddress = new Uri($"{db_url}/"));
-        builder.Services.AddHttpClient("base_client", c => c.BaseAddress = new Uri($"{config["mmria_settings:web_site_url"]}/"));
 
-        //builder.Services.AddRazorPages();
-        //builder.Services.AddControllersWithViews();
-        builder.Services.AddMvc();
-        builder.Services.AddRazorPages();
-        builder.Services.AddServerSideBlazor();
-        //builder.Services.AddControllersWithViews();//.AddNewtonsoftJson();
-        builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-        builder.WebHost.UseStaticWebAssets();
+  
+        if(builder.Environment.IsDevelopment())
+        {
+            builder.Services.AddCors(options => options.AddDefaultPolicy(builder => 
+                { 
+                    builder.WithOrigins(
+                        "http://*:5000");
+                }));
+        }
 
 
         var app = builder.Build();
-
-
-
-
-        // Configure the HTTP request pipeline.
-        if (!app.Environment.IsDevelopment())
-        {
-            //app.UseWebAssemblyDebugging();
-            app.UseExceptionHandler("/Home/Error");
-            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-            //app.UseHsts();
-        }
-
-        //app.UseHttpsRedirection();
-        //app.UseStaticFiles();
 
         var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
         // Add new mappings
@@ -63,27 +47,20 @@ public class Program
         provider.Mappings[".blat"] = "application/octet-stream";
         provider.Mappings[".dat"] = "application/octet-stream";
         provider.Mappings[".css"] = "text/css";
-        provider.Mappings[".js"] = "text/javascript";
 
-/*
+
         var static_content_location = Path.Combine
             (
-                Directory.GetCurrentDirectory(),
-                "wwwroot"
-            );
-*/
-
-        var static_content_location = Path.Combine
-        (
-            Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+                Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
             "bin",
             "Release",
             "netstandard2.1",
             "browser-wasm",
             "publish",
             "wwwroot"
-        );
+            );
 
+            
         app.UseStaticFiles
         (
             
@@ -92,47 +69,77 @@ public class Program
             
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider
                 (
-                    //static_content_location
+                    static_content_location
                     //Path.Combine("..", "mmria-pmss-client","wwwroot")
-                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")
                 ),
                 RequestPath = "",
                 ContentTypeProvider = provider
             }
         );
-   
         
 
 
-        app.UseRouting();
-
-        app.UseAuthorization();
 
 
-        //app.MapRazorPages();
 
-        //app.MapBlazorHub();
-/*
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");*/
+        if(builder.Environment.IsDevelopment())
+        {
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            //.AllowCredentials());
+        }
 
 
-        app.MapRazorPages();
-        app.MapControllerRoute
-        (
-            "default", 
-            "{controller=Home}/{action=Index}"
-        );
-        app.MapBlazorHub();
-        app.MapFallbackToFile("index.html");
-        app.UseDefaultFiles();
-        
-        
+        //app.MapGet("/", () => "Hello World!");
 
-        app.Run(config["mmria_settings:web_site_url"]);
+        app.MapGet("/", (HttpRequest request, HttpResponse response) =>
+                {
+                    response.WriteAsync(System.IO.File.ReadAllText($"{static_content_location}/index.html"));
+                    
+                });
+        app.MapGet("/hello", () => Results.Ok(new Message() {  Text = "Hello World!" }))
+            .Produces<Message>();
+
+        app.MapGet("/metadata/mmria-pmss-builder", (IHttpClientFactory httpClientFactory) =>
+        {
+             var client = httpClientFactory.CreateClient("database_client");
+
+            //var metadata_path = "metadata/mmria-pmss-builder";
+            var metadata_path = "metadata/2016-06-12T13:49:24.759Z";
+
+            var result = client.GetFromJsonAsync<mmria.common.metadata.app>(metadata_path).GetAwaiter().GetResult();
+
+            return Results.Ok<mmria.common.metadata.app>(result);
+           
+        });
+
+
+        app.MapGet("/metadata/ui_specification", (IHttpClientFactory httpClientFactory) =>
+        {
+             var client = httpClientFactory.CreateClient("database_client");
+
+            //var metadata_path = "metadata/mmria-pmss-builder";
+            var metadata_path = "metadata/default_ui_specification";
+
+            var result = client.GetFromJsonAsync<mmria.common.metadata.UI_Specification>(metadata_path).GetAwaiter().GetResult();
+
+            return Results.Ok<mmria.common.metadata.UI_Specification>(result);
+           
+        });
+
+
+
+        if(builder.Environment.IsDevelopment())
+        {
+            app.Run(config["mmria_settings:web_site_url"]);
+        }
+        else
+        {
+            app.Run("http://*:8080");
+        }
         
     }
 
 }
-
