@@ -37,16 +37,16 @@ public sealed class HomeController : Controller
     {
         //string webRootPath = _webHostEnvironment.ContentRootPath;
         //string path = "/opt/app-root/app/wwwroot/index.html";
- /*       string path = "./wwwroot/index.html";
+       string path = "./wwwroot/index.html";
         return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
-
+ /*
         return File
         (
             System.Text.Encoding.UTF8.GetBytes( path ),
                  "text/plain",
                   "index.html"
-         );*/
-        return View();
+         );
+        return View();*/
     }
 
 }
