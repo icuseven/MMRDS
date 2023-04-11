@@ -73,16 +73,16 @@ public class Program
             );
 */
 
-            var static_content_location = Path.Combine
-            (
-                Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
+        var static_content_location = Path.Combine
+        (
+            Directory.GetCurrentDirectory().Replace("mmria-pmss-server","mmria-pmss-client"),
             "bin",
             "Release",
             "netstandard2.1",
             "browser-wasm",
             "publish",
             "wwwroot"
-            );
+        );
 
         app.UseStaticFiles
         (

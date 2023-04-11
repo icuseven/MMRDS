@@ -66,7 +66,9 @@ else
     {
         var client = httpFactory.CreateClient("base_client");
 
-        var response = await client.GetStringAsync("metadata/mmria-pmss-builder");
+        System.Console.WriteLine($"ViewData.GetMetadata: url{client.BaseAddress}");
+
+        var response = await client.GetStringAsync("metadata/mmria_pmss_builder");
 
         System.Console.WriteLine(response.Substring(0, 100));
 
