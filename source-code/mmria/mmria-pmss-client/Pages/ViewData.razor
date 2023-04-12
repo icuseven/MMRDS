@@ -68,7 +68,7 @@ else
 
         System.Console.WriteLine($"ViewData.GetMetadata: url{client.BaseAddress}");
 
-        var response = await client.GetStringAsync("metadata/mmria_pmss_builder");
+        var response = await client.GetStringAsync("metadata/mmria-pmss-builder");
 
         System.Console.WriteLine(response.Substring(0, 100));
 
