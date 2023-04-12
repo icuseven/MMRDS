@@ -15,6 +15,8 @@ public sealed class WriteCSV
 
     bool is_excel = false;
 
+    StreamWriter writer;
+
     DataTable table;
     public WriteCSV(string p_file_name, string p_folder_name, string p_export_directory, bool p_is_excel)
     {
@@ -23,6 +25,8 @@ public sealed class WriteCSV
         this.file_name = p_file_name;
 
         this.is_excel = p_is_excel;
+
+
         /*
         var connection = new SqlConnection("Data Source=.\\SQLEXPRESS;AttachDbFilename=E:\\temp\\MyDatabaseData2.MDF;Integrated " +
                                         "Security=True;Connect Timeout=30;User Instance=True");
@@ -30,6 +34,13 @@ public sealed class WriteCSV
         var dataAdapter = new SqlDataAdapter(command);
         */
         table = new DataTable("temp_table");
+
+
+        if(! is_excel)
+        {
+            writer = new StreamWriter(folder_name + "/" + this.file_name);
+        }
+
 
         /*dataAdapter.Fill(table);
         if (table == null)
@@ -39,6 +50,24 @@ public sealed class WriteCSV
 
     public DataTable Table { get { return this.table; } }
 
+    public void WriteHeadersToStream()
+    {
+        if(! is_excel)
+        {
+            //writer = new StreamWriter(folder_name + "/" + this.file_name);
+
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+                WriteItem(writer, table.Columns[i].Caption, true);
+                if (i < table.Columns.Count - 1)
+                    writer.Write(',');
+                else
+                    writer.Write('\n');
+            }
+        }
+    }
+
+
     public void WriteToStream()
     {
         if(is_excel)
@@ -47,7 +76,7 @@ public sealed class WriteCSV
         }
         else
         {
-            StreamWriter writer = new StreamWriter(folder_name + "/" + this.file_name);
+            //StreamWriter writer = new StreamWriter(folder_name + "/" + this.file_name);
             this.WriteToStream(writer, true, true);
         }
     }
@@ -80,6 +109,29 @@ public sealed class WriteCSV
         stream.Close();
     }
 
+    public void WriteToStream(DataRow row)
+    {
+        const bool quoteall = true;
+
+
+        for (int i = 0; i < table.Columns.Count; i++)
+        {
+            WriteItem(writer, row[i], quoteall);
+            if (i < table.Columns.Count - 1)
+                writer.Write(',');
+            else
+                writer.Write('\n');
+        }
+        
+
+    }
+
+    public void FinishStream()
+    {
+        writer.Flush();
+        writer.Close();
+    }
+
     private void WriteItem(TextWriter stream, object item, bool quoteall)
     {
         if (item == null)
@@ -91,7 +143,20 @@ public sealed class WriteCSV
             stream.Write(s);
         stream.Flush();
     }
+/*
 
+    private void WriteItem(object item, bool quoteall)
+    {
+        if (item == null)
+            return;
+        string s = item.ToString();
+        if (quoteall || s.IndexOfAny("\",\x0A\x0D".ToCharArray()) > -1)
+            stream.Write("\"" + s.Replace("\"", "\"\"") + "\"");
+        else
+            stream.Write(s);
+        stream.Flush();
+    }
+    */
 
     public void WriteToExcel()
     {

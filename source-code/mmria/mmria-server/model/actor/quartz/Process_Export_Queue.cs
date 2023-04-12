@@ -402,12 +402,12 @@ public sealed class Process_Export_Queue : UntypedActor
                 item.status = doc_item ["status"] != null ? doc_item ["status"].ToString () : null;
 
                 item.all_or_core =  doc_item.ContainsKey("all_or_core") && doc_item ["all_or_core"] != null ? doc_item ["all_or_core"].ToString () : null;
-                item.grantee_name = doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
-                item.is_encrypted = doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
-                item.zip_key = doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;
-                item.de_identified_selection_type = doc_item ["de_identified_selection_type"] != null ? doc_item ["de_identified_selection_type"].ToString () : null;
+                item.grantee_name = doc_item.ContainsKey("grantee_name") && doc_item ["grantee_name"] != null ? doc_item ["grantee_name"].ToString () : null;
+                item.is_encrypted = doc_item.ContainsKey("is_encrypted") && doc_item ["is_encrypted"] != null ? doc_item ["is_encrypted"].ToString () : null;
+                item.zip_key = doc_item.ContainsKey("zip_key") && doc_item ["zip_key"] != null ? doc_item ["zip_key"].ToString () : null;
+                item.de_identified_selection_type = doc_item.ContainsKey("de_identified_selection_type") && doc_item ["de_identified_selection_type"] != null ? doc_item ["de_identified_selection_type"].ToString () : null;
                 
-                item.case_filter_type = doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
+                item.case_filter_type = doc_item.ContainsKey("case_filter_type") && doc_item ["case_filter_type"] != null ? doc_item ["case_filter_type"].ToString () : null;
 
 
                 result.Add (item);
