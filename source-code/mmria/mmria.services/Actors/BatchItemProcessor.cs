@@ -1686,7 +1686,7 @@ public sealed class BatchItemProcessor : ReceiveActor
 
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIG_none_or_not_specified"], 
                         CIG_none_or_not_specified_NAT_Rule(
-                            field_set["CIGLN"],
+                            field_set["CIGPN"],
                             field_set["CIGFN"],
                             field_set["CIGSN"],
                             field_set["CIGLN"]
@@ -7551,12 +7551,34 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
         string determinedValue = "9999";
 
-        if (value1 == "99" && value2 == "99" && value3 == "99" && value4 == "99")
+        if 
+        (
+            value1 == "99" && 
+            value2 == "99" && 
+            value3 == "99" && 
+            value4 == "99"
+        )
+        {
             determinedValue = "7777";
-        else if ((value1 == "00" && value2 == "00" && value3 == "00" && value4 == "00") 
-            || (value1 == "0" && value2 == "0" && value3 == "0" && value4 == "0"))
+        }
+        else if 
+        (
+            (
+                value1 == "00" && 
+                value2 == "00" && 
+                value3 == "00" && 
+                value4 == "00"
+            ) || 
+            (
+                value1 == "0" && 
+                value2 == "0" && 
+                value3 == "0" && 
+                value4 == "0"
+            )
+        )
+        {
             determinedValue = "0";
-
+        }
         return determinedValue;
     }
 
