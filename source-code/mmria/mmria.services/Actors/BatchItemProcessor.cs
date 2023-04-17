@@ -1686,7 +1686,7 @@ public sealed class BatchItemProcessor : ReceiveActor
 
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["CIG_none_or_not_specified"], 
                         CIG_none_or_not_specified_NAT_Rule(
-                            field_set["CIGLN"],
+                            field_set["CIGPN"],
                             field_set["CIGFN"],
                             field_set["CIGSN"],
                             field_set["CIGLN"]
@@ -2831,31 +2831,36 @@ if
     private string calculate_omb_recode(string[] p_value_list)
     {
         string result = "9999";
-        var asian_list = new string[7]{ 
-                "Asian Indian",
-                "Chinese",
-                "Filipino",
-                "Japanese",
-                "Korean",
-                "Vietnamese",
-                "Other Asian"
+        var asian_list = new Dictionary<int, string>(){ 
+                {7,"Asian Indian"},
+                {8,"Chinese"},
+                {9,"Filipino"},
+                {10,"Japanese"},
+                {11,"Korean"},
+                {12,"Vietnamese"},
+                {13,"Other Asian"}
             };
-        var islander_list = new string[4]{
-                "Native Hawaiian",
-                "Guamanian or Chamorro",
-                "Samoan",
-                "Other Pacific Islander"
+        var islander_list = new Dictionary<int, string>(){
+                {3,"Native Hawaiian"},
+                {4,"Guamanian or Chamorro"},
+                {5,"Samoan"},
+                {6,"Other Pacific Islander"}
             };
         if (p_value_list.Length == 0)
         {
+            System.Console.WriteLine("here");
         }
         else if (p_value_list.Length == 1)
         {
-            if (get_intersection(p_value_list, asian_list)?.Length > 0) {
-                result = "Asian";
-            } else if (get_intersection(p_value_list, islander_list)?.Length > 0) {
-                result = "Pacific Islander";
-            } else
+            if (get_intersection(p_value_list, asian_list)?.Length > 0) 
+            {
+                result = "4"; //"Asian";
+            } 
+            else if (get_intersection(p_value_list, islander_list)?.Length > 0) 
+            {
+                result = "3"; //"Pacific Islander";
+            } 
+            else
             {
                 result = p_value_list[0];
             }
@@ -2864,7 +2869,7 @@ if
         {
             if (p_value_list.Contains("8888"))
             {
-                result = "Race Not Specified";
+                result = "8888"; //Race Not Specified";
             }
             else
             {
@@ -2906,9 +2911,20 @@ if
         return result;
     }
 
-    public string[] get_intersection(string[] p_list_1, string[] p_list_2)
+    public string[] get_intersection(string[] p_list_1, Dictionary<int,string> p_list_2)
     {
-        var result = p_list_1.Intersect(p_list_2)?.ToArray();
+        List<string> result = new();
+
+        foreach(var item_string in p_list_1)
+        {
+            if(int.TryParse(item_string, out var item))
+            {
+                if(p_list_2.ContainsKey(item))
+                {
+                    result.Add(item_string);
+                }
+            }
+        }
 
         //var a = p_list_1;
         //var b = p_list_2;
@@ -2933,7 +2949,7 @@ if
         //        bi++;
         //    }
         //}
-        return result;
+        return result.ToArray();
     }
 
     private void birth_2_death(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case
@@ -7535,12 +7551,34 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. Otherwise leave bfdcpcs_non_speci as 9999 (blank).*/
         string determinedValue = "9999";
 
-        if (value1 == "99" && value2 == "99" && value3 == "99" && value4 == "99")
+        if 
+        (
+            value1 == "99" && 
+            value2 == "99" && 
+            value3 == "99" && 
+            value4 == "99"
+        )
+        {
             determinedValue = "7777";
-        else if ((value1 == "00" && value2 == "00" && value3 == "00" && value4 == "00") 
-            || (value1 == "0" && value2 == "0" && value3 == "0" && value4 == "0"))
+        }
+        else if 
+        (
+            (
+                value1 == "00" && 
+                value2 == "00" && 
+                value3 == "00" && 
+                value4 == "00"
+            ) || 
+            (
+                value1 == "0" && 
+                value2 == "0" && 
+                value3 == "0" && 
+                value4 == "0"
+            )
+        )
+        {
             determinedValue = "0";
-
+        }
         return determinedValue;
     }
 

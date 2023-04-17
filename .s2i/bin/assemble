@@ -315,7 +315,8 @@ if [ "$BUILD_TYPE" == "source" ]; then
 		
 		echo "made directory /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot"
 		#mv source-code/mmria/mmria-pmss-client/Release/netstandard2.1/browser-wasm/wwwroot/* /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/
-		mv /opt/app-root/app/bin/Release/netstandard2.1/browser-wasm/publish /opt/app-root/app/wwwroot 
+		rm -rf /opt/app-root/app/wwwroot/*
+		mv /opt/app-root/src/source-code/mmria/mmria-pmss-client/bin/Release/netstandard2.1/browser-wasm/publish/wwwroot/* /opt/app-root/app/wwwroot 
 	fi 
 		 
 else
