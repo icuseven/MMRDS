@@ -17,6 +17,9 @@ public sealed class WriteCSV
 
     StreamWriter writer;
 
+    FastExcel.Worksheet worksheet;
+    FastExcel.FastExcel fastExcel;
+
     DataTable table;
     public WriteCSV(string p_file_name, string p_folder_name, string p_export_directory, bool p_is_excel)
     {
@@ -36,7 +39,34 @@ public sealed class WriteCSV
         table = new DataTable("temp_table");
 
 
-        if(! is_excel)
+        if(is_excel)
+        {
+
+            var Template_xlsx = "database-scripts/Template.xlsx";
+            var Output_xlsx = System.IO.Path.Combine (folder_name, file_name.Replace(".csv",".xlsx"));
+
+            if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
+            {
+                Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
+            }
+            
+
+
+            if(System.IO.File.Exists(Output_xlsx))
+                System.IO.File.Delete(Output_xlsx);
+
+                fastExcel = new FastExcel.FastExcel(new System.IO.FileInfo(Template_xlsx), new System.IO.FileInfo(Output_xlsx));
+        
+                //Create a worksheet with some rows
+                worksheet = new FastExcel.Worksheet();
+                var rows = new System.Collections.Generic.List<FastExcel.Row>();
+
+                var row_number = 1;
+
+                fastExcel.Write(table, "sheet1");
+                
+        }
+        else
         {
             writer = new StreamWriter(folder_name + "/" + this.file_name);
         }
@@ -52,7 +82,27 @@ public sealed class WriteCSV
 
     public void WriteHeadersToStream()
     {
-        if(! is_excel)
+        if(is_excel)
+        {
+            var cells = new List<FastExcel.Cell>();
+
+            for (int i = 0; i < table.Columns.Count; i++)
+            {
+
+                cells.Add
+                (
+                    new FastExcel.Cell
+                    (
+                        i + 1, 
+                        table.Columns[i].ColumnName
+                    )
+                );
+
+            }
+            var row = new FastExcel.Row(1, cells);
+            worksheet.AddRow(row);
+        }
+        else
         {
             //writer = new StreamWriter(folder_name + "/" + this.file_name);
 
