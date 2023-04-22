@@ -1,17 +1,18 @@
 @using System.Security.Claims;
+@using Microsoft.AspNetCore.Http;
 @model mmria.common.couchdb.ConfigurationSet
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
     var userName = "";
-
+    var jurisdicationLocation = Context.Request.Host.Host;
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
-
+    
     var SortedDictionary  = new SortedDictionary<string, mmria.common.couchdb.DBConfigurationDetail>();
     foreach(var kvp in Model.detail_list)
     {
@@ -24,6 +25,7 @@
 <p class="mb-4">Select database and enter the Record ID. Click the button to search for matching case(s).</p>
 
 <form method="post" action="/clear_case_status/FindRecord">
+@if(Context.Request.QueryString.ToString().Contains("cdc_admin")){
     <div class="d-flex align-items-center form-group">
         <label for="StateDatabase" class="d-block text-right mb-0 mr-3" style="width: 156px">MMRIA Site:</label>
         <select id="StateDatabase" class="form-control w-auto" name="StateDatabase">
@@ -34,6 +36,16 @@
             }
         </select>
     </div>
+} else {
+    if(jurisdicationLocation.Contains("-"))
+        jurisdicationLocation = jurisdicationLocation.Substring(0, jurisdicationLocation.IndexOf("-"));
+    <div aria-hidden="true" class="align-items-center form-group d-none">
+        <label for="StateDatabase" class="d-block text-right mb-0 mr-3" style="width: 156px">MMRIA Site:</label>
+        <select id="StateDatabase" class="form-control w-auto" name="StateDatabase">
+            <option value="@jurisdicationLocation" selected>@jurisdicationLocation</option>
+        </select>
+    </div>
+}
 
     <div class="d-flex align-items-center form-group">
         <label for="RecordId" class="d-block text-right mb-0 mr-3" style="width: 156px">MMRIA Record ID:</label>

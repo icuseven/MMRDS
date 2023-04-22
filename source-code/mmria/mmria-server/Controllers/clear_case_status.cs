@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "cdc_admin")]
+[Authorize(Roles  = "cdc_admin,jurisdiction_admin")]
 public sealed class clear_case_statusController : Controller
 {
     private readonly IAuthorizationService _authorizationService;
