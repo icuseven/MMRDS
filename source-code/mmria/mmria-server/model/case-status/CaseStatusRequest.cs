@@ -8,6 +8,7 @@ public sealed class CaseStatusRequest
 {
     public string StateDatabase { get; set; }
     public string RecordId { get; set; }
+    public string Role { get; set; } = "jurisdiction_admin";
 }
 
 public sealed class CaseStatusDetail
@@ -27,6 +28,8 @@ public sealed class CaseStatusDetail
     public string CaseStatus { get; set; }
 
     public string StateDatabase {get; set; }
+
+    public string Role { get; set; }  = "jurisdiction_admin";
 }
 
 public sealed class CaseStatusRequestResponse

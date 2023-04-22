@@ -51,10 +51,24 @@ public sealed class clear_case_statusController : Controller
         
         try
         {
-            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
-            var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
-            string responseFromServer = await case_view_curl.executeAsync();
+            string responseFromServer  = null;
+
+            if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
+            {
+                var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                responseFromServer = await case_view_curl.executeAsync();
+
+            }
+            else
+            {
+             
+                string request_string = $"{Program.config_couchdb_url}/mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                responseFromServer = await case_view_curl.executeAsync();   
+            }
+
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
@@ -95,7 +109,9 @@ public sealed class clear_case_statusController : Controller
 
                             CaseStatus = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
 
-                            StateDatabase = Model.StateDatabase
+                            StateDatabase = Model.StateDatabase,
+
+                            Role = Model.Role
                         };
 
                         model.CaseStatusDetail.Add(x);
@@ -142,12 +158,23 @@ public sealed class clear_case_statusController : Controller
 
         try
         {
-        
-            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
-            var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
-            string responseFromServer = await case_view_curl.executeAsync();
 
+            string responseFromServer = null;
+            if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
+            {
+        
+                var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
+                responseFromServer = await case_view_curl.executeAsync();
+            }
+            else
+            {
+                
+                string request_string = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                responseFromServer = await case_view_curl.executeAsync();
+            }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 
             
@@ -167,9 +194,19 @@ public sealed class clear_case_statusController : Controller
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                         var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response, settings);
 
+                        cURL document_curl = null;
 
-                        
-                        cURL document_curl = new cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+                        if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+                            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
+                            document_curl = new cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+                        }
+                        else
+                        {
+                            string request_string = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+                            document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                        }
 
                         var document_put_response = new mmria.common.model.couchdb.document_put_response();
                         try
