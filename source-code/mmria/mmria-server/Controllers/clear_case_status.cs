@@ -42,11 +42,6 @@ public sealed class clear_case_statusController : Controller
 
     public async Task<IActionResult> FindRecord(mmria.server.model.casestatus.CaseStatusRequest Model)
     {
-        if (!ModelState.IsValid)
-        {
-                View();
-        }
-            
         var model = new mmria.server.model.casestatus.CaseStatusRequestResponse();
         
         try
@@ -135,12 +130,6 @@ public sealed class clear_case_statusController : Controller
 
     public IActionResult ConfirmClearCaseStatusRequest(mmria.server.model.casestatus.CaseStatusDetail Model)
     {
-        if (!ModelState.IsValid)
-        {
-                View();
-        }
-
-
         var model = Model;
 
         return View(model);
@@ -149,11 +138,6 @@ public sealed class clear_case_statusController : Controller
     
     public async Task<IActionResult> ClearCaseStatus(mmria.server.model.casestatus.CaseStatusDetail Model)
     {
-        if (!ModelState.IsValid)
-        {
-                View();
-        }
-
         var model = Model;
 
         try
@@ -252,9 +236,6 @@ public sealed class clear_case_statusController : Controller
         {
             model.CaseStatus = ex.ToString();
         }
-
-
-        
 
         return View(model);
     }
