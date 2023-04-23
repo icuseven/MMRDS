@@ -4,7 +4,7 @@
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
-    var userName = "";
+
     var jurisdicationLocation = Context.Request.Host.Host.Trim();
 
     bool is_cdc_admin = false;
@@ -18,14 +18,9 @@
 
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
-        userName = User.Identities.First(
-        u => u.IsAuthenticated && 
-        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
         roles = ((ClaimsIdentity)User.Identity).Claims
         .Where(c => c.Type == ClaimTypes.Role)
         .Select(c => c.Value).ToList();
-
     }
 
     @if
@@ -38,15 +33,11 @@
     }
 
 
-   
-    
     var SortedDictionary  = new SortedDictionary<string, mmria.common.couchdb.DBConfigurationDetail>();
     foreach(var kvp in Model.detail_list)
     {
         SortedDictionary.Add(kvp.Key, kvp.Value);
     }
-
-    
 }
 
 <h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
