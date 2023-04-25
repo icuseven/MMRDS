@@ -138,11 +138,6 @@ public sealed class WriteCSV
 
         using (FastExcel.FastExcel fastExcel = new FastExcel.FastExcel(new System.IO.FileInfo(Template_xlsx), new System.IO.FileInfo(Output_xlsx)))
         {
-            var worksheet = new FastExcel.Worksheet();
-            var rows = new System.Collections.Generic.List<FastExcel.Row>();
-
-            var row_number = 1;
-
             fastExcel.Write(table, "sheet1");
         }
     }
