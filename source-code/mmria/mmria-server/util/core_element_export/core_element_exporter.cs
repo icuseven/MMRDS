@@ -496,7 +496,15 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
             }
         }
-        path_to_csv_writer[core_file_name].Table.Rows.Add(row);
+
+        if(is_excel_file_type)
+        {        
+            path_to_csv_writer[core_file_name].Table.Rows.Add(row);
+        }
+        else
+        {
+            path_to_csv_writer[core_file_name].WriteToStream(row);
+        }
 
 
     }
@@ -550,61 +558,79 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     foreach (KeyValuePair<string, WriteCSV> kvp in path_to_csv_writer)
     {
-
-
-    foreach (System.Data.DataColumn table_column in kvp.Value.Table.Columns)
-    {
-        System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
-        mapping_row["file_name"] = kvp.Key;
-
-        if (int_to_path_map.ContainsKey(table_column.ColumnName))
+        foreach (System.Data.DataColumn table_column in kvp.Value.Table.Columns)
         {
-        string deidentified = "no";
-        string path = int_to_path_map[table_column.ColumnName];
-        string selection = queue_item.de_identified_selection_type;
-        if (selection == "custom" || selection == "standard")
-        {
-            if (de_identified_set.Contains(path))
+            System.Data.DataRow mapping_row = mapping_document.Table.NewRow();
+            mapping_row["file_name"] = kvp.Key;
+
+            if (int_to_path_map.ContainsKey(table_column.ColumnName))
             {
-            deidentified = "yes";
+            string deidentified = "no";
+            string path = int_to_path_map[table_column.ColumnName];
+            string selection = queue_item.de_identified_selection_type;
+            if (selection == "custom" || selection == "standard")
+            {
+                if (de_identified_set.Contains(path))
+                {
+                deidentified = "yes";
+                }
+            }
+            mapping_row["deidentified"] = deidentified;
+            mapping_row["mmria_path"] = path;
+            mapping_row["mmria_prompt"] = path_to_node_map[path].prompt;
+            mapping_row["field_description"] = path_to_node_map[path].description;
+            }
+            else
+            {
+            mapping_row["deidentified"] = "no";
+            switch (table_column.ColumnName)
+            {
+                case "_record_index":
+                case "_parent_index":
+                default:
+                mapping_row["mmria_path"] = table_column.ColumnName;
+                break;
+            }
+            }
+
+            mapping_row["column_name"] = table_column.ColumnName;
+
+            if(is_excel_file_type)
+            {
+                mapping_document.Table.Rows.Add(mapping_row);
+            }
+            else
+            {
+                mapping_document.WriteToStream(mapping_row);
             }
         }
-        mapping_row["deidentified"] = deidentified;
-        mapping_row["mmria_path"] = path;
-        mapping_row["mmria_prompt"] = path_to_node_map[path].prompt;
-        mapping_row["field_description"] = path_to_node_map[path].description;
+
+
+
+        if(is_excel_file_type)
+        {
+            kvp.Value.WriteToStream();
         }
         else
         {
-        mapping_row["deidentified"] = "no";
-        switch (table_column.ColumnName)
-        {
-            case "_record_index":
-            case "_parent_index":
-            default:
-            mapping_row["mmria_path"] = table_column.ColumnName;
-            break;
+            kvp.Value.FinishStream();
         }
-        }
-
-        mapping_row["column_name"] = table_column.ColumnName;
-
-
-        mapping_document.Table.Rows.Add(mapping_row);
     }
 
-
-
-    kvp.Value.WriteToStream();
+    if(is_excel_file_type)
+    {
+        mapping_document.WriteToStream();
     }
-
-    mapping_document.WriteToStream();
+    else
+    {
+        mapping_document.FinishStream();
+    }
 
     for (int i_index = 0; i_index < this.qualitativeStreamWriter.Length; i_index++)
     {
-    this.qualitativeStreamWriter[i_index].Flush();
-    this.qualitativeStreamWriter[i_index].Close();
-    this.qualitativeStreamWriter[i_index] = null;
+        this.qualitativeStreamWriter[i_index].Flush();
+        this.qualitativeStreamWriter[i_index].Close();
+        this.qualitativeStreamWriter[i_index] = null;
     }
 
     WriteCSV mapping_look_up_document = new WriteCSV("data-dictionary-lookup.csv", this.item_directory_name, Configuration.export_directory, is_excel_file_type);
@@ -686,7 +712,15 @@ public void Execute(mmria.server.export_queue_item queue_item)
                     row["item_value"] = item.Key;
                     row["item_display"] = item.Value;
                     //row["item_description"] = item.description;
-                    mapping_look_up_document.Table.Rows.Add(row);
+
+                    if(is_excel_file_type)
+                    {
+                        mapping_look_up_document.Table.Rows.Add(row);
+                    }
+                    else
+                    {
+                        mapping_look_up_document.WriteToStream(row);
+                    }
                 }
                 }
 
@@ -695,26 +729,32 @@ public void Execute(mmria.server.export_queue_item queue_item)
             {
                 foreach (var item in value_list)
                 {
-                System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
 
-                if (path_to_file_name_map.ContainsKey(kvp.Key))
-                {
-                    row["file_name"] = path_to_file_name_map[kvp.Key];
-                }
+                    if (path_to_file_name_map.ContainsKey(kvp.Key))
+                    {
+                        row["file_name"] = path_to_file_name_map[kvp.Key];
+                    }
 
-                if (path_to_field_name_map.ContainsKey(kvp.Key))
-                {
-                    row["column_name"] = path_to_field_name_map[kvp.Key];
-                }
-                row["mmria_path"] = kvp.Key;
-                row["mmria_prompt"] = node.prompt;
-                row["field_description"] = node.description;
-                row["item_value"] = item.value;
-                row["item_display"] = item.display;
-                row["item_description"] = item.description;
+                    if (path_to_field_name_map.ContainsKey(kvp.Key))
+                    {
+                        row["column_name"] = path_to_field_name_map[kvp.Key];
+                    }
+                    row["mmria_path"] = kvp.Key;
+                    row["mmria_prompt"] = node.prompt;
+                    row["field_description"] = node.description;
+                    row["item_value"] = item.value;
+                    row["item_display"] = item.display;
+                    row["item_description"] = item.description;
 
-
-                mapping_look_up_document.Table.Rows.Add(row);
+                    if(is_excel_file_type)
+                    {
+                        mapping_look_up_document.Table.Rows.Add(row);
+                    }
+                    else
+                    {
+                        mapping_look_up_document.WriteToStream(row);
+                    }
                 }
             }
 
@@ -727,7 +767,14 @@ public void Execute(mmria.server.export_queue_item queue_item)
         }
     }
 
-    mapping_look_up_document.WriteToStream();
+    if(is_excel_file_type)
+    {
+        mapping_look_up_document.WriteToStream();
+    }
+    else
+    {
+        mapping_look_up_document.FinishStream();
+    }
 
 
     mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
@@ -964,7 +1011,14 @@ public void Execute(mmria.server.export_queue_item queue_item)
                             }
                         }
                     }
-                    path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+                    if(is_excel_file_type)
+                    {
+                        path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+                    }
+                    else
+                    {
+                        path_to_csv_writer[grid_name].WriteToStream(grid_row);
+                    }
                 }
             }
         }
