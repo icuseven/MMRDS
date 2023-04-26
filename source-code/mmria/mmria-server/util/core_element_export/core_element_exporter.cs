@@ -46,8 +46,6 @@ public sealed class core_element_exporter
     public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
     {
         this.Configuration = configuration;
-        //this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
-
     }
 public void Execute(mmria.server.export_queue_item queue_item)
 {
@@ -109,24 +107,12 @@ public void Execute(mmria.server.export_queue_item queue_item)
     this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
     this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
     this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
-/*
-    string URL = this.database_url + $"/{Program.db_prefix}mmrds/_all_docs";
-    string urlParameters = "?include_docs=true";
-    cURL document_curl = new cURL("GET", null, URL + urlParameters, null, this.user_name, this.value_string);
-    object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
-*/
+
     string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
     cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
     mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
     current_metadata = metadata;
 
-
-    /*
-        foreach (KeyValuePair<string, object> kvp in all_cases)
-        {
-            System.Console.WriteLine(kvp.Key);
-        }
-        */
 
     System.Collections.Generic.Dictionary<string, int> path_to_int_map = new Dictionary<string, int>();
     System.Collections.Generic.Dictionary<string, string> path_to_file_name_map = new Dictionary<string, string>();
@@ -186,28 +172,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
         }
     }
 
-    /*
-        System.Collections.Generic.HashSet<string> mutiform_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-        foreach (KeyValuePair<string, string> kvp in path_to_multi_form_map)
-        {
-            if (!mutiform_set.Contains(kvp.Value))
-            {
-                mutiform_set.Add(kvp.Value);
-            }
-        }*/
-
     path_to_csv_writer.Add(core_file_name, new WriteCSV(core_file_name, this.item_directory_name, Configuration.export_directory, is_excel_file_type));
-
-    //int stream_file_count = 0;
-    /*
-        foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
-        {
-            path_to_csv_writer.Add(file_name, new WriteCSV(file_name));
-            Console.WriteLine(file_name);
-            stream_file_count++;
-        }*/
-    //Console.WriteLine("stream_file_count: {0}", stream_file_count);
-
 
     create_header_row
     (
@@ -356,7 +321,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
                         double test_double = 0.0;
                         if (double.TryParse(val.ToString(), out test_double))
                         {
-                        row[field_name] = test_double;
+                            row[field_name] = test_double;
                         }
                     }
                     break;
@@ -375,32 +340,32 @@ public void Execute(mmria.server.export_queue_item queue_item)
                         List<object> temp = val as List<object>;
                         if (temp != null && temp.Count > 0)
                         {
-                        List<string> temp2 = new List<string>();
-                        foreach (var item in temp)
-                        {
-                            var key = "/" + path;
-                            var item_key = item.ToString();
-                            if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+                            List<string> temp2 = new List<string>();
+                            foreach (var item in temp)
                             {
-                            temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+                                var key = "/" + path;
+                                var item_key = item.ToString();
+                                if (List_Look_Up.ContainsKey(key) && List_Look_Up[key].ContainsKey(item_key))
+                                {
+                                    temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+                                }
+                                else
+                                {
+                                    temp2.Add(item.ToString());
+                                }
                             }
-                            else
+
+                            //Check if list can be sorted and list lookup has key
+                            if (temp2?.Count > 1 && List_Look_Up.ContainsKey("/" + path))
                             {
-                            temp2.Add(item.ToString());
+                                //Get list lookup
+                                var look_up_list = List_Look_Up["/" + path];
+
+                                //Set sorted list back to the value to contiune regular flow
+                                temp2 = SortListAgainstDictionary(temp2, look_up_list);
                             }
-                        }
 
-                        //Check if list can be sorted and list lookup has key
-                        if (temp2?.Count > 1 && List_Look_Up.ContainsKey("/" + path))
-                        {
-                            //Get list lookup
-                            var look_up_list = List_Look_Up["/" + path];
-
-                            //Set sorted list back to the value to contiune regular flow
-                            temp2 = SortListAgainstDictionary(temp2, look_up_list);
-                        }
-
-                        row[field_name] = string.Join("|", temp2);
+                            row[field_name] = string.Join("|", temp2);
                         }
                         else
                         {
@@ -434,57 +399,46 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
                         if (val is List<object>)
                         {
-                        List<object> temp = val as List<object>;
-                        if (temp != null && temp.Count > 0)
-                        {
-
-                            List<string> temp2 = new List<string>();
-                            foreach (var item in temp)
+                            List<object> temp = val as List<object>;
+                            if (temp != null && temp.Count > 0)
                             {
-                                temp2.Add(List_Look_Up["/" + path][item.ToString()]);
-                            }
-                            row[field_name] = string.Join("|", temp);
 
-                            /*
-
-                            if (path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Contains(file_field_name))
-                            {
-                            row[field_name] = string.Join("|", temp);
+                                List<string> temp2 = new List<string>();
+                                foreach (var item in temp)
+                                {
+                                    temp2.Add(List_Look_Up["/" + path][item.ToString()]);
+                                }
+                                row[field_name] = string.Join("|", temp);
                             }
                             else
                             {
-                            row[$"{field_name}_{path_to_int_map[path].ToString()}"] = string.Join("|", temp);
-                            }*/
+                                row[field_name] = "(blank)";
+                            }
                         }
                         else
                         {
-                            row[field_name] = "(blank)";
-                        }
-                        }
-                        else
-                        {
-                        if
-                        (
+                            if
                             (
-                                path_to_node_map[path].type.ToLower() == "textarea" ||
-                                path_to_node_map[path].type.ToLower() == "string"
-                            ) &&
-                            val.ToString().Length > max_qualitative_length
-                        )
-                        {
-                            WriteQualitativeData
-                            (
-                                mmria_case_id,
-                                path,
-                                val?.ToString(),
-                                -1,
-                                -1
-                            );
+                                (
+                                    path_to_node_map[path].type.ToLower() == "textarea" ||
+                                    path_to_node_map[path].type.ToLower() == "string"
+                                ) &&
+                                val.ToString().Length > max_qualitative_length
+                            )
+                            {
+                                WriteQualitativeData
+                                (
+                                    mmria_case_id,
+                                    path,
+                                    val?.ToString(),
+                                    -1,
+                                    -1
+                                );
 
-                            val = over_limit_message;
-                        }
+                                val = over_limit_message;
+                            }
 
-                        row[field_name] = val;
+                            row[field_name] = val;
                         }
 
                     }
@@ -565,32 +519,32 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
             if (int_to_path_map.ContainsKey(table_column.ColumnName))
             {
-            string deidentified = "no";
-            string path = int_to_path_map[table_column.ColumnName];
-            string selection = queue_item.de_identified_selection_type;
-            if (selection == "custom" || selection == "standard")
-            {
-                if (de_identified_set.Contains(path))
+                string deidentified = "no";
+                string path = int_to_path_map[table_column.ColumnName];
+                string selection = queue_item.de_identified_selection_type;
+                if (selection == "custom" || selection == "standard")
                 {
-                deidentified = "yes";
+                    if (de_identified_set.Contains(path))
+                    {
+                        deidentified = "yes";
+                    }
                 }
-            }
-            mapping_row["deidentified"] = deidentified;
-            mapping_row["mmria_path"] = path;
-            mapping_row["mmria_prompt"] = path_to_node_map[path].prompt;
-            mapping_row["field_description"] = path_to_node_map[path].description;
+                mapping_row["deidentified"] = deidentified;
+                mapping_row["mmria_path"] = path;
+                mapping_row["mmria_prompt"] = path_to_node_map[path].prompt;
+                mapping_row["field_description"] = path_to_node_map[path].description;
             }
             else
             {
-            mapping_row["deidentified"] = "no";
-            switch (table_column.ColumnName)
-            {
-                case "_record_index":
-                case "_parent_index":
-                default:
-                mapping_row["mmria_path"] = table_column.ColumnName;
-                break;
-            }
+                mapping_row["deidentified"] = "no";
+                switch (table_column.ColumnName)
+                {
+                    case "_record_index":
+                    case "_parent_index":
+                    default:
+                    mapping_row["mmria_path"] = table_column.ColumnName;
+                    break;
+                }
             }
 
             mapping_row["column_name"] = table_column.ColumnName;
@@ -626,7 +580,12 @@ public void Execute(mmria.server.export_queue_item queue_item)
         mapping_document.FinishStream();
     }
 
-    for (int i_index = 0; i_index < this.qualitativeStreamWriter.Length; i_index++)
+    for 
+    (
+        int i_index = 0; 
+        i_index < this.qualitativeStreamWriter.Length; 
+        i_index++
+    )
     {
         this.qualitativeStreamWriter[i_index].Flush();
         this.qualitativeStreamWriter[i_index].Close();
@@ -669,7 +628,11 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
 
 
-    foreach (KeyValuePair<string, mmria.common.metadata.node> kvp in path_to_node_map)
+    foreach 
+    (
+        var kvp in 
+        path_to_node_map
+    )
     {
         var node = kvp.Value;
 
@@ -679,90 +642,87 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
             try
             {
+                //List_Look_Up
+                var value_list = node.values;
 
-
-
-            //List_Look_Up
-            var value_list = node.values;
-
-            if (!string.IsNullOrWhiteSpace(node.path_reference))
-            {
-                //var key = node.path_reference.Replace("lookup/", "");
-                var key = "/" + kvp.Key;
-
-                if (List_Look_Up.ContainsKey(key))
+                if (!string.IsNullOrWhiteSpace(node.path_reference))
                 {
-                foreach (var item in List_Look_Up[key])
+                    //var key = node.path_reference.Replace("lookup/", "");
+                    var key = "/" + kvp.Key;
+
+                    if (List_Look_Up.ContainsKey(key))
+                    {
+                        foreach (var item in List_Look_Up[key])
+                        {
+                            System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+
+                            if (path_to_file_name_map.ContainsKey(kvp.Key))
+                            {
+                                row["file_name"] = path_to_file_name_map[kvp.Key];
+                            }
+
+                            if (path_to_field_name_map.ContainsKey(kvp.Key))
+                            {
+                                row["column_name"] = path_to_field_name_map[kvp.Key];
+                            }
+
+                            row["mmria_path"] = kvp.Key;
+                            row["mmria_prompt"] = node.prompt;
+                            row["field_description"] = node.description;
+                            row["item_value"] = item.Key;
+                            row["item_display"] = item.Value;
+                            //row["item_description"] = item.description;
+
+                            if(is_excel_file_type)
+                            {
+                                mapping_look_up_document.Table.Rows.Add(row);
+                            }
+                            else
+                            {
+                                mapping_look_up_document.WriteToStream(row);
+                            }
+                        }
+                    }
+
+                }
+                else
                 {
-                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
-
-                    if (path_to_file_name_map.ContainsKey(kvp.Key))
+                    foreach (var item in value_list)
                     {
-                    row["file_name"] = path_to_file_name_map[kvp.Key];
-                    }
+                        System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
 
-                    if (path_to_field_name_map.ContainsKey(kvp.Key))
-                    {
-                    row["column_name"] = path_to_field_name_map[kvp.Key];
-                    }
+                        if (path_to_file_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["file_name"] = path_to_file_name_map[kvp.Key];
+                        }
 
-                    row["mmria_path"] = kvp.Key;
-                    row["mmria_prompt"] = node.prompt;
-                    row["field_description"] = node.description;
-                    row["item_value"] = item.Key;
-                    row["item_display"] = item.Value;
-                    //row["item_description"] = item.description;
+                        if (path_to_field_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["column_name"] = path_to_field_name_map[kvp.Key];
+                        }
+                        row["mmria_path"] = kvp.Key;
+                        row["mmria_prompt"] = node.prompt;
+                        row["field_description"] = node.description;
+                        row["item_value"] = item.value;
+                        row["item_display"] = item.display;
+                        row["item_description"] = item.description;
 
-                    if(is_excel_file_type)
-                    {
-                        mapping_look_up_document.Table.Rows.Add(row);
-                    }
-                    else
-                    {
-                        mapping_look_up_document.WriteToStream(row);
+                        if(is_excel_file_type)
+                        {
+                            mapping_look_up_document.Table.Rows.Add(row);
+                        }
+                        else
+                        {
+                            mapping_look_up_document.WriteToStream(row);
+                        }
                     }
                 }
-                }
-
-            }
-            else
-            {
-                foreach (var item in value_list)
-                {
-                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
-
-                    if (path_to_file_name_map.ContainsKey(kvp.Key))
-                    {
-                        row["file_name"] = path_to_file_name_map[kvp.Key];
-                    }
-
-                    if (path_to_field_name_map.ContainsKey(kvp.Key))
-                    {
-                        row["column_name"] = path_to_field_name_map[kvp.Key];
-                    }
-                    row["mmria_path"] = kvp.Key;
-                    row["mmria_prompt"] = node.prompt;
-                    row["field_description"] = node.description;
-                    row["item_value"] = item.value;
-                    row["item_display"] = item.display;
-                    row["item_description"] = item.description;
-
-                    if(is_excel_file_type)
-                    {
-                        mapping_look_up_document.Table.Rows.Add(row);
-                    }
-                    else
-                    {
-                        mapping_look_up_document.WriteToStream(row);
-                    }
-                }
-            }
 
 
             }
             catch (Exception ex)
             {
-            System.Console.WriteLine(ex);
+                System.Console.WriteLine(ex);
             }
         }
     }
