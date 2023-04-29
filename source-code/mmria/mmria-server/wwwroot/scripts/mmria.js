@@ -1492,7 +1492,7 @@ var $mmria = function()
 
                 mmria_pre_modal("unstable-network-id");
                 
-                window.setTimeout(()=> { const data_dictionary_dialog_close_button = document.getElementById("unstable_network_dialog_close_button"); unstable_network_dialog_close_button.focus(); }, 0);
+                window.setTimeout(()=> { const unstable_network_dialog_close_button = document.getElementById("unstable_network_dialog_close_button"); unstable_network_dialog_close_button.focus(); }, 0);
                 element.showModal();
         },
         unstable_network_dialog_click: function ()
