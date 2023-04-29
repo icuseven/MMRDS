@@ -1042,19 +1042,6 @@ public void Execute(mmria.server.export_queue_item queue_item)
                             result.Append(temp2[j]);
                         }
 
-                        /*
-                        result_value = result.ToString();
-                        if(path_to_field_name_map.ContainsKey(p_path))
-                        {
-                            path_to_field_name_map[p_path] = result_value;
-                        }
-                        else
-                        {
-                            path_to_field_name_map.Add(p_path, result_value);
-                        }
-
-                        return result_value;
-                        */
                     }
 
 
@@ -1078,9 +1065,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
         if (path_to_field_name_map.ContainsValue(result_value))
         {
-            //path_to_field_name_map[p_path] = result_value;
             result_value = result_value + "_" + p_path_to_int_map[p_path];
-            //path_to_field_name_map.Add(p_path, result_value + "_" + p_path_to_int_map[p_path]);
         }
 
         path_to_field_name_map.Add(p_path, result_value);
@@ -1467,7 +1452,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
                         }
                         else
                         {
-                        //result = index;
+                            //result = index;
                         }
 
                     }
@@ -1487,7 +1472,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
                         }
                         else
                         {
-                        //System.Console.WriteLine("This should not happen. {0}", p_path);
+                            //System.Console.WriteLine("This should not happen. {0}", p_path);
                         }
                     }
 
@@ -1513,7 +1498,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
         }
         catch (Exception)
         {
-        //System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
+            //System.Console.WriteLine("case_maker.set_value bad mapping {0}\n {1}", p_path, ex);
         }
 
         return result;

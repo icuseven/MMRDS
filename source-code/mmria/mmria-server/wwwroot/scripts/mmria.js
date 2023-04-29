@@ -1203,31 +1203,6 @@ var $mmria = function()
 
         converter_calculater_dialog_show: async function ()
         {
-            /*
-            let popUpObj=window.open
-                (
-                    "conversion-calculator",
-            
-                    "ConversionCalculator",
-            
-                    "toolbar=no,scrollbars=no,location=no,statusbar=no," +
-            
-                    "menubar=no,resizable=0,width=500,height=900," +
-            
-                    "left=490,top=300"
-            
-                );
-            
-            window.setTimeout(()=> { popUpObj.focus(); }, 0);
-                
-            
-                //LoadModalDiv();
-        */
-            
-
-
-            //document.addEventListener('keydown',cc_onKeyDown);
-
             let element = document.getElementById("converter-calculater-id");
                 if(element == null)
                 {
@@ -1350,24 +1325,6 @@ var $mmria = function()
             const Button_Event = [];
             const Button_style = [];
 
-            /*
-
-            #cancelbutton {
-            width: 89px;
-            height: 38px;
-            padding: 2px 2px 2px 2px;
-            border-radius: 4px;
-            border: 1px solid #797979;
-            background-color: #ffffff;
-            box-sizing: border-box;
-            font-family: "Open Sans", sans-serif;
-            color: #333333;
-            text-align: center;
-            line-height: normal;
-}
-
-*/
-
             if(p_is_pin)
             {
                 Title_Text.push("Pin Case Options");
@@ -1489,7 +1446,61 @@ var $mmria = function()
             const el = document.getElementById("pin-unpin-id");
             if(el != null)
                 el.close();
-        }
+        },
+        unstable_network_dialog_show: async function (p_error_number, p_error_text)
+        {
+
+            let element = document.getElementById("unstable-network-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "unstable-network-id");
+                    element.setAttribute("role", "dialog");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.maxWidth = "512px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "300px";
+                element.style.overflow = "hidden";
+    
+                let html = [];
+                html.push(`
+                    <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                         <p>To prevent data loss, do NOT close this MMRIA form.</p>
+                         <p>Please wait 5 minutes, then press the Save & Continue button to save your work. You should receive confirmation that your data has been saved.</p>
+                         <p>If this error occurs again, please contact MMRIA Support at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                        </div>
+
+                    </div>
+                    <div>
+                    <footer class="modal-footer">
+                        <button id="unstable_network_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+                    </footer>
+                    </div>
+                `);
+    
+                element.innerHTML = html.join("");
+
+                mmria_pre_modal("unstable-network-id");
+                
+                window.setTimeout(()=> { const data_dictionary_dialog_close_button = document.getElementById("unstable_network_dialog_close_button"); unstable_network_dialog_close_button.focus(); }, 0);
+                element.showModal();
+        },
+        unstable_network_dialog_click: function ()
+        {
+            mmria_post_modal();
+            let el = document.getElementById("unstable-network-id");
+            el.close();
+        },
 
 
     };
