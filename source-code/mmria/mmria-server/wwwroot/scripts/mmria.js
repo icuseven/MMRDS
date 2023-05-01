@@ -1447,7 +1447,7 @@ var $mmria = function()
             if(el != null)
                 el.close();
         },
-        unstable_network_dialog_show: async function (p_error_number, p_error_text, p_note)
+        unstable_network_dialog_show: async function (p_error, p_note)
         {
 
             let element = document.getElementById("unstable-network-id");
@@ -1464,13 +1464,13 @@ var $mmria = function()
 
                 element.style.maxWidth = "512px";
                 element.style.transform = "translateY(0%)";
-                element.style.maxHeight = "300px";
+                element.style.maxHeight = "600px";
                 element.style.overflow = "hidden";
     
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable: ${p_note}</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
@@ -1478,10 +1478,17 @@ var $mmria = function()
                          <p>To prevent data loss, do NOT close this MMRIA form.</p>
                          <p>Please wait 5 minutes, then press the Save & Continue button to save your work. You should receive confirmation that your data has been saved.</p>
                          <p>If this error occurs again, please contact MMRIA Support at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         <textarea id=server_response_textarea rows=7 cols=50 readonly>
+Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
+Action: ${p_note}
+Server Response:
+${p_error.responseText== undefined ? "offline" : p_error.responseText }
+                         </textarea>
+                         <button class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy to Clipboard</button>
                         </div>
 
                     </div>
-                    <div>
+                    <div style="display:block">
                     <footer class="modal-footer">
                         <button id="unstable_network_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
                     </footer>
@@ -1492,7 +1499,14 @@ var $mmria = function()
 
                 mmria_pre_modal("unstable-network-id");
                 
-                window.setTimeout(()=> { const unstable_network_dialog_close_button = document.getElementById("unstable_network_dialog_close_button"); unstable_network_dialog_close_button.focus(); }, 0);
+                window.setTimeout
+                (
+                    ()=> { 
+                        const unstable_network_dialog_close_button = document.getElementById("unstable_network_dialog_close_button"); 
+                        unstable_network_dialog_close_button.focus(); 
+                    }, 
+                    0
+                );
                 element.showModal();
         },
         unstable_network_dialog_click: function ()
@@ -1501,6 +1515,11 @@ var $mmria = function()
             let el = document.getElementById("unstable-network-id");
             el.close();
         },
+        unstable_network_dialog_copy_click: function()
+        {
+            const element = document.getElementById("server_response_textarea");
+            navigator.clipboard.writeText(element.value);
+        }
 
 
     };

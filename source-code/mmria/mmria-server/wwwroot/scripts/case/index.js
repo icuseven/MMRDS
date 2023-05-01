@@ -2084,7 +2084,7 @@ function save_case(p_data, p_call_back, p_note)
       {
         //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
 
-        $mmria.unstable_network_dialog_show(err, xhr.responseText, p_note);
+        $mmria.unstable_network_dialog_show(xhr, p_note);
         if (xhr.status == 401) 
         {
           let redirect_url = location.protocol + '//' + location.host;
