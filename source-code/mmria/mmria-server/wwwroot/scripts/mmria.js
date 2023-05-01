@@ -1447,7 +1447,7 @@ var $mmria = function()
             if(el != null)
                 el.close();
         },
-        unstable_network_dialog_show: async function (p_error_number, p_error_text)
+        unstable_network_dialog_show: async function (p_error_number, p_error_text, p_note)
         {
 
             let element = document.getElementById("unstable-network-id");
@@ -1470,7 +1470,7 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable: ${p_note}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
