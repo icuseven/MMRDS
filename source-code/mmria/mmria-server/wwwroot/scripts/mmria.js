@@ -1478,6 +1478,8 @@ var $mmria = function()
                          <p>To prevent data loss, do NOT close this MMRIA form.</p>
                          <p>Please wait 5 minutes, then press the Save & Continue button to save your work. You should receive confirmation that your data has been saved.</p>
                          <p>If this error occurs again, please contact MMRIA Support at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         <a href="javascript:$mmria.server_response_detail_div_show()">show problem detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">hide problem detail</a>
+                         <div id="server_response_detail_div" style="display:none">
                          <textarea id=server_response_textarea rows=7 cols=50 readonly>
 Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
 Action: ${p_note}
@@ -1485,6 +1487,7 @@ Server Response:
 ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                          </textarea>
                          <button class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy to Clipboard</button>
+                         </div>
                         </div>
 
                     </div>
@@ -1519,6 +1522,16 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
         {
             const element = document.getElementById("server_response_textarea");
             navigator.clipboard.writeText(element.value);
+        },
+        server_response_detail_div_show:function()
+        {
+            const el = document.getElementById('server_response_detail_div');
+            el.style.display = 'block';
+        },
+        server_response_detail_div_hide:function()
+        {
+            const el = document.getElementById('server_response_detail_div');
+            el.style.display = 'none';
         }
 
 
