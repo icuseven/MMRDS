@@ -1478,7 +1478,7 @@ var $mmria = function()
                          <p>To prevent data loss, do NOT close this MMRIA form.</p>
                          <p>Please wait 5 minutes, then press the Save & Continue button to save your work. You should receive confirmation that your data has been saved.</p>
                          <p>If this error occurs again, please contact MMRIA Support at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
-                         <a href="javascript:$mmria.server_response_detail_div_show()">show problem detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">hide problem detail</a>
+                         <a href="javascript:$mmria.server_response_detail_div_show()">show error detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">hide error detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <textarea id=server_response_textarea rows=7 cols=50 readonly>
 Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
