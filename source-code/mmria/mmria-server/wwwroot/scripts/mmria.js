@@ -1475,25 +1475,26 @@ var $mmria = function()
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
-                         <p>To prevent data loss, do NOT close this MMRIA form.</p>
-                         <p>Please wait 5 minutes, then press the Save & Continue button to save your work. You should receive confirmation that your data has been saved.</p>
-                         <p>If this error occurs again, please contact MMRIA Support at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
-                         <a href="javascript:$mmria.server_response_detail_div_show()">show error detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">hide error detail</a>
+                         <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
+                         <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
+                         <p>If this error occurs again, please contact <b>MMRIA Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
-                         <textarea id=server_response_textarea rows=7 cols=50 readonly>
+                         <br/>
+                         <textarea id=server_response_textarea rows=7 cols=55 readonly>
 Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
 Action: ${p_note}
 Server Response:
 ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                          </textarea>
-                         <button class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy to Clipboard</button>
+                         <button class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy Details to Clipboard</button>
                          </div>
                         </div>
 
                     </div>
                     <div style="display:block">
                     <footer class="modal-footer">
-                        <button id="unstable_network_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+                        <button id="unstable_network_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.unstable_network_dialog_click()" style="font-family: 'Open-Sans';">OK</button>
                     </footer>
                     </div>
                 `);
