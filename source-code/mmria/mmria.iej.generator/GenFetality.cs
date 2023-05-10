@@ -3,11 +3,11 @@ namespace mmria.ije.generator;
 public class GenFetality
 {
    Dictionary<string,Func<string>> FieldName;
-   Random rnd;
+   Program.GenerationContext Context;
 
-   public GenFetality(Random _rnd)
+   public GenFetality(Program.GenerationContext _Context)
    {
-      rnd = _rnd;
+      Context = _Context;
 
       FieldName = new()
       { 
@@ -309,13 +309,11 @@ public class GenFetality
       return result.ToString();
    }
 
-
-
-string gen_FDOD_YR()
-{
-   //4		FDOD_YR	4 digit year
-   return rnd.Next(1980,2030).ToString();
-}
+   string gen_FDOD_YR()
+   {
+      //4		FDOD_YR	4 digit year
+      return Context.rnd.Next(1980,2030).ToString();
+   }
 
 /*2		DSTATE	"NCHS Instruction Manual Part 8A
 For US Territories:

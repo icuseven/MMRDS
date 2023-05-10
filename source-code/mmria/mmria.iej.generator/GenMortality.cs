@@ -4,16 +4,16 @@ namespace mmria.ije.generator;
 public class GenMortality
 {
    Dictionary<string, Func<string>> FieldName;
-   Random rnd;
-   public GenMortality(Random _rnd)
+   Program.GenerationContext Context;
+   public GenMortality(Program.GenerationContext _Context)
    {
-      rnd = _rnd;
+      Context = _Context;
+
       FieldName = new()
       {
          {"DOD_YR",gen_DOD_YR},
-         /*
-         "DSTATE",
-         "FILENO",
+         {"DSTATE",gen_DSTATE},
+         /*"FILENO",
          "VOID",
          "AUXNO",
          "BLANK",
@@ -172,49 +172,49 @@ public class GenMortality
       };
    }
 
-public override string ToString()
-{
-   var result = new System.Text.StringBuilder();
-   foreach(var kvp in FieldName)
+   public override string ToString()
    {
-      result.Append(kvp.Value());
+      var result = new System.Text.StringBuilder();
+      foreach(var kvp in FieldName)
+      {
+         result.Append(kvp.Value());
+      }
+
+      return result.ToString();
    }
 
-   return result.ToString();
-}
-
-public string gen_DOD_YR()
-{
-   //4		DOD_YR	4 digit year
-   return rnd.Next(1980,2030).ToString();
-}
-public string gen_DSTATE()
-{
-   return "  ";
-//2		DSTATE	"NCHS Instruction Manual Part 8A
-/*
-For U.S. Territories:
-   MP  NORTHERN MARIANAS
-   AS  AMERICAN SAMOA
-   GU  GUAM
-   VI   VIRGIN ISLANDS
-   PR  PUERTO RICO
-For Canadian Provinces:
-   AB  ALBERTA  
-   BC  BRITISH COLUMBIA 
-   MB  MANITOBA 
-   NB  NEW BRUNSWICK  
-   NF NEWFOUNDLAND  
-   NS  NOVA SCOTIA 
-   NT  NORTHWEST TERRITORIES
-   NU  NUNAVUT
-   ON  ONTARIO
-   PE  PRINCE EDWARD ISLAND 
-   QC  QUEBEC  
-   SK  SASKATCHEWAN
-   YT  YUKON"
-   */
-}
+   public string gen_DOD_YR()
+   {
+      //4		DOD_YR	4 digit year
+      return Context.rnd.Next(1980,2030).ToString();
+   }
+   public string gen_DSTATE()
+   {
+      return "  ";
+   //2		DSTATE	"NCHS Instruction Manual Part 8A
+   /*
+   For U.S. Territories:
+      MP  NORTHERN MARIANAS
+      AS  AMERICAN SAMOA
+      GU  GUAM
+      VI   VIRGIN ISLANDS
+      PR  PUERTO RICO
+   For Canadian Provinces:
+      AB  ALBERTA  
+      BC  BRITISH COLUMBIA 
+      MB  MANITOBA 
+      NB  NEW BRUNSWICK  
+      NF NEWFOUNDLAND  
+      NS  NOVA SCOTIA 
+      NT  NORTHWEST TERRITORIES
+      NU  NUNAVUT
+      ON  ONTARIO
+      PE  PRINCE EDWARD ISLAND 
+      QC  QUEBEC  
+      SK  SASKATCHEWAN
+      YT  YUKON"
+      */
+   }
 //6		FILENO	Left 0 filled; 000001-999999
 //1		VOID	
 /*

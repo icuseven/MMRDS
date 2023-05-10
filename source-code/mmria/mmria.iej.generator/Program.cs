@@ -11,6 +11,18 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace mmria.ije.generator;
 public class Program
 {
+    public class GenerationContext
+    {
+        public GenerationContext(int seed) 
+        {
+            rnd = new Random(seed);
+        }
+
+        const int seed = 1337;
+
+        public Random rnd { get;}
+
+    }
     static HashSet<string> tab_name = new()
     {
         "Mortality",
@@ -21,12 +33,11 @@ public class Program
     {
         const int seed = 1337;
 
-        Random rnd = new Random(seed);
-        
+        Program.GenerationContext Context = new (seed);
 
-        System.IO.File.WriteAllText("output/mort.MOR", new GenMortality(rnd).ToString());
-        System.IO.File.WriteAllText("output/nat.NAT", new GenNatality(rnd).ToString());
-        System.IO.File.WriteAllText("output/fet.FET", new GenFetality(rnd).ToString());
+        System.IO.File.WriteAllText("output/mort.MOR", new GenMortality(Context).ToString());
+        System.IO.File.WriteAllText("output/nat.NAT", new GenNatality(Context).ToString());
+        System.IO.File.WriteAllText("output/fet.FET", new GenFetality(Context).ToString());
 
         Console.WriteLine("IJE Generation Complete.");
     }

@@ -4,11 +4,10 @@ namespace mmria.ije.generator;
 public class GenNatality
 {
    Dictionary<string,Func<string>> FieldName;
-   Random rnd;
-   public GenNatality(Random _rnd)
+   Program.GenerationContext Context;
+   public GenNatality(Program.GenerationContext _Context)
    {
-      rnd = _rnd;
-
+      Context = _Context;
       FieldName = new ()
       {         
          {"IDOB_YR",gen_IDOB_YR},
@@ -304,20 +303,11 @@ public class GenNatality
       return result.ToString();
    }
 
-
-
-
-
-
-
-
-
-
-string gen_IDOB_YR()
-{
-   //4	IDOB_YR	4 digit year
-   return rnd.Next(1980,2030).ToString();
-}
+   string gen_IDOB_YR()
+   {
+      //4	IDOB_YR	4 digit year
+      return Context.rnd.Next(1980,2030).ToString();
+   }
 /*2	BSTATE	"NCHS Instruction Manual Part 8A
 For US Territories:
    MP  NORTHERN MARIANAS
