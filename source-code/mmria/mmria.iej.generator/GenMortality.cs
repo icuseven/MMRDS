@@ -13,9 +13,9 @@ public class GenMortality
       {
          {"DOD_YR",gen_DOD_YR},
          {"DSTATE",gen_DSTATE},
-         /*"FILENO",
-         "VOID",
-         "AUXNO",
+         { "FILENO",get_FILENO},
+         { "VOID",get_VOID},
+         /*"AUXNO",
          "BLANK",
          "GNAME",
          "MNAME",
@@ -190,7 +190,7 @@ public class GenMortality
    }
    public string gen_DSTATE()
    {
-      return "  ";
+      return Context.Get(GenerationContext.state_list);
    //2		DSTATE	"NCHS Instruction Manual Part 8A
    /*
    For U.S. Territories:
@@ -215,8 +215,18 @@ public class GenMortality
       YT  YUKON"
       */
    }
-//6		FILENO	Left 0 filled; 000001-999999
-//1		VOID	
+
+   string get_FILENO()
+   {
+      //6		FILENO	Left 0 filled; 000001-999999
+      return Context.rnd.Next(1, 999999+ 1).ToString().PadLeft(6, '0');
+   }
+
+   string get_VOID()
+   {
+      //1		VOID	
+      return " ";
+   }
 /*
 "0 =Default; Valid Record
 1 = VOID record"*/
