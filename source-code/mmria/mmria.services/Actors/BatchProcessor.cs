@@ -105,11 +105,11 @@ public sealed class BatchProcessor : ReceiveActor
         var fet_length_is_valid = validate_length(message?.fet?.Split("\n"), fet_max_length);
 
 
-        var patt = new System.Text.RegularExpressions.Regex("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
+        var patt = new System.Text.RegularExpressions.Regex("[0-9]{4}_20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
 
         if (patt.Match(message.mor_file_name).Length == 0) 
         {
-            status_builder.AppendLine("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
+            status_builder.AppendLine("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2020_2021_01_01_KS.mor");
         }
 
         if(!mor_length_is_valid) status_builder.AppendLine("mor length is invalid.");
@@ -602,14 +602,10 @@ public sealed class BatchProcessor : ReceiveActor
 
     private string get_state_from_file_name(string p_val)
     {
-        if(p_val.Length > 15)
-        {
-            return p_val.Substring(11, p_val.Length - 15);
-        }
-        else
-        {
-            return p_val;
-        }
+        var remove_extension = p_val.Split(".");
+        var split_on_underscore = remove_extension[0].Split("_");
+
+        return split_on_underscore[split_on_underscore.Length -1];
     }
 
     private Dictionary<string,string> mor_get_header(string row)
