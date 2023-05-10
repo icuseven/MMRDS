@@ -6,23 +6,10 @@ global using global::System.Net.Http;
 global using global::System.Threading;
 global using global::System.Threading.Tasks;
 
-using Excel = Microsoft.Office.Interop.Excel;  
-
 namespace mmria.ije.generator;
 public class Program
 {
-    public class GenerationContext
-    {
-        public GenerationContext(int seed) 
-        {
-            rnd = new Random(seed);
-        }
 
-        const int seed = 1337;
-
-        public Random rnd { get;}
-
-    }
     static HashSet<string> tab_name = new()
     {
         "Mortality",
@@ -33,7 +20,7 @@ public class Program
     {
         const int seed = 1337;
 
-        Program.GenerationContext Context = new (seed);
+        GenerationContext Context = new (seed);
 
         System.IO.File.WriteAllText("output/mort.MOR", new GenMortality(Context).ToString());
         System.IO.File.WriteAllText("output/nat.NAT", new GenNatality(Context).ToString());

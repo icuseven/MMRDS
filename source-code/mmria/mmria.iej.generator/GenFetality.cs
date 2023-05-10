@@ -3,9 +3,9 @@ namespace mmria.ije.generator;
 public class GenFetality
 {
    Dictionary<string,Func<string>> FieldName;
-   Program.GenerationContext Context;
+   GenerationContext Context;
 
-   public GenFetality(Program.GenerationContext _Context)
+   public GenFetality(GenerationContext _Context)
    {
       Context = _Context;
 

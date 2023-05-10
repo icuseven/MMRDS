@@ -4,8 +4,8 @@ namespace mmria.ije.generator;
 public class GenNatality
 {
    Dictionary<string,Func<string>> FieldName;
-   Program.GenerationContext Context;
-   public GenNatality(Program.GenerationContext _Context)
+   GenerationContext Context;
+   public GenNatality(GenerationContext _Context)
    {
       Context = _Context;
       FieldName = new ()

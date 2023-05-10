@@ -4,8 +4,8 @@ namespace mmria.ije.generator;
 public class GenMortality
 {
    Dictionary<string, Func<string>> FieldName;
-   Program.GenerationContext Context;
-   public GenMortality(Program.GenerationContext _Context)
+   GenerationContext Context;
+   public GenMortality(GenerationContext _Context)
    {
       Context = _Context;
 

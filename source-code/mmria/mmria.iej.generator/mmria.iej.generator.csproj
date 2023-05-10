@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FastExcel" Version="3.0.13"/>
-    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <!--PackageReference Include="FastExcel" Version="3.0.13"/>
+    <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" /-->
   </ItemGroup>
 
 </Project>
