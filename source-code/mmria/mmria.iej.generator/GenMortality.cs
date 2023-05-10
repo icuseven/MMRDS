@@ -1,0 +1,478 @@
+
+namespace mmria.ije.generator;
+
+public class GenMortality
+{
+   Dictionary<string, Func<string>> FieldName;
+   Random rnd;
+   public GenMortality(Random _rnd)
+   {
+      rnd = _rnd;
+      FieldName = new()
+      {
+         {"DOD_YR",gen_DOD_YR},
+         /*
+         "DSTATE",
+         "FILENO",
+         "VOID",
+         "AUXNO",
+         "BLANK",
+         "GNAME",
+         "MNAME",
+         "LNAME",
+         "SUFF",
+         "BLANK",
+         "SSN",
+         "AGETYPE",
+         "AGE ",
+         "BLANK",
+         "DOB_YR",
+         "DOB_MO",
+         "DOB_DY",
+         "BPLACE_CNT",
+         "BPLACE_ST",
+         "CITYC",
+         "COUNTYC",
+         "STATEC",
+         "COUNTRYC",
+         "BLANK",
+         "MARITAL",
+         "BLANK",
+         "DPLACE",
+         "COD",
+         "BLANK",
+         "DOD_MO",
+         "DOD_DY",
+         "TOD",
+         "DEDUC",
+         "BLANK",
+         "DETHNIC1",
+         "DETHNIC2",
+         "DETHNIC3",
+         "DETHNIC4",
+         "DETHNIC5",
+         "RACE1",
+         "RACE2",
+         "RACE3",
+         "RACE4",
+         "RACE5",
+         "RACE6",
+         "RACE7",
+         "RACE8",
+         "RACE9",
+         "RACE10",
+         "RACE11",
+         "RACE12",
+         "RACE13",
+         "RACE14",
+         "RACE15",
+         "RACE16",
+         "RACE17",
+         "RACE18",
+         "RACE19",
+         "RACE20",
+         "RACE21",
+         "RACE22",
+         "RACE23",
+         "BLANK",
+         "OCCUP",
+         "OCCUPC",
+         "INDUST",
+         "INDUSTC",
+         "BLANK",
+         "MANNER",
+         "BLANK",
+         "MAN_UC",
+         "ACME_UC",
+         "EAC",
+         "TRX_FLG",
+         "RAC",
+         "AUTOP",
+         "AUTOPF",
+         "TOBAC",
+         "PREG",
+         "BLANK",
+         "DOI_MO",
+         "DOI_DY",
+         "DOI_YR",
+         "TOI_HR",
+         "WORKINJ",
+         "BLANK",
+         "INACT",
+         "BLANK",
+         "ARMEDF",
+         "DINSTI",
+         "ADDRESS_D",
+         "STNUM_D",
+         "PREDIR_D",
+         "STNAME_D",
+         "STDESIG_D",
+         "POSTDIR_D",
+         "CITYTEXT_D",
+         "STATETEXT_D",
+         "ZIP9_D",
+         "COUNTYTEXT_D",
+         "CITYCODE_D",
+         "LONG_D",
+         "LAT_D",
+         "BLANK",
+         "STNUM_R",
+         "PREDIR_R",
+         "STNAME_R",
+         "STDESIG_R",
+         "POSTDIR_R",
+         "UNITNUM_R",
+         "CITYTEXT_R",
+         "ZIP9_R",
+         "COUNTYTEXT_R",
+         "STATETEXT_R ",
+         "COUNTRYTEXT_R",
+         "ADDRESS_R",
+         "BLANK",
+         "DMIDDLE",
+         "BLANK",
+         "POILITRL",
+         "BLANK",
+         "TRANSPRT",
+         "COUNTYTEXT_I",
+         "BLANK",
+         "CITYTEXT_I",
+         "BLANK",
+         "LONG_I",
+         "LAT_I",
+         "BLANK",
+         "REPLACE",
+         "COD1A",
+         "INTERVAL1A",
+         "COD1B",
+         "INTERVAL1B",
+         "COD1C",
+         "INTERVAL1C",
+         "COD1D",
+         "INTERVAL1D",
+         "OTHERCONDITION",
+         "DMAIDEN",
+         "DBPLACECITYCODE",
+         "DBPLACECITY",
+         "BLANK",
+         "STINJURY",
+         "BLANK",
+         "DTHCOUNTRY",
+         "BLANK",
+         "VRO_STATUS",
+         "BC_DET_MATCH",
+         "FDC_DET_MATCH",
+         "BC_PROB_MATCH",
+         "FDC_PROB_MATCH",
+         "ICD10_MATCH",
+         "PREGCB_MATCH",
+         "LITERALCOD_MATCH"
+         */
+
+      };
+   }
+
+public override string ToString()
+{
+   var result = new System.Text.StringBuilder();
+   foreach(var kvp in FieldName)
+   {
+      result.Append(kvp.Value());
+   }
+
+   return result.ToString();
+}
+
+public string gen_DOD_YR()
+{
+   //4		DOD_YR	4 digit year
+   return rnd.Next(1980,2030).ToString();
+}
+public string gen_DSTATE()
+{
+   return "  ";
+//2		DSTATE	"NCHS Instruction Manual Part 8A
+/*
+For U.S. Territories:
+   MP  NORTHERN MARIANAS
+   AS  AMERICAN SAMOA
+   GU  GUAM
+   VI   VIRGIN ISLANDS
+   PR  PUERTO RICO
+For Canadian Provinces:
+   AB  ALBERTA  
+   BC  BRITISH COLUMBIA 
+   MB  MANITOBA 
+   NB  NEW BRUNSWICK  
+   NF NEWFOUNDLAND  
+   NS  NOVA SCOTIA 
+   NT  NORTHWEST TERRITORIES
+   NU  NUNAVUT
+   ON  ONTARIO
+   PE  PRINCE EDWARD ISLAND 
+   QC  QUEBEC  
+   SK  SASKATCHEWAN
+   YT  YUKON"
+   */
+}
+//6		FILENO	Left 0 filled; 000001-999999
+//1		VOID	
+/*
+"0 =Default; Valid Record
+1 = VOID record"*/
+
+/*
+12		AUXNO	000000000001-999999999999; Blank
+1		BLANK	BLANK
+50		GNAME	
+1		MNAME	
+50		LNAME	Last name is required
+10		SUFF	
+53		BLANK	BLANK
+9		SSN	9 digit SSN; blank if unknown or not sharable
+1		AGETYPE	"1 = Years
+2 = Months
+4 = Days
+5 = Hours
+6 = Minutes
+9 = Unknown (not classifiable)"
+3		AGE 	"001 - 135, 999
+Codes: If AGETYPE = 1 then 001-135, 999
+                                        2 then 001-011, 999
+                                        4 then 001-027, 999
+                                        5 then 001-023, 999
+                                        6 then 001-059, 999
+                                        9 then 999"
+1		BLANK	BLANK
+4		DOB_YR	4 digit year; <=year of birth, 9999
+2		DOB_MO	01-12, 99
+2		DOB_DY	01-31 (based on month), 99
+2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
+2		BPLACE_ST	"NCHS Instruction Manual Part 8A
+   ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+   XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+For U.S. Territories:
+   MP  NORTHERN MARIANAS
+   AS  AMERICAN SAMOA
+   GU  GUAM
+   VI   VIRGIN ISLANDS
+   PR  PUERTO RICO
+For Canadian Provinces:
+   AB  ALBERTA  
+   BC  BRITISH COLUMBIA 
+   MB  MANITOBA 
+   NB  NEW BRUNSWICK  
+   NF NEWFOUNDLAND  
+   NS  NOVA SCOTIA 
+   NT  NORTHWEST TERRITORIES
+   NU  NUNAVUT
+   ON  ONTARIO
+   PE  PRINCE EDWARD ISLAND 
+   QC  QUEBEC  
+   SK  SASKATCHEWAN
+   YT  YUKON"
+5		CITYC	NCHS Instruction Manual Part 8A 
+3		COUNTYC	NCHS Instruction Manual Part 8A 
+2		STATEC	"NCHS Instruction Manual Part 8A
+   ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+   XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+For U.S. Territories:
+   MP  NORTHERN MARIANAS
+   AS  AMERICAN SAMOA
+   GU  GUAM
+   VI   VIRGIN ISLANDS
+   PR  PUERTO RICO
+For Canadian Provinces:
+   AB  ALBERTA  
+   BC  BRITISH COLUMBIA 
+   MB  MANITOBA 
+   NB  NEW BRUNSWICK  
+   NF NEWFOUNDLAND  
+   NS  NOVA SCOTIA 
+   NT  NORTHWEST TERRITORIES
+   NU  NUNAVUT
+   ON  ONTARIO
+   PE  PRINCE EDWARD ISLAND 
+   QC  QUEBEC  
+   SK  SASKATCHEWAN
+   YT  YUKON"
+2		COUNTRYC	NCHS Instruction Manual Part 8A 
+1		BLANK	BLANK
+1		MARITAL	"M = Married
+A = Married but Separated
+W = Widowed
+D = Divorced
+S = Never Married
+U = Not Classifiable"
+1		BLANK	BLANK
+1		DPLACE	"1 = Inpatient
+2 = Emergency Room/Outpatient
+3 = Dead on Arrival
+4 = Decedent's Home
+5 = Hospice Facility
+6 = Nursing Home/Long Term Care Facility
+7 = Other
+9 = Unknown"
+3		COD	"NCHS Part 8 (from FIPS table 6-4)
+Variable description (""Contents"") edited; same as NCHS ""Facility Name--County"""
+1		BLANK	BLANK
+2		DOD_MO	01-12, 99
+2		DOD_DY	01-31 (based on month), 99
+4		TOD	0000-2359, 9999
+1		DEDUC	"1 = 8th grade or less
+2 = 9th through 12th grade; no diploma
+3 = High School Graduate or GED Completed
+4 = Some college credit, but no degree
+5 = Associate Degree
+6 = Bachelor's Degree
+7 = Master's Degree
+8 = Doctorate Degree or Professional Degree
+9 = Unknown"
+1		BLANK	BLANK
+1		DETHNIC1	"N = No, Not Mexican
+H = Yes, Mexican
+U = Unknown"
+1		DETHNIC2	"N = No, Not Puerto Rican
+H = Yes, Puerto Rican
+U = Unknown"
+1		DETHNIC3	"N = No, Not Cuban
+H = Yes, Cuban
+U = Unknown"
+1		DETHNIC4	"N = No, Not other Hispanic
+H = Yes, other Hispanic
+U = Unknown"
+20		DETHNIC5	Literal; Blank 
+1		RACE1	"Y = Yes, box for race checked
+N = No, box for race not checked"
+1		RACE2	Y, N
+1		RACE3	Y, N
+1		RACE4	Y, N
+1		RACE5	Y, N
+1		RACE6	Y, N
+1		RACE7	Y, N
+1		RACE8	Y, N
+1		RACE9	Y, N
+1		RACE10	Y, N
+1		RACE11	Y, N
+1		RACE12	Y, N
+1		RACE13	Y, N
+1		RACE14	Y, N
+1		RACE15	Y, N
+30		RACE16	Literal; Blank 
+30		RACE17	Literal; Blank 
+30		RACE18	Literal; Blank 
+30		RACE19	Literal; Blank 
+30		RACE20	Literal; Blank
+30		RACE21	Literal; Blank 
+30		RACE22	Literal; Blank 
+30		RACE23	Literal; Blank
+49		BLANK	BLANK
+40		OCCUP	
+3		OCCUPC	
+40		INDUST	
+3		INDUSTC	Refer to NCHS Instruction Manual Part 19, Industry and Occupation Coding for Death Certificates, 2003. Leave blank if using a coding system other than this.
+40		BLANK	BLANK
+1		MANNER	Refer to the NCHS Code Structure Descriptions contained in the file layouts for SuperMicar and Transax output formats.  These files are available on the NCHS website at the following address: http://www.cdc.gov/nchs/nvss/vital_certificate_revisions.htm.  Please note that the "Time of Injury Unit" field in position #1075 needs to be completed in conjuction with "Time of injury" in position #989. For Place of Injury (computer generated), record position 704, it will be a numeric code if it is from the Transax file and an alpha code if the field is generated from SuperMicar.
+3		BLANK	
+5		MAN_UC	
+5		ACME_UC	
+160		EAC	
+1		TRX_FLG	
+100		RAC	
+1		AUTOP	
+1		AUTOPF	
+1		TOBAC	
+1		PREG	
+1		BLANK	
+2		DOI_MO	
+2		DOI_DY	
+4		DOI_YR	
+4		TOI_HR	
+1		WORKINJ	
+30		BLANK	
+1		INACT	
+56		BLANK	
+1		ARMEDF	Y=yes; N=no; U=unknown
+30		DINSTI	Facility name literal; if Place of Death (DPLACE)=4 (decedent's home), enter "Home"
+50		ADDRESS_D	The item is made up of one long string that includes Street number, Pre Directional, Street name, Street designator, and Post Directional. Jurisdiction should use version of Place of Death address that's used in their system versus reprogramming.
+10		STNUM_D	
+10		PREDIR_D	
+50		STNAME_D	
+10		STDESIG_D	
+10		POSTDIR_D	
+28		CITYTEXT_D	Valid city/town/location literal
+28		STATETEXT_D	Valid text for U.S. State or Territory or Canadian Province
+9		ZIP9_D	Valid 5+4 digit zip code; 3 space 3 for Canada; unknown portion left blank; do not include the "-"
+28		COUNTYTEXT_D	Valid county literal
+5		CITYCODE_D	NCHS Part 8 (from FIPS table 55-3) Other part of the 12 digit fips code is contained in earlier part of the record with state and county of death. This is the place or city code
+17		LONG_D	As coded by state of occurrence.  Commonly coded with space for a negative sign followed by 3 bytes, a decimal divider, and 6 decimal places.
+17		LAT_D	As coded by state of occurrence.  Commonly coded with space for a negative sign followed by 2 bytes, a decimal divider, and 6 decimal places.
+101		BLANK	BLANK
+10		STNUM_R	
+10		PREDIR_R	
+28		STNAME_R	
+10		STDESIG_R	
+10		POSTDIR_R	
+7		UNITNUM_R	
+28		CITYTEXT_R	Valid city/town/location literal
+9		ZIP9_R	Valid 5+4 digit zip code; 3 space 3 for Canada; unknown portion left blank; do not include the "-"
+28		COUNTYTEXT_R	Valid county literal
+28		STATETEXT_R 	Valid text for U.S. State or Territory or Canadian Province
+28		COUNTRYTEXT_R	Valid text for country of residence
+50		ADDRESS_R	The item is made up of one long string that includes Street number, Pre Directional, Street name, Street designator, and Post Directional. Jurisdiction should use version of Decedent's Residence address that's used in their system versus reprogramming.
+77		BLANK	BLANK
+50		DMIDDLE	NCHS only asks for middle initial in start col 77. Free form alpha literal; left justified
+251		BLANK	BLANK
+50		POILITRL	Literal description; Blank for natural death
+250		BLANK	BLANK
+30		TRANSPRT	"DR=Driver/Operator
+PA=Passenger
+PE=Pedestrian
+Enter full text if it does not fit above (blank for natural death)"
+28		COUNTYTEXT_I	Valid county literal; blank for natural death
+3		BLANK	BLANK
+28		CITYTEXT_I	Valid town/city literal; blank for natural death.
+7		BLANK	BLANK
+17		LONG_I	As coded by state of occurrence.  Commonly coded with space for a negative sign followed by 3 bytes, a decimal divider, and 6 decimal places (blank if natural death).
+17		LAT_I	As coded by state of occurrence.  Commonly coded with space for a negative sign followed by 2 bytes, a decimal divider, and 6 decimal places (blank if natural death).
+2		BLANK	BLANK
+1		REPLACE	0=original record; 1=updated record; 2=updated, do not send to NCHS
+120		COD1A	Literal information reported on Line a
+20		INTERVAL1A	Duration reported on Line a
+120		COD1B	Literal information reported on Line b
+20		INTERVAL1B	Duration reported on Line b
+120		COD1C	Literal information reported on Line c
+20		INTERVAL1C	Duration reported on Line c
+120		COD1D	Literal information reported on Line d
+20		INTERVAL1D	Duration reported on Line d
+240		OTHERCONDITION	Literal information reported in Part II
+50		DMAIDEN	
+5		DBPLACECITYCODE	NCHS Part 8 (from FIPS table 55-3)
+28		DBPLACECITY	
+845		BLANK	BLANK
+28		STINJURY	Valid state, U.S. territory or Canadian province literal, otherwise blank (blank if natural death)
+30		BLANK	BLANK
+28		DTHCOUNTRY	Valid text for country of death
+637		BLANK	BLANK
+1		VRO_STATUS	3=N/A (identified via linkage or literal cause of death field)                                                                       9999=blank
+1		BC_DET_MATCH	1 = Match,  0 = No Match
+1		FDC_DET_MATCH	1 = Match,  0 = No Match
+1		BC_PROB_MATCH	1 = Match,  0 = No Match
+1		FDC_PROB_MATCH	1 = Match,  0 = No Match
+1		ICD10_MATCH	1 = Match,  0 = No Match
+1		PREGCB_MATCH	1 = Match,  0 = No Match
+1		LITERALCOD_MATCH	1 = Match,  0 = No Match
+5000			
+= Total Record Length
+
+*/
+}
+			
+			
+			
+			
+			
+			
+			
+			
+			
