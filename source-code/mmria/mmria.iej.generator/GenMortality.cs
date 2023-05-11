@@ -236,7 +236,7 @@ public class GenMortality
    string get_AUXNO()
    {
       //12		AUXNO	000000000001-999999999999; Blank
-      if(Context.rnd.NextDouble() > Context.coin_flip)
+      if(Context.rnd.NextDouble() > Context.percentage_threshold)
       {
          return Context.rnd.Next(1, 999999999+ 1).ToString().PadLeft(12, '0');
       }

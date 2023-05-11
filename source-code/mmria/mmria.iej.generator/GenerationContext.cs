@@ -11,7 +11,7 @@ public class GenerationContext
 
     public Random rnd { get;}
 
-    public double coin_flip = .5;
+    public double percentage_threshold = .5;
 
     public string Get(IList<string> list)
     {
