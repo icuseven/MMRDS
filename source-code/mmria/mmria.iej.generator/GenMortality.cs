@@ -15,10 +15,10 @@ public class GenMortality
          {"DSTATE",gen_DSTATE},
          { "FILENO",get_FILENO},
          { "VOID",get_VOID},
-         /*"AUXNO",
-         "BLANK",
-         "GNAME",
-         "MNAME",
+         {"AUXNO",get_AUXNO},
+         {"BLANK",get_BLANK},
+         { "GNAME",get_GNAME},
+         /*"MNAME",
          "LNAME",
          "SUFF",
          "BLANK",
@@ -225,17 +225,39 @@ public class GenMortality
    string get_VOID()
    {
       //1		VOID	
+      /*
+"0 =Default; Valid Record
+1 = VOID record"
+*/
+      return Context.Get(GenerationContext.zero_or_one);
+   }
+
+
+   string get_AUXNO()
+   {
+      //12		AUXNO	000000000001-999999999999; Blank
+      if(Context.rnd.NextDouble() > Context.coin_flip)
+      {
+         return Context.rnd.Next(1, 999999999+ 1).ToString().PadLeft(12, '0');
+      }
+      else
+      {
+         return "".PadLeft(12, ' ');
+      }
+   }
+
+   string get_BLANK()
+   {
+      //1		BLANK	BLANK
       return " ";
    }
-/*
-"0 =Default; Valid Record
-1 = VOID record"*/
 
-/*
-12		AUXNO	000000000001-999999999999; Blank
-1		BLANK	BLANK
-50		GNAME	
-1		MNAME	
+   string get_GNAME()
+   {
+      //50		GNAME
+      return Context.Get(GenerationContext.first_name).PadLeft(50,' ');
+   }	
+/*1		MNAME	
 50		LNAME	Last name is required
 10		SUFF	
 53		BLANK	BLANK
