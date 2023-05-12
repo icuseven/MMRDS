@@ -345,4 +345,11 @@ public class GenerationContext
         "Dewitt"
     };
 
+    public static List<string> suffix_list = new()
+    {
+        "Jr.",
+        "II",
+        "III"
+    };
+
 }

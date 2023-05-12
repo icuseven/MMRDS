@@ -11,18 +11,18 @@ public class GenMortality
 
       FieldName = new()
       {
-         {"DOD_YR",gen_DOD_YR},
-         {"DSTATE",gen_DSTATE},
+         { "DOD_YR",gen_DOD_YR},
+         { "DSTATE",gen_DSTATE},
          { "FILENO",get_FILENO},
          { "VOID",get_VOID},
-         {"AUXNO",get_AUXNO},
-         {"BLANK",get_BLANK},
+         { "AUXNO",get_AUXNO},
+         { "BLANK",get_One_BLANK},
          { "GNAME",get_GNAME},
          { "MNAME",get_MNAME},
          { "LNAME",get_LNAME},
-         /*"SUFF",
-         "BLANK",
-         "SSN",
+         { "SUFF",get_SUFF},
+         { "BLANK", get_53_BLANK},
+         /*"SSN",
          "AGETYPE",
          "AGE ",
          "BLANK",
@@ -246,7 +246,7 @@ public class GenMortality
       }
    }
 
-   string get_BLANK()
+   string get_One_BLANK()
    {
       //1		BLANK	BLANK
       return " ";
@@ -270,10 +270,19 @@ public class GenMortality
       return Context.Get(GenerationContext.last_name).PadLeft(50,' ');
    }
 
+   string get_SUFF()
+   {
+      //10		SUFF	
+      return Context.Get(GenerationContext.suffix_list).PadLeft(10,' ');
+   }
 
-/*10		SUFF	
-53		BLANK	BLANK
-9		SSN	9 digit SSN; blank if unknown or not sharable
+   string get_53_BLANK()
+   {
+      //53		BLANK	BLANK
+      return "".PadLeft(53,' ');
+   }
+
+/*9		SSN	9 digit SSN; blank if unknown or not sharable
 1		AGETYPE	"1 = Years
 2 = Months
 4 = Days
