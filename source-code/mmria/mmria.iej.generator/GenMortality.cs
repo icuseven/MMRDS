@@ -22,9 +22,9 @@ public class GenMortality
          { "LNAME",get_LNAME},
          { "SUFF",get_SUFF},
          { "BLANK", get_53_BLANK},
-         /*"SSN",
-         "AGETYPE",
-         "AGE ",
+         { "SSN", get_SSN},
+         { "AGETYPE",get_AGETYPE},
+         /*"AGE ",
          "BLANK",
          "DOB_YR",
          "DOB_MO",
@@ -282,9 +282,25 @@ public class GenMortality
       return "".PadLeft(53,' ');
    }
 
-/*9		SSN	9 digit SSN; blank if unknown or not sharable
-1		AGETYPE	"1 = Years
-2 = Months
+   string get_SSN()
+   {
+      // 9		SSN	9 digit SSN; blank if unknown or not sharable
+      if(Context.rnd.NextDouble() > Context.percentage_threshold)
+      {
+         return "".PadLeft(9,' ');
+      }
+      else
+      {
+         return Context.rnd.NextInt64(000000000, 999999999).ToString();
+      }
+   }
+
+   string get_AGETYPE()
+   {
+      //1		AGETYPE	"1 = Years
+      return Context.Get(GenerationContext.age_type_list);
+   }
+/*2 = Months
 4 = Days
 5 = Hours
 6 = Minutes

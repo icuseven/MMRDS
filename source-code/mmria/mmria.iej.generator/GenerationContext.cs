@@ -352,4 +352,14 @@ public class GenerationContext
         "III"
     };
 
+    public static List<string> age_type_list = new()
+    {
+        "1"	, //	AGETYPE	"1 = Years
+        "2", // = Months
+        "4", // = Days
+        "5", // = Hours
+        "6", // = Minutes
+        "9", // = Unknown (not classifiable)"
+    };
+
 }
