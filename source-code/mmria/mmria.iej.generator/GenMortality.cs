@@ -18,9 +18,9 @@ public class GenMortality
          {"AUXNO",get_AUXNO},
          {"BLANK",get_BLANK},
          { "GNAME",get_GNAME},
-         /*"MNAME",
-         "LNAME",
-         "SUFF",
+         { "MNAME",get_MNAME},
+         { "LNAME",get_LNAME},
+         /*"SUFF",
          "BLANK",
          "SSN",
          "AGETYPE",
@@ -257,9 +257,21 @@ public class GenMortality
       //50		GNAME
       return Context.Get(GenerationContext.first_name).PadLeft(50,' ');
    }	
-/*1		MNAME	
-50		LNAME	Last name is required
-10		SUFF	
+
+   string get_MNAME()
+   {
+      //1		MNAME	
+      return Context.Get(GenerationContext.a_z_blank);
+   }
+
+   string get_LNAME()
+   {
+      //50		LNAME	Last name is required
+      return Context.Get(GenerationContext.last_name).PadLeft(50,' ');
+   }
+
+
+/*10		SUFF	
 53		BLANK	BLANK
 9		SSN	9 digit SSN; blank if unknown or not sharable
 1		AGETYPE	"1 = Years

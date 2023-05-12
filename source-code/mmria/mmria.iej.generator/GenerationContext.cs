@@ -15,7 +15,7 @@ public class GenerationContext
 
     public string Get(IList<string> list)
     {
-        int index = rnd.Next(0, list.Count + 1);
+        int index = rnd.Next(0, list.Count);
 
         return list[index];
     }
@@ -25,6 +25,39 @@ public class GenerationContext
         "0",
         "1"
     };
+
+    public static List<string> a_z_blank = new()
+    {
+        " ",
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+    };
+
+
     public static List<string> state_list = new()
     {
         "AL",
