@@ -215,7 +215,7 @@ function get_role_list()
     let result = [];
     if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
 	{
-		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'power_bi_manager','steve_mmria', 'steve_prams', 'vital_importer'];
+		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer'];
 	}
 	else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
     {
@@ -259,7 +259,7 @@ function render_role_list_for(p_user, p_created_by)
 			result.push(" ");
 			result.push(user_role.role_name);
 			result.push(" ");
-			result.push(user_role.jurisdiction_id);
+			result.push(user_role.jurisdiction_id == "/" ? "Top Folder" : user_role.jurisdiction_id);
 			result.push(" ");
 
 			if(user_role.effective_start_date instanceof Date && user_role.effective_start_date != "Invalid Date")
