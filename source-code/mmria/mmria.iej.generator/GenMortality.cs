@@ -24,9 +24,9 @@ public class GenMortality
          { "BLANK", get_53_BLANK},
          { "SSN", get_SSN},
          { "AGETYPE",get_AGETYPE},
-         /*"AGE ",
-         "BLANK",
-         "DOB_YR",
+         { "AGE", get_AGE},
+         {"BLANK",get_One_BLANK},
+         /*"DOB_YR",
          "DOB_MO",
          "DOB_DY",
          "BPLACE_CNT",
@@ -297,23 +297,35 @@ public class GenMortality
 
    string get_AGETYPE()
    {
-      //1		AGETYPE	"1 = Years
+      /*
+      1		AGETYPE	"1 = Years
+      2 = Months
+      4 = Days
+      5 = Hours
+      6 = Minutes
+      9 = Unknown (not classifiable)"
+      */
       return Context.Get(GenerationContext.age_type_list);
    }
-/*2 = Months
-4 = Days
-5 = Hours
-6 = Minutes
-9 = Unknown (not classifiable)"
-3		AGE 	"001 - 135, 999
-Codes: If AGETYPE = 1 then 001-135, 999
-                                        2 then 001-011, 999
-                                        4 then 001-027, 999
-                                        5 then 001-023, 999
-                                        6 then 001-059, 999
-                                        9 then 999"
-1		BLANK	BLANK
-4		DOB_YR	4 digit year; <=year of birth, 9999
+
+   string get_AGE()
+   {
+      /*
+      3		AGE 	"001 - 135, 999
+      Codes: If AGETYPE = 1 then 001-135, 999
+                                             2 then 001-011, 999
+                                             4 then 001-027, 999
+                                             5 then 001-023, 999
+                                             6 then 001-059, 999
+                                             9 then 999"
+                                             */
+      return Context.rnd.Next(1,136).ToString().PadLeft(3,'0');
+
+   }
+//1		BLANK	BLANK
+
+
+/*4		DOB_YR	4 digit year; <=year of birth, 9999
 2		DOB_MO	01-12, 99
 2		DOB_DY	01-31 (based on month), 99
 2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
