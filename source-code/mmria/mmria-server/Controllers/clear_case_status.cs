@@ -80,11 +80,12 @@ public sealed class clear_case_statusController : Controller
                             item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
                             Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
                         )
+                        /*
                         &&
                         (
                             item.value.case_status.HasValue &&
                             Locked_status_list.IndexOf(item.value.case_status.Value) > -1
-                        )
+                        )*/
 
                     )
                     {
