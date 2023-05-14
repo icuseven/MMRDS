@@ -3,6 +3,14 @@ namespace mmria.common.metadata;
 
 public sealed class node
 {
+    public sealed class rgb_color
+    {
+        public rgb_color(){}
+        public int? r { get; set; } 
+        public int? b { get; set; } 
+        public int? a { get; set; } 
+    }
+
     public string prompt { get; set; }
     public string name { get; set; }
     public string type { get; set; }
@@ -76,15 +84,40 @@ public sealed class node
 
 
     public string other_specify_list { get;set;}
+
+
+    /*
+     position":"absolute",
+     "top":12,
+     "left":8,
+     "height":50,
+     "width":110.219,
+     "font-weight":"400",
+     "font-size":"16px",
+     "font-style":"normal",
+     "color":"rgb(0, 0, 0)"}"
+
+*/
+
+    public string position { get; set; }
     public string top { get; set; }
     public string left { get; set; }
     public string width { get; set; }
     public string height { get; set; }
     public string padding { get; set; }
+    public rgb_color? color { get; set; }
+
+    public int? font_size { get; set; }
+
+    public bool? is_bold { get; set; }
+    public bool? is_italic { get; set; }
     public string text_align { get; set; }
+
+    
 
     public bool? is_not_selectable { get; set; } 
     public string sort_order { get; set; }
+
 
     public node()
     {
