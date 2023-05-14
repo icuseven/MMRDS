@@ -28,9 +28,11 @@
         <p style="@prompt_style">@item.prompt</p>
         <select  style="@control_style">
 
-        @foreach (var option  in item.values)
-        {
+       @{ var metadata_value_list = GetValueList(item);}
 
+        @foreach (var option  in metadata_value_list)
+        {
+            <option value="@option.value">@option.display</option>
         }
 
         </select> 
@@ -58,6 +60,9 @@
 
     [Parameter]
     public mmria.common.metadata.UI_Specification UI_Specification { get; set; }
+
+     [Parameter]
+    public mmria.common.metadata.node[]  Lookup { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -131,4 +136,24 @@ function get_style_string(p_style_string)
 	return result;
 }
 */
+
+
+    mmria.common.metadata.value_node[] GetValueList(mmria.common.metadata.node item)
+    {
+        var result = item.values;
+
+        if(!string.IsNullOrWhiteSpace(item.path_reference))
+        {
+            foreach(var lookup_item in Lookup)
+            {
+                if(lookup_item.name == item.path_reference)
+                {
+                    result = lookup_item.values;
+                    break;
+                }
+            }
+        }
+
+        return result;
+    }
 }
