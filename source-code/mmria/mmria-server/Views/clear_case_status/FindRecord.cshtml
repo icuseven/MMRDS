@@ -36,6 +36,15 @@
     </thead>
     <tbody>
         @{ var i = 0; }
+        @if(Model.CaseStatusDetail.Count == 0)
+        {
+            <tr class="tr">
+                <td class="td" colspan=7 align=center>
+                    No Matching Cases Found. 
+                </td>
+            </tr>
+        }
+        else 
         @foreach (var item in Model.CaseStatusDetail)
         {
             i++;
