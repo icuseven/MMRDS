@@ -51,8 +51,8 @@
             @if
             (
                 item.CaseStatus != null &&
-                int.TryParse(item.CaseStatus, out test_status) &&
-                Locked_status_list.IndexOf(test_status) > -1
+                item.CaseStatus.HasValue &&
+                Locked_status_list.IndexOf(item.CaseStatus.Value) > -1
             )
             {
 
@@ -75,6 +75,7 @@
                             <input type="hidden" name="LastUpdatedBy" value="@item.LastUpdatedBy" />
                             <input type="hidden" name="StateOfDeath" value="@item.StateOfDeath" />
                             <input type="hidden" name="CaseStatus" value="@item.CaseStatus" />
+                            <input type="hidden" name="CaseStatusDisplay" value="@item.CaseStatusDisplay" />
                             <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />
                             <input type="hidden" name="Role" value="@item.Role" />   
                             <input class="btn btn-primary" type="submit" value="Unlock" />
@@ -88,7 +89,7 @@
                 <tr class="tr">
                     <td class="td">@i</td>
                     <td class="td">@item.RecordId</td>
-                    <td class="td">@item.CaseStatus</td>
+                    <td class="td">@item.CaseStatusDisplay</td>
                     <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
                     <td class="td">@item.DateOfDeath</td>
                     <td class="td">@item.LastUpdatedBy, @item.DateLastUpdated</td>

@@ -25,7 +25,8 @@ public sealed class CaseStatusDetail
     public string LastUpdatedBy { get; set; }
     public DateTime? DateLastUpdated { get; set; }
 
-    public string CaseStatus { get; set; }
+    public int? CaseStatus { get; set; }
+    public string CaseStatusDisplay { get; set; }
 
     public string StateDatabase {get; set; }
 

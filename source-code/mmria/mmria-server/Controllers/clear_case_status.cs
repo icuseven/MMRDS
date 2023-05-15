@@ -103,7 +103,9 @@ public sealed class clear_case_statusController : Controller
 
                             DateLastUpdated = item.value?.date_last_updated,
 
-                            CaseStatus = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
+                            CaseStatus = item.value.case_status,
+
+                            CaseStatusDisplay = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
 
                             StateDatabase = Model.StateDatabase,
 
@@ -201,16 +203,16 @@ public sealed class clear_case_statusController : Controller
                         }
                         catch(Exception ex)
                         {
-                            model.CaseStatus = $"Problem Setting Status to (blank)\n{ex}";
+                            model.CaseStatusDisplay = $"Problem Setting Status to (blank)\n{ex}";
                         }
 
                         if(document_put_response.ok)
                         {
-                            model.CaseStatus = "(blank)";
+                            model.CaseStatusDisplay = "(blank)";
                         }
                         else
                         {
-                            model.CaseStatus = "Problem Setting Status to (blank)";
+                            model.CaseStatusDisplay = "Problem Setting Status to (blank)";
                         }
 
 
@@ -219,23 +221,23 @@ public sealed class clear_case_statusController : Controller
                     }
                     else
                     {
-                        model.CaseStatus = "Problem Setting Status to (blank)";
+                        model.CaseStatusDisplay = "Problem Setting Status to (blank)";
                     }   
                 }
                 else
                 {
-                    model.CaseStatus = "Problem Setting Status to (blank)";
+                    model.CaseStatusDisplay = "Problem Setting Status to (blank)";
                 }
             }
             else
             {
-                model.CaseStatus = "Problem Setting Status to (blank)";
+                model.CaseStatusDisplay = "Problem Setting Status to (blank)";
             }
             
         }
         catch(Exception ex)
         {
-            model.CaseStatus = ex.ToString();
+            model.CaseStatusDisplay = ex.ToString();
         }
 
         return View(model);
