@@ -1,0 +1,43 @@
+@using System.Security.Claims;
+@model mmria.server.model.year_of_death.YearOfDeathDetail
+@{ 
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
+    var userName = "";
+    
+    if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+    }
+}
+
+<h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
+<a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
+
+<h3 class="h4">Case Status has been set to: <strong>@Model.YearOfDeath</strong></h3>
+<p><strong>Year of Death:</strong> @Model.YearOfDeath</p>
+<p><strong>MMRIA Record ID:</strong> @Model.RecordId</p>
+<p><strong>First Name:</strong> @Model.FirstName</p>
+<p><strong>Middle Name:</strong> @Model.MiddleName</p>
+<p><strong>Last Name:</strong> @Model.LastName</p>
+<p><strong>Date of Death:</strong> @Model.DateOfDeath</p>
+<p><strong>Last Updated By:</strong> @Model.LastUpdatedBy</p>
+<p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
+
+<input type="hidden" name="_id" value="@Model._id"/>
+<input type="hidden" name="RecordId" value="@Model.RecordId" />
+<input type="hidden" name="FirstName" value="@Model.FirstName" />
+<input type="hidden" name="LastName" value="@Model.LastName" />
+<input type="hidden" name="MiddleName" value="@Model.MiddleName" />
+<input type="hidden" name="DateOfDeath" value="@Model.DateOfDeath" />
+<input type="hidden" name="LastUpdatedBy" value="@Model.LastUpdatedBy" />
+<input type="hidden" name="DateLastUpdated" value="@Model.DateLastUpdated" />
+<input type="hidden" name="StateOfDeath" value="@Model.StateOfDeath" />
+<input type="hidden" name="YearOfDeath" value="@Model.YearOfDeath" />
+<input type="hidden" name="StatusDisplay" value="@Model.StatusDisplay" />
+<input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
+<input type="hidden" name="Role" value="@Model.Role" />
+
+<a class="btn btn-primary mb-3" href="/update_year_of_death">Search Again</a>

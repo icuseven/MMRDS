@@ -7,6 +7,10 @@
     <UseBlazorWebAssembly>true</UseBlazorWebAssembly>
     <RazorLangVersion>3.0</RazorLangVersion>
     <UserSecretsId>mmria-pmss-client</UserSecretsId>
+
+    <DebuggerSupport>true</DebuggerSupport>
+    <CopyOutputSymbolsToPublishDirectory>true</CopyOutputSymbolsToPublishDirectory>
+
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' ">
