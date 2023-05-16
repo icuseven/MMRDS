@@ -6,7 +6,7 @@
     <LangVersion>11</LangVersion>
     <UseBlazorWebAssembly>true</UseBlazorWebAssembly>
     <RazorLangVersion>3.0</RazorLangVersion>
-    <UserSecretsId>mmria-pmss</UserSecretsId>
+    <UserSecretsId>mmria-pmss-client</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.1' ">
