@@ -135,11 +135,38 @@ public sealed class update_year_of_deathController : Controller
     {
         var model = Model;
 
+        
+        
+        string server_url = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+        string user_name = Program.config_timer_user_name;
+        string user_value = Program.config_timer_value;
+
+        if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
+        {
+            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+            server_url = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
+            user_name = db_info.user_name;
+            user_value = db_info.user_value;
+        }
+
+        HashSet<string> ExistingRecordIds = GetExistingRecordIds(server_url, user_name, user_value);
+
+        var array = Model.RecordId.Split('-');
+
+        string record_id = $"{array[0]}-{Model.YearOfDeath}-{array[2]}";
+
+        while (ExistingRecordIds.Contains(record_id));
+        {
+            record_id = $"{array[0]}-{Model.YearOfDeath}-{GenerateRandomFourDigits().ToString()}";
+        };
+
+        Model.RecordIdReplacement = record_id;
+
         return View(model);
     }
 
     
-    public async Task<IActionResult> YearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> UpdateYearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
@@ -174,8 +201,8 @@ public sealed class update_year_of_deathController : Controller
                     var date_of_death = home_record["case_status"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
-                        date_of_death["year"] = model.YearOfDeath.ToString();
-                        home_record["record_id"] = model.RecordId;
+                        date_of_death["year"] = model.YearOfDeathReplacement.ToString();
+                        home_record["record_id"] = model.RecordIdReplacement;
 
                         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -203,41 +230,79 @@ public sealed class update_year_of_deathController : Controller
                         }
                         catch(Exception ex)
                         {
-                            model.StatusDisplay = $"Problem Setting Status to (blank)\n{ex}";
+                            model.StatusText = $"Problem Setting Status to (blank)\n{ex}";
                         }
 
                         if(document_put_response.ok)
                         {
-                            model.StatusDisplay = "(blank)";
+                            model.StatusText = "(blank)";
                         }
                         else
                         {
-                            model.StatusDisplay = "Problem Setting Status to (blank)";
+                            model.StatusText = "Problem Setting Status to (blank)";
                         }
 
                     }
                     else
                     {
-                        model.StatusDisplay = "Problem Setting Status to (blank)";
+                        model.StatusText = "Problem Setting Status to (blank)";
                     }   
                 }
                 else
                 {
-                    model.StatusDisplay = "Problem Setting Status to (blank)";
+                    model.StatusText = "Problem Setting Status to (blank)";
                 }
             }
             else
             {
-                model.StatusDisplay = "Problem Setting Status to (blank)";
+                model.StatusText = "Problem Setting Status to (blank)";
             }
             
         }
         catch(Exception ex)
         {
-            model.StatusDisplay = ex.ToString();
+            model.StatusText = ex.ToString();
         }
 
         return View(model);
+    }
+
+    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value)
+    {
+        var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+
+        try
+        {
+            string request_string = $"{p_server_url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+
+            var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, user_name, user_value);
+            string responseFromServer = case_view_curl.execute();
+
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            {
+                result.Add(cvi.value.record_id);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return result;
+    }
+
+    int my_count = -1;
+    private int GenerateRandomFourDigits()
+    {
+        int _min = 1000;
+        int _max = 9999;
+        Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
+        my_count ++;
+        return _rdm.Next(_min, _max);
+        
     }
 
 }

@@ -59,6 +59,7 @@
                 <input type="hidden" name="FirstName" value="@item.FirstName" />
                 <input type="hidden" name="LastName" value="@item.LastName" />
                 <input type="hidden" name="MiddleName" value="@item.MiddleName" />
+                <input type="hidden" name="YearOfDeath" value="@item.YearOfDeath" />
                 <input type="hidden" name="DateOfDeath" value="@item.DateOfDeath" />
                 <input type="hidden" name="DateLastUpdated" value="@item.DateLastUpdated" />
                 <input type="hidden" name="LastUpdatedBy" value="@item.LastUpdatedBy" />
@@ -79,7 +80,7 @@
                     }
                     else
                     {
-                        @Html.Raw($"{item.YearOfDeath}&nbsp;=>&nbsp;<select name=\"YearOfDeath\" value=\"{item.YearOfDeath}\" aria-valuemin=\"1920\" aria-valuemax=\"{max_year}\">")
+                        @Html.Raw($"{item.YearOfDeath}&nbsp;=>&nbsp;<select name=\"YearOfDeathReplacement\" value=\"{item.YearOfDeath}\" aria-valuemin=\"1920\" aria-valuemax=\"{max_year}\">")
                         <option value=9999 disabled>(blank)</option>
                         @foreach (var year in Enumerable.Range(1920, (max_year + 1) - 1920).OrderDescending())
                         {

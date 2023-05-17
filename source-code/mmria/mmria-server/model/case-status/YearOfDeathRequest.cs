@@ -15,6 +15,10 @@ public sealed class YearOfDeathDetail
 {
     public string _id { get; set; }
     public string RecordId { get; set; }
+    public string RecordIdReplacement { get; set; }
+
+
+    public bool? is_only_record_id_change { get; set; } = false;
 
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -26,10 +30,12 @@ public sealed class YearOfDeathDetail
     public DateTime? DateLastUpdated { get; set; }
 
     public int? YearOfDeath { get; set; }
+    public int? YearOfDeathReplacement { get; set; }
 
     public int? CaseStatus { get; set; }
-    public string StatusDisplay { get; set; }
+    
 
+    public string StatusText { get; set; }
     public string StateDatabase {get; set; }
 
     public string Role { get; set; }  = "jurisdiction_admin";
@@ -42,6 +48,7 @@ public sealed class YearOfDeathRequestResponse
         YearOfDeathDetail = new List<YearOfDeathDetail>();
     }
     public List<YearOfDeathDetail> YearOfDeathDetail { get; set; }
+    
 
 }
 
