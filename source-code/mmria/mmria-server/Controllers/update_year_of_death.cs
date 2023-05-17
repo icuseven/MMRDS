@@ -137,7 +137,7 @@ public sealed class update_year_of_deathController : Controller
     }
 
     
-    public async Task<IActionResult> UpdateYearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> YearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
@@ -169,11 +169,11 @@ public sealed class update_year_of_deathController : Controller
                 var home_record = dictionary["home_record"] as IDictionary<string,object>;
                 if(home_record != null)
                 {
-                    var case_status = home_record["case_status"] as IDictionary<string,object>;
-                    if(case_status != null)
+                    var date_of_death = home_record["case_status"] as IDictionary<string,object>;
+                    if(date_of_death != null)
                     {
-                        case_status["overall_case_status"] = 9999;
-                        case_status["case_locked_date"] = "";
+                        date_of_death["year"] = model.YearOfDeath.ToString();
+                        home_record["record_id"] = model.RecordId;
 
                         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
