@@ -79,7 +79,7 @@
                     }
                     else
                     {
-                        @Html.Raw("{item.YearOfDeath}&nbsp;=>&nbsp;<select name=\"YearOfDeath\" value=\"{item.YearOfDeath}\" aria-valuemin=\"1920\" aria-valuemax=\"@max_year\">")
+                        @Html.Raw($"{item.YearOfDeath}&nbsp;=>&nbsp;<select name=\"YearOfDeath\" value=\"{item.YearOfDeath}\" aria-valuemin=\"1920\" aria-valuemax=\"{max_year}\">")
                         <option value=9999 disabled>(blank)</option>
                         @foreach (var year in Enumerable.Range(1920, (max_year + 1) - 1920).OrderDescending())
                         {
