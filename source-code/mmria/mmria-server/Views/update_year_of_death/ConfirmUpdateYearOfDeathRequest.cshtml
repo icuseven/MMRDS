@@ -11,14 +11,18 @@
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
+
+    var new_record_id = Model.RecordId.Replace(Model.StatusDisplay.ToString(), Model.YearOfDeath.ToString());
 }
 
-<h1 class="h2" tabindex="-1">Update year of death</h1>
+<h1 class="h2" tabindex="-1">Update year of death and/or Record ID</h1>
 <a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
 
-<h3 class="h4">Clear case status for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
-<p><strong>Year Of Death:</strong> @Model.YearOfDeath</p>
-<p><strong>MMRIA Record ID:</strong> @Model.RecordId</p>
+<h3 class="h4">Update year of death and/or Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
+<br/>
+<p><strong>Year Of Death:</strong> @Model.StatusDisplay => <b>@Model.YearOfDeath</b></p>
+<p><strong>MMRIA Record ID:</strong> @Model.RecordId =>  <b>@new_record_id</b></p>
+<br/>
 <p><strong>First Name:</strong> @Model.FirstName</p>
 <p><strong>Middle Name:</strong> @Model.MiddleName</p>
 <p><strong>Last Name:</strong> @Model.LastName</p>
@@ -30,7 +34,7 @@
     <div class="row padding-pagealert">
         <span class="x32 fill-amber-p cdc-icon-alert_01"><span class="sr-only">Alert</span></span>
         <div class="col">
-            <p class="margin-pagealert">Unlocking a case will set the Case Status to "(blank)".</p>
+            <p class="margin-pagealert">Confirming will set the <br/>year of death from @Model.StatusDisplay to @Model.YearOfDeath<br/>and the Record ID from @Model.RecordId to @new_record_id.</p>
         </div>
     </div>
 </div>
@@ -50,6 +54,6 @@
     <input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
     <input type="hidden" name="Role" value="@Model.Role" />
 
-    <button class="btn btn-primary mb-3" type="Submit">Unlock</button>
+    <button class="btn btn-primary mb-3" type="Submit">Confirm Change</button>
     <a class="btn btn-link mb-3" href="/update_year_of_death">Cancel</a>
 </form>

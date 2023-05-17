@@ -129,7 +129,7 @@ public sealed class update_year_of_deathController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmClearYearOfDeathRequest(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public IActionResult ConfirmUpdateYearOfDeathRequest(mmria.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
@@ -137,7 +137,7 @@ public sealed class update_year_of_deathController : Controller
     }
 
     
-    public async Task<IActionResult> ClearYearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> UpdateYearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
