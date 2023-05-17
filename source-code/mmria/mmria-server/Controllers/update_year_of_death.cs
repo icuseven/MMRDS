@@ -107,6 +107,8 @@ public sealed class update_year_of_deathController : Controller
 
                             StateDatabase = Model.StateDatabase,
 
+                            CaseStatus = item.value.case_status,
+
                             Role = Model.Role
                         };
 

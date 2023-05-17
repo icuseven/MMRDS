@@ -26,6 +26,8 @@ public sealed class YearOfDeathDetail
     public DateTime? DateLastUpdated { get; set; }
 
     public int? YearOfDeath { get; set; }
+
+    public int? CaseStatus { get; set; }
     public string StatusDisplay { get; set; }
 
     public string StateDatabase {get; set; }
