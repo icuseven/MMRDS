@@ -215,6 +215,22 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				field_name = file_field_item.field_name;
 			}
 
+            if(p_metadata.tags.length == 0)
+            {
+                break;
+            } 
+              
+            if
+            (
+                !p_metadata.tags.includes("FREQ") &&
+                !p_metadata.tags.includes("STAT_N") &&
+                !p_metadata.tags.includes("STAT_D")
+            )
+            {
+                break;
+            }
+
+
 			if(p_search_text != null && p_search_text !="")
 			{
 				let is_search_match = false;
