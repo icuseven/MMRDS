@@ -419,7 +419,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					<td class="td" width="180">${p_metadata.prompt}</td>
 					<td class="td" width="380">${description}</td>
 					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}<br/> ${p_metadata.tags.filter(filter_tag).join(" ")}</td>
 				</tr>
 				${list_values.join("")}
 			`);
@@ -448,6 +448,20 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 	}
 }
 
+function filter_tag(val)
+{
+    if
+    (
+        val != "FREQ" &&
+        val != "STAT_N" &&
+        val != "STAT_D"
+    )
+    {
+        return false;
+    }
+
+    return true;
+}
 
 function convert_form_name(p_value)
 {
