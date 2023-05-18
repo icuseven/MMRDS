@@ -198,7 +198,7 @@ public sealed class update_year_of_deathController : Controller
                 var home_record = dictionary["home_record"] as IDictionary<string,object>;
                 if(home_record != null)
                 {
-                    var date_of_death = home_record["case_status"] as IDictionary<string,object>;
+                    var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
                         date_of_death["year"] = model.YearOfDeathReplacement.ToString();
