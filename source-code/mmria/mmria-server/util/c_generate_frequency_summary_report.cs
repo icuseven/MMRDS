@@ -36,6 +36,23 @@ STAT_D (N,MIN,MAX)
 
 FREQ STAT_N STAT_D
 
+FREQ
+
+List Values
+
+value   display     N (Counts)
+9999    (blank)     1
+1       Yes         2
+0       No          3
+N (Total Count)
+
+
+2	FREQ	N (Total Count)
+3	STAT_N	N (Total Count), Missing Count, Min, Max, Mean, Standard Deviation, Median, Mode
+4	STAT_D	N (Total Count), Missing Count, Min, Max
+
+
+
 
 FREQ
 app/home_record/how_was_this_death_identified
@@ -266,6 +283,91 @@ prenatal/routine_monitoring/date_and_time
             break;
         }
     }
+	private List<Metadata_Node> process(mmria.common.metadata.app p_metadata)
+	{
+		var result = new List<Metadata_Node>();
+		foreach(var node in p_metadata.children)
+		{
+
+            if(node.type.ToLower() == "form")
+			{
+				if
+				(
+					node.cardinality == "+" ||
+					node.cardinality == "*"
+				)
+				{
+					process(node, true, false, node.name);
+				}
+				else
+				{
+					process(node, false, false, node.name);
+				}
+			}
+		}
+		return result;
+	}
+
+    private void process(mmria.common.metadata.node p_node, bool p_is_multiform, bool p_is_grid, string p_path)
+	{
+        var path = $"{p_path}/{p_node.name}";
+
+        switch(p_node.type.ToLower())
+        {
+            case "group":
+                for(var i = 0; i < p_node.children.Count(); i++)
+                {
+                    var item = p_node.children[i];
+                    process(item,  p_is_multiform, p_is_grid, path);
+                    
+                }
+                break;
+            case "grid":
+                for(var i = 0; i < p_node.children.Count(); i++)
+                {
+                    var item = p_node.children[i];
+                    process(item,  p_is_multiform, true, path);
+                    
+                }
+                break;
+
+            case "chart":
+            case "label":
+            case "button":
+            case "always_enabled_button":
+                break;
+
+            default:
+                if(p_node.tags.Length == 0) break;
+
+                
+                 if
+                (
+                    p_node.tags.Contains("FREQ") 
+                )
+                {
+                    //break;
+                }
+                else if
+                (
+                    p_node.tags.Contains("STAT_N")
+                )
+                {
+                    //break;
+                }
+                else if
+                (
+                    p_node.tags.Contains("STAT_D") 
+                )
+                {
+                    //break;
+                }
+            break;
+        }
+	}
+
+
+
 
 	private List<Metadata_Node> get_metadata_node_by_type(mmria.common.metadata.app p_metadata, string p_type)
 	{
