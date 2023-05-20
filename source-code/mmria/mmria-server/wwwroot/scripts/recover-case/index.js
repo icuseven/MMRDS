@@ -408,6 +408,54 @@ function on_apply_change_click
         return x.case_rev == p_revision_id; 
     } 
 
+    function Get_Form_Grid_PathSet()
+    {
+        const array = p_dictionary_path.substring(1).split("/");
+        const path = [];
+        const result = {
+            is_multiform : false,
+            is_grid :false,
+            form_path : "",
+            grid_path : ""
+        };
+
+
+        for(let i = 0; i < array.length; i++)
+        {
+            const item = array[i];
+
+            path.push(item);
+            if
+            (
+                i == 0 
+            )
+            {
+                result.form_path = "g_data." + item;
+                if(p_form_index != null)
+                {
+                    result.is_multiform = true;
+                }
+            }
+
+            if
+            (
+                i == array.length -2 &&
+                p_grid_index != null
+            )
+            {
+                result.grid_path = "g_data." + path.join(".");
+                result.is_grid = true;
+                
+            }
+        }
+
+        return result;
+
+
+    }
+
+    const Form_Grid_PathSet = Get_Form_Grid_PathSet();
+
     if(view_model.audit_change_set_list == null)
     {
         return "";
@@ -420,6 +468,25 @@ function on_apply_change_click
     }
     else
     {
+
+        if(Form_Grid_PathSet.is_multiform)
+        {
+            const form_array = eval(Form_Grid_PathSet.form_path);
+            while(form_array.length < p_form_index)
+            {
+                
+            }
+        }
+
+        if(Form_Grid_PathSet.is_grid)
+        {
+            const grid = eval(Form_Grid_PathSet.grid_path);
+            while(grid.length < p_grid_index)
+            {
+
+            }
+
+        }
 
         const change = results[p_result_index];
         const ci = change.items[p_change_index];
