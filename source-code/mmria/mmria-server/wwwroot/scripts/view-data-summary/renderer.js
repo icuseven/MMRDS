@@ -448,6 +448,15 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 	}
 }
 
+/*
+2	FREQ	N (Total Count)
+3	STAT_N	N (Total Count), Missing Count, Min, Max, Mean, Standard Deviation, Median, Mode
+4	STAT_D	N (Total Count), Missing Count, Min, Max
+
+
+
+*/
+
 function filter_tag(val)
 {
     if

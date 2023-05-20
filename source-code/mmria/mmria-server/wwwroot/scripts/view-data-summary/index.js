@@ -152,4 +152,28 @@ function search_text_change(p_value)
 	g_filter.search_text = p_value;
 }
 
+async function get_indicator_values(p_indicator_id)
+{
+    const get_data_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/api/measure-indicator/${p_indicator_id}`
+    });
 
+    g_data = { total: 0, data: []};
+
+    for(let i = 0; i < get_data_response.length; i++)
+    {
+        const item = get_data_response[i];
+        if(Can_Pass_Filter(item))
+        {
+            g_data.data.push(item);
+            g_data.total +=1;
+        }
+        else
+        {
+            //console.log("here");
+        }
+    }
+    
+    return g_data;
+}

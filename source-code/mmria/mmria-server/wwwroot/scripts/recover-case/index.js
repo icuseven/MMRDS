@@ -377,7 +377,7 @@ function render_audit_for(p_revision_id)
                 {
                 	grid_index = 'g: ' + ci.grid_index;
                 }
-                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value} [ <a href="javascript:on_apply_change_click('${p_revision_id}',${result_index},${c})">apply change</a> ]</li>`);
+                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value} [ <a href="javascript:on_apply_change_click('${p_revision_id}',${result_index},${c},'${ci.dictionary_path}',${ci.form_index},${ci.grid_index})">apply change</a> ]</li>`);
             }
 
             
@@ -395,7 +395,10 @@ function on_apply_change_click
 (
     p_revision_id,
     p_result_index,
-    p_change_index
+    p_change_index,
+    p_dictionary_path,
+    p_form_index,
+    p_grid_index
 )
 {
     const result = [];
