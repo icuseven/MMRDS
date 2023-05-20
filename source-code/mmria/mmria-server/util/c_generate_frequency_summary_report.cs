@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using mmria.getset;
+
 namespace mmria.server.utils;
 
 public sealed class c_generate_frequency_summary_report
@@ -218,6 +220,79 @@ prenatal/routine_monitoring/date_and_time
 
         FrequencySummaryDocument.date_created = DateTime.Now;
 
+        
+        object val = null;
+
+        try
+        {
+            val = gs.get_value(source_object, "home_record/date_of_death/year").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.year_of_death = System.Convert.ToInt32(val);
+            }
+
+            val = gs.get_value(source_object, "home_record/date_of_death/month").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.month_of_death = System.Convert.ToInt32(val);
+            }
+
+            val = gs.get_value(source_object, "home_record/date_of_death/day").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.day_of_death = System.Convert.ToInt32(val);
+            }
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
+
+
+        try
+        {
+            val = gs.get_value(source_object, "committee_review/date_of_review").result;
+            if
+            (
+                val != null && 
+                val.ToString() != ""
+            )
+            {
+                FrequencySummaryDocument.day_of_case_review = System.Convert.ToDateTime(val).Day;
+                FrequencySummaryDocument.year_of_case_review = System.Convert.ToDateTime(val).Year;
+                FrequencySummaryDocument.month_of_case_review = System.Convert.ToDateTime(val).Month;
+            }
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
+
+        try
+        {
+
+            value_result = gs.get_value(source_object, "committee_review/pregnancy_relatedness");
+            if
+            (
+                ! value_result.is_error &&
+                value_result.result != null
+            )
+            {
+                val = value_result.result.ToString();
+
+                if(int.TryParse(val.ToString(), out var test_int))
+                {
+                    FrequencySummaryDocument.pregnancy_relatedness = test_int;
+                }
+
+
+            }
+
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
 
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         //settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

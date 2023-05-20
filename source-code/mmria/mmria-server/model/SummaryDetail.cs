@@ -27,6 +27,17 @@ public sealed class FrequencySummaryDocument
     public string record_id { get; set; }
     public string _rev { get; set; }
 
+    public int? day_of_death{ get; set; }
+
+    public int? month_of_death{ get; set; }
+    public int? year_of_death{ get; set; }
+
+    public int? day_of_case_review{ get; set; }
+    public int? month_of_case_review{ get; set; }
+    public int? year_of_case_review{ get; set; }
+
+    public int? pregnancy_relatedness { get; set; }
+
     public Dictionary<string, Detail> path_to_detail { get; set; }
     public DateTime? date_created { get; set; } 
 
