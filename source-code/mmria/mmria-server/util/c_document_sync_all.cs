@@ -202,6 +202,27 @@ public sealed class Report_PowerBI_Index_Struct
         
         }
 
+        try
+        {
+            string current_directory = AppContext.BaseDirectory;
+            if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
+            {
+                current_directory = System.IO.Directory.GetCurrentDirectory();
+            }
+
+            using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/data-summary-view.json")))
+            {
+                string result = await sr.ReadToEndAsync ();
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/report/_design/data_summary_view_report", result, this.user_name, this.user_value);
+                await create_de_id_curl.executeAsync ();					
+            }
+
+        }
+        catch (Exception)
+        {
+        
+        }
+
         var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
         string res = await curl.executeAsync ();
 /*
