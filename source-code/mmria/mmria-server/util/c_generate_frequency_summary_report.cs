@@ -26,6 +26,14 @@ public sealed class c_generate_frequency_summary_report
 		public Dictionary<string,string> value_to_display { get; set; }
 	}
 
+    class SetDetailContext
+    {
+        public SetDetailContext() {}
+
+        public System.Dynamic.ExpandoObject source_object { get; set; }
+        public mmria.server.model.SummaryReport.FrequencySummaryDocument FrequencySummaryDocument { get; set; }
+    }
+
 /*
 
 
@@ -358,7 +366,7 @@ prenatal/routine_monitoring/date_and_time
             break;
         }
     }
-	private List<Metadata_Node> process(mmria.common.metadata.app p_metadata)
+	private List<Metadata_Node> process(mmria.common.metadata.app p_metadata, SetDetailContext Context)
 	{
 		var result = new List<Metadata_Node>();
 		foreach(var node in p_metadata.children)
@@ -372,18 +380,18 @@ prenatal/routine_monitoring/date_and_time
 					node.cardinality == "*"
 				)
 				{
-					process(node, true, false, node.name);
+					process(node, true, false, node.name, Context);
 				}
 				else
 				{
-					process(node, false, false, node.name);
+					process(node, false, false, node.name, Context);
 				}
 			}
 		}
 		return result;
 	}
 
-    private void process(mmria.common.metadata.node p_node, bool p_is_multiform, bool p_is_grid, string p_path)
+    private void process(mmria.common.metadata.node p_node, bool p_is_multiform, bool p_is_grid, string p_path, SetDetailContext Context)
 	{
         var path = $"{p_path}/{p_node.name}";
 
@@ -393,7 +401,7 @@ prenatal/routine_monitoring/date_and_time
                 for(var i = 0; i < p_node.children.Count(); i++)
                 {
                     var item = p_node.children[i];
-                    process(item,  p_is_multiform, p_is_grid, path);
+                    process(item,  p_is_multiform, p_is_grid, path, Context);
                     
                 }
                 break;
@@ -401,7 +409,7 @@ prenatal/routine_monitoring/date_and_time
                 for(var i = 0; i < p_node.children.Count(); i++)
                 {
                     var item = p_node.children[i];
-                    process(item,  p_is_multiform, true, path);
+                    process(item,  p_is_multiform, true, path, Context);
                     
                 }
                 break;
@@ -412,31 +420,79 @@ prenatal/routine_monitoring/date_and_time
             case "always_enabled_button":
                 break;
 
+
+
             default:
                 if(p_node.tags.Length == 0) break;
+                
+                if
+                (
+                    !p_node.tags.Contains("FREQ") &&
+
+                    !p_node.tags.Contains("STAT_N") &&
+ 
+                    !p_node.tags.Contains("STAT_D") 
+                )
+                {
+                    break;
+                }
+
+                var gs = new migrate.C_Get_Set_Value(new ());
+
+                mmria.server.model.SummaryReport.Detail set_single_value_detail(string _path)
+                {
+                    var result = new mmria.server.model.SummaryReport.Detail();
+
+                    var value_result = gs.get_value(Context.source_object, _path);
+                    if(value_result.is_error)
+                    {
+
+                    }
+                    else 
+                    {
+                        if(value_result.result != null)
+                        { 
+                            result.value = value_result.result.ToString();
+                            result.count = 1;
+                            
+                            Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+                    return result;
+                }
 
                 
-                 if
-                (
-                    p_node.tags.Contains("FREQ") 
-                )
+
+                if(p_is_multiform)
                 {
-                    //break;
+                    if(p_is_grid)
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+
                 }
-                else if
-                (
-                    p_node.tags.Contains("STAT_N")
-                )
+                else if(p_is_grid)
                 {
-                    //break;
+
                 }
-                else if
-                (
-                    p_node.tags.Contains("STAT_D") 
-                )
+                else
                 {
-                    //break;
+                    set_single_value_detail(path);
                 }
+
+
+
+
+
             break;
         }
 	}
