@@ -456,9 +456,11 @@ prenatal/routine_monitoring/date_and_time
 
                 var gs = new migrate.C_Get_Set_Value(new ());
 
-                mmria.server.model.SummaryReport.Detail set_single_value_detail()
+                List<mmria.server.model.SummaryReport.Detail> set_single_value_detail()
                 {
-                    var result = new mmria.server.model.SummaryReport.Detail();
+
+                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_value(Context.source_object, path);
                     if(value_result.is_error)
@@ -469,10 +471,34 @@ prenatal/routine_monitoring/date_and_time
                     {
                         if(value_result.result != null)
                         { 
-                            result.value = value_result.result.ToString();
-                            result.count = 1;
-                            
-                            Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+                            if(value_result.result is IList<object> object_list)
+                            {
+                                foreach(var i in object_list)
+                                {
+                                    if
+                                    (
+                                        i != null &&
+                                        !string.IsNullOrWhiteSpace(i.ToString())
+                                    )
+                                    {
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = i.ToString();
+                                        item.count = 1;
+
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
+                                }
+                                
+                                
+                            }
+                            else
+                            {
+                                var item = new mmria.server.model.SummaryReport.Detail();
+                                item.value = value_result.result.ToString();
+                                item.count = 1;
+                                
+                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                            }
                         }
                         else
                         {
@@ -484,14 +510,14 @@ prenatal/routine_monitoring/date_and_time
                 }
 
 
-                mmria.server.model.SummaryReport.Detail set_single_multi_value_detail()
+                List<mmria.server.model.SummaryReport.Detail> set_single_grid_value_detail()
                 {
-                    var result = new mmria.server.model.SummaryReport.Detail();
 
-                    var value_result = gs.get_multi_number_list(Context.source_object, path);
+                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
-                    /*
-                    if(value_result..is_error)
+                    var value_result = gs.get_grid_value(Context.source_object, path);
+                    if(value_result.is_error)
                     {
 
                     }
@@ -499,36 +525,171 @@ prenatal/routine_monitoring/date_and_time
                     {
                         if(value_result.result != null)
                         { 
-                            result.value = value_result.result.ToString();
-                            result.count = 1;
-                            
-                            Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+                            if(value_result.result is IList<(int, object)> object_list)
+                            {
+                                foreach(var (index, i) in object_list)
+                                {
+                                    if
+                                    (
+                                        i != null &&
+                                        !string.IsNullOrWhiteSpace(i.ToString())
+                                    )
+                                    {
+                                        
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = i.ToString();
+                                        item.count = 1;
+
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
+                                }
+                                
+                                
+                            }
+                            else
+                            {
+                                var item = new mmria.server.model.SummaryReport.Detail();
+                                item.value = value_result.result.ToString();
+                                item.count = 1;
+                                
+                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                            }
                         }
                         else
                         {
 
                         }
-                    }*/
+                    }
 
                     return result;
                 }
-                
+
+
+                List<mmria.server.model.SummaryReport.Detail> set_multi_form_value_detail()
+                {
+
+                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+
+                    var value_result = gs.get_multiform_value(Context.source_object, path);
+                    if(value_result.is_error)
+                    {
+
+                    }
+                    else 
+                    {
+                        if(value_result.result != null)
+                        { 
+                            if(value_result.result is IList<(int, object)> object_list)
+                            {
+                                foreach(var (index, i) in object_list)
+                                {
+                                    if
+                                    (
+                                        i != null &&
+                                        !string.IsNullOrWhiteSpace(i.ToString())
+                                    )
+                                    {
+                                        
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = i.ToString();
+                                        item.count = 1;
+
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
+                                }
+                                
+                                
+                            }
+                            else
+                            {
+                                var item = new mmria.server.model.SummaryReport.Detail();
+                                item.value = value_result.result.ToString();
+                                item.count = 1;
+                                
+                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+                    return result;
+                }
+
+
+                List<mmria.server.model.SummaryReport.Detail> set_multi_form_grid_value_detail()
+                {
+
+                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+
+                    var value_result = gs.get_multiform_grid_value(Context.source_object, path);
+                    if(value_result.is_error)
+                    {
+
+                    }
+                    else 
+                    {
+                        if(value_result.result != null)
+                        { 
+                            if(value_result.result is IList<(int, int, object)> object_list)
+                            {
+                                foreach(var (x, y, i) in object_list)
+                                {
+                                    if
+                                    (
+                                        i != null &&
+                                        !string.IsNullOrWhiteSpace(i.ToString())
+                                    )
+                                    {
+                                        
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = i.ToString();
+                                        item.count = 1;
+
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
+                                }
+                                
+                                
+                            }
+                            else
+                            {
+                                var item = new mmria.server.model.SummaryReport.Detail();
+                                item.value = value_result.result.ToString();
+                                item.count = 1;
+                                
+                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                            }
+                        }
+                        else
+                        {
+
+                        }
+                    }
+
+                    return result;
+                }
+
 
                 if(p_is_multiform)
                 {
                     if(p_is_grid)
                     {
-
+                        set_multi_form_grid_value_detail();
                     }
                     else
                     {
-                        
+                        set_multi_form_value_detail();
                     }
 
                 }
                 else if(p_is_grid)
                 {
-
+                    set_single_grid_value_detail();
                 }
                 else
                 {

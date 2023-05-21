@@ -38,7 +38,7 @@ public sealed class FrequencySummaryDocument
 
     public int? pregnancy_relatedness { get; set; }
 
-    public Dictionary<string, Detail> path_to_detail { get; set; }
+    public Dictionary<string, List<Detail>> path_to_detail { get; set; }
     public DateTime? date_created { get; set; } 
 
 
