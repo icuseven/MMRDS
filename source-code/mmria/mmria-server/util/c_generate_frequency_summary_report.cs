@@ -225,14 +225,42 @@ prenatal/routine_monitoring/date_and_time
     
         FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
-
         FrequencySummaryDocument.date_created = DateTime.Now;
 
-        
         object val = null;
+
+
+        
+        // host_state  *** begin
+        try
+        {
+            var host_state = "";
+            value_result = gs.get_value(source_object, "host_state");
+            var test_host_state_object = value_result.result;
+            if
+            (
+                test_host_state_object != null
+            )
+            {
+                host_state = test_host_state_object.ToString();
+            }
+            FrequencySummaryDocument.host_state = host_state;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+        
+        // host_state  *** end
 
         try
         {
+            val = gs.get_value(source_object,  "home_record/case_status/overall_case_status").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.case_status  = System.Convert.ToInt32(val);
+            }
+
             val = gs.get_value(source_object, "home_record/date_of_death/year").result;
             if(val != null && val.ToString() != "")
             {

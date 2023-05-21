@@ -21,8 +21,10 @@ public sealed class FrequencySummaryDocument
          path_to_detail = new ();
     }
     public string _id { get; set; }
+    public string host_state { get; set; }
 
     public string case_folder { get; set; }
+    public int? case_status { get; set; }
 
     public string record_id { get; set; }
     public string _rev { get; set; }
@@ -37,6 +39,8 @@ public sealed class FrequencySummaryDocument
     public int? year_of_case_review{ get; set; }
 
     public int? pregnancy_relatedness { get; set; }
+
+    
 
     public Dictionary<string, List<Detail>> path_to_detail { get; set; }
     public DateTime? date_created { get; set; } 
