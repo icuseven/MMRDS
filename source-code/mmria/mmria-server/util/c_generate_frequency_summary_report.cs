@@ -302,6 +302,14 @@ prenatal/routine_monitoring/date_and_time
             //System.Console.WriteLine (ex);
         }
 
+        var SetDetailContext = new SetDetailContext()
+        {
+            source_object = source_object,
+            FrequencySummaryDocument = FrequencySummaryDocument
+        };
+
+        process(metadata, SetDetailContext);
+
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         //settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         result = Newtonsoft.Json.JsonConvert.SerializeObject(FrequencySummaryDocument, settings);
@@ -414,6 +422,15 @@ prenatal/routine_monitoring/date_and_time
                 }
                 break;
 
+            case "form":
+                for(var i = 0; i < p_node.children.Count(); i++)
+                {
+                    var item = p_node.children[i];
+                    process(item,  p_is_multiform, p_is_grid, p_path, Context);
+                    
+                }
+                break;
+
             case "chart":
             case "label":
             case "button":
@@ -439,11 +456,11 @@ prenatal/routine_monitoring/date_and_time
 
                 var gs = new migrate.C_Get_Set_Value(new ());
 
-                mmria.server.model.SummaryReport.Detail set_single_value_detail(string _path)
+                mmria.server.model.SummaryReport.Detail set_single_value_detail()
                 {
                     var result = new mmria.server.model.SummaryReport.Detail();
 
-                    var value_result = gs.get_value(Context.source_object, _path);
+                    var value_result = gs.get_value(Context.source_object, path);
                     if(value_result.is_error)
                     {
 
@@ -466,6 +483,35 @@ prenatal/routine_monitoring/date_and_time
                     return result;
                 }
 
+
+                mmria.server.model.SummaryReport.Detail set_single_multi_value_detail()
+                {
+                    var result = new mmria.server.model.SummaryReport.Detail();
+
+                    var value_result = gs.get_multi_number_list(Context.source_object, path);
+
+                    /*
+                    if(value_result..is_error)
+                    {
+
+                    }
+                    else 
+                    {
+                        if(value_result.result != null)
+                        { 
+                            result.value = value_result.result.ToString();
+                            result.count = 1;
+                            
+                            Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+                        }
+                        else
+                        {
+
+                        }
+                    }*/
+
+                    return result;
+                }
                 
 
                 if(p_is_multiform)
@@ -486,7 +532,7 @@ prenatal/routine_monitoring/date_and_time
                 }
                 else
                 {
-                    set_single_value_detail(path);
+                    set_single_value_detail();
                 }
 
 
