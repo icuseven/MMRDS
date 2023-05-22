@@ -137,14 +137,14 @@ public sealed class update_year_of_deathController : Controller
 
         
         
-        string server_url = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+        string server_url = Program.config_couchdb_url;
         string user_name = Program.config_timer_user_name;
         string user_value = Program.config_timer_value;
 
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
         {
             var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-            server_url = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
+            server_url = db_info.url;
             user_name = db_info.user_name;
             user_value = db_info.user_value;
         }
@@ -153,11 +153,11 @@ public sealed class update_year_of_deathController : Controller
 
         var array = Model.RecordId.Split('-');
 
-        string record_id = $"{array[0]}-{Model.YearOfDeath}-{array[2]}";
+        string record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{array[2]}";
 
         while (ExistingRecordIds.Contains(record_id));
         {
-            record_id = $"{array[0]}-{Model.YearOfDeath}-{GenerateRandomFourDigits().ToString()}";
+            record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
         };
 
         Model.RecordIdReplacement = record_id;
