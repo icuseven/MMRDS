@@ -29,6 +29,23 @@ function dictionary_render(p_metadata, p_path)
 						onclick="init_inline_loader(search_click)">Search</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 				</form>
+                
+                <div class="form-inline mb-2">
+                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
+                <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                    ${renderSortCaseStatus(g_case_view_request)}
+                </select>
+            </div>
+
+            <div class="form-inline mb-2">
+                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+                    ${renderPregnancyRelatedness(g_case_view_request)}
+                </select>
+
+
+                  ${render_pregnancy_filter(g_case_view_request)}
+            </div>
 				<!--div>
 					<div class="row no-gutters justify-content-end">
 						<button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
@@ -664,4 +681,475 @@ function generate_system_generated_definition_list_table()
 				</table>
 			</div>
 			`;
+}
+
+
+function renderSortCaseStatus(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '2',
+            display : 'Abstraction Complete'
+        },
+        {
+            value : '3',
+            display : 'Ready For Review'
+        },
+        {
+            value : '4',
+            display : 'Review complete and decision entered'
+        },
+        {
+            value : '5',
+            display : 'Out of Scope and death certificate entered'
+        },
+        {
+            value : '6',
+            display : 'False Positive and death certificate entered'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
+        },
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join('');
+}
+
+
+function renderPregnancyRelatedness(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Pregnancy-related'
+        },
+        {
+            value : '0',
+            display : 'Pregnancy-Associated, but NOT-Related'
+        },
+        {
+            value : '2',
+            display : 'Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness'
+        },
+        {
+            value : '99',
+            display : 'Not Pregnancy-Related or -Associated (i.e. False Positive)'
+        }
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join(''); 
+}
+
+function render_pregnancy_filter(p_case_view)
+{
+
+    let display_date_of_reviews_html = "display:none;";
+    let display_date_of_deaths_html = "display:none;";
+
+
+
+
+    if(g_filter.include_blank_date_of_reviews == false)
+    {
+        display_date_of_reviews_html = "display:inline;";
+    }
+    
+    if(g_filter.include_blank_date_of_deaths == false)
+    {
+        display_date_of_deaths_html = "display:inline;";
+    }
+    
+    return `
+
+        <div class="form-inline mt-3" style="margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
+        <table style="margin-top:-15px;border-colapse: inherit;margin-bottom:10px;">
+        <tr style="margin-bottom:20px;height:50px;">
+            <td class="font-weight-normal mr-2">
+                Review Dates:
+            </td>
+            <td style="padding-left:15px">
+                <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
+                <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" ${g_filter.include_blank_date_of_reviews == true ? 'checked="true"' : '' } />
+                &nbsp;All cases</label>
+            </td>
+            <td>
+            <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select"  ${g_filter.include_blank_date_of_reviews == false ? 'checked="true"' : '' }/>
+            &nbsp;Select dates</label>
+            </td>
+            
+            <td>
+                <span id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
+                <label for="review_begin_date" class="font-weight-normal mr-2">Begin
+                    &nbsp;<input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
+                </label>
+                </span>
+            </td>
+            <td>
+                <span id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
+                    <label for="review_end_date" class="font-weight-normal mr-2">End
+                        &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                    </label>
+                </span>
+            </td>
+            
+            </td>
+        </tr>
+        <tr style="margin-top:20px;">
+            <td class="font-weight-normal mr-2">
+                Dates of Death:
+            </td>
+            <td style="padding-left:15px">
+                <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
+                <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all" ${g_filter.include_blank_date_of_deaths == true ? 'checked="true"' : '' } />
+                &nbsp;All cases</label>
+            </td>
+            <td>
+            <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select"  ${g_filter.include_blank_date_of_deaths == false ? 'checked="true"' : '' }/>
+            &nbsp;Select dates</label>      
+            </td>
+            <td>
+                <span id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
+                <label for="death_begin_date" class="font-weight-normal mr-2">Begin
+                    &nbsp;<input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
+                </label>
+                </span>
+            </td>
+            <td>
+                <span id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
+                <label for="death_end_date" class="font-weight-normal mr-2">End
+                    &nbsp;<input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
+                </label>
+                </span>
+            </td>
+            
+        </tr>
+        </table>
+        <br/>
+        </div>
+
+`;
+
+   
+
+}
+
+
+var g_filter = {
+    date_of_death: {
+      year: ['all'],
+      month: ['all'],
+      day: ['all'],
+    },
+    date_range: [
+      {
+        from: 'all',
+        to: 'all',
+      },
+    ],
+    field_selection: ['all'],
+    case_status: ['all'],
+    case_jurisdiction: ['/all'],
+    pregnancy_relatedness: ['all'],
+    selected_form: '',
+    search_text: '',
+    include_blank_date_of_reviews :true,
+    include_blank_date_of_deaths: true,
+      date_of_review: { begin: new Date(1900,00,01), end: new Date() },
+      date_of_death: { begin: new Date(1900,00,01), end: new Date() }
+  };
+
+var g_case_view_request = {
+    total_rows: 0,
+    page: 1,
+    skip: 0,
+    take: 1000,
+    sort: 'date_last_updated',
+    search_key: null,
+    descending: true,
+    case_status: "all",
+      field_selection: "all",
+      pregnancy_relatedness:"all",
+    get_query_string: function () {
+      var result = [];
+      result.push('?skip=' + (this.page - 1) * this.take);
+      result.push('take=' + this.take);
+      result.push('sort=' + this.sort);
+      result.push('case_status=' + this.case_status);
+        result.push('field_selection=' + this.field_selection);
+        result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+  
+        
+        if(g_filter.include_blank_date_of_reviews == false)
+        {
+          result.push(`date_of_review_range=${ControlFormatDate(g_filter.date_of_review.begin)}T${ControlFormatDate(g_filter.date_of_review.end)}`);
+        }
+        else
+        {
+          result.push('date_of_review_range=All');
+        }
+  
+  
+        
+        if(g_filter.include_blank_date_of_deaths == false)
+        {
+          result.push(`date_of_death_range=${ControlFormatDate(g_filter.date_of_death.begin)}T${ControlFormatDate(g_filter.date_of_death.end)}`);
+        }
+        else
+        {
+          result.push('date_of_death_range=All');
+        }
+  
+      if (this.search_key) {
+        result.push(
+          'search_key=' +
+          encodeURI(this.search_key) +
+            ''
+        );
+      }
+  
+      result.push('descending=' + this.descending);
+  
+      return result.join('&');
+    },
+  };
+
+  function date_of_review_panel_select(p_value)
+{
+    const begin = document.getElementById("date_of_review_panel_begin");
+    const end= document.getElementById("date_of_review_panel_end");
+    if(p_value=="all")
+    {
+        g_filter.include_blank_date_of_reviews = true;
+        begin.style["display"] = "none";
+        end.style["display"] = "none";
+    }
+    else
+    {
+        g_filter.include_blank_date_of_reviews = false;
+        begin.style["display"] = "";
+        end.style["display"] = "";
+    }
+}
+
+
+function date_of_death_panel_select(p_value)
+{
+    const begin = document.getElementById("date_of_death_panel_begin");
+    const end = document.getElementById("date_of_death_panel_end");
+    if(p_value=="all")
+    {
+        g_filter.include_blank_date_of_deaths = true;
+        begin.style["display"] = "none";
+        end.style["display"] = "none";
+    }
+    else
+    {
+        g_filter.include_blank_date_of_deaths = false;
+        begin.style["display"] = "";
+        end.style["display"] = "";
+    }
+
+
+}
+
+function pad_number(n) 
+{
+    n = n + '';
+    return n.length >= 2 ? n : new Array(2 - n.length + 1).join("0") + n;
+}
+
+function formatDate(p_value)
+{
+    const result= pad_number(p_value.getMonth() + 1) + '/' + pad_number(p_value.getDate()) + '/' +  p_value.getFullYear();
+
+    return result;
+}
+
+function ControlFormatDate(p_value)
+{
+    const result= p_value.getFullYear() + '-' + pad_number(p_value.getMonth() + 1) + '-' + pad_number(p_value.getDate());
+
+    return result;
+}
+
+function review_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+
+    let date_changed = arr[0] >= 1900 ? false :true;
+
+
+
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+    const current_date = new Date();
+
+
+    if(test_date <= current_date && test_date <= g_filter.date_of_review.end )
+    {
+        g_filter.date_of_review.begin = test_date;
+        const el = document.getElementById("review_end_date");
+        el.setAttribute("min", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("min", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("review_begin_date");
+            el2.value = ControlFormatDate(g_filter.date_of_review.begin);
+        }
+    }
+    else
+    {
+        const el = document.getElementById("review_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.begin);
+    }
+}
+function review_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    
+    let date_changed = arr[0] >= 1900 ? false :true;
+
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
+    const current_date = new Date();
+
+    if(test_date <= current_date && g_filter.date_of_review.begin <= test_date)
+    {
+        g_filter.date_of_review.end = test_date;
+        const el = document.getElementById("review_begin_date");
+        el.setAttribute("max", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("review_end_date");
+            el2.value = ControlFormatDate(g_filter.date_of_review.end);
+        }
+    }
+    else
+    {
+        const el = document.getElementById("review_end_date");
+        el.value = ControlFormatDate(g_filter.date_of_review.end);
+    }
+}
+
+function death_begin_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    
+    let date_changed = arr[0] >= 1900 ? false :true;
+
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
+    const current_date = new Date();
+
+    if(test_date <= current_date && test_date <= g_filter.date_of_death.end)
+    {
+        g_filter.date_of_death.begin = test_date;
+        const el = document.getElementById("death_end_date");
+        el.setAttribute("min", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("min", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("death_begin_date");
+            el2.value = ControlFormatDate(g_filter.date_of_death.begin);
+        }
+    }
+    else
+    {
+        const el = document.getElementById("death_begin_date");
+        el.value = ControlFormatDate(g_filter.date_of_death.begin);
+    }
+}
+
+function death_end_date_change(p_value)
+{
+    const arr = p_value.split("-");
+    
+    let date_changed = arr[0] >= 1900 ? false :true;
+
+    let test_date = new Date(arr[0] > 1900 ? arr[0] : 1900, arr[1] - 1, arr[2]);
+
+    if(arr[0] < 1900)
+    {
+        test_date = new Date(1900 , 0, 1);
+    }
+
+    const current_date = new Date();
+
+    if(test_date <= current_date && g_filter.date_of_death.begin <=  test_date)
+    {
+        g_filter.date_of_death.end = test_date;
+        const el = document.getElementById("death_begin_date");
+        el.setAttribute("max", p_value);
+
+        if(date_changed)
+        {
+            el.setAttribute("max", ControlFormatDate(test_date));
+
+            const el2 = document.getElementById("death_end_date");
+            el2.value = ControlFormatDate(g_filter.date_of_death.end);
+        }
+    }
+    else
+    {
+        const el = document.getElementById("death_end_date");
+        el.value = ControlFormatDate(g_filter.date_of_death.end);
+    }
 }

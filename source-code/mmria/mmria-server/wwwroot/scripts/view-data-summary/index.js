@@ -8,34 +8,6 @@ var g_selected_version_specification = null;
 var g_selected_version_name = null;
 var g_version_list = null;
 
-var g_filter = 	{
-	date_of_death:
-	{
-		year: [
-			'all'
-		],
-		month: [
-			'all'
-		],
-		day: [
-			'all'
-		],
-	},
-	date_range: [
-		{
-			from: 'all',
-			to:	'all'
-		}
-	],
-	case_status: [
-		'all'
-	],
-	case_jurisdiction: [
-		'/all'
-	],
-	selected_form: "",
-	search_text: ""
-};
 
 (async function() {
 
