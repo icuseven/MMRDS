@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "cdc_admin,jurisdiction_admin")]
+[Authorize(Roles  = "cdc_admin")]
 public sealed class update_year_of_deathController : Controller
 {
     private readonly IAuthorizationService _authorizationService;
@@ -140,16 +140,18 @@ public sealed class update_year_of_deathController : Controller
         string server_url = Program.config_couchdb_url;
         string user_name = Program.config_timer_user_name;
         string user_value = Program.config_timer_value;
+        string prefix = null;
 
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
         {
             var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
             server_url = db_info.url;
+            prefix = db_info.prefix;
             user_name = db_info.user_name;
             user_value = db_info.user_value;
         }
 
-        HashSet<string> ExistingRecordIds = GetExistingRecordIds(server_url, user_name, user_value);
+        HashSet<string> ExistingRecordIds = GetExistingRecordIds(server_url, user_name, user_value, prefix);
 
         var array = Model.RecordId.Split('-');
 
@@ -267,15 +269,23 @@ public sealed class update_year_of_deathController : Controller
         return View(model);
     }
 
-    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value)
+    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = null)
     {
         var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
 
         try
         {
-            string request_string = $"{p_server_url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+            string request_string;
 
+            if(string.IsNullOrWhiteSpace(p_prefix))
+            {
+                request_string = $"{p_server_url}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+            }
+            else
+            {
+                request_string = $"{p_server_url}/{p_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+            }
             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, user_name, user_value);
             string responseFromServer = case_view_curl.execute();
 
