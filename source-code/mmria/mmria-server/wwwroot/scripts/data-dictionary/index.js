@@ -57,33 +57,20 @@ async function get_release_version()
 		url: `${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version_name}`
 	});
 
+    g_metadata = JSON.parse(response.metadata);
+    g_release_version_specification = response;
+
+
     g_release_version_specification = response;
     g_selected_version_specification = g_release_version_specification;
 	
-    response = await $.ajax
-    ({
-            url: `${location.protocol}//${location.host}/api/version/list`,
-    });
 
-    
-    g_version_list = response;
-
-    for(let i = 0; i < g_version_list.length; i++)
-    {
-        let item = g_version_list[i];
-
-        if(item._id.indexOf("version_specification") == 0 && g_metadata_set[item._id] == null)
-        {
-            g_metadata_set[item._id] = await load_metadata(item.name);
-        }
-    }
-
-
-    g_metadata = g_metadata_set[g_selected_version_specification._id];
 
     document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
 
 	$('.spinner-content').removeClass('spinner-active');
+
+    window.setTimeout(get_version_list, 0);
 }
 
 async function load_metadata(p_version_id)
@@ -100,6 +87,31 @@ async function load_metadata(p_version_id)
     return result;
 }
 
+
+async function get_version_list()
+{
+    const response = await $.ajax
+    ({
+            url: `${location.protocol}//${location.host}/api/version/list`,
+    });
+    
+    g_version_list = response;
+
+    for(let i = 0; i < g_version_list.length; i++)
+    {
+        let item = g_version_list[i];
+
+        if(item._id.indexOf("version_specification") == 0 && g_metadata_set[item._id] == null)
+        {
+            g_metadata_set[item._id] = await load_metadata(item.name);
+        }
+    }
+
+
+    g_metadata = g_metadata_set[g_selected_version_specification._id];
+
+    const el = document.getElementById("metadata_version_filter").innerHTML = render_metadata_version_filter();
+}
 
 async function metadata_version_filter_change(p_value)
 {
@@ -126,6 +138,7 @@ function render_metadata_version_filter()
     let html_result = []
 
     html_result.push(`<option value="">(Select Version)</option>`)
+    if(g_version_list != null)
     for(let i = 0; i < g_version_list.length; i++)
     {
         let item = g_version_list[i];
