@@ -7,51 +7,58 @@ function dictionary_render(p_metadata, p_path)
 
 	result.push(`
 		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
-			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+			
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-					<label for="search_text" class="mr-2"> Search for:</label>
-					<input type="text"
+                <table class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+                <tr>
+                <td>
+                <label for="search_text"> Search for:</label>
+                </td><td>
+                <input type="text"
 								 class="form-control mr-2"
 								 id="search_text"
 								 value=""
 								 style="width: 170px;"
 								 onchange="search_text_change(this.value)" />
+                </td><td>
 					<select aria-label='form filter' id="form_filter" class="custom-select mr-2">
 						${render_form_filter(g_filter)}
 					</select>
-					<!--select aria-label='metadata version filter' id="metadata_version_filter" class="custom-select mr-2" onchange="metadata_version_filter_change(this.value)">
-						${render_metadata_version_filter()}
-					</select-->
+                    </td><td>
 					<button
 						type="submit"
 						class="btn btn-secondary no-print"
 						alt="clear search"
 						onclick="init_inline_loader(search_click)">Search</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-				</form>
+				</td></tr>
                 
+                <tr><td colspan=4>
                 <div class="form-inline mb-2">
-                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
-                <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                    ${renderSortCaseStatus(g_case_view_request)}
-                </select>
-            </div>
+                    <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
+                    <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                        ${renderSortCaseStatus(g_case_view_request)}
+                    </select>
+                </div>
+                </td></tr>
 
-            <div class="form-inline mb-2">
-                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
-                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
-                    ${renderPregnancyRelatedness(g_case_view_request)}
-                </select>
-
-
-                  ${render_pregnancy_filter(g_case_view_request)}
-            </div>
-				<!--div>
-					<div class="row no-gutters justify-content-end">
-						<button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>Print</button>
-					</div>
-				</div-->
-			</div>
+                <tr><td colspan=4>
+                <div class="form-inline mb-2">
+                    <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                    <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+                        ${renderPregnancyRelatedness(g_case_view_request)}
+                    </select>
+                
+                </div>
+                </td></tr>
+ 
+                <tr><td colspan=4>
+                ${render_pregnancy_filter(g_case_view_request)}
+                </td></tr>
+            </table> 
+            </form>
+			       
+            
 
 			<div class="mt-2">
 				<table id="search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
@@ -781,9 +788,6 @@ function render_pregnancy_filter(p_case_view)
     let display_date_of_reviews_html = "display:none;";
     let display_date_of_deaths_html = "display:none;";
 
-
-
-
     if(g_filter.include_blank_date_of_reviews == false)
     {
         display_date_of_reviews_html = "display:inline;";
@@ -796,8 +800,8 @@ function render_pregnancy_filter(p_case_view)
     
     return `
 
-        <div class="form-inline mt-3" style="margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
-        <table style="margin-top:-15px;border-colapse: inherit;margin-bottom:10px;">
+    <div class="row" style="display:block;margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
+        <table style="margin-top:-15px;margin-bottom:10px;">
         <tr style="margin-bottom:20px;height:50px;">
             <td class="font-weight-normal mr-2">
                 Review Dates:
@@ -862,7 +866,7 @@ function render_pregnancy_filter(p_case_view)
         </tr>
         </table>
         <br/>
-        </div>
+    </div>
 
 `;
 
