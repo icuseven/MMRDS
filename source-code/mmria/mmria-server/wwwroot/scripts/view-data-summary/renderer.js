@@ -255,6 +255,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             }
 
 
+
+
 			if(p_search_text != null && p_search_text !="")
 			{
 				let is_search_match = false;
@@ -343,6 +345,24 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				description = p_metadata.description;
 			}
 
+            const stat_type = p_metadata.tags.filter(filter_tag).join("").toUpperCase();
+            switch(stat_type)
+            {
+                case "FREQ":
+                    //console.log('FREQ');
+                    list_values.push(render_FREQ());
+                    break;
+                case "STAT_D":
+                   //console.log('STAT_D');
+                    list_values.push(render_STAT_D());
+                    break;
+                case "STAT_N":
+                    //console.log('STAT_N');
+                    list_values.push(render_STAT_N());
+                break;
+            }
+
+
 			if(p_metadata.type.toLowerCase() == "list")
 			{
 				let value_list = p_metadata.values;
@@ -371,7 +391,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr bg-gray-l2">
 										<th class="th" width="140" scope="col">Value</th>
 										<th class="th" width="680" scope="col">Display</th>
-										<th class="th" width="260" scope="col">Description</th>
+										<th class="th" width="260" scope="col">N (Counts)</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -383,7 +403,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260">${value_list[i].description}</td>
+										<td class="td" width="260">[number]</td>
 									</tr>
 						`);
 					}
@@ -1156,4 +1176,88 @@ function death_end_date_change(p_value)
         const el = document.getElementById("death_end_date");
         el.value = ControlFormatDate(g_filter.date_of_death.end);
     }
+}
+
+
+function render_FREQ(p_context)
+{
+    const detail = "FREQ";
+
+    return `<tr class="tr">
+    <td class="td" width="140"></td>
+    <td class="td p-0" colspan="5">
+        <table class="table table--standard rounded-0 m-0">
+            <thead class="thead">
+                <tr class="tr bg-gray-l2">
+                    <th class="th" width="140" scope="col">Summary Type</th>
+                    <th class="th" width="680" scope="col">&nbsp;</th>
+                    <th class="th" width="260" scope="col">N (Total Count)</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">	
+            <tr class="tr">
+            <td class="td" width="150" colspan=2><b>Frequency&nbsp;Distribution</b></td>
+            <!--td class="td"></td-->
+            <td class="td">[number]</td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        <td class="td" colspan="2"></td>
+    </tr>`;
+
+}
+
+function render_STAT_D(p_context)
+{
+    const detail = "STAT_D";
+    return `<tr class="tr">
+    <td class="td" width="140"></td>
+    <td class="td p-0" colspan="5">
+        <table class="table table--standard rounded-0 m-0">
+            <thead class="thead">
+                <tr class="tr bg-gray-l2">
+                    <th class="th" width="140" scope="col">Summary Type</th>
+                    <th class="th" width="680" scope="col">&nbsp;</th>
+                    <th class="th" width="260" scope="col">N (Total Count)</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">	
+            <tr class="tr">
+            <td class="td" width="150" colspan=2><b>Date&nbsp;Summary</b></td>
+            <!--td class="td"></td-->
+            <td class="td">[number]</td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        <td class="td" colspan="2"></td>
+    </tr>`;
+}
+
+function render_STAT_N(p_context)
+{
+    const detail = "STAT_N";
+    return `<tr class="tr">
+    <td class="td" width="140"></td>
+    <td class="td p-0" colspan="5">
+        <table class="table table--standard rounded-0 m-0">
+            <thead class="thead">
+                <tr class="tr bg-gray-l2">
+                    <th class="th" width="140" scope="col">Summary Type</th>
+                    <th class="th" width="680" scope="col">&nbsp;</th>
+                    <th class="th" width="260" scope="col">N (Total Count)</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">	
+            <tr class="tr">
+            <td class="td" width="150" colspan=2><b>Numeric&nbsp;Summary</b></td>
+            <!--td class="td"></td-->
+            <td class="td">[number]</td>
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        <td class="td" colspan="2"></td>
+    </tr>`;
 }
