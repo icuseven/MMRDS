@@ -29,29 +29,8 @@ async function get_release_version()
 		url: `${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version_name}`
 	});
 
+    g_metadata = JSON.parse(response.metadata);
     g_release_version_specification = response;
-    g_selected_version_specification = g_release_version_specification;
-	
-    response = await $.ajax
-    ({
-            url: `${location.protocol}//${location.host}/api/version/list`,
-    });
-
-    
-    g_version_list = response;
-
-    for(let i = 0; i < g_version_list.length; i++)
-    {
-        let item = g_version_list[i];
-
-        if(item._id.indexOf("version_specification") == 0 && g_metadata_set[item._id] == null)
-        {
-            g_metadata_set[item._id] = await load_metadata(item.name);
-        }
-    }
-
-
-    g_metadata = g_metadata_set[g_selected_version_specification._id];
 
     document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
 
