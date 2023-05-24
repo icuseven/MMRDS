@@ -1216,19 +1216,23 @@ function render_STAT_D(p_context)
     <td class="td p-0" colspan="5">
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
-                <tr class="tr bg-gray-l2">
-                    <th class="th" width="140" scope="col">Summary Type</th>
-                    <th class="th" width="680" scope="col">&nbsp;</th>
-                    <th class="th" width="260" scope="col">N (Total Count)</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">	
-            <tr class="tr">
-            <td class="td" width="150" colspan=2><b>Date&nbsp;Summary</b></td>
-            <!--td class="td"></td-->
-            <td class="td">[number]</td>
+            <tr class="tr bg-gray-l2">
+                <th class="th" width="170" scope="col">Summary Type</th>
+                <th class="th" width="260" scope="col">N (Total Count)</th>
+                <th class="th" width="260" scope="col">Missing Count</th>
+                <th class="th" width="260" scope="col">Minimum</th>
+                <th class="th" width="260" scope="col">Maximum</th>
             </tr>
-            </tbody>
+        </thead>
+        <tbody class="tbody">	
+        <tr class="tr">
+        <td class="td" width="140">Date&nbsp;Summary</td>
+        <td class="td">[number]</td>
+        <td class="td">[number]</td>
+        <td class="td">[number]</td>
+        <td class="td">[number]</td>
+        </tr>
+        </tbody>
             </table>
         </td>
         <td class="td" colspan="2"></td>
@@ -1244,15 +1248,27 @@ function render_STAT_N(p_context)
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
                 <tr class="tr bg-gray-l2">
-                    <th class="th" width="140" scope="col">Summary Type</th>
-                    <th class="th" width="680" scope="col">&nbsp;</th>
+                    <th class="th" width="170" scope="col">Summary Type</th>
                     <th class="th" width="260" scope="col">N (Total Count)</th>
+                    <th class="th" width="260" scope="col">Missing Count</th>
+                    <th class="th" width="260" scope="col">Minimum</th>
+                    <th class="th" width="260" scope="col">Maximum</th>
+                    <th class="th" width="260" scope="col">Mean</th>
+                    <th class="th" width="260" scope="col">Standard<br/>Deviation</th>
+                    <th class="th" width="260" scope="col">Median</th>
+                    <th class="th" width="260" scope="col">Mode</th>
                 </tr>
             </thead>
             <tbody class="tbody">	
             <tr class="tr">
-            <td class="td" width="150" colspan=2><b>Numeric&nbsp;Summary</b></td>
-            <!--td class="td"></td-->
+            <td class="td" width="170">Numeric<br/>Summary</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
+            <td class="td">[number]</td>
             <td class="td">[number]</td>
             </tr>
             </tbody>
