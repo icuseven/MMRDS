@@ -35,6 +35,8 @@ async function get_release_version()
     document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
 
 	$('.spinner-content').removeClass('spinner-active');
+
+    window.setTimeout(get_all_report_data,0);
 }
 
 async function load_metadata(p_version_id)
@@ -128,3 +130,85 @@ async function get_indicator_values(p_indicator_id)
     
     return g_data;
 }
+
+
+let total_rows = 0;
+const id_list = [];
+const data_list = [];
+
+async function get_all_report_data()
+{
+  
+//http://localhost:5984/report/_design/data_summary_view_report/_view/year_of_death?skip=10000&limit=100
+/*
+{"total_rows":1558,"offset":1558,"rows":[
+
+]}
+*/ 
+    const result = await $.ajax
+    (
+        {
+            url: `${location.protocol}//${location.host}/api/data-summary/0`,
+        }
+    );
+
+    const total_rows = result.total_rows;
+    let current_total = result.rows.length;
+    let current_page = 1;
+
+    result.rows.forEach(element => {
+        if(element.value._id == null)
+        {
+            element.value._id = element.id;
+        }
+        data_list.push(element.value);
+    });
+    data_list
+
+    while
+    (
+        data_list.length < total_rows
+    )
+    {
+        const page_result = await get_report_data_page(current_page * 100);
+        if(page_result.rows.length == 0)
+        {
+            break;
+        }
+
+        page_result.rows.forEach(element => {
+
+            if(element.value._id == null)
+            {
+                element.value._id = element.id;
+            }
+        
+            data_list.push(element.value);
+        });
+        current_page += 1;
+    }
+
+    console.log("get_all_report_data fin.");
+    return result;
+}
+
+async function get_report_data_page(p_skip = 0)
+{
+    let result;
+//http://localhost:5984/report/_design/data_summary_view_report/_view/year_of_death?skip=10000&limit=100
+/*
+{"total_rows":1558,"offset":1558,"rows":[
+
+]}
+*/ 
+    result = await $.ajax
+    (
+        {
+            url: `${location.protocol}//${location.host}/api/data-summary/${p_skip}`,
+        }
+    );
+
+    return result;
+}
+
+

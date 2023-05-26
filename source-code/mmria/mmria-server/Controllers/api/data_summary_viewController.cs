@@ -17,21 +17,37 @@ using Microsoft.Extensions.Configuration;
 namespace mmria.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
-[Route("api/data-summary/{year_of_death}")]
+[Route("api/data-summary/{skip}")]
 public sealed class data_summary_viewControllerController: ControllerBase 
 {  
 
+    struct Selector_Struc
+    {
+        //public System.Dynamic.ExpandoObject selector;
+        public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
+
+        public string use_index;
+
+        public int limit;
+
+        public int skip;
+    } 
+    
     IConfiguration configuration;
 
     public data_summary_viewControllerController(IConfiguration p_configuration)
     {
         configuration = p_configuration;
     }
-    public async Task<IList<mmria.server.model.SummaryReport.FrequencySummaryDocument>> Get(string year_of_death)
+    public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>> Get(string skip)
     {
-        var result = new List<mmria.server.model.SummaryReport.FrequencySummaryDocument>();
+        var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>();
         
-        
+        const int take = 100;
+        int skip_number = 0;
+
+        int.TryParse(skip, out skip_number);
+
         var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
         var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
         var config_timer_value = configuration["mmria_settings:timer_password"];
@@ -45,7 +61,7 @@ public sealed class data_summary_viewControllerController: ControllerBase
         try
         {
 
-            string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/data_summary_view_report/_view/year_of_death?skip=0&limit={30000}&key=\"{year_of_death}\"";
+            string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_design/data_summary_view_report/_view/year_of_death?skip={skip_number}&limit={take}";
             var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
             
@@ -53,13 +69,13 @@ public sealed class data_summary_viewControllerController: ControllerBase
 
 
             List<mmria.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();
-            var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
 
-            if(!string.IsNullOrWhiteSpace(year_of_death))
+            /*if(!string.IsNullOrWhiteSpace(skip))
             {
                 foreach(var doc in response_result.rows)
                 {
-                    if(doc.key.ToLower() == year_of_death.ToLower())
+                    if(doc.key.ToLower() == skip.ToLower())
                     {
                         foreach(var jurisdiction_item in  jurisdiction_hashset)
                         {
@@ -91,17 +107,18 @@ public sealed class data_summary_viewControllerController: ControllerBase
             }
             else
             {
-                foreach(var doc in response_result.rows)
+                foreach(var doc in result.rows)
                 {
                     foreach(var jurisdiction_item in  jurisdiction_hashset)
                     {
                         var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                         if
                         (
-                            regex.IsMatch(doc.value.case_folder) && 
-                            utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
+                            regex.IsMatch(doc.value.case_folder) //&& 
+                            //utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
                         )
                         {
+                            
                             if
                             (
                                 doc.value.year_of_death.HasValue && doc.value.year_of_death.Value != 9999 &&
@@ -113,15 +130,15 @@ public sealed class data_summary_viewControllerController: ControllerBase
                             )
                             {
                                 result.Add(doc.value);
-                            }
+                            //}
                             break;
                         }
                     }
                 }
-            }
+            //}
 
 
-            System.Console.WriteLine($"case_response.docs.length {result.Count}");
+            System.Console.WriteLine($"case_response.docs.length {result.Count}");*/
         }
         catch(Exception ex) 
         {
