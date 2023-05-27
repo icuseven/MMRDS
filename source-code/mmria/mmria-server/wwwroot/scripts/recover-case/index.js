@@ -664,3 +664,29 @@ function convert_dictionary_path_to_lookup_object(p_path)
 	return result;
 }
 
+function add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
+{
+  
+  let metadata = eval(p_metadata_path);
+  let new_line_item = create_default_object(metadata, {}, true);
+  let grid = eval(p_object_path);
+
+  grid.push(new_line_item[metadata.name][0]);
+
+
+}
+
+
+function add_form_item(p_metadata_path, p_object_path, p_dictionary_path) 
+{
+  //console.log('add_new_form_click: ' + p_metadata_path + ' , ' + p_object_path);
+
+  var metadata = eval(p_metadata_path);
+  var form_array = eval(p_object_path);
+  var new_form = create_default_object(metadata, {}, true);
+  var item = new_form[metadata.name][0];
+
+  form_array.push(item);
+
+
+}
