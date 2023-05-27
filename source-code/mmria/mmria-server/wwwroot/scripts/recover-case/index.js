@@ -377,7 +377,7 @@ function render_audit_for(p_revision_id)
                 {
                 	grid_index = 'g: ' + ci.grid_index;
                 }
-                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value} [ <a href="javascript:on_apply_change_click('${p_revision_id}',${result_index},${c},'${ci.dictionary_path}',${ci.form_index},${ci.grid_index})">apply change</a> ]</li>`);
+                result.push(`<li>${form_index} ${grid_index} ${ci.dictionary_path} -> ${new_value} [ <a href="javascript:on_apply_change_click('${p_revision_id}',${result_index},${c},'${ci.dictionary_path}','${ci.metadata_path}','${ci.object_path}',${ci.form_index},${ci.grid_index})">apply change</a> ]</li>`);
             }
 
             
@@ -397,6 +397,8 @@ function on_apply_change_click
     p_result_index,
     p_change_index,
     p_dictionary_path,
+    p_metadata_path,
+    p_object_path,
     p_form_index,
     p_grid_index
 )
@@ -472,18 +474,18 @@ function on_apply_change_click
         if(Form_Grid_PathSet.is_multiform)
         {
             const form_array = eval(Form_Grid_PathSet.form_path);
-            while(form_array.length < p_form_index)
+            while(form_array.length - 1 < p_form_index)
             {
-                
+                add_form_item(p_metadata_path, p_object_path, p_dictionary_path) 
             }
         }
 
         if(Form_Grid_PathSet.is_grid)
         {
             const grid = eval(Form_Grid_PathSet.grid_path);
-            while(grid.length < p_grid_index)
+            while(grid.length - 1 < p_grid_index)
             {
-
+                add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
             }
 
         }
