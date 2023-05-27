@@ -471,8 +471,11 @@ function on_apply_change_click
     else
     {
 
+
+
         if(Form_Grid_PathSet.is_multiform)
         {
+
             const form_array = eval(Form_Grid_PathSet.form_path);
             while(form_array.length - 1 < p_form_index)
             {
@@ -482,10 +485,13 @@ function on_apply_change_click
 
         if(Form_Grid_PathSet.is_grid)
         {
+            var grid_metadata_path = p_metadata_path.substring(0, p_metadata_path.lastIndexOf("."));
+            var grid_dictionary_path = p_dictionary_path.substring(0, p_dictionary_path.lastIndexOf("/"));
+
             const grid = eval(Form_Grid_PathSet.grid_path);
             while(grid.length - 1 < p_grid_index)
             {
-                add_grid_item(p_object_path, p_metadata_path, p_dictionary_path) 
+                add_grid_item(Form_Grid_PathSet.grid_path, grid_metadata_path, p_dictionary_path) 
             }
 
         }
