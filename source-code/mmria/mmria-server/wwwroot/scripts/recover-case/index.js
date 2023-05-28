@@ -171,7 +171,7 @@ async function juridiction_changed(p_value)
 
 async function search_text_click()
 {
-    const search_text = document.getElementById("search_text").value;
+    const search_text = document.getElementById("search_text").value.trim();
     
     view_model.selected_id = "";
     view_model.search_results = [];
