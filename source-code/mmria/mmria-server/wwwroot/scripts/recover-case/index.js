@@ -475,11 +475,18 @@ function on_apply_change_click
 
         if(Form_Grid_PathSet.is_multiform)
         {
+            const metadata_array = p_metadata_path.split(".");
+            const dictionary_array = p_dictionary_path.split("/");
+            
+
+            var form_metadata_path = `${metadata_array[0]}.${metadata_array[1]}`;
+            var form_dictionary_path = `/${dictionary_array[1]}`;
+
 
             const form_array = eval(Form_Grid_PathSet.form_path);
             while(form_array.length - 1 < p_form_index)
             {
-                add_form_item(p_metadata_path, p_object_path, p_dictionary_path) 
+                add_form_item(form_metadata_path, Form_Grid_PathSet.form_path, form_dictionary_path) 
             }
         }
 
