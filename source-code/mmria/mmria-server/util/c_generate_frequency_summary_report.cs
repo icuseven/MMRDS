@@ -515,6 +515,16 @@ prenatal/routine_monitoring/date_and_time
 
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
+                                    else
+                                    {
+                                        /*
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = value_result.result.ToString();
+                                        item.count = 1;
+                                        
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                        */
+                                    }
                                 }
                                 
                                 
@@ -522,7 +532,18 @@ prenatal/routine_monitoring/date_and_time
                             else
                             {
                                 var item = new mmria.server.model.SummaryReport.Detail();
-                                item.value = value_result.result.ToString();
+                                if
+                                (
+                                    string.IsNullOrWhiteSpace(value_result.result.ToString()))
+                                {
+                                    item.value = value_result.result.ToString();
+                                }
+                                else
+                                {
+                                    item.value = value_result.result.ToString();
+                                }
+                                
+                                
                                 item.count = 1;
                                 
                                 Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -530,7 +551,10 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-
+                            var item = new mmria.server.model.SummaryReport.Detail();
+                            item.value = "(-)";
+                            item.count = 1;
+                            Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
                     }
 
@@ -570,6 +594,13 @@ prenatal/routine_monitoring/date_and_time
 
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
+                                    else
+                                    {
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = "(-)";
+                                        item.count = 1;
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
                                 }
                                 
                                 
@@ -577,7 +608,14 @@ prenatal/routine_monitoring/date_and_time
                             else
                             {
                                 var item = new mmria.server.model.SummaryReport.Detail();
-                                item.value = value_result.result.ToString();
+                                if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
+                                {
+                                    item.value = "(-)";
+                                }
+                                else
+                                {
+                                    item.value = value_result.result.ToString();
+                                }
                                 item.count = 1;
                                 
                                 Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -585,7 +623,10 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-
+                            var item = new mmria.server.model.SummaryReport.Detail();
+                            item.value = "(-)";
+                            item.count = 1;
+                            Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
                     }
 
@@ -625,6 +666,13 @@ prenatal/routine_monitoring/date_and_time
 
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
+                                    else
+                                    {
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = "(-)";
+                                        item.count = 1;
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
                                 }
                                 
                                 
@@ -632,7 +680,15 @@ prenatal/routine_monitoring/date_and_time
                             else
                             {
                                 var item = new mmria.server.model.SummaryReport.Detail();
-                                item.value = value_result.result.ToString();
+                                if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
+                                {
+                                    item.value = "(-)";
+                                }
+                                else
+                                {
+                                    item.value = value_result.result.ToString();
+                                }
+                                
                                 item.count = 1;
                                 
                                 Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -640,7 +696,10 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-
+                            var item = new mmria.server.model.SummaryReport.Detail();
+                            item.value = "(-)";
+                            item.count = 1;
+                            Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
                     }
 
@@ -680,6 +739,13 @@ prenatal/routine_monitoring/date_and_time
 
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
+                                    else
+                                    {
+                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        item.value = "(-)";
+                                        item.count = 1;
+                                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                    }
                                 }
                                 
                                 
@@ -687,7 +753,15 @@ prenatal/routine_monitoring/date_and_time
                             else
                             {
                                 var item = new mmria.server.model.SummaryReport.Detail();
-                                item.value = value_result.result.ToString();
+                                if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
+                                {
+                                    item.value = "(-)";
+                                }
+                                else
+                                {
+                                    item.value = value_result.result.ToString();
+                                }
+                                
                                 item.count = 1;
                                 
                                 Context.FrequencySummaryDocument.path_to_detail[path].Add(item);

@@ -7,7 +7,7 @@ var g_release_version_specification = null;
 var g_selected_version_specification = null;
 var g_selected_version_name = null;
 var g_version_list = null;
-const g_report_data_set = new Set();
+const g_report_stat_map = new Map();
 const g_report_map = new Map();
 
 
@@ -210,13 +210,13 @@ async function get_report_data_page(p_skip = 0)
 
 async function build_report()
 {
-    g_report_data_set.clear();
+    g_report_stat_map.clear();
     g_report_map.clear();
     // public Dictionary<string, List<Detail>> path_to_detail { get; set; }
     data_list.forEach(item => {
         if(Can_Pass_Filter(item))
         {
-            g_report_data_set.add(item);
+            //g_report_data_set.add(item);
 
             const detail = item.path_to_detail;
 
@@ -225,19 +225,41 @@ async function build_report()
                 {
                     g_report_map.set(s, new Map());
                 }
+
+                if(!g_report_stat_map.has(s))
+                {
+                    g_report_stat_map.set(s, new Map());
+                    g_report_stat_map.get(s).set("total",0);
+                    g_report_stat_map.get(s).set("missing",0);
+                    g_report_stat_map.get(s).set("missing",0);
+                    g_report_stat_map.get(s).set("min",0);
+                    g_report_stat_map.get(s).set("max",0);
+                    g_report_stat_map.get(s).set("mode",0);
+                    g_report_stat_map.get(s).set("median",0);
+                    g_report_stat_map.get(s).set("std_dev",0);
+                    g_report_stat_map.get(s).set("variance",0);
+
+                }
+
                 const detail_item = detail[s];
                 Object.keys(detail_item).map((v, i) =>{
                     if(!g_report_map.get(s).has(detail_item[v].value))
                     {
                         g_report_map.get(s).set(detail_item[v].value, 0);
                     }
+
                     const entry_value = g_report_map.get(s).get(detail_item[v].value)
                     g_report_map.get(s).set(detail_item[v].value, entry_value + detail_item[v].count);
+
+                    const total_value = g_report_stat_map.get(s).get("total");
+                    g_report_stat_map.get(s).set("total", total_value + detail_item[v].count);
+
+
                 });
 
             });
 
-            console.log("here");
+            //console.log("here");
             
         }
         else
@@ -246,6 +268,8 @@ async function build_report()
         }
 
     });
+
+    console.log("here");
 }
 
 
