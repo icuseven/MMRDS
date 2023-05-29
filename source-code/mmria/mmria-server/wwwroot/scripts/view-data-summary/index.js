@@ -220,7 +220,8 @@ async function build_report()
 
             const detail = item.path_to_detail;
 
-            Object.keys(detail).map((s, d) => {
+            for(const s of Object.keys(detail))
+            {
                 if(!g_report_map.has(s))
                 {
                     g_report_map.set(s, new Map());
@@ -229,20 +230,21 @@ async function build_report()
                 if(!g_report_stat_map.has(s))
                 {
                     g_report_stat_map.set(s, new Map());
-                    g_report_stat_map.get(s).set("total",0);
+                    g_report_stat_map.get(s).set("count",0);
                     g_report_stat_map.get(s).set("missing",0);
                     g_report_stat_map.get(s).set("missing",0);
                     g_report_stat_map.get(s).set("min",0);
                     g_report_stat_map.get(s).set("max",0);
                     g_report_stat_map.get(s).set("mode",0);
                     g_report_stat_map.get(s).set("median",0);
-                    g_report_stat_map.get(s).set("std_dev",0);
+                    g_report_stat_map.get(s).set("std_dev",0);// square root of variance
                     g_report_stat_map.get(s).set("variance",0);
 
                 }
 
                 const detail_item = detail[s];
-                Object.keys(detail_item).map((v, i) =>{
+                for(const v of Object.keys(detail_item))
+                {
                     if(!g_report_map.get(s).has(detail_item[v].value))
                     {
                         g_report_map.get(s).set(detail_item[v].value, 0);
@@ -251,13 +253,13 @@ async function build_report()
                     const entry_value = g_report_map.get(s).get(detail_item[v].value)
                     g_report_map.get(s).set(detail_item[v].value, entry_value + detail_item[v].count);
 
-                    const total_value = g_report_stat_map.get(s).get("total");
-                    g_report_stat_map.get(s).set("total", total_value + detail_item[v].count);
+                    const total_value = g_report_stat_map.get(s).get("count");
+                    g_report_stat_map.get(s).set("count", total_value + detail_item[v].count);
 
 
-                });
+                }
 
-            });
+            }
 
             //console.log("here");
             
@@ -269,7 +271,61 @@ async function build_report()
 
     });
 
+    
+
+    for(const [k, v] of g_report_map)
+    {
+        g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("count") / v.size)
+        let max = 0;
+        let max_value = "";
+        let min = 99999999;
+        let min_value = "";
+
+
+        for(const [k2, v2] of v)
+        {
+            if(v2 < min) 
+            {
+                min = v2;
+                min_value = k2;
+            }
+
+            if(v2 > max) 
+            {
+                max = v2;
+                max_value = k2;
+            }
+
+            if(k2 == "(-)")
+            {
+                g_report_stat_map.get(k).set("missing", v2);
+            }
+        }
+
+        g_report_stat_map.get(k).set("min", `${min_value} @${min}`);
+        g_report_stat_map.get(k).set("max", `${max_value} @${max}`);
+
+    }
+
+    for(const [k, l] of g_report_map)
+    {
+        const mean = g_report_stat_map.get(k).get("mean"); 
+        const total = g_report_stat_map.get(k).get("count"); 
+
+        let sum = 0;
+
+        for(const [n, v] of l)
+        {
+            sum += (v - mean) * (v - mean);
+        }
+
+        g_report_stat_map.get(k).set("variance", sum / total);
+        g_report_stat_map.get(k).set("std_dev", Math.sqrt(sum / total));
+
+    }
+
     console.log("here");
+    
 }
 
 
