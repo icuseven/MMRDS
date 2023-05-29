@@ -292,19 +292,18 @@ public sealed class mmrds_exporter
         //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
         foreach(string case_id in Custom_Case_Id_List)
         {
-
-        string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
-        cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
-        System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
+            string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+            cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
+            System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
             IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
 
             if
             (
-            case_doc == null ||
-            !case_doc.ContainsKey("_id") ||
-            case_doc["_id"] == null ||
-            case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
+                case_doc == null ||
+                !case_doc.ContainsKey("_id") ||
+                case_doc["_id"] == null ||
+                case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
             )
             {
             continue;
@@ -925,6 +924,11 @@ public sealed class mmrds_exporter
                         path_to_csv_writer[grid_name].WriteToStream(grid_row);
                     }
                 }
+
+                if(!is_excel_file_type)
+                {
+                    path_to_csv_writer[grid_name].FinishStream();
+                }
             }
             }
             // flat grid - end
@@ -1475,68 +1479,68 @@ public sealed class mmrds_exporter
                 {
                     foreach (var item in List_Look_Up[key])
                     {
-                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
+                        System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
 
-                    if (path_to_file_name_map.ContainsKey(kvp.Key))
-                    {
-                        row["file_name"] = path_to_file_name_map[kvp.Key];
-                    }
+                        if (path_to_file_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["file_name"] = path_to_file_name_map[kvp.Key];
+                        }
 
-                    if (path_to_field_name_map.ContainsKey(kvp.Key))
-                    {
-                        row["column_name"] = path_to_field_name_map[kvp.Key];
-                    }
+                        if (path_to_field_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["column_name"] = path_to_field_name_map[kvp.Key];
+                        }
 
-                    row["mmria_path"] = kvp.Key;
-                    row["mmria_prompt"] = node.prompt;
-                    row["field_description"] = node.description;
-                    row["item_value"] = item.Key;
-                    row["item_display"] = item.Value;
-                    //row["item_description"] = item.description;
-                    if(is_excel_file_type)
-                    {
-                        mapping_look_up_document.Table.Rows.Add(row);
-                    }
-                    else
-                    {
-                        mapping_look_up_document.WriteToStream(row);
-                    }
+                        row["mmria_path"] = kvp.Key;
+                        row["mmria_prompt"] = node.prompt;
+                        row["field_description"] = node.description;
+                        row["item_value"] = item.Key;
+                        row["item_display"] = item.Value;
+                        //row["item_description"] = item.description;
+                        if(is_excel_file_type)
+                        {
+                            mapping_look_up_document.Table.Rows.Add(row);
+                        }
+                        else
+                        {
+                            mapping_look_up_document.WriteToStream(row);
+                        }
                     }
                 }
 
                 }
                 else
                 {
-                foreach (var item in value_list)
-                {
-                    System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
-
-                    if (path_to_file_name_map.ContainsKey(kvp.Key))
+                    foreach (var item in value_list)
                     {
-                    row["file_name"] = path_to_file_name_map[kvp.Key];
-                    }
+                        System.Data.DataRow row = mapping_look_up_document.Table.NewRow();
 
-                    if (path_to_field_name_map.ContainsKey(kvp.Key))
-                    {
-                    row["column_name"] = path_to_field_name_map[kvp.Key];
-                    }
-                    row["mmria_path"] = kvp.Key;
-                    row["mmria_prompt"] = node.prompt;
-                    row["field_description"] = node.description;
-                    row["item_value"] = item.value;
-                    row["item_display"] = item.display;
-                    row["item_description"] = item.description;
+                        if (path_to_file_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["file_name"] = path_to_file_name_map[kvp.Key];
+                        }
+
+                        if (path_to_field_name_map.ContainsKey(kvp.Key))
+                        {
+                            row["column_name"] = path_to_field_name_map[kvp.Key];
+                        }
+                        row["mmria_path"] = kvp.Key;
+                        row["mmria_prompt"] = node.prompt;
+                        row["field_description"] = node.description;
+                        row["item_value"] = item.value;
+                        row["item_display"] = item.display;
+                        row["item_description"] = item.description;
 
 
-                    if(is_excel_file_type)
-                    {
-                        mapping_look_up_document.Table.Rows.Add(row);
+                        if(is_excel_file_type)
+                        {
+                            mapping_look_up_document.Table.Rows.Add(row);
+                        }
+                        else
+                        {
+                            mapping_look_up_document.WriteToStream(row);
+                        }
                     }
-                    else
-                    {
-                        mapping_look_up_document.WriteToStream(row);
-                    }
-                }
                 }
 
 

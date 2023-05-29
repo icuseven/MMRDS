@@ -181,7 +181,7 @@ async function search_text_click()
     view_model.search_text = search_text;
     view_model.search_results = await get_case_view(search_text);
 
-    console.log(view_model.search_results);
+    //console.log(view_model.search_results);
 
     await render();
 }

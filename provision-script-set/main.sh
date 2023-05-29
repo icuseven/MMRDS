@@ -27,48 +27,6 @@ else
 	sudo sudo apt-get install xubuntu-desktop -y
 fi
 
-echo "checking if mono is installed..."
-if [[ -f "/usr/bin/mono" ]]; then
-	echo "mono already installed,skipping..."
-else
-	echo "installing mono..."
-
-	sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-	echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
-	echo "deb http://download.mono-project.com/repo/debian wheezy-apache24-compat main" | sudo tee -a /etc/apt/sources.list.d/mono-xamarin.list
-	sudo apt-get update -qqy
-	sudo apt-get install mono-complete -y
-fi
-
-echo "checking if monodevelop is installed..."
-if [[ -f "/usr/local/bin/monodevelop" ]]; then
-	echo "monodevelop already installed,skipping..."
-else
-	echo "installing monodevelop..."
-	#http://www.monodevelop.com/developers/building-monodevelop/#linux
-	#https://kvssoft.wordpress.com/2016/12/13/building-monodevelop-on-ubuntu/
-	#sudo apt-get install monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
-	#sudo apt-get remove monodevelop monodevelop-nunit monodevelop-versioncontrol monodevelop-database -y
-
-	sudo apt-get update
-	sudo apt-get install -y autoconf git libtool automake build-essential mono-devel gettext cmake
-	sudo apt-get install -y cmake fsharp git gnome-sharp2 gtk-sharp2 libssh2-1-dev referenceassemblies-pcl zlib1g-dev
-
-	if [ ! -d "$DIRECTORY" ]; then
-		sudo mkdir /home/vagrant/workspace
-	fi
-	
-	
-	cd /home/vagrant/workspace
-	
-	sudo git clone https://github.com/mono/monodevelop.git
-	cd monodevelop
-	sudo ./configure --profile=stable --enable-release
-	sudo make
-	sudo make install
-	
-fi
-
 
 echo "checking if chrome is installed..."
 if [[ -f "/opt/google/chrome/chrome" ]]; then
@@ -142,15 +100,6 @@ fi
 #	umake web visual-studio-code --accept-license /home/vagrant/.local/share/umake/web/visual-studio-code
 #fi
 
-echo "checking if atom is installed..."
-if [[ -f "/usr/bin/atom" ]]; then
-	echo "atom already installed,skipping..."
-else
-	echo "installing atom..."
-	sudo add-apt-repository ppa:webupd8team/atom -y
-	sudo apt-get update -y
-	sudo apt-get install atom -y
-fi
 
 echo "checking dotnet core is installed..."
 if [[ -f "/usr/bin/dotnet" ]]; then

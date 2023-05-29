@@ -7,6 +7,8 @@ var g_release_version_specification = null;
 var g_selected_version_specification = null;
 var g_selected_version_name = null;
 var g_version_list = null;
+const g_report_data_set = new Set();
+const g_report_map = new Map();
 
 
 (async function() {
@@ -189,19 +191,14 @@ async function get_all_report_data()
     }
 
     console.log("get_all_report_data fin.");
+
+    window.setTimeout(build_report,0);
     return result;
 }
 
 async function get_report_data_page(p_skip = 0)
 {
-    let result;
-//http://localhost:5984/report/_design/data_summary_view_report/_view/year_of_death?skip=10000&limit=100
-/*
-{"total_rows":1558,"offset":1558,"rows":[
-
-]}
-*/ 
-    result = await $.ajax
+    const result = await $.ajax
     (
         {
             url: `${location.protocol}//${location.host}/api/data-summary/${p_skip}`,
@@ -211,4 +208,49 @@ async function get_report_data_page(p_skip = 0)
     return result;
 }
 
+async function build_report()
+{
+    g_report_data_set.clear();
+    g_report_map.clear();
+    // public Dictionary<string, List<Detail>> path_to_detail { get; set; }
+    data_list.forEach(item => {
+        if(Can_Pass_Filter(item))
+        {
+            g_report_data_set.add(item);
 
+            const detail = item.path_to_detail;
+
+            Object.keys(detail).map((s, d) => {
+                if(!g_report_map.has(s))
+                {
+                    g_report_map.set(s, new Map());
+                }
+                const detail_item = detail[s];
+                Object.keys(detail_item).map((v, i) =>{
+                    if(!g_report_map.get(s).has(detail_item[v].value))
+                    {
+                        g_report_map.get(s).set(detail_item[v].value, 0);
+                    }
+                    const entry_value = g_report_map.get(s).get(detail_item[v].value)
+                    g_report_map.get(s).set(detail_item[v].value, entry_value + detail_item[v].count);
+                });
+
+            });
+
+            console.log("here");
+            
+        }
+        else
+        {
+            //console.log("here");
+        }
+
+    });
+}
+
+
+
+async function Can_Pass_Filter(p_item)
+{
+    return true;
+}

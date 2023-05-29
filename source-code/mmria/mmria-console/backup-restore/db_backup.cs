@@ -143,6 +143,7 @@ public sealed class Backup
         var curl_result = await document_curl.executeAsync();
 
         object all_cases = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (curl_result);
+        /*
         object all_cases_rows = all_cases.rows;
 
         foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows) 
@@ -155,7 +156,7 @@ public sealed class Backup
                 case_doc.Remove("_rev");
                 result.docs.Add (case_doc);
             }
-        }
+        }*/
 
         return result;
     }

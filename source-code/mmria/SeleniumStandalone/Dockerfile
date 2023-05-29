@@ -2,7 +2,7 @@
 # NOTE: DO *NOT* EDIT THIS FILE.  IT IS GENERATED.
 # PLEASE UPDATE Dockerfile.txt INSTEAD OF THIS FILE
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-FROM selenium/node-chrome:4.0.0-rc-2-prerelease-20210908
+FROM selenium/node-chrome:4.0.0-rc-2-20210930
 LABEL authors=SeleniumHQ
 
 USER 1200
@@ -11,8 +11,6 @@ USER 1200
 # Scripts to run Selenium Standalone
 #====================================
 COPY start-selenium-standalone.sh /opt/bin/start-selenium-standalone.sh
-
-RUN chmod -R 765 /opt/bin/
 
 #==============================
 # Supervisor configuration file
