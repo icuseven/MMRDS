@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
 
+using mmria_pmss_server;
+
 namespace mmria_pmss_server.Controllers;
 
 //[Authorize]
@@ -33,12 +35,17 @@ public sealed class HomeController : Controller
 
     [HttpGet]
     //[Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public async Task<IActionResult> Index()
+    public async Task<IResult> Index()
     {
+
+        string path = "./wwwroot/index.html";
+
+        return Results.Extensions.Html(await System.IO.File.ReadAllTextAsync(path));
+
         //string webRootPath = _webHostEnvironment.ContentRootPath;
         //string path = "/opt/app-root/app/wwwroot/index.html";
-       string path = "./wwwroot/index.html";
-        return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
+       
+        //return File(await System.IO.File.ReadAllTextAsync(path), "text/html");
  /*
         return File
         (
