@@ -295,8 +295,18 @@ async function build_report()
 
         for(const [k2, v2] of v)
         {
+            if
+            (
+                k2 == "(-)" ||
+                k2.trim().length == 0
+            )
+            {
 
-            if(type == "STAT_N")
+                g_report_stat_map.get(k).set("missing", v2 + g_report_stat_map.get(k).get("missing"));
+                
+
+            }
+            else if(type == "STAT_N")
             {
                 const c1 = parseFloat(k2)
                 if(c1 < min) 
@@ -311,9 +321,9 @@ async function build_report()
                     max_value = k2;
                 }
 
-                if(c1 > mode)
+                if(v2 > mode)
                 {
-                    mode = c1;
+                    mode = v2;
                     mode_value = k2;
                 }
             }
@@ -331,16 +341,15 @@ async function build_report()
                     max = c1;
                     max_value = k2;
                 }
+
+                if(v2 > mode)
+                {
+                    mode = v2;
+                    mode_value = k2;
+                }
             }
 
-            if
-            (
-                k2 == "(-)" ||
-                k2.trim().length == 0
-            )
-            {
-                g_report_stat_map.get(k).set("missing", v2);
-            }
+            
         }
 
         g_report_stat_map.get(k).set("min", `${min_value} @${min}`);
@@ -348,8 +357,8 @@ async function build_report()
         g_report_stat_map.get(k).set("mode", `${mode_value} @${mode}`);
 
         if(type == "STAT_N")
-        {/*
-            const count = g_report_stat_map.get(k).get("count");
+        {
+            const count = g_report_stat_map.get(k).get("count") - g_report_stat_map.get(k).get("missing");
             const mid_count = count / 2;
 
             let median = "";
@@ -358,31 +367,59 @@ async function build_report()
             let sum = 0;
             let mid_1_entry;
             let mid_2_entry;
+            let need_mid_2 = false;
             for(const [k3, v3] of mapAsc)
             {
-                if(sum + v3 >= mid_count)
+                if(need_mid_2)
                 {
-
+                    mid_2_entry = parseFloat(k2)
+                    median = (mid_1_entry + mid_2_entry) / 2;
                     break;
                 }
+                if(sum + v3 >= mid_count)
+                {
+                    if
+                    (
+                        k3 == "(-)" || 
+                        k3.trim().length == 0
+                    )
+                    {
+                        continue;
+                        mid_1_entry = "(-)";
+                    }
+                    else
+                    {
+                        mid_1_entry = parseFloat(k3);
+                    }
+                    
+                    if(count % 2 == 0)
+                    {
+                        if((sum + v3) - mid_count >=0)
+                        {
+                            median = mid_1_entry;
+                        }
+                        else
+                        {
+                            need_mid_2 = true;
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        median = mid_1_entry;
+                    }
+                    //console.log("here");
+                    break;
+                }
+
+                sum += v3;
                 array.push(k3);
             }
 
-            const mid_1 = array[mid_index];
-            if(count % 2 == 0)
-            {
-                
-                const mid_2 = array[mid_index + 1];
-
-                median = (parseFloat(mid_1) + parseFloat(mid_2)) / 2;
-            }
-            else
-            {
-                median = mid_1;
-            }
+ 
 
             g_report_stat_map.get(k).set("median", median);
-            */
+            
         }
 
     }
