@@ -350,14 +350,17 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             {
                 case "FREQ":
                     //console.log('FREQ');
+                    if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "FREQ");
                     list_values.push(render_FREQ());
                     break;
                 case "STAT_D":
                    //console.log('STAT_D');
+                   if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_D");
                     list_values.push(render_STAT_D());
                     break;
                 case "STAT_N":
                     //console.log('STAT_N');
+                    if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_N");
                     list_values.push(render_STAT_N());
                 break;
             }

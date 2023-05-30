@@ -9,6 +9,7 @@ var g_selected_version_name = null;
 var g_version_list = null;
 const g_report_stat_map = new Map();
 const g_report_map = new Map();
+const g_path_to_stat_type = new Map();
 
 
 (async function() {
@@ -230,8 +231,8 @@ async function build_report()
                 if(!g_report_stat_map.has(s))
                 {
                     g_report_stat_map.set(s, new Map());
+                    g_report_stat_map.get(s).set("type", g_path_to_stat_type.get(s));
                     g_report_stat_map.get(s).set("count",0);
-                    g_report_stat_map.get(s).set("missing",0);
                     g_report_stat_map.get(s).set("missing",0);
                     g_report_stat_map.get(s).set("min",0);
                     g_report_stat_map.get(s).set("max",0);
@@ -277,6 +278,8 @@ async function build_report()
     {
         g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("count") / v.size)
         let max = 0;
+        let mode = 0;
+        let mode_value = "";
         let max_value = "";
         let min = 99999999;
         let min_value = "";
