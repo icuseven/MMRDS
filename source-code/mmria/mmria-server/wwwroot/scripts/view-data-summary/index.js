@@ -277,6 +277,8 @@ async function build_report()
     for(const [k, v] of g_report_map)
     {
         g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("count") / v.size)
+
+        const type = g_report_stat_map.get(k).get("type");
         let max = 0;
         let mode = 0;
         let mode_value = "";
@@ -284,22 +286,58 @@ async function build_report()
         let min = 99999999;
         let min_value = "";
 
+        if(type == "STAT_D")
+        {
+            max = Date.parse("1900-01-01");
+            min =  Date.parse("3000-01-01");
+        }
+
 
         for(const [k2, v2] of v)
         {
-            if(v2 < min) 
+
+            if(type == "STAT_N")
             {
-                min = v2;
-                min_value = k2;
+                const c1 = parseFloat(k2)
+                if(c1 < min) 
+                {
+                    min = c1;
+                    min_value = k2;
+                }
+
+                if(c1 > max) 
+                {
+                    max = c1;
+                    max_value = k2;
+                }
+
+                if(c1 > mode)
+                {
+                    mode = c1;
+                    mode_value = k2;
+                }
+            }
+            else if(type == "STAT_D")
+            {
+                const c1 = Date.parse(k2);
+                if(c1 < min) 
+                {
+                    min = c1;
+                    min_value = k2;
+                }
+
+                if(c1 > max) 
+                {
+                    max = c1;
+                    max_value = k2;
+                }
             }
 
-            if(v2 > max) 
-            {
-                max = v2;
-                max_value = k2;
-            }
-
-            if(k2 == "(-)")
+            if
+            (
+                k2 == "(-)" ||
+                k2.trim().length == 0
+            )
             {
                 g_report_stat_map.get(k).set("missing", v2);
             }
@@ -307,6 +345,45 @@ async function build_report()
 
         g_report_stat_map.get(k).set("min", `${min_value} @${min}`);
         g_report_stat_map.get(k).set("max", `${max_value} @${max}`);
+        g_report_stat_map.get(k).set("mode", `${mode_value} @${mode}`);
+
+        if(type == "STAT_N")
+        {/*
+            const count = g_report_stat_map.get(k).get("count");
+            const mid_count = count / 2;
+
+            let median = "";
+            var mapAsc = new Map([...g_report_map.get(k).entries()].sort());
+            const array = [];
+            let sum = 0;
+            let mid_1_entry;
+            let mid_2_entry;
+            for(const [k3, v3] of mapAsc)
+            {
+                if(sum + v3 >= mid_count)
+                {
+
+                    break;
+                }
+                array.push(k3);
+            }
+
+            const mid_1 = array[mid_index];
+            if(count % 2 == 0)
+            {
+                
+                const mid_2 = array[mid_index + 1];
+
+                median = (parseFloat(mid_1) + parseFloat(mid_2)) / 2;
+            }
+            else
+            {
+                median = mid_1;
+            }
+
+            g_report_stat_map.get(k).set("median", median);
+            */
+        }
 
     }
 
