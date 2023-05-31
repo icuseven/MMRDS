@@ -1196,8 +1196,7 @@ function render_FREQ(p_context)
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
                 <tr class="tr bg-gray-l2">
-                    <th class="th" width="140" scope="col">Summary Type</th>
-                    <th class="th" width="680" scope="col">&nbsp;</th>
+                    <th class="th" scope="col" colspan=2>Summary Type</th>
                     <th class="th" width="260" scope="col">N (Total Count)</th>
                 </tr>
             </thead>
