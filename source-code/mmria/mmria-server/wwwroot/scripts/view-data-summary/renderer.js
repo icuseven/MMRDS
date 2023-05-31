@@ -410,7 +410,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}">[number]</td>
+										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"></td>
 									</tr>
 						`);
 					}
@@ -470,7 +470,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					<td class="td" width="180">${p_metadata.prompt}</td>
 					<td class="td" width="380">${description}</td>
 					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}<br/> ${p_metadata.tags.filter(filter_tag).join(" ")}</td>
+					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
 				</tr>
 				${list_values.join("")}
 			`);
@@ -1205,7 +1205,7 @@ function render_FREQ(p_context)
             <tr class="tr">
             <td class="td" width="150" colspan=2><b>Frequency&nbsp;Distribution</b></td>
             <!--td class="td"></td-->
-            <td class="td"id="${p_context.dictionary_path}-count">[number]</td>
+            <td class="td"id="${p_context.dictionary_path}-count"></td>
             </tr>
             </tbody>
             </table>
@@ -1234,10 +1234,10 @@ function render_STAT_D(p_context)
         <tbody class="tbody">	
         <tr class="tr">
         <td class="td" width="140">Date&nbsp;Summary</td>
-        <td class="td" id="${p_context.dictionary_path}-count">[number]</td>
-        <td class="td" id="${p_context.dictionary_path}-missing">[number]</td>
-        <td class="td" id="${p_context.dictionary_path}-min">[number]</td>
-        <td class="td" id="${p_context.dictionary_path}-max">[number]</td>
+        <td class="td" id="${p_context.dictionary_path}-count"></td>
+        <td class="td" id="${p_context.dictionary_path}-missing"></td>
+        <td class="td" id="${p_context.dictionary_path}-min"></td>
+        <td class="td" id="${p_context.dictionary_path}-max"></td>
         </tr>
         </tbody>
             </table>
@@ -1269,14 +1269,14 @@ function render_STAT_N(p_context)
             <tbody class="tbody">	
             <tr class="tr">
             <td class="td" width="170">Numeric<br/>Summary</td>
-            <td class="td" id="${p_context.dictionary_path}-count">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-missing">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-min">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-max">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-mean">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-std_dev">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-median">[number]</td>
-            <td class="td" id="${p_context.dictionary_path}-mode">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-count"></td>
+            <td class="td" id="${p_context.dictionary_path}-missing"></td>
+            <td class="td" id="${p_context.dictionary_path}-min"></td>
+            <td class="td" id="${p_context.dictionary_path}-max"></td>
+            <td class="td" id="${p_context.dictionary_path}-mean"></td>
+            <td class="td" id="${p_context.dictionary_path}-std_dev"></td>
+            <td class="td" id="${p_context.dictionary_path}-median"></td>
+            <td class="td" id="${p_context.dictionary_path}-mode"></td>
             </tr>
             </tbody>
             </table>

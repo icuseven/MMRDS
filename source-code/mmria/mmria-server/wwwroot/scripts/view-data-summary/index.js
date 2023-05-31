@@ -465,7 +465,6 @@ async function build_report()
                     el2.innerHTML = v2;
                 }
             }
-            
         }
         else if(type == "STAT_D")
         {
