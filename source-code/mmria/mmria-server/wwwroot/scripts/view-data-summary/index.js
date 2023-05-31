@@ -481,10 +481,16 @@ async function build_report()
                 el.innerHTML = current_stat.get("missing");
 
                 el = document.getElementById(`${k}-min`);
-                el.innerHTML = current_stat.get("min").split(' @')[0];
+                let date = new Date(current_stat.get("min").split(' @')[0]);
+
+                el.innerHTML = formatDate(date);
+
+                
 
                 el = document.getElementById(`${k}-max`);
-                el.innerHTML = current_stat.get("max").split(' @')[0];
+                date = new Date(current_stat.get("max").split(' @')[0]);
+
+                el.innerHTML = formatDate(date);
             }
         }
         else if(type == "STAT_N")
@@ -528,4 +534,26 @@ async function build_report()
 async function Can_Pass_Filter(p_item)
 {
     return true;
+}
+
+
+function formatDate(dateObj)
+{
+
+    let result = dateObj;
+
+    if(dateObj instanceof Date)
+    {
+        var month = dateObj.getUTCMonth() + 1; //months from 1-12
+        var day = dateObj.getUTCDate();
+        var year = dateObj.getUTCFullYear();
+
+        result = month.toString().padStart(2,"0") + "/" + day.toString().padStart(2,"0") + "/" + year;
+    }
+    else
+    {
+        console.log("here");
+    }
+
+    return result;
 }
