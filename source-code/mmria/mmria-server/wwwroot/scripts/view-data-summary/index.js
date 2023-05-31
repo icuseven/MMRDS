@@ -459,7 +459,7 @@ async function build_report()
                     if(n == "(-)")
                     {
                         const el2 = document.getElementById(`${k}-9999`);
-                        el2.innerHTML = el2.innerHTML + ' ' + v2;
+                        el2.innerHTML = parseInt(el2.innerHTML) + v2;
                     }
                     else
                     {
@@ -517,7 +517,7 @@ async function build_report()
                 el.innerHTML = current_stat.get("std_dev").toFixed(2);
 
                 el = document.getElementById(`${k}-median`);
-                el.innerHTML = current_stat.get("median");
+                el.innerHTML = current_stat.get("median").toFixed(2);
 
                 el = document.getElementById(`${k}-mode`);
                 el.innerHTML = current_stat.get("mode").split(' @')[0];
