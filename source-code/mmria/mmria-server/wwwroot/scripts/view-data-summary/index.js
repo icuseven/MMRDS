@@ -441,7 +441,75 @@ async function build_report()
 
     }
 
-    console.log("here");
+    for(const [k, v] of g_report_map)
+    {
+
+        const current_stat = g_report_stat_map.get(k);
+        const type = current_stat.get("type");
+
+        if(type == "FREQ")
+        {
+            const el = document.getElementById(`${k}-count`);
+            el.innerHTML = current_stat.get("count");
+
+            for(const [n, v2] of v)
+            {
+                if(n == "(-)")
+                {
+                    const el2 = document.getElementById(`${k}-9999`);
+                    el2.innerHTML = el2.innerHTML + ' ' + v2;
+                }
+                else
+                {
+                    const el2 = document.getElementById(`${k}-${n}`);
+                    el2.innerHTML = v2;
+                }
+            }
+            
+        }
+        else if(type == "STAT_D")
+        {
+            let el = document.getElementById(`${k}-count`);
+            el.innerHTML = current_stat.get("count");
+
+            el = document.getElementById(`${k}-missing`);
+            el.innerHTML = current_stat.get("missing");
+
+            el = document.getElementById(`${k}-min`);
+            el.innerHTML = current_stat.get("min").split(' @')[0];
+
+            el = document.getElementById(`${k}-max`);
+            el.innerHTML = current_stat.get("max").split(' @')[0];
+        }
+        else if(type == "STAT_N")
+        {
+            let el = document.getElementById(`${k}-count`);
+            el.innerHTML = current_stat.get("count");
+
+            el = document.getElementById(`${k}-missing`);
+            el.innerHTML = current_stat.get("missing");
+
+            el = document.getElementById(`${k}-min`);
+            el.innerHTML = current_stat.get("min").split(' @')[0];
+
+            el = document.getElementById(`${k}-max`);
+            el.innerHTML = current_stat.get("max").split(' @')[0];
+
+            el = document.getElementById(`${k}-mean`);
+            el.innerHTML = current_stat.get("mean");
+
+            el = document.getElementById(`${k}-std_dev`);
+            el.innerHTML = current_stat.get("std_dev");
+
+            el = document.getElementById(`${k}-median`);
+            el.innerHTML = current_stat.get("median");
+
+            el = document.getElementById(`${k}-mode`);
+            el.innerHTML = current_stat.get("mode");
+        }
+
+        
+    }
     
 }
 

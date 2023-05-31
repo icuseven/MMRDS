@@ -346,22 +346,26 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			}
 
             const stat_type = p_metadata.tags.filter(filter_tag).join("").toUpperCase();
+            const context = {
+                dictionary_path: p_path.substr(1)
+            };
+
             switch(stat_type)
             {
                 case "FREQ":
                     //console.log('FREQ');
                     if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "FREQ");
-                    list_values.push(render_FREQ());
+                    list_values.push(render_FREQ(context));
                     break;
                 case "STAT_D":
                    //console.log('STAT_D');
                    if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_D");
-                    list_values.push(render_STAT_D());
+                    list_values.push(render_STAT_D(context));
                     break;
                 case "STAT_N":
                     //console.log('STAT_N');
                     if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_N");
-                    list_values.push(render_STAT_N());
+                    list_values.push(render_STAT_N(context));
                 break;
             }
 
@@ -406,7 +410,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260">[number]</td>
+										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}">[number]</td>
 									</tr>
 						`);
 					}
@@ -1201,7 +1205,7 @@ function render_FREQ(p_context)
             <tr class="tr">
             <td class="td" width="150" colspan=2><b>Frequency&nbsp;Distribution</b></td>
             <!--td class="td"></td-->
-            <td class="td">[number]</td>
+            <td class="td"id="${p_context.dictionary_path}-count">[number]</td>
             </tr>
             </tbody>
             </table>
@@ -1230,10 +1234,10 @@ function render_STAT_D(p_context)
         <tbody class="tbody">	
         <tr class="tr">
         <td class="td" width="140">Date&nbsp;Summary</td>
-        <td class="td">[number]</td>
-        <td class="td">[number]</td>
-        <td class="td">[number]</td>
-        <td class="td">[number]</td>
+        <td class="td" id="${p_context.dictionary_path}-count">[number]</td>
+        <td class="td" id="${p_context.dictionary_path}-missing">[number]</td>
+        <td class="td" id="${p_context.dictionary_path}-min">[number]</td>
+        <td class="td" id="${p_context.dictionary_path}-max">[number]</td>
         </tr>
         </tbody>
             </table>
@@ -1265,14 +1269,14 @@ function render_STAT_N(p_context)
             <tbody class="tbody">	
             <tr class="tr">
             <td class="td" width="170">Numeric<br/>Summary</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
-            <td class="td">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-count">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-missing">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-min">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-max">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-mean">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-std_dev">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-median">[number]</td>
+            <td class="td" id="${p_context.dictionary_path}-mode">[number]</td>
             </tr>
             </tbody>
             </table>
