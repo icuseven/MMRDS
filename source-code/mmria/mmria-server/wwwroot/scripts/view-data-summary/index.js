@@ -496,16 +496,16 @@ async function build_report()
             el.innerHTML = current_stat.get("max").split(' @')[0];
 
             el = document.getElementById(`${k}-mean`);
-            el.innerHTML = current_stat.get("mean");
+            el.innerHTML = current_stat.get("mean").toFixed(2);
 
             el = document.getElementById(`${k}-std_dev`);
-            el.innerHTML = current_stat.get("std_dev");
+            el.innerHTML = current_stat.get("std_dev").toFixed(2);
 
             el = document.getElementById(`${k}-median`);
             el.innerHTML = current_stat.get("median");
 
             el = document.getElementById(`${k}-mode`);
-            el.innerHTML = current_stat.get("mode");
+            el.innerHTML = current_stat.get("mode").split(' @')[0];
         }
 
         
