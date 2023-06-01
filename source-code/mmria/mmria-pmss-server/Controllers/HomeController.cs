@@ -53,7 +53,9 @@ public sealed class HomeController : Controller
                  "text/plain",
                   "index.html"
          );
-        return View();*/
+        return View();
+        
+        */
     }
 
 }
