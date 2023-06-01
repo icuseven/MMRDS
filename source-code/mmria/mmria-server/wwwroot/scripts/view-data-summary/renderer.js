@@ -142,6 +142,8 @@ function search_click()
 	render_search_result(result, g_filter);
 
 	search_result_list.innerHTML = result.join("");
+
+    window.setTimeout(build_report,0);
 }
 
 

@@ -11,6 +11,7 @@ const g_report_stat_map = new Map();
 const g_report_map = new Map();
 const g_path_to_stat_type = new Map();
 
+var g_data_is_loaded = false;
 
 (async function() {
 
@@ -191,7 +192,9 @@ async function get_all_report_data()
         current_page += 1;
     }
 
-    console.log("get_all_report_data fin.");
+    //console.log("get_all_report_data fin.");
+
+    g_data_is_loaded = true;
 
     window.setTimeout(build_report,0);
     return result;
@@ -556,4 +559,24 @@ function formatDate(dateObj)
     }
 
     return result;
+}
+
+function search_case_status_onchange(p_value)
+{
+    if(g_case_view_request.case_status != p_value)
+    {
+        g_case_view_request.case_status = p_value;
+        g_case_view_request.page = 1;
+        g_case_view_request.skip = 0;
+    }
+}
+
+function search_pregnancy_relatedness_onchange(p_value)
+{
+    if(g_case_view_request.pregnancy_relatedness != p_value)
+    {
+        g_case_view_request.pregnancy_relatedness = p_value;
+        g_case_view_request.page = 1;
+        g_case_view_request.skip = 0;
+    }
 }
