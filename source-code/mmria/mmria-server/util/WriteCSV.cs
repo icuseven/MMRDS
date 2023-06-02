@@ -59,7 +59,7 @@ public sealed class WriteCSV
         }
         else
         {
-            this.WriteToStream(writer, true, true);
+            this.WriteToStream(writer, false, true);
         }
     }
 

@@ -29,6 +29,8 @@ public sealed class mmrds_exporter
     private HashSet<string> de_identified_set;
 
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
+
+    private System.Collections.Generic.Dictionary<string, bool> is_header_written = new();
     System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = new Dictionary<string, string>();
 
     mmria.common.metadata.app current_metadata;
@@ -203,7 +205,11 @@ public sealed class mmrds_exporter
         grantee_column.DefaultValue = queue_item.grantee_name;
         path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
 
-        path_to_csv_writer["mmria_case_export.csv"].WriteHeadersToStream();
+        if(! is_header_written.ContainsKey("mmria_case_export.csv"))
+        {
+            is_header_written.Add("mmria_case_export.csv", true);
+            path_to_csv_writer["mmria_case_export.csv"].WriteHeadersToStream();
+        }
 
 
         de_identified_set = new HashSet<string>();
@@ -651,7 +657,11 @@ public sealed class mmrds_exporter
                     false
                 );
 
-                path_to_csv_writer[grid_name].WriteHeadersToStream();
+                if(! is_header_written.ContainsKey(grid_name))
+                {
+                    is_header_written.Add(grid_name, true);
+                    path_to_csv_writer[grid_name].WriteHeadersToStream();
+                }
 
                 object raw_data = get_value(case_doc as IDictionary<string, object>, path);
                 List<object> object_data = raw_data as List<object>;
@@ -924,12 +934,7 @@ public sealed class mmrds_exporter
                         path_to_csv_writer[grid_name].WriteToStream(grid_row);
                     }
                 }
-/*
-                if(!is_excel_file_type)
-                {
-                    path_to_csv_writer[grid_name].FinishStream();
-                }
-                */
+
             }
             }
             // flat grid - end
@@ -965,7 +970,12 @@ public sealed class mmrds_exporter
                 true,
                 false
             );
-            path_to_csv_writer[kvp.Value].WriteHeadersToStream();
+
+            if(! is_header_written.ContainsKey(kvp.Value))
+            {
+                is_header_written.Add(kvp.Value, true);
+                path_to_csv_writer[kvp.Value].WriteHeadersToStream();
+            }
 
             object form_raw_data = get_value(case_doc as IDictionary<string, object>, kvp.Key);
             List<object> form_object_data = form_raw_data as List<object>;
@@ -1752,7 +1762,12 @@ public sealed class mmrds_exporter
             true,
             true
             );
-            path_to_csv_writer[grid_name].WriteHeadersToStream();
+
+            if(! is_header_written.ContainsKey(grid_name))
+            {
+                is_header_written.Add(grid_name, true);
+                path_to_csv_writer[grid_name].WriteHeadersToStream();
+            }
 
             object raw_data = get_multiform_grid(case_doc as IDictionary<string, object>, string.Join("/", path), true);
             List<object> raw_data_list = raw_data as List<object>;
