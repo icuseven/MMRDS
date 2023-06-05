@@ -59,7 +59,25 @@ public sealed class backupManagerController : Controller
     }
 
 
-    
+    [Route("backupManager/RemoveFileList/{over_number_of_days}")]
+    public async Task<IActionResult> RemoveFileList(int over_number_of_days)
+    {
+
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+
+        var base_url = $"{config_url}/api/backup/GetRemoveFileList/{over_number_of_days}";
+
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+
+        List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+
+        return View(file_list);
+    }
+
     [Route("backupManager/SubFolderFileList/{id}")]
     public async Task<IActionResult> SubFolderFileList(string id)
     {
