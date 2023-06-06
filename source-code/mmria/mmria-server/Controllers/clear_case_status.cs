@@ -191,7 +191,7 @@ public sealed class clear_case_statusController : Controller
                         }
                         else
                         {
-                            string request_string = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+                            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
                             document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
                         }
 
