@@ -606,13 +606,13 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 				{
 			
 					result.push('<li>type: ');
-					if(
+					if
+                    (
 						p_metadata[prop].toLowerCase() == "app" ||
 						p_metadata[prop].toLowerCase() == "list" ||
 						p_metadata[prop].toLowerCase() == "group" ||
 						p_metadata[prop].toLowerCase() == "form" ||
 						p_metadata[prop].toLowerCase() == "chart" 
-
 					)
 					{
 						result.push(p_metadata[prop]);
@@ -635,7 +635,11 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 								case 'form':
 									break;
 								default:
-									if(p_metadata[prop] && item.toLowerCase() == p_metadata[prop].toLowerCase())
+									if
+                                    (
+                                        p_metadata[prop] && 
+                                        item.toLowerCase() == p_metadata[prop].toLowerCase()
+                                    )
 									{
 										result.push('<option selected>');
 									}
