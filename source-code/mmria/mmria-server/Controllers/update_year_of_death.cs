@@ -59,7 +59,7 @@ public sealed class update_year_of_deathController : Controller
             else
             {
              
-                string request_string = $"{Program.config_couchdb_url}/mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                 responseFromServer = await case_view_curl.executeAsync();   
             }
@@ -187,7 +187,7 @@ public sealed class update_year_of_deathController : Controller
             else
             {
                 
-                string request_string = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
                 var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                 responseFromServer = await case_view_curl.executeAsync();
             }
@@ -220,7 +220,7 @@ public sealed class update_year_of_deathController : Controller
                         }
                         else
                         {
-                            string request_string = $"{Program.config_couchdb_url}/mmrds/{Model._id}";
+                            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
                             document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
                         }
 
