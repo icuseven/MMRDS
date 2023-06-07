@@ -624,7 +624,6 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 						result.push('" /> ');
 						for(var i = 0; i < valid_types.length; i++)
 						{
-							
 							var item = valid_types[i];
 							switch(item.toLowerCase())
 							{
