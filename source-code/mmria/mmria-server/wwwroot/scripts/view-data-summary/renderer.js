@@ -31,6 +31,9 @@ function dictionary_render(p_metadata, p_path)
 						alt="clear search"
 						onclick="init_inline_loader(search_click)">Search</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+
+                        <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+
 				</td></tr>
                 
                 <tr><td colspan=4>
@@ -55,6 +58,8 @@ function dictionary_render(p_metadata, p_path)
                 <tr><td colspan=4>
                 ${render_pregnancy_filter(g_case_view_request)}
                 </td></tr>
+
+
             </table> 
             </form>
 			       
