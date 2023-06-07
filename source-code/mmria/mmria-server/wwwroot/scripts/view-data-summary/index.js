@@ -520,7 +520,7 @@ async function build_report()
                 el.innerHTML = current_stat.get("std_dev").toFixed(2);
 
                 el = document.getElementById(`${k}-median`);
-                el.innerHTML = current_stat.get("median").toFixed(2);
+                el.innerHTML = toFixed_2(current_stat.get("median"));
 
                 el = document.getElementById(`${k}-mode`);
                 el.innerHTML = current_stat.get("mode").split(' @')[0];
@@ -563,21 +563,18 @@ function formatDate(dateObj)
 
 function search_case_status_onchange(p_value)
 {
-    if(g_case_view_request.case_status != p_value)
+    if(g_filter.case_status != p_value)
     {
-        g_case_view_request.case_status = p_value;
-        g_case_view_request.page = 1;
-        g_case_view_request.skip = 0;
+        g_filter.case_status = p_value;
+
     }
 }
 
 function search_pregnancy_relatedness_onchange(p_value)
 {
-    if(g_case_view_request.pregnancy_relatedness != p_value)
+    if(g_filter.pregnancy_relatedness != p_value)
     {
-        g_case_view_request.pregnancy_relatedness = p_value;
-        g_case_view_request.page = 1;
-        g_case_view_request.skip = 0;
+        g_filter.pregnancy_relatedness = p_value;
     }
 }
 
@@ -589,6 +586,7 @@ function Can_Pass_Filter(p_value)
     let date_of_review_end = true;
     let date_of_death_begin = true;
     let date_of_death_end = true;
+    let case_status = true;
     /*
     {
         "case_id": "0190e93e-a359-441e-b27d-43f83d946de4",
@@ -610,17 +608,17 @@ function Can_Pass_Filter(p_value)
 
     date_of_review_begin = is_greater_than_date
     (
-        p_value.case_review_year,
-        p_value.case_review_month,
-        p_value.case_review_day,
+        p_value.year_of_case_review,
+        p_value.month_of_case_review,
+        p_value.day_of_case_review,
         g_filter.date_of_review.begin
     )
 
     date_of_review_end = is_less_than_date
     (
-        p_value.case_review_year,
-        p_value.case_review_month,
-        p_value.case_review_day,
+        p_value.year_of_case_review,
+        p_value.month_of_case_review,
+        p_value.day_of_case_review,
         g_filter.date_of_review.end
     )
 
@@ -646,16 +644,33 @@ function Can_Pass_Filter(p_value)
     g_filter.date_of_death.begin
     g_filter.date_of_death.end
     */
-    if(g_filter.pregnancy_relatedness.length == 4)
+
+    if
+    (
+        g_filter.pregnancy_relatedness == "all"
+    )
     {
         pregnancy_relatedness = true;
     }
     else
     {
-        pregnancy_relatedness = g_filter.pregnancy_relatedness.indexOf(p_value.pregnancy_related) > -1;
+        pregnancy_relatedness = g_filter.pregnancy_relatedness == p_value.pregnancy_relatedness;
+    }
+
+    if
+    (
+        g_filter.case_status == "all"
+    )
+    {
+        case_status = true;
+    }
+    else
+    {
+        case_status = g_filter.case_status == p_value.case_status;
     }
 
     return pregnancy_relatedness && 
+        case_status &&
         date_of_review_begin && 
         date_of_review_end && 
         date_of_death_begin && 
@@ -809,4 +824,19 @@ function is_less_than_date
     }
 
     return is_year && is_month && is_day;
+}
+
+function toFixed_2(p_value)
+{
+    let result = p_value;
+    if
+    (
+        p_value != "" &&
+        ! isNaN(p_value)
+    )
+    {
+        result = p_value.toFixed(2);
+    }
+
+    return result;
 }
