@@ -11,6 +11,8 @@ const g_report_stat_map = new Map();
 const g_report_map = new Map();
 const g_path_to_stat_type = new Map();
 
+const g_form_field_map = new Map();
+
 var g_data_is_loaded = false;
 
 (async function() {

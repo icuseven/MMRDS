@@ -21,22 +21,27 @@ function dictionary_render(p_metadata, p_path)
 								 style="width: 170px;"
 								 onchange="search_text_change(this.value)" />
                 </td><td>
-					<select aria-label='form filter' id="form_filter" class="custom-select mr-2">
+					<select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
 						${render_form_filter(g_filter)}
+					</select>
+                    </td><td>
+
+					<select aria-label='field filter' id="field_filter" class="custom-select mr-2">
+						${render_field_filter(g_filter)}
 					</select>
                     </td><td>
 					<button
 						type="submit"
 						class="btn btn-secondary no-print"
 						alt="clear search"
-						onclick="init_inline_loader(search_click)">Search</button>
+						onclick="init_inline_loader(search_click)">Apply Filters</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 
                         <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
 
 				</td></tr>
                 
-                <tr><td colspan=4>
+                <tr><td colspan=5>
                 <div class="form-inline mb-2">
                     <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
                     <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
@@ -45,7 +50,7 @@ function dictionary_render(p_metadata, p_path)
                 </div>
                 </td></tr>
 
-                <tr><td colspan=4>
+                <tr><td colspan=5>
                 <div class="form-inline mb-2">
                     <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
                     <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
@@ -136,6 +141,73 @@ function render_form_filter(p_filter)
 	return result.join("");
 }
 
+function on_form_filter_changed(value)
+{
+    g_filter.field_selection = [];
+    g_filter.field_selection.push(value);
+
+    const html = render_field_filter_options(value);
+    const el = document.getElementById("field_filter");
+
+    el.innerHTML = html;
+}
+
+function render_field_filter_options(value)
+{
+	let result = [];
+    
+
+	result.push(`<option value="">(Any Field)</option>`)
+
+    for(const [k, v] of g_form_field_map)
+    {
+        if(value == "all")
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+            }
+        }
+        else if(k == value)
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+            }
+        }
+    }
+
+	return result.join("");
+}
+
+function render_field_filter(p_filter, p_current_value)
+{
+	let result = [];
+    
+
+	result.push(`<option value="">(Any Field)</option>`)
+
+    for(const [k, v] of g_form_field_map)
+    {
+        if(p_filter.field_selection == "all")
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+            }
+        }
+        else if(k == p_filter.field_selection)
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+            }
+        }
+    }
+
+	return result.join("");
+}
+
 
 function search_click()
 {
@@ -171,7 +243,12 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
     }
 	switch(p_metadata.type.toLowerCase())
 	{
-		case "form":			
+		case "form":
+            if(!g_form_field_map.has(p_metadata.name))
+            {
+                g_form_field_map.set(p_metadata.name, new Map());
+            }	
+
 			if(p_selected_form== null || p_selected_form=="")
 			{
 				for(let i = 0; i < p_metadata.children.length; i++)
@@ -261,8 +338,58 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 break;
             }
 
+            let form_data_name = "";
+			let form_name = "(none)";
+			let path_array = p_path.split('/');
+			let description = "";
+			let list_values = [];
+			let data_type = p_metadata.type.toLowerCase();
 
+			if
+			(
+				p_metadata.data_type != null &&
+				p_metadata.data_type != ""
+			)
+			{
+				data_type = p_metadata.data_type
+			}
 
+			if(path_array.length > 2)
+			{
+				form_data_name = path_array[1];
+				form_name = convert_form_name(form_data_name);
+			}
+
+            if
+            (
+                g_form_field_map.has(form_data_name) &&
+                !g_form_field_map.get(form_data_name).has(field_name)
+            )
+            {
+                g_form_field_map.get(form_data_name).set
+                (
+                    field_name, 
+                    { 
+                        field_name: field_name, 
+                        data_name: p_metadata.name,
+                        prompt: p_metadata.prompt.length > 20 ? p_metadata.prompt.substring(0, 20) : p_metadata.prompt
+                    }
+                );
+            }
+
+            const filtered_field_name_el = document.getElementById("field_filter");
+            if(filtered_field_name_el != null)
+            {
+                const filtered_field_name = filtered_field_name_el.value;
+                if
+                (
+                    filtered_field_name != "all" &&
+                    filtered_field_name != p_metadata.name 
+                )
+                {
+                    return;
+                }
+            }
 
 			if(p_search_text != null && p_search_text !="")
 			{
@@ -325,26 +452,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				}
 			}
 
-			let form_name = "(none)";
-			let path_array = p_path.split('/');
-			let description = "";
-			let list_values = [];
-			let data_type = p_metadata.type.toLowerCase();
 
-			if
-			(
-				p_metadata.data_type != null &&
-				p_metadata.data_type != ""
-			)
-			{
-				data_type = p_metadata.data_type
-			}
 
-			if(path_array.length > 2)
-			{
-				form_name = path_array[1];
-				form_name = convert_form_name(form_name);
-			}
 
 
 			if(p_metadata.description != null)
@@ -942,7 +1051,7 @@ var g_case_view_request = {
     search_key: null,
     descending: true,
     case_status: "all",
-      field_selection: "all",
+      field_selection: ["all"],
       pregnancy_relatedness:"all",
     get_query_string: function () {
       var result = [];
