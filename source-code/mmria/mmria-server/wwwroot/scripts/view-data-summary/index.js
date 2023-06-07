@@ -468,6 +468,19 @@ async function build_report()
                     }
                     else
                     {
+                        if(Array.isArray(n))
+                        {
+                            n.forEach(element => {
+                                const el2 = document.getElementById(`${k}-${element}`);
+                                el2.innerHTML = v2;
+                                
+                            });
+                        }
+                        else
+                        {
+                            const el2 = document.getElementById(`${k}-${n}`);
+                            el2.innerHTML = v2;
+                        }
                         const el2 = document.getElementById(`${k}-${n}`);
                         el2.innerHTML = v2;
                     }
