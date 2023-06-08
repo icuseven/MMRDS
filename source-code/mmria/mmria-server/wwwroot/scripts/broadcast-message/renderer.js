@@ -1,8 +1,8 @@
-function render(messages)
+function render()
 {
     var result = [];
-    var message_one = messages[0];
-    var message_two = messages[1];
+    var message_one = g_message_data.message_one;
+    var message_two = g_message_data.message_two;
     result.push
     (
         `

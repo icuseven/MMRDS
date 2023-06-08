@@ -45,13 +45,14 @@ var g_message_data = {
 
 async function main()
 {
+    await get_broadcast_message_list();
     /*
 	let response = await $.ajax({
 		url: `${location.protocol}//${location.host}/api/version/release-version`
 	});*/
-    var broadcastMessages = getMessages();
-    document.getElementById('form_content_id').innerHTML = render(broadcastMessages).join("");
-    setBroadcastMessageFormState(broadcastMessages);
+    //var broadcastMessages = getMessages();
+    document.getElementById('form_content_id').innerHTML = render().join("");
+    //setBroadcastMessageFormState(broadcastMessages);
 }
 
 function saveDraft(g_message_id){
@@ -95,4 +96,35 @@ function setBroadcastMessageFormState(broadcastMessages){
 	g_message_two_form[MESSAGE_TWO_ID + "title"].value = broadcastMessages[1].draft.title;
 	g_message_two_form[MESSAGE_TWO_ID + "body"].value = broadcastMessages[1].draft.body;
 	g_message_two_form[MESSAGE_TWO_ID + broadcastMessages[1].draft.type].checked = true;
+}
+
+
+async function get_broadcast_message_list()
+{
+    const get_data_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`
+    });
+
+
+    g_message_data = get_data_response;
+
+    
+}
+
+async function set_broadcast_message_list()
+{
+
+    const response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(g_message_data),
+        type: 'POST',
+    });
+
+    g_message_data._rev = response.rev;
+        //console.log(response);
+    
 }
