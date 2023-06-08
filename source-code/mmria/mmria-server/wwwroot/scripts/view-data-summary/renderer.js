@@ -211,14 +211,24 @@ function render_field_filter(p_filter, p_current_value)
 
 function search_click()
 {
-	g_filter.selected_form = document.getElementById("form_filter").value;
+    if(document.getElementById("form_filter").value != "")
+    {
+	    g_filter.selected_form = document.getElementById("form_filter").value;
+    }
 
 	let search_result_list = document.getElementById("search_result_list");
 	let result = [];
 	
 	render_search_result(result, g_filter);
 
-	search_result_list.innerHTML = result.join("");
+    if(result.length == 0)
+    {
+        search_result_list.innerHTML = `<tr><td align=center>No matching results found for these filter settings. Please adjust filter settings and select “Apply Filters” to search again.</td></tr>`
+    }
+    else
+    {
+	    search_result_list.innerHTML = result.join("");
+    }
 
     window.setTimeout(build_report,0);
 }
@@ -377,6 +387,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 );
             }
 
+            let is_single_field_filter = false;
             const filtered_field_name_el = document.getElementById("field_filter");
             if(filtered_field_name_el != null)
             {
@@ -384,10 +395,13 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 if
                 (
                     filtered_field_name != "all" &&
-                    filtered_field_name != p_metadata.name 
+                    filtered_field_name != ""
                 )
                 {
-                    return;
+                    is_single_field_filter = true;
+
+                    if (filtered_field_name != p_metadata.name)
+                        return;
                 }
             }
 
@@ -554,7 +568,12 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			}
 
 			// Adding a header per section
-			if (last_form !== form_name) {
+			if 
+            (
+                last_form != form_name ||
+                is_single_field_filter
+            ) 
+            {
 				last_form = form_name;
 				p_result.push(`
 					<thead class="thead">
