@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace mmria.server.Controllers;
 
@@ -146,6 +147,15 @@ public sealed class clear_case_statusController : Controller
         try
         {
 
+            var userName = "";
+            if (User.Identities.Any(u => u.IsAuthenticated))
+            {
+                userName = User.Identities.First(
+                    u => u.IsAuthenticated && 
+                    u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+            }
+
+
             string responseFromServer = null;
             if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
@@ -176,6 +186,13 @@ public sealed class clear_case_statusController : Controller
                     {
                         case_status["overall_case_status"] = 9999;
                         case_status["case_locked_date"] = "";
+
+                        dictionary["last_updated_by"] = userName;
+                        dictionary["date_last_updated"] = DateTime.Now;
+
+                        Model.LastUpdatedBy = userName;
+                        Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
+
 
                         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
