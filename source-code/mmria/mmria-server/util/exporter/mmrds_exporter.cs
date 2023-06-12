@@ -359,6 +359,7 @@ public sealed class mmrds_exporter
                 path_to_node_map[path].type.ToLower() == "app" ||
                 path_to_node_map[path].type.ToLower() == "form" ||
                 path_to_node_map[path].type.ToLower() == "group" ||
+                path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                 path_to_node_map[path].type.ToLower() == "button" ||
                 path_to_node_map[path].type.ToLower() == "chart" ||
                 path_to_node_map[path].type.ToLower() == "label" ||
