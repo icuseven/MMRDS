@@ -229,7 +229,7 @@ prenatal/routine_monitoring/date_and_time
 
         object val = null;
 
-
+/*
 
         var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
@@ -240,7 +240,7 @@ prenatal/routine_monitoring/date_and_time
         if(id_set.Contains(FrequencySummaryDocument._id))
         {
             System.Console.WriteLine("here");
-        }
+        }*/
         
         // host_state  *** begin
         try
