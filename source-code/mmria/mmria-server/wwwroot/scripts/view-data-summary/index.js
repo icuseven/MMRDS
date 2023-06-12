@@ -58,7 +58,7 @@ async function load_metadata(p_version_id)
 
     return result;
 }
-
+//Select the Apply Filters button to apply changes
 
 async function metadata_version_filter_change(p_value)
 {
@@ -251,6 +251,15 @@ async function build_report()
                 const detail_item = detail[s];
                 for(const v of Object.keys(detail_item))
                 {
+                    if
+                    (
+                        s == 'home_record/how_was_this_death_identified' && 
+                        detail_item[v].value != null && detail_item[v].value.toString().length > 4
+                    )
+                    {
+                        continue;
+                    }
+                    
                     if(!g_report_map.get(s).has(detail_item[v].value))
                     {
                         g_report_map.get(s).set(detail_item[v].value, 0);

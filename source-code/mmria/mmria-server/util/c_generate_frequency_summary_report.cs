@@ -223,13 +223,24 @@ prenatal/routine_monitoring/date_and_time
         value_result = gs.get_value(source_object, "home_record/record_id");
         FrequencySummaryDocument.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
     
-        FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
+        //FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
         FrequencySummaryDocument.date_created = DateTime.Now;
 
         object val = null;
 
 
+
+        var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "348ffd22-fe32-46d7-977e-92502456a936"
+        };
+
+
+        if(id_set.Contains(FrequencySummaryDocument._id))
+        {
+            System.Console.WriteLine("here");
+        }
         
         // host_state  *** begin
         try
@@ -506,6 +517,7 @@ prenatal/routine_monitoring/date_and_time
                                     if
                                     (
                                         i != null &&
+                                        i is not IList<object> && 
                                         !string.IsNullOrWhiteSpace(i.ToString())
                                     )
                                     {
