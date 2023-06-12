@@ -996,6 +996,7 @@ public sealed class mmrds_exporter
                     path_to_node_map[path].type.ToLower() == "form" ||
                     path_to_node_map[path].type.ToLower() == "group" ||
                     path_to_node_map[path].type.ToLower() == "grid" ||
+                    path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                     path_to_node_map[path].type.ToLower() == "button" ||
                     path_to_node_map[path].type.ToLower() == "chart" ||
                     path_to_node_map[path].type.ToLower() == "label" ||
@@ -2108,6 +2109,7 @@ public sealed class mmrds_exporter
             case "form":
             case "group":
             case "grid":
+            case "always_enabled_button":
             case "button":
             case "chart":
             case "label":
