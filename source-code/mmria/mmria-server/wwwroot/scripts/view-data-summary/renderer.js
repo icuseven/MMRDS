@@ -540,7 +540,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"></td>
+										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"  align=right></td>
 									</tr>
 						`);
 					}
@@ -1339,7 +1339,7 @@ function render_FREQ(p_context)
             <tr class="tr">
             <td class="td" width="150" colspan=2><b>Frequency&nbsp;Distribution</b></td>
             <!--td class="td"></td-->
-            <td class="td"id="${p_context.dictionary_path}-count"></td>
+            <td class="td"id="${p_context.dictionary_path}-count" align=right></td>
             </tr>
             </tbody>
             </table>
@@ -1368,10 +1368,10 @@ function render_STAT_D(p_context)
         <tbody class="tbody">	
         <tr class="tr">
         <td class="td" width="140">Date&nbsp;Summary</td>
-        <td class="td" id="${p_context.dictionary_path}-count"></td>
-        <td class="td" id="${p_context.dictionary_path}-missing"></td>
-        <td class="td" id="${p_context.dictionary_path}-min"></td>
-        <td class="td" id="${p_context.dictionary_path}-max"></td>
+        <td class="td" id="${p_context.dictionary_path}-count" align=right></td>
+        <td class="td" id="${p_context.dictionary_path}-missing" align=right></td>
+        <td class="td" id="${p_context.dictionary_path}-min" align=right></td>
+        <td class="td" id="${p_context.dictionary_path}-max" align=right></td>
         </tr>
         </tbody>
             </table>
@@ -1403,14 +1403,14 @@ function render_STAT_N(p_context)
             <tbody class="tbody">	
             <tr class="tr">
             <td class="td" width="170">Numeric<br/>Summary</td>
-            <td class="td" id="${p_context.dictionary_path}-count"></td>
-            <td class="td" id="${p_context.dictionary_path}-missing"></td>
-            <td class="td" id="${p_context.dictionary_path}-min"></td>
-            <td class="td" id="${p_context.dictionary_path}-max"></td>
-            <td class="td" id="${p_context.dictionary_path}-mean"></td>
-            <td class="td" id="${p_context.dictionary_path}-std_dev"></td>
-            <td class="td" id="${p_context.dictionary_path}-median"></td>
-            <td class="td" id="${p_context.dictionary_path}-mode"></td>
+            <td class="td" id="${p_context.dictionary_path}-count" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-missing" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-min" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-max" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-mean" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-std_dev" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-median" align=right></td>
+            <td class="td" id="${p_context.dictionary_path}-mode" align=right></td>
             </tr>
             </tbody>
             </table>

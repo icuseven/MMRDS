@@ -251,6 +251,8 @@ async function build_report()
                 const detail_item = detail[s];
                 for(const v of Object.keys(detail_item))
                 {
+
+                    /*
                     if
                     (
                         s == 'home_record/how_was_this_death_identified' && 
@@ -259,7 +261,8 @@ async function build_report()
                     {
                         continue;
                     }
-                    
+                    */
+
                     if(!g_report_map.get(s).has(detail_item[v].value))
                     {
                         g_report_map.get(s).set(detail_item[v].value, 0);
