@@ -474,6 +474,7 @@ if(multiform_field_list.Count > 0)
             path_to_node_map[path].type.ToLower() == "form" ||
             path_to_node_map[path].type.ToLower() == "group" ||
             path_to_node_map[path].type.ToLower() == "button" ||
+            path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
             path_to_node_map[path].type.ToLower() == "chart" ||
             path_to_node_map[path].type.ToLower() == "label" ||
             path_to_node_map[path].mirror_reference != null
