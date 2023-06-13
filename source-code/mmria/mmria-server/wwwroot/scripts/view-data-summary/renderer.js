@@ -529,7 +529,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 				list_values.push(`
 					<tr class="tr">
-						<td class="td" width="140"></td>
+						<td class="td" width="140" style="border:white"></td>
 						<td class="td p-0" colspan="5">
 							<table class="table table--standard rounded-0 m-0">
 								<thead class="thead">
@@ -541,7 +541,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr bg-gray-l2">
 										<th class="th" width="140" scope="col">Value</th>
 										<th class="th" width="680" scope="col">Display</th>
-										<th class="th" width="260" scope="col">N (Counts)</th>
+										<th class="th" width="260" scope="col" style="text-align:right">N (Counts)</th>
 									</tr>
 								</thead>
 								<tbody class="tbody">	
@@ -562,7 +562,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 								</tbody>
 							</table>
 						</td>
-						<td class="td" colspan="2"></td>
+						<td class="td" colspan="2" style="border:white"></td>
 					</tr>
 				`);
 			}
@@ -1320,13 +1320,13 @@ function render_FREQ(p_context)
     const detail = "FREQ";
 
     return `<tr class="tr">
-    <td class="td" width="140"></td>
+    <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
                 <tr class="tr bg-gray-l2">
                     <th class="th" scope="col" colspan=2>Summary Type</th>
-                    <th class="th" width="260" scope="col">N (Total Count)</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
                 </tr>
             </thead>
             <tbody class="tbody">	
@@ -1338,7 +1338,7 @@ function render_FREQ(p_context)
             </tbody>
             </table>
         </td>
-        <td class="td" colspan="2"></td>
+        <td class="td" colspan="2" style="border:white"></td>
     </tr>`;
 
 }
@@ -1347,16 +1347,16 @@ function render_STAT_D(p_context)
 {
     const detail = "STAT_D";
     return `<tr class="tr">
-    <td class="td" width="140"></td>
+    <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
             <tr class="tr bg-gray-l2">
                 <th class="th" width="170" scope="col">Summary Type</th>
-                <th class="th" width="260" scope="col">N (Total Count)</th>
-                <th class="th" width="260" scope="col">Missing Count</th>
-                <th class="th" width="260" scope="col">Minimum</th>
-                <th class="th" width="260" scope="col">Maximum</th>
+                <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
+                <th class="th" width="260" scope="col" style="text-align:right">Missing Count</th>
+                <th class="th" width="260" scope="col" style="text-align:right">Minimum</th>
+                <th class="th" width="260" scope="col" style="text-align:right">Maximum</th>
             </tr>
         </thead>
         <tbody class="tbody">	
@@ -1370,7 +1370,7 @@ function render_STAT_D(p_context)
         </tbody>
             </table>
         </td>
-        <td class="td" colspan="2"></td>
+        <td class="td" colspan="2" style="border:white"></td>
     </tr>`;
 }
 
@@ -1378,20 +1378,20 @@ function render_STAT_N(p_context)
 {
     const detail = "STAT_N";
     return `<tr class="tr">
-    <td class="td" width="140"></td>
+    <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
         <table class="table table--standard rounded-0 m-0">
             <thead class="thead">
                 <tr class="tr bg-gray-l2">
                     <th class="th" width="170" scope="col">Summary Type</th>
-                    <th class="th" width="260" scope="col">N (Total Count)</th>
-                    <th class="th" width="260" scope="col">Missing Count</th>
-                    <th class="th" width="260" scope="col">Minimum</th>
-                    <th class="th" width="260" scope="col">Maximum</th>
-                    <th class="th" width="260" scope="col">Mean</th>
-                    <th class="th" width="260" scope="col">Standard<br/>Deviation</th>
-                    <th class="th" width="260" scope="col">Median</th>
-                    <th class="th" width="260" scope="col">Mode</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Missing Count</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Minimum</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Maximum</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Mean</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Standard<br/>Deviation</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Median</th>
+                    <th class="th" width="260" scope="col" style="text-align:right">Mode</th>
                 </tr>
             </thead>
             <tbody class="tbody">	
@@ -1409,6 +1409,6 @@ function render_STAT_N(p_context)
             </tbody>
             </table>
         </td>
-        <td class="td" colspan="2"></td>
+        <td class="td" colspan="2" style="border:white"></td>
     </tr>`;
 }
