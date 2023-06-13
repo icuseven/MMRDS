@@ -35,9 +35,8 @@ function dictionary_render(p_metadata, p_path)
 						class="btn btn-secondary no-print"
 						alt="clear search"
 						onclick="init_inline_loader(search_click)">Apply Filters</button>
-						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-
                         <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
 
 				</td></tr>
                 
@@ -165,14 +164,14 @@ function render_field_filter_options(value)
         {
             for(const [k2, v2] of v)
             {
-                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
             }
         }
         else if(k == value)
         {
             for(const [k2, v2] of v)
             {
-                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
             }
         }
     }
@@ -193,14 +192,14 @@ function render_field_filter(p_filter, p_current_value)
         {
             for(const [k2, v2] of v)
             {
-                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
             }
         }
         else if(k == p_filter.field_selection)
         {
             for(const [k2, v2] of v)
             {
-                result.push(`<option value="${v2.data_name}">${v2.prompt}</option>`);
+                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
             }
         }
     }
@@ -211,6 +210,9 @@ function render_field_filter(p_filter, p_current_value)
 
 function search_click()
 {
+
+    last_form = null;
+
     if(document.getElementById("form_filter").value != "")
     {
 	    g_filter.selected_form = document.getElementById("form_filter").value;
@@ -376,13 +378,24 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 !g_form_field_map.get(form_data_name).has(field_name)
             )
             {
+                const max_length = 40;
+
+                let display_prompt = `${p_metadata.prompt} [${field_name}]`;
+                if(display_prompt.length> max_length)
+                {
+                    display_prompt = p_metadata.prompt.substring(0, max_length);
+                }
+
+
+                let title_prompt = `[${field_name}] ${p_metadata.prompt}`;
                 g_form_field_map.get(form_data_name).set
                 (
                     field_name, 
                     { 
                         field_name: field_name, 
                         data_name: p_metadata.name,
-                        prompt: p_metadata.prompt.length > 20 ? p_metadata.prompt.substring(0, 20) : p_metadata.prompt
+                        display_prompt: display_prompt,
+                        title_prompt: title_prompt
                     }
                 );
             }
@@ -610,25 +623,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				${list_values.join("")}
 			`);
 
-			// Logic to dynamically highlight all matched search queries
-			// TODO: Comment back in once approved
-			// if (!isNullOrUndefined(p_search_text))
-			// {
-			// 	setTimeout(() => {
-			// 		const container = document.querySelectorAll('#search_result_list td');
-					
-			// 		// Shorthand for loop, loop through container var
-			// 		for (let td of container)
-			// 		{
-			// 			let tdHtml = td.innerHTML;
-			// 			let newContainerHtml = '';
-						
-			// 			newContainerHtml = tdHtml.split(capitalizeFirstLetter(p_search_text)).join(`<span class="search-highlight">${capitalizeFirstLetter(p_search_text)}</span>`);
-			// 			newContainerHtml = newContainerHtml.split(p_search_text).join(`<span class="search-highlight">${p_search_text}</span>`);
-			// 			td.innerHTML = newContainerHtml;
-			// 		}
-			// 	}, 0);
-			// }
 			break;
 
 	}
