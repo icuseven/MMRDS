@@ -548,7 +548,7 @@ prenatal/routine_monitoring/date_and_time
                                 (
                                     string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = value_result.result.ToString();
+                                    item.value = "(-)";
                                 }
                                 else
                                 {

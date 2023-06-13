@@ -1,3 +1,5 @@
+let last_form = null;
+
 function dictionary_render(p_metadata, p_path)
 {
 	var result = [];
@@ -238,13 +240,11 @@ function search_click()
 
 function render_search_result(p_result, p_filter)
 {
-	// Add toLowerCase() method to help with case sensitivity
 	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
 }
 
-// var that helps calculate current form and latest form
-// Used to calc and create section headers
-let last_form = null;
+
+
 
 function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
@@ -553,7 +553,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="tr">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"  align=right></td>
+										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"  align=right>0</td>
 									</tr>
 						`);
 					}
@@ -567,9 +567,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				`);
 			}
 
-			// Remove fields who do not have a form_name or if it doesn't exist
-			// if (!form_name || form_name == '(none)' || form_name == '(blank)') {
-			// if (!form_name || form_name.includes('none') || form_name.includes('blank')) {
 			if (
 				!form_name ||
 				 form_name.indexOf('none') !== -1 ||
@@ -1333,7 +1330,7 @@ function render_FREQ(p_context)
             <tr class="tr">
             <td class="td" width="150" colspan=2><b>Frequency&nbsp;Distribution</b></td>
             <!--td class="td"></td-->
-            <td class="td"id="${p_context.dictionary_path}-count" align=right></td>
+            <td class="td"id="${p_context.dictionary_path}-count" align=right>0</td>
             </tr>
             </tbody>
             </table>
