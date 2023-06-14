@@ -43,7 +43,7 @@ function dictionary_render(p_metadata, p_path)
 
 				</td></tr>
                 <tr><td colspan=5 align=right id="needs_apply_id" style="visibility:hidden">
-                    <b>Select the Apply Filters button to apply changes</b>
+                    <b>Click the Apply Filters button to apply changes</b>
                 </td></tr>
                 
                 <tr><td colspan=5>
