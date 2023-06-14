@@ -28,7 +28,7 @@ function dictionary_render(p_metadata, p_path)
 					</select>
                     </td><td>
 
-					<select aria-label='field filter' id="field_filter" class="custom-select mr-2">
+					<select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
 						${render_field_filter(g_filter)}
 					</select>
                     </td><td>
@@ -159,6 +159,15 @@ function on_form_filter_changed(value)
     render_field_filter_options(value);
 
     show_needs_apply_id(true)
+}
+
+function on_field_filter_changed(value)
+{
+    if(g_filter.field_selection[0] != value)
+    {
+        g_filter.field_selection[0] = value;
+        show_needs_apply_id(true);
+    }
 }
 
 function render_field_filter_options(value)
