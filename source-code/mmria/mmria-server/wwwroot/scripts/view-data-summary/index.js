@@ -58,27 +58,7 @@ async function load_metadata(p_version_id)
 
     return result;
 }
-//Select the Apply Filters button to apply changes
 
-async function metadata_version_filter_change(p_value)
-{
-
-    let idx = g_version_list.findIndex((x)=> {return x._id == p_value;});
-    if(idx ==-1)
-    {
-        g_selected_version_name = g_release_version;
-        g_selected_version_specification = g_release_version_name;
-    }
-    else
-    {
-        g_selected_version_name =  g_version_list[idx].name;
-        g_selected_version_specification = g_version_list[idx];
-    }
-
-    g_metadata = g_metadata_set[g_selected_version_specification._id];
-
-    document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
-}
 
 function render_metadata_version_filter()
 {

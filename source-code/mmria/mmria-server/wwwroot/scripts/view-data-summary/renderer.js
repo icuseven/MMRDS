@@ -151,6 +151,8 @@ function on_form_filter_changed(value)
     const el = document.getElementById("field_filter");
 
     el.innerHTML = html;
+
+    render_field_filter_options(value);
 }
 
 function render_field_filter_options(value)
