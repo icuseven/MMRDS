@@ -89,6 +89,8 @@ function render_metadata_version_filter()
 function search_text_change(p_value)
 {
 	g_filter.search_text = p_value;
+
+    show_needs_apply_id(true);
 }
 
 async function get_indicator_values(p_indicator_id)
@@ -575,6 +577,8 @@ function search_case_status_onchange(p_value)
         g_filter.case_status = p_value;
 
     }
+
+    show_needs_apply_id(true);
 }
 
 function search_pregnancy_relatedness_onchange(p_value)
@@ -582,7 +586,11 @@ function search_pregnancy_relatedness_onchange(p_value)
     if(g_filter.pregnancy_relatedness != p_value)
     {
         g_filter.pregnancy_relatedness = p_value;
+
+        show_needs_apply_id(true);
     }
+
+    
 }
 
 function Can_Pass_Filter(p_value)
