@@ -1,8 +1,8 @@
 function render()
 {
     var result = [];
-    var message_one = g_message_data.message_one;
-    var message_two = g_message_data.message_two;
+    var message_one = MESSAGE_ONE_Buffer;
+    var message_two = MESSAGE_TWO_Buffer;
     result.push
     (
         `
@@ -12,36 +12,21 @@ function render()
             </div>
             <div>
                 <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
-                <input class="col h-75" type=text id=message-one-title maxlength="250" />           
+                <input class="col h-75" type=text id=message-one-title maxlength="250" value="${message_one.draft.title}"/>           
             </div>
             <div>
                 <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000"></textarea>
+                <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000">
+                ${message_one.draft.body}
+                </textarea>
             </div>
-            <fieldset>
-                <legend class="h5">Type</legend>
-                <div>
-                    <label for="message-one-information">
-                        <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information"> Information
-                    </label>
-                </div>
-                <div>
-                    <label for="message-one-warning">
-                        <input type="radio" id="message-one-warning" name="message-one-type" value="information" aria-label="Information"> Warning
-                    </label>
-                </div>
-                <div>
-                    <label for="message-one-error">
-                        <input type="radio" id="message-one-error" name="message-one-type" value="information" aria-label="Error"> Error
-                    </label>
-                </div>
-            </fieldset>
+            ${render_type_control(message_one.draft.type)}
             ${createTypePreviewHTML(message_one)}
             <div class="row">
                 <div class="ml-auto pr-3">
                     <input class="btn btn-primary" type="button" value="Save Draft" onclick="saveDraft('${message_one.id}')" />
                     <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publishLatestDraft("${message_one.id}")" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_one.id}")" />
+                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_one.id}")"  ${message_two.publish_status == 0 ? "disabled" : "" } />
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset("${message_one.id}")" />
                 </div>
             </div>
@@ -52,36 +37,21 @@ function render()
             </div>
             <div>
                 <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
-                <input class="col h-75" type=text id=message-two-title maxlength="250" />           
+                <input class="col h-75" type=text id=message-two-title maxlength="250" value="${message_two.draft.title}"/>           
             </div>
             <div>
                 <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000"></textarea>
+                <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000">
+                ${message_two.draft.body}
+                </textarea>
             </div>
-            <fieldset>
-                <legend class="h5">Type</legend>
-                <div>
-                    <label for="message-two-information">
-                        <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information"> Information
-                    </label>
-                </div>
-                <div>
-                    <label for="message-two-warning">
-                        <input type="radio" id="message-two-warning" name="message-two-type" value="information" aria-label="Information"> Warning
-                    </label>
-                </div>
-                <div>
-                    <label for="message-two-error">
-                        <input type="radio" id="message-two-error" name="message-two-type" value="information" aria-label="Error"> Error
-                    </label>
-                </div>
-            </fieldset>
+            ${render_type_control(message_two.draft.type)}
             ${createTypePreviewHTML(message_two)}
             <div class="row">
                 <div class="ml-auto pr-3">
                     <input class="btn btn-primary" type="button" value="Save Draft" onclick="saveDraft("${message_two.id}")" />
                     <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publishLatestDraft("${message_two.id}")" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_two.id}")" />
+                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_two.id}")" ${message_two.publish_status == 0 ? "disabled" : "" }/>
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset("${message_two.id}")" />
                 </div>            
             </div>
@@ -91,7 +61,8 @@ function render()
     return result;
 }
 
-function createTypePreviewHTML(message){
+function createTypePreviewHTML(message)
+{
     var draftPreviewHTML = ``;
     var publishedPreviewHTML = ``;
     var draftAlertTypeStylings= [];
@@ -126,12 +97,15 @@ function createTypePreviewHTML(message){
             </div>
         </div>
     `;
-    if(message.publish_status == 0){
+    if(message.publish_status == 0)
+    {
         publishedPreviewHTML = `
             <p class="h5">Published Version</p>
             <i>No message published.</i>
         `;
-    } else {
+    } 
+    else 
+    {
         publishedPreviewHTML = `
             <p class="h5">Published Version</p>
             <div id="${message.id}draft">
@@ -151,4 +125,30 @@ function createTypePreviewHTML(message){
         `;
     }
     return draftPreviewHTML + publishedPreviewHTML;
+}
+
+function render_type_control(value)
+{
+
+
+    return `
+    <fieldset>
+    <legend class="h5">Type</legend>
+    <div>
+        <label for="message-two-information">
+            <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" }> Information
+        </label>
+    </div>
+    <div>
+        <label for="message-two-warning">
+            <input type="radio" id="message-two-warning" name="message-two-type" value="information" aria-label="Information" ${ value == "warning" ? "checked" : "" }> Warning
+        </label>
+    </div>
+    <div>
+        <label for="message-two-error">
+            <input type="radio" id="message-two-error" name="message-two-type" value="information" aria-label="Error" ${ value == "error" ? "checked" : "" }> Error
+        </label>
+    </div>
+</fieldset>   
+    `;
 }

@@ -1,6 +1,6 @@
 'use strict';
-var MESSAGE_ONE_ID = "message-one-";
-var MESSAGE_TWO_ID = "message-two-";
+var MESSAGE_ONE_Buffer = {};
+var MESSAGE_TWO_Buffer = {};
 var g_message_data = {
     _id: "broadcast-message-list",
     _rev: null,
@@ -51,8 +51,13 @@ async function main()
 		url: `${location.protocol}//${location.host}/api/version/release-version`
 	});*/
     //var broadcastMessages = getMessages();
-    document.getElementById('form_content_id').innerHTML = render().join("");
+    
     //setBroadcastMessageFormState(broadcastMessages);
+
+    MESSAGE_ONE_Buffer = Object.assign({}, g_message_data.message_one);
+    MESSAGE_TWO_Buffer = Object.assign({}, g_message_data.message_two);
+
+    document.getElementById('form_content_id').innerHTML = render().join("");
 }
 
 function saveDraft(g_message_id){
