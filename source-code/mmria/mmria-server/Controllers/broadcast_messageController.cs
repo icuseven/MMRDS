@@ -88,7 +88,12 @@ public sealed class broadcast_messageController : Controller
 
         string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
         
-        cURL curl = new cURL("PUT", null, url, null, null, null);
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request, settings);
+
+
+        cURL curl = new cURL("PUT", null, url, object_string, null, null);
        
 
         try

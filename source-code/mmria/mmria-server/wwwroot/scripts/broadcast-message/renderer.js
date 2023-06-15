@@ -12,22 +12,24 @@ function render()
             </div>
             <div>
                 <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
-                <input class="col h-75" type=text id=message-one-title maxlength="250" value="${message_one.draft.title}"/>           
+                <input class="col h-75" type=text id=message-one-title maxlength="250" value="${message_one.draft.title}" onchange="on_message_one_title_change(this.value)"/>           
             </div>
             <div>
                 <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000">
-                ${message_one.draft.body}
-                </textarea>
+                <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000" onchange="on_message_one_body_change(this.value)">${message_one.draft.body}</textarea>
             </div>
-            ${render_type_control(message_one.draft.type)}
+            <div id="message_one_type_fieldset">
+            ${render_message_one_type_control(message_one.draft.type)}
+            </div>
+            <div id="message_one_draft_preview">
             ${createTypePreviewHTML(message_one)}
+            </div>
             <div class="row">
                 <div class="ml-auto pr-3">
-                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="saveDraft('${message_one.id}')" />
-                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publishLatestDraft("${message_one.id}")" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_one.id}")"  ${message_two.publish_status == 0 ? "disabled" : "" } />
-                    <input class="btn btn-cancel" type="button" value="Reset" onclick="reset("${message_one.id}")" />
+                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_one()" />
+                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_one()" />
+                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_one()"  ${message_two.publish_status == 0 ? "disabled" : "" } />
+                    <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_one()" />
                 </div>
             </div>
         </form>
@@ -41,18 +43,20 @@ function render()
             </div>
             <div>
                 <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000">
-                ${message_two.draft.body}
-                </textarea>
+                <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000">${message_two.draft.body}</textarea>
             </div>
-            ${render_type_control(message_two.draft.type)}
+            <div id="message_two_type_fieldset">
+            ${render_message_two_type_control(message_two.draft.type)}
+            </div>
+            <div id="message_two_draft_preview">
             ${createTypePreviewHTML(message_two)}
+            </div>
             <div class="row">
                 <div class="ml-auto pr-3">
-                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="saveDraft("${message_two.id}")" />
-                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publishLatestDraft("${message_two.id}")" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublishMessage("${message_two.id}")" ${message_two.publish_status == 0 ? "disabled" : "" }/>
-                    <input class="btn btn-cancel" type="button" value="Reset" onclick="reset("${message_two.id}")" />
+                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_two()" />
+                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_two()" />
+                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_two()" ${message_two.publish_status == 0 ? "disabled" : "" }/>
+                    <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_two()" />
                 </div>            
             </div>
         </form>
@@ -127,28 +131,50 @@ function createTypePreviewHTML(message)
     return draftPreviewHTML + publishedPreviewHTML;
 }
 
-function render_type_control(value)
+function render_message_one_type_control(value)
 {
+    return `
+    <fieldset>
+    <legend class="h5">Type</legend>
+    <div>
+        <label for="message-one-information">
+            <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Information
+        </label>
+    </div>
+    <div>
+        <label for="message-one-warning">
+            <input type="radio" id="message-one-warning" name="message-one-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Warning
+        </label>
+    </div>
+    <div>
+        <label for="message-one-error">
+            <input type="radio" id="message-one-error" name="message-one-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Error
+        </label>
+    </div>  
+    </fieldset>
+    `;
+}
 
-
+function render_message_two_type_control(value)
+{
     return `
     <fieldset>
     <legend class="h5">Type</legend>
     <div>
         <label for="message-two-information">
-            <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" }> Information
+            <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Information
         </label>
     </div>
     <div>
         <label for="message-two-warning">
-            <input type="radio" id="message-two-warning" name="message-two-type" value="information" aria-label="Information" ${ value == "warning" ? "checked" : "" }> Warning
+            <input type="radio" id="message-two-warning" name="message-two-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Warning
         </label>
     </div>
     <div>
         <label for="message-two-error">
-            <input type="radio" id="message-two-error" name="message-two-type" value="information" aria-label="Error" ${ value == "error" ? "checked" : "" }> Error
+            <input type="radio" id="message-two-error" name="message-two-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Error
         </label>
-    </div>
-</fieldset>   
+    </div> 
+    </fieldset>
     `;
 }
