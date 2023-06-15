@@ -77,17 +77,29 @@ async function save_draft_message_two()
 async function publish_message_one()
 {
     MESSAGE_ONE_Buffer.publish_status = 1;
+    MESSAGE_ONE_Buffer.published = Object.assign({}, MESSAGE_ONE_Buffer.draft); 
     g_message_data.message_one = Object.assign({}, MESSAGE_ONE_Buffer);
     console.log("publish 1");
-    //await set_broadcast_message_list();
+    const el = document.getElementById("message_one_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+
+    const el2 = document.getElementById("unpublish-message-one");
+    if(el2 != null)
+        el2.removeAttribute("disabled");
 }
 
 async function publish_message_two()
 {
-    MESSAGE_TWO_Buffer = 1;
+    MESSAGE_TWO_Buffer.publish_status = 1;
+    MESSAGE_TWO_Buffer.published = Object.assign({}, MESSAGE_TWO_Buffer.draft);
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("publish 2");
-    //await set_broadcast_message_list();
+    const el = document.getElementById("message_two_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    
+    const el2 = document.getElementById("unpublish-message-two");
+    if(el2 != null)
+        el2.removeAttribute("disabled");
 }
 
 async function unpublish_message_one()
@@ -95,14 +107,26 @@ async function unpublish_message_one()
     MESSAGE_ONE_Buffer.publish_status = 0;
     g_message_data.message_one = Object.assign({}, MESSAGE_ONE_Buffer);
     console.log("un publish 1");
-    //await set_broadcast_message_list();
+    
+    const el = document.getElementById("message_one_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    
+    const el2 = document.getElementById("unpublish-message-one");
+    if(el2 != null)
+        el2.setAttribute("disabled","disabled");
 }
 
 function unpublish_message_two()
 {
-    MESSAGE_TWO_Buffer = 0;
+    MESSAGE_TWO_Buffer.publish_status = 0;
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("publish 2");
+    const el = document.getElementById("message_two_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+
+    const el2 = document.getElementById("unpublish-message-two");
+    el2.setAttribute("disabled","disabled");
+
 
 }
 

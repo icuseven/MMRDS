@@ -24,11 +24,12 @@ function render()
             <div id="message_one_draft_preview">
             ${createTypePreviewHTML(message_one)}
             </div>
+            </div>
             <div class="row">
                 <div class="ml-auto pr-3">
                     <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_one()" />
                     <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_one()" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_one()"  ${message_two.publish_status == 0 ? "disabled" : "" } />
+                    <input id="unpublish-message-one" class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_one()"  ${message_two.publish_status == 0 ? "disabled" : "" } />
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_one()" />
                 </div>
             </div>
@@ -55,7 +56,7 @@ function render()
                 <div class="ml-auto pr-3">
                     <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_two()" />
                     <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_two()" />
-                    <input class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_two()" ${message_two.publish_status == 0 ? "disabled" : "" }/>
+                    <input id="unpublish-message-two" class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_two()" ${message_two.publish_status == 0 ? "disabled" : "" }/>
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_two()" />
                 </div>            
             </div>
@@ -85,14 +86,14 @@ function createTypePreviewHTML(message)
         publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
     draftPreviewHTML = `
         <p class="h5">Draft Preview</p>
-        <div id="${message.id}draft">
+        <div>
             <div class="alert ${draftAlertTypeStylings[0]} col-md-12">
                 <div class="row d-flex padding-pagealert align-items-center">
                     <div class="flex-grow-0 col">
                         <span class="fi ${draftAlertTypeStylings[1]} " aria-hidden="true"></span>                        
                     </div>
                     <div class="col">
-                        <p id="${message.id}title-draft" class="margin-pagealert">
+                        <p class="margin-pagealert">
                         ${message.draft.title}
                         </p>		
                     </div>
@@ -112,14 +113,14 @@ function createTypePreviewHTML(message)
     {
         publishedPreviewHTML = `
             <p class="h5">Published Version</p>
-            <div id="${message.id}draft">
+            <div>
                 <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
                 <div class="row d-flex padding-pagealert align-items-center">
                     <div class="flex-grow-0 col">
                         <span class="fi ${publishedAlertTypeStyling[1]} " aria-hidden="true"></span>                        
                     </div>
                     <div class="col">
-                        <p id="${message.id}title-draft" class="margin-pagealert">
+                        <p class="margin-pagealert">
                         ${message.published.title}
                         </p>		
                     </div>
