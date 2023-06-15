@@ -77,22 +77,15 @@ function createTypePreviewHTML(message)
 function render_draft_preview(message)
 {
     var draftPreviewHTML = ``;
-    var publishedPreviewHTML = ``;
     var draftAlertTypeStylings= [];
-    var publishedAlertTypeStyling = [];
+
     if (message.draft.type == "information")
         draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01"]
     else if (message.draft.type == "warning")
         draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02"]
     else
         draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle"]
-    if (message.published.type == "information")
-        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01"]
-    else if (message.published.type == "warning")
-        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02"]
-    else
-        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
-    draftPreviewHTML = `
+        draftPreviewHTML = `
         <p class="h5">Draft Preview</p>
         <div>
             <div class="alert ${draftAlertTypeStylings[0]} col-md-12">
@@ -110,72 +103,22 @@ function render_draft_preview(message)
             </div>
         </div>
     `;
-    if(message.publish_status == 0)
-    {
-        publishedPreviewHTML = `
-            <p class="h5">Published Version</p>
-            <i>No message published.</i>
-        `;
-    } 
-    else 
-    {
-        publishedPreviewHTML = `
-            <p class="h5">Published Version</p>
-            <div>
-                <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
-                <div class="row d-flex padding-pagealert align-items-center">
-                    <div class="flex-grow-0 col">
-                        <span class="fi ${publishedAlertTypeStyling[1]} " aria-hidden="true"></span>                        
-                    </div>
-                    <div class="col">
-                        <p class="margin-pagealert">
-                        ${message.published.title}
-                        </p>		
-                    </div>
-                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" value="Details" /></div>` : ``}
-                </div>
-            </div>
-        `;
-    }
+
     return draftPreviewHTML;
 }
 
 function render_published_version(message)
 {
-    var draftPreviewHTML = ``;
     var publishedPreviewHTML = ``;
-    var draftAlertTypeStylings= [];
     var publishedAlertTypeStyling = [];
-    if (message.draft.type == "information")
-        draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01"]
-    else if (message.draft.type == "warning")
-        draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02"]
-    else
-        draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle"]
-    if (message.published.type == "information")
+
+        if (message.published.type == "information")
         publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01"]
     else if (message.published.type == "warning")
         publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02"]
     else
         publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
-    draftPreviewHTML = `
-        <p class="h5">Draft Preview</p>
-        <div>
-            <div class="alert ${draftAlertTypeStylings[0]} col-md-12">
-                <div class="row d-flex padding-pagealert align-items-center">
-                    <div class="flex-grow-0 col">
-                        <span class="fi ${draftAlertTypeStylings[1]} " aria-hidden="true"></span>                        
-                    </div>
-                    <div class="col">
-                        <p class="margin-pagealert">
-                        ${message.draft.title}
-                        </p>		
-                    </div>
-                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" value="Details" /></div>` : ``}
-                </div>
-            </div>
-        </div>
-    `;
+
     if(message.publish_status == 0)
     {
         publishedPreviewHTML = `
