@@ -86,6 +86,8 @@ async function publish_message_one()
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
         el2.removeAttribute("disabled");
+
+    await set_broadcast_message_list();
 }
 
 async function publish_message_two()
@@ -100,6 +102,8 @@ async function publish_message_two()
     const el2 = document.getElementById("unpublish-message-two");
     if(el2 != null)
         el2.removeAttribute("disabled");
+
+    await set_broadcast_message_list();
 }
 
 async function unpublish_message_one()
@@ -114,9 +118,11 @@ async function unpublish_message_one()
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
         el2.setAttribute("disabled","disabled");
+
+    await set_broadcast_message_list();
 }
 
-function unpublish_message_two()
+async function unpublish_message_two()
 {
     MESSAGE_TWO_Buffer.publish_status = 0;
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
@@ -126,6 +132,8 @@ function unpublish_message_two()
 
     const el2 = document.getElementById("unpublish-message-two");
     el2.setAttribute("disabled","disabled");
+
+    await set_broadcast_message_list();
 
 
 }
