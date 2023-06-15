@@ -87,6 +87,9 @@ async function publish_message_one()
     if(el2 != null)
         el2.removeAttribute("disabled");
 
+    const e3 = document.getElementById("message-one-header")
+    e3.innerHTML = "Message 1 (Published)"; 
+
     await set_broadcast_message_list();
 }
 
@@ -102,6 +105,9 @@ async function publish_message_two()
     const el2 = document.getElementById("unpublish-message-two");
     if(el2 != null)
         el2.removeAttribute("disabled");
+
+    const e3 = document.getElementById("message-two-header")
+    e3.innerHTML = "Message 2 (Published)"; 
 
     await set_broadcast_message_list();
 }
@@ -119,6 +125,10 @@ async function unpublish_message_one()
     if(el2 != null)
         el2.setAttribute("disabled","disabled");
 
+
+    const e3 = document.getElementById("message-one-header")
+    e3.innerHTML = "Message 1 (Unpublished)"; 
+
     await set_broadcast_message_list();
 }
 
@@ -132,6 +142,10 @@ async function unpublish_message_two()
 
     const el2 = document.getElementById("unpublish-message-two");
     el2.setAttribute("disabled","disabled");
+
+
+    const e3 = document.getElementById("message-two-header")
+    e3.innerHTML = "Message 2 (Unpublished)"; 
 
     await set_broadcast_message_list();
 

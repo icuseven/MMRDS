@@ -8,7 +8,7 @@ function render()
         `
         <form class="flex-column pl-1 pr-4" id="message-one-form">
             <div>
-                <h2 class="h3">Message 1 (${message_one.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>            
+                <h2 class="h3" id="message-one-header">Message 1 (${message_one.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>            
             </div>
             <div>
                 <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
@@ -38,7 +38,7 @@ function render()
         </form>
         <form class="flex-column pl-1 pr-4" id="message-two-form">
             <div>
-                <h2 class="h3">Message 2 (${message_two.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>
+                <h2 class="h3" id="message-two-header">Message 2 (${message_two.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>
             </div>
             <div>
                 <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
