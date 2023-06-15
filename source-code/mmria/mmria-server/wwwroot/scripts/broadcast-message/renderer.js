@@ -69,6 +69,11 @@ function render()
     return result;
 }
 
+function createTypePreviewHTML(message)
+{
+    return render_draft_preview(message) + render_published_version(message);
+}
+
 function render_draft_preview(message)
 {
     var draftPreviewHTML = ``;
