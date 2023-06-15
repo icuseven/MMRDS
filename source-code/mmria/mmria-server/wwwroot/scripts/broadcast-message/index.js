@@ -81,7 +81,7 @@ async function publish_message_one()
     g_message_data.message_one = Object.assign({}, MESSAGE_ONE_Buffer);
     console.log("publish 1");
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer) + render_published_version(MESSAGE_ONE_Buffer);
 
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
@@ -95,7 +95,7 @@ async function publish_message_two()
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer) + render_published_version(MESSAGE_TWO_Buffer);
     
     const el2 = document.getElementById("unpublish-message-two");
     if(el2 != null)
@@ -109,7 +109,7 @@ async function unpublish_message_one()
     console.log("un publish 1");
     
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer) + render_published_version(MESSAGE_ONE_Buffer);
     
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
@@ -122,7 +122,7 @@ function unpublish_message_two()
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer) + render_published_version(MESSAGE_TWO_Buffer);
 
     const el2 = document.getElementById("unpublish-message-two");
     el2.setAttribute("disabled","disabled");
@@ -133,22 +133,32 @@ function unpublish_message_two()
 function reset_message_one()
 {
     MESSAGE_ONE_Buffer = Object.assign({}, g_message_data.message_one);
+
+    document.getElementById('form_content_id').innerHTML = render().join("");
 }
 
 function reset_message_two()
 {
     MESSAGE_TWO_Buffer = Object.assign({}, g_message_data.message_two);
+
+    document.getElementById('form_content_id').innerHTML = render().join("");
 }
 
 
 function on_message_one_title_change(value)
 {
     MESSAGE_ONE_Buffer.draft.title = value;
+
+    const el = document.getElementById("message_one_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
 }
 
 function on_message_one_body_change(value)
 {
     MESSAGE_ONE_Buffer.draft.body = value;
+
+    const el = document.getElementById("message_one_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
 }
 
 function on_message_one_type_change(value)
@@ -166,11 +176,17 @@ function on_message_one_type_change(value)
 function on_message_two_title_change(value)
 {
     MESSAGE_TWO_Buffer.draft.title = value;
+
+    const el = document.getElementById("message_two_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
 }
 
 function on_message_two_body_change(value)
 {
     MESSAGE_TWO_Buffer.draft.body = value;
+
+    const el = document.getElementById("message_two_draft_preview");
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
 
     
 }
