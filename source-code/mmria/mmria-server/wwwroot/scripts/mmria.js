@@ -931,7 +931,50 @@ var $mmria = function()
             $("#mmria_dialog").dialog("open");
             // $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
         },
-        info_dialog_show: function (p_title, p_header, p_inner_html){
+        info_dialog_show: function (p_title, p_header, p_inner_html, p_message_type = "default")
+        {
+
+            function get_header()
+            {
+                var draftPreviewHTML = ``;
+                var draftAlertTypeStylings= [];
+            
+                if (message.draft.type == "information")
+                    draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01"]
+                else if (message.draft.type == "warning")
+                    draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02"]
+                else
+                    draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle"]
+
+                switch(p_message_type.toLowerCase())
+                {
+                    case "information":
+                        return `<div class="alert ${draftAlertTypeStylings[0]} ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                    case "warning":
+                        return `<div class="alert ${draftAlertTypeStylings[0]} ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                    case "error":
+                        return `<div class="alert ${draftAlertTypeStylings[0]} ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+
+                    default:
+                        return `<div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                }
+            }
         let element = document.getElementById("case-progress-info-id");
             if(element == null)
             {
@@ -945,10 +988,7 @@ var $mmria = function()
 
             let html = [];
             html.push(`
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                    <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
-                </div>
+                ${get_header()}
                 <div id="mmria_dialog2" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
                         <p><strong>${p_header}</strong></p>
