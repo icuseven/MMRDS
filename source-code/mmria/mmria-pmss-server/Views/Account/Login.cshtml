@@ -1,0 +1,82 @@
+<html lang="en" class="theme-purple">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Maternal Mortality Review Information App (MMRIA) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
+  <title>Maternal Mortality Review Information App (MMRIA) | CDC - Login</title>
+  <link rel="shortcut icon" href="/TemplatePackage/4.0/assets/imgs/favicon.ico">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/vendor/css/bootstrap.css">
+  <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
+  <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
+  <link rel="stylesheet" href="/styles/mmria-custom.css" />
+
+  <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
+  <script src="/scripts/jquery-ui.min.js"></script>
+</head>
+
+<body>
+
+  @await Html.PartialAsync("_SkipToContent")
+
+  @await Html.PartialAsync("_Header")
+
+  <main id="content"
+        class="container-fluid app-main"
+        role="main"
+        aria-label="Main Content Area"
+        style="background-image: url('/img/Purple-Pattern-Light.png')">
+    
+    <div class="row">
+      @model ApplicationUser
+      @{
+        <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
+          method="POST">
+          <h3 class="login__title">Welcome to MMRIA</h3>
+          <p class="login__info">Please contact your jurisdiction administrator if you have issues accessing the application.</p>
+          <div class="form-group mb-2">
+            <label for="login_name" class="login__label">Username</label>
+            <div>
+              <input autocomplete="off" id="login_name" class="login__field form-control" name="username" type="text" />
+              <i class="login__icon"></i>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="login_value" class="login__label">Password</label>
+            <div>
+              <input autocomplete="off" id="login_value" class="login__field form-control" name="value" type="password" />
+              <i class="login__icon"></i>
+            </div>
+          </div>
+          <div class="form-controls">
+            <button name="submit" type="submit" class="login__btn">Login</button>
+          </div>
+          <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
+        </form>
+      }
+
+      <div class="box container p-3" style="font-size: 14px">
+        <p><strong>Conditions of Use</strong></p>
+        <ul>
+          <li>This warning banner provides privacy and security notices consistent with applicable federal laws, directives, and other federal guidance for accessing this Government system, which includes (1) this computer network, (2) all computers connected to this network, and (3) all devices and storage media attached to this network or to a computer on this network.</li>
+          <li>This system is provided for Government-authorized use only.</li>
+          <li>Unauthorized or improper use of this system is prohibited and may result in disciplinary action and/or civil and criminal penalties.</li>
+          <li>Personal use of social media and networking sites on this system is limited as to not interfere with official work duties and is subject to monitoring.</li>
+          <li>By using this system, you understand and consent to the following:
+            <ul>
+              <li>The Government may monitor, record, and audit your system usage, including usage of personal devices and email systems for official duties or to conduct HHS business. Therefore, you have no reasonable expectation of privacy regarding any communication or data transiting or stored on this system. At any time, and for any lawful Government purpose, the government may monitor, intercept, and search and seize any communication or data transiting or stored on this system.</li>
+              <li>Any communication or data transiting or stored on this system may be disclosed or used for any lawful Government purpose.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+  </main>
+
+  @await Html.PartialAsync("_Footer")
+  
+  <!--script src="/TemplatePackage/4.0/assets/vendor/js/bootstrap.bundle.min.js"></script-->
+  <script src="/scripts/mmria-custom.js"></script>
+  
+</body>
+</html>

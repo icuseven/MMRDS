@@ -1,0 +1,14 @@
+{
+   "_id": "org.couchdb.user:user1",
+   "password_scheme": "pbkdf2",
+   "iterations": 10,
+   "name": "user1",
+   "roles": [
+       "abstractor",
+       "form_designer",
+       "user_admin"
+   ],
+   "type": "user",
+   "derived_key": "1e3ce523e927775812b51c76918c93b62bde4b4c",
+   "salt": "143c420b868e430cb929bd779b581a82"
+}
