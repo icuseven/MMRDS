@@ -1,5 +1,6 @@
 'use strict';
 
+var g_message_data = {};
 var g_jurisdiction_list = [];
 var g_metadata = null;
 var default_object = null;
@@ -19,6 +20,58 @@ $(function ()
   get_metadata();
 });
 
+(async function() {
+
+	window.onload = main;
+})()
+
+
+async function main()
+{
+    await init_broadcast_messages();
+}
+
+async function init_broadcast_messages(){
+    const get_data_response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`
+    });
+    render_broadcast_message(get_data_response.message_one, "broadcast_published_message_one");
+    render_broadcast_message(get_data_response.message_two, "broadcast_published_message_two");
+    console.log('hahahah');
+}
+
+function render_broadcast_message(p_message, p_message_container_id){
+    const broadcast_message_container = document.getElementById(p_message_container_id);
+    if(p_message.publish_status == 1)
+        broadcast_message_container.innerHTML = render_published_version(p_message);
+}
+
+function render_published_version(message)
+{
+    var publishedAlertTypeStyling = [];
+    if (message.published.type == "information")
+        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01"]
+    else if (message.published.type == "warning")
+        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02"]
+    else
+        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
+    return `
+        <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
+        <div class="row d-flex padding-pagealert align-items-center">
+            <div class="flex-grow-0 col">
+                <span class="fi ${publishedAlertTypeStyling[1]} " aria-hidden="true"></span>                        
+            </div>
+            <div class="col">
+                <p class="margin-pagealert">
+                ${message.published.title}
+                </p>		
+            </div>
+            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.published.body}')" value="Details" /></div>` : ``}
+        </div>
+    `;
+}
+
 function get_metadata()
 {
   $.ajax({
@@ -28,6 +81,12 @@ function get_metadata()
     default_object =  create_default_object(g_metadata, {});
     load_user_role_jurisdiction();
 	});
+}
+
+function broadcast_message_detail_button_click(p_message_body) 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", p_message_body);
 }
 
 function load_user_role_jurisdiction()
@@ -206,7 +265,6 @@ For more information on CDC's web notification policies, see Website Disclaimers
 
 
 */
-
 
 async function erase_mm_link_click()
 {

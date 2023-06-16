@@ -6,7 +6,7 @@ function render()
     result.push
     (
         `
-        <form class="flex-column pl-1 pr-4" id="message-one-form">
+        <form class="w-75 flex-column pl-1 pr-4" id="message-one-form">
             <div>
                 <h2 class="h3" id="message-one-header">Message 1 (${message_one.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>            
             </div>
@@ -19,12 +19,11 @@ function render()
                 <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000" onchange="on_message_one_body_change(this.value)">${message_one.draft.body}</textarea>
             </div>
             <div id="message_one_type_fieldset">
-            ${render_message_one_type_control(message_one.draft.type)}
+                ${render_message_one_type_control(message_one.draft.type)}
             </div>
             <div id="message_one_draft_preview">
-            ${render_draft_preview(message_one)}
-            ${render_published_version(message_one)}
-            
+                ${render_draft_preview(message_one)}
+                ${render_published_version(message_one)} 
             </div>
             </div>
             <div class="row">
@@ -36,7 +35,7 @@ function render()
                 </div>
             </div>
         </form>
-        <form class="flex-column pl-1 pr-4" id="message-two-form">
+        <form class="w-75 flex-column pl-1 pr-4" id="message-two-form">
             <div>
                 <h2 class="h3" id="message-two-header">Message 2 (${message_two.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>
             </div>
@@ -49,11 +48,12 @@ function render()
                 <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000" onchange="on_message_two_body_change(this.value)">${message_two.draft.body}</textarea>
             </div>
             <div id="message_two_type_fieldset">
-            ${render_message_two_type_control(message_two.draft.type)}
+                ${render_message_two_type_control(message_two.draft.type)}
             </div>
             <div id="message_two_draft_preview">
-            ${render_draft_preview(message_two)}
-            ${render_published_version(message_two)}
+                ${render_draft_preview(message_two)}
+                ${render_published_version(message_two)}
+            </div>
             </div>
             <div class="row">
                 <div class="ml-auto pr-3">
@@ -98,7 +98,7 @@ function render_draft_preview(message)
                         ${message.draft.title}
                         </p>		
                     </div>
-                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" value="Details" /></div>` : ``}
+                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.draft.body}')" value="Details" /></div>` : ``}
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@ function render_published_version(message)
                         ${message.published.title}
                         </p>		
                     </div>
-                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" value="Details" /></div>` : ``}
+                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.published.body}')" value="Details" /></div>` : ``}
                 </div>
             </div>
         `;
@@ -153,22 +153,22 @@ function render_message_one_type_control(value)
 {
     return `
     <fieldset>
-    <legend class="h5">Type</legend>
-    <div>
-        <label for="message-one-information">
-            <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Information
-        </label>
-    </div>
-    <div>
-        <label for="message-one-warning">
-            <input type="radio" id="message-one-warning" name="message-one-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Warning
-        </label>
-    </div>
-    <div>
-        <label for="message-one-error">
-            <input type="radio" id="message-one-error" name="message-one-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Error
-        </label>
-    </div>  
+        <legend class="h5">Type</legend>
+        <div>
+            <label for="message-one-information">
+                <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Information
+            </label>
+        </div>
+        <div>
+            <label for="message-one-warning">
+                <input type="radio" id="message-one-warning" name="message-one-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Warning
+            </label>
+        </div>
+        <div>
+            <label for="message-one-error">
+                <input type="radio" id="message-one-error" name="message-one-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Error
+            </label>
+        </div>  
     </fieldset>
     `;
 }
@@ -177,22 +177,22 @@ function render_message_two_type_control(value)
 {
     return `
     <fieldset>
-    <legend class="h5">Type</legend>
-    <div>
-        <label for="message-two-information">
-            <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Information
-        </label>
-    </div>
-    <div>
-        <label for="message-two-warning">
-            <input type="radio" id="message-two-warning" name="message-two-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Warning
-        </label>
-    </div>
-    <div>
-        <label for="message-two-error">
-            <input type="radio" id="message-two-error" name="message-two-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Error
-        </label>
-    </div> 
+        <legend class="h5">Type</legend>
+        <div>
+            <label for="message-two-information">
+                <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Information
+            </label>
+        </div>
+        <div>
+            <label for="message-two-warning">
+                <input type="radio" id="message-two-warning" name="message-two-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Warning
+            </label>
+        </div>
+        <div>
+            <label for="message-two-error">
+                <input type="radio" id="message-two-error" name="message-two-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Error
+            </label>
+        </div> 
     </fieldset>
     `;
 }

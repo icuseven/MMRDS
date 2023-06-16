@@ -155,14 +155,18 @@ async function unpublish_message_two()
 function reset_message_one()
 {
     MESSAGE_ONE_Buffer = JSON.parse(JSON.stringify(g_message_data.message_one));
-
     document.getElementById('form_content_id').innerHTML = render().join("");
+}
+
+function broadcast_message_detail_button_click(p_message_body) 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", p_message_body);
 }
 
 function reset_message_two()
 {
     MESSAGE_TWO_Buffer = JSON.parse(JSON.stringify(g_message_data.message_two));
-
     document.getElementById('form_content_id').innerHTML = render().join("");
 }
 
@@ -170,7 +174,6 @@ function reset_message_two()
 function on_message_one_title_change(value)
 {
     MESSAGE_ONE_Buffer.draft.title = value;
-
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
 }
@@ -178,7 +181,6 @@ function on_message_one_title_change(value)
 function on_message_one_body_change(value)
 {
     MESSAGE_ONE_Buffer.draft.body = value;
-
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
 }
@@ -186,11 +188,8 @@ function on_message_one_body_change(value)
 function on_message_one_type_change(value)
 {
     MESSAGE_ONE_Buffer.draft.type = value;
-
     let el = document.getElementById("message_one_type_fieldset");
-
     el.innerHTML = render_message_one_type_control(value);
-
     el = document.getElementById("message_one_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
 }
@@ -198,7 +197,6 @@ function on_message_one_type_change(value)
 function on_message_two_title_change(value)
 {
     MESSAGE_TWO_Buffer.draft.title = value;
-
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
 }
@@ -206,49 +204,18 @@ function on_message_two_title_change(value)
 function on_message_two_body_change(value)
 {
     MESSAGE_TWO_Buffer.draft.body = value;
-
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
-
-    
 }
 
 function on_message_two_type_change(value)
 {
     MESSAGE_TWO_Buffer.draft.type = value;
     let el = document.getElementById("message_two_type_fieldset");
-
-    el.innerHTML = render_message_one_type_control(value);
-
+    el.innerHTML = render_message_two_type_control(value);
     el = document.getElementById("message_two_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
 }
-
-function createMessageContent(g_message_id){
-    var g_form = document.getElementById(g_message_id + "form");
-    console.log(g_form);
-    return {
-        title: g_form[g_message_id + "title"].value,
-        body: g_form[g_message_id + "body"].value,
-        type: g_form[g_message_id + "type"].value,
-    }
-}
-
-function getMessages() {
-    return [Object.assign(g_message_data.message_one, { id: MESSAGE_ONE_ID }), Object.assign(g_message_data.message_two, { id: MESSAGE_TWO_ID })];
-}
-
-function setBroadcastMessageFormState(broadcastMessages){
-    var g_message_one_form = document.getElementById(MESSAGE_ONE_ID + "form");
-    var g_message_two_form = document.getElementById(MESSAGE_TWO_ID + "form");
-    g_message_one_form[MESSAGE_ONE_ID + "title"].value = broadcastMessages[0].draft.title;
-	g_message_one_form[MESSAGE_ONE_ID + "body"].value = broadcastMessages[0].draft.body;
-	g_message_one_form[MESSAGE_ONE_ID + broadcastMessages[0].draft.type].checked = true;
-	g_message_two_form[MESSAGE_TWO_ID + "title"].value = broadcastMessages[1].draft.title;
-	g_message_two_form[MESSAGE_TWO_ID + "body"].value = broadcastMessages[1].draft.body;
-	g_message_two_form[MESSAGE_TWO_ID + broadcastMessages[1].draft.type].checked = true;
-}
-
 
 async function get_broadcast_message_list()
 {
@@ -256,16 +223,11 @@ async function get_broadcast_message_list()
     ({
         url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`
     });
-
-
     g_message_data = get_data_response;
-
-    
 }
 
 async function set_broadcast_message_list()
 {
-
     const response = await $.ajax
     ({
         url: `${location.protocol}//${location.host}/broadcast-message/SetBroadcastMessageList`,
@@ -274,8 +236,5 @@ async function set_broadcast_message_list()
         data: JSON.stringify(g_message_data),
         type: 'POST',
     });
-
     g_message_data._rev = response.rev;
-        //console.log(response);
-    
 }
