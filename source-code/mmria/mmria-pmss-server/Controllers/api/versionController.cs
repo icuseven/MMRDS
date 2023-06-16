@@ -10,7 +10,7 @@ using Serilog.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class versionController: ControllerBase
@@ -119,7 +119,7 @@ public sealed class versionController: ControllerBase
     )
     {
 
-        var export_all_generate_name_map = new mmria.server.utils.export_all_generate_name_map(configuration);
+        var export_all_generate_name_map = new mmria.pmss.server.utils.export_all_generate_name_map(configuration);
 
         var result = export_all_generate_name_map.Execute(version_specification_id, type);
 
@@ -371,7 +371,7 @@ public sealed class versionController: ControllerBase
 */
         return result;
     }
-
+/*
     async Task<string> GenerateFileAsync(string schemaJson)
     {
             string result = null;
@@ -391,7 +391,7 @@ public sealed class versionController: ControllerBase
 
 //NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.
             return result;
-    }
+    }*/
 
     [Authorize(Roles  = "form_designer")]
     [Route("add_attachement")]

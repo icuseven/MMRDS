@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 
-namespace mmria.server.authentication;
+namespace mmria.pmss.server.authentication;
 
 public static class CustomAuthenticationBuilderExtensions
 {

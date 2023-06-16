@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class TokenClient
 {
@@ -133,7 +133,7 @@ public sealed class TokenClient
         try
         {
             string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email.ToLower());
-            var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+            var user_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
             var responseFromServer = await user_curl.executeAsync();
 
             user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -158,7 +158,7 @@ public sealed class TokenClient
 
                 string user_db_url = config_couchdb_url + "/_users/"  + user._id;
 
-                var user_curl = new mmria.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_password);
+                var user_curl = new mmria.pmss.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_password);
                 var responseFromServer = await user_curl.executeAsync();
                 user_save_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 

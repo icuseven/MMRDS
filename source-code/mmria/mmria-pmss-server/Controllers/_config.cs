@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 
 [Authorize(Roles = "installation_admin")]
@@ -18,7 +18,7 @@ public sealed class _configController : Controller
 
     public IActionResult Index()
     {
-        var app_config = new mmria.server.model.app_config();
+        var app_config = new mmria.pmss.server.model.app_config();
 
         app_config.is_environment_based = bool.Parse(configuration["mmria_settings:is_environment_based"]);
         app_config.web_site_url = configuration["mmria_settings:web_site_url"];
@@ -43,10 +43,10 @@ public sealed class _configController : Controller
 
 
 [HttpPost]
-    public IActionResult Index(mmria.server.model.app_config app_config)
+    public IActionResult Index(mmria.pmss.server.model.app_config app_config)
     {
         
-        //var app_config = new mmria.server.model.app_config();
+        //var app_config = new mmria.pmss.server.model.app_config();
 
         configuration["mmria_settings:is_environment_based"] = app_config.is_environment_based.Value.ToString();
         configuration["mmria_settings:web_site_url"] = app_config.web_site_url;

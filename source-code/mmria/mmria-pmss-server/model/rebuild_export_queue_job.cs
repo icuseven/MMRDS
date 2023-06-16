@@ -8,7 +8,7 @@ using Quartz;
 using Quartz.Impl;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public sealed class rebuild_queue_job : IJob
 {

@@ -8,7 +8,7 @@ using System.Dynamic;
 using mmria.common;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "form_designer")]
 [Route("api/[controller]")]

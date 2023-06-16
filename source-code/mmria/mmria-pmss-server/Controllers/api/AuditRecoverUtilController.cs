@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 

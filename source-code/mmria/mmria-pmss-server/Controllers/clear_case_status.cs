@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "cdc_admin,jurisdiction_admin")]
 public sealed class clear_case_statusController : Controller
@@ -41,9 +41,9 @@ public sealed class clear_case_statusController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.server.model.casestatus.CaseStatusRequest Model)
+    public async Task<IActionResult> FindRecord(mmria.pmss.server.model.casestatus.CaseStatusRequest Model)
     {
-        var model = new mmria.server.model.casestatus.CaseStatusRequestResponse();
+        var model = new mmria.pmss.server.model.casestatus.CaseStatusRequestResponse();
         
         try
         {
@@ -90,7 +90,7 @@ public sealed class clear_case_statusController : Controller
 
                     )
                     {
-                        var x = new mmria.server.model.casestatus.CaseStatusDetail()
+                        var x = new mmria.pmss.server.model.casestatus.CaseStatusDetail()
                         {
                             _id = item.id,
                             RecordId = item.value?.record_id,
@@ -132,7 +132,7 @@ public sealed class clear_case_statusController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmClearCaseStatusRequest(mmria.server.model.casestatus.CaseStatusDetail Model)
+    public IActionResult ConfirmClearCaseStatusRequest(mmria.pmss.server.model.casestatus.CaseStatusDetail Model)
     {
         var model = Model;
 
@@ -140,7 +140,7 @@ public sealed class clear_case_statusController : Controller
     }
 
     
-    public async Task<IActionResult> ClearCaseStatus(mmria.server.model.casestatus.CaseStatusDetail Model)
+    public async Task<IActionResult> ClearCaseStatus(mmria.pmss.server.model.casestatus.CaseStatusDetail Model)
     {
         var model = Model;
 

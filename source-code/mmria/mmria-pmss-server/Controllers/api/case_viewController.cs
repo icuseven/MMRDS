@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/[controller]")]
@@ -48,7 +48,7 @@ public sealed class case_viewController: ControllerBase
     {
 
         var is_identefied_case = true;
-        var cvs = new mmria.server.utils.CaseViewSearch
+        var cvs = new mmria.pmss.server.utils.CaseViewSearch
         (
             configuration, 
             User,
@@ -87,7 +87,7 @@ public sealed class case_viewController: ControllerBase
         {
             string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);

@@ -20,15 +20,18 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 
+using System.Net.Http;
+using System.Net.Http.Json;
+
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
 
-using mmria.server.extension;
-using mmria.server.authentication;
+using mmria.pmss.server.extension;
+using mmria.pmss.server.authentication;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 public sealed partial class Program
 {
@@ -97,7 +100,7 @@ public sealed partial class Program
         currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
         var builder = WebApplication.CreateBuilder(args);
-
+        builder.Configuration.AddUserSecrets<Program>();
         configuration = builder.Configuration;
 
         try
@@ -307,10 +310,10 @@ public sealed partial class Program
             Program.configuration_set = DbConfigSet;
 
 
-            //configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
-            //configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
-            //configuration["steve_api:client_secreat_key"] = DbConfigSet.name_value["steve_api:client_secreat_key"];
-            //configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
+            configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
+            configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
+            configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
+            configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
                         
             Program.actorSystem = ActorSystem.Create("mmria-actor-system");
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
@@ -320,7 +323,7 @@ public sealed partial class Program
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
-            IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
+            IJobDetail job = JobBuilder.Create<mmria.pmss.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
                 .Build();
 
@@ -337,8 +340,8 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
-            actorSystem.ActorOf<mmria.server.SteveAPISupervisor>("steve-api-supervisor");
+            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+            actorSystem.ActorOf<mmria.pmss.server.SteveAPISupervisor>("steve-api-supervisor");
         
 
             quartzSupervisor.Tell("init");
@@ -392,7 +395,6 @@ public sealed partial class Program
                 options.AddPolicy("guest", policy => policy.RequireRole("guest"));
             });
 
-            //builder.RootComponents.Add<App>("app");
 
             builder.Services.AddMvc
             (
@@ -414,8 +416,6 @@ public sealed partial class Program
                 }
             );
 
-            builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -425,27 +425,10 @@ public sealed partial class Program
                 (
                     new Action(async () =>
                     {
-                        await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
+                        await new mmria.pmss.server.utils.c_db_setup(Program.actorSystem).Setup();
                     }
                 ));
             }
-/*
-            builder.Services.AddCors
-            (
-                policy =>
-                {
-                    policy.AddPolicy
-                    (
-                        "_myAllowSpecificOrigins", 
-                        builder => builder
-                        .WithOrigins("http://localhost:5000/")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                    );
-                }
-            );
-            */
 
             var app = builder.Build();
 
@@ -532,7 +515,9 @@ public sealed partial class Program
             );
 
             app.UseDefaultFiles();
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
+/*
+            
 
             var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
             // Add new mappings
@@ -540,6 +525,7 @@ public sealed partial class Program
             provider.Mappings[".blat"] = "application/octet-stream";
             provider.Mappings[".dat"] = "application/octet-stream";
             provider.Mappings[".css"] = "text/css";
+            provider.Mappings[".js"] = "text/javascript";
 
             app.UseStaticFiles(
                 
@@ -549,26 +535,20 @@ public sealed partial class Program
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
                 RequestPath = "",
-                ContentTypeProvider = provider
-            });
+                //ContentTypeProvider = provider
+            });*/
 
 
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
             app.MapControllerRoute
             (
-                "default", 
-                "{controller=Home}/{action=Index}"
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}"
             );
-                
-            app.MapBlazorHub();
-            
-
-            //app.MapFallbackToPage("/_Host");
-
+        
             app.Run(config_web_site_url);
 
         }
@@ -590,7 +570,7 @@ public sealed partial class Program
         try
         {
             string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
         }

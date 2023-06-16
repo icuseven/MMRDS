@@ -1,5 +1,5 @@
 ﻿using System;
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public struct report_measure_value_struct
 {

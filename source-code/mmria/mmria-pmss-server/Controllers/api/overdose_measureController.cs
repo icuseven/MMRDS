@@ -7,7 +7,7 @@ using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/overdose-measures")]
 public sealed class overdose_measureController: ControllerBase

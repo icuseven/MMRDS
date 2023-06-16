@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using mmria.common;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
@@ -18,10 +18,10 @@ public sealed class aggregate_reportController: ControllerBase
     }
 
     [HttpGet]
-    public async System.Threading.Tasks.Task<IList<mmria.server.model.c_report_object>> Get()
+    public async System.Threading.Tasks.Task<IList<mmria.pmss.server.model.c_report_object>> Get()
     {
 
-        List<mmria.server.model.c_report_object> result =  new List<mmria.server.model.c_report_object>();
+        List<mmria.pmss.server.model.c_report_object> result =  new List<mmria.pmss.server.model.c_report_object>();
 
         System.Console.WriteLine ("Recieved message.");
 
@@ -52,7 +52,7 @@ public sealed class aggregate_reportController: ControllerBase
                 if(row_dictionary != null && row_dictionary.ContainsKey("doc"))
                 {
 
-                    KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
+                    KeyValuePair<bool,mmria.pmss.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
 
 
                     if(convert_result.Key)
@@ -87,10 +87,10 @@ public sealed class aggregate_reportController: ControllerBase
     } 
 
 
-    private KeyValuePair<bool,mmria.server.model.c_report_object> convert (IDictionary<string, object> p_item)
+    private KeyValuePair<bool,mmria.pmss.server.model.c_report_object> convert (IDictionary<string, object> p_item)
     {
         
-        mmria.server.model.c_report_object  temp = new mmria.server.model.c_report_object ();
+        mmria.pmss.server.model.c_report_object  temp = new mmria.pmss.server.model.c_report_object ();
         bool is_complete_conversion = true;
 
         temp._id = p_item ["_id"].ToString ();
@@ -257,7 +257,7 @@ public sealed class aggregate_reportController: ControllerBase
         }
 
         
-        return new KeyValuePair<bool,mmria.server.model.c_report_object>(is_complete_conversion, temp);
+        return new KeyValuePair<bool,mmria.pmss.server.model.c_report_object>(is_complete_conversion, temp);
     }
 
 

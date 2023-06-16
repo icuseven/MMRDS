@@ -5,7 +5,7 @@ using Akka.Actor;
 //using System.Reactive;
 //using System.Reactive.Linq;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 
 /*
 public sealed class WriteFile

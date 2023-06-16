@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 using mmria.common.model;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize]
 [Route("api/[controller]")]
@@ -98,10 +98,10 @@ public sealed class ije_messageController: ControllerBase
 
     [Authorize(Roles  = "vital_importer")]
     [HttpPost]
-    public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
+    public async System.Threading.Tasks.Task<mmria.pmss.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.pmss.server.model.NewIJESet_Message ijeset) 
     { 
         string object_string = null;
-        mmria.server.model.NewIJESet_MessageResponse result = new ();
+        mmria.pmss.server.model.NewIJESet_MessageResponse result = new ();
 
         try
         {
@@ -110,7 +110,7 @@ public sealed class ije_messageController: ControllerBase
             object_string = Newtonsoft.Json.JsonConvert.SerializeObject(ijeset, settings);
 
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
-                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+                //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
             string user_db_url = configuration["mmria_settings:vitals_url"];
@@ -118,7 +118,7 @@ public sealed class ije_messageController: ControllerBase
             var user_curl = new cURL("PUT", null, user_db_url, object_string);
             user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
             var responseFromServer = await user_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.NewIJESet_MessageResponse>(responseFromServer);
 
             if (!result.ok) 
             {
@@ -143,7 +143,7 @@ public sealed class ije_messageController: ControllerBase
         try
         {
             string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 

@@ -5,7 +5,7 @@ using System.Net.Http.Headers;
 using System.Linq;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class core_element_exporter
 {
@@ -30,7 +30,7 @@ public sealed class core_element_exporter
 
     private string juris_user_name = null;
 
-    private mmria.server.model.actor.ScheduleInfoMessage Configuration;
+    private mmria.pmss.server.model.actor.ScheduleInfoMessage Configuration;
 
     private List<string> Core_Element_Paths;
 
@@ -43,11 +43,11 @@ public sealed class core_element_exporter
 
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
-    public core_element_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
+    public core_element_exporter(mmria.pmss.server.model.actor.ScheduleInfoMessage configuration)
     {
         this.Configuration = configuration;
     }
-public void Execute(mmria.server.export_queue_item queue_item)
+public void Execute(mmria.pmss.server.export_queue_item queue_item)
 {
 
     this.database_path = this.Configuration.couch_db_url;
@@ -211,13 +211,13 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
-    var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+    var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
     try
     {
         string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-        var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+        var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
         string case_view_responseFromServer = case_view_curl.execute();
 
         mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
@@ -271,7 +271,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
                 var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
                 {
                     is_jurisdiction_ok = true;
                     break;
@@ -737,7 +737,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
     }
 
 
-    mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+    mmria.pmss.server.utils.cFolderCompressor folder_compressor = new mmria.pmss.server.utils.cFolderCompressor();
 
 
     string encryption_key = null;

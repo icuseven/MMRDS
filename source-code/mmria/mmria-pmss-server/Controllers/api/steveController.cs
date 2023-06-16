@@ -13,7 +13,7 @@ using System.Net;
 
 using mmria.common.steve;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]
@@ -65,7 +65,7 @@ public sealed class steveController : ControllerBase
         {
             seaBucketKMSKey = _configurationSet["steve_api:sea_bucket_kms_key"],
             clientName = _configurationSet["steve_api:client_name"],
-            clientSecretKey = _configurationSet["steve_api:client_secreat_key"]
+            clientSecretKey = _configurationSet["steve_api:client_secret_key"]
         };
 
         var base_url = _configurationSet["steve_api:base_url"];

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Process_DB_Synchronization_Set : UntypedActor
 {
@@ -20,13 +20,13 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
             case ScheduleInfoMessage scheduleInfo:
             //System.Console.WriteLine ("{0} Beginning Change Synchronization.", System.DateTime.Now);
             //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-            mmria.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence, scheduleInfo);
+            mmria.pmss.server.model.couchdb.c_change_result latest_change_set = get_changes (Program.Last_Change_Sequence, scheduleInfo);
 
             Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
         
             if (Program.Last_Change_Sequence != latest_change_set.last_seq)
             {
-                foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
+                foreach (mmria.pmss.server.model.couchdb.c_seq seq in latest_change_set.results)
                 {
                     if (response_results.ContainsKey (seq.id)) 
                     {
@@ -86,7 +86,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                         {
                             try
                             {
-                                mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, null, "DELETE");
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE");
                                 await sync_document.executeAsync ();
                             
         
@@ -108,7 +108,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                                 document_json = await document_curl.executeAsync ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, document_json);
+                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json);
                                     await sync_document.executeAsync ();
                                 }
         
@@ -133,14 +133,14 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 HashSet<string> deleted_id_set = null;
 
                 string json = null;
-                mmria.server.model.couchdb.c_all_docs all_docs = null;
+                mmria.pmss.server.model.couchdb.c_all_docs all_docs = null;
                 cURL curl = null;
 
                 // get all non deleted cases in mmrds
                 curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
                 json = curl.execute ();
-                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-                foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
+                foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
                 {
                     mmrds_id_set.Add (all_doc_row.id);
                 }
@@ -149,8 +149,8 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 // get all non deleted cases in de_id
                 curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
                 json = curl.execute ();
-                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-                foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
+                foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
                 {
                     de_id_set.Add (all_doc_row.id);
                 }
@@ -167,8 +167,8 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 // get all non deleted cases in report
                 curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
                 json = curl.execute ();
-                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_all_docs> (json);
-                foreach (mmria.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
+                all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
+                foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
                 {
                     report_id_set.Add (all_doc_row.id);
                 }
@@ -192,10 +192,10 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
 
     }
 
-    public mmria.server.model.couchdb.c_change_result get_changes(string p_last_sequence, ScheduleInfoMessage p_scheduleInfo)
+    public mmria.pmss.server.model.couchdb.c_change_result get_changes(string p_last_sequence, ScheduleInfoMessage p_scheduleInfo)
     {
 
-        mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
+        mmria.pmss.server.model.couchdb.c_change_result result = new mmria.pmss.server.model.couchdb.c_change_result();
         string url = null;
 
         if (string.IsNullOrWhiteSpace(p_last_sequence))
@@ -209,7 +209,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
         var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.user_value);
         string res = curl.execute();
         
-        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_change_result>(res);
         
         return result;
     }

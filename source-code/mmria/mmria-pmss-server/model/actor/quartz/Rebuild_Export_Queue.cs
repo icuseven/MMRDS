@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Rebuild_Export_Queue : UntypedActor
 {

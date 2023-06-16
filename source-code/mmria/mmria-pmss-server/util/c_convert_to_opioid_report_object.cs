@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed partial class c_convert_to_opioid_report_object
 {
     
     //static HashSet<string> BlankIdSet = new HashSet<string>();
-    Dictionary<string, mmria.server.model.opioid_report_value_struct> indicators;
+    Dictionary<string, mmria.pmss.server.model.opioid_report_value_struct> indicators;
 
     string source_json;
 
@@ -116,12 +116,12 @@ public sealed partial class c_convert_to_opioid_report_object
 
 
 
-    private Dictionary<string, mmria.server.model.opioid_report_value_struct> get_zero_indicators(mmria.server.model.opioid_report_value_struct p_header)
+    private Dictionary<string, mmria.pmss.server.model.opioid_report_value_struct> get_zero_indicators(mmria.pmss.server.model.opioid_report_value_struct p_header)
     {
 
-        mmria.server.model.opioid_report_value_struct get_new_struct(string p_indicator_field_id)
+        mmria.pmss.server.model.opioid_report_value_struct get_new_struct(string p_indicator_field_id)
         {
-            var result = new mmria.server.model.opioid_report_value_struct();
+            var result = new mmria.pmss.server.model.opioid_report_value_struct();
             var keys = p_indicator_field_id.Split(" ");
 
             if(keys.Length > 1)
@@ -147,7 +147,7 @@ public sealed partial class c_convert_to_opioid_report_object
             return result;
         }
 
-        var result = new Dictionary<string, mmria.server.model.opioid_report_value_struct>(StringComparer.OrdinalIgnoreCase); 
+        var result = new Dictionary<string, mmria.pmss.server.model.opioid_report_value_struct>(StringComparer.OrdinalIgnoreCase); 
 
         result.Add("mPregRelated MPregRel1", get_new_struct("mPregRelated MPregRel1"));
         result.Add("mPregRelated MPregRel2", get_new_struct("mPregRelated MPregRel2"));
@@ -322,7 +322,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 
 
-        mmria.server.model.c_opioid_report_object report_object;
+        mmria.pmss.server.model.c_opioid_report_object report_object;
 
         System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
         int means_of_fatal_injury = 9999;
@@ -396,11 +396,11 @@ mDeathbyRace  MDeathbyRace17 17
 
         
 
-        report_object = new mmria.server.model.c_opioid_report_object (this.report_type);
+        report_object = new mmria.pmss.server.model.c_opioid_report_object (this.report_type);
         report_object._id = get_value (source_object, "_id").ToString();
         report_object.means_of_fatal_injury = means_of_fatal_injury;
 
-        var opioid_report_value_header = new mmria.server.model.opioid_report_value_struct();
+        var opioid_report_value_header = new mmria.pmss.server.model.opioid_report_value_struct();
 
         /*
         if (report_object._id == "02279162-6be3-49e4-930f-42eed7cd4706")
@@ -508,7 +508,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         
 
-        mmria.server.model.opioid_report_value_struct work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
+        mmria.pmss.server.model.opioid_report_value_struct work_item = initialize_opioid_report_value_struct(opioid_report_value_header);
         
 
         this.popluate_total_number_of_cases_by_pregnancy_relatedness (ref work_item, ref report_object, source_object);
@@ -573,9 +573,9 @@ mDeathbyRace  MDeathbyRace17 17
         return result;
     }
 
-    public mmria.server.model.opioid_report_value_struct initialize_opioid_report_value_struct(mmria.server.model.opioid_report_value_struct p_header)
+    public mmria.pmss.server.model.opioid_report_value_struct initialize_opioid_report_value_struct(mmria.pmss.server.model.opioid_report_value_struct p_header)
     {
-        var result = new mmria.server.model.opioid_report_value_struct();
+        var result = new mmria.pmss.server.model.opioid_report_value_struct();
 
         result.year_of_death = p_header.year_of_death;
         result.month_of_death = p_header.month_of_death;
@@ -1817,7 +1817,7 @@ death_certificate/Race/race = Other
     }
 
 
-    private void popluate_mTimingofDeath(ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mTimingofDeath(ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
         DateTime? Convert(object year, object month, object day)
         {
@@ -2162,7 +2162,7 @@ pregnancy_status <- list field
     }
 
 
-private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+private void popluate_pregnancy_deaths_by_age (ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 {
 
 /*
@@ -2224,7 +2224,7 @@ blank,
 }
 
 
-    private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, System.Dynamic.ExpandoObject p_source_object, bool p_is_pregnancy_related)
+    private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, System.Dynamic.ExpandoObject p_source_object, bool p_is_pregnancy_related)
     {
 /*
 mDeathsbyRaceEth	MRaceEth3	Hispanic
@@ -2276,7 +2276,7 @@ mDeathsbyRaceEth	MRaceEth19	Race Not Specified
     }
 
 
-    private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 /*
 MPregRel1	Pregnancy Related
@@ -2417,7 +2417,7 @@ MPregRel5	(Blank)
             }
     }
 
-    private void popluate_mDeathSubAbuseEvi (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mDeathSubAbuseEvi (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -2535,7 +2535,7 @@ MPregRel5	(Blank)
 
     }
 
-    private void popluate_death_cause (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_death_cause (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
             int test_int;
@@ -3135,7 +3135,7 @@ MPregRel5	(Blank)
     }
 
 
-    private void popluate_mEducation (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mEducation (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -3333,7 +3333,7 @@ death_certificate/demographics/education_level = '8th Grade or Less' or '9th-12t
             System.Console.WriteLine (ex);
         }
     }
-    private void popluate_mHomeless (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mHomeless (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -3538,7 +3538,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 
     }
 
-    private void popluate_mHxofEmoStress (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mHxofEmoStress (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -3855,7 +3855,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
 
     }
 
-    private void popluate_mHxofSubAbu (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mHxofSubAbu (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -3945,7 +3945,7 @@ social_and_environmental_profile/socio_economic_characteristics/homelessness
         }
     }
 
-    private void popluate_mIncarHx (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mIncarHx (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -4147,7 +4147,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
         }
     }
 
-    private void popluate_mLivingArrange (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mLivingArrange (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -4291,7 +4291,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
     }
 
 
-    private void popluate_mMHTxTiming (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mMHTxTiming (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -4430,7 +4430,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
 */
     }
 
-    private void popluate_mSubstAutop (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mSubstAutop (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         //autopsy_report/toxicology/substance
@@ -4821,7 +4821,7 @@ mIncarHx	Number of deaths by mother’s incarceration history in relation to pre
     }
 
 
-    private void popluate_mUndCofDeath (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mUndCofDeath (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         double test_double;
@@ -4944,7 +4944,7 @@ HashSet<double> MUndCofDeath21 = new HashSet<double>(){999.1};
 
     } 
 
-    private void popluate_mDeathPrevent (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mDeathPrevent (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -5097,7 +5097,7 @@ committee_review/chance_to_alter_outcome=3 (Unable to Determine)
 
     }
 
-    private void popluate_mOMBRaceRcd (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mOMBRaceRcd (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;
@@ -5232,7 +5232,7 @@ if bfdcpr_or_recod=0 or (bfdcpr_or_recod in (8888,9999) and dcr_or_recod=0) then
 
     }
 
-    private void popluate_mDeathbyRace (ref List<mmria.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_mDeathbyRace (ref List<mmria.pmss.server.model.opioid_report_value_struct> p_opioid_report_value_list, ref mmria.pmss.server.model.opioid_report_value_struct p_opioid_report_value, ref mmria.pmss.server.model.c_opioid_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         int test_int;

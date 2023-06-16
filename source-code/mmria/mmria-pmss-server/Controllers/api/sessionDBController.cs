@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 
 //https://wiki.apache.org/couchdb/Session_API
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 //[Authorize(Roles  = "jurisdiction_admin")]
 [AllowAnonymous] 
@@ -140,7 +140,7 @@ public sealed class sessionDBController: ControllerBase
             //System.Console.Write ($"temp {temp}");
             post_request_struct = Newtonsoft.Json.JsonConvert.DeserializeObject<Post_Request_Struct> (temp);
 
-            //mmria.server.utilsLuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
+            //mmria.pmss.server.utilsLuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
             //System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 

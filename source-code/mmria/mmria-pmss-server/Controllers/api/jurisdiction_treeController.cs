@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class jurisdiction_treeController: ControllerBase 

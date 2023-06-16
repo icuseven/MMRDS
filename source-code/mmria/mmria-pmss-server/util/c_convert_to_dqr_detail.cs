@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_convert_to_dqr_detail
 {
@@ -45,7 +45,7 @@ public sealed class c_convert_to_dqr_detail
 
         //migrate.C_Get_Set_Value.get_grid_value_result grid_value_result = null;
         migrate.C_Get_Set_Value.get_value_result value_result = null;
-        var dqr_detail = new mmria.server.model.dqr.DQRDetail();
+        var dqr_detail = new mmria.pmss.server.model.dqr.DQRDetail();
 
         //dqr_detail.case_folder = "";
         //dqr_detail.record_id = ""; //'OR-2019-4806',

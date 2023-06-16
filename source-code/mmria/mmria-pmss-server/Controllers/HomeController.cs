@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 public sealed class HomeController : Controller
 {

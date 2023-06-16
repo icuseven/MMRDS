@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.authentication;
+namespace mmria.pmss.server.authentication;
 
 public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 {
@@ -37,14 +37,14 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
 
-            mmria.server.model.actor.Session_MessageDTO session_message = null;
+            mmria.pmss.server.model.actor.Session_MessageDTO session_message = null;
             try
             {
                 string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
-                var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+                var session_message_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                 var responseFromServer =  session_message_curl.execute();
 
-                session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
+                session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.actor.Session_MessageDTO>(responseFromServer);
 
             }
             catch(System.Exception ex)
@@ -94,7 +94,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                     {
                         string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
                         
-                        var session_put_curl = new mmria.server.cURL("PUT", null, request_string, session_message_json, config_timer_user_name, config_timer_password);
+                        var session_put_curl = new mmria.pmss.server.cURL("PUT", null, request_string, session_message_json, config_timer_user_name, config_timer_password);
                         var responseFromServer =  session_put_curl.execute();
 
                         var response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer); 
@@ -126,7 +126,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                     }
                 }
 
-                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(session_message.user_id).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(session_message.user_id).Select( jr => jr.role_name).Distinct())
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                 }

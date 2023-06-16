@@ -7,7 +7,7 @@ using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class pinned_casesController : ControllerBase

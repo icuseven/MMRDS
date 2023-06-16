@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class user_role_jurisdiction_viewController: ControllerBase
@@ -71,7 +71,7 @@ effective_end_date
 
 
 
-        var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
 
 
 
@@ -277,7 +277,7 @@ effective_end_date
         }
 
 
-        var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
         string sort_view = sort.ToLower ();
         switch (sort_view)
         {

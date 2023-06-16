@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace mmria.server.model.dqr;
+namespace mmria.pmss.server.model.dqr;
 
 
 public sealed class DQRDetail_2

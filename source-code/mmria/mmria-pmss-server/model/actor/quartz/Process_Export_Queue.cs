@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Process_Export_Queue : UntypedActor
 {
@@ -242,7 +242,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 try
                 {
                 
-                    mmria.server.utils.core_element_exporter core_element_exporter = new mmria.server.utils.core_element_exporter(scheduleInfoMessage);
+                    mmria.pmss.server.utils.core_element_exporter core_element_exporter = new mmria.pmss.server.utils.core_element_exporter(scheduleInfoMessage);
                     core_element_exporter.Execute(item_to_process);
                 }
                 catch(Exception ex)
@@ -274,7 +274,7 @@ public sealed class Process_Export_Queue : UntypedActor
 
                 try
                 {
-                    mmria.server.utils.mmrds_exporter mmrds_exporter = new mmria.server.utils.mmrds_exporter(scheduleInfoMessage);
+                    mmria.pmss.server.utils.mmrds_exporter mmrds_exporter = new mmria.pmss.server.utils.mmrds_exporter(scheduleInfoMessage);
                     if(!mmrds_exporter.Execute(item_to_process))
                     {
                         System.Console.WriteLine ("exporter failed to finish");
@@ -305,7 +305,7 @@ public sealed class Process_Export_Queue : UntypedActor
 
                 try
                 {
-                    mmria.server.utils.mmrds_exporter mmrds_exporter = new mmria.server.utils.mmrds_exporter (scheduleInfoMessage);
+                    mmria.pmss.server.utils.mmrds_exporter mmrds_exporter = new mmria.pmss.server.utils.mmrds_exporter (scheduleInfoMessage);
                     //mmrds_exporter.Execute (item_to_process);
                     if(!mmrds_exporter.Execute(item_to_process))
                     {
@@ -338,7 +338,7 @@ public sealed class Process_Export_Queue : UntypedActor
 
                 try
                 {
-                    mmria.server.utils.exporter custom_exporter = new mmria.server.utils.exporter (scheduleInfoMessage);
+                    mmria.pmss.server.utils.exporter custom_exporter = new mmria.pmss.server.utils.exporter (scheduleInfoMessage);
                     //mmrds_exporter.Execute (item_to_process);
                     if(!custom_exporter.Execute(item_to_process))
                     {

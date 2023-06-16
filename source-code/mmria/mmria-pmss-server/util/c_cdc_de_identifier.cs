@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_cdc_de_identifier
 {

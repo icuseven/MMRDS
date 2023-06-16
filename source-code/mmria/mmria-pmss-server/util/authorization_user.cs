@@ -6,7 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class authorization_user
 {
@@ -21,7 +21,7 @@ public sealed class authorization_user
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
 
 
         string jurisdicion_view_url = $"{Program.config_couchdb_url}/{Program.db_prefix}jurisdiction/_design/sortable/_view/by_user_id?{p_user.name}";
@@ -84,7 +84,7 @@ public sealed class authorization_user
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
             
         foreach(var jurisdiction_item in  jurisdiction_hashset)
         {

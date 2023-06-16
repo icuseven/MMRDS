@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_sync_document
 {
@@ -101,7 +101,7 @@ public sealed class c_sync_document
         }
         else
         {
-            de_identified_json = await new mmria.server.utils.c_de_identifier(document_json).executeAsync();
+            de_identified_json = await new mmria.pmss.server.utils.c_de_identifier(document_json).executeAsync();
 
             if(string.IsNullOrEmpty(de_identified_json))
             {
@@ -175,7 +175,7 @@ public sealed class c_sync_document
 
         try
         {
-            string aggregate_json = new mmria.server.utils.c_convert_to_report_object(document_json).execute();
+            string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json).execute();
 
             string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
 
@@ -214,7 +214,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json).execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -261,7 +261,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -309,7 +309,7 @@ public sealed class c_sync_document
 
         try
         {
-            string dqr_detail_report_json = new mmria.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail").execute();
+            string dqr_detail_report_json = new mmria.pmss.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail").execute();
 
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
@@ -365,7 +365,7 @@ public sealed class c_sync_document
 
         try
         {
-            string freq_detail_report_json = new mmria.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail").execute();
+            string freq_detail_report_json = new mmria.pmss.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail").execute();
 
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {

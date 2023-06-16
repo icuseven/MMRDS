@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public enum ResourceRightEnum
 {

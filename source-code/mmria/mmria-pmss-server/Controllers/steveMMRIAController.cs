@@ -12,7 +12,7 @@ using Akka.Actor;
 using System.Security.Claims;
 
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles = "cdc_admin,steve_mmria")]
 public sealed class steveMMRIAController : Controller
@@ -160,7 +160,7 @@ public sealed class steveMMRIAController : Controller
 
             request.seaBucketKMSKey = Configuration["steve_api:sea_bucket_kms_key"];
             request.clientName = Configuration["steve_api:client_name"];
-            request.clientSecretKey = Configuration["steve_api:client_secreat_key"];
+            request.clientSecretKey = Configuration["steve_api:client_secret_key"];
             request.base_url = Configuration["steve_api:base_url"];
             request.download_directory = download_directory;
             request.file_name = GetFileName(request.Mailbox);

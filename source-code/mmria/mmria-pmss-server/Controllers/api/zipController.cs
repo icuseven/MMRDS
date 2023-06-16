@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor,data_analyst")]
 [Route("api/[controller]")]

@@ -7,7 +7,7 @@ using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class version_code_genController: ControllerBase
@@ -68,7 +68,7 @@ public sealed class version_code_genController: ControllerBase
             var payload_string = Newtonsoft.Json.JsonConvert.SerializeObject(byName["payload"], settings);
 
 
-            generatedFile = await GenerateFileAsync(payload_string);
+            //generatedFile = await GenerateFileAsync(payload_string);
 
         }
         catch(Exception ex)
@@ -82,7 +82,7 @@ public sealed class version_code_genController: ControllerBase
 */
         return Content(generatedFile, "text/plain");
     }
-
+/*
     async Task<string> GenerateFileAsync(string schemaJson)
     {
             string result = null;
@@ -103,7 +103,7 @@ public sealed class version_code_genController: ControllerBase
 //NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.
             return result;
     }
-
+*/
 } 
 
 

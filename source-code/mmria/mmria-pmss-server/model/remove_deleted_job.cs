@@ -8,7 +8,7 @@ using Quartz;
 using Quartz.Impl;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public sealed class remove_deleted_job : IJob
 {
@@ -32,13 +32,13 @@ public sealed class remove_deleted_job : IJob
 
         JobKey jobKey = context.JobDetail.Key;
         //log.DebugFormat("iCIMS_Data_Call_Job says: Starting {0} executing at {1}", jobKey, DateTime.Now.ToString("r"));
-        mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
+        mmria.pmss.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence);
 
         Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
         
         if (Program.Last_Change_Sequence != latest_change_set.last_seq)
         {
-            foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
+            foreach (mmria.pmss.server.model.couchdb.c_seq seq in latest_change_set.results)
             {
                 if (response_results.ContainsKey (seq.id)) 
                 {
@@ -98,7 +98,7 @@ public sealed class remove_deleted_job : IJob
                     {
                         try
                         {
-                            mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, null, "DELETE");
+                            mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE");
                             sync_document.executeAsync ();
                             
         
@@ -121,7 +121,7 @@ public sealed class remove_deleted_job : IJob
                             document_json = document_curl.execute ();
                             if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                             {
-                                mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, document_json);
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json);
                                 sync_document.executeAsync ();
                             }
         
@@ -160,10 +160,10 @@ public sealed class remove_deleted_job : IJob
 
 
 
-    public mmria.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence)
+    public mmria.pmss.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence)
     {
 
-        mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
+        mmria.pmss.server.model.couchdb.c_change_result result = new mmria.pmss.server.model.couchdb.c_change_result();
         string url = null;
 
         if (string.IsNullOrWhiteSpace(p_last_sequence))
@@ -177,7 +177,7 @@ public sealed class remove_deleted_job : IJob
         var curl = new cURL ("GET", null, url, null, this.user_name, this.user_value);
         string res = curl.execute();
         
-        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_change_result>(res);
         //System.Console.WriteLine("get_job_info.last_seq");
         //System.Console.WriteLine(result.last_seq);
 

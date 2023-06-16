@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
    
 public sealed class Process_Central_Pull_list : UntypedActor
 {
@@ -163,7 +163,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
 
                     try
                     {
-                        var Report_Opioid_Index = new mmria.server.utils.c_document_sync_all.Report_Opioid_Index_Struct();
+                        var Report_Opioid_Index = new mmria.pmss.server.utils.c_document_sync_all.Report_Opioid_Index_Struct();
                         string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
                         var create_report_index_curl = new cURL ("POST", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_index", index_json, Program.config_timer_user_name, Program.config_timer_value);
                         create_report_index_curl.execute();
@@ -223,7 +223,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                     var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
                                     var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
-                                    var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json, instance_name).executeAsync().GetAwaiter().GetResult();
+                                    var de_identified_json = new mmria.pmss.server.utils.c_cdc_de_identifier(document_json, instance_name).executeAsync().GetAwaiter().GetResult();
                                     
                                     var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
 
@@ -248,13 +248,13 @@ public sealed class Process_Central_Pull_list : UntypedActor
 
                                     if(result.ok)
                                     {
-                                        var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+                                        var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
                                         (
                                             _id,
                                             de_identified_json
                                         );
 
-                                        Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                        Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
                                     }
 
                                 }

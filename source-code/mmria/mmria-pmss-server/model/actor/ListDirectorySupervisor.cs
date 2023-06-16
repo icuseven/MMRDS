@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using Akka.Actor;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 
 /*
 public sealed class ListDirectoryMessage

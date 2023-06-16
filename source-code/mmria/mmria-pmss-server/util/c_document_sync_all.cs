@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_document_sync_all
 {
@@ -223,7 +223,7 @@ public sealed class Report_PowerBI_Index_Struct
         
         }
 
-        var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
+        var curl = new mmria.pmss.server.cURL ("GET", null, this.couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
         string res = await curl.executeAsync ();
 /*
 {
@@ -266,7 +266,7 @@ public sealed class Report_PowerBI_Index_Struct
                             if (document_id.IndexOf ("_design/") < 0)
                             {
                                 string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-                                mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json);
+                                mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json);
                                 await sync_document.executeAsync ();
                             }
                         }

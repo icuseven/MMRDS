@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Synchronize_Deleted_Case_Records : UntypedActor
 {
@@ -19,13 +19,13 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
         switch (message)
         {
             case ScheduleInfoMessage scheduleInfo:
-            mmria.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence, scheduleInfo);
+            mmria.pmss.server.model.couchdb.c_change_result latest_change_set = GetJobInfo(Program.Last_Change_Sequence, scheduleInfo);
 
             Dictionary<string, KeyValuePair<string,bool>> response_results = new Dictionary<string, KeyValuePair<string,bool>> (StringComparer.OrdinalIgnoreCase);
             
             if (Program.Last_Change_Sequence != latest_change_set.last_seq)
             {
-                foreach (mmria.server.model.couchdb.c_seq seq in latest_change_set.results)
+                foreach (mmria.pmss.server.model.couchdb.c_seq seq in latest_change_set.results)
                 {
                     if (response_results.ContainsKey (seq.id)) 
                     {
@@ -85,7 +85,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                         {
                             try
                             {
-                                mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, null, "DELETE");
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE");
                                 await sync_document.executeAsync ();
                                 
             
@@ -108,7 +108,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                                 document_json = document_curl.execute ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, document_json);
+                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json);
                                     await sync_document.executeAsync ();
                                 }
             
@@ -128,10 +128,10 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
 
     }
 
-    public mmria.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence, ScheduleInfoMessage p_scheduleInfo)
+    public mmria.pmss.server.model.couchdb.c_change_result GetJobInfo(string p_last_sequence, ScheduleInfoMessage p_scheduleInfo)
     {
 
-        mmria.server.model.couchdb.c_change_result result = new mmria.server.model.couchdb.c_change_result();
+        mmria.pmss.server.model.couchdb.c_change_result result = new mmria.pmss.server.model.couchdb.c_change_result();
         string url = null;
 
         if (string.IsNullOrWhiteSpace(p_last_sequence))
@@ -145,7 +145,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
         var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.user_value);
         string res = curl.execute();
         
-        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result>(res);
+        result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_change_result>(res);
 
         return result;
     }

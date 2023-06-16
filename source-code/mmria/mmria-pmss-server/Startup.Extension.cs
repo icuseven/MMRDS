@@ -1,4 +1,4 @@
-namespace mmria.server.extension;
+namespace mmria.pmss.server.extension;
 public static class StartupExtension
 {
     public static void SetIfIsNotNullOrWhiteSpace(this string @this, ref bool that)

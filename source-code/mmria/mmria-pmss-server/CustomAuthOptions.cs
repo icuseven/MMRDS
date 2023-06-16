@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Primitives;
 
-namespace mmria.server.authentication;
+namespace mmria.pmss.server.authentication;
 
 public sealed class CustomAuthOptions : AuthenticationSchemeOptions
 {

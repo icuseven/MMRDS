@@ -4,7 +4,7 @@ using System.Linq;
 
 using mmria.getset;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_generate_frequency_summary_report
 {
@@ -31,7 +31,7 @@ public sealed class c_generate_frequency_summary_report
         public SetDetailContext() {}
 
         public System.Dynamic.ExpandoObject source_object { get; set; }
-        public mmria.server.model.SummaryReport.FrequencySummaryDocument FrequencySummaryDocument { get; set; }
+        public mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument FrequencySummaryDocument { get; set; }
     }
 
 /*
@@ -210,7 +210,7 @@ prenatal/routine_monitoring/date_and_time
         //migrate.C_Get_Set_Value.get_grid_value_result grid_value_result = null;
         migrate.C_Get_Set_Value.get_value_result value_result = null;
 
-        var FrequencySummaryDocument = new mmria.server.model.SummaryReport.FrequencySummaryDocument();
+        var FrequencySummaryDocument = new mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument();
 
 
         value_result = gs.get_value(source_object, "_id");
@@ -495,10 +495,10 @@ prenatal/routine_monitoring/date_and_time
 
                 var gs = new migrate.C_Get_Set_Value(new ());
 
-                List<mmria.server.model.SummaryReport.Detail> set_single_value_detail()
+                List<mmria.pmss.server.model.SummaryReport.Detail> set_single_value_detail()
                 {
 
-                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    var result = new List<mmria.pmss.server.model.SummaryReport.Detail>();
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_value(Context.source_object, path);
@@ -521,7 +521,7 @@ prenatal/routine_monitoring/date_and_time
                                         !string.IsNullOrWhiteSpace(i.ToString())
                                     )
                                     {
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = i.ToString();
                                         item.count = 1;
 
@@ -530,7 +530,7 @@ prenatal/routine_monitoring/date_and_time
                                     else
                                     {
                                         /*
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = value_result.result.ToString();
                                         item.count = 1;
                                         
@@ -543,7 +543,7 @@ prenatal/routine_monitoring/date_and_time
                             }
                             else
                             {
-                                var item = new mmria.server.model.SummaryReport.Detail();
+                                var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                 if
                                 (
                                     string.IsNullOrWhiteSpace(value_result.result.ToString()))
@@ -563,7 +563,7 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-                            var item = new mmria.server.model.SummaryReport.Detail();
+                            var item = new mmria.pmss.server.model.SummaryReport.Detail();
                             item.value = "(-)";
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -574,10 +574,10 @@ prenatal/routine_monitoring/date_and_time
                 }
 
 
-                List<mmria.server.model.SummaryReport.Detail> set_single_grid_value_detail()
+                List<mmria.pmss.server.model.SummaryReport.Detail> set_single_grid_value_detail()
                 {
 
-                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    var result = new List<mmria.pmss.server.model.SummaryReport.Detail>();
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_grid_value(Context.source_object, path);
@@ -600,7 +600,7 @@ prenatal/routine_monitoring/date_and_time
                                     )
                                     {
                                         
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = i.ToString();
                                         item.count = 1;
 
@@ -608,7 +608,7 @@ prenatal/routine_monitoring/date_and_time
                                     }
                                     else
                                     {
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = "(-)";
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -619,7 +619,7 @@ prenatal/routine_monitoring/date_and_time
                             }
                             else
                             {
-                                var item = new mmria.server.model.SummaryReport.Detail();
+                                var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
                                     item.value = "(-)";
@@ -635,7 +635,7 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-                            var item = new mmria.server.model.SummaryReport.Detail();
+                            var item = new mmria.pmss.server.model.SummaryReport.Detail();
                             item.value = "(-)";
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -646,10 +646,10 @@ prenatal/routine_monitoring/date_and_time
                 }
 
 
-                List<mmria.server.model.SummaryReport.Detail> set_multi_form_value_detail()
+                List<mmria.pmss.server.model.SummaryReport.Detail> set_multi_form_value_detail()
                 {
 
-                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    var result = new List<mmria.pmss.server.model.SummaryReport.Detail>();
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_multiform_value(Context.source_object, path);
@@ -672,7 +672,7 @@ prenatal/routine_monitoring/date_and_time
                                     )
                                     {
                                         
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = i.ToString();
                                         item.count = 1;
 
@@ -680,7 +680,7 @@ prenatal/routine_monitoring/date_and_time
                                     }
                                     else
                                     {
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = "(-)";
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -691,7 +691,7 @@ prenatal/routine_monitoring/date_and_time
                             }
                             else
                             {
-                                var item = new mmria.server.model.SummaryReport.Detail();
+                                var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
                                     item.value = "(-)";
@@ -708,7 +708,7 @@ prenatal/routine_monitoring/date_and_time
                         }
                         else
                         {
-                            var item = new mmria.server.model.SummaryReport.Detail();
+                            var item = new mmria.pmss.server.model.SummaryReport.Detail();
                             item.value = "(-)";
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -719,10 +719,10 @@ prenatal/routine_monitoring/date_and_time
                 }
 
 
-                List<mmria.server.model.SummaryReport.Detail> set_multi_form_grid_value_detail()
+                List<mmria.pmss.server.model.SummaryReport.Detail> set_multi_form_grid_value_detail()
                 {
 
-                    var result = new List<mmria.server.model.SummaryReport.Detail>();
+                    var result = new List<mmria.pmss.server.model.SummaryReport.Detail>();
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_multiform_grid_value(Context.source_object, path);
@@ -745,7 +745,7 @@ prenatal/routine_monitoring/date_and_time
                                     )
                                     {
                                         
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = i.ToString();
                                         item.count = 1;
 
@@ -753,7 +753,7 @@ prenatal/routine_monitoring/date_and_time
                                     }
                                     else
                                     {
-                                        var item = new mmria.server.model.SummaryReport.Detail();
+                                        var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                         item.value = "(-)";
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -764,7 +764,7 @@ prenatal/routine_monitoring/date_and_time
                             }
                             else
                             {
-                                var item = new mmria.server.model.SummaryReport.Detail();
+                                var item = new mmria.pmss.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
                                     item.value = "(-)";

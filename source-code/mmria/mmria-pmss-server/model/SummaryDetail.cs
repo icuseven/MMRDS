@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace mmria.server.model.SummaryReport;
+namespace mmria.pmss.server.model.SummaryReport;
 
 
 public sealed class Detail

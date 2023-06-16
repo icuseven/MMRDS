@@ -6,7 +6,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class authorization_case
 {
@@ -21,7 +21,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -79,7 +79,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
 
         
         foreach(var jurisdiction_item in jurisdiction_hashset)

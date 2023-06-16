@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed partial class exporter
 {
@@ -55,13 +55,13 @@ private const int max_qualitative_length = 31000;
 
 private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit folder for details.";
 
-private mmria.server.model.actor.ScheduleInfoMessage Configuration;
+private mmria.pmss.server.model.actor.ScheduleInfoMessage Configuration;
 
-public exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
+public exporter(mmria.pmss.server.model.actor.ScheduleInfoMessage configuration)
 {
     this.Configuration = configuration;
 }
-public bool Execute(mmria.server.export_queue_item queue_item)
+public bool Execute(mmria.pmss.server.export_queue_item queue_item)
 {
 
     try
@@ -379,7 +379,7 @@ if(multiform_field_list.Count > 0)
     List<System.Dynamic.ExpandoObject> cases_to_process = new List<System.Dynamic.ExpandoObject>();
 
 
-    var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+    var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
 
 
     if (queue_item.case_filter_type != "custom")
@@ -388,7 +388,7 @@ if(multiform_field_list.Count > 0)
         {
             string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string case_view_responseFromServer = case_view_curl.execute();
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
@@ -444,7 +444,7 @@ if(multiform_field_list.Count > 0)
             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
             {
             is_jurisdiction_ok = true;
             break;
@@ -1275,7 +1275,7 @@ if(multiform_field_list.Count > 0)
     mapping_look_up_document.WriteToStream();
 
 
-    mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+    mmria.pmss.server.utils.cFolderCompressor folder_compressor = new mmria.pmss.server.utils.cFolderCompressor();
 
 
     string encryption_key = null;

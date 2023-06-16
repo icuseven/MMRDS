@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace mmria.server.model.year_of_death;
+namespace mmria.pmss.server.model.year_of_death;
 
 public sealed class YearOfDeathRequest
 {

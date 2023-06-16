@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class queueController: ControllerBase

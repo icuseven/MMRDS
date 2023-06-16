@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 public sealed class Sync_Document_Message
 {
     public Sync_Document_Message (string p_document_id, string p_document_json, string p_method = "PUT")
@@ -43,7 +43,7 @@ public sealed class Synchronize_Case : UntypedActor
             case Sync_Document_Message sync_document_message:
 
 
-            var sync_document = new mmria.server.utils.c_sync_document (sync_document_message.document_id, sync_document_message.document_json, sync_document_message.method);
+            var sync_document = new mmria.pmss.server.utils.c_sync_document (sync_document_message.document_id, sync_document_message.document_json, sync_document_message.method);
 
             try
             {
@@ -58,7 +58,7 @@ public sealed class Synchronize_Case : UntypedActor
 
             case Sync_All_Documents_Message sync_all_documents_message:
 
-                mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
+                mmria.pmss.server.utils.c_document_sync_all sync_all = new mmria.pmss.server.utils.c_document_sync_all (
                                                                         Program.config_couchdb_url,
                                                                         Program.config_timer_user_name,
                                                                         Program.config_timer_value

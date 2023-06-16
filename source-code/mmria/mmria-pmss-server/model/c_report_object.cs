@@ -1,5 +1,5 @@
 ﻿using System;
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public struct timing_of_death_in_relation_to_pregnancy_struct
 {

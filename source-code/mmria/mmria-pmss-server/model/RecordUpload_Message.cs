@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public sealed class RecordUpload_Message
 {

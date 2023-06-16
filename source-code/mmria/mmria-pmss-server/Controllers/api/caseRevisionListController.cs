@@ -10,7 +10,7 @@ using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
 using mmria.common.model.couchdb.recover_doc;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 	
 [Route("api/[controller]")]

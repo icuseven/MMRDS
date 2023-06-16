@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
-using mmria.server.model;
+using mmria.pmss.server.model;
 
 
 namespace VitalsImport_FileUpload.Controllers;

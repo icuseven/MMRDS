@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("api/[controller]")]
@@ -29,7 +29,7 @@ public sealed class syncController: ControllerBase
                 try 
                 {
                     
-                    mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
+                    mmria.pmss.server.utils.c_document_sync_all sync_all = new mmria.pmss.server.utils.c_document_sync_all (
                                                                         Program.config_couchdb_url,
                                                                         Program.config_timer_user_name,
                                                                         Program.config_timer_value

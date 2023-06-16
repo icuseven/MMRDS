@@ -6,7 +6,7 @@ using System.Net.Mail;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.utils.email;
+namespace mmria.pmss.server.utils.email;
 
 public sealed class Email_Handler
 { 

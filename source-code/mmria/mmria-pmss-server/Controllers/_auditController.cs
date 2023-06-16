@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using mmria.common.functional;
-using mmria.server;
+using mmria.pmss.server;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 public sealed class Audit_View
 {

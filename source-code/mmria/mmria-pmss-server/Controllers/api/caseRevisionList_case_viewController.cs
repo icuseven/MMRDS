@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("api/[controller]")]

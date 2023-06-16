@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor.quartz;
+using mmria.pmss.server.model.actor.quartz;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 
 public sealed class ScheduleInfoMessage
 {
@@ -71,7 +71,7 @@ public sealed class QuartzSupervisor : UntypedActor
 
             
             
-                mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
+                mmria.pmss.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
                         Program.config_cron_schedule,
                         Program.config_couchdb_url,
@@ -187,7 +187,7 @@ public sealed class CheckForChanges : UntypedActor
                     //Program.sched = sf.GetScheduler ();
                     DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
-                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
+                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.pmss.server.model.check_for_changes_job> ()
                                                                         .WithIdentity ("check_for_changes_job", "group1")
                                                                         .Build ();
 
@@ -205,7 +205,7 @@ public sealed class CheckForChanges : UntypedActor
 
 
 
-                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
+                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.pmss.server.model.rebuild_queue_job> ()
                                                                     .WithIdentity ("rebuild_queue_job", "group2")
                                                                     .Build ();
 

@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace mmria.server.model.casestatus;
+namespace mmria.pmss.server.model.casestatus;
 
 public sealed class CaseStatusRequest
 {

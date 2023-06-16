@@ -11,7 +11,7 @@ using System.Security.Claims;
 
 //https://wiki.apache.org/couchdb/Session_API
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class sessionController: ControllerBase

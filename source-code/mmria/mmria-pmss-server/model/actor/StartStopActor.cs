@@ -1,7 +1,7 @@
 ﻿using System;
 using Akka.Actor;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 
 public sealed class StartStopActor1 : UntypedActor
 {

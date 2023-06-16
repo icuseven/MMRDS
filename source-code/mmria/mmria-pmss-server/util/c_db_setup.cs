@@ -5,7 +5,7 @@ using Serilog.Configuration;
 using System.Threading.Tasks;
 using Akka.Actor;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class c_db_setup
 {
@@ -255,18 +255,18 @@ public sealed class c_db_setup
             {
                 var sync_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes", null, Program.config_timer_user_name, Program.config_timer_value);
                 string res = await sync_curl.executeAsync ();
-                mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
+                mmria.pmss.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_change_result> (res);
 
                 Program.Last_Change_Sequence = latest_change_set.last_seq;
 
 
 
-                var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
+                var Sync_All_Documents_Message = new mmria.pmss.server.model.actor.Sync_All_Documents_Message
                 (
                     DateTime.Now
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
 
 
                 //new System.Threading.Thread(() => 
@@ -274,12 +274,12 @@ public sealed class c_db_setup
 
                     //System.Threading.Thread.CurrentThread.IsBackground = true;
                     /*
-                    var Process_All_Migrations_Message = new mmria.server.model.actor.quartz.Process_Initial_Migrations_Message
+                    var Process_All_Migrations_Message = new mmria.pmss.server.model.actor.quartz.Process_Initial_Migrations_Message
                     (
                         DateTime.Now
                     );
 
-                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
+                    _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_All_Migrations_Message);
                     */
                     //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Migrate_Data").Tell(Process_All_Migrations_Message);
                 //});

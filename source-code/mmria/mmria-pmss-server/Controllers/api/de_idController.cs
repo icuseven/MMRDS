@@ -7,7 +7,7 @@ using System.Dynamic;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "committee_member")]
 [Route("api/[controller]")]

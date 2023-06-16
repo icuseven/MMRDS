@@ -1,6 +1,6 @@
 using System;
 
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public sealed class ErrorViewModel
 {

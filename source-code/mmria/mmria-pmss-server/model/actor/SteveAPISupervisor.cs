@@ -8,7 +8,7 @@ using System.Text;
 using Akka.Actor;
 using mmria.common.steve;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 public sealed class SteveAPISupervisor : ReceiveActor
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mmria.server.model.couchdb;
+namespace mmria.pmss.server.model.couchdb;
 
 public sealed class c_change
 {

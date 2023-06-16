@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Akka.Actor;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "cdc_admin")]
 [Route("broadcast-message/{action=Index}")]

@@ -12,7 +12,7 @@ using System.Security.Claims;
 using mmria.common.model;
 using Akka.Actor;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "form_designer")]
 [Route("api/[controller]")]
@@ -29,7 +29,7 @@ public sealed class migration_planController: ControllerBase
     public void Run(string id) 
     { 
 
-        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(id);
+        _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Migrate_Data>()).Tell(id);
         //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Migrate_Data").Tell(id);
 
     }

@@ -27,7 +27,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Akka.Actor;
 
-using mmria.server.Controllers;
+using mmria.pmss.server.Controllers;
 
 
 /*
@@ -217,7 +217,7 @@ public sealed partial class AccountController : Controller
         try
         {
             string request_string = config_couchdb_url + "/_users/" + System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + email.ToLower());
-            var user_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
+            var user_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
             var responseFromServer = await user_curl.executeAsync();
 
             user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -255,7 +255,7 @@ public sealed partial class AccountController : Controller
 
                 string user_db_url = config_couchdb_url + "/_users/"  + user._id;
 
-                var user_curl = new mmria.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_value);
+                var user_curl = new mmria.pmss.server.cURL("PUT", null, user_db_url, object_string, config_timer_user_name, config_timer_value);
                 var responseFromServer = await user_curl.executeAsync();
                 user_save_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
@@ -306,15 +306,15 @@ public sealed partial class AccountController : Controller
             create_user_principal(this.HttpContext, user.name, new List<string>(), unix_time.DateTime);
 
 
-            var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+            var Session_Event_Message = new mmria.pmss.server.model.actor.Session_Event_Message
             (
                 DateTime.Now,
                 user.name,
                 this.GetRequestIP(),
-                mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login
+                mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
 
             List<string> role_list = new List<string>();
@@ -326,13 +326,13 @@ public sealed partial class AccountController : Controller
                 }
             }
 
-            foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
+            foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
             {
                 role_list.Add(role);
             }
 
             var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes);
-            var Session_Message = new mmria.server.model.actor.Session_Message
+            var Session_Message = new mmria.pmss.server.model.actor.Session_Message
             (
                 Guid.NewGuid().ToString(), //_id = 
                 null, //_rev = 
@@ -357,7 +357,7 @@ public sealed partial class AccountController : Controller
 
             string request_string = config_couchdb_url + $"/{_configuration["mmria_settings:db_prefix"]}session/{Session_Message._id}";
 
-            mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
+            mmria.pmss.server.cURL document_curl = new mmria.pmss.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
 
             try
             {
@@ -366,7 +366,7 @@ public sealed partial class AccountController : Controller
 
                 if(result.ok)
                 {
-                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                    _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Post_Session>()).Tell(Session_Message);
                     Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
                     Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
@@ -456,7 +456,7 @@ public sealed partial class AccountController : Controller
         }
 
 
-        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+        foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed partial class exporter
 {

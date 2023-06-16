@@ -6,7 +6,7 @@ using System.Dynamic;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class de_identified_listController: ControllerBase 

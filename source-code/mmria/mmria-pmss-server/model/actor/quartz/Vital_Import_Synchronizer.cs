@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Vital_Import_Synchronizer : UntypedActor
 {
@@ -128,7 +128,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                                 var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
                                 var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
-                                var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
+                                var de_identified_json = new mmria.pmss.server.utils.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
                                 
                                 var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
 
@@ -153,13 +153,13 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
 
                                 if(result.ok)
                                 {
-                                    var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+                                    var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
                                     (
                                         _id,
                                         de_identified_json
                                     );
 
-                                    Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                    Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
                                 }
 
                             }

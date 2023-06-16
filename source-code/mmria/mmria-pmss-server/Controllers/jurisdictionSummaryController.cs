@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles = "installation_admin,cdc_admin")]
 public sealed class jurisdictionSummaryController : Controller
@@ -24,7 +24,7 @@ public sealed class jurisdictionSummaryController : Controller
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
     {
 
-        var result = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+        var result = new mmria.pmss.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
         return View(await result.execute(cancellationToken));
     }
@@ -33,11 +33,11 @@ public sealed class jurisdictionSummaryController : Controller
     public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
     {
 
-        var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+        var summary_list = new mmria.pmss.server.utils.JurisdictionSummary(configuration, ConfigDB);
 
         var summary_row_list = await summary_list.execute(cancellationToken);
 
-        FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem item)
+        FastExcel.Row ConvertToDetail(int p_row_number, mmria.pmss.server.utils.JurisdictionSummaryItem item)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -82,7 +82,7 @@ public sealed class jurisdictionSummaryController : Controller
             var rows = new System.Collections.Generic.List<FastExcel.Row>();
 
             var row_number = 1;
-            var total = new mmria.server.utils.JurisdictionSummaryItem();
+            var total = new mmria.pmss.server.utils.JurisdictionSummaryItem();
 
 /*
             var header1 = new List<FastExcel.Cell>();

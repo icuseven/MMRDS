@@ -19,7 +19,7 @@ using Akka.Actor;
 //https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
 //https://docs.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-2.1
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 
 public sealed partial class AccountController : Controller
@@ -296,7 +296,7 @@ public sealed partial class AccountController : Controller
                 }
 
 
-                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                 }
@@ -325,25 +325,25 @@ public sealed partial class AccountController : Controller
                 System.Threading.Thread.CurrentPrincipal = userPrincipal;
         
 
-                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
                 {
                     role_list.Add(role);
                 }
 
-                var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+                var Session_Event_Message = new mmria.pmss.server.model.actor.Session_Event_Message
                 (
                     DateTime.Now,
                     user.UserName,
                     this.GetRequestIP(),
-                    json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
+                    json_result.ok && json_result.name != null? mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
 
                 var session_data = new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
                 var session_expiration_datetime =  DateTime.Now.AddMinutes(session_idle_timeout_minutes);
-                var Session_Message = new mmria.server.model.actor.Session_Message
+                var Session_Message = new mmria.pmss.server.model.actor.Session_Message
                 (
                     Guid.NewGuid().ToString(), //_id = 
                     null, //_rev = 
@@ -370,7 +370,7 @@ public sealed partial class AccountController : Controller
 
                 request_string = config_couchdb_url + $"/{_configuration["mmria_settings:db_prefix"]}session/{Session_Message._id}";
 
-                mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
+                mmria.pmss.server.cURL document_curl = new mmria.pmss.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
 
                 try
                 {
@@ -379,7 +379,7 @@ public sealed partial class AccountController : Controller
 
                     if(put_session_result.ok)
                     {
-                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                        _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Post_Session>()).Tell(Session_Message);
                         Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
                         //Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
@@ -424,15 +424,15 @@ public sealed partial class AccountController : Controller
         {
             Console.WriteLine (ex);
 
-            var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+            var Session_Event_Message = new mmria.pmss.server.model.actor.Session_Event_Message
             (
                 DateTime.Now,
                 user.UserName,
                 this.GetRequestIP(),
-                mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
+                mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
         } 
 /*
@@ -464,17 +464,17 @@ public sealed partial class AccountController : Controller
             var config_timer_password = _configuration["mmria_settings:timer_password"];
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
-            mmria.server.model.actor.Session_MessageDTO session_message = null;
+            mmria.pmss.server.model.actor.Session_MessageDTO session_message = null;
             try
             {
                 string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
                 System.Console.WriteLine($"Connection Refused on method: Get url: {request_string}");
             
                 
-                var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+                var session_message_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
                 var responseFromServer =  session_message_curl.execute();
 
-                session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
+                session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.actor.Session_MessageDTO>(responseFromServer);
 
             }
             catch(System.Exception ex)
@@ -485,7 +485,7 @@ public sealed partial class AccountController : Controller
 
             session_message.date_expired = DateTime.Now;
 
-            var Session_Message = new mmria.server.model.actor.Session_Message
+            var Session_Message = new mmria.pmss.server.model.actor.Session_Message
             (
                 session_message._id,
                 session_message._rev, //_rev = 
@@ -507,7 +507,7 @@ public sealed partial class AccountController : Controller
 
             System.Threading.Thread.CurrentPrincipal = null;
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Post_Session>()).Tell(Session_Message);
 
         if
         (
@@ -685,7 +685,7 @@ public sealed partial class AccountController : Controller
         }
 
 
-        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+        foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));

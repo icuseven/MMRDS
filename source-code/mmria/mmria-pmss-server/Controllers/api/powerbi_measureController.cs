@@ -7,7 +7,7 @@ using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/powerbi-measures/{indicator_id?}")]
 public sealed class powerbi_measureController: ControllerBase
@@ -15,7 +15,7 @@ public sealed class powerbi_measureController: ControllerBase
 
     public struct Result_Struct
     {
-        public mmria.server.model.c_opioid_report_object[] docs;
+        public mmria.pmss.server.model.c_opioid_report_object[] docs;
     }
 
     struct Selector_Struc
@@ -41,7 +41,7 @@ public sealed class powerbi_measureController: ControllerBase
     public async Task<Result_Struct> Get(string indicator_id)
     {
         Result_Struct result = new Result_Struct();
-        result.docs = new List<mmria.server.model.c_opioid_report_object>().ToArray();
+        result.docs = new List<mmria.pmss.server.model.c_opioid_report_object>().ToArray();
         
         
         var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
@@ -77,13 +77,13 @@ public sealed class powerbi_measureController: ControllerBase
             if(!string.IsNullOrWhiteSpace(indicator_id))
             {
 
-                List<mmria.server.model.c_opioid_report_object> new_list = new();
+                List<mmria.pmss.server.model.c_opioid_report_object> new_list = new();
                 var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
 
                 var regex = new System.Text.RegularExpressions.Regex("^" + indicator_id);
                 foreach(var doc in response_result.docs)
                 {
-                    var new_data = new System.Collections.Generic.List<mmria.server.model.opioid_report_value_struct>();
+                    var new_data = new System.Collections.Generic.List<mmria.pmss.server.model.opioid_report_value_struct>();
                     foreach(var item in doc.data)
                     {
                         if

@@ -6,7 +6,7 @@ using Quartz;
 using Quartz.Impl;
 using Quartz.Logging;
 
-namespace mmria.server.model;
+namespace mmria.pmss.server.model;
 
 public sealed class Pulse_job : IJob
 {

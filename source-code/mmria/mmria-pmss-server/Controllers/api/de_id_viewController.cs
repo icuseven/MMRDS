@@ -9,7 +9,7 @@ using mmria.common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "committee_member")]
 [Route("api/[controller]")]
@@ -38,7 +38,7 @@ public sealed class de_id_viewController: ControllerBase
     {
 
         var is_identefied_case = false;
-        var cvs = new mmria.server.utils.CaseViewSearch
+        var cvs = new mmria.pmss.server.utils.CaseViewSearch
         (
             configuration, 
             User,

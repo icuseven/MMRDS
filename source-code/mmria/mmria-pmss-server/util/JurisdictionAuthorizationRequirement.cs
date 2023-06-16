@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class JurisdictionAuthorizationRequirement : IAuthorizationRequirement
 {

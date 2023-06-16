@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 public sealed class export_queue_item
 {

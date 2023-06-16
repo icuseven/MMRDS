@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [AllowAnonymous] 
 [Route("privacy-policy")]

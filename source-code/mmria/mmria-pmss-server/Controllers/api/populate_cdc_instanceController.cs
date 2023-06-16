@@ -8,7 +8,7 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class populate_cdc_instanceController : ControllerBase
@@ -74,7 +74,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
         {
 
             //var localUrl = "https://localhost:44331/api/Message/IJESet";
-            //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+            //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
             //var messge_curl_result = await message_curl.executeAsync();
 
             string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
@@ -175,7 +175,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
             object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request_message, settings);
 
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
-                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+                //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
             string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
@@ -204,7 +204,7 @@ public sealed class populate_cdc_instanceController : ControllerBase
         try
         {
             string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 

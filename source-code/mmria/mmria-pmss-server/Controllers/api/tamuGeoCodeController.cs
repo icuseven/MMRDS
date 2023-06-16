@@ -13,7 +13,7 @@ using System.Security.Claims;
 
 using mmria.common.model;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize]
 [Route("api/[controller]")]

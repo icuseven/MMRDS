@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/[controller]")]
@@ -205,7 +205,7 @@ public sealed class export_queueController: ControllerBase
 
                 var juris_user_name = User.Claims.Where(c => c.Type == ClaimTypes.Name).FirstOrDefault().Value; 
 
-                mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
+                mmria.pmss.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.pmss.server.model.actor.ScheduleInfoMessage
                 (
                     Program.config_cron_schedule,
                     Program.config_couchdb_url,
@@ -217,8 +217,8 @@ public sealed class export_queueController: ControllerBase
 
                 );
 
-                //_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
+                //_actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
                 //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
             }
             else // if (!result.ok) 

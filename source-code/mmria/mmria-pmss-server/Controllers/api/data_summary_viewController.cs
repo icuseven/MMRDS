@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/data-summary/{skip}")]
@@ -39,9 +39,9 @@ public sealed class data_summary_viewControllerController: ControllerBase
     {
         configuration = p_configuration;
     }
-    public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>> Get(string skip)
+    public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument>> Get(string skip)
     {
-        var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>();
+        var result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument>();
         
         const int take = 100;
         int skip_number = 0;
@@ -65,11 +65,11 @@ public sealed class data_summary_viewControllerController: ControllerBase
             var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
             
-            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
 
 
-            List<mmria.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
+            List<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
 
             /*if(!string.IsNullOrWhiteSpace(skip))
             {

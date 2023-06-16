@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed partial class c_convert_to_report_object
 {
@@ -125,12 +125,12 @@ public sealed partial class c_convert_to_report_object
 
 
 
-        mmria.server.model.c_report_object report_object;
+        mmria.pmss.server.model.c_report_object report_object;
 
         System.Dynamic.ExpandoObject source_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (source_json);
         //dynamic source_object = Newtonsoft.Json.Linq.JObject.Parse(source_json);
 
-        report_object = new mmria.server.model.c_report_object ();
+        report_object = new mmria.pmss.server.model.c_report_object ();
         report_object._id = get_value (source_object, "_id").result?.ToString();
 
 
@@ -944,7 +944,7 @@ death_certificate/Race/race = Other
     }
 
 
-    private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_pregnancy_deaths_by_pregnant_at_time_of_death(ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
 /*
@@ -1209,7 +1209,7 @@ pregnancy_status <- list field
     }
 
 
-private void popluate_pregnancy_deaths_by_age (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+private void popluate_pregnancy_deaths_by_age (ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
 {
 deaths_by_age_enum age_enum = get_age_classifier (p_source_object);
 switch (age_enum) 
@@ -1305,7 +1305,7 @@ blank,
 }
 
 
-    private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_total_number_of_pregnancy_related_deaths_by_ethnicity (ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
         if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_related == 1)
         {
@@ -1429,7 +1429,7 @@ blank,
     }
 
 
-    private void popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_total_number_of_pregnancy_associated_deaths_by_ethnicity (ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
         if (p_report_object.total_number_of_cases_by_pregnancy_relatedness.pregnancy_associated_but_not_related == 1)
         {
@@ -1551,7 +1551,7 @@ blank,
     }
 
 
-    private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
+    private void popluate_total_number_of_cases_by_pregnancy_relatedness (ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object)
     {
 
         try
@@ -1669,7 +1669,7 @@ blank,
     }
 
 
-    private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, ref mmria.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object, string p_mmria_path, bool p_is_pregnance_related)
+    private void popluate_list (ref System.Collections.Generic.Dictionary<string, int> p_result, ref mmria.pmss.server.model.c_report_object p_report_object, System.Dynamic.ExpandoObject p_source_object, string p_mmria_path, bool p_is_pregnance_related)
     {
         var list = List_Look_Up["/" + p_mmria_path];
 

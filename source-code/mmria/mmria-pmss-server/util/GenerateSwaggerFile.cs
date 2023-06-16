@@ -1,6 +1,6 @@
 using System;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 public sealed class GenerateSwaggerFile
 {

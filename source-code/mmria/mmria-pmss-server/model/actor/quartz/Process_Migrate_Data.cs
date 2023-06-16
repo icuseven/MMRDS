@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Process_Initial_Migrations_Message
 {
@@ -43,12 +43,12 @@ public sealed class Process_Migrate_Data : UntypedActor
                         process_migration_plan_by_id(id);
                     }
 
-                    var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
+                    var Sync_All_Documents_Message = new mmria.pmss.server.model.actor.Sync_All_Documents_Message
                     (
                         DateTime.Now
                     );
                     
-                    Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+                    Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
                     */
                     /*
                     var case_sync_actor = Context.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 
-namespace mmria.server.model.actor.quartz;
+namespace mmria.pmss.server.model.actor.quartz;
 
 public sealed class Process_Migrate_Charactor_to_Numeric : UntypedActor
 {
@@ -18,12 +18,12 @@ public sealed class Process_Migrate_Charactor_to_Numeric : UntypedActor
 
                 process_charactor_to_numeric_migration();
 
-                var Process_Initial_Migrations_Message = new mmria.server.model.actor.quartz.Process_Initial_Migrations_Message
+                var Process_Initial_Migrations_Message = new mmria.pmss.server.model.actor.quartz.Process_Initial_Migrations_Message
                 (
                     DateTime.Now
                 );
 
-                Context.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_Initial_Migrations_Message);
+                Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Migrate_Data>()).Tell(Process_Initial_Migrations_Message);
                 //Context.ActorSelection("akka://mmria-actor-system/user/Process_Migrate_Data").Tell(Process_Initial_Migrations_Message);
 
                 break;

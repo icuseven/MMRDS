@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace mmria.server.utils.email;
+namespace mmria.pmss.server.utils.email;
 
 public sealed class Email
 {

@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using mmria.common.steve;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 public sealed class SteveAPI_Instance : ReceiveActor
 {
@@ -114,7 +114,7 @@ public sealed class SteveAPI_Instance : ReceiveActor
 
 
             var zip_file_name = message.file_name + ".zip";
-            mmria.server.utils.cFolderCompressor folder_compressor = new mmria.server.utils.cFolderCompressor();
+            mmria.pmss.server.utils.cFolderCompressor folder_compressor = new mmria.pmss.server.utils.cFolderCompressor();
             string encryption_key = null;
 
             try
