@@ -158,10 +158,9 @@ function reset_message_one()
     document.getElementById('form_content_id').innerHTML = render().join("");
 }
 
-function broadcast_message_detail_button_click(p_message_body) 
+function broadcast_message_detail_button_click(p_message_type, p_message_body) 
 {
-    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message", "", p_message_body);
+    $mmria.info_dialog_show("System Message", "", p_message_body, p_message_type);
 }
 
 function reset_message_two()

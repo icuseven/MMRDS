@@ -51,11 +51,11 @@ function render_published_version(message)
 {
     var publishedAlertTypeStyling = [];
     if (message.published.type == "information")
-        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01"]
+        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01", "btn-info"]
     else if (message.published.type == "warning")
-        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02"]
+        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
     else
-        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
+        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]    
     return `
         <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
         <div class="row d-flex padding-pagealert align-items-center">
@@ -67,7 +67,7 @@ function render_published_version(message)
                 ${message.published.title}
                 </p>		
             </div>
-            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.published.body}')" value="Details" /></div>` : ``}
+            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body}')" value="Details" /></div>` : ``}
         </div>
     `;
 }
@@ -83,10 +83,10 @@ function get_metadata()
 	});
 }
 
-function broadcast_message_detail_button_click(p_message_body) 
+function broadcast_message_detail_button_click(p_message_type, p_message_body) 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message", "", p_message_body);
+    $mmria.info_dialog_show("System Message", "", p_message_body, p_message_type);
 }
 
 function load_user_role_jurisdiction()

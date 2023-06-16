@@ -80,11 +80,11 @@ function render_draft_preview(message)
     var draftAlertTypeStylings= [];
 
     if (message.draft.type == "information")
-        draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01"]
+        draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01", "btn-info"]
     else if (message.draft.type == "warning")
-        draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02"]
+        draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
     else
-        draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle"]
+        draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]
         draftPreviewHTML = `
         <p class="h5">Draft Preview</p>
         <div>
@@ -98,7 +98,7 @@ function render_draft_preview(message)
                         ${message.draft.title}
                         </p>		
                     </div>
-                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.draft.body}')" value="Details" /></div>` : ``}
+                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${draftAlertTypeStylings[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.draft.type}','${message.draft.body}')" value="Details" /></div>` : ``}
                 </div>
             </div>
         </div>
@@ -111,13 +111,12 @@ function render_published_version(message)
 {
     var publishedPreviewHTML = ``;
     var publishedAlertTypeStyling = [];
-
-        if (message.published.type == "information")
-        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01"]
+    if (message.published.type == "information")
+        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01", "btn-info"]
     else if (message.published.type == "warning")
-        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02"]
+        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
     else
-        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle"]    
+        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]    
 
     if(message.publish_status == 0)
     {
@@ -141,7 +140,7 @@ function render_published_version(message)
                         ${message.published.title}
                         </p>		
                     </div>
-                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn btn-primary" type="button" onclick="broadcast_message_detail_button_click('${message.published.body}')" value="Details" /></div>` : ``}
+                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body}')" value="Details" /></div>` : ``}
                 </div>
             </div>
         `;
