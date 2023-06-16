@@ -86,7 +86,7 @@ public sealed class jurisdictionSummaryController : Controller
 
 /*
             var header1 = new List<FastExcel.Cell>();
-            header1.Add(new FastExcel.Cell(1, "MMRIA Jurisdiction Summary Report"));
+            header1.Add(new FastExcel.Cell(1, "PMSS Jurisdiction Summary Report"));
             header1.Add(new FastExcel.Cell(2, ""));
             header1.Add(new FastExcel.Cell(3, ""));
             header1.Add(new FastExcel.Cell(4, ""));
@@ -104,7 +104,7 @@ public sealed class jurisdictionSummaryController : Controller
             header.Add(new FastExcel.Cell(2, "Jurisdiction Abbreviation"));
             header.Add(new FastExcel.Cell(3, "Report Date"));
             header.Add(new FastExcel.Cell(4, "# of Records"));
-            header.Add(new FastExcel.Cell(5, "# of Unique MMRIA Users"));
+            header.Add(new FastExcel.Cell(5, "# of Unique PMSS Users"));
             header.Add(new FastExcel.Cell(6, "Jurisdiction Admin"));
             header.Add(new FastExcel.Cell(7, "Abstractor"));
             header.Add(new FastExcel.Cell(8, "Analyst"));

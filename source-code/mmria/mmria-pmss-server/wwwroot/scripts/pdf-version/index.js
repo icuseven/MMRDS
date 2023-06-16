@@ -221,7 +221,7 @@ async function print_pdf(ctx) {
 	let pdfTitle = getHeaderName();
 
 	// Get report tab name
-	let reportTabName = `MMRIA #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
+	let reportTabName = `PMSS #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
@@ -615,7 +615,7 @@ function fmtStrDate(dt) {
 
 // Get the header name
 function getHeaderName() {
-	let headerStr = `MMRIA Record ID#:  ${g_d.home_record.record_id}\t--\t` +
+	let headerStr = `PMSS Record ID#:  ${g_d.home_record.record_id}\t--\t` +
 		`Agency ID#: ${g_d.home_record.agency_case_id}`;
 	return headerStr;
 }

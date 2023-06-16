@@ -189,7 +189,7 @@ public sealed class GenerateSwaggerFile
 ""swagger"": ""2.0"",
 ""info"": {
 ""version"": ""0.0.3"",
-""title"": ""MMRIA data import API"",
+""title"": ""PMSS data import API"",
 ""description"": ""An API for use in electronic importing of case data using OpenAPISpecification -swagger-2.0"",
 ""termsOfService"": ""http://swagger.io/terms/"",
 ""contact"": {
@@ -288,7 +288,7 @@ public sealed class GenerateSwaggerFile
 ""swagger"": ""2.0"",
 ""info"": {
 ""version"": ""0.0.3"",
-""title"": ""MMRIA data import API"",
+""title"": ""PMSS data import API"",
 ""description"": ""An API for use in electronic importing of case data using OpenAPISpecification -swagger-2.0"",
 ""termsOfService"": ""http://swagger.io/terms/"",
 ""contact"": {

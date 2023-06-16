@@ -182,14 +182,14 @@ async function render(msg)
     over_view_layout.table.body.push(['', get_filter()]);
      over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:fill_Color, color:'#000080' } ]);
      over_view_layout.table.body.push([ '', '\n' ]);
-     over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
+     over_view_layout.table.body.push([ '', 'The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within PMSS but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.\n\n' ]);
      over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:fill_Color, color:'#000080' } ]);
      over_view_layout.table.body.push([ '', get_report_page_table() ]);
 
     var doc = {
 
         info: {
-            title: `${g_host_site}-MMRIA Aggregate Report`,
+            title: `${g_host_site}-PMSS Aggregate Report`,
             author: `${document.getElementById('uid').innerText}`,
             //subject: 'subject of document',
            // keywords: 'keywords for document',
@@ -213,7 +213,7 @@ async function render(msg)
                             margin:[60,-5,0,0],
                         },
                         { 
-                            text: `${g_host_site}-MMRIA Aggregate Report`, 
+                            text: `${g_host_site}-PMSS Aggregate Report`, 
                             alignment: 'center',
                             //bold:true,
 				            color: '#000080',
@@ -250,7 +250,7 @@ async function render(msg)
             margin: [ 25, 0, 25, 25],
             columns: [
             {
-                text: 'This data has been taken directly from the MMRIA database and is not a final report.',
+                text: 'This data has been taken directly from the PMSS database and is not a final report.',
                 style: {italics:true },
                 alignment: 'left',
                 

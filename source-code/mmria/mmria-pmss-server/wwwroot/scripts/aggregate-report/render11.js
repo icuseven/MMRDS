@@ -17,7 +17,7 @@ ${render_navigation_strip(11)}
 
 </div>
 <br>
-<p align=center>This data has been taken directly from the MMRIA database and is not a final report.</p>
+<p align=center>This data has been taken directly from the PMSS database and is not a final report.</p>
 <br>
 ${render_navigation_strip(11)}
 `;

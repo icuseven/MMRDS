@@ -24,7 +24,7 @@ var g_message_data = {
     },
     message_two: {
         draft: {
-            title: "MMRIA version 3.1.1 is now live - see release notes for additional information.",
+            title: "PMSS version 3.1.1 is now live - see release notes for additional information.",
             body: "If text has been entered in the content body section of this message, it will appear here.",
             type: "information",
         },

@@ -226,7 +226,7 @@ function open_preview_window()
 $(function ()
 {//http://www.w3schools.com/html/html_layout.asp
   'use strict';
-  get_name_map_click();
+  //get_name_map_click();
 
 /*
 	profile.on_login_call_back = function (){
@@ -253,7 +253,9 @@ $(function ()
 
 	});
 
-	create_check_code_submit();
+	//create_check_code_submit();
+
+    window.onload = load_metadata;
 
 	//window.setInterval(profile.update_session_timer, 120000);
 

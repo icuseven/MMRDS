@@ -400,7 +400,7 @@ function render_batch(p_batch)
                     <thead class="thead">
                         <tr class="tr" align="center">
                             <th class="th" width=65px>#</th>
-                            <th class="th">MMRIA Record ID</th>
+                            <th class="th">PMSS Record ID</th>
                             <th class="th">CDC Unique ID</th>
                             <th class="th">Last Name</th>
                             <th class="th">First Name</th>

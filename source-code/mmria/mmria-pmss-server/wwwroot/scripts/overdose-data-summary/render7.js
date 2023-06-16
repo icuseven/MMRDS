@@ -125,7 +125,7 @@ async function render7_table(p_metadata, p_data_list)
     </table><br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${totals.get(p_metadata.blank_field_id)}</p>
     <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+    <p>This data has been taken directly from the PMSS database and is not a final report.</p>
     <br/>
     `
 }

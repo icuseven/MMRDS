@@ -614,7 +614,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					</thead>
 					<thead class="thead">
 						<tr class="tr bg-gray-l1 font-weight-bold">
-							<th class="th" width="140" scope="col">MMRIA Form</th>
+							<th class="th" width="140" scope="col">PMSS Form</th>
 							<th class="th" width="140" scope="col">Export File Name</th>
 							<th class="th" width="120" scope="col">Export Field</th>
 							<th class="th" width="180" scope="col">Prompt</th>
@@ -739,11 +739,11 @@ function generate_system_generated_definition_list_table()
 					<tbody>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
-							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each PMSS record across all exported PMSS forms and grids.</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_versi</td>
-							<td class="td" width="1064">MMRIA application release number</td>
+							<td class="td" width="1064">PMSS application release number</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >d_creat</td>
@@ -771,17 +771,17 @@ function generate_system_generated_definition_list_table()
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >h_state</td>
-							<td class="td" width="1064">MMRIA host site</td>
+							<td class="td" width="1064">PMSS host site</td>
 						</tr>
                            
                         <tr class="tr">
 							<td class="td" width="266" >addquarter</td>
-							<td class="td" width="1064">MMRIA record added in Quarter-Year</td>
+							<td class="td" width="1064">PMSS record added in Quarter-Year</td>
 						</tr>
                           
                         <tr class="tr">
                         <td class="td" width="266" >cmpquarter</td>
-                        <td class="td" width="1064">MMRIA record reviewed by committee in Quarter-Year</td>
+                        <td class="td" width="1064">PMSS record reviewed by committee in Quarter-Year</td>
                     </tr>
 					</tbody>
 					<thead class="thead">
@@ -800,7 +800,7 @@ function generate_system_generated_definition_list_table()
 					<tbody>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
-							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each PMSS record across all exported PMSS forms and grids.</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>
@@ -823,7 +823,7 @@ function generate_system_generated_definition_list_table()
 					<tbody>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
-							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each PMSS record across all exported PMSS forms and grids.</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>
@@ -846,7 +846,7 @@ function generate_system_generated_definition_list_table()
 					<tbody>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
-							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
+							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each PMSS record across all exported PMSS forms and grids.</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_record_index</td>

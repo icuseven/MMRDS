@@ -554,7 +554,7 @@ public sealed partial class Program
         }
         catch (System.Exception ex)
         {
-            System.Console.WriteLine($"MMRIA Server error: ${ex}");
+            System.Console.WriteLine($"PMSS Server error: ${ex}");
         }    
     }
 

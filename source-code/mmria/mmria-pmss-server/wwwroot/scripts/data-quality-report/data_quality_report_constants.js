@@ -111,7 +111,7 @@ function get_dqr_notes_list()
 	{
 		num: '10)',
 		title: 'Timing of Death: Abstractor\'s Overall Assessment of Timing of Death (from Home Record):',
-		desc: 'Indicator populated using the Home Record field \'Abstractor-assigned pregnancy status based on overall review of records\' [hr_abs_dth_timing]. This field was added to MMRIA in April 2021 and will be validly missing for pregnancy-related deaths abstracted prior to this date.',
+		desc: 'Indicator populated using the Home Record field \'Abstractor-assigned pregnancy status based on overall review of records\' [hr_abs_dth_timing]. This field was added to PMSS in April 2021 and will be validly missing for pregnancy-related deaths abstracted prior to this date.',
 	},
 	{
 		num: '11)',

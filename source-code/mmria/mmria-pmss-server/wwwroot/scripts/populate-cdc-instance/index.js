@@ -151,9 +151,9 @@ function render_table()
         <thead>
             <tr style="background-color:#b890bb;" align=center>
                 <th>#</th>
-                <th style="margin-left:10px;margin-right:10px">Transfer to Central MMRIA Instance</th>
+                <th style="margin-left:10px;margin-right:10px">Transfer to Central PMSS Instance</th>
                 <!--th>Prefix</th-->
-                <th>MMRIA Site Name</th>
+                <th>PMSS Site Name</th>
             </tr>
         </thead>
         ${rendert_state_list()}

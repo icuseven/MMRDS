@@ -19,13 +19,13 @@
 @if(Model.YearOfDeathReplacement.Value == Model.YearOfDeath.Value)
 {
 
-    <h1 class="h2" tabindex="-1">Update MMRIA Record ID</h1>
+    <h1 class="h2" tabindex="-1">Update PMSS Record ID</h1>
     <a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
 
-    <h3 class="h4">Update MMRIA Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
+    <h3 class="h4">Update PMSS Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
     <br/>
 
-    <p><strong>MMRIA Record ID:</strong> @Model.RecordId =>  <b>@Model.RecordIdReplacement</b></p>
+    <p><strong>PMSS Record ID:</strong> @Model.RecordId =>  <b>@Model.RecordIdReplacement</b></p>
     <br/>
     <p><strong>First Name:</strong> @Model.FirstName</p>
     <p><strong>Middle Name:</strong> @Model.MiddleName</p>
@@ -39,7 +39,7 @@
         <div class="row padding-pagealert">
             <span class="x32 fill-amber-p cdc-icon-alert_01"><span class="sr-only">Alert</span></span>
             <div class="col">
-                <p class="margin-pagealert">Confirming will set the MMRIA Record ID from <b>@Model.RecordId</b> to <b>@Model.RecordIdReplacement</b>.</p>
+                <p class="margin-pagealert">Confirming will set the PMSS Record ID from <b>@Model.RecordId</b> to <b>@Model.RecordIdReplacement</b>.</p>
             </div>
         </div>
     </div>
@@ -68,14 +68,14 @@
 }
 else
 {
-    <h1 class="h2" tabindex="-1">Update Year of Death and MMRIA Record ID</h1>
+    <h1 class="h2" tabindex="-1">Update Year of Death and PMSS Record ID</h1>
     <a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
 
-    <h3 class="h4">Update Year of Death and MMRIA Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
+    <h3 class="h4">Update Year of Death and PMSS Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
     <br/>
 
     <p><strong>Year of Death:</strong> @Model.YearOfDeath => <b>@Model.YearOfDeathReplacement</b></p>
-    <p><strong>MMRIA Record ID:</strong> @Model.RecordId =>  <b>@Model.RecordIdReplacement</b></p>
+    <p><strong>PMSS Record ID:</strong> @Model.RecordId =>  <b>@Model.RecordIdReplacement</b></p>
     <br/>
     <p><strong>First Name:</strong> @Model.FirstName</p>
     <p><strong>Middle Name:</strong> @Model.MiddleName</p>
@@ -88,7 +88,7 @@ else
         <div class="row padding-pagealert">
             <span class="x32 fill-amber-p cdc-icon-alert_01"><span class="sr-only">Alert</span></span>
             <div class="col">
-                <p class="margin-pagealert">Confirming will set the Year of Death from <b>@Model.YearOfDeathReplacement</b> to <b>@Model.YearOfDeath</b> and the MMRIA Record ID from <b>@Model.RecordId</b> to <b>@Model.RecordIdReplacement</b>.</p>
+                <p class="margin-pagealert">Confirming will set the Year of Death from <b>@Model.YearOfDeathReplacement</b> to <b>@Model.YearOfDeath</b> and the PMSS Record ID from <b>@Model.RecordId</b> to <b>@Model.RecordIdReplacement</b>.</p>
             </div>
         </div>
     </div>

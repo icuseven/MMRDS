@@ -203,15 +203,15 @@ async function render()
     over_view_layout.table.body.push(['', get_filter()]);
     over_view_layout.table.body.push([ '', { text: 'Overview', style: header_style, fillColor:'#CCCCCC', color:'#000080' }]);
     over_view_layout.table.body.push([ '', '\n']);
-    over_view_layout.table.body.push([ '', 'The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n']);
-    over_view_layout.table.body.push([ '', 'This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the MMRIA Committee Decisions Form. The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.\n\n']);
-    over_view_layout.table.body.push([ '', 'The Overdose Report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis.\n\n']);
+    over_view_layout.table.body.push([ '', 'The Overdose report in PMSS grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related\n\n']);
+    over_view_layout.table.body.push([ '', 'This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the PMSS Committee Decisions Form. The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.\n\n']);
+    over_view_layout.table.body.push([ '', 'The Overdose Report can be used to look at broad categories of overdose deaths within PMSS but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis.\n\n']);
     over_view_layout.table.body.push([ '', { text: 'Report Pages', style: header_style, fillColor:'#CCCCCC', color:'#000080' }]);
     over_view_layout.table.body.push([ '', get_report_page_table()]);
 
     var doc = {
         info: {
-            title: `${g_host_site}-MMRIA Overdose Data Summary`,
+            title: `${g_host_site}-PMSS Overdose Data Summary`,
             author: `${document.getElementById('uid').innerText}`,
             //subject: 'subject of document',
            // keywords: 'keywords for document',
@@ -242,7 +242,7 @@ async function render()
                             margin:[60,-5,0,0],
                         },
                         { 
-                            text: `${g_host_site}-MMRIA Overdose Data Summary`, 
+                            text: `${g_host_site}-PMSS Overdose Data Summary`, 
                             alignment: 'center',
                             //bold:true,
 				            color: '#000080',
@@ -273,7 +273,7 @@ async function render()
             widths: [ 250,'auto'],
             columns: [
             {
-                text: 'This data has been taken directly from the MMRIA database and is not a final report.',
+                text: 'This data has been taken directly from the PMSS database and is not a final report.',
                 style: {italics:true },
                 alignment: 'left',
                 fontSize: 7,

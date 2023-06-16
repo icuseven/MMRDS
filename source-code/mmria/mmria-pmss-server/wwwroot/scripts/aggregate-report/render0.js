@@ -3,7 +3,7 @@ function render0()
     return `
     ${render_header(0)}
 <h3 style="clear:both;" ><strong>Overview</strong></h3>
-<p>The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within MMRIA but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
+<p>The Aggregate Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. This report can be used to look at broad categories of pregnancy-associated deaths within PMSS but should not replace more specific analysis. For example, this report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data.</p>
 
 <p>Select a page in the table below</p>
 
@@ -143,7 +143,7 @@ function render_table(p_metadata, p_data, p_totals, p_total, p_disable_blank)
     </table><br/>
     ${blank_html}
     <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+    <p>This data has been taken directly from the PMSS database and is not a final report.</p>
     <br/>
     `
 }

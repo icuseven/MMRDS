@@ -647,10 +647,10 @@ function format_detail_questions(ctx) {
 	// Sub Header
 	rows.push([
 		{ text: '#', style: ['tableLabel', 'blueFill'], alignment: 'center', },
-		{ text: 'MMRIA Record-ID#', style: ['tableLabel', 'blueFill'], },
+		{ text: 'PMSS Record-ID#', style: ['tableLabel', 'blueFill'], },
 		{ text: 'Date of Death', style: ['tableLabel', 'blueFill'], },
 		{ text: 'ComRev Date', style: ['tableLabel', 'blueFill'], },
-		{ text: 'MMRIA Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
+		{ text: 'PMSS Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
 	],);
 
 	// Questions loop
@@ -747,11 +747,11 @@ function format_detail_cases(ctx) {
 
 	// Sub Header
 	rows.push([
-		{ text: 'MMRIA Record-ID#', style: ['tableLabel', 'blueFill'], },
+		{ text: 'PMSS Record-ID#', style: ['tableLabel', 'blueFill'], },
 		{ text: 'Agency-Based Case ID#', style: ['tableLabel', 'blueFill'], },
 		{ text: 'Date of Death', style: ['tableLabel', 'blueFill'], },
 		{ text: 'ComRev Date', style: ['tableLabel', 'blueFill'], },
-		{ text: 'MMRIA Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
+		{ text: 'PMSS Internal Analysis ID#', style: ['tableLabel', 'blueFill'], },
 	],);
 
 	// case loop
@@ -895,7 +895,7 @@ function format_summary_pages(ctx) {
 	// Header
 	rows.push([
 		{
-			text: `Summary of ALL Deaths Entered into MMRIA as of ${ctx.quarter}`,
+			text: `Summary of ALL Deaths Entered into PMSS as of ${ctx.quarter}`,
 			style: ['tableLabel', 'blueFill'],
 			border: [true, true, false, true],
 		},

@@ -4,11 +4,11 @@ function render0()
     ${render_header()}
 <h3 style="clear:both;"><strong>Overview</strong></h3>
 
-<p>The Overdose report in MMRIA grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related.</p>
+<p>The Overdose report in PMSS grew out of the Rapid Maternal Overdose Review initiative. This initiative ensures the MMRC scope is inclusive of full abstraction and review of all overdose deaths during and within one year of the end of pregnancy; the MMRC is multidisciplinary and representative of maternal mental health, substance use disorder prevention, and addiction medicine; and the team determines contributing factors and recommendations, regardless of whether the death is determined to be pregnancy-related.</p>
 
-<p><strong>This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the MMRIA Committee Decisions Form.</strong> The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.</p>
+<p><strong>This report only includes deaths where the Means of Fatal Injury was “Poisoning/Overdose” in the Manner of Death section of the PMSS Committee Decisions Form.</strong> The committee should be documenting means of fatal injury for all pregnancy-associated deaths, but if the committee is not consistently doing this the number of pregnancy-associated overdose deaths reviewed could be underestimated in the report.</p>
 
-<p>The Overdose Report can be used to look at broad categories of overdose deaths within MMRIA but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. </p>
+<p>The Overdose Report can be used to look at broad categories of overdose deaths within PMSS but should not replace more specific analysis. For example, the Overdose Report is only able to show race/ethnicity as non-Hispanic Black, non-Hispanic White, Hispanic, and Other while an individual jurisdiction can look at other race/ethnicity groupings after downloading the data. The Overdose Report can provide quick analysis for questions asked by committees or team leadership and provide areas to consider more thoroughly during analysis. </p>
 
 <p>Select a page in the table below</p>
 
@@ -139,7 +139,7 @@ function render_table(p_metadata, p_data, p_totals, p_total)
     </table><br/>
     <p><strong>Number of deaths with missing (blank) values:</strong> ${p_totals.get(p_metadata.blank_field_id)}</p>
     <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+    <p>This data has been taken directly from the PMSS database and is not a final report.</p>
     <br/>
     `
 }

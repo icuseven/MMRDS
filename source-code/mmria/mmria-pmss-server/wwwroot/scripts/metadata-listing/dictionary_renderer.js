@@ -254,7 +254,7 @@ function render_de_identified_search_result_item(p_result, p_metadata, p_path, p
 					<thead class="thead">
 						<tr class="tr bg-gray">
 							<th class="th" colspan="3" style="font-size: 20px">
-								MMRIA Form: ${form_name}
+								PMSS Form: ${form_name}
 							</th>
 							<th class="th" colspan="3">
 								Export File: <span class="font-weight-normal">example_file_name.csv</span>

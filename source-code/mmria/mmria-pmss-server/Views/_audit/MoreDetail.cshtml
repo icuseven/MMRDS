@@ -36,7 +36,7 @@
 <h1 class="h2" tabindex="-1">Case Audit Detail</h1>
 <table border=0>
 <tr><td colspan=2><h3>@Model.cv.last_name, @Model.cv.first_name</h3></td></tr>
-<tr><td colspan=2><strong>MMRIA Record ID:</strong> @Model.cv.record_id</td></tr>
+<tr><td colspan=2><strong>PMSS Record ID:</strong> @Model.cv.record_id</td></tr>
 <tr><td  style="padding:5px;"><strong>Date Created:</strong> @Model.cv.date_created</td><td  style="padding:5px;"><strong>Created By:</strong> @Model.cv.created_by</td></tr>
 <tr><td  style="padding:5px;"><strong>Date Last Updated:</strong> @Model.cv.date_last_updated</td><td  style="padding:5px;"><strong>Last Updated By:</strong> @Model.cv.last_updated_by</td></tr>
 </table>
@@ -256,10 +256,10 @@ else
             </table>
 }
 <hr/>
-<p><strong>MMRIA Field Prompt:</strong> @change_item?.prompt</p>
-<p><strong>MMRIA Field Path:</strong> @change_item.dictionary_path</p>
-<p><strong>MMRIA Export Field Name:</strong> @Model.MetadataNode.sass_export_name</p>
-<p><strong>MMRIA Field Description:</strong> @Model.MetadataNode.description</p>
+<p><strong>PMSS Field Prompt:</strong> @change_item?.prompt</p>
+<p><strong>PMSS Field Path:</strong> @change_item.dictionary_path</p>
+<p><strong>PMSS Export Field Name:</strong> @Model.MetadataNode.sass_export_name</p>
+<p><strong>PMSS Field Description:</strong> @Model.MetadataNode.description</p>
 @if(Model.MetadataNode.type.ToUpper()=="LIST")
 {
 

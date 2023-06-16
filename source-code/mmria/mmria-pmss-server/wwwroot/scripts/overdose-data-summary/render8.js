@@ -201,7 +201,7 @@ async function render8_table(p_metadata, p_data_list)
     <p><strong>Suicide - Number of deaths with missing (blank) values:</strong> ${totals.get("MCauseD15")}</p>
 
     <br/>
-    <p>This data has been taken directly from the MMRIA database and is not a final report.</p>
+    <p>This data has been taken directly from the PMSS database and is not a final report.</p>
     <br/>
     `;
 }

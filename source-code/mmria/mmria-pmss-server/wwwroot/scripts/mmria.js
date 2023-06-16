@@ -1167,7 +1167,7 @@ var $mmria = function()
                         <div class="modal-body">
                             <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
                                 <tr class="tr bg-gray-l1 font-weight-bold">
-                                    <th class="th" width="140" scope="col">MMRIA Form</th>
+                                    <th class="th" width="140" scope="col">PMSS Form</th>
                                     <th class="th" width="140" scope="col">Export File Name</th>
                                     <th class="th" width="120" scope="col">Export Field</th>
                                     <th class="th" width="180" scope="col">Prompt</th>
@@ -1475,9 +1475,9 @@ var $mmria = function()
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
-                         <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
+                         <p>To prevent data loss, <b>do NOT close this PMSS form.</b></p>
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
-                         <p>If this error occurs again, please contact <b>MMRIA Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         <p>If this error occurs again, please contact <b>PMSS Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
                          <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>

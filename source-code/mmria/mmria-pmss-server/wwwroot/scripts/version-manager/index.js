@@ -12,52 +12,48 @@ var g_validation = null;
 var g_ui_specification = null;
 
 
-function main()
+async function main()
 {
     document.getElementById("base_api_url").value = base_api_url;
-    get_available_versions();
-}
 
-
-
-function get_available_versions()
-{
+    const version_list_response = await $.ajax
+    ({
   
+        url: location.protocol + '//' + location.host + '/api/version/list',
+    });
+  
+  
+    g_available_version_list = version_list_response;
 
-  $.ajax
-  ({
 
-      url: location.protocol + '//' + location.host + '/api/version/list',
-  })
-  .done(function(response) 
-  {
 
-      g_available_version_list = response;
-
-      render_available_version_list();
-      
-	});
+    render_available_version_list();
 }
 
 
-function get_version_click()
+
+async function get_version_click()
 {
     let version_id = document.getElementById("available_version").value;
-  	$.ajax({
+  	
+    
+    const version_response = await $.ajax
+    ({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
             url: location.protocol + '//' + location.host + `/api/metadata/${version_id}`
-	}).done(function(response) {
-            g_data = response;
-            if(g_data.definition_set == null)
-            {
-                g_data.definition_set = {};
-            }
-            base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
-
-            document.getElementById("base_api_url").value = base_api_url;
-
-            render_selected_version();
 	});
+
+    g_data = version_response;
+    if(g_data.definition_set == null)
+    {
+        g_data.definition_set = {};
+    }
+    base_api_url = location.protocol + '//' + location.host + "/api/version/" + g_data.name + "/?path=";
+
+    document.getElementById("base_api_url").value = base_api_url;
+
+    render_selected_version();
+	
 }
 
 function get_name_map_click()
@@ -147,52 +143,47 @@ function render_selected_version()
 
 }
 
-function get_metadata()
+async function get_metadata()
 {
-  	$.ajax({
+  	const metadata_response = await $.ajax
+    ({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
             url: location.protocol + '//' + location.host + '/api/metadata'
-	}).done(function(response) {
-            g_metadata = response;
-            g_metadata.version = g_data.name;
-            g_data.metadata = JSON.stringify(g_metadata);
-
-            get_MMRIA_Calculations();
 	});
-}
 
-function get_MMRIA_Calculations()
-{
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + '/api/metadata/GetCheckCode'
-	}).done(function(response) {
-            g_MMRIA_Calculations = response;
-            get_validation()
-	});
-}
 
-function get_validation()
-{
-  	$.ajax({
+    g_metadata = metadata_response;
+    g_metadata.version = g_data.name;
+    g_data.metadata = JSON.stringify(g_metadata);
+
+    const calculation_response = await $.ajax
+    ({
+        //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+        url: location.protocol + '//' + location.host + '/api/metadata/GetCheckCode'
+    })
+
+    g_MMRIA_Calculations = calculation_response;
+       
+    const validation_response = await $.ajax
+    ({
             //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
             url: location.protocol + '//' + location.host + '/api/validator'
-	}).done(function(response) {
-            g_validation = response;
-            get_ui_specification();
-	});
-}
+	})
+    
+    g_validation = validation_response;
+    
+    
 
-function get_ui_specification()
-{
-  	$.ajax({
-            //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
-            url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification'
-	}).done(function(response) {
-            g_ui_specification = response;
-	});
-}
+    const ui_specification_response = await $.ajax
+    ({
+        //url: 'http://test-mmria.services-dev.cdc.gov/api/metadata/2016-06-12T13:49:24.759Z',
+        url: location.protocol + '//' + location.host + '/api/ui_specification/default_ui_specification'
+    })
 
+    g_ui_specification = ui_specification_response;
+
+    console.log("here");
+}
 
 
 function get_gen_from_metadata()
@@ -586,7 +577,7 @@ function generate_schema_from_metadata(p_metadata, p_path)
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "$id": base_api_url + p_path,
                     "title": "MMRIA_Case",
-                    "description": "Maternal Mortality Review Information Application (MMRIA) case schema",
+                    "description": "Pregnancy Mortality Surveillance Systemlication (PMSS) case schema",
                     "type": "object",
                     "properties" :
                     {
