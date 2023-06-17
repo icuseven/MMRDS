@@ -517,8 +517,9 @@ async function build_report()
         g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("total") / (g_report_stat_map.get(k).get("count") - g_report_stat_map.get(k).get("missing")))
         
         const mean = g_report_stat_map.get(k).get("mean"); 
-        const total = g_report_stat_map.get(k).get("count"); 
+        //const total = g_report_stat_map.get(k).get("count"); 
 
+        let observation_number = 0;
         let sum = 0;
 
         for(const [n, v] of l)
@@ -531,12 +532,14 @@ async function build_report()
             continue;
             const value = parseFloat(n);
 
+            observation_number += v;
+
             for(var sum_count = 0; sum_count < v; sum_count++)
                 sum += (value - mean) * (value - mean);
         }
 
-        g_report_stat_map.get(k).set("variance", sum / total);
-        g_report_stat_map.get(k).set("std_dev", Math.sqrt(sum / total));
+        g_report_stat_map.get(k).set("variance", sum / observation_number);
+        g_report_stat_map.get(k).set("std_dev", Math.sqrt(sum / observation_number));
 
     }
 
