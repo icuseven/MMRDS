@@ -355,7 +355,7 @@ async function build_report()
 
     for(const [k, v] of g_report_map)
     {
-        g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("count") / v.size)
+        
 
         const type = g_report_stat_map.get(k).get("type");
         let max = 0;
@@ -505,6 +505,8 @@ async function build_report()
 
     for(const [k, l] of g_report_map)
     {
+        g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("count") - g_report_stat_map.get(k).get("missing"))
+        
         const mean = g_report_stat_map.get(k).get("mean"); 
         const total = g_report_stat_map.get(k).get("count"); 
 
