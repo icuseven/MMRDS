@@ -300,6 +300,7 @@ async function build_report()
                     g_report_stat_map.set(s, new Map());
                     g_report_stat_map.get(s).set("type", g_path_to_stat_type.get(s));
                     g_report_stat_map.get(s).set("count",0);
+                    g_report_stat_map.get(s).set("total",0);
                     g_report_stat_map.get(s).set("missing",0);
                     g_report_stat_map.get(s).set("min",0);
                     g_report_stat_map.get(s).set("max",0);
@@ -405,6 +406,10 @@ async function build_report()
                     mode = v2;
                     mode_value = k2;
                 }
+
+                const entry = g_report_stat_map.get(s).get("total");
+
+                g_report_stat_map.get(s).set("total", entry + c1);
             }
             else if(type == "STAT_D")
             {
