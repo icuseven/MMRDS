@@ -410,7 +410,7 @@ async function build_report()
 
                 const entry = g_report_stat_map.get(k).get("total");
 
-                g_report_stat_map.get(k).set("total", entry + c1);
+                g_report_stat_map.get(k).set("total", entry + c1 * v2);
                 
             }
             else if(type == "STAT_D")
