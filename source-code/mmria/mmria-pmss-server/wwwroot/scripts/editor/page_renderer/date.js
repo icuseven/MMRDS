@@ -112,7 +112,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             <span class="glyphicon glyphicon-th"></span>
           </div>`
         );
-
+/*
         p_post_html_render.push(`
           $('#g_data_home_record_case_status_case_locked_date input').hide();
 
@@ -124,7 +124,7 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
           {
             $('#g_data_home_record_case_status_case_locked_date input').show();
           }
-        `);
+        `);*/
 
         let validation_top = get_style_string(style_object.control.style).split('top:').pop().split('px;')[0];
         let validation_height = get_style_string(style_object.control.style).split('height:').pop().split('px;')[0];

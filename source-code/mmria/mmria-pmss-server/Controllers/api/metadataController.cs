@@ -157,6 +157,12 @@ public sealed class metadataController: ControllerBase
         return result;
     }
 
+    public class PutCheckCodeRequest
+    {
+        public PutCheckCodeRequest(){}
+
+        public string data { get; set; }
+    }
 
     // POST api/values 
     //[Route("api/metadata")]
@@ -164,16 +170,16 @@ public sealed class metadataController: ControllerBase
     [HttpPost("PutCheckCode")]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> PutCheckCode
     (
-        [FromBody] List<Microsoft.AspNetCore.Http.IFormFile> files
+        [FromBody] PutCheckCodeRequest CheckCodeRequest
     ) 
     { 
         //string check_code_json;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-        string check_code_json = null;
+        string check_code_json = CheckCodeRequest.data;
             try
             {
-
+/*
                 long size = files.Sum(f => f.Length);
 
                 foreach (var formFile in files)
@@ -181,16 +187,16 @@ public sealed class metadataController: ControllerBase
                     if (formFile.Length > 0)
                     {
                         check_code_json = formFile.ToString();
-                        /*
+                        
                         var filePath = Path.GetTempFileName();
 
                         using (var stream = System.IO.File.Create(filePath))
                         {
                             await formFile.CopyToAsync(stream);
-                        }*/
+                        }
                     }
                 }
-/*
+
                 System.IO.Stream dataStream0 = this.Request.Body;
                 // Open the stream using a StreamReader for easy access.
                 //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);

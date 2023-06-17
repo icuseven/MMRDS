@@ -51,7 +51,11 @@ var g_is_jurisdiction_admin = false;
 
 let save_start_time, save_end_time;
 
+const g_is_version_based = false;
+
 const g_cvs_api_request_data = new Map();
+
+
 
 
 const peg_parser = peg.generate(`
@@ -1540,32 +1544,68 @@ async function load_and_set_data()
     $('#footer').hide();
     $('#root').removeClass('header');
 
-    const release_version = await $.ajax
-    ({
-        url: `${location.protocol}//${location.host}/api/version/release-version`,
-    });
+ 
+        const release_version = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/version/release-version`,
+        });
+        
+        
+        g_release_version = release_version;
+ 
+    if(g_is_version_based)
+    {
+        const default_ui_specification = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/version/${g_release_version}/ui_specification`,
+        });
     
+        g_default_ui_specification = default_ui_specification;
+    }
+    else
+    {
+        const default_ui_specification = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/metadata/default_ui_specification`,
+        });
     
-    g_release_version = release_version;
-
-    const default_ui_specification = await $.ajax
-    ({
-        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/ui_specification`,
-    });
-  
-    g_default_ui_specification = default_ui_specification;
-    
+        g_default_ui_specification = default_ui_specification;
+    }
 
     document.getElementById('form_content_id').innerHTML = '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
+    if(g_is_version_based)
+    {
+        const metadata_response = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/version/${g_release_version}/metadata`,
+        });
 
-    const metadata_response = await $.ajax
-    ({
-        url: `${location.protocol}//${location.host}/api/version/${g_release_version}/metadata`,
-    });
+        g_metadata = metadata_response;
+    }
+    else
+    {
+        const metadata_response = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/metadata/2016-06-12T13:49:24.759Z`,
+        });
 
-    g_metadata = metadata_response;
+        g_metadata = metadata_response;
+    }
+
+    
     metadata_summary(g_metadata_summary, g_metadata, 'g_metadata', 0, 0);
     default_object = create_default_object(g_metadata, {});
+
+    /*
+    if(!g_is_version_based)
+    {
+        const check_code_response = await $.ajax
+        ({
+            url: `${location.protocol}//${location.host}/api/version/${g_release_version}/validation`,
+        });
+
+        eval(check_code_response);
+    }*/
 
     build_other_specify_lookup(g_other_specify_lookup, g_metadata);
 
@@ -1838,7 +1878,11 @@ function window_on_hash_change(e)
         g_apply_sort(g_metadata, g_data, "","", "");
         var case_id = g_data._id;
 
-        if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
+        if
+        (
+            g_ui.case_view_list.lenth > 0 && 
+            g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id
+        )
         {
             g_ui.broken_rules = {};
             g_charts.clear();

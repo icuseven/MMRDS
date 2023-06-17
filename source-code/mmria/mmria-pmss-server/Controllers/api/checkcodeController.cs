@@ -53,19 +53,29 @@ public sealed class checkcodeController: ControllerBase
     }
 
 
+    public class PutCheckCodeRequest
+    {
+        public PutCheckCodeRequest(){}
+
+        public string data { get; set; }
+    }
+
     // POST api/values 
     //[Route("api/metadata")]
+    [Authorize(Roles  = "form_designer")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Put
     (
-        
+        [FromBody] PutCheckCodeRequest CheckCodeRequest
     ) 
     { 
-        string check_code_json;
+        //string check_code_json;
+        string check_code_json = CheckCodeRequest.data;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
             try
             {
+                /*
 
                 System.IO.Stream dataStream0 = this.Request.Body;
                 // Open the stream using a StreamReader for easy access.
@@ -73,6 +83,7 @@ public sealed class checkcodeController: ControllerBase
                 System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
                 // Read the content.
                 check_code_json = await reader0.ReadToEndAsync ();
+                */
 
                 string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 

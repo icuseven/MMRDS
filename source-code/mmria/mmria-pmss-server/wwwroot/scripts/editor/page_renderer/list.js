@@ -141,7 +141,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
     else
     {
-
         if (g_data_is_checked_out)
         {
             if(other_specify_list_key.length > 0)
@@ -174,6 +173,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
             }
         }
+        
     }
 
     p_result.push(">");

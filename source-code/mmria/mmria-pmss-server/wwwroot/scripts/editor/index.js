@@ -625,3 +625,112 @@ function create_check_code_submit()
 		}
 	); 
 }
+
+
+var g_content_list = [];
+var g_file_stat_list = [];
+
+async function readmultifiles(event, files) 
+{
+    const self = $(event.target);
+    let ul_list = [];
+    g_file_stat_list = [];
+
+    //show spinner
+    self.next('.spinner-inline').fadeIn();
+
+    for (let i = 0; i < files.length; i++) 
+    {
+        let item = files[i];
+		if(item.name != "MMRIA_calculations.js") 
+		{
+			const el = document.getElementById("check_code_upload_result");
+			el.innerText = `Invalid file ${item.name} must upload file named MMRIA_calculations.js`
+			break;
+		}
+        readFile(i);
+        g_file_stat_list.push({ name: item.name, index: i })
+
+		const el = document.getElementById("check_code_upload_result");
+		el.innerText = `Loaded ${item.name}`
+
+		//await  SendCheckCode();
+
+    }
+
+    function readFile(index) 
+    {
+        if (index >= files.length) return;
+
+        var file = files[index];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // get file content  
+            g_content_list[index] = e.target.result;
+            // do sth with bin
+            readFile(index + 1)
+        }
+        reader.readAsText(file);
+
+
+
+        window.setTimeout(SendCheckCode, 1000);
+    }
+}
+
+async function SendCheckCode()
+{
+		//var fileName = document.getElementById('check_code_json').files[0].name; //Should be 'picture.jpg'
+
+		const payload = {
+			data: g_content_list[0]
+		}
+		$.ajax
+		({
+			url: location.protocol + '//' + location.host + '/api/checkcode',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(payload),
+			type: "POST"/*,
+			beforeSend: function (request)
+			{
+				//request.setRequestHeader("AuthSession", profile.get_auth_session_cookie());
+				request.setRequestHeader("If-Match", g_metadata._rev);
+			}*/
+
+		}).done(function(response_obj) 
+		{
+			console.log("PutCheckCode: complete");
+			//var response_obj = JSON.parse(response);
+			if(response_obj.ok)
+			{
+				g_metadata._rev = response_obj.rev; 
+				
+				document.getElementById('form_content_id').innerHTML = editor_render(g_metadata, "", g_ui, "app").join("");
+
+				if(response_obj.auth_session)
+				{
+					//profile.auth_session = response_obj.auth_session;
+					//$mmria.addCookie("AuthSession", response_obj.auth_session);
+				}
+				
+				perform_validation_save(g_metadata);
+			}
+			else
+			{
+				const el = document.getElementById("check_code_upload_result");
+				el.innerText = `PutCheckCode failed to save ${response_obj}`
+
+				//alert("PutCheckCode failed to save" + response_obj);
+				console.log("PutCheckCode failed to save", response_obj);
+			}
+
+		}).fail(function(x) {
+
+			const el = document.getElementById("check_code_upload_result");
+			el.innerText = `create_check_code_submit.send_data ${x}`
+			//alert("create_check_code_submit.send_data" + x);
+		console.log("create_check_code_submit.send_data",x);
+		});
+
+}
