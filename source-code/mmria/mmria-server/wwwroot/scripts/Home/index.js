@@ -31,17 +31,19 @@ async function main()
     await init_broadcast_messages();
 }
 
-async function init_broadcast_messages(){
+async function init_broadcast_messages()
+{
     const get_data_response = await $.ajax
     ({
         url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`
     });
     render_broadcast_message(get_data_response.message_one, "broadcast_published_message_one");
     render_broadcast_message(get_data_response.message_two, "broadcast_published_message_two");
-    console.log('hahahah');
+    //console.log('hahahah');
 }
 
-function render_broadcast_message(p_message, p_message_container_id){
+function render_broadcast_message(p_message, p_message_container_id)
+{
     const broadcast_message_container = document.getElementById(p_message_container_id);
     if(p_message.publish_status == 1)
         broadcast_message_container.innerHTML = render_published_version(p_message);
@@ -67,7 +69,7 @@ function render_published_version(message)
                 ${message.published.title}
                 </p>		
             </div>
-            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body}')" value="Details" /></div>` : ``}
+            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body.replace("'","\\'").replace("\n", "<br/>")}')" value="Details" /></div>` : ``}
         </div>
     `;
 }
