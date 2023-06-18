@@ -174,14 +174,14 @@ function on_message_one_title_change(value)
 {
     MESSAGE_ONE_Buffer.draft.title = value;
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
 }
 
 function on_message_one_body_change(value)
 {
     MESSAGE_ONE_Buffer.draft.body = value;
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
 }
 
 function on_message_one_type_change(value)
@@ -190,21 +190,21 @@ function on_message_one_type_change(value)
     let el = document.getElementById("message_one_type_fieldset");
     el.innerHTML = render_message_one_type_control(value);
     el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
 }
 
 function on_message_two_title_change(value)
 {
     MESSAGE_TWO_Buffer.draft.title = value;
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
 }
 
 function on_message_two_body_change(value)
 {
     MESSAGE_TWO_Buffer.draft.body = value;
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
 }
 
 function on_message_two_type_change(value)
@@ -213,7 +213,7 @@ function on_message_two_type_change(value)
     let el = document.getElementById("message_two_type_fieldset");
     el.innerHTML = render_message_two_type_control(value);
     el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer);
+    el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
 }
 
 async function get_broadcast_message_list()
