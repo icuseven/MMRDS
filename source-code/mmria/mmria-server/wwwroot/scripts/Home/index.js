@@ -5,6 +5,8 @@ var g_jurisdiction_list = [];
 var g_metadata = null;
 var default_object = null;
 
+var g_message_data = null;
+
 $(function ()
 {
 	$(document).keydown(function(evt){
@@ -20,10 +22,9 @@ $(function ()
   get_metadata();
 });
 
-(async function() {
 
-	window.onload = main;
-})()
+window.onload = main;
+
 
 
 async function main()
@@ -37,19 +38,30 @@ async function init_broadcast_messages()
     ({
         url: `${location.protocol}//${location.host}/broadcast-message/GetBroadcastMessageList`
     });
-    render_broadcast_message(get_data_response.message_one, "broadcast_published_message_one");
-    render_broadcast_message(get_data_response.message_two, "broadcast_published_message_two");
-    //console.log('hahahah');
+
+    g_message_data = get_data_response;
+
+    render_broadcast_message_one();
+    render_broadcast_message_two();
+
 }
 
-function render_broadcast_message(p_message, p_message_container_id)
+function render_broadcast_message_one()
 {
-    const broadcast_message_container = document.getElementById(p_message_container_id);
-    if(p_message.publish_status == 1)
-        broadcast_message_container.innerHTML = render_published_version(p_message);
+    const broadcast_message_container = document.getElementById("broadcast_published_message_one");
+    if(g_message_data.message_one.publish_status == 1)
+        broadcast_message_container.innerHTML = render_published_version(g_message_data.message_one, "broadcast_message_detail_button_one_click");
 }
 
-function render_published_version(message)
+function render_broadcast_message_two()
+{
+    const broadcast_message_container = document.getElementById("broadcast_published_message_two");
+    if(g_message_data.message_two.publish_status == 1)
+        broadcast_message_container.innerHTML = render_published_version(g_message_data.message_two, "broadcast_message_detail_button_two_click");
+}
+
+
+function render_published_version(message, p_button)
 {
     var publishedAlertTypeStyling = [];
     if (message.published.type == "information")
@@ -69,7 +81,7 @@ function render_published_version(message)
                 ${message.published.title}
                 </p>		
             </div>
-            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body.replace("'","\\'").replace("\n", "<br/>")}')" value="Details" /></div>` : ``}
+            ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="${p_button}()" value="Details" /></div>` : ``}
         </div>
     `;
 }
@@ -85,10 +97,16 @@ function get_metadata()
 	});
 }
 
-function broadcast_message_detail_button_click(p_message_type, p_message_body) 
+function broadcast_message_detail_button_one_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message", "", p_message_body, p_message_type);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
+}
+
+function broadcast_message_detail_button_two_click() 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
 }
 
 function load_user_role_jurisdiction()

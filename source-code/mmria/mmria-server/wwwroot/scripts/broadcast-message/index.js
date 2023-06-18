@@ -81,7 +81,7 @@ async function publish_message_one()
     g_message_data.message_one = JSON.parse(JSON.stringify(MESSAGE_ONE_Buffer));
     console.log("publish 1");
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer) + render_published_version(MESSAGE_ONE_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
 
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
@@ -100,7 +100,7 @@ async function publish_message_two()
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
     console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer) + render_published_version(MESSAGE_TWO_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
     
     const el2 = document.getElementById("unpublish-message-two");
     if(el2 != null)
@@ -119,7 +119,7 @@ async function unpublish_message_one()
     console.log("un publish 1");
     
     const el = document.getElementById("message_one_draft_preview");
-    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer) + render_published_version(MESSAGE_ONE_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
     
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
@@ -138,7 +138,7 @@ async function unpublish_message_two()
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
     console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
-    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer) + render_published_version(MESSAGE_TWO_Buffer);
+    el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
 
     const el2 = document.getElementById("unpublish-message-two");
     el2.setAttribute("disabled","disabled");
@@ -236,4 +236,29 @@ async function set_broadcast_message_list()
         type: 'POST',
     });
     g_message_data._rev = response.rev;
+}
+
+function draft_detail_button_one_click() 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
+}
+
+function draft_message_detail_button_two_click() 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
+}
+
+
+function published_detail_button_one_click() 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
+}
+
+function published_message_detail_button_two_click() 
+{
+    //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
+    $mmria.info_dialog_show("System Message", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
 }

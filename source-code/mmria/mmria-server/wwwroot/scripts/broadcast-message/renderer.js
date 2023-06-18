@@ -22,8 +22,8 @@ function render()
                 ${render_message_one_type_control(message_one.draft.type)}
             </div>
             <div id="message_one_draft_preview">
-                ${render_draft_preview(message_one)}
-                ${render_published_version(message_one)} 
+                ${render_draft_preview(message_one, "one")}
+                ${render_published_version(message_one, "one")} 
             </div>
             </div>
             <div class="row">
@@ -51,8 +51,8 @@ function render()
                 ${render_message_two_type_control(message_two.draft.type)}
             </div>
             <div id="message_two_draft_preview">
-                ${render_draft_preview(message_two)}
-                ${render_published_version(message_two)}
+                ${render_draft_preview(message_two, "two")}
+                ${render_published_version(message_two, "two")}
             </div>
             </div>
             <div class="row">
@@ -69,12 +69,12 @@ function render()
     return result;
 }
 
-function createTypePreviewHTML(message)
+function createTypePreviewHTML(message, p_message_number)
 {
-    return render_draft_preview(message) + render_published_version(message);
+    return render_draft_preview(message, p_message_number) + render_published_version(message, p_message_number);
 }
 
-function render_draft_preview(message)
+function render_draft_preview(message, p_message_number)
 {
     var draftPreviewHTML = ``;
     var draftAlertTypeStylings= [];
@@ -98,7 +98,7 @@ function render_draft_preview(message)
                         ${message.draft.title}
                         </p>		
                     </div>
-                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${draftAlertTypeStylings[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.draft.type}','${message.draft.body}')" value="Details" /></div>` : ``}
+                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${draftAlertTypeStylings[2]}" type="button" onclick="draft_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
                 </div>
             </div>
         </div>
@@ -107,7 +107,7 @@ function render_draft_preview(message)
     return draftPreviewHTML;
 }
 
-function render_published_version(message)
+function render_published_version(message, p_message_number)
 {
     var publishedPreviewHTML = ``;
     var publishedAlertTypeStyling = [];
@@ -140,7 +140,7 @@ function render_published_version(message)
                         ${message.published.title}
                         </p>		
                     </div>
-                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="broadcast_message_detail_button_click('${message.published.type}','${message.published.body}')" value="Details" /></div>` : ``}
+                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="published_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
                 </div>
             </div>
         `;
