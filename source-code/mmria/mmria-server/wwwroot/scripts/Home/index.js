@@ -65,16 +65,16 @@ function render_published_version(message, p_button)
 {
     var publishedAlertTypeStyling = [];
     if (message.published.type == "information")
-        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01", "btn-info"]
+        publishedAlertTypeStyling = ["bg-tertiary", "cdc-icon-alert_01 text-primary", "btn-primary"]
     else if (message.published.type == "warning")
-        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
+        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-primary"]
     else
-        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]    
+        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-primary"]    
     return `
-        <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
+        <div class="alert border-top-0 ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
         <div class="row d-flex padding-pagealert align-items-center">
             <div class="flex-grow-0 col">
-                <span class="fi ${publishedAlertTypeStyling[1]} " aria-hidden="true"></span>                        
+                <span class="fi ${publishedAlertTypeStyling[1]}" aria-hidden="true"></span>                        
             </div>
             <div class="col">
                 <p class="margin-pagealert">

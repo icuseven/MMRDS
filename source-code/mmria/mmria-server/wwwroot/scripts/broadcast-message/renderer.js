@@ -11,12 +11,12 @@ function render()
                 <h2 class="h3" id="message-one-header">Message 1 (${message_one.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>            
             </div>
             <div>
-                <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
-                <input class="col h-75" type=text id=message-one-title maxlength="250" value="${message_one.draft.title}" onchange="on_message_one_title_change(this.value)"/>           
+                <p id="message-one-title-label" class="h5">Title <i class="small">(Limit 250 characters)</i></p>
+                <input aria-labelledby="message-one-title-label" class="col h-75" type=text id=message-one-title maxlength="250" value="${message_one.draft.title}" onchange="on_message_one_title_change(this.value)"/>           
             </div>
             <div>
-                <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-one-body" rows=10 cols=80 maxlength="2000" onchange="on_message_one_body_change(this.value)">${message_one.draft.body}</textarea>
+                <p id="message-one-body-label" class="h5">Details <i class="small">(Limit 2000 characters)</i></p>
+                <textarea aria-labelledby="message-one-body-label" class="col" id="message-one-body" rows=10 cols=80 maxlength="2000" onchange="on_message_one_body_change(this.value)">${message_one.draft.body}</textarea>
             </div>
             <div id="message_one_type_fieldset">
                 ${render_message_one_type_control(message_one.draft.type)}
@@ -40,12 +40,12 @@ function render()
                 <h2 class="h3" id="message-two-header">Message 2 (${message_two.publish_status == 0 ? 'Unpublished' : 'Published'})</h2>
             </div>
             <div>
-                <p class="h5">Title <i class="small">(Limit 250 characters)</i></p>
-                <input class="col h-75" type=text id=message-two-title maxlength="250" value="${message_two.draft.title}" onchange="on_message_two_title_change(this.value)" />           
+                <p id="message-two-title-label" class="h5">Title <i class="small">(Limit 250 characters)</i></p>
+                <input aria-labelledby="message-two-title-label" class="col h-75" type=text id=message-two-title maxlength="250" value="${message_two.draft.title}" onchange="on_message_two_title_change(this.value)" />           
             </div>
             <div>
-                <p class="h5">Detail Content <i class="small">(Limit 2000 characters)</i></p>
-                <textarea class="col" id="message-two-body" rows=10 cols=80 maxlength="2000" onchange="on_message_two_body_change(this.value)">${message_two.draft.body}</textarea>
+                <p id="message-two-body-label" class="h5">Details <i class="small">(Limit 2000 characters)</i></p>
+                <textarea aria-labelledby="message-two-body-label" class="col" id="message-two-body" rows=10 cols=80 maxlength="2000" onchange="on_message_two_body_change(this.value)">${message_two.draft.body}</textarea>
             </div>
             <div id="message_two_type_fieldset">
                 ${render_message_two_type_control(message_two.draft.type)}
@@ -80,15 +80,15 @@ function render_draft_preview(message, p_message_number)
     var draftAlertTypeStylings= [];
 
     if (message.draft.type == "information")
-        draftAlertTypeStylings = ["alert-info", "cdc-icon-alert_01", "btn-info"]
+        draftAlertTypeStylings = ["bg-tertiary", "cdc-icon-alert_01 text-primary", "bg-primary"]
     else if (message.draft.type == "warning")
-        draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
+        draftAlertTypeStylings = ["alert-warning", "cdc-icon-alert_02", "btn-primary"]
     else
-        draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]
+        draftAlertTypeStylings = ["alert-danger", "cdc-icon-close-circle", "btn-primary"]
         draftPreviewHTML = `
         <p class="h5">Draft Preview</p>
         <div>
-            <div class="alert ${draftAlertTypeStylings[0]} col-md-12">
+            <div class="alert border-top-0 ${draftAlertTypeStylings[0]} col-md-12">
                 <div class="row d-flex padding-pagealert align-items-center">
                     <div class="flex-grow-0 col">
                         <span class="fi ${draftAlertTypeStylings[1]} " aria-hidden="true"></span>                        
@@ -98,7 +98,7 @@ function render_draft_preview(message, p_message_number)
                         ${message.draft.title}
                         </p>		
                     </div>
-                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${draftAlertTypeStylings[2]}" type="button" onclick="draft_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
+                    ${message.draft.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${draftAlertTypeStylings[2]}" type="button" onclick="draft_message_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
                 </div>
             </div>
         </div>
@@ -112,11 +112,11 @@ function render_published_version(message, p_message_number)
     var publishedPreviewHTML = ``;
     var publishedAlertTypeStyling = [];
     if (message.published.type == "information")
-        publishedAlertTypeStyling = ["alert-info", "cdc-icon-alert_01", "btn-info"]
+        publishedAlertTypeStyling = ["bg-tertiary", "cdc-icon-alert_01 text-primary", "btn-primary"]
     else if (message.published.type == "warning")
-        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-warning"]
+        publishedAlertTypeStyling = ["alert-warning", "cdc-icon-alert_02", "btn-primary"]
     else
-        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-danger"]    
+        publishedAlertTypeStyling = ["alert-danger", "cdc-icon-close-circle", "btn-primary"]    
 
     if(message.publish_status == 0)
     {
@@ -130,7 +130,7 @@ function render_published_version(message, p_message_number)
         publishedPreviewHTML = `
             <p class="h5">Published Version</p>
             <div>
-                <div class="alert ${publishedAlertTypeStyling[0]} col-md-12" id="alert_unique_16262b641c316a">
+                <div class="alert border-top-0 ${publishedAlertTypeStyling[0]} col-md-12">
                 <div class="row d-flex padding-pagealert align-items-center">
                     <div class="flex-grow-0 col">
                         <span class="fi ${publishedAlertTypeStyling[1]} " aria-hidden="true"></span>                        
@@ -140,7 +140,7 @@ function render_published_version(message, p_message_number)
                         ${message.published.title}
                         </p>		
                     </div>
-                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="published_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
+                    ${message.published.body.length > 0 ? `<div class="col flex-grow-0"><input class="btn ${publishedAlertTypeStyling[2]}" type="button" onclick="published_message_detail_button_${p_message_number}_click()" value="Details" /></div>` : ``}
                 </div>
             </div>
         `;
@@ -155,17 +155,17 @@ function render_message_one_type_control(value)
         <legend class="h5">Type</legend>
         <div>
             <label for="message-one-information">
-                <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Information
+                <input type="radio" id="message-one-information" name="message-one-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Information (purple)
             </label>
         </div>
         <div>
             <label for="message-one-warning">
-                <input type="radio" id="message-one-warning" name="message-one-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Warning
+                <input type="radio" id="message-one-warning" name="message-one-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Warning (warning)
             </label>
         </div>
         <div>
             <label for="message-one-error">
-                <input type="radio" id="message-one-error" name="message-one-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Error
+                <input type="radio" id="message-one-error" name="message-one-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_one_type_change(this.value)"> Error (red)
             </label>
         </div>  
     </fieldset>
@@ -179,17 +179,17 @@ function render_message_two_type_control(value)
         <legend class="h5">Type</legend>
         <div>
             <label for="message-two-information">
-                <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Information
+                <input type="radio" id="message-two-information" name="message-two-type" value="information" aria-label="Information" ${ value == "information" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Information (purple)
             </label>
         </div>
         <div>
             <label for="message-two-warning">
-                <input type="radio" id="message-two-warning" name="message-two-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Warning
+                <input type="radio" id="message-two-warning" name="message-two-type" value="warning" aria-label="Information" ${ value == "warning" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Warning (yellow)
             </label>
         </div>
         <div>
             <label for="message-two-error">
-                <input type="radio" id="message-two-error" name="message-two-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Error
+                <input type="radio" id="message-two-error" name="message-two-type" value="error" aria-label="Error" ${ value == "error" ? "checked" : "" } onchange="on_message_two_type_change(this.value)"> Error (red)
             </label>
         </div> 
     </fieldset>

@@ -238,7 +238,7 @@ async function set_broadcast_message_list()
     g_message_data._rev = response.rev;
 }
 
-function draft_detail_button_one_click() 
+function draft_message_detail_button_one_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
     $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
@@ -251,7 +251,7 @@ function draft_message_detail_button_two_click()
 }
 
 
-function published_detail_button_one_click() 
+function published_message_detail_button_one_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
     $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
