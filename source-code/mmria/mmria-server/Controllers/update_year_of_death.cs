@@ -158,7 +158,9 @@ public sealed class update_year_of_deathController : Controller
 
         string record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{array[2]}";
 
-        while (ExistingRecordIds.Contains(record_id));
+        System.Console.WriteLine($"ExistingRecordIds.Count{ExistingRecordIds.Count}");
+
+        while (ExistingRecordIds.Contains(record_id))
         {
             record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
         };
