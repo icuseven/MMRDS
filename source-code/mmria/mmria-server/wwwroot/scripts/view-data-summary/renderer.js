@@ -124,7 +124,7 @@ function render_form_filter(p_filter)
 {
 	let result = [];
 
-	result.push(`<option value="">(Any Form)</option>`)
+	result.push(`<option value="all">(Any Form)</option>`)
 
 	for(let i = 0; i < g_metadata.children.length; i++)
 	{
