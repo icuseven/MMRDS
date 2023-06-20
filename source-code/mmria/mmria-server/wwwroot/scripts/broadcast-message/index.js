@@ -174,6 +174,22 @@ function on_message_one_title_change(value)
 {
     MESSAGE_ONE_Buffer.draft.title = value;
     const el = document.getElementById("message_one_draft_preview");
+    const message_one_draft_button = document.getElementById("message_one_draft_save_button");
+    const message_one_publish_button = document.getElementById("message_one_publish_button");
+    if(value.length <= 0)
+    {
+        message_one_draft_button.setAttribute("disabled", "true");
+        message_one_draft_button.setAttribute("aria-disabled", "true");
+        message_one_publish_button.setAttribute("disabled", "true");
+        message_one_publish_button.setAttribute("aria-disabled", "true");
+    }
+    else 
+    {
+        message_one_draft_button.removeAttribute("disabled");
+        message_one_draft_button.removeAttribute("aria-disabled");
+        message_one_publish_button.removeAttribute("disabled");
+        message_one_publish_button.removeAttribute("aria-disabled");
+    }
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
 }
 
@@ -197,6 +213,22 @@ function on_message_two_title_change(value)
 {
     MESSAGE_TWO_Buffer.draft.title = value;
     const el = document.getElementById("message_two_draft_preview");
+    const message_two_draft_button = document.getElementById("message_two_draft_save_button");
+    const message_two_publish_button = document.getElementById("message_two_publish_button");
+    if(value.length <= 0)
+    {
+        message_two_draft_button.setAttribute("disabled", "true");
+        message_two_draft_button.setAttribute("aria-disabled", "true");
+        message_two_publish_button.setAttribute("disabled", "true");
+        message_two_publish_button.setAttribute("aria-disabled", "true");
+    }
+    else 
+    {
+        message_two_draft_button.removeAttribute("disabled");
+        message_two_draft_button.removeAttribute("aria-disabled");
+        message_two_publish_button.removeAttribute("disabled");
+        message_two_publish_button.removeAttribute("aria-disabled");
+    }
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
 }
 

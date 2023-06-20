@@ -28,8 +28,8 @@ function render()
             </div>
             <div class="row">
                 <div class="ml-auto pr-3">
-                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_one()" />
-                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_one()" />
+                    <input id="message_one_draft_save_button" ${message_one.draft.title.length <= 0 ? "disabled='true' aria-disabled='true'": ""} class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_one()" />
+                    <input id="message_one_publish_button" ${message_one.draft.title.length <= 0 ? "disabled='true' aria-disabled='true'": ""} class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_one()" />
                     <input id="unpublish-message-one" class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_one()"  ${message_one.publish_status == 0 ? "disabled" : "" } />
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_one()" />
                 </div>
@@ -57,8 +57,8 @@ function render()
             </div>
             <div class="row">
                 <div class="ml-auto pr-3">
-                    <input class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_two()" />
-                    <input class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_two()" />
+                    <input id="message_two_draft_save_button" ${message_two.draft.title.length <= 0 ? "disabled='true' aria-disabled='true'": ""} class="btn btn-primary" type="button" value="Save Draft" onclick="save_draft_message_two()" />
+                    <input id="message_two_publish_button" ${message_two.draft.title.length <= 0 ? "disabled='true' aria-disabled='true'": ""} class="btn btn-primary" type="button" value="Publish Latest Draft" onclick="publish_message_two()" />
                     <input id="unpublish-message-two" class="btn btn-primary" type="button" value="Unpublish Message" onclick="unpublish_message_two()" ${message_two.publish_status == 0 ? "disabled" : "" }/>
                     <input class="btn btn-cancel" type="button" value="Reset" onclick="reset_message_two()" />
                 </div>            
