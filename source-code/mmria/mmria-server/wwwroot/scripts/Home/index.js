@@ -100,13 +100,13 @@ function get_metadata()
 function broadcast_message_detail_button_one_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
+    $mmria.info_dialog_show("System Message 1", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
 }
 
 function broadcast_message_detail_button_two_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
+    $mmria.info_dialog_show("System Message 2", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
 }
 
 function load_user_role_jurisdiction()
