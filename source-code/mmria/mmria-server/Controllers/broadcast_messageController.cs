@@ -12,7 +12,7 @@ using Akka.Actor;
 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "cdc_admin")]
+
 [Route("broadcast-message/{action=Index}")]
 public sealed class broadcast_messageController : Controller
 {
@@ -66,7 +66,7 @@ public sealed class broadcast_messageController : Controller
         return Json(result);
     }
 
-
+    [Authorize(Roles  = "cdc_admin")]
     [HttpPost]
     public async Task<JsonResult> SetBroadcastMessageList
     (

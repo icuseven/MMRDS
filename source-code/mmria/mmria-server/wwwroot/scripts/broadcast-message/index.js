@@ -79,7 +79,7 @@ async function publish_message_one()
     MESSAGE_ONE_Buffer.publish_status = 1;
     MESSAGE_ONE_Buffer.published = JSON.parse(JSON.stringify(g_message_data.message_one.draft)); 
     g_message_data.message_one = JSON.parse(JSON.stringify(MESSAGE_ONE_Buffer));
-    console.log("publish 1");
+    //console.log("publish 1");
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
 
@@ -98,7 +98,7 @@ async function publish_message_two()
     MESSAGE_TWO_Buffer.publish_status = 1;
     MESSAGE_TWO_Buffer.published = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer.draft));
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
-    console.log("publish 2");
+    //console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
     
@@ -116,7 +116,7 @@ async function unpublish_message_one()
 {
     MESSAGE_ONE_Buffer.publish_status = 0;
     g_message_data.message_one = JSON.parse(JSON.stringify(MESSAGE_ONE_Buffer));
-    console.log("un publish 1");
+    //console.log("un publish 1");
     
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
@@ -136,7 +136,7 @@ async function unpublish_message_two()
 {
     MESSAGE_TWO_Buffer.publish_status = 0;
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
-    console.log("publish 2");
+    //console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
 

@@ -462,21 +462,20 @@ async function build_report()
                     median = (mid_1_entry + mid_2_entry) / 2;
                     break;
                 }
-                if(sum + v3 >= mid_count)
+
+                if
+                (
+                    k3 == "(-)" || 
+                    k3.trim().length == 0
+                )
                 {
-                    if
-                    (
-                        k3 == "(-)" || 
-                        k3.trim().length == 0
-                    )
-                    {
-                        continue;
-                        mid_1_entry = "(-)";
-                    }
-                    else
-                    {
-                        mid_1_entry = parseFloat(k3);
-                    }
+                    continue;
+                }
+                else if(sum + v3 >= mid_count)
+                {
+
+                    mid_1_entry = parseFloat(k3);
+                    
                     
                     if(count % 2 == 0)
                     {
@@ -496,6 +495,8 @@ async function build_report()
                     }
                     //console.log("here");
                     break;
+
+                    
                 }
 
                 sum += v3;
