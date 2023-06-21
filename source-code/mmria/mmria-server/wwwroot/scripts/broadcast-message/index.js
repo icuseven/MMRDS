@@ -127,7 +127,7 @@ async function unpublish_message_one()
 
 
     const e3 = document.getElementById("message-one-header")
-    e3.innerHTML = "Message 1 (Unpublished)"; 
+    e3.innerHTML = "Message 1 <i>(Unpublished)</i>"; 
 
     await set_broadcast_message_list();
 }
@@ -145,7 +145,7 @@ async function unpublish_message_two()
 
 
     const e3 = document.getElementById("message-two-header")
-    e3.innerHTML = "Message 2 (Unpublished)"; 
+    e3.innerHTML = "Message 2 <i>(Unpublished)</i>"; 
 
     await set_broadcast_message_list();
 
