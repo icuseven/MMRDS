@@ -441,6 +441,41 @@ async function build_report()
         g_report_stat_map.get(k).set("min", `${min_value} @${min}`);
         g_report_stat_map.get(k).set("max", `${max_value} @${max}`);
         g_report_stat_map.get(k).set("mode", `${mode_value} @${mode}`);
+        
+        
+        function stat_n_sort(a, b) 
+        {
+            var a_is_missing = false;
+            var b_is_missing = false;
+
+            if
+            (
+                a[0] == "(-)" ||
+                a[0].trim().length == 0
+            )
+            a_is_missing = true;
+
+
+            if
+            (
+                b[0] == "(-)" ||
+                b[0].trim().length == 0
+            )
+            b_is_missing = true;
+
+            if(a_is_missing && b_is_missing)
+                return 0;
+
+            if(a_is_missing && !b_is_missing)
+                return -1;
+
+            if(!a_is_missing && b_is_missing)
+                return 1;
+    
+            return parseFloat(a[0]) -parseFloat(b[0]);
+            
+          }
+
 
         if(type == "STAT_N")
         {
@@ -448,7 +483,7 @@ async function build_report()
             const mid_count = count / 2;
 
             let median = "";
-            var mapAsc = new Map([...g_report_map.get(k).entries()].sort());
+            var mapAsc = new Map([...g_report_map.get(k).entries()].sort(stat_n_sort));
             const array = [];
             let sum = 0;
             let mid_1_entry;
