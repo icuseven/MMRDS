@@ -179,31 +179,6 @@ public sealed class metadataController: ControllerBase
         string check_code_json = CheckCodeRequest.data;
             try
             {
-/*
-                long size = files.Sum(f => f.Length);
-
-                foreach (var formFile in files)
-                {
-                    if (formFile.Length > 0)
-                    {
-                        check_code_json = formFile.ToString();
-                        
-                        var filePath = Path.GetTempFileName();
-
-                        using (var stream = System.IO.File.Create(filePath))
-                        {
-                            await formFile.CopyToAsync(stream);
-                        }
-                    }
-                }
-
-                System.IO.Stream dataStream0 = this.Request.Body;
-                // Open the stream using a StreamReader for easy access.
-                //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-                // Read the content.
-                check_code_json = await reader0.ReadToEndAsync ();
-                */
 
                 string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 

@@ -3575,13 +3575,6 @@ function add_new_case_button_click(p_input)
                 case "state_pmss":
                     state_list = item;
                     break;
-                    /*
-                case "month":
-                    month_list = item;
-                    break;
-                case "day":
-                    day_list = item;
-                    break;*/
                 case "year_pmss":
                     year_list = item;
                     break;
@@ -3594,20 +3587,7 @@ function add_new_case_button_click(p_input)
 
             state_html.push(`<option value='${item.value}'>${item.display}</option>`)
         }
-/*
-        for(let i = 0; i < month_list.values.length; i++)
-        {
-            let item = month_list.values[i];
-            month_html.push(`<option value='${item.value}'>${item.display}</option>`)
-        }
 
-
-        for(let i = 0; i < day_list.values.length; i++)
-        {
-            let item = day_list.values[i];
-            day_html.push(`<option value='${item.value}'>${item.display}</option>`)
-        }
-*/
         for(let i = 0; i < year_list.values.length; i++)
         {
             let item = year_list.values[i];
@@ -3619,7 +3599,7 @@ function add_new_case_button_click(p_input)
         result.push(`
             <input type="hidden" id="add_new_state" value="init" />
 
-            <h1 class="h2">Add New Case - Generate MMRIA Record ID#</h1>
+            <h1 class="h2">Add New Case - Generate PMSS#</h1>
 
             <div id="new_validation_message_area">
                 <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid ml-1"></span> All fields are required to generate PMSS#.</p>
@@ -3653,26 +3633,13 @@ function add_new_case_button_click(p_input)
     }
     else if(state.value == "init")
     {
-        let new_validation_message_area = document.getElementById("new_validation_message_area");
-        let new_first_name = document.getElementById("new_first_name");
-        let new_middle_name = document.getElementById("new_middle_name");
-        let new_last_name = document.getElementById("new_last_name");
-        let new_month_of_death = document.getElementById("new_month_of_death");
-        let new_day_of_death = document.getElementById("new_day_of_death");
-        let new_year_of_death = document.getElementById("new_year_of_death");
-        let new_state_of_death = document.getElementById("new_state_of_death");
+        const new_validation_message_area = document.getElementById("new_validation_message_area");
+        const new_year_of_death = document.getElementById("new_year_of_death");
+        const new_state_of_death = document.getElementById("new_state_of_death");
 
         if(
-            new_first_name.value == null ||
-            new_last_name.value == null ||
-            new_month_of_death.value == null ||
-            new_day_of_death.value == null ||
             new_year_of_death.value == null ||
             new_state_of_death.value == null ||
-            new_first_name.value.length < 1 ||
-            new_last_name.value.length < 1 ||
-            new_month_of_death.value == 9999 ||
-            new_day_of_death.value == 9999 ||
             new_year_of_death.value == 9999 ||
             new_state_of_death.value == 9999
         )
@@ -3683,18 +3650,21 @@ function add_new_case_button_click(p_input)
                     <div class="right-col pl-3">
                         <p>Please enter data for the required fields below and try again:</p>
                         <ul id="validation_summary_list" class="mb-0">
-                            <li><strong>Decedent's Last Name</strong></li>
-                            <li><strong>Decedent's First Name</strong></li>
-                            <li><strong>Date of Death (MM, DD, YYYY)</strong></li>
-                            <li><strong>State of Death Record</strong></li>
+                            <li><strong>Reporting Jurisdiction</strong></li>
+                            <li><strong>Reporting Year</strong></li>
                         </ul>
-                        <p>The only field not required to create a new case form is <strong>Decedent's Middle Name</strong>.</p>
+                        <p>Both <b>Reporting Jurisdiction</b> and <b>Reporting Year</b> are required to create a new case form.</p>
                     </div>
                 </div>
             `;
         }
         else
         {
+
+            document.getElementById("add_new_state").value = "preconfirm";
+        
+            add_new_case_button_click();
+/*
             add_new_case_check_for_duplicate(
                 new_first_name.value, 
                 new_last_name.value, 
@@ -3703,7 +3673,7 @@ function add_new_case_button_click(p_input)
                 new_year_of_death.value, 
                 new_state_of_death.value
             );
-
+*/
         } 
         
         
@@ -3721,12 +3691,12 @@ function add_new_case_button_click(p_input)
             </div>
             <div id="mmria_dialog8" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                 <div class="modal-body">
-                    <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
-                    <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
-                    <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p><strong>Reporting Jurisdiction:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p><strong>Reporting Year:</strong> ${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
+                    
                     <p class="d-flex align-items-start mb-0">
                         <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
-                        <span>After you generate the MMRIA Record ID#, you will <strong>not</strong> be able to edit the Year of Death.</span>
+                        <span>Are you sure you want to generate a new PMSS Record?</span>
                     </p>
                 </div>
                 <footer class="modal-footer">
@@ -3805,20 +3775,12 @@ function add_new_case_button_click(p_input)
 
 function add_new_case_check_for_duplicate
 (
-    pFirstName, 
-    pLastName, 
-    pMonthOfDeath, 
-    pDayOfDeath, 
     pYearOfDeath, 
     pStateOfDeath
 ) 
 {
 
     let data = { 
-        FirstName: pFirstName, 
-        LastName: pLastName, 
-        MonthOfDeath: pMonthOfDeath, 
-        DayOfDeath: pDayOfDeath, 
         YearOfDeath: pYearOfDeath, 
         StateOfDeath: pStateOfDeath
     };
