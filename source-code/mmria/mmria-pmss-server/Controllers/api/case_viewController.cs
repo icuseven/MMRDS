@@ -94,7 +94,7 @@ public sealed class case_viewController: ControllerBase
 
             foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
-                result.Add(cvi.value.record_id);
+                result.Add(cvi.value.pmssno);
 
             }
         }

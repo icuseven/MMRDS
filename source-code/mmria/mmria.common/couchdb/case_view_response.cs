@@ -20,24 +20,30 @@ public sealed class case_view_sortable_item
     public DateTime? date_last_checked_out{ get; set; }
     public string last_checked_out_by{ get; set; }
 
-    public string record_id{ get; set; }
-    public string agency_case_id{ get; set; }
-    public DateTime? date_of_committee_review{ get; set; }
-
     public string jurisdiction_id {get; set;}
-
-    public int? case_status { get; set; }
-
-    public DateTime? review_date_projected{ get; set; }
-
-    public DateTime? review_date_actual{ get; set; }
 
     public DateTime? case_locked_date { get; set; }
 
     public string host_state{ get; set; }
+  
+    public string pmss_state_code{ get; set; }
+    public int? track_year{ get; set; }
+    public string pmssno{ get; set; }
+    public string med_coder_check{ get; set; }
+    public string med_dir_check{ get; set; }
+    public string death_certificate_number{ get; set; }
+    public string status{ get; set; }
+    public DateTime? dod{ get; set; }
+    public string month_of_death{ get; set; }
+    public string day_of_death{ get; set; }
+    public string year_of_death{ get; set; }
+    public DateTime? dob{ get; set; }
+    public string month_of_birth{ get; set; }
+    public string day_of_birth{ get; set; }
+    public string year_of_birth{ get; set; }
+    public string agreement_status{ get; set; }
+    public string version{ get; set; }
 
-    public string state_of_death{ get; set; }
-    public int? pregnancy_relatedness{ get; set; }
 }
 
 

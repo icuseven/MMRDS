@@ -75,11 +75,11 @@ public sealed class update_year_of_deathController : Controller
                 {
                     if
                     (
-                        item.value.record_id != null &&
+                        item.value.pmssno != null &&
                         !string.IsNullOrWhiteSpace(Model.RecordId) &&
                         (
-                            item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
-                            Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
+                            item.value.pmssno.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
+                            Model.RecordId.IndexOf(item.value.pmssno, System.StringComparison.OrdinalIgnoreCase) > -1
                         )
                         /*
                         &&
@@ -93,7 +93,7 @@ public sealed class update_year_of_deathController : Controller
                         var x = new mmria.pmss.server.model.year_of_death.YearOfDeathDetail()
                         {
                             _id = item.id,
-                            RecordId = item.value?.record_id,
+                            RecordId = item.value?.pmssno,
                             FirstName = item.value?.first_name,
                             LastName = item.value?.last_name,
                             MiddleName = item.value?.middle_name,
@@ -108,7 +108,7 @@ public sealed class update_year_of_deathController : Controller
 
                             StateDatabase = Model.StateDatabase,
 
-                            CaseStatus = item.value.case_status,
+                           // CaseStatus = item.value.case_status,
 
                             Role = Model.Role
                         };
@@ -311,7 +311,7 @@ public sealed class update_year_of_deathController : Controller
 
             foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
-                result.Add(cvi.value.record_id);
+                result.Add(cvi.value.pmssno);
             }
         }
         catch (Exception ex)

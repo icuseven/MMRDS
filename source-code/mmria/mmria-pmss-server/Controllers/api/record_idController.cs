@@ -43,9 +43,9 @@ public sealed class record_idController: ControllerBase
             var is_found = false;
             foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
-                if(!string.IsNullOrWhiteSpace(cvi.value.record_id))
+                if(!string.IsNullOrWhiteSpace(cvi.value.pmssno))
                 {
-                    if(cvi.value.record_id.Trim().Equals(record_id.Trim(), StringComparison.OrdinalIgnoreCase))
+                    if(cvi.value.pmssno.Trim().Equals(record_id.Trim(), StringComparison.OrdinalIgnoreCase))
                     {
                         is_found = true;
                         break;

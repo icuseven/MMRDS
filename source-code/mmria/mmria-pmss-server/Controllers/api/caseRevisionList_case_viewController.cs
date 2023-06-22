@@ -62,7 +62,7 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
         is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
-                if(is_matching_search_text(item.value.record_id, search_key))
+                if(is_matching_search_text(item.value.pmssno, search_key))
                 {
                     result = true;
                 }

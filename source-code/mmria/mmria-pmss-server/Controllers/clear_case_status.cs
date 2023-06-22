@@ -75,11 +75,11 @@ public sealed class clear_case_statusController : Controller
                 {
                     if
                     (
-                        item.value.record_id != null &&
+                        item.value.pmssno != null &&
                         !string.IsNullOrWhiteSpace(Model.RecordId) &&
                         (
-                            item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
-                            Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
+                            item.value.pmssno.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
+                            Model.RecordId.IndexOf(item.value.pmssno, System.StringComparison.OrdinalIgnoreCase) > -1
                         )
                         /*
                         &&
@@ -93,7 +93,7 @@ public sealed class clear_case_statusController : Controller
                         var x = new mmria.pmss.server.model.casestatus.CaseStatusDetail()
                         {
                             _id = item.id,
-                            RecordId = item.value?.record_id,
+                            RecordId = item.value?.pmssno,
                             FirstName = item.value?.first_name,
                             LastName = item.value?.last_name,
                             MiddleName = item.value?.middle_name,
@@ -104,9 +104,9 @@ public sealed class clear_case_statusController : Controller
 
                             DateLastUpdated = item.value?.date_last_updated,
 
-                            CaseStatus = item.value.case_status,
+                            //CaseStatus = item.value.case_status,
 
-                            CaseStatusDisplay = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
+                            //CaseStatusDisplay = (item.value.case_status != null && CaseStatusToDisplay.ContainsKey(item.value.case_status.ToString())) ? CaseStatusToDisplay[item.value.case_status.ToString()] : "(blank)" ,
 
                             StateDatabase = Model.StateDatabase,
 

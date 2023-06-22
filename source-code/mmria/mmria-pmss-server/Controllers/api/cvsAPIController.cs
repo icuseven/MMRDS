@@ -209,7 +209,7 @@ public sealed class cvsAPIController: ControllerBase
                             var data = case_view_response.rows
                                 .Where
                                 (
-                                    cvi => cvi.value.record_id.Equals(post_payload.id, StringComparison.OrdinalIgnoreCase)
+                                    cvi => cvi.value.pmssno.Equals(post_payload.id, StringComparison.OrdinalIgnoreCase)
                                 ).FirstOrDefault();
 
                             string case_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{data.id}";

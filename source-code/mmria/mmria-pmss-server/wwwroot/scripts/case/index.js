@@ -1091,12 +1091,7 @@ var g_ui = {
     return result;
   },
 
-  add_new_case: function (
-    p_first_name,
-    p_middle_name,
-    p_last_name,
-    p_month_of_death,
-    p_day_of_death,
+  add_new_case: async function (
     p_year_of_death,
     p_state_of_death
   ) 
@@ -1131,10 +1126,7 @@ var g_ui = {
       result.home_record.jurisdiction_id = '/';
     }
 
-    result.home_record.last_name = p_last_name;
-    result.home_record.first_name = p_first_name;
-    result.home_record.middle_name = p_middle_name;
-    result.home_record.state_of_death_record = p_state_of_death;
+    result.home_record.pmss_state_code = p_state_of_death;
 /*    result.home_record.date_of_death.year = p_year_of_death;
     result.home_record.date_of_death.month = p_month_of_death;
     result.home_record.date_of_death.day = p_day_of_death;
@@ -1147,8 +1139,8 @@ var g_ui = {
             !result.home_record.record_id || 
             result.home_record.record_id == ''
         ) && 
-        result.home_record.state_of_death_record && 
-        result.home_record.state_of_death_record != '' /*&& 
+        result.home_record.pmss_state_code && 
+        result.home_record.pmss_state_code != '' /*&& 
         
         result.home_record.date_of_death.year && 
         parseInt(result.home_record.date_of_death.year) > 999 && 
@@ -1181,7 +1173,7 @@ var g_ui = {
         first_name: result.home_record.first_name,
         middle_name: result.home_record.middle_name,
         last_name: result.home_record.last_name,
-        //date_of_death_year: result.home_record.date_of_death.year,
+        date_of_death_year: result.home_record.date_of_death.year,
         //date_of_death_month: result.home_record.date_of_death.month,
 
         date_created: result.date_created,
@@ -1190,7 +1182,7 @@ var g_ui = {
         last_updated_by: result.last_updated_by,
 
         record_id: result.home_record.record_id,
-        agency_case_id: result.agency_case_id,
+        //agency_case_id: result.agency_case_id,
         //date_of_committee_review: result.committee_review.date_of_review,
       },
     });
@@ -3747,11 +3739,6 @@ function add_new_case_button_click(p_input)
 
             function () {
                 g_ui.add_new_case(
-                new_first_name.value,
-                new_middle_name.value,
-                new_last_name.value,
-                new_month_of_death.value,
-                new_day_of_death.value,
                 new_year_of_death.value,
                 new_state_of_death.value);
             });

@@ -315,10 +315,11 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
             {
                 bool result = false;
+                /*
                 if(is_matching_search_text(item.value.review_date_actual.HasValue ? item.value.review_date_actual.Value.ToString() : "", search_key))
                 {
                     result = true;
-                }
+                }*/
 
                 return result;
             };
@@ -403,7 +404,7 @@ public sealed class CaseViewSearch
         
         return (mmria.common.model.couchdb.case_view_item item) => true;
     }
-    is_valid_predicate create_predicate_by_state_of_death
+    is_valid_predicate create_predicate_by_pmss_state_code
     (
         string search_key,
         string case_status,
@@ -416,8 +417,8 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
             {
                 bool result = false;
-                if(! string.IsNullOrWhiteSpace(item.value.state_of_death))
-                if(is_matching_search_text(item.value.state_of_death, search_key))
+                if(! string.IsNullOrWhiteSpace(item.value.pmss_state_code))
+                if(is_matching_search_text(item.value.pmss_state_code, search_key))
                 {
                     result = true;
                 }
@@ -430,7 +431,7 @@ public sealed class CaseViewSearch
 
 
 
-            if(field_selection == "by_state_of_death")
+            if(field_selection == "by_pmss_state_code")
                 all_predicate_list.Add(f);
         }
 
@@ -518,10 +519,12 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
+                /*
                 if(item.value.case_status.HasValue ? item.value.case_status.Value.ToString() == case_status : string.IsNullOrWhiteSpace(case_status))
                 {
                     result = true;
                 }
+                */
 
                 return result;
             };
@@ -550,10 +553,11 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
+                /*
                 if(is_matching_search_text(item.value.agency_case_id, search_key))
                 {
                     result = true;
-                }
+                }*/
 
                 return result;
             };
@@ -582,10 +586,12 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
+                /*
                 if(item.value.pregnancy_relatedness.HasValue ? item.value.pregnancy_relatedness.Value.ToString() == pregnancy_relatedness : string.IsNullOrWhiteSpace(pregnancy_relatedness))
                 {
                     result = true;
                 }
+                */
 
                 return result;
             };
@@ -650,10 +656,12 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
+                /*
                 if(is_matching_search_text(item.value.record_id, search_key))
                 {
                     result = true;
                 }
+                */
 
                 return result;
             };
@@ -704,6 +712,7 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
+                /*
 
                 if
                 (
@@ -716,6 +725,7 @@ public sealed class CaseViewSearch
                 {
                     result = true;
                 }
+                */
 
                 return result;
             };
@@ -862,7 +872,7 @@ public sealed class CaseViewSearch
     is_valid_predicate is_valid_committee_review_date;
     is_valid_predicate is_valid_created_by;
     is_valid_predicate is_valid_last_updated_by;
-    is_valid_predicate is_valid_state_of_death;
+    is_valid_predicate is_valid_pmss_state_code;
     is_valid_predicate is_valid_date_last_checked_out;
     is_valid_predicate is_valid_last_checked_out_by;
     is_valid_predicate is_valid_case_status;
@@ -890,7 +900,7 @@ public sealed class CaseViewSearch
         "by_committee_review_date",
         "by_created_by",
         "by_last_updated_by",
-        "by_state_of_death",
+        "by_pmss_state_code",
         "by_date_last_checked_out",
         "by_last_checked_out_by",
         "by_case_status",
@@ -1128,7 +1138,7 @@ public sealed class CaseViewSearch
         is_valid_committee_review_date = create_predicate_by_committee_review_date(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_created_by = create_predicate_by_created_by(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_last_updated_by = create_predicate_by_last_updated_by(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_state_of_death = create_predicate_by_state_of_death(search_key, case_status, field_selection, pregnancy_relatedness);
+        is_valid_pmss_state_code = create_predicate_by_pmss_state_code(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_date_last_checked_out = create_predicate_by_date_last_checked_out(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_last_checked_out_by = create_predicate_by_last_checked_out_by(search_key, case_status, field_selection, pregnancy_relatedness);
         is_valid_case_status = create_predicate_by_case_status(search_key, case_status, field_selection, pregnancy_relatedness);
