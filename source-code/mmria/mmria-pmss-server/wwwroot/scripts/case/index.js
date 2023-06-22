@@ -3553,20 +3553,253 @@ function gui_remove_broken_rule(p_object_id)
 
 
 
+
 function add_new_case_button_click(p_input)
 {
+    let state = document.getElementById("add_new_state");
 
-    g_ui.add_new_case(
-        "first_name",
-        "middle_name",
-        "new_last_name",
-        "1",
-        "1",
-        "2023",
-        "GA"
-    );
+    if(state == null)
+    {
+        let el = document.getElementById("app_summary");
+        let state_list = [];
+        let year_list = [];
+
+        let state_html = [];
+        let year_html = [];
+
+        for(let i = 0; i < g_metadata.lookup.length; i++)
+        {
+            let item = g_metadata.lookup[i];
+            switch(item.name.toLowerCase())
+            {
+                case "state_pmss":
+                    state_list = item;
+                    break;
+                    /*
+                case "month":
+                    month_list = item;
+                    break;
+                case "day":
+                    day_list = item;
+                    break;*/
+                case "year_pmss":
+                    year_list = item;
+                    break;
+            }
+        }
+
+        for(let i = 0; i < state_list.values.length; i++)
+        {
+            let item = state_list.values[i];
+
+            state_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+/*
+        for(let i = 0; i < month_list.values.length; i++)
+        {
+            let item = month_list.values[i];
+            month_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+
+
+        for(let i = 0; i < day_list.values.length; i++)
+        {
+            let item = day_list.values[i];
+            day_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+*/
+        for(let i = 0; i < year_list.values.length; i++)
+        {
+            let item = year_list.values[i];
+            year_html.push(`<option value='${item.value}'>${item.display}</option>`)
+        }
+
+        let result = [];
+
+        result.push(`
+            <input type="hidden" id="add_new_state" value="init" />
+
+            <h1 class="h2">Add New Case - Generate MMRIA Record ID#</h1>
+
+            <div id="new_validation_message_area">
+                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid ml-1"></span> All fields are required to generate PMSS#.</p>
+            </div>
+
+            <div>
+                <div class="form-row">
+                    <div class="col-4 mb-3" style="padding-bottom: 10px">
+                        <label for="new_state_of_death">Reporting Jurisdiction</label>
+                        <select id="new_state_of_death" class="form-control">${state_html.join("")}</select>
+                    </div>
+
+                    <div class="col-4 mb-3">
+                                    <label for="new_year_of_death">Reporting Year</label>
+                                    <select id="new_year_of_death" class="form-control">${year_html.join("")}</select>
+                    </div>
+                </div>
+
+                <div class="form-row mt-3">
+                    <button class="btn btn-primary mr-2" onclick="add_new_case_button_click()">Generate PMSS# & Continue</button>
+                    <button class="btn btn-light" onclick="g_render();">Cancel</button>
+                </div>
+                
+            </div>
+
+            <dialog id="add_new_confirm_dialog" class="set-radius p-0" role="dialog" tabindex="-1" aria-describedby="mmria_dialog" aria-labelledby="ui-id-1"></dialog>
+        `);
+
+
+        el.innerHTML = result.join("");
+    }
+    else if(state.value == "init")
+    {
+        let new_validation_message_area = document.getElementById("new_validation_message_area");
+        let new_first_name = document.getElementById("new_first_name");
+        let new_middle_name = document.getElementById("new_middle_name");
+        let new_last_name = document.getElementById("new_last_name");
+        let new_month_of_death = document.getElementById("new_month_of_death");
+        let new_day_of_death = document.getElementById("new_day_of_death");
+        let new_year_of_death = document.getElementById("new_year_of_death");
+        let new_state_of_death = document.getElementById("new_state_of_death");
+
+        if(
+            new_first_name.value == null ||
+            new_last_name.value == null ||
+            new_month_of_death.value == null ||
+            new_day_of_death.value == null ||
+            new_year_of_death.value == null ||
+            new_state_of_death.value == null ||
+            new_first_name.value.length < 1 ||
+            new_last_name.value.length < 1 ||
+            new_month_of_death.value == 9999 ||
+            new_day_of_death.value == 9999 ||
+            new_year_of_death.value == 9999 ||
+            new_state_of_death.value == 9999
+        )
+        {
+            new_validation_message_area.innerHTML = `
+                <div class="construct__header-alert row no-gutters p-2 mb-3">
+                    <span class="left-col x32 fill-p cdc-icon-alert_02"></span>
+                    <div class="right-col pl-3">
+                        <p>Please enter data for the required fields below and try again:</p>
+                        <ul id="validation_summary_list" class="mb-0">
+                            <li><strong>Decedent's Last Name</strong></li>
+                            <li><strong>Decedent's First Name</strong></li>
+                            <li><strong>Date of Death (MM, DD, YYYY)</strong></li>
+                            <li><strong>State of Death Record</strong></li>
+                        </ul>
+                        <p>The only field not required to create a new case form is <strong>Decedent's Middle Name</strong>.</p>
+                    </div>
+                </div>
+            `;
+        }
+        else
+        {
+            add_new_case_check_for_duplicate(
+                new_first_name.value, 
+                new_last_name.value, 
+                new_month_of_death.value, 
+                new_day_of_death.value, 
+                new_year_of_death.value, 
+                new_state_of_death.value
+            );
+
+        } 
         
-    g_render();
+        
+    }
+    else if(state.value =="preconfirm")
+    {
+        
+        state.value = "confirm";
+
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.innerHTML = `
+            <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <span id="ui-id-1" class="ui-dialog-title">Generate Record ID?</span>
+                <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="add_new_case_button_click('no')"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+            </div>
+            <div id="mmria_dialog8" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div class="modal-body">
+                    <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+                    <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
+                    <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p class="d-flex align-items-start mb-0">
+                        <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
+                        <span>After you generate the MMRIA Record ID#, you will <strong>not</strong> be able to edit the Year of Death.</span>
+                    </p>
+                </div>
+                <footer class="modal-footer">
+                    <button class="btn btn-primary mr-1" onclick="add_new_case_button_click('yes')">OK</button>
+                    <button class="btn btn-light" onclick="add_new_case_button_click('no')">Cancel</button>
+                </footer>
+            </div>
+        `;
+        add_new_confirm_dialog.showModal();
+    }
+    else if(state.value == "duplicate_name")
+    {
+        document.getElementById("add_new_state").value = "init";
+
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.innerHTML = `
+            <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <span id="ui-id-1" class="ui-dialog-title">Duplicate Name Found</span>
+                <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="add_new_case_button_click('no')"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+            </div>
+            <div id="mmria_dialog9" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div class="modal-body">
+                    <p><strong>Decedent’s Name (First, Middle, Last):</strong> ${new_first_name.value} ${new_middle_name.value} ${new_last_name.value}</p>
+                    <p><strong>Date of Death:</strong> ${new_month_of_death.value== 9999? "(blank)" :new_month_of_death.value}/${new_day_of_death.value == 9999? "(blank)":new_day_of_death.value}/${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
+                    <p><strong>State of Death Record:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p class="d-flex align-items-start mb-0">
+                        <span class="info-icon x20 fill-p cdc-icon-info-circle-solid mt-1 mr-2"></span>
+                        <span>Duplicate: A Record with the same information was found.  Please check your information again.</span>
+                    </p>
+                </div>
+                <footer class="modal-footer">
+                    <button class="btn btn-light" onclick="add_new_confirm_dialog.close()">Cancel</button>
+                </footer>
+            </div>
+        `;
+        add_new_confirm_dialog.showModal();
+    }
+    else if(state.value == "confirm")
+    {
+        let add_new_confirm_dialog = document.getElementById("add_new_confirm_dialog");
+        add_new_confirm_dialog.close();
+        if(p_input == "yes")
+        {
+            state.value = "generate_record";
+            new_validation_message_area.innerHTML = "generate confirmed";
+
+            Get_Record_Id_List(
+
+            function () {
+                g_ui.add_new_case(
+                new_first_name.value,
+                new_middle_name.value,
+                new_last_name.value,
+                new_month_of_death.value,
+                new_day_of_death.value,
+                new_year_of_death.value,
+                new_state_of_death.value);
+            });
+        }
+        else
+        {
+            //new_validation_message_area.innerHTML = "cancelled generate";
+            new_validation_message_area.innerHTML = `
+                <p><span class="info-icon x20 fill-p cdc-icon-info-circle-solid"></span> All fields are required to generate record id number except Decedent's Middle Name.</p>
+            `;
+            state.value = "init";
+        }
+        
+    }
+    else if("generate_record")
+    {
+
+    }
 }
 
 
