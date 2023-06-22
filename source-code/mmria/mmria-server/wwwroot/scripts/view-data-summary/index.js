@@ -574,8 +574,8 @@ async function build_report()
                 sum += (value - mean) * (value - mean);
         }
 
-        g_report_stat_map.get(k).set("variance", sum / (observation_number - 1));
-        g_report_stat_map.get(k).set("std_dev", Math.sqrt(sum / (observation_number - 1)));
+        g_report_stat_map.get(k).set("variance", sum / observation_number);
+        g_report_stat_map.get(k).set("std_dev", Math.sqrt(sum / observation_number));
 
     }
 
