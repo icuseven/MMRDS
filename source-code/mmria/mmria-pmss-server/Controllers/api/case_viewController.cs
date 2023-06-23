@@ -138,7 +138,7 @@ public sealed class case_viewController: ControllerBase
             Console.WriteLine(ex);
         }
 
-        return $"{prefix}-{result.Count.ToString().PadLeft(4,'0')}";
+        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 } 

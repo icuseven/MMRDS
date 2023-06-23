@@ -113,9 +113,9 @@ function form_render(
                 (
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push(g_data.home_record.last_name);
+				p_result.push(g_data.home_record.pmssno);
 				p_result.push(", ");
-				p_result.push(g_data.home_record.first_name);
+				p_result.push(g_data.home_record.death_certificate_number);
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
@@ -657,9 +657,9 @@ function form_render(
 			if (g_data) 
             {
 				p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-				p_result.push(g_data.home_record.last_name);
-				p_result.push(", ");
-				p_result.push(g_data.home_record.first_name);
+				p_result.push(g_data.home_record.pmssno);
+				p_result.push(" DC#:");
+				p_result.push(g_data.home_record.death_certificate_number);
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
@@ -882,9 +882,9 @@ function form_render(
 		if (g_data) 
         {
 			p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-			p_result.push(g_data.home_record.last_name);
-			p_result.push(", ");
-			p_result.push(g_data.home_record.first_name);
+			p_result.push(g_data.home_record.pmssno);
+			p_result.push(" DC#:");
+			p_result.push(g_data.home_record.death_certificate_number);
 			p_result.push(`</p>`);
 		}
 
@@ -1658,9 +1658,9 @@ function quick_edit_header_render(
 		p_result.push(
 			"<h1 class='construct__title text-primary h1' tabindex='-1'>"
 		);
-		p_result.push(g_data.home_record.last_name);
-		p_result.push(", ");
-		p_result.push(g_data.home_record.first_name);
+		p_result.push(g_data.home_record.pmssno);
+		p_result.push(" DC#:");
+		p_result.push(g_data.home_record.death_certificate_number);
 		p_result.push("</h1>"); 
 
         
