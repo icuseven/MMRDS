@@ -23,7 +23,7 @@ public sealed class de_id_viewController: ControllerBase
     }
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.case_view_response> Get
+    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,

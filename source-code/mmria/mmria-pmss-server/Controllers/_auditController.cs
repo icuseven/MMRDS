@@ -17,7 +17,7 @@ public sealed class Audit_View
     public string user  {get;set;} = "all"; 
     public string search_text  {get;set;} = "all";
     public bool showAll {get;set;} = false;
-    public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
+    public mmria.common.model.couchdb.pmss_case_view_sortable_item cv {get;set;}
     public List<mmria.common.model.couchdb.Change_Stack> ls {get;set;}
 
     public int page_size {get;set;} 
@@ -32,7 +32,7 @@ public sealed class Audit_Detail_View
     public string change_id  {get;set;}
     public int change_item  {get;set;}
     public bool showAll {get;set;} = false;
-    public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
+    public mmria.common.model.couchdb.pmss_case_view_sortable_item cv {get;set;}
     public mmria.common.model.couchdb.Change_Stack cs {get;set;}
 
     public mmria.common.metadata.node MetadataNode {get;set;}
@@ -99,10 +99,10 @@ public sealed class _auditController : Controller
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+        var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
 
-        mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
+        mmria.common.model.couchdb.pmss_case_view_sortable_item case_view_item = 
             case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
 
 
@@ -176,10 +176,10 @@ public sealed class _auditController : Controller
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+        var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
 
-        mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
+        mmria.common.model.couchdb.pmss_case_view_sortable_item case_view_item = 
             case_view_response.rows.Where(i=> i.id == p_id).FirstOrDefault().value;
 
 

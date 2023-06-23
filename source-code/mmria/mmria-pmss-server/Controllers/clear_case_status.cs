@@ -66,7 +66,7 @@ public sealed class clear_case_statusController : Controller
             }
 
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
             var Locked_status_list = new List<int>(){4,5,6};
             foreach(var item in case_view_response.rows)

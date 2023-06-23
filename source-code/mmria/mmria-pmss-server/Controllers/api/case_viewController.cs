@@ -29,7 +29,7 @@ public sealed class case_viewController: ControllerBase
     }
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.case_view_response> Get
+    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,
@@ -90,9 +90,9 @@ public sealed class case_viewController: ControllerBase
             var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
             {
                 result.Add(cvi.value.pmssno);
 
@@ -122,9 +122,9 @@ public sealed class case_viewController: ControllerBase
             var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
             {
                 if(cvi.value.pmssno.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
                 {

@@ -168,7 +168,7 @@ public sealed class isDuplicateCaseController: ControllerBase
         return result;
     } 
 
-    private async Task<mmria.common.model.couchdb.case_view_response> GetCaseView
+    private async Task<mmria.common.model.couchdb.pmss_case_view_response> GetCaseView
     (
         string search_key,
         int skip = 0,
@@ -235,16 +235,16 @@ public sealed class isDuplicateCaseController: ControllerBase
             var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
 
             string key_compare = search_key.ToLower().Trim(new char[] { '"' });
 
-            mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+            mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
             result.offset = case_view_response.offset;
             result.total_rows = case_view_response.total_rows;
 
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
             {
                 bool add_item = false;
 

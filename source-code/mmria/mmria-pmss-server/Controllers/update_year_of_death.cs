@@ -66,7 +66,7 @@ public sealed class update_year_of_deathController : Controller
             }
 
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
             var Locked_status_list = new List<int>(){4,5,6};
             foreach(var item in case_view_response.rows)
@@ -307,9 +307,9 @@ public sealed class update_year_of_deathController : Controller
             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, user_name, user_value);
             string responseFromServer = case_view_curl.execute();
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
             {
                 result.Add(cvi.value.pmssno);
             }

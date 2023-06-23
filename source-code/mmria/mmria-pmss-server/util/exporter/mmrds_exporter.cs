@@ -272,9 +272,9 @@ public sealed class mmrds_exporter
                 var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
                 string case_view_responseFromServer = case_view_curl.execute();
 
-                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
+                mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(case_view_responseFromServer);
 
-                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+                foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
                 {
                     Custom_Case_Id_List.Add(cvi.id);
 

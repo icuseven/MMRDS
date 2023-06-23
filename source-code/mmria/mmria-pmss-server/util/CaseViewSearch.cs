@@ -47,7 +47,7 @@ public sealed class CaseViewSearch
         
     }
 
-    delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
+    delegate bool is_valid_predicate(mmria.common.model.couchdb.pmss_case_view_item item);
 
     List<is_valid_predicate> all_predicate_list = new List<is_valid_predicate>();
     List<is_valid_predicate> any_predicate_list = new List<is_valid_predicate>();
@@ -69,7 +69,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.date_created.HasValue ? item.value.date_created.Value.ToString() : "", search_key))
@@ -90,7 +90,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_date_last_updated
     (
@@ -102,7 +102,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.date_last_updated.HasValue ? item.value.date_last_updated.Value.ToString() : "", search_key))
@@ -123,7 +123,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_last_name
     (
@@ -137,7 +137,7 @@ public sealed class CaseViewSearch
         {
             
 
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.last_name, search_key))
@@ -158,7 +158,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
 
     }
     is_valid_predicate create_predicate_by_first_name
@@ -172,7 +172,7 @@ public sealed class CaseViewSearch
 
         if(search_key != null )
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
                 {
                     bool result = false;
                     if(is_matching_search_text(item.value.first_name, search_key))
@@ -195,7 +195,7 @@ public sealed class CaseViewSearch
             return f;
         }
 
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_middle_name
     (
@@ -207,7 +207,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(! string.IsNullOrWhiteSpace(item.value.middle_name))
@@ -229,7 +229,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_year_of_death
     (
@@ -241,7 +241,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 //if(is_matching_search_text(item.value.date_of_death_year.HasValue ? item.value.date_of_death_year.Value.ToString() : "", search_key))
@@ -267,7 +267,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_month_of_death
     (
@@ -279,7 +279,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.date_of_death_month.HasValue ? item.value.date_of_death_month.Value.ToString() : "", search_key))
@@ -300,7 +300,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_committee_review_date
     (
@@ -312,7 +312,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 /*
@@ -334,7 +334,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_created_by
     (
@@ -346,7 +346,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(! string.IsNullOrWhiteSpace(item.value.created_by))
@@ -368,7 +368,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_last_updated_by
     (
@@ -380,7 +380,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(! string.IsNullOrWhiteSpace(item.value.last_updated_by))
@@ -402,7 +402,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_pmss_state_code
     (
@@ -414,7 +414,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(! string.IsNullOrWhiteSpace(item.value.pmss_state_code))
@@ -436,7 +436,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_date_last_checked_out
     (
@@ -448,7 +448,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.date_last_checked_out.HasValue ? item.value.date_last_checked_out.Value.ToString() : "", search_key))
@@ -469,7 +469,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_last_checked_out_by
     (
@@ -481,7 +481,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 if(! string.IsNullOrWhiteSpace(item.value.last_checked_out_by))
@@ -503,7 +503,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_case_status
     (
@@ -516,7 +516,7 @@ public sealed class CaseViewSearch
 
         if(case_status != "all")
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 /*
@@ -536,7 +536,7 @@ public sealed class CaseViewSearch
         }
             
 
-        return (mmria.common.model.couchdb.case_view_item item) => false;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
     is_valid_predicate create_predicate_by_agency_case_id
     (
@@ -550,7 +550,7 @@ public sealed class CaseViewSearch
         if(search_key != null)
         {
 
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 /*
@@ -570,7 +570,7 @@ public sealed class CaseViewSearch
 
         }
 
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
     is_valid_predicate create_predicate_by_pregnancy_relatedness
     (
@@ -583,7 +583,7 @@ public sealed class CaseViewSearch
 
         if(pregnancy_relatedness != "all")
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 /*
@@ -601,7 +601,7 @@ public sealed class CaseViewSearch
             return f;
         }
 
-        return (mmria.common.model.couchdb.case_view_item item) => false;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
     is_valid_predicate create_predicate_by_host_state
     (
@@ -613,7 +613,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) => 
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
                 //if(! string.IsNullOrWhiteSpace(item.value.host_state))
@@ -640,7 +640,7 @@ public sealed class CaseViewSearch
         }
 
         
-        return (mmria.common.model.couchdb.case_view_item item) => true;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
 
     is_valid_predicate create_predicate_by_record_id
@@ -653,7 +653,7 @@ public sealed class CaseViewSearch
     {
         if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 /*
@@ -676,7 +676,7 @@ public sealed class CaseViewSearch
             return f;
         }
 
-        return (mmria.common.model.couchdb.case_view_item item) => false;
+        return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
 
 
@@ -686,7 +686,7 @@ public sealed class CaseViewSearch
         string date_of_review_range
     )
     {
-        bool result(mmria.common.model.couchdb.case_view_item item) => false;
+        bool result(mmria.common.model.couchdb.pmss_case_view_item item) => false;
         if
         (
             !string.IsNullOrWhiteSpace(date_of_review_range) &&
@@ -709,7 +709,7 @@ public sealed class CaseViewSearch
 
         
 
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 /*
@@ -753,7 +753,7 @@ public sealed class CaseViewSearch
         string date_of_death_range
     )
     {
-        bool result(mmria.common.model.couchdb.case_view_item item) => false;
+        bool result(mmria.common.model.couchdb.pmss_case_view_item item) => false;
         if
         (
             !string.IsNullOrWhiteSpace(date_of_death_range) &&
@@ -774,7 +774,7 @@ public sealed class CaseViewSearch
             )
                 return result;
 
-            is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
 
@@ -835,7 +835,7 @@ public sealed class CaseViewSearch
 
     is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
-        is_valid_predicate f = (mmria.common.model.couchdb.case_view_item cvi) => {
+        is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
             if(cvi.value.jurisdiction_id == null)
             {
@@ -908,7 +908,7 @@ public sealed class CaseViewSearch
         "by_pregnancy_relatedness",
         "by_host_state"
     };
-    public async Task<mmria.common.model.couchdb.case_view_response> execute
+    public async Task<mmria.common.model.couchdb.pmss_case_view_response> execute
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,
@@ -995,8 +995,8 @@ public sealed class CaseViewSearch
                 date_of_death_range
             );
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
-            mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
             result.offset = case_view_response.offset;
             result.total_rows = case_view_response.total_rows;
             

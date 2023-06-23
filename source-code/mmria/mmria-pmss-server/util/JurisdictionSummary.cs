@@ -324,7 +324,7 @@ public sealed class JurisdictionSummary
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
             if
             (

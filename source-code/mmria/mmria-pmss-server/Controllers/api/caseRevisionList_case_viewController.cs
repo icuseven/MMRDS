@@ -24,7 +24,7 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
     IConfiguration configuration;
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
+    delegate bool is_valid_predicate(mmria.common.model.couchdb.pmss_case_view_item item);
  
     public caseRevisionList_case_viewController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
     {
@@ -34,7 +34,7 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
 
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.case_view_response> Get
+    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         string jurisdiction_id,
@@ -53,13 +53,13 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
         string responseFromServer = await case_view_curl.executeAsync();
 
 
-        mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+        mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
-        mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
+        mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
         result.offset = case_view_response.offset;
         result.total_rows = case_view_response.total_rows;
 
-        is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
+        is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
                 if(is_matching_search_text(item.value.pmssno, search_key))

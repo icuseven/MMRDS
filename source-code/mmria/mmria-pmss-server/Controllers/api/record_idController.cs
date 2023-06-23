@@ -36,12 +36,12 @@ public sealed class record_idController: ControllerBase
             var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
 
-            var temp = new List<mmria.common.model.couchdb.case_view_item>();
+            var temp = new List<mmria.common.model.couchdb.pmss_case_view_item>();
 
             var is_found = false;
-            foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            foreach(mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
             {
                 if(!string.IsNullOrWhiteSpace(cvi.value.pmssno))
                 {
