@@ -106,5 +106,40 @@ public sealed class case_viewController: ControllerBase
         return result;
     }
 
+    [HttpGet("next-pmss-number/{prefix}")]
+    public async Task<string> GetNextPMSSNumber
+    (
+        string prefix
+    )
+    {
+        var result = new List<string>();
+
+
+        try
+        {
+            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_pmss_number?skip=0&take=250000";
+
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string responseFromServer = await case_view_curl.executeAsync();
+
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
+            {
+                if(cvi.value.pmssno.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(cvi.value.pmssno);
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return $"{prefix}-{result.Count.ToString().PadLeft(4,'0')}";
+    }
+
 } 
 

@@ -44,6 +44,8 @@ public sealed class case_view_sortable_item
     public string agreement_status{ get; set; }
     public string version{ get; set; }
 
+    public string residence_zip {get;set;}
+
 }
 
 

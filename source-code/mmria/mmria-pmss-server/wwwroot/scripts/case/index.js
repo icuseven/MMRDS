@@ -1127,6 +1127,8 @@ var g_ui = {
     }
 
     result.home_record.pmss_state_code = p_state_of_death;
+    result.home_record.track_year = p_year_of_death;
+    result.host_state = window.location.host.split('-')[0];
 /*    result.home_record.date_of_death.year = p_year_of_death;
     result.home_record.date_of_death.month = p_month_of_death;
     result.home_record.date_of_death.day = p_day_of_death;
@@ -1166,22 +1168,32 @@ var g_ui = {
       new_data.push(g_ui.case_view_list[i]);
     }
 
+	const new_pmss_number_response = await $.ajax({
+		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death}`
+	});
+
+    result.home_record.pmssno = new_pmss_number_response;
+
     new_data.push({
       id: result._id,
       key: result._id,
       value: {
+        /*
         first_name: result.home_record.first_name,
         middle_name: result.home_record.middle_name,
-        last_name: result.home_record.last_name,
+        last_name: result.home_record.last_name,*/
         date_of_death_year: result.home_record.date_of_death.year,
         //date_of_death_month: result.home_record.date_of_death.month,
+        host_state: result.host_state,
 
         date_created: result.date_created,
         created_by: result.created_by,
         date_last_updated: result.date_last_updated,
         last_updated_by: result.last_updated_by,
 
-        record_id: result.home_record.record_id,
+        pmssno: new_pmss_number_response,
+        track_year: p_year_of_death,
+        pmss_state_code: p_state_of_death
         //agency_case_id: result.agency_case_id,
         //date_of_committee_review: result.committee_review.date_of_review,
       },
@@ -3546,7 +3558,7 @@ function gui_remove_broken_rule(p_object_id)
 
 
 
-function add_new_case_button_click(p_input)
+async function add_new_case_button_click(p_input)
 {
     let state = document.getElementById("add_new_state");
 

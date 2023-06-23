@@ -716,6 +716,20 @@ function render_app_summary_result_item(item, i)
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
+    const track_year = item.value.track_year;
+    const pmssno = item.value.pmssno
+    const pmss_state_code = item.value.pmss_state_code
+    const med_coder_check = item.value.med_coder_check
+    const med_dir_check = item.value.med_dir_check
+    const death_certificate_number = item.value.death_certificate_number
+    const status = item.value.status
+    const agreement_status = item.value.agreement_status
+    const dod = item.value.dod
+    const dob = item.value.dob
+    const residence_zip = item.value.residence_zip
+
+
+
     let projectedReviewDate = item.value.review_date_projected ? new Date(item.value.review_date_projected).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
     let actualReviewDate = item.value.review_date_actual ? new Date(item.value.review_date_actual).toLocaleDateString('en-US') : ''; //convert ISO format to mm/dd/yyyy if exists
     if (projectedReviewDate.length < 1 && actualReviewDate.length > 0) projectedReviewDate = '(blank)';
@@ -725,7 +739,7 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${pmssno}, ${status} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
         <td class="td">${reviewDates}</td>
