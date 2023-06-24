@@ -572,36 +572,34 @@ function get_metadata()
   });
 }
 
-function get_standard_de_identified_list() 
+async function get_standard_de_identified_list() 
 {
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      '/api/de_identified_list?id=export',
-  }).done(function (response) 
-  {
+  const url = `${location.protocol}//${location.host}/api/de_identified_list?id=export`;
+
+  const response = await $.ajax({
+    url:url
+      
+  });
    
     
-    let host_state = get_host_state_name().toLocaleLowerCase();
+  let host_state = get_host_state_name().toLocaleLowerCase();
 
-    let selected_list = 'global';
+  let selected_list = 'global';
 
-    for (let [key, value] of Object.entries(response.name_path_list)) 
-    {
-        if(key == host_state)
-        {
-            selected_list = host_state;
-            break;
-        }
-    }
+  for (let [key, value] of Object.entries(response.name_path_list)) 
+  {
+      if(key == host_state)
+      {
+          selected_list = host_state;
+          break;
+      }
+  }
 
 
-    g_standard_de_identified_list = { paths: response.name_path_list[selected_list] };
+  g_standard_de_identified_list = { paths: response.name_path_list[selected_list] };
 
-    load_data();
-  });
+  load_data();
+  
 }
 
 function get_latest_version() {
