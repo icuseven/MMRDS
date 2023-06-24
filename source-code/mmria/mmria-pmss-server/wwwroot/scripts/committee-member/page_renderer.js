@@ -119,13 +119,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(g_data)
 			{
 				result.push("<h3  style='color: purple'>");
-				result.push(g_data.home_record.last_name);
+				result.push(g_data.tracking.last_name);
 				result.push(", ");
-				result.push(g_data.home_record.first_name);
-				if(g_data.home_record.record_id)
+				result.push(g_data.tracking.first_name);
+				if(g_data.tracking.pmssno)
 				{
 					result.push("  - ");
-					result.push(g_data.home_record.record_id);
+					result.push(g_data.tracking.pmssno);
 				}
 				result.push("</h3>");
 			}
@@ -195,13 +195,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 				if(g_data)
 				{
 					result.push("<h3  style='color: purple'>");
-					result.push(g_data.home_record.last_name);
+					result.push(g_data.tracking.last_name);
 					result.push(", ");
-					result.push(g_data.home_record.first_name);
-					if(g_data.home_record.record_id)
+					result.push(g_data.tracking.first_name);
+					if(g_data.tracking.pmssno)
 					{
 						result.push("  - ");
-						result.push(g_data.home_record.record_id);
+						result.push(g_data.tracking.pmssno);
 					}
 					result.push("</h3>");
 				}
@@ -258,13 +258,13 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 			if(g_data)
 			{
 				result.push("<h3  style='color: purple'>");
-				result.push(g_data.home_record.last_name);
+				result.push(g_data.tracking.last_name);
 				result.push(", ");
-				result.push(g_data.home_record.first_name);
-				if(g_data.home_record.record_id)
+				result.push(g_data.tracking.first_name);
+				if(g_data.tracking.pmssno)
 				{
 					result.push("  - ");
-					result.push(g_data.home_record.record_id);
+					result.push(g_data.tracking.pmssno);
 				}
 				result.push("</h3>");
 			}
@@ -413,14 +413,14 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
         }
           result.push(item._id);
           result.push('"><p class="result">');
-          result.push(item.home_record.last_name);
+          result.push(item.tracking.last_name);
           result.push(', ');
-          result.push(item.home_record.first_name);
+          result.push(item.tracking.first_name);
           result.push(' - ');
-          result.push(item.home_record.record_id);
+          result.push(item.tracking.pmssno);
           result.push('	(');
-          result.push(item.home_record.state_of_death);
-          result.push('	) <a href="#/'+ i + '/home_record" role="button" class="btn-purple">select</a> </p>');
+          result.push(item.tracking.state_of_death);
+          result.push('	) <a href="#/'+ i + '/tracking" role="button" class="btn-purple">select</a> </p>');
         result.push('</div>');
         
       }

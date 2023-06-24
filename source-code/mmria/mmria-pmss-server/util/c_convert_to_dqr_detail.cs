@@ -281,10 +281,10 @@ public sealed class c_convert_to_dqr_detail
     
         dqr_detail._id  = ((object)value_result.result).ToString();
 
-        value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
+        value_result = gs.get_value(source_object, "tracking/jurisdiction_id");
         dqr_detail.case_folder = ((object)value_result.result).ToString();
 
-        value_result = gs.get_value(source_object, "home_record/record_id");
+        value_result = gs.get_value(source_object, "tracking/record_id");
         dqr_detail.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
     
         dqr_detail._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
@@ -323,7 +323,7 @@ public sealed class c_convert_to_dqr_detail
 
         int test_int = -1;
 
-        value_result = gs.get_value(source_object, "home_record/how_was_this_death_identified");
+        value_result = gs.get_value(source_object, "tracking/how_was_this_death_identified");
         if(value_result.is_error)
         {
 
@@ -369,7 +369,7 @@ public sealed class c_convert_to_dqr_detail
 
 
 
-        value_result = gs.get_value(source_object, "home_record/case_status/overall_case_status");
+        value_result = gs.get_value(source_object, "tracking/case_status/overall_case_status");
         if
         (
             !value_result.is_error &&
@@ -466,7 +466,7 @@ public sealed class c_convert_to_dqr_detail
 
 
 
-        value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
+        value_result = gs.get_value(source_object, "tracking/case_progress_report/birth_certificate_parent_section");
         if
         (
             !value_result.is_error &&
@@ -508,8 +508,8 @@ public sealed class c_convert_to_dqr_detail
 
 
         //n10
-        //hr_abs_dth_timing: /home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
-        value_result = gs.get_value(source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
+        //hr_abs_dth_timing: /tracking/overall_assessment_of_timing_of_death/abstrator_assigned_status
+        value_result = gs.get_value(source_object, "tracking/overall_assessment_of_timing_of_death/abstrator_assigned_status");
         if
         (
             cr_do_revie_is_date &&
@@ -553,16 +553,16 @@ public sealed class c_convert_to_dqr_detail
                     //n11
                     hrdod_month = '9999' OR hrdod_day = '9999' OR hrdod_year = '9999'
 
-        hrdod_month: /home_record/date_of_death/month
-        hrdod_day:  /home_record/date_of_death/day
-        hrdod_year: /home_record/date_of_death/year
+        hrdod_month: /tracking/date_of_death/month
+        hrdod_day:  /tracking/date_of_death/day
+        hrdod_year: /tracking/date_of_death/year
         */
 
         int hrdod_month = -1;
         int hrdod_day = -1;
         int hrdod_year = -1;
         
-        value_result = gs.get_value(source_object, "home_record/date_of_death/month");
+        value_result = gs.get_value(source_object, "tracking/date_of_death/month");
         if(value_result.result != null)
         {
             if(int.TryParse(value_result.result.ToString(), out test_int))
@@ -571,7 +571,7 @@ public sealed class c_convert_to_dqr_detail
             }
         }
 
-        value_result = gs.get_value(source_object, "home_record/date_of_death/day");
+        value_result = gs.get_value(source_object, "tracking/date_of_death/day");
         if(value_result.result != null)
         {
             if(int.TryParse(value_result.result.ToString(), out test_int))
@@ -581,7 +581,7 @@ public sealed class c_convert_to_dqr_detail
         }
 
 
-        value_result = gs.get_value(source_object, "home_record/date_of_death/year");
+        value_result = gs.get_value(source_object, "tracking/date_of_death/year");
         if(value_result.result != null)
         {
             if(int.TryParse(value_result.result.ToString(), out test_int))
@@ -610,7 +610,7 @@ public sealed class c_convert_to_dqr_detail
         n12
 
         hrcpr_bcp_secti = '2' AND (bfdcpfodddod_month = '9999' OR bfdcpfodddod_day = '9999' OR bfdcpfodddod_year  = '9999')
-        hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+        hrcpr_bcp_secti:  /tracking/case_progress_report/birth_certificate_parent_section
 bfdcpfodddod_month: /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month
 bfdcpfodddod_day:  /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day
 bfdcpfodddod_year:   /birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year
@@ -621,7 +621,7 @@ int bfdcpfodddod_month = -1;
 int bfdcpfodddod_day = -1;
 int bfdcpfodddod_year = -1;
 
-        value_result = gs.get_value(source_object, "home_record/case_progress_report/birth_certificate_parent_section");
+        value_result = gs.get_value(source_object, "tracking/case_progress_report/birth_certificate_parent_section");
         if(value_result.result != null)
         {
             if(int.TryParse(value_result.result.ToString(), out test_int))
@@ -715,7 +715,7 @@ int bfdcpfodddod_year = -1;
         }
 */
 
-        // hrcpr_bcp_secti: /home_record/case_progress_report/birth_certificate_parent_section
+        // hrcpr_bcp_secti: /tracking/case_progress_report/birth_certificate_parent_section
         var bfdcpr_ro_mothe = get_mutilist_value_by_path("birth_fetal_death_certificate_parent/race/race_of_mother");
         var bfdcpdom_ioh_origi = get_list_value_by_path("birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin");
 
@@ -786,7 +786,7 @@ int bfdcpfodddod_year = -1;
         }
 
 
-        //hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+        //hrcpr_bcp_secti:  /tracking/case_progress_report/birth_certificate_parent_section
         var bfdcpdom_e_level = get_list_value_by_path("birth_fetal_death_certificate_parent/demographic_of_mother/education_level");
         if
         (
@@ -905,7 +905,7 @@ int bfdcpfodddod_year = -1;
             }
         }
 
-        //hrcpr_bcp_secti:  /home_record/case_progress_report/birth_certificate_parent_section
+        //hrcpr_bcp_secti:  /tracking/case_progress_report/birth_certificate_parent_section
         var bfdcplor_edf_resid = get_float_value_by_path("birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence");
         if
         (

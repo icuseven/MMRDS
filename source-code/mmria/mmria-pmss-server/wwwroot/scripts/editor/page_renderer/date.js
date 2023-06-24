@@ -114,15 +114,15 @@ function date_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         );
 /*
         p_post_html_render.push(`
-          $('#g_data_home_record_case_status_case_locked_date input').hide();
+          $('#g_data_tracking_case_status_case_locked_date input').hide();
 
           if (${
-            g_data.home_record.case_status.case_locked_date !== null &&
-            g_data.home_record.case_status.case_locked_date.length > 0 &&
-            g_data.home_record.case_status.case_locked_date !== ''
+            g_data.tracking.case_status.case_locked_date !== null &&
+            g_data.tracking.case_status.case_locked_date.length > 0 &&
+            g_data.tracking.case_status.case_locked_date !== ''
             })
           {
-            $('#g_data_home_record_case_status_case_locked_date input').show();
+            $('#g_data_tracking_case_status_case_locked_date input').show();
           }
         `);*/
 

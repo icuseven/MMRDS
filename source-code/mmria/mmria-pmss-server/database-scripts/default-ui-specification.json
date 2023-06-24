@@ -1250,7 +1250,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":11643.671875,\"left\":17,\"height\":338,\"width\":998,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/first_name": {
+	  "tracking/first_name": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":15,\"left\":15,\"height\":46,\"width\":124.188,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1258,7 +1258,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":70.9375,\"left\":15,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/middle_name": {
+	  "tracking/middle_name": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":15,\"left\":252,\"height\":46,\"width\":149,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1266,7 +1266,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":70.9375,\"left\":252,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/last_name": {
+	  "tracking/last_name": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":15,\"left\":489,\"height\":46,\"width\":140.938,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1274,12 +1274,12 @@
 		  "style": "{\"position\":\"absolute\",\"top\":70.9375,\"left\":489,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/date_of_death": {
+	  "tracking/date_of_death": {
 		"control": {
 		  "style": "{\"position\":\"absolute\",\"top\":168.953125,\"left\":17,\"height\":172,\"width\":337.766,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/date_of_death/month": {
+	  "tracking/date_of_death/month": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":31,\"left\":11,\"height\":46,\"width\":74.4375,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1287,7 +1287,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":87,\"left\":11,\"height\":56,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/date_of_death/day": {
+	  "tracking/date_of_death/day": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":31,\"left\":119.4375,\"height\":46,\"width\":58.4375,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1295,7 +1295,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":87,\"left\":119.4375,\"height\":56,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/date_of_death/year": {
+	  "tracking/date_of_death/year": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":31,\"left\":227.875,\"height\":46,\"width\":62.3125,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1303,7 +1303,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":87,\"left\":227.875,\"height\":56,\"width\":94,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/state_of_death_record": {
+	  "tracking/state_of_death_record": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":384,\"left\":17,\"height\":50,\"width\":235.313,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1311,7 +1311,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":440,\"left\":17,\"height\":56,\"width\":204,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/record_id": {
+	  "tracking/record_id": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":381.5625,\"left\":263.390625,\"height\":46,\"width\":157,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1319,7 +1319,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":437.5625,\"left\":263.390625,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/agency_case_id": {
+	  "tracking/agency_case_id": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":383.1875,\"left\":534.015625,\"height\":46,\"width\":306.438,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1327,7 +1327,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":439.1875,\"left\":534.015625,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/how_was_this_death_identified": {
+	  "tracking/how_was_this_death_identified": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":522,\"left\":17,\"height\":46,\"width\":442.016,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1335,7 +1335,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":578,\"left\":17,\"height\":56,\"width\":494,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/specify_other_multiple_sources": {
+	  "tracking/specify_other_multiple_sources": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":522,\"left\":525.4375,\"height\":46,\"width\":366.625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		},
@@ -1343,7 +1343,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":578,\"left\":525.4375,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/primary_abstractor": {
+	  "tracking/primary_abstractor": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":660,\"left\":17,\"height\":46,\"width\":172,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1351,7 +1351,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":716,\"left\":17,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/jurisdiction_id": {
+	  "tracking/jurisdiction_id": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":660,\"left\":254,\"height\":46,\"width\":183.938,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1359,12 +1359,12 @@
 		  "style": "{\"position\":\"absolute\",\"top\":716,\"left\":254,\"height\":56,\"width\":227,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report": {
+	  "tracking/case_progress_report": {
 		"control": {
 		  "style": "{\"position\":\"absolute\",\"top\":830,\"left\":17,\"height\":882.563,\"width\":881,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate": {
+	  "tracking/case_progress_report/death_certificate": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":47,\"left\":30,\"height\":50,\"width\":166.125,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1372,7 +1372,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":92,\"left\":29,\"height\":50,\"width\":163,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report": {
+	  "tracking/case_progress_report/autopsy_report": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":38,\"left\":448.578125,\"height\":50,\"width\":172.25,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1380,7 +1380,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":83,\"left\":446.578125,\"height\":50,\"width\":149,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/birth_certificate_parent_section": {
+	  "tracking/case_progress_report/birth_certificate_parent_section": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":157,\"left\":29.3125,\"height\":50,\"width\":387.813,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1388,7 +1388,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":202,\"left\":29.3125,\"height\":50,\"width\":189,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section": {
+	  "tracking/case_progress_report/birth_certificate_infant_or_fetal_death_section": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":148,\"left\":447,\"height\":50,\"width\":363.125,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1396,7 +1396,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":193,\"left\":443,\"height\":50,\"width\":160,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/prenatal_care_record": {
+	  "tracking/case_progress_report/prenatal_care_record": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":267,\"left\":30.5625,\"height\":50,\"width\":243.938,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1404,7 +1404,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":312,\"left\":30.5625,\"height\":56,\"width\":190,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/er_visits_and_hospitalizations": {
+	  "tracking/case_progress_report/er_visits_and_hospitalizations": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":258,\"left\":442.75,\"height\":50,\"width\":328.641,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1412,7 +1412,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":303,\"left\":442.75,\"height\":62,\"width\":162,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/other_medical_visits": {
+	  "tracking/case_progress_report/other_medical_visits": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":383,\"left\":31,\"height\":50,\"width\":241.875,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1420,7 +1420,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":428,\"left\":31,\"height\":56,\"width\":191,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/medical_transport": {
+	  "tracking/case_progress_report/medical_transport": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":380,\"left\":443.3125,\"height\":50,\"width\":203.438,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1428,7 +1428,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":425,\"left\":444.3125,\"height\":56,\"width\":162,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/social_and_psychological_profile": {
+	  "tracking/case_progress_report/social_and_psychological_profile": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":499,\"left\":32.1875,\"height\":46,\"width\":287.188,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1436,7 +1436,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":540,\"left\":32.1875,\"height\":56,\"width\":189,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/mental_health_profile": {
+	  "tracking/case_progress_report/mental_health_profile": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":496,\"left\":443.875,\"height\":50,\"width\":204.094,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1444,7 +1444,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":541,\"left\":443.875,\"height\":56,\"width\":160,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/informant_interviews": {
+	  "tracking/case_progress_report/informant_interviews": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":611,\"left\":31,\"height\":50,\"width\":204.438,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1452,7 +1452,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":656,\"left\":31,\"height\":56,\"width\":190,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/case_narrative": {
+	  "tracking/case_progress_report/case_narrative": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":612,\"left\":443.5,\"height\":50,\"width\":179.875,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -1460,7 +1460,7 @@
 		  "style": "{\"position\":\"absolute\",\"top\":657,\"left\":443.5,\"height\":56,\"width\":161,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/committe_review_worksheet": {
+	  "tracking/case_progress_report/committe_review_worksheet": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":731.5625,\"left\":228.625,\"height\":57,\"width\":221.125,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
 		},
@@ -7635,62 +7635,62 @@
 		  "style": "{\"position\":\"absolute\",\"top\":776,\"left\":17.8125,\"height\":13,\"width\":13,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/": {
+	  "tracking/case_progress_report/death_certificate/": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":33,\"left\":12,\"height\":58,\"width\":134,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/Not/Started": {
+	  "tracking/case_progress_report/death_certificate/Not/Started": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":35,\"left\":130,\"height\":54,\"width\":170.375,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/In/Progress": {
+	  "tracking/case_progress_report/death_certificate/In/Progress": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":38,\"left\":262.734375,\"height\":54,\"width\":165.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/Completed": {
+	  "tracking/case_progress_report/death_certificate/Completed": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":37,\"left\":397,\"height\":50,\"width\":158.813,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/Not/Available": {
+	  "tracking/case_progress_report/death_certificate/Not/Available": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":37,\"left\":548,\"height\":50,\"width\":160.438,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/death_certificate/Not/Applicable": {
+	  "tracking/case_progress_report/death_certificate/Not/Applicable": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":39,\"left\":711.375,\"height\":50,\"width\":168.625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/": {
+	  "tracking/case_progress_report/autopsy_report/": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":10,\"height\":50,\"width\":115.344,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/Not/Started": {
+	  "tracking/case_progress_report/autopsy_report/Not/Started": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":118.359375,\"height\":50,\"width\":147.375,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/In/Progress": {
+	  "tracking/case_progress_report/autopsy_report/In/Progress": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":254.734375,\"height\":50,\"width\":146.266,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/Completed": {
+	  "tracking/case_progress_report/autopsy_report/Completed": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":394,\"height\":50,\"width\":145.813,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/Not/Available": {
+	  "tracking/case_progress_report/autopsy_report/Not/Available": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":528.828125,\"height\":46,\"width\":170.438,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}
 	  },
-	  "home_record/case_progress_report/autopsy_report/Not/Applicable": {
+	  "tracking/case_progress_report/autopsy_report/Not/Applicable": {
 		"prompt": {
 		  "style": "{\"position\":\"absolute\",\"top\":26,\"left\":680.265625,\"height\":50,\"width\":177.625,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(0, 0, 0)\"}"
 		}

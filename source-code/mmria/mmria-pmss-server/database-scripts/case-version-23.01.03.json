@@ -11,7 +11,7 @@
     "host_state": "localhost:12345",
     "addquarter": "Q1-2023",
     "cmpquarter": "",
-    "home_record": {
+    "tracking": {
       "first_name": "de-identified",
       "middle_name": "",
       "last_name": "de-identified",

@@ -5,8 +5,8 @@ var $mmria = function()
         {
             const lat = g_data.death_certificate.place_of_last_residence.latitude;
             const lon = g_data.death_certificate.place_of_last_residence.longitude;
-            const year = g_data.home_record.date_of_death.year;
-            const record_id = g_data.home_record.record_id;
+            const year = g_data.tracking.date_of_death.year;
+            const record_id = g_data.tracking.pmssno;
 
             if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {
@@ -86,8 +86,8 @@ var $mmria = function()
 
             const lat = g_data.death_certificate.place_of_last_residence.latitude;
             const lon = g_data.death_certificate.place_of_last_residence.longitude;
-            const year = g_data.home_record.date_of_death.year;
-            const record_id = g_data.home_record.record_id;
+            const year = g_data.tracking.date_of_death.year;
+            const record_id = g_data.tracking.pmssno;
 
             if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {

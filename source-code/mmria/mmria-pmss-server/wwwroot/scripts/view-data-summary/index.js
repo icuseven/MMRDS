@@ -317,7 +317,7 @@ async function build_report()
                     /*
                     if
                     (
-                        s == 'home_record/how_was_this_death_identified' && 
+                        s == 'tracking/how_was_this_death_identified' && 
                         detail_item[v].value != null && detail_item[v].value.toString().length > 4
                     )
                     {

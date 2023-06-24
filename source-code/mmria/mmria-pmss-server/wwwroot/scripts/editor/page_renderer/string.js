@@ -332,7 +332,7 @@ function convert_form_name(p_value)
 {
 	let lookup = {
 		'(none)': '(none)',
-		'home_record': 'Home Record',
+		'tracking': 'Home Record',
 		'death_certificate': 'Death Certificate',
 		'birth_fetal_death_certificate_parent': 'Birth/Fetal Death Certificate - Parent Section',
 		'birth_certificate_infant_fetal_section': 'Birth/Fetal Death Certificate - Infant/Fetal Section',

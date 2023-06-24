@@ -207,14 +207,14 @@ public sealed class update_year_of_deathController : Controller
             var dictionary = case_response as IDictionary<string,object>;
             if(dictionary != null)
             {
-                var home_record = dictionary["home_record"] as IDictionary<string,object>;
-                if(home_record != null)
+                var tracking = dictionary["tracking"] as IDictionary<string,object>;
+                if(tracking != null)
                 {
-                    var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
+                    var date_of_death = tracking["date_of_death"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
                         date_of_death["year"] = model.YearOfDeathReplacement.ToString();
-                        home_record["record_id"] = model.RecordIdReplacement;
+                        tracking["record_id"] = model.RecordIdReplacement;
 
                         dictionary["last_updated_by"] = userName;
                         dictionary["date_last_updated"] = DateTime.Now;

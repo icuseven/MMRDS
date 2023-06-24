@@ -50,8 +50,8 @@ var g_ui = {
   add_new_case: function()
 	{
     var result = create_default_object(g_metadata, {});
-    result.home_record.last_name = "new-last-name";
-    result.home_record.first_name = "new-first-name";
+    result.tracking.last_name = "new-last-name";
+    result.tracking.first_name = "new-first-name";
 		var new_data = [];
 
 		for(var i in g_ui.data_list)
@@ -70,7 +70,7 @@ var g_ui = {
 		g_ui.selected_record_id = result._id;
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
-    var url = escape(location.protocol) + '//' + escape(location.host) + '#/' + escape(g_ui.selected_record_index) + '/home_record';
+    var url = escape(location.protocol) + '//' + escape(location.host) + '#/' + escape(g_ui.selected_record_index) + '/tracking';
 
     window.location = url;
 

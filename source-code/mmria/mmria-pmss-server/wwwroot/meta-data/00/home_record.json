@@ -88,7 +88,7 @@
 			"name":"death_certificate",
 			"order": -1,
 			"cardinality": "0-1",
-			"type": "home_record.death_certificate.json"
+			"type": "tracking.death_certificate.json"
 			
 	   },
 	   { 
@@ -96,14 +96,14 @@
 			"prompt":"maternal_birth_certificate",
 			"order": -1,
 			"cardinality": "0-1",
-			"type": "home_record.maternal_birth_certificate.json"
+			"type": "tracking.maternal_birth_certificate.json"
 	   },
 	   { 
 			"name":"infant_birth_fetal_death_certificate",
 			"prompt":"infant_birth_fetal_death_certificate",
 			"order": -1,
 			"cardinality": "*",
-			"type": "home_record.infant_birth_fetal_death_certificate.json"
+			"type": "tracking.infant_birth_fetal_death_certificate.json"
 	   }
 	]
 }

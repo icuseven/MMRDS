@@ -19,7 +19,7 @@ $(function () {//http://www.w3schools.com/html/html_layout.asp
 
 
 let TitleMap = {
-	"home_record": "Home",
+	"tracking": "Home",
 	"death_certificate": "DC",
 	"birth_fetal_death_certificate_parent": "BCDC-P",
 	"birth_certificate_infant_fetal_section": "BCDC-I",
@@ -221,7 +221,7 @@ async function print_pdf(ctx) {
 	let pdfTitle = getHeaderName();
 
 	// Get report tab name
-	let reportTabName = `PMSS #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
+	let reportTabName = `PMSS #:  ${g_d.tracking.pmssno}/${TitleMap[ctx.section_name]}`;
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
@@ -473,7 +473,7 @@ function getBase64ImageFromURL(url) {
 // create a unique PDF name based on datetime
 function createNamePDF() {
 	let utcDate = new Date().toISOString();
-	return `${g_d.home_record.record_id}` + '_' + utcDate + '.pdf';
+	return `${g_d.tracking.pmssno}` + '_' + utcDate + '.pdf';
 }
 
 // check field for null
@@ -615,8 +615,8 @@ function fmtStrDate(dt) {
 
 // Get the header name
 function getHeaderName() {
-	let headerStr = `PMSS Record ID#:  ${g_d.home_record.record_id}\t--\t` +
-		`Agency ID#: ${g_d.home_record.agency_case_id}`;
+	let headerStr = `PMSS Record ID#:  ${g_d.tracking.pmssno}\t--\t` +
+		`Agency ID#: ${g_d.tracking.agency_case_id}`;
 	return headerStr;
 }
 
@@ -624,7 +624,7 @@ function getHeaderName() {
 function getReportTabName(section) {
 	let nm = '';
 	switch (section) {
-		case 'home_record':
+		case 'tracking':
 			nm = 'Home Record'
 			break;
 		case 'death_certificate':
@@ -903,7 +903,7 @@ async function formatContent(p_ctx, arrMap) {
 						body = await print_pdf_render_content(new_context);
 
 						// If not the Home Record and is all records, then do a page break
-						if (p_ctx.section_name == 'all' && child.name != 'home_record') {
+						if (p_ctx.section_name == 'all' && child.name != 'tracking') {
 							body.unshift([{ text: '', pageBreak: 'before', colSpan: '2', }, {},]);
 						}
 						// Get the page header
@@ -1367,7 +1367,7 @@ async function core_summary() {
 	// Record Core Fields
 	let retPage = [];
 
-	// let arrIndex = arrMap.findIndex((s) => s.name == 'home_record');
+	// let arrIndex = arrMap.findIndex((s) => s.name == 'tracking');
 	body = core_pdf_summary(g_md, g_d, '/', false, '');
 
 	// Show the table

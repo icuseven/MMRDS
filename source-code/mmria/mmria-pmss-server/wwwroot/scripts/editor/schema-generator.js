@@ -85,7 +85,7 @@ function generate_schema_phase2(p_schema_context)
                     new_schema_context = get_schema_context(child, p_schema_context.schema.properties, p_schema_context.version, "");
                     generate_schema_phase2(new_schema_context);
                     /*
-                    if(child.name == "home_record")
+                    if(child.name == "tracking")
                     {
                         break;
                     }*/

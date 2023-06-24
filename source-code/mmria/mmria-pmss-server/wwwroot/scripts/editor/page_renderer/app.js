@@ -739,7 +739,7 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${pmssno}, ${status} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td"><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${pmssno}, ${status} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
         <td class="td">${reviewDates}</td>
@@ -851,7 +851,7 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
         <td class="td" ${border_bottom_color}>${reviewDates}</td>

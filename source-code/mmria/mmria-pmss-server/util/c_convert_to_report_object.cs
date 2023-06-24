@@ -55,7 +55,7 @@ public sealed partial class c_convert_to_report_object
 
     @"
     'id': doc._id,
-    'hr_date_of_death_year': doc.home_record.date_of_death.year,
+    'hr_date_of_death_year': doc.tracking.date_of_death.year,
     'dc_date_of_death': doc.death_certificate.certificate_identification.date_of_death,
     'date_of_review': doc.committee_review.date_of_review,
     'was_this_death_preventable': doc.committee_review.was_this_death_preventable,
@@ -78,9 +78,9 @@ public sealed partial class c_convert_to_report_object
     static HashSet<string> aggregator_set = new HashSet<string>()
     {
         "_id",
-        "home_record/date_of_death/year",
-        "home_record/date_of_death/month",
-        "home_record/date_of_death/day",
+        "tracking/date_of_death/year",
+        "tracking/date_of_death/month",
+        "tracking/date_of_death/day",
         "committee_review/date_of_review",
         "committee_review/was_this_death_preventable",
         "committee_review/pregnancy_relatedness",
@@ -147,7 +147,7 @@ public sealed partial class c_convert_to_report_object
 
         try
         {
-            val = get_value(source_object, "home_record/date_of_death/year").result;
+            val = get_value(source_object, "tracking/date_of_death/year").result;
             if(val != null && val.ToString() != "")
             {
                 report_object.year_of_death = System.Convert.ToInt32(val);

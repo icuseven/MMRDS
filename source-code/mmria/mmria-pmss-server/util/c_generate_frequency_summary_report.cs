@@ -65,10 +65,10 @@ N (Total Count)
 
 
 FREQ
-app/home_record/how_was_this_death_identified
-app/home_record/case_status/overall_case_status
-app/home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status
-app/home_record/overall_assessment_of_timing_of_death/hr_prg_outcome
+app/tracking/how_was_this_death_identified
+app/tracking/case_status/overall_case_status
+app/tracking/overall_assessment_of_timing_of_death/abstrator_assigned_status
+app/tracking/overall_assessment_of_timing_of_death/hr_prg_outcome
 er_visit_and_hospital_medical_records/physical_exam_and_evaluations/body_system
 er_visit_and_hospital_medical_records/onset_of_labor/final_delivery_route
 er_visit_and_hospital_medical_records/onset_of_labor/pregnancy_outcome
@@ -83,7 +83,7 @@ prenatal/routine_monitoring/urine_ketones
 prenatal/routine_monitoring/urine_glucose
 
 STAT_N
-app/home_record/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey
+app/tracking/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey
 er_visit_and_hospital_medical_records/highest_bp/systolic_bp
 er_visit_and_hospital_medical_records/highest_bp/diastolic_bp
 er_visit_and_hospital_medical_records/vital_signs/pulse
@@ -105,10 +105,10 @@ prenatal/routine_monitoring/weight
 
 STAT_D
 birth_certificate_infant_fetal_section/record_identification/date_of_delivery
-app/home_record/case_status/abstraction_begin_date
-app/home_record/case_status/abstraction_complete_date
-app/home_record/case_status/committee_review_date
-app/home_record/case_status/case_locked_date
+app/tracking/case_status/abstraction_begin_date
+app/tracking/case_status/abstraction_complete_date
+app/tracking/case_status/committee_review_date
+app/tracking/case_status/case_locked_date
 er_visit_and_hospital_medical_records/vital_signs/date_and_time
 prenatal/pregnancy_history/details_grid/date_ended
 prenatal/routine_monitoring/date_and_time
@@ -217,10 +217,10 @@ prenatal/routine_monitoring/date_and_time
     
         FrequencySummaryDocument._id  = ((object)value_result.result).ToString();
 
-        value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
+        value_result = gs.get_value(source_object, "tracking/jurisdiction_id");
         FrequencySummaryDocument.case_folder = ((object)value_result.result).ToString();
 
-        value_result = gs.get_value(source_object, "home_record/record_id");
+        value_result = gs.get_value(source_object, "tracking/record_id");
         FrequencySummaryDocument.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
     
         //FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
@@ -266,25 +266,25 @@ prenatal/routine_monitoring/date_and_time
 
         try
         {
-            val = gs.get_value(source_object,  "home_record/case_status/overall_case_status").result;
+            val = gs.get_value(source_object,  "tracking/case_status/overall_case_status").result;
             if(val != null && val.ToString() != "")
             {
                 FrequencySummaryDocument.case_status  = System.Convert.ToInt32(val);
             }
 
-            val = gs.get_value(source_object, "home_record/date_of_death/year").result;
+            val = gs.get_value(source_object, "tracking/date_of_death/year").result;
             if(val != null && val.ToString() != "")
             {
                 FrequencySummaryDocument.year_of_death = System.Convert.ToInt32(val);
             }
 
-            val = gs.get_value(source_object, "home_record/date_of_death/month").result;
+            val = gs.get_value(source_object, "tracking/date_of_death/month").result;
             if(val != null && val.ToString() != "")
             {
                 FrequencySummaryDocument.month_of_death = System.Convert.ToInt32(val);
             }
 
-            val = gs.get_value(source_object, "home_record/date_of_death/day").result;
+            val = gs.get_value(source_object, "tracking/date_of_death/day").result;
             if(val != null && val.ToString() != "")
             {
                 FrequencySummaryDocument.day_of_death = System.Convert.ToInt32(val);

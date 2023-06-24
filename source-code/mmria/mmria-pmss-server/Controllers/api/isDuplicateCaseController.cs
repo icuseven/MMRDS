@@ -74,13 +74,13 @@ public sealed class isDuplicateCaseController: ControllerBase
                             mmria_id = value_result.result.ToString();
 
 
-                            var DSTATE_result = gs.get_value(case_expando_object, "home_record/state_of_death_record");
+                            var DSTATE_result = gs.get_value(case_expando_object, "tracking/state_of_death_record");
                             var host_state_result = gs.get_value(case_expando_object, "host_state");
-                            var DOD_YR_result = gs.get_value(case_expando_object, "home_record/date_of_death/year");
-                            var DOD_MO_result = gs.get_value(case_expando_object, "home_record/date_of_death/month");
-                            var DOD_DY_result = gs.get_value(case_expando_object, "home_record/date_of_death/day");
-                            var LNAME_result = gs.get_value(case_expando_object, "home_record/last_name");
-                            var GNAME_result = gs.get_value(case_expando_object, "home_record/first_name");
+                            var DOD_YR_result = gs.get_value(case_expando_object, "tracking/date_of_death/year");
+                            var DOD_MO_result = gs.get_value(case_expando_object, "tracking/date_of_death/month");
+                            var DOD_DY_result = gs.get_value(case_expando_object, "tracking/date_of_death/day");
+                            var LNAME_result = gs.get_value(case_expando_object, "tracking/last_name");
+                            var GNAME_result = gs.get_value(case_expando_object, "tracking/first_name");
 
                             if
                             (
@@ -117,7 +117,7 @@ public sealed class isDuplicateCaseController: ControllerBase
 
                                     )
                                     {
-                                        var record_id_result = gs.get_value(case_expando_object, "home_record/record_id");
+                                        var record_id_result = gs.get_value(case_expando_object, "tracking/record_id");
                                         if(!record_id_result.is_error && record_id_result.result!= null)
                                         {
                                             record_id = record_id_result.result.ToString();

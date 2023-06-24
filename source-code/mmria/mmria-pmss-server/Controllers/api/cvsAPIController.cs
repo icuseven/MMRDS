@@ -224,17 +224,17 @@ public sealed class cvsAPIController: ControllerBase
                             (
                                 string.IsNullOrWhiteSpace(get_dashboard_body.payload.year) &&
                                 case_dictionary != null &&
-                                case_dictionary.ContainsKey("home_record")
+                                case_dictionary.ContainsKey("tracking")
                             )
                             {
-                                var home_record = case_dictionary["home_record"] as IDictionary<string,object>;
+                                var tracking = case_dictionary["tracking"] as IDictionary<string,object>;
                                 if
                                 (
-                                    home_record != null &&
-                                    home_record.ContainsKey("date_of_death")
+                                    tracking != null &&
+                                    tracking.ContainsKey("date_of_death")
                                 )
                                 {
-                                     var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
+                                     var date_of_death = tracking["date_of_death"] as IDictionary<string,object>;
                                      if
                                     (
                                         date_of_death != null &&

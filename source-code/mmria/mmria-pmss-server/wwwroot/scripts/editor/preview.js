@@ -38,8 +38,8 @@ var g_ui = {
 
     var result = create_default_object(g_metadata, {});
 
-    result.home_record.last_name = "new-last-name";
-    result.home_record.first_name = "new-first-name";
+    result.tracking.last_name = "new-last-name";
+    result.tracking.first_name = "new-first-name";
 		var new_data = [];
 
 		for(var i in g_ui.data_list)
@@ -61,7 +61,7 @@ var g_ui = {
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
 
-    var url = location.protocol + '//' + location.host + '#/' + result._id + '/home_record';
+    var url = location.protocol + '//' + location.host + '#/' + result._id + '/tracking';
     window.location = url;
 
     return result;
@@ -181,8 +181,8 @@ function metadata_changed(p_metadata)
 		    g_ui.data_list.push(g_data);
         g_ui.selected_record_id = g_data._id;
 				g_ui.selected_record_index = g_ui.data_list.length -1;
-				g_data.home_record.first_name = "first";
-				g_data.home_record.last_name = "last";
+				g_data.tracking.first_name = "first";
+				g_data.tracking.last_name = "last";
 	}
 
 	var post_html_call_back = [];

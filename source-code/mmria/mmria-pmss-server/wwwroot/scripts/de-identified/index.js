@@ -77,8 +77,8 @@ var g_ui = {
     //result.created_by = g_uid;
     result.date_last_updated = new Date();
     //result.last_updated_by = g_uid;
-    result.home_record.last_name = "new-last-name";
-    result.home_record.first_name = "new-first-name";
+    result.tracking.last_name = "new-last-name";
+    result.tracking.first_name = "new-first-name";
 
 		var new_data = [];
 
@@ -94,11 +94,11 @@ var g_ui = {
         id:result._id,
         key:result._id,
         value: {
-        first_name: result.home_record.first_name,
-        middle_name: result.home_record.middle_name,
-        last_name: result.home_record.last_name,
-        date_of_death_year: result.home_record.date_of_death.year,
-        date_of_death_month: result.home_record.date_of_death.month,
+        first_name: result.tracking.first_name,
+        middle_name: result.tracking.middle_name,
+        last_name: result.tracking.last_name,
+        date_of_death_year: result.tracking.date_of_death.year,
+        date_of_death_month: result.tracking.date_of_death.month,
 
         date_created: result.date_created,
         created_by: result.created_by,
@@ -121,7 +121,7 @@ var g_ui = {
     set_local_case(g_data, function (){
       save_case(g_data, function(){
             
-      var url = location.protocol + '//' + location.host + '/Case#/' + g_ui.selected_record_index + '/home_record';
+      var url = location.protocol + '//' + location.host + '/Case#/' + g_ui.selected_record_index + '/tracking';
       window.location = url;
       });
     });

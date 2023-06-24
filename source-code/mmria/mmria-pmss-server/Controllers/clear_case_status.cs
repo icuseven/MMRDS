@@ -178,10 +178,10 @@ public sealed class clear_case_statusController : Controller
             var dictionary = case_response as IDictionary<string,object>;
             if(dictionary != null)
             {
-                var home_record = dictionary["home_record"] as IDictionary<string,object>;
-                if(home_record != null)
+                var tracking = dictionary["tracking"] as IDictionary<string,object>;
+                if(tracking != null)
                 {
-                    var case_status = home_record["case_status"] as IDictionary<string,object>;
+                    var case_status = tracking["case_status"] as IDictionary<string,object>;
                     if(case_status != null)
                     {
                         case_status["overall_case_status"] = 9999;

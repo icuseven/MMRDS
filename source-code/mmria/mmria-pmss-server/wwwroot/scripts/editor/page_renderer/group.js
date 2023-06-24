@@ -2,7 +2,7 @@ function group_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 {
 
     let vital_group_set = {
-        "/home_record/automated_vitals_group":true,
+        "/tracking/automated_vitals_group":true,
         "/death_certificate/vitals_import_group":true,
         "/birth_certificate_infant_fetal_section/vitals_import_group":true
     };

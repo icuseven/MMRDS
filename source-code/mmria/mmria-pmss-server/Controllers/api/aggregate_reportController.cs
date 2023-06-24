@@ -59,7 +59,7 @@ public sealed class aggregate_reportController: ControllerBase
                     {
                         var item = convert_result.Value;
                         
-            //home_record/date_of_death/year ne 9999 
+            //tracking/date_of_death/year ne 9999 
             // and committee_review/date_of_review is not missing
                         if
                         (

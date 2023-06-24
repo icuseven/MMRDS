@@ -1114,50 +1114,50 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
-    //result.home_record.case_status.overall_case_status = 1;
-    //result.home_record.case_status.abstraction_begin_date = convert_date_to_storage_format(new Date());
+    //result.tracking.case_status.overall_case_status = 1;
+    //result.tracking.case_status.abstraction_begin_date = convert_date_to_storage_format(new Date());
 
     if (g_jurisdiction_list.length > 0) 
     {
-      result.home_record.jurisdiction_id = g_jurisdiction_list[0];
+      result.tracking.jurisdiction_id = g_jurisdiction_list[0];
     } 
     else 
     {
-      result.home_record.jurisdiction_id = '/';
+      result.tracking.jurisdiction_id = '/';
     }
 
-    result.home_record.pmss_state_code = p_state_of_death;
-    result.home_record.track_year = p_year_of_death;
+    result.tracking.pmss_state_code = p_state_of_death;
+    result.tracking.track_year = p_year_of_death;
     result.host_state = window.location.host.split('-')[0];
-/*    result.home_record.date_of_death.year = p_year_of_death;
-    result.home_record.date_of_death.month = p_month_of_death;
-    result.home_record.date_of_death.day = p_day_of_death;
+/*    result.tracking.date_of_death.year = p_year_of_death;
+    result.tracking.date_of_death.month = p_month_of_death;
+    result.tracking.date_of_death.day = p_day_of_death;
 */
     let reporting_state = sanitize_encodeHTML(window.location.host.split("-")[0]);
 
     if 
     (
         (
-            !result.home_record.record_id || 
-            result.home_record.record_id == ''
+            !result.tracking.pmssno || 
+            result.tracking.pmssno == ''
         ) && 
-        result.home_record.pmss_state_code && 
-        result.home_record.pmss_state_code != '' /*&& 
+        result.tracking.pmss_state_code && 
+        result.tracking.pmss_state_code != '' /*&& 
         
-        result.home_record.date_of_death.year && 
-        parseInt(result.home_record.date_of_death.year) > 999 && 
-        parseInt(result.home_record.date_of_death.year) < 2500*/
+        result.tracking.date_of_death.year && 
+        parseInt(result.tracking.date_of_death.year) > 999 && 
+        parseInt(result.tracking.date_of_death.year) < 2500*/
     ) 
     {
         
         /*
-        let new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+        let new_record_id = reporting_state.trim() + '-' + result.tracking.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         while(g_record_id_list[new_record_id] != null)
         {
-            new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
+            new_record_id = reporting_state.trim() + '-' + result.tracking.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
-        result.home_record.record_id = new_record_id.toUpperCase();
+        result.tracking.pmssno = new_record_id.toUpperCase();
         */
     }
 
@@ -1172,18 +1172,18 @@ var g_ui = {
 		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death}`
 	});
 
-    result.home_record.pmssno = new_pmss_number_response;
+    result.tracking.pmssno = new_pmss_number_response;
 
     new_data.push({
       id: result._id,
       key: result._id,
       value: {
         /*
-        first_name: result.home_record.first_name,
-        middle_name: result.home_record.middle_name,
-        last_name: result.home_record.last_name,*/
-        date_of_death_year: result.home_record.date_of_death.year,
-        //date_of_death_month: result.home_record.date_of_death.month,
+        first_name: result.tracking.first_name,
+        middle_name: result.tracking.middle_name,
+        last_name: result.tracking.last_name,*/
+        date_of_death_year: result.tracking.date_of_death.year,
+        //date_of_death_month: result.tracking.date_of_death.month,
         host_state: result.host_state,
 
         date_created: result.date_created,
@@ -1219,7 +1219,7 @@ var g_ui = {
                 location.host +
                 '/Case#/' +
                 g_ui.selected_record_index +
-                '/home_record';
+                '/tracking';
 
                 window.location = url;
             }, "add_new_case");
@@ -3254,21 +3254,21 @@ function is_case_locked(p_case)
     
     if
     (
-        p_case.home_record &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status.overall_case_status &&
-        p_case.home_record.case_status.overall_case_status != ""
+        p_case.tracking &&
+        p_case.tracking.case_status &&
+        p_case.tracking.case_status.overall_case_status &&
+        p_case.tracking.case_status.overall_case_status != ""
     )
     {
-        selected_value = new Number(p_case.home_record.case_status.overall_case_status);
+        selected_value = new Number(p_case.tracking.case_status.overall_case_status);
     }
     
     if
     (
-        p_case.home_record &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status.case_locked_date != "" &&
+        p_case.tracking &&
+        p_case.tracking.case_status &&
+        p_case.tracking.case_status &&
+        p_case.tracking.case_status.case_locked_date != "" &&
         (
             selected_value == 4 ||
             selected_value == 5 ||
@@ -6266,9 +6266,9 @@ autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_deliver
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day", arc_birth_2_death);
 
 
-autocalc_map.safe_set("/home_record/date_of_death/year", arc_birth_2_death);
-autocalc_map.safe_set("/home_record/date_of_death/month", arc_birth_2_death);
-autocalc_map.safe_set("/home_record/date_of_death/day", arc_birth_2_death);
+autocalc_map.safe_set("/tracking/date_of_death/year", arc_birth_2_death);
+autocalc_map.safe_set("/tracking/date_of_death/month", arc_birth_2_death);
+autocalc_map.safe_set("/tracking/date_of_death/day", arc_birth_2_death);
 
 /*
 autocalc_map.safe_set("/birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year", arc_birth_2_death);
@@ -6282,9 +6282,9 @@ function arc_birth_2_death()
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    var end_year = parseInt(g_data.tracking.date_of_death.year);
+    var end_month = parseInt(g_data.tracking.date_of_death.month);
+    var end_day = parseInt(g_data.tracking.date_of_death.day);
     if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) 
     {
         var start_date = new Date(start_year, start_month - 1, start_day);
@@ -6968,9 +6968,9 @@ event=onfocus
 autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/year", arc_mothers_age_death);
 autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/month", arc_mothers_age_death);
 autocalc_map.safe_set("/death_certificate/demographics/date_of_birth/day", arc_mothers_age_death);
-autocalc_map.safe_set("/home_record/date_of_death/year", arc_mothers_age_death);
-autocalc_map.safe_set("/home_record/date_of_death/month", arc_mothers_age_death);
-autocalc_map.safe_set("/home_record/date_of_death/day", arc_mothers_age_death);
+autocalc_map.safe_set("/tracking/date_of_death/year", arc_mothers_age_death);
+autocalc_map.safe_set("/tracking/date_of_death/month", arc_mothers_age_death);
+autocalc_map.safe_set("/tracking/date_of_death/day", arc_mothers_age_death);
 
 function arc_mothers_age_death() 
 {
@@ -6978,9 +6978,9 @@ function arc_mothers_age_death()
     var start_year = parseInt(g_data.death_certificate.demographics.date_of_birth.year);
     var start_month = parseInt(g_data.death_certificate.demographics.date_of_birth.month);
     var start_day = parseInt(g_data.death_certificate.demographics.date_of_birth.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    var end_year = parseInt(g_data.tracking.date_of_death.year);
+    var end_month = parseInt(g_data.tracking.date_of_death.month);
+    var end_day = parseInt(g_data.tracking.date_of_death.day);
     if 
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 
@@ -7076,9 +7076,9 @@ function arc_birth_2_death()
     var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
     var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
     var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
+    var end_year = parseInt(g_data.tracking.date_of_death.year);
+    var end_month = parseInt(g_data.tracking.date_of_death.month);
+    var end_day = parseInt(g_data.tracking.date_of_death.day);
     if 
     (
         $global.isValidDate(start_year, start_month, start_day) == true && 

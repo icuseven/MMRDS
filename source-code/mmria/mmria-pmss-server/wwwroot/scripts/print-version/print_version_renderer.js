@@ -708,9 +708,9 @@ d3.select('#chart svg').append('text')
       {
         result.push('<div>');
 
-        if (g_data.home_record.record_id) 
+        if (g_data.tracking.pmssno) 
         {
-          result.push(g_data.home_record.record_id);
+          result.push(g_data.tracking.pmssno);
           result.push('<br>');
         }
 

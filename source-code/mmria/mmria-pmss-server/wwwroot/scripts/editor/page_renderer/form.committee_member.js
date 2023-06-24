@@ -101,27 +101,27 @@ function form_render(
 				p_result.push(
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push(g_data.home_record.last_name);
+				p_result.push(g_data.tracking.last_name);
 				p_result.push(", ");
-				p_result.push(g_data.home_record.first_name);
+				p_result.push(g_data.tracking.first_name);
 				p_result.push("</p>");
 			}
 
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-            if(g_data.home_record.jurisdiction_id == "/")
+            if(g_data.tracking.jurisdiction_id == "/")
             {
                 p_result.push("Top Folder");
             }
             else
             {
-                p_result.push(g_data.home_record.jurisdiction_id);
+                p_result.push(g_data.tracking.jurisdiction_id);
         
             }
-            if (g_data.home_record.record_id) 
+            if (g_data.tracking.pmssno) 
             {
                 p_result.push
                 (
-                    " <strong>Record ID:</strong> " + g_data.home_record.record_id
+                    " <strong>Record ID:</strong> " + g_data.tracking.pmssno
                 );
                 
             }
@@ -147,13 +147,13 @@ function form_render(
 			}
 
 			if (
-				g_data.home_record.case_status &&
-				!isNullOrUndefined(g_data.home_record.case_status.overall_case_status)
+				g_data.tracking.case_status &&
+				!isNullOrUndefined(g_data.tracking.case_status.overall_case_status)
 			) {
-				let current_value = g_data.home_record.case_status.overall_case_status;
+				let current_value = g_data.tracking.case_status.overall_case_status;
 				let look_up = get_metadata_value_node_by_mmria_path(
 					g_metadata,
-					"/home_record/case_status/overall_case_status",
+					"/tracking/case_status/overall_case_status",
 					""
 				);
 				let label = current_value;
@@ -614,27 +614,27 @@ function form_render(
 				p_result.push(
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push(g_data.home_record.last_name);
+				p_result.push(g_data.tracking.last_name);
 				p_result.push(", ");
-				p_result.push(g_data.home_record.first_name);
+				p_result.push(g_data.tracking.first_name);
 				p_result.push("</p>");
 			}
 
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-            if(g_data.home_record.jurisdiction_id == "/")
+            if(g_data.tracking.jurisdiction_id == "/")
             {
                 p_result.push("Top Folder");
             }
             else
             {
-                p_result.push(g_data.home_record.jurisdiction_id);
+                p_result.push(g_data.tracking.jurisdiction_id);
         
             }
-            if (g_data.home_record.record_id) 
+            if (g_data.tracking.pmssno) 
             {
                 p_result.push
                 (
-                    " <strong>Record ID:</strong> " + g_data.home_record.record_id
+                    " <strong>Record ID:</strong> " + g_data.tracking.pmssno
                 );
                 
             }
@@ -824,27 +824,27 @@ function form_render(
 			p_result.push(
 				"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 			);
-			p_result.push(g_data.home_record.last_name);
+			p_result.push(g_data.tracking.last_name);
 			p_result.push(", ");
-			p_result.push(g_data.home_record.first_name);
+			p_result.push(g_data.tracking.first_name);
 			p_result.push("</p>");
 		}
 
         p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-        if(g_data.home_record.jurisdiction_id == "/")
+        if(g_data.tracking.jurisdiction_id == "/")
         {
             p_result.push("Top Folder");
         }
         else
         {
-            p_result.push(g_data.home_record.jurisdiction_id);
+            p_result.push(g_data.tracking.jurisdiction_id);
     
         }
-        if (g_data.home_record.record_id) 
+        if (g_data.tracking.pmssno) 
         {
             p_result.push
             (
-                " <strong>Record ID:</strong> " + g_data.home_record.record_id
+                " <strong>Record ID:</strong> " + g_data.tracking.pmssno
             );
             
         }
@@ -868,13 +868,13 @@ function form_render(
 		}
 
 		if (
-			g_data.home_record.case_status &&
-			!isNullOrUndefined(g_data.home_record.case_status.overall_case_status)
+			g_data.tracking.case_status &&
+			!isNullOrUndefined(g_data.tracking.case_status.overall_case_status)
 		) {
-			let current_value = g_data.home_record.case_status.overall_case_status;
+			let current_value = g_data.tracking.case_status.overall_case_status;
 			let look_up = get_metadata_value_node_by_mmria_path(
 				g_metadata,
-				"/home_record/case_status/overall_case_status",
+				"/tracking/case_status/overall_case_status",
 				""
 			);
 			let label = current_value;
@@ -1672,27 +1672,27 @@ function quick_edit_header_render(
 		p_result.push(
 			"<h1 class='construct__title text-primary h1' tabindex='-1'>"
 		);
-		p_result.push(g_data.home_record.last_name);
+		p_result.push(g_data.tracking.last_name);
 		p_result.push(", ");
-		p_result.push(g_data.home_record.first_name);
+		p_result.push(g_data.tracking.first_name);
 		p_result.push("</h1>");
 	}
 
     p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-    if(g_data.home_record.jurisdiction_id == "/")
+    if(g_data.tracking.jurisdiction_id == "/")
     {
         p_result.push("Top Folder");
     }
     else
     {
-        p_result.push(g_data.home_record.jurisdiction_id);
+        p_result.push(g_data.tracking.jurisdiction_id);
 
     }
-	if (g_data.home_record.record_id) 
+	if (g_data.tracking.pmssno) 
     {
 		p_result.push
         (
-			" <strong>Record ID:</strong> " + g_data.home_record.record_id
+			" <strong>Record ID:</strong> " + g_data.tracking.pmssno
 		);
 		
 	}
