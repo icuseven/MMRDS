@@ -213,7 +213,7 @@ public sealed class Report_PowerBI_Index_Struct
             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/data-summary-view.json")))
             {
                 string result = await sr.ReadToEndAsync ();
-                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/report/_design/data_summary_view_report", result, this.user_name, this.user_value);
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{Program.db_prefix}report/_design/data_summary_view_report", result, this.user_name, this.user_value);
                 await create_de_id_curl.executeAsync ();					
             }
 

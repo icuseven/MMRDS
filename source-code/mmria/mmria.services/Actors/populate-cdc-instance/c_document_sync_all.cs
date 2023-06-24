@@ -82,6 +82,8 @@ public sealed class Report_PowerBI_Index_Struct
     private string user_name;
     private string user_value;
 
+    private string prefix;
+
     public c_document_sync_all (common.couchdb.DBConfigurationDetail p_connection, string p_metadata_release_version_name)
     {
         this.connection = p_connection;
@@ -89,6 +91,7 @@ public sealed class Report_PowerBI_Index_Struct
         this.couchdb_url = connection.url;
         this.user_name = connection.user_name;
         this.user_value = connection.user_value;
+        this.prefix = connection.prefix;
     }
 
 
@@ -97,7 +100,7 @@ public sealed class Report_PowerBI_Index_Struct
         try
         {
 
-            var delete_de_id_curl = new mmria.getset.cURL ("DELETE", null, this.couchdb_url + $"/de_id", null, this.user_name, this.user_value);
+            var delete_de_id_curl = new mmria.getset.cURL ("DELETE", null, this.couchdb_url + $"/{this.prefix}de_id", null, this.user_name, this.user_value);
             await delete_de_id_curl.executeAsync ();
         }
         catch (Exception)
@@ -108,7 +111,7 @@ public sealed class Report_PowerBI_Index_Struct
 
         try
         {
-            var delete_report_curl = new mmria.getset.cURL ("DELETE", null, this.couchdb_url + $"/report", null, this.user_name, this.user_value);
+            var delete_report_curl = new mmria.getset.cURL ("DELETE", null, this.couchdb_url + $"/{this.prefix}report", null, this.user_name, this.user_value);
             await delete_report_curl.executeAsync ();
         }
         catch (Exception)
@@ -119,7 +122,7 @@ public sealed class Report_PowerBI_Index_Struct
 
         try
         {
-            var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/de_id", null, this.user_name, this.user_value);
+            var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{this.prefix}de_id", null, this.user_name, this.user_value);
             await create_de_id_curl.executeAsync ();
         }
         catch (Exception)
@@ -139,7 +142,7 @@ public sealed class Report_PowerBI_Index_Struct
             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
             {
                 string result = await sr.ReadToEndAsync ();
-                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/de_id/_design/sortable", result, this.user_name, this.user_value);
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{this.prefix}de_id/_design/sortable", result, this.user_name, this.user_value);
                 await create_de_id_curl.executeAsync ();					
             }
 
@@ -154,7 +157,7 @@ public sealed class Report_PowerBI_Index_Struct
 
         try
         {
-            var create_report_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/report", null, this.user_name, this.user_value);
+            var create_report_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{this.prefix}report", null, this.user_name, this.user_value);
             await create_report_curl.executeAsync ();	
         }
         catch (Exception)
@@ -167,7 +170,7 @@ public sealed class Report_PowerBI_Index_Struct
         {
             var Report_Opioid_Index = new Report_Opioid_Index_Struct();
             string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
-            var create_report_index_curl = new mmria.getset.cURL ("POST", null, this.couchdb_url + $"/report/_index", index_json, this.user_name, this.user_value);
+            var create_report_index_curl = new mmria.getset.cURL ("POST", null, this.couchdb_url + $"/{this.prefix}report/_index", index_json, this.user_name, this.user_value);
             await create_report_index_curl.executeAsync ();
         }
         catch (Exception)
@@ -180,7 +183,7 @@ public sealed class Report_PowerBI_Index_Struct
             var Report_PowerBI_Index = new Report_PowerBI_Index_Struct();
             
             string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_PowerBI_Index);
-            var create_report_index_curl = new mmria.getset.cURL ("POST", null, this.couchdb_url + $"/report/_index", index_json, this.user_name, this.user_value);
+            var create_report_index_curl = new mmria.getset.cURL ("POST", null, this.couchdb_url + $"/{this.prefix}report/_index", index_json, this.user_name, this.user_value);
             await create_report_index_curl.executeAsync ();
         }
         catch (Exception)
@@ -199,7 +202,7 @@ public sealed class Report_PowerBI_Index_Struct
             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/interactive-aggregate-report-view.json")))
             {
                 string result = await sr.ReadToEndAsync ();
-                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/report/_design/interactive_aggregate_report", result, this.user_name, this.user_value);
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{this.prefix}report/_design/interactive_aggregate_report", result, this.user_name, this.user_value);
                 await create_de_id_curl.executeAsync ();					
             }
 
@@ -221,7 +224,7 @@ public sealed class Report_PowerBI_Index_Struct
             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/data-summary-view.json")))
             {
                 string result = await sr.ReadToEndAsync ();
-                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/report/_design/data_summary_view_report", result, this.user_name, this.user_value);
+                var create_de_id_curl = new mmria.getset.cURL ("PUT", null, this.couchdb_url + $"/{this.prefix}report/_design/data_summary_view_report", result, this.user_name, this.user_value);
                 await create_de_id_curl.executeAsync ();					
             }
 
@@ -231,7 +234,7 @@ public sealed class Report_PowerBI_Index_Struct
         
         }
 
-        var curl = new mmria.getset.cURL ("GET", null, this.couchdb_url + $"/mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
+        var curl = new mmria.getset.cURL ("GET", null, this.couchdb_url + $"/{this.prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
         string res = await curl.executeAsync ();
 /*
 {
