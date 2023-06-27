@@ -1,4 +1,4 @@
-@model List<string>; 
+@model mmria.server.Controllers.backupManagerController.RemovalListResult;
 @using System.Security.Claims;
 @{
     Layout = "_LayoutBase";
@@ -33,7 +33,7 @@
 
 <h4>Remove Command Listing</h4>
 <textarea readonly rows=20 cols=80>
-    @foreach (var item in Model)
+    @foreach (var item in Model.file_list)
     {
         @(item + "\n")
 
@@ -41,4 +41,6 @@
         
     }
 </textarea>
+<br/><br/>
+<a href="/backupManager/PerformFileRemoval/@Model.over_number_of_days" target="_blank">Perform File Removal</a> 
 

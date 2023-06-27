@@ -341,6 +341,11 @@ public sealed class backupController : Controller
         var file_info_List = new List<FileInfo>();
         var dir_info_List = new List<DirectoryInfo>();
 
+        if(over_number_of_days < 30)
+        {
+            return Ok(result);
+        }
+
         foreach(var file_path in System.IO.Directory.GetFiles(root_folder))
         {
             var fileInfo = new FileInfo(file_path);
@@ -422,6 +427,112 @@ public sealed class backupController : Controller
         return Ok(result);
     }
 
+
+
+    [HttpGet("{over_number_of_days}")]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public async Task<IActionResult> RemoveFiles(int over_number_of_days)
+    {
+        string root_folder = Program.DbConfigSet.name_value["backup_storage_root_folder"];
+
+        var result = new List<string>();
+        var file_list = new List<string>();
+        var dir_list = new List<string>();
+        var file_info_List = new List<FileInfo>();
+        var dir_info_List = new List<DirectoryInfo>();
+
+        if(over_number_of_days < 30)
+        {
+            return Ok(result);
+        }
+
+        foreach(var file_path in System.IO.Directory.GetFiles(root_folder))
+        {
+            var fileInfo = new FileInfo(file_path);
+            file_info_List.Add(fileInfo);
+
+        }
+
+        foreach(var dir_path in System.IO.Directory.GetDirectories(root_folder))
+        {
+             var dirInfo = new DirectoryInfo(dir_path);
+             dir_info_List.Add(dirInfo);
+        }
+
+        file_info_List = file_info_List.Where( x=> (DateTime.Now - x.CreationTime).Days > over_number_of_days).OrderByDescending( x => x.CreationTime ).ToList();
+        dir_info_List = dir_info_List.Where( x=> (DateTime.Now - x.CreationTime).Days > over_number_of_days).OrderByDescending( x => x.CreationTime ).ToList();
+
+        long total_length = 0;
+
+        foreach(var fileInfo in file_info_List)
+        {
+            total_length += fileInfo.Length;
+            var size = 0.0;
+            
+            if(fileInfo.Length > 1_000_000)
+            {
+                size = fileInfo.Length / 1_000_000.0;
+
+                file_list.Add($"rm -rf {fileInfo.Name}");
+            }
+            else if(fileInfo.Length > 1_000)
+            {
+                size = fileInfo.Length / 1_000.0;;
+                file_list.Add($"rm -rf {fileInfo.Name}");
+            }
+            else
+            {
+                size = fileInfo.Length;
+                file_list.Add($"rm -rf {fileInfo.Name}");
+            }
+
+            fileInfo.Delete();
+            
+        }
+
+        foreach(var dirInfo in dir_info_List)
+        {
+            
+
+            dir_list.Add($"rm -rf {dirInfo.Name}");
+            foreach(var fileInfo in dirInfo.GetFiles())
+            {
+                total_length += fileInfo.Length;
+            }
+
+            dirInfo.Delete(true);
+        }
+
+        var total_size =  0.0;
+        if(total_length > 1_000_000_000)
+        {
+            total_size = total_length / 1_000_000_000.0;
+            result.Add($"total file size: {total_size:##0.00} Gb");
+        }
+        else if(total_length > 1_000_000)
+        {
+            total_size = total_length / 1_000_000.0;
+            result.Add($"total file size: {total_size:##0.00} Mb");
+        }
+        else if(total_length > 1_000)
+        {
+            total_size = total_length / 1_000.0;
+            result.Add($"total file size: {total_size:##0.00} Kb");
+        }
+        else 
+        {
+            total_size = total_length;
+            result.Add($"total file size: {total_size:##0.00} bytes");
+        }
+
+
+        
+        result.AddRange(file_list);
+        result.AddRange(dir_list);
+
+
+        return Ok(result);
+    }
 
 
 

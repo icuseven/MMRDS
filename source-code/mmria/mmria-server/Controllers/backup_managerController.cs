@@ -58,6 +58,7 @@ public sealed class backupManagerController : Controller
         return View(file_list);
     }
 
+    public record RemovalListResult(List<string> file_list, int over_number_of_days);
 
     [Route("backupManager/RemoveFileList/{over_number_of_days}")]
     public async Task<IActionResult> RemoveFileList(int over_number_of_days)
@@ -75,7 +76,26 @@ public sealed class backupManagerController : Controller
 
         List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
 
-        return View(file_list);
+        return View(new RemovalListResult(file_list, over_number_of_days));
+    }
+
+    [Route("backupManager/PerformFileRemoval/{over_number_of_days}")]
+    public async Task<IActionResult> PerformFileRemoval(int over_number_of_days)
+    {
+
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+
+        var base_url = $"{config_url}/api/backup/RemoveFiles/{over_number_of_days}";
+
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+
+        List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+
+        return View(new RemovalListResult(file_list, over_number_of_days));
     }
 
     [Route("backupManager/SubFolderFileList/{id}")]
@@ -190,7 +210,7 @@ public sealed class backupManagerController : Controller
 
 
     [Route("backupManager/GetSubFolderFile/{folder}/{file_name}")]
-    public async Task<IActionResult>  GetSubFolderFile(string folder, string file_name)
+    public async Task<IActionResult> GetSubFolderFile(string folder, string file_name)
     {
 
         var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
