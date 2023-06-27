@@ -65,6 +65,7 @@ async function save_draft_message_one()
     g_message_data.message_one = Object.assign({}, MESSAGE_ONE_Buffer);
     console.log("save draft 1");
     await set_broadcast_message_list();
+    set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
 async function save_draft_message_two()
@@ -72,6 +73,7 @@ async function save_draft_message_two()
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("save draft 2");
     await set_broadcast_message_list();
+    set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
 async function publish_message_one()
@@ -79,7 +81,7 @@ async function publish_message_one()
     MESSAGE_ONE_Buffer.publish_status = 1;
     MESSAGE_ONE_Buffer.published = JSON.parse(JSON.stringify(g_message_data.message_one.draft)); 
     g_message_data.message_one = JSON.parse(JSON.stringify(MESSAGE_ONE_Buffer));
-    //console.log("publish 1");
+    console.log("publish 1");
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
 
@@ -98,7 +100,7 @@ async function publish_message_two()
     MESSAGE_TWO_Buffer.publish_status = 1;
     MESSAGE_TWO_Buffer.published = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer.draft));
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
-    //console.log("publish 2");
+    console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
     
@@ -116,19 +118,14 @@ async function unpublish_message_one()
 {
     MESSAGE_ONE_Buffer.publish_status = 0;
     g_message_data.message_one = JSON.parse(JSON.stringify(MESSAGE_ONE_Buffer));
-    //console.log("un publish 1");
-    
+    console.log("un publish 1");
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_ONE_Buffer, "one") + render_published_version(MESSAGE_ONE_Buffer, "one");
-    
     const el2 = document.getElementById("unpublish-message-one");
     if(el2 != null)
         el2.setAttribute("disabled","disabled");
-
-
     const e3 = document.getElementById("message-one-header")
-    e3.innerHTML = "Message 1 <i>(Unpublished)</i>"; 
-
+    e3.innerHTML = "Message 1 (Unpublished)"; 
     await set_broadcast_message_list();
 }
 
@@ -136,26 +133,21 @@ async function unpublish_message_two()
 {
     MESSAGE_TWO_Buffer.publish_status = 0;
     g_message_data.message_two = JSON.parse(JSON.stringify(MESSAGE_TWO_Buffer));
-    //console.log("publish 2");
+    console.log("publish 2");
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = render_draft_preview(MESSAGE_TWO_Buffer, "two") + render_published_version(MESSAGE_TWO_Buffer, "two");
-
     const el2 = document.getElementById("unpublish-message-two");
     el2.setAttribute("disabled","disabled");
-
-
     const e3 = document.getElementById("message-two-header")
-    e3.innerHTML = "Message 2 <i>(Unpublished)</i>"; 
-
+    e3.innerHTML = "Message 2 (Unpublished)"; 
     await set_broadcast_message_list();
-
-
 }
 
 function reset_message_one()
 {
     MESSAGE_ONE_Buffer = JSON.parse(JSON.stringify(g_message_data.message_one));
     document.getElementById('form_content_id').innerHTML = render().join("");
+    set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
 function broadcast_message_detail_button_click(p_message_type, p_message_body) 
@@ -167,6 +159,7 @@ function reset_message_two()
 {
     MESSAGE_TWO_Buffer = JSON.parse(JSON.stringify(g_message_data.message_two));
     document.getElementById('form_content_id').innerHTML = render().join("");
+    set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
 
@@ -191,6 +184,10 @@ function on_message_one_title_change(value)
         message_one_publish_button.removeAttribute("aria-disabled");
     }
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
+    if(is_message_draft_changed(MESSAGE_ONE_Buffer.draft, g_message_data.message_one.draft))
+        set_published_message_button_disable_state("message_one_publish_button", true);
+    else
+        set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
 function on_message_one_body_change(value)
@@ -198,6 +195,10 @@ function on_message_one_body_change(value)
     MESSAGE_ONE_Buffer.draft.body = value;
     const el = document.getElementById("message_one_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
+    if(is_message_draft_changed(MESSAGE_ONE_Buffer.draft, g_message_data.message_one.draft))
+        set_published_message_button_disable_state("message_one_publish_button", true);
+    else
+        set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
 function on_message_one_type_change(value)
@@ -207,6 +208,10 @@ function on_message_one_type_change(value)
     el.innerHTML = render_message_one_type_control(value);
     el = document.getElementById("message_one_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_ONE_Buffer, "one");
+    if(is_message_draft_changed(MESSAGE_ONE_Buffer.draft, g_message_data.message_one.draft))
+        set_published_message_button_disable_state("message_one_publish_button", true);
+    else
+        set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
 function on_message_two_title_change(value)
@@ -230,6 +235,10 @@ function on_message_two_title_change(value)
         message_two_publish_button.removeAttribute("aria-disabled");
     }
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
+    if(is_message_draft_changed(MESSAGE_TWO_Buffer.draft, g_message_data.message_two.draft))
+        set_published_message_button_disable_state("message_two_publish_button", true);
+    else
+        set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
 function on_message_two_body_change(value)
@@ -237,6 +246,10 @@ function on_message_two_body_change(value)
     MESSAGE_TWO_Buffer.draft.body = value;
     const el = document.getElementById("message_two_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
+    if(is_message_draft_changed(MESSAGE_TWO_Buffer.draft, g_message_data.message_two.draft))
+        set_published_message_button_disable_state("message_two_publish_button", true); 
+    else
+        set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
 function on_message_two_type_change(value)
@@ -246,6 +259,10 @@ function on_message_two_type_change(value)
     el.innerHTML = render_message_two_type_control(value);
     el = document.getElementById("message_two_draft_preview");
     el.innerHTML = createTypePreviewHTML(MESSAGE_TWO_Buffer, "two");
+    if(is_message_draft_changed(MESSAGE_TWO_Buffer.draft, g_message_data.message_two.draft))
+        set_published_message_button_disable_state("message_two_publish_button", true);
+    else
+        set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
 async function get_broadcast_message_list()
@@ -270,16 +287,36 @@ async function set_broadcast_message_list()
     g_message_data._rev = response.rev;
 }
 
+function is_message_draft_changed(draft_message, published_message)
+{
+    return draft_message.title != published_message.title || draft_message.body != published_message.body || draft_message.type != published_message.type;
+}
+
+function set_published_message_button_disable_state(message_id, is_disabled)
+{
+    const published_message_button = document.getElementById(message_id);
+    if(is_disabled)
+    {
+        published_message_button.setAttribute("disabled", "true");
+        published_message_button.setAttribute("aria-disabled", "true");
+    }
+    else
+    {
+        published_message_button.removeAttribute("disabled");
+        published_message_button.removeAttribute("aria-disabled");        
+    }
+}
+
 function draft_message_detail_button_one_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message 1", "", g_message_data.message_one.published.body.replace("\n","<br/><br/>"), g_message_data.message_one.published.type);
+    $mmria.info_dialog_show("System Message 1", "", g_message_data.message_one.draft.body.replace("\n","<br/><br/>"), g_message_data.message_one.draft.type);
 }
 
 function draft_message_detail_button_two_click() 
 {
     //var p_capitalized_message_type = p_message_type.charAt(0).toUpperCase() + p_message_type.slice(1);
-    $mmria.info_dialog_show("System Message 2", "", g_message_data.message_two.published.body.replace("\n","<br/><br/>"), g_message_data.message_two.published.type);
+    $mmria.info_dialog_show("System Message 2", "", g_message_data.message_two.draft.body.replace("\n","<br/><br/>"), g_message_data.message_two.draft.type);
 }
 
 
