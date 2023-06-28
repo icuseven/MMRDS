@@ -141,7 +141,7 @@ public sealed class update_year_of_deathController : Controller
         string server_url = Program.config_couchdb_url;
         string user_name = Program.config_timer_user_name;
         string user_value = Program.config_timer_value;
-        string prefix = null;
+        string prefix = "";
 
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
         {
@@ -289,7 +289,7 @@ public sealed class update_year_of_deathController : Controller
         return View(model);
     }
 
-    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = null)
+    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = "")
     {
         var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -300,7 +300,7 @@ public sealed class update_year_of_deathController : Controller
 
             if(string.IsNullOrWhiteSpace(p_prefix))
             {
-                request_string = $"{p_server_url}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+                request_string = $"{p_server_url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
             }
             else
             {
