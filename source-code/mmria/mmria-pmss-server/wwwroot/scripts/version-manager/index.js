@@ -577,7 +577,7 @@ function generate_schema_from_metadata(p_metadata, p_path)
                     "$schema": "http://json-schema.org/draft-04/schema#",
                     "$id": base_api_url + p_path,
                     "title": "MMRIA_Case",
-                    "description": "Pregnancy Mortality Surveillance Systemlication (PMSS) case schema",
+                    "description": "Pregnancy Mortality Surveillance System (PMSS) case schema",
                     "type": "object",
                     "properties" :
                     {
