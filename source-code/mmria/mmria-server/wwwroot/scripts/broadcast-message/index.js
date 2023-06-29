@@ -64,7 +64,7 @@ async function save_draft_message_one()
 {
     g_message_data.message_one = Object.assign({}, MESSAGE_ONE_Buffer);
     console.log("save draft 1");
-    await set_broadcast_message_list();
+    await save_broadcast_message_draft();
     set_published_message_button_disable_state("message_one_publish_button", false);
 }
 
@@ -72,7 +72,7 @@ async function save_draft_message_two()
 {
     g_message_data.message_two = Object.assign({}, MESSAGE_TWO_Buffer);
     console.log("save draft 2");
-    await set_broadcast_message_list();
+    await save_broadcast_message_draft();
     set_published_message_button_disable_state("message_two_publish_button", false);
 }
 
@@ -92,7 +92,7 @@ async function publish_message_one()
     const e3 = document.getElementById("message-one-header")
     e3.innerHTML = "Message 1 (Published)"; 
 
-    await set_broadcast_message_list();
+    await publish_broadcast_message();
 }
 
 async function publish_message_two()
@@ -111,7 +111,7 @@ async function publish_message_two()
     const e3 = document.getElementById("message-two-header")
     e3.innerHTML = "Message 2 (Published)"; 
 
-    await set_broadcast_message_list();
+    await publish_broadcast_message();
 }
 
 async function unpublish_message_one()
@@ -126,7 +126,7 @@ async function unpublish_message_one()
         el2.setAttribute("disabled","disabled");
     const e3 = document.getElementById("message-one-header")
     e3.innerHTML = "Message 1 (Unpublished)"; 
-    await set_broadcast_message_list();
+    await unpublish_broadcast_message();
 }
 
 async function unpublish_message_two()
@@ -140,7 +140,7 @@ async function unpublish_message_two()
     el2.setAttribute("disabled","disabled");
     const e3 = document.getElementById("message-two-header")
     e3.innerHTML = "Message 2 (Unpublished)"; 
-    await set_broadcast_message_list();
+    await unpublish_broadcast_message();
 }
 
 function reset_message_one()
@@ -274,11 +274,37 @@ async function get_broadcast_message_list()
     g_message_data = get_data_response;
 }
 
-async function set_broadcast_message_list()
+async function save_broadcast_message_draft()
 {
     const response = await $.ajax
     ({
-        url: `${location.protocol}//${location.host}/broadcast-message/SetBroadcastMessageList`,
+        url: `${location.protocol}//${location.host}/broadcast-message/SaveBroadcastMessageDraft`,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(g_message_data),
+        type: 'POST',
+    });
+    g_message_data._rev = response.rev;
+}
+
+async function unpublish_broadcast_message()
+{
+    const response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/broadcast-message/UnpublishBroadcastMessage`,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(g_message_data),
+        type: 'POST',
+    });
+    g_message_data._rev = response.rev;
+}
+
+async function publish_broadcast_message()
+{
+    const response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/broadcast-message/PublishBroadcastMessage`,
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(g_message_data),
