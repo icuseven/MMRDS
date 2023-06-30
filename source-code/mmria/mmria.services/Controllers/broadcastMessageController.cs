@@ -23,8 +23,6 @@ public sealed class broadcastMessageController : Controller
 {
      private mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-     //mmria.common.couchdb.ConfigurationSet
-
     public broadcastMessageController
     (
         mmria.common.couchdb.ConfigurationSet _ConfigDB
@@ -34,42 +32,53 @@ public sealed class broadcastMessageController : Controller
 
     }
 
-    [HttpGet]
+    [HttpPut]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> ReplicateMessage
     (
-        System.Threading.CancellationToken cancellationToken,
         [FromBody] mmria.common.metadata.BroadcastMessageList request
     )
     {
         var task_list = new List<Task>();
-        //var jurisdiction_count_task_list = new List<Task>();
+        var exclusion_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+        request._rev = null;
+
+        if(ConfigDB.name_value.ContainsKey("exclude_from_broadcast_list"))
+        {
+            var array = ConfigDB.name_value["exclude_from_broadcast_list"].Split(",");
+            foreach(var item in array)
+            {
+                if(!string.IsNullOrWhiteSpace(item))
+                    exclusion_set.Add(item.Trim());
+            }
+        }
 
         var current_date = System.DateTime.Now;
 
         foreach(var config in ConfigDB.detail_list)
         {
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             var prefix = config.Key.ToUpper();
 
             if(prefix == "VITAL_IMPORT") continue;
+
+            if(exclusion_set.Contains(prefix)) continue;
             
-            task_list.Add(UpdateBroadcastMessge(cancellationToken, prefix, config.Value, request));
+            task_list.Add(UpdateBroadcastMessge(prefix, config.Value, request));
             
         }
 //var revision = get_revision(target_url)
 
         await Task.WhenAll(task_list);
-        cancellationToken.ThrowIfCancellationRequested();
+
 
         return Ok();
     }
 
-    public async System.Threading.Tasks.Task UpdateBroadcastMessge
+    async System.Threading.Tasks.Task UpdateBroadcastMessge
     (
-        System.Threading.CancellationToken cancellationToken, 
         string p_id, 
         mmria.common.couchdb.DBConfigurationDetail p_config_detail,
         mmria.common.metadata.BroadcastMessageList request
@@ -81,8 +90,6 @@ public sealed class broadcastMessageController : Controller
         {
             
             revision = await get_revision(url, p_config_detail);
-            cancellationToken.ThrowIfCancellationRequested();
-
         }
         catch(System.Exception)
         {
@@ -113,9 +120,6 @@ public sealed class broadcastMessageController : Controller
 
                 Console.WriteLine(ex);
             }
-            cancellationToken.ThrowIfCancellationRequested();
-
-
         }
         catch(System.Exception)
         {
@@ -125,7 +129,7 @@ public sealed class broadcastMessageController : Controller
 
 
 
-    private async System.Threading.Tasks.Task<string> get_revision
+    async System.Threading.Tasks.Task<string> get_revision
     (
         string p_document_url,
         mmria.common.couchdb.DBConfigurationDetail config

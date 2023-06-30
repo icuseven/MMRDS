@@ -97,7 +97,9 @@ public sealed class Program
         builder.Services.AddAuthentication("BasicAuthentication")
             .AddScheme<Microsoft.AspNetCore.Authentication.AuthenticationSchemeOptions, mmria.services.Classes.HeaderAuthenticationHandler>("BasicAuthentication", null);
 
-        
+        builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+
+
         var collection = new ServiceCollection();
 
         collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);

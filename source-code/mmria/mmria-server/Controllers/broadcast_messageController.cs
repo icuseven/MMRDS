@@ -16,11 +16,21 @@ namespace mmria.server.Controllers;
 [Route("broadcast-message/{action=Index}")]
 public sealed class broadcast_messageController : Controller
 {
+
+    private readonly IConfiguration _configuration;
+    mmria.common.couchdb.ConfigurationSet ConfigDB;
     private readonly IAuthorizationService _authorizationService;
 
-    public broadcast_messageController(IAuthorizationService authorizationService)
+    public broadcast_messageController
+    (
+        IAuthorizationService authorizationService,
+        IConfiguration configuration,
+        mmria.common.couchdb.ConfigurationSet p_config_db
+    )
     {
         _authorizationService = authorizationService;
+        _configuration = configuration;
+        ConfigDB = p_config_db;
     }
     public IActionResult Index()
     {
@@ -86,25 +96,7 @@ public sealed class broadcast_messageController : Controller
         request.last_updated_by = userName;
         request.date_last_updated = DateTime.UtcNow;
 
-        string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
-        
-        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request, settings);
-
-
-        cURL curl = new cURL("PUT", null, url, object_string, null, null);
-       
-
-        try
-        {
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(await curl.executeAsync());
-        }
-        catch(Exception ex)
-        {
-
-            Console.WriteLine(ex);
-        }
+        result = await save_request(request);
 
         return Json(result);
     }
@@ -129,25 +121,7 @@ public sealed class broadcast_messageController : Controller
         request.last_updated_by = userName;
         request.date_last_updated = DateTime.UtcNow;
 
-        string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
-        
-        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request, settings);
-
-
-        cURL curl = new cURL("PUT", null, url, object_string, null, null);
-       
-
-        try
-        {
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(await curl.executeAsync());
-        }
-        catch(Exception ex)
-        {
-
-            Console.WriteLine(ex);
-        }
+        result = await save_request(request, true);
 
         return Json(result);
     }
@@ -172,6 +146,17 @@ public sealed class broadcast_messageController : Controller
         request.last_updated_by = userName;
         request.date_last_updated = DateTime.UtcNow;
 
+        result = await save_request(request, true);
+
+
+
+        return Json(result);
+    }
+
+    async Task<mmria.common.model.couchdb.document_put_response> save_request(mmria.common.metadata.BroadcastMessageList request, bool send_replication = false)
+    {
+        var result = new mmria.common.model.couchdb.document_put_response();
+
         string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
         
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -192,7 +177,32 @@ public sealed class broadcast_messageController : Controller
             Console.WriteLine(ex);
         }
 
-        return Json(result);
+        if(send_replication)         
+        await replicate(object_string);
+
+        return result;
+    }
+
+    async Task replicate(string object_json)
+    {
+        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+
+        var base_url = $"{config_url}/api/broadcastMessage/ReplicateMessage";
+
+
+        var curl = new mmria.server.cURL("PUT", null, base_url, object_json);
+        curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
+        try
+        {
+            var responseContent = await curl.executeAsync();
+
+            List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+        }
+        catch(Exception ex)
+        {
+            System.Console.WriteLine(ex);
+        }
     }
     
 }
