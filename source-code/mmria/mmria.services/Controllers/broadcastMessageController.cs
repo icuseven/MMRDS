@@ -21,6 +21,7 @@ namespace mmria.services.vitalsimport.Controllers;
 [ApiController]
 public sealed class broadcastMessageController : Controller
 {
+    
      private mmria.common.couchdb.ConfigurationSet ConfigDB;
 
     public broadcastMessageController
@@ -32,13 +33,18 @@ public sealed class broadcastMessageController : Controller
 
     }
 
-    [HttpPut]
+    [HttpPost]
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> ReplicateMessage
     (
         [FromBody] mmria.common.metadata.BroadcastMessageList request
     )
     {
+        var result = new mmria.common.model.couchdb.document_put_response()
+        {
+            ok = true
+        };
+
         var task_list = new List<Task>();
         var exclusion_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -74,7 +80,7 @@ public sealed class broadcastMessageController : Controller
         await Task.WhenAll(task_list);
 
 
-        return Ok();
+        return Ok(result);
     }
 
     async System.Threading.Tasks.Task UpdateBroadcastMessge

@@ -190,14 +190,14 @@ public sealed class broadcast_messageController : Controller
         var base_url = $"{config_url}/api/broadcastMessage/ReplicateMessage";
 
 
-        var curl = new mmria.server.cURL("PUT", null, base_url, object_json);
+        var curl = new mmria.server.cURL("POST", null, base_url, object_json);
         curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 
         try
         {
             var responseContent = await curl.executeAsync();
 
-            List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+           var response = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.document_put_response>(responseContent);
         }
         catch(Exception ex)
         {
