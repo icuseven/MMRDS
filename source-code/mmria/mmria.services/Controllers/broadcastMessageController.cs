@@ -21,7 +21,6 @@ namespace mmria.services.vitalsimport.Controllers;
 [ApiController]
 public sealed class broadcastMessageController : Controller
 {
-    
      private mmria.common.couchdb.ConfigurationSet ConfigDB;
 
     public broadcastMessageController
@@ -30,7 +29,6 @@ public sealed class broadcastMessageController : Controller
     )
     {
         ConfigDB = _ConfigDB;
-
     }
 
     [HttpPost]
@@ -64,8 +62,6 @@ public sealed class broadcastMessageController : Controller
 
         foreach(var config in ConfigDB.detail_list)
         {
-
-
             var prefix = config.Key.ToUpper();
 
             if(prefix == "VITAL_IMPORT") continue;
@@ -73,12 +69,9 @@ public sealed class broadcastMessageController : Controller
             if(exclusion_set.Contains(prefix)) continue;
             
             task_list.Add(UpdateBroadcastMessge(prefix, config.Value, request));
-            
         }
-//var revision = get_revision(target_url)
 
         await Task.WhenAll(task_list);
-
 
         return Ok(result);
     }
@@ -94,7 +87,6 @@ public sealed class broadcastMessageController : Controller
         string revision = null;
         try
         {
-            
             revision = await get_revision(url, p_config_detail);
         }
         catch(System.Exception)
@@ -104,7 +96,6 @@ public sealed class broadcastMessageController : Controller
 
         try
         {
-
             if(!string.IsNullOrWhiteSpace(revision))
             {
                 request._rev = revision;
@@ -114,7 +105,6 @@ public sealed class broadcastMessageController : Controller
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(request, settings);
 
-
             var curl = new mmria.getset.cURL("PUT", null, url, object_string, null, null);
         
             try
@@ -123,7 +113,6 @@ public sealed class broadcastMessageController : Controller
             }
             catch(Exception ex)
             {
-
                 Console.WriteLine(ex);
             }
         }
@@ -133,15 +122,12 @@ public sealed class broadcastMessageController : Controller
         }
     }
 
-
-
     async System.Threading.Tasks.Task<string> get_revision
     (
         string p_document_url,
         mmria.common.couchdb.DBConfigurationDetail config
     )
     {
-
         string result = null;
 
         var document_curl = new mmria.getset.cURL("GET", null, p_document_url, null, config.user_name, config.user_value);
@@ -165,6 +151,4 @@ public sealed class broadcastMessageController : Controller
 
         return result;
     }
-
-
 }
