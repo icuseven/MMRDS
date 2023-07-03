@@ -26,8 +26,8 @@ public class GenMortality
          { "AGETYPE",get_AGETYPE},
          { "AGE", get_AGE},
          {"BLANK",get_One_BLANK},
-         /*"DOB_YR",
-         "DOB_MO",
+         { "DOB_YR", gen_DOB_YR},
+         /*"DOB_MO",
          "DOB_DY",
          "BPLACE_CNT",
          "BPLACE_ST",
@@ -324,9 +324,19 @@ public class GenMortality
    }
 //1		BLANK	BLANK
 
-
-/*4		DOB_YR	4 digit year; <=year of birth, 9999
-2		DOB_MO	01-12, 99
+    string gen_DOB_YR()
+    {
+        //4		DOB_YR	4 digit year; <=year of birth, 9999
+    if(Context.rnd.NextDouble() > Context.percentage_threshold)
+      {
+         return "9999";
+      }
+      else
+      {
+        return Context.rnd.Next(1920,2300).ToString();
+      }
+    }
+/*2		DOB_MO	01-12, 99
 2		DOB_DY	01-31 (based on month), 99
 2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
 2		BPLACE_ST	"NCHS Instruction Manual Part 8A
