@@ -439,8 +439,13 @@ public sealed partial class Program
 
             app.Use
             (
+
+                
+
                 async (context, next) =>
                 {
+                    var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
+
                     switch (context.Request.Method.ToLower())
                     {
                         case "get":
@@ -464,6 +469,7 @@ public sealed partial class Program
                         {
                             context.Response.StatusCode = 400;
                             context.Response.Headers.Add("Connection", "close");
+                            resetFeature.Reset(errorCode: 4);
                             //context.Abort();
                             //context.RequestAborted.Session
                         }
@@ -475,6 +481,7 @@ public sealed partial class Program
                         {
                             context.Response.StatusCode = 400;
                             context.Response.Headers.Add("Connection", "close");
+                            resetFeature.Reset(errorCode: 4);
                             // context.Abort();
                         }
                         else if
@@ -491,6 +498,7 @@ public sealed partial class Program
                             context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                             context.Response.Headers.Add("Connection", "close");
                             context.Response.StatusCode = 400;
+                            resetFeature.Reset(errorCode: 4);
                             //context.Abort();
                         }
                         else
@@ -508,6 +516,7 @@ public sealed partial class Program
                         default:
                         context.Response.StatusCode = 400;
                         context.Response.Headers.Add("Connection", "close");
+                        resetFeature.Reset(errorCode: 4);
                         //context.Abort();
                         break;
                     }
