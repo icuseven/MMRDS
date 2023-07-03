@@ -29,6 +29,7 @@
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0"/>
     <PackageReference Include="FastExcel" Version="3.0.13"/>
+    <!--PackageReference Include="Microsoft.Extensions.Features" Version="7.0.7" /-->
 
   </ItemGroup>
   <ItemGroup>
