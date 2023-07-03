@@ -30,7 +30,7 @@ var g_filter = {
     ],
     field_selection: ['all'],
     case_status: ['all'],
-    case_jurisdiction: ['/all'],
+    case_jurisdiction: ['/'],
     pregnancy_relatedness: ['all'],
     selected_form: '',
     search_text: '',

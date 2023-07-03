@@ -280,7 +280,12 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 g_form_field_map.set(p_metadata.name, new Map());
             }	
 
-			if(p_selected_form== null || p_selected_form=="")
+			if
+            (
+                p_selected_form== null || 
+                p_selected_form=="" ||
+                p_selected_form=="all" 
+            )
 			{
 				for(let i = 0; i < p_metadata.children.length; i++)
 				{
@@ -307,7 +312,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			let form_filter = "(any form)";
 			let el = document.getElementById("form_filter");
 
-			if(el)
+			if(el && document.getElementById("form_filter").value != 'all')
 			{
 				form_filter = el.value;
 			}
