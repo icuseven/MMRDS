@@ -4,6 +4,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 using mmria.common;
 
@@ -12,9 +13,10 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
 { 
-    public aggregate_reportController()
+    IConfiguration configuration;
+    public aggregate_reportController(IConfiguration p_configuration)
     {
-
+        configuration = p_configuration;
     }
 
     [HttpGet]
@@ -28,7 +30,7 @@ public sealed class aggregate_reportController: ControllerBase
         
         try
         {
-            string request_string = this.get_couch_db_url() + $"/{Program.db_prefix}report/_all_docs?include_docs=true";
+            string request_string = this.get_couch_db_url() + $"/{configuration["db_prefix"]}report/_all_docs?include_docs=true";
 
 
             var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
