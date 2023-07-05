@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
+using Akka.DI.Extensions.DependencyInjection;
 
 
 using Microsoft.AspNetCore.Components;
@@ -313,7 +314,18 @@ public sealed partial class Program
             configuration["steve_api:client_secreat_key"] = DbConfigSet.name_value["steve_api:client_secreat_key"];
             configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
                         
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system");
+
+            var collection = new ServiceCollection();
+
+            collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+            collection.AddSingleton<IConfiguration>(configuration);
+            collection.AddLogging();
+
+            var provider = collection.BuildServiceProvider();
+
+
+
+            Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
@@ -541,12 +553,12 @@ public sealed partial class Program
             app.UseDefaultFiles();
             //app.UseStaticFiles();
 
-            var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+            var file_type_provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
             // Add new mappings
-            provider.Mappings[".dll"] = "application/octet-stream";
-            provider.Mappings[".blat"] = "application/octet-stream";
-            provider.Mappings[".dat"] = "application/octet-stream";
-            provider.Mappings[".css"] = "text/css";
+            file_type_provider.Mappings[".dll"] = "application/octet-stream";
+            file_type_provider.Mappings[".blat"] = "application/octet-stream";
+            file_type_provider.Mappings[".dat"] = "application/octet-stream";
+            file_type_provider.Mappings[".css"] = "text/css";
 
             app.UseStaticFiles(
                 
@@ -556,7 +568,7 @@ public sealed partial class Program
                 FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
                     Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
                 RequestPath = "",
-                ContentTypeProvider = provider
+                ContentTypeProvider = file_type_provider
             });
 
 
