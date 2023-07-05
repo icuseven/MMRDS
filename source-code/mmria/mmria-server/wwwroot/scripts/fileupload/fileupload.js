@@ -77,9 +77,9 @@ window.onload = function ()
 }
 
 
-function process_button_click() 
+async function process_button_click() 
 {
-    send_ije_set();
+    await send_ije_set();
 }
 
 function setup_file_list() 
@@ -223,8 +223,6 @@ function setup_file_list()
         }
     }
 
-
-
     if (is_mor && (is_nat || is_fet)) 
     {
         if
@@ -267,8 +265,6 @@ function setup_file_list()
     //    g_validation_errors.push("missing .FET IJE file")
     //}
 
-
-
     g_file_stat_list = temp;
     g_content_list = temp_contents;
 
@@ -305,7 +301,8 @@ function get_state_from_file_name(p_val)
 }
 
 
-function render_file_list() {
+function render_file_list() 
+{
     let bag = document.getElementById('bag');
 
     let ul_list = [];
@@ -370,11 +367,10 @@ function render_file_list() {
         button.disabled = false;
     }
 
-    //hide the spinner when things are done
     $('.spinner-inline').fadeOut();
 }
 
-function send_ije_set() 
+async function send_ije_set() 
 {
     var filename1 = "";
     var filename2 = ""
@@ -398,33 +394,34 @@ function send_ije_set()
         fet_file_name: filename2
     };
 
-    $.ajax({
+    const response = $.ajax({
         url: location.protocol + '//' + location.host + '/api/ije_message',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(data),
         type: "POST"
-    }).done(function (response) {
-        const buttonNext = document.getElementById('process_next');
-        let out = document.getElementById('output');
-        var response_obj = eval(response);
-
-        if (response_obj.ok) 
-        {
-            out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
-
-            let button = document.getElementById('process_next');
-            buttonNext.style.display = 'inline-block';
-        }
-        else 
-        {
-            out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
-            buttonNext.style.display = 'none';
-        }
-
-        let button = document.getElementById('process');
-        button.disabled = true;
     });
+
+    const buttonNext = document.getElementById('process_next');
+    let out = document.getElementById('output');
+    var response_obj = eval(response);
+
+    if (response_obj.ok) 
+    {
+        out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
+
+        let button = document.getElementById('process_next');
+        buttonNext.style.display = 'inline-block';
+    }
+    else 
+    {
+        out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
+        buttonNext.style.display = 'none';
+    }
+
+    let button = document.getElementById('process');
+    button.disabled = true;
+    
 }
 
 function hasDuplicates(arr) 
@@ -444,29 +441,6 @@ function hasDuplicates(arr)
     }
     return false;
 }
-
-
-/*
-private List<string> GetAssociatedNat(string[] p_nat_list, string p_cdc_unique_id)
-{
-    var result = new List<string>();
-    int mom_ssn_start = 2000-1;
-    if (p_nat_list != null)
-        foreach (var item in p_nat_list)
-        {
-            if (item.Length > mom_ssn_start + 9)
-            {
-                var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                if (mom_ssn == p_cdc_unique_id)
-                {
-                    result.Add(item);
-                }
-            }
-        }
-
-    return result;
-}
-*/
 
 function validate_AssociatedNAT(p_array) 
 {
@@ -493,28 +467,6 @@ function validate_AssociatedNAT(p_array)
 }
 
 
-
-/*
-private List<string> GetAssociatedFet(string[] p_fet_list, string p_cdc_unique_id)
-{
-    var result = new List<string>();
-    int mom_ssn_start = 4039-1;
-    if(p_fet_list != null)
-        foreach(var item in p_fet_list)
-        {
-            if(item.Length > mom_ssn_start + 9)
-            {
-                var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                if(mom_ssn == p_cdc_unique_id)
-                {
-                    result.Add(item);
-                }
-            }
-        }
-
-    return result;
-}
-*/
 
 function validate_AssociatedFET(p_array) 
 {
