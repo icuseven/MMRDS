@@ -298,14 +298,10 @@ function validate_length(p_array, p_max_length)
 
 function get_state_from_file_name(p_val) 
 {
-    if (p_val.length > 15) 
-    {
-        return p_val.substr(11, p_val.length - 15);
-    }
-    else 
-    {
-        return p_val;
-    }
+    const remove_extension = p_val.split(".")
+    const split_on_underscore = remove_extension[0].split("_");
+
+    return split_on_underscore[split_on_underscore.length -1];
 }
 
 
