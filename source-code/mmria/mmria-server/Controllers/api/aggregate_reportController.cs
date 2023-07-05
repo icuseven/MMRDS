@@ -30,7 +30,7 @@ public sealed class aggregate_reportController: ControllerBase
         
         try
         {
-            string request_string = this.get_couch_db_url() + $"/{configuration["db_prefix"]}report/_all_docs?include_docs=true";
+            string request_string = $"{configuration["config_couchdb_url"]}/{configuration["db_prefix"]}report/_all_docs?include_docs=true";
 
 
             var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
@@ -273,13 +273,6 @@ public sealed class aggregate_reportController: ControllerBase
             p_result.Add(kvp.Key, int.Parse(kvp.Value.ToString()));
         }
         
-    }
-
-    private string get_couch_db_url()
-    {
-        string result = Program.config_couchdb_url;
-
-        return result;
     }
 } 
 
