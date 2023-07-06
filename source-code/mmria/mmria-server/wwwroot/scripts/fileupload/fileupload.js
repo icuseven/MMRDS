@@ -39,7 +39,6 @@ function readmultifiles(event, files)
     let ul_list = [];
     g_file_stat_list = [];
 
-    //show spinner
     self.next('.spinner-inline').fadeIn();
 
     for (let i = 0; i < files.length; i++) 
@@ -394,7 +393,7 @@ async function send_ije_set()
         fet_file_name: filename2
     };
 
-    const response = $.ajax({
+    const response = await $.ajax({
         url: location.protocol + '//' + location.host + '/api/ije_message',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
@@ -404,9 +403,8 @@ async function send_ije_set()
 
     const buttonNext = document.getElementById('process_next');
     let out = document.getElementById('output');
-    var response_obj = eval(response);
 
-    if (response_obj.ok) 
+    if (response.ok) 
     {
         out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
 
