@@ -21,15 +21,15 @@ public class GenMortality
          { "MNAME",get_MNAME},
          { "LNAME",get_LNAME},
          { "SUFF",get_SUFF},
-         { "BLANK", get_53_BLANK},
+         { "BLANK2", get_53_BLANK},
          { "SSN", get_SSN},
          { "AGETYPE",get_AGETYPE},
          { "AGE", get_AGE},
-         {"BLANK",get_One_BLANK},
+         {"BLANK3",get_One_BLANK},
          { "DOB_YR", gen_DOB_YR},
-         /*"DOB_MO",
-         "DOB_DY",
-         "BPLACE_CNT",
+         {"DOB_MO", gen_DOB_MO},
+         { "DOB_DY", gen_DOB_DY},
+         /*"BPLACE_CNT",
          "BPLACE_ST",
          "CITYC",
          "COUNTYC",
@@ -336,9 +336,32 @@ public class GenMortality
         return Context.rnd.Next(1920,2300).ToString();
       }
     }
-/*2		DOB_MO	01-12, 99
-2		DOB_DY	01-31 (based on month), 99
-2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
+    string gen_DOB_MO()
+    {
+         //2		DOB_MO	01-12, 99
+      if(Context.rnd.NextDouble() > Context.percentage_threshold)
+      {
+         return "99";
+      }
+      else
+      {
+        return Context.rnd.Next(1,13).ToString().PadLeft(2,'0');
+      }
+    }
+    string gen_DOB_DY()
+    {
+      //2		DOB_DY	01-31 (based on month), 99
+      if(Context.rnd.NextDouble() > Context.percentage_threshold)
+      {
+         return "99";
+      }
+      else
+      {
+        return Context.rnd.Next(1,32).ToString().PadLeft(2,'0');
+      }
+    }
+
+/*2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
 2		BPLACE_ST	"NCHS Instruction Manual Part 8A
    ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
    XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
