@@ -32,13 +32,15 @@ public sealed class broadcast_messageController : Controller
         _configuration = configuration;
         ConfigDB = p_config_db;
     }
+
+    [Authorize]
     public IActionResult Index()
     {
         return View();
     }
 
 
-
+    [Authorize]
     [HttpGet]
     public async Task<JsonResult> GetBroadcastMessageList()
     {
