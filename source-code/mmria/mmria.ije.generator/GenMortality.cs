@@ -29,8 +29,8 @@ public class GenMortality
          { "DOB_YR", gen_DOB_YR},
          {"DOB_MO", gen_DOB_MO},
          { "DOB_DY", gen_DOB_DY},
-         /*"BPLACE_CNT",
-         "BPLACE_ST",
+         { "BPLACE_CNT", gen_BPLACE_CNT },
+         /*"BPLACE_ST",
          "CITYC",
          "COUNTYC",
          "STATEC",
@@ -361,8 +361,13 @@ public class GenMortality
       }
     }
 
-/*2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
-2		BPLACE_ST	"NCHS Instruction Manual Part 8A
+   string gen_BPLACE_CNT()
+   {
+      //2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
+      // <<to do>>
+      return "US";
+   }
+/*2		BPLACE_ST	"NCHS Instruction Manual Part 8A
    ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
    XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
 For U.S. Territories:
