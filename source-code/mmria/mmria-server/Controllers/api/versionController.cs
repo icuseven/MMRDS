@@ -140,7 +140,6 @@ public sealed class versionController: ControllerBase
 
         try
         {
-            //"2016-06-12T13:49:24.759Z"
             string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{version_specification_id}/{document_name}";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));

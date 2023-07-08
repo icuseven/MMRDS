@@ -528,6 +528,12 @@ public sealed partial class Program
                             resetFeature.Reset(errorCode: 4);
                             //context.Abort();
                         }
+                        else if(next is null)
+                        {
+                            context.Response.StatusCode = 400;
+                            context.Response.Headers.Add("Connection", "close");
+                            resetFeature.Reset(errorCode: 4);
+                        }
                         else
                         {
                             context.Response.Headers.Add("X-Frame-Options", "DENY");
