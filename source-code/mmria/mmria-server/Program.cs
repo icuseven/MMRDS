@@ -525,7 +525,7 @@ public sealed partial class Program
                             context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                             context.Response.Headers.Add("Connection", "close");
                             context.Response.StatusCode = 400;
-                            resetFeature.Reset(errorCode: 4);
+                            //resetFeature.Reset(errorCode: 4);
                             //context.Abort();
                         }
                         else if(next is null)
