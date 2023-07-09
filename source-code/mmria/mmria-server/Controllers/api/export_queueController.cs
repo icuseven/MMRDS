@@ -155,46 +155,11 @@ public sealed class export_queueController: ControllerBase
             queue_item == null
         )
         {
-            result.ok = false;
 
             return result;
         }
 
-/*
-        var is_match = System.Text.RegularExpressions.Regex.IsMatch(queue_item._id, @"(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}");
 
-        if(! is_match)
-        {
-            result.ok = false;
-            
-            return result;
-        }
-
-        if(queue_item == null)
-        try
-        {
-
-            using(System.IO.Stream dataStream0 = this.Request.Body)
-            {
-                //await this.Request.Body.t..Body.CopyToAsync(dataStream0);
-                // Open the stream using a StreamReader for easy access.
-                dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-                // Read the content.
-                var object_string = reader0.ReadToEnd ();
-
-                queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
-
-
-                
-            }
-
-        }
-        catch(Exception)
-        {
-            //Console.WriteLine (ex);
-        }
-*/
         if(string.IsNullOrWhiteSpace(queue_item.created_by))
         {
             queue_item.created_by = userName;
