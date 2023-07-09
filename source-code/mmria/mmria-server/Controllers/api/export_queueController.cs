@@ -142,6 +142,33 @@ public sealed class export_queueController: ControllerBase
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
         }
 
+        var is_match = System.Text.RegularExpressions.Regex.IsMatch
+        (
+            queue_item._id, 
+            @"^\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d.\d\d\dZ.zip$"
+        );
+
+        
+
+        if(
+            ! is_match  ||
+            queue_item == null
+        )
+        {
+            result.ok = false;
+
+            return result;
+        }
+
+/*
+        var is_match = System.Text.RegularExpressions.Regex.IsMatch(queue_item._id, @"(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}");
+
+        if(! is_match)
+        {
+            result.ok = false;
+            
+            return result;
+        }
 
         if(queue_item == null)
         try
@@ -167,7 +194,7 @@ public sealed class export_queueController: ControllerBase
         {
             //Console.WriteLine (ex);
         }
-
+*/
         if(string.IsNullOrWhiteSpace(queue_item.created_by))
         {
             queue_item.created_by = userName;
