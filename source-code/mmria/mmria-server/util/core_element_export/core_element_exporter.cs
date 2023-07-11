@@ -61,6 +61,8 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
+    bool is_header_written = false;
+
 
     string core_file_name = "core_mmria_export.csv";
 
@@ -284,7 +286,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
             continue;
         }
 
-        var is_header_written = false;
+        
 
         System.Data.DataRow row = path_to_csv_writer[core_file_name].Table.NewRow();
         string mmria_case_id = case_doc["_id"].ToString();
