@@ -959,7 +959,7 @@ if(multiform_field_list.Count > 0)
             {
                 output_row[c.ColumnName] = gr[c.ColumnName];
             }
-
+        
             path_to_csv_writer[mmria_custom_export_file_name].Table.Rows.Add(output_row);
         }
     }
@@ -1127,10 +1127,11 @@ if(multiform_field_list.Count > 0)
         }
 
 
-
+        kvp.Value.WriteHeadersToStream();
         kvp.Value.WriteToStream();
     }
 
+    mapping_document.WriteHeadersToStream();
     mapping_document.WriteToStream();
 
     for (int i_index = 0; i_index < this.qualitativeStreamWriter.Length; i_index++)
@@ -1272,6 +1273,7 @@ if(multiform_field_list.Count > 0)
         }
     }
 
+    mapping_look_up_document.WriteHeadersToStream();
     mapping_look_up_document.WriteToStream();
 
 
