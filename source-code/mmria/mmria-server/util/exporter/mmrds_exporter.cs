@@ -2054,7 +2054,15 @@ public sealed class mmrds_exporter
                         }
                     }
                 }
-                path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+
+                if(is_excel_file_type)
+                {
+                    path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+                }
+                else
+                {
+                    path_to_csv_writer[grid_name].WriteToStream(grid_row);
+                }
             }
         }
         }

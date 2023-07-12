@@ -61,6 +61,8 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
+    bool is_header_written = false;
+
 
     string core_file_name = "core_mmria_export.csv";
 
@@ -284,6 +286,8 @@ public void Execute(mmria.server.export_queue_item queue_item)
             continue;
         }
 
+        
+
         System.Data.DataRow row = path_to_csv_writer[core_file_name].Table.NewRow();
         string mmria_case_id = case_doc["_id"].ToString();
         row["_id"] = mmria_case_id;
@@ -451,12 +455,19 @@ public void Execute(mmria.server.export_queue_item queue_item)
             }
         }
 
+
         if(is_excel_file_type)
         {        
             path_to_csv_writer[core_file_name].Table.Rows.Add(row);
         }
         else
         {
+            if(! is_header_written)
+            {
+                path_to_csv_writer[core_file_name].WriteHeadersToStream();
+                is_header_written = true;
+            }
+
             path_to_csv_writer[core_file_name].WriteToStream(row);
         }
 
@@ -555,6 +566,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
             }
             else
             {
+                mapping_document.WriteHeadersToStream();
                 mapping_document.WriteToStream(mapping_row);
             }
         }
@@ -627,7 +639,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
 
 
-
+    var is_mapping_lookup_header_written = false;
     foreach 
     (
         var kvp in 
@@ -679,6 +691,12 @@ public void Execute(mmria.server.export_queue_item queue_item)
                             }
                             else
                             {
+                                if(! is_mapping_lookup_header_written)
+                                {
+                                    mapping_look_up_document.WriteHeadersToStream();
+                                    is_mapping_lookup_header_written = true;
+
+                                }
                                 mapping_look_up_document.WriteToStream(row);
                             }
                         }

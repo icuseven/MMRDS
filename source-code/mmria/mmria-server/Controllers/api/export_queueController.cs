@@ -142,31 +142,23 @@ public sealed class export_queueController: ControllerBase
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
         }
 
+        var is_match = System.Text.RegularExpressions.Regex.IsMatch
+        (
+            queue_item._id, 
+            @"^\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d.\d\d\dZ.zip$"
+        );
 
-        if(queue_item == null)
-        try
+        
+
+        if(
+            ! is_match  ||
+            queue_item == null
+        )
         {
 
-            using(System.IO.Stream dataStream0 = this.Request.Body)
-            {
-                //await this.Request.Body.t..Body.CopyToAsync(dataStream0);
-                // Open the stream using a StreamReader for easy access.
-                dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-                // Read the content.
-                var object_string = reader0.ReadToEnd ();
-
-                queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
-
-
-                
-            }
-
+            return result;
         }
-        catch(Exception)
-        {
-            //Console.WriteLine (ex);
-        }
+
 
         if(string.IsNullOrWhiteSpace(queue_item.created_by))
         {

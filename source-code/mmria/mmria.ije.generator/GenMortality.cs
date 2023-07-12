@@ -28,7 +28,7 @@ public class GenMortality
          {"BLANK3",get_One_BLANK},
          { "DOB_YR", gen_DOB_YR},
          {"DOB_MO", gen_DOB_MO},
-         { "DOB_DY", gen_DOB_DY},
+         {"DOB_DY", gen_DOB_DY},
          /*"BPLACE_CNT",
          "BPLACE_ST",
          "CITYC",
@@ -348,17 +348,18 @@ public class GenMortality
         return Context.rnd.Next(1,13).ToString().PadLeft(2,'0');
       }
     }
+
     string gen_DOB_DY()
     {
-      //2		DOB_DY	01-31 (based on month), 99
-      if(Context.rnd.NextDouble() > Context.percentage_threshold)
-      {
-         return "99";
-      }
-      else
-      {
-        return Context.rnd.Next(1,32).ToString().PadLeft(2,'0');
-      }
+         //2		DOB_DY	01-31 (based on month), 99
+         if(Context.rnd.NextDouble() > Context.percentage_threshold)
+         {
+            return "99";
+         }
+         else
+         {
+            return Context.rnd.Next(1,32).ToString().PadLeft(2,'0');
+         }
     }
 /*2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
 2		BPLACE_ST	"NCHS Instruction Manual Part 8A

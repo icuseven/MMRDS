@@ -428,7 +428,7 @@ public sealed partial class Program
             );
 
             builder.Services.AddRazorPages();
-            builder.Services.AddServerSideBlazor();
+            //builder.Services.AddServerSideBlazor();
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -467,6 +467,9 @@ public sealed partial class Program
                 app.UseDeveloperExceptionPage();
             }
 
+            app.Use(middleware);
+
+/*
             app.Use
             (
                 async (context, next) =>
@@ -525,8 +528,14 @@ public sealed partial class Program
                             context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
                             context.Response.Headers.Add("Connection", "close");
                             context.Response.StatusCode = 400;
-                            resetFeature.Reset(errorCode: 4);
+                            //resetFeature.Reset(errorCode: 4);
                             //context.Abort();
+                        }
+                        else if(next is null)
+                        {
+                            context.Response.StatusCode = 400;
+                            context.Response.Headers.Add("Connection", "close");
+                            resetFeature.Reset(errorCode: 4);
                         }
                         else
                         {
@@ -549,6 +558,7 @@ public sealed partial class Program
                     }
                 }
             );
+            */
 
             app.UseDefaultFiles();
             //app.UseStaticFiles();
@@ -583,7 +593,7 @@ public sealed partial class Program
                 "{controller=Home}/{action=Index}"
             );
                 
-            app.MapBlazorHub();
+            //app.MapBlazorHub();
             
 
             //app.MapFallbackToPage("/_Host");
@@ -597,13 +607,101 @@ public sealed partial class Program
         }    
     }
 
+
+    static async Task middleware(HttpContext context, Func<Task> next)
+    {
+        var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
+
+        switch (context.Request.Method.ToLower())
+        {
+            case "get":
+            case "put":
+            case "post":
+            case "head":
+            case "delete":
+
+            if
+            (
+                (
+                    context.Request.Headers.ContainsKey("Content-Length") &&
+                    context.Request.Headers["Content-Length"].Count > 1
+                ) 
+                ||
+                (
+                    context.Request.Headers.ContainsKey("Transfer-Encoding") &&
+                    context.Request.Headers["Transfer-Encoding"].Count > 1
+                )
+            )
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+                //context.Abort();
+                //context.RequestAborted.Session
+            }
+            else if
+            (
+                context.Request.Headers.ContainsKey("Content-Length") &&
+                context.Request.Headers.ContainsKey("Transfer-Encoding")
+            )
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+                // context.Abort();
+            }
+            else if
+            (
+                context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+            )
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none';");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.Add("Connection", "close");
+                context.Response.StatusCode = 400;
+                //resetFeature.Reset(errorCode: 4);
+                //context.Abort();
+            }
+            else if(next is null)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+            }
+            else
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+
+                await next();
+            }
+
+            break;
+            default:
+            context.Response.StatusCode = 400;
+            context.Response.Headers.Add("Connection", "close");
+            resetFeature.Reset(errorCode: 4);
+            //context.Abort();
+            break;
+        }
+    
+    }
+
     static void AppDomain_UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args) 
     {
         Exception e = (Exception) args.ExceptionObject;
         Console.WriteLine("AppDomain_UnhandledExceptionHandler caught : " + e.Message);
     }
 
-    private static mmria.common.couchdb.ConfigurationSet GetConfiguration()
+    static mmria.common.couchdb.ConfigurationSet GetConfiguration()
     {
         var result = new mmria.common.couchdb.ConfigurationSet();
         try

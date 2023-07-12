@@ -129,9 +129,18 @@ public sealed class caseController: ControllerBase
             else
             {
                 id_val = temp_id.ToString();
+
+                var is_match = System.Text.RegularExpressions.Regex.IsMatch
+                (
+                    id_val, 
+                    @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$"
+                );
+
+                if(! is_match)
+                {
+                    return result;
+                }
             }
-
-
 
             var home_record = (IDictionary<string,object>)byName["home_record"];
             if(!home_record.ContainsKey("jurisdiction_id"))
