@@ -145,7 +145,7 @@
 }
 
 <div class="row no-gutters justify-content-between mb-3">
-  <h1 class="h2" tabindex="-1">MMRIA Home</h1>
+  <h1 class="h2 d-block" tabindex="-1">MMRIA Home</h1>
 
   @await Html.PartialAsync("_BurdenStatement")
 </div>
@@ -165,7 +165,7 @@ else
     @if(is_abstractor)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Abstractor</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Abstractor</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="/Case">View Case Data</a></li>
@@ -186,7 +186,7 @@ else
     @if(is_data_analyst)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Analyst</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Analyst</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="/analyst-case">View Case Data</a></li>
@@ -206,7 +206,7 @@ else
     @if(is_committee_member)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Committee Member</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Committee Member</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="/de-identified">View De-identified Case Data</a></li>
@@ -218,7 +218,7 @@ else
     @if(is_cdc_analyst)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">CDC Analyst</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">CDC Analyst</h2></div>
         <div class="card-body">
           <ul>
             <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
@@ -233,7 +233,7 @@ else
     @if(is_steve_mmria)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">STEVE - MMRIA</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">STEVE - MMRIA</h2></div>
         <div class="card-body">
           <ul>
             <li> <a href="/steveMMRIA">Download Vital Records Data from STEVE</a></li>
@@ -246,7 +246,7 @@ else
     @if(is_steve_prams)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">STEVE - PRAMS</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">STEVE - PRAMS</h2></div>
         <div class="card-body">
           <ul>
             <li> <a href="/stevePRAMS">Download Natality Data from STEVE</a></li>
@@ -258,7 +258,7 @@ else
     @if(is_vital_importer)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Vitals Import</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Vitals Import</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
@@ -273,7 +273,7 @@ else
     @if(is_cdc_admin)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">CDC Admin</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">CDC Admin</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="update_year_of_death?role=cdc_admin">Update Year of Death and/or MMRIA Record ID</a></li>
@@ -306,7 +306,7 @@ else
     @if(is_form_designer)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Form Designer</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Form Designer</h2></div>
         <div class="card-body">
           <ul>
             <li>
@@ -343,7 +343,7 @@ else
     @if(is_jurisdiction_admin && ! is_installation_admin)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Jurisdiction Admin</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Jurisdiction Admin</h2></div>
         <div class="card-body">
           <ul>
             
@@ -363,7 +363,7 @@ else
     @if(is_installation_admin)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Installation Admin</h4></div>
+        <div class="card-header bg-secondary"><h2 class="h5">Installation Admin</h2></div>
         <div class="card-body">
           <ul>
             <li><a href="/_users">Manage users & case folders</a></li>
@@ -380,7 +380,7 @@ else
 
 
     <li class="card grid-item grid-item--3">
-      <div class="card-header bg-secondary"><h4 class="h5">General</h4></div>
+      <div class="card-header bg-secondary"><h2 class="h5">General</h2></div>
       <div class="card-body">
         <ul>
 
@@ -439,7 +439,7 @@ else
     </li>
 
     <li class="card grid-item grid-item--3">
-      <div class="card-header bg-secondary"><h4 class="h5">Help</h4></div>
+      <div class="card-header bg-secondary"><h2 class="h5">Help</h2></div>
       <div class="card-body">
         <ul>
           <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>
