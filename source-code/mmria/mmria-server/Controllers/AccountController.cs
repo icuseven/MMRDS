@@ -13,13 +13,14 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Akka.Actor;
-
+using  mmria.server.extension;
 //https://github.com/blowdart/AspNetAuthorizationWorkshop
 //https://digitalmccullough.com/posts/aspnetcore-auth-system-demystified.html
 //https://gitlab.com/free-time-programmer/tutorials/demystify-aspnetcore-auth/tree/master
 //https://docs.microsoft.com/en-us/aspnet/core/mvc/views/layout?view=aspnetcore-2.1
 
 namespace mmria.server.Controllers;
+
 
 
 public sealed partial class AccountController : Controller
@@ -50,7 +51,7 @@ public sealed partial class AccountController : Controller
     {
         ViewBag.user_name = user_name;
         ViewBag.grace_period_date = grace_period_date;
-        ViewBag.unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
+        ViewBag.unsuccessful_login_attempts_lockout_number_of_minutes = _configuration["config_unsuccessful_login_attempts_lockout_number_of_minutes"];
 
         return View();
     }
@@ -129,10 +130,14 @@ public sealed partial class AccountController : Controller
 
         try
         {
-            var unsuccessful_login_attempts_number_before_lockout = Program.config_unsuccessful_login_attempts_number_before_lockout;
-            var unsuccessful_login_attempts_within_number_of_minutes = Program.config_unsuccessful_login_attempts_within_number_of_minutes;
-            var unsuccessful_login_attempts_lockout_number_of_minutes = Program.config_unsuccessful_login_attempts_lockout_number_of_minutes;
-            var password_days_before_expires = Program.config_pass_word_days_before_expires;
+            int unsuccessful_login_attempts_number_before_lockout = 5;
+            
+            _configuration["config_unsuccessful_login_attempts_number_before_lockout"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_number_before_lockout);
+            int unsuccessful_login_attempts_within_number_of_minutes = 3;
+            _configuration["config_unsuccessful_login_attempts_within_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_within_number_of_minutes);
+            int unsuccessful_login_attempts_lockout_number_of_minutes = 3; 
+            _configuration["config_unsuccessful_login_attempts_lockout_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_lockout_number_of_minutes);
+            var password_days_before_expires = _configuration["config_pass_word_days_before_expires"];
 
             var is_locked_out = false;
             var failed_login_count = 0;
@@ -142,12 +147,12 @@ public sealed partial class AccountController : Controller
 
             try
             {
-                var user_request_url = $"{Program.config_couchdb_url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
-                var user_request_curl = new cURL("GET", null, user_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var user_request_url = $"{_configuration["config_couchdb_url"]}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
+                var user_request_curl = new cURL("GET", null, user_request_url, null, _configuration["config_timer_user_name"], _configuration["config_timer_value"]);
                 string user_response_string = await user_request_curl.executeAsync ();
                 var test_user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(user_response_string);
 
-                if(string.IsNullOrWhiteSpace(Program.db_prefix))
+                if(string.IsNullOrWhiteSpace(_configuration["db_prefix"]))
                 {
                     if(test_user.app_prefix_list == null || test_user.app_prefix_list.Count == 0)
                     {
@@ -158,14 +163,14 @@ public sealed partial class AccountController : Controller
                         is_app_prefix_ok = true;
                     }
                 }
-                else if(test_user.app_prefix_list.ContainsKey(Program.db_prefix))
+                else if(test_user.app_prefix_list.ContainsKey(_configuration["db_prefix"]))
                 {
-                    is_app_prefix_ok = test_user.app_prefix_list[Program.db_prefix];
+                    is_app_prefix_ok = test_user.app_prefix_list[_configuration["db_prefix"]];
                 }
 
-                var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
+                var session_event_request_url = $"{_configuration["config_couchdb_url"]}/{_configuration["db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["config_timer_user_name"], _configuration["config_timer_value"]);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -225,7 +230,7 @@ public sealed partial class AccountController : Controller
             string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Value);
             byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
-            string request_string = Program.config_couchdb_url + "/_session";
+            string request_string = _configuration["config_couchdb_url"] + "/_session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             //request.UseDefaultCredentials = true;
 
@@ -565,7 +570,9 @@ public sealed partial class AccountController : Controller
     {
         var days_til_value_expires = -1;
 
-        var password_days_before_expires = Program.config_pass_word_days_before_expires;
+        int password_days_before_expires = 0;
+        
+        _configuration["config_pass_word_days_before_expires"].SetIfIsNotNullOrWhiteSpace(ref password_days_before_expires);
 
         if(password_days_before_expires > 0)
         {
@@ -576,9 +583,9 @@ public sealed partial class AccountController : Controller
                     u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
                 
-                var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
+                var session_event_request_url = $"{_configuration["config_couchdb_url"]}/{_configuration["db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["config_timer_user_name"], _configuration["config_timer_value"]);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -704,7 +711,7 @@ public sealed partial class AccountController : Controller
             userPrincipal,
             new AuthenticationProperties
             {
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(Program.config_session_idle_timeout_minutes),
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["config_session_idle_timeout_minutes"])),
                 IsPersistent = false,
                 AllowRefresh = true,
             });
