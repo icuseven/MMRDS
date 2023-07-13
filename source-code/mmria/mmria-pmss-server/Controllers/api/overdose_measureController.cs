@@ -44,7 +44,7 @@ public sealed class overdose_measureController: ControllerBase
         
         var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
         var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_password"];
+        var config_timer_value = _configuration["mmria_settingstimer_value"];
         var config_db_prefix = "";
         
         if(!string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))

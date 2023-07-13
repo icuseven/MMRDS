@@ -361,7 +361,7 @@ public sealed partial class AccountController : Controller
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
                 var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-                var config_timer_value = _configuration["mmria_settings:timer_password"];
+                var config_timer_value = _configuration["mmria_settingstimer_value"];
 
 
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -461,7 +461,7 @@ public sealed partial class AccountController : Controller
 
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_password"];
+            var config_timer_password = _configuration["mmria_settingstimer_value"];
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
             mmria.pmss.server.model.actor.Session_MessageDTO session_message = null;

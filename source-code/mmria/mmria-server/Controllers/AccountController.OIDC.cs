@@ -210,7 +210,7 @@ public sealed partial class AccountController : Controller
         //check if user exists
         var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
         var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_password"];
+        var config_timer_value = _configuration["mmria_settingstimer_value"];
 
         var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
         mmria.common.model.couchdb.user user = null;

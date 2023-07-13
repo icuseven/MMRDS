@@ -127,7 +127,7 @@ public sealed class TokenClient
         //check if user exists
         var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
         var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_password = _configuration["mmria_settings:timer_password"];
+        var config_timer_password = _configuration["mmria_settingstimer_value"];
 
         mmria.common.model.couchdb.user user = null;
         try

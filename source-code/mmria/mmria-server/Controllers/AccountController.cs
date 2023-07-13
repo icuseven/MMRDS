@@ -148,7 +148,7 @@ public sealed partial class AccountController : Controller
             try
             {
                 var user_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
-                var user_request_curl = new cURL("GET", null, user_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_password"]);
+                var user_request_curl = new cURL("GET", null, user_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settingstimer_value"]);
                 string user_response_string = await user_request_curl.executeAsync ();
                 var test_user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(user_response_string);
 
@@ -170,7 +170,7 @@ public sealed partial class AccountController : Controller
 
                 var session_event_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/{_configuration["mmria_settings:db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_password"]);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settingstimer_value"]);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -366,7 +366,7 @@ public sealed partial class AccountController : Controller
 
                 var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
                 var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-                var config_timer_password = _configuration["mmria_settings:timer_password"];
+                var config_timer_password = _configuration["mmria_settingstimer_value"];
 
 
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
@@ -466,7 +466,7 @@ public sealed partial class AccountController : Controller
 
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_password"];
+            var config_timer_password = _configuration["mmria_settingstimer_value"];
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
             mmria.server.model.actor.Session_MessageDTO session_message = null;
@@ -585,7 +585,7 @@ public sealed partial class AccountController : Controller
                 
                 var session_event_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/{_configuration["mmria_settings:db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_password"]);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settingstimer_value"]);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);

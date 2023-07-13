@@ -94,7 +94,7 @@ public sealed class _auditController : Controller
 
         var case_view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
-        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_password"]);
+        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settingstimer_value"]);
         string responseFromServer = await case_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -108,7 +108,7 @@ public sealed class _auditController : Controller
 
         //var request_string = $"{configuration["mmria_settings:couchdb_url}/{configuration["mmria_settings:db_prefix}audit/_all_docs?include_docs=true";
         var (request_string, post_data) = get_find_url(p_id);
-        var audit_view_curl = new cURL("POST",null,request_string,post_data, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_password"]);
+        var audit_view_curl = new cURL("POST",null,request_string,post_data, configuration["mmria_settings:timer_user_name"], configuration["mmria_settingstimer_value"]);
         responseFromServer = await audit_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -171,7 +171,7 @@ public sealed class _auditController : Controller
 
         var case_view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
-        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_password"]);
+        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settingstimer_value"]);
         string responseFromServer = await case_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -185,7 +185,7 @@ public sealed class _auditController : Controller
 
         //var request_string = $"{configuration["mmria_settings:couchdb_url}/{configuration["mmria_settings:db_prefix}audit/_all_docs?include_docs=true";
         var request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}audit/{change_id}";
-        var audit_view_curl = new cURL("GET",null,request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_password"]);
+        var audit_view_curl = new cURL("GET",null,request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settingstimer_value"]);
         responseFromServer = await audit_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
