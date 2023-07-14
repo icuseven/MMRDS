@@ -175,7 +175,7 @@ public sealed partial class Program
             Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-            Program.config_timer_value = configuration["mmria_settingstimer_value"];
+            Program.config_timer_value = configuration["mmria_settings:timer_value"];
             Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
             Program.config_export_directory = configuration["mmria_settings:export_directory"];
 
@@ -215,7 +215,7 @@ public sealed partial class Program
                 configuration["mmria_settings:web_site_url"] = Program.config_web_site_url;
 
                 configuration["mmria_settings:timer_user_name"] = Program.config_timer_user_name;
-                configuration["mmria_settingstimer_value"] = Program.config_timer_value;
+                configuration["mmria_settings:timer_value"] = Program.config_timer_value;
                 configuration["mmria_settings:cron_schedule"] = Program.config_cron_schedule;
 
                 configuration["mmria_settings:export_directory"] = Program.config_export_directory;
