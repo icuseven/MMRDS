@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class checkcodeController: ControllerBase 
 { 
-    public checkcodeController()
+    IConfiguration configuration;
+    public checkcodeController(IConfiguration _configuration)
     {
+        configuration = _configuration;
     }
 
     [AllowAnonymous] 
@@ -23,7 +26,7 @@ public sealed class checkcodeController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -74,11 +77,11 @@ public sealed class checkcodeController: ControllerBase
                 // Read the content.
                 check_code_json = await reader0.ReadToEndAsync ();
 
-                string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+                string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
-                var put_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+                var put_curl = new cURL("PUT", null, metadata_url, check_code_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"], "text/*");
 
-                var revision = await get_revision(Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z");
+                var revision = await get_revision($"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z");
 
                 if (!string.IsNullOrWhiteSpace(revision))
                 {
@@ -112,7 +115,7 @@ public sealed class checkcodeController: ControllerBase
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
         string temp_document_json = null;
 
         try
