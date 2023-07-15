@@ -4,6 +4,7 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 using mmria.common;
 
@@ -12,9 +13,10 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
 { 
-    public aggregate_reportController()
+    IConfiguration configuration;
+    public aggregate_reportController(IConfiguration _configuration)
     {
-
+        configuration = _configuration;
     }
 
     [HttpGet]
@@ -28,10 +30,10 @@ public sealed class aggregate_reportController: ControllerBase
         
         try
         {
-            string request_string = this.get_couch_db_url() + $"/{Program.db_prefix}report/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_settings:couch_db_url"]}/{configuration["mmria_settings:db_prefix"]}report/_all_docs?include_docs=true";
 
 
-            var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var request_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await request_curl.executeAsync();
 
             System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
@@ -271,13 +273,6 @@ public sealed class aggregate_reportController: ControllerBase
             p_result.Add(kvp.Key, int.Parse(kvp.Value.ToString()));
         }
         
-    }
-
-    private string get_couch_db_url()
-    {
-        string result = Program.config_couchdb_url;
-
-        return result;
     }
 } 
 
