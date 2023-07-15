@@ -42,20 +42,20 @@ public sealed class cvsAPIController: ControllerBase
 
     string folder_name = null;
 
-    private IConfiguration Configuration;
-    private readonly IAuthorizationService _authorizationService;
+    IConfiguration configuration;
+    readonly IAuthorizationService _authorizationService;
     public cvsAPIController
     (
-        IConfiguration configuration,
+        IConfiguration _configuration,
         mmria.common.couchdb.ConfigurationSet p_config_db, 
         IAuthorizationService authorizationService
     )
     {
-        Configuration = configuration;
+        configuration = _configuration;
         ConfigDB = p_config_db;
         _authorizationService = authorizationService;
 
-        this.folder_name = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], "csv");
+        this.folder_name = System.IO.Path.Combine(configuration["mmria_settings:export_directory"], "csv");
 
         System.IO.Directory.CreateDirectory(this.folder_name);
 
@@ -197,8 +197,8 @@ public sealed class cvsAPIController: ControllerBase
                         try
                         {
                             
-                            string view_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=30000&descending=true";
-                            var case_view_curl = new cURL("GET", null, view_request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                            string view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=30000&descending=true";
+                            var case_view_curl = new cURL("GET", null, view_request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                             string responseFromServer = await case_view_curl.executeAsync();
 
 
@@ -212,10 +212,10 @@ public sealed class cvsAPIController: ControllerBase
                                     cvi => cvi.value.record_id.Equals(post_payload.id, StringComparison.OrdinalIgnoreCase)
                                 ).FirstOrDefault();
 
-                            string case_request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{data.id}";
+                            string case_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{data.id}";
 
 
-                            var case_curl = new cURL("GET", null, case_request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                            var case_curl = new cURL("GET", null, case_request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                             string case_response = await case_curl.executeAsync();
 
                             var case_dictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (case_response) as IDictionary<string,object>;
@@ -331,7 +331,7 @@ public sealed class cvsAPIController: ControllerBase
                             };
 
                             body_text = JsonSerializer.Serialize(get_year_body);
-                            var get_year_curl = new cURL("POST", null, base_url, body_text, Program.config_timer_user_name, Program.config_timer_value);
+                            var get_year_curl = new cURL("POST", null, base_url, body_text, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                             string get_year_response = await get_year_curl.executeAsync();
                             var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
                             if

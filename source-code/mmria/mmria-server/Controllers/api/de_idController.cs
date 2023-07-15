@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server;
 
@@ -13,7 +14,12 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class de_idController: ControllerBase 
 { 
+    IConfiguration configuration;
 
+    public de_idController(IConfiguration _configuration)
+    {
+        configuration = _configuration;
+    }
 
     // GET api/values 
     //public IEnumerable<master_record> Get() 
@@ -21,15 +27,15 @@ public sealed class de_idController: ControllerBase
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}de_id/_all_docs?include_docs=true";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
-                request_string = Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + case_id;
+                request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}de_id/{case_id}";
             } 
 
 
-            var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var request_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await request_curl.executeAsync();
 
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
