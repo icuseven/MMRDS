@@ -466,6 +466,10 @@ public sealed partial class Program
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.Use(middleware);
 
