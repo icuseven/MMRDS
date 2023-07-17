@@ -7,13 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using mmria.common;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.Extensions.Configuration;
 namespace mmria.server;
 
 [Authorize(Roles  = "form_designer")]
 [Route("api/[controller]")]
 public sealed class migration_plan_viewController: ControllerBase
 {
+
+    IConfiguration configuration;
+    public migration_plan_viewController(IConfiguration _configuration)
+    {
+        configuration = _configuration;
+    }
+
     [HttpGet]
     public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>> Get
     (
@@ -43,7 +50,7 @@ public sealed class migration_plan_viewController: ControllerBase
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-            request_builder.Append (Program.config_couchdb_url);
+            request_builder.Append (configuration["mmria_settings:couchdb_url"]);
             request_builder.Append ($"/metadata/_design/sortable/_view/{sort_view}?");
             //http://localhost:5984/metadata/_design/sortable/_view/by_date_last_updated
 
@@ -81,7 +88,7 @@ public sealed class migration_plan_viewController: ControllerBase
             }
 
 
-            var migration_plan_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+            var migration_plan_curl = new cURL("GET", null, request_builder.ToString(), null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string response_from_server = await migration_plan_curl.executeAsync ();
 
             var migration_plan_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.migration_plan>>(response_from_server);
