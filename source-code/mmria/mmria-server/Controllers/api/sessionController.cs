@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
 
 //https://wiki.apache.org/couchdb/Session_API
 
@@ -17,6 +18,11 @@ namespace mmria.server;
 public sealed class sessionController: ControllerBase
 {
 
+    IConfiguration configuration;
+    public sessionController(IConfiguration _configuration)
+    {
+        configuration = _configuration;
+    }
 
     [Route("list")]
     [HttpGet]
@@ -49,8 +55,8 @@ public sealed class sessionController: ControllerBase
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-            request_builder.Append (Program.config_couchdb_url);
-            request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
+            request_builder.Append (configuration["mmria_settings:couchdb_url"]);
+            request_builder.Append ($"/{configuration["mmria_settings:db_prefix"]}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
             if (string.IsNullOrWhiteSpace (search_key))
@@ -86,7 +92,7 @@ public sealed class sessionController: ControllerBase
                 }
             }
 
-            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
             var session_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.session>>(response_from_server);
@@ -175,7 +181,7 @@ public sealed class sessionController: ControllerBase
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session";
+            string request_string = configuration["mmria_settings:couchdb_url"] + $"/{configuration["mmria_settings:db_prefix"]}session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
             request.PreAuthenticate = false;
@@ -232,13 +238,13 @@ public sealed class sessionController: ControllerBase
         {
 
             mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{Post_Request._id}";
+            string request_string = configuration["mmria_settings:couchdb_url"] + $"/{configuration["mmria_seetings:db_prefix"]}session/{Post_Request._id}";
 
             try 
             {
                 
 
-                var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                var check_document_curl = new cURL ("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                 string check_document_json = await check_document_curl.executeAsync ();
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<session> (check_document_json);
 
@@ -264,7 +270,7 @@ public sealed class sessionController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Post_Request, settings);
 
-            cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            cURL document_curl = new cURL ("PUT", null, request_string, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             try
             {
@@ -290,7 +296,7 @@ public sealed class sessionController: ControllerBase
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + "/_session";
+            string request_string = configuration["mmria_settings:couchdb_url"] + "/_session";
 
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));

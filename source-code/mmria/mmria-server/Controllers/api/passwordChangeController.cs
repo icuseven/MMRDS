@@ -118,11 +118,6 @@ public sealed class passwordChangeController: ControllerBase
                 u => u.IsAuthenticated && 
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-/* */
-
-
-
-
         try
         {
             string user_db_url = configuration["mmria_settings:couchdb_url"] + "/_users/org.couchdb.user:" + userName;

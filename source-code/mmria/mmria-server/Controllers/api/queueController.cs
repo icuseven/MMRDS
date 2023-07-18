@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+
 using mmria.common.model;
 
 
@@ -11,8 +13,10 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class queueController: ControllerBase
 {
-    public queueController ()
+    IConfiguration configuration;
+    public queueController (IConfiguration _configuration)
     {
+        configuration = _configuration;
     }
 
     [HttpPost]
@@ -24,7 +28,7 @@ public sealed class queueController: ControllerBase
         queue_item.queue_id = System.Guid.NewGuid ().ToString ();
         queue_item.case_list = set_queue_request.case_list;
 
-        string queue_url = Program.config_couchdb_url + "/queue/"  + queue_item.queue_id;
+        string queue_url = configuration["mmria_settings:couchdb_url"] + "/queue/"  + queue_item.queue_id;
 
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_item);
 

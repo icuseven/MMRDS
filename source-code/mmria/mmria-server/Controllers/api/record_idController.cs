@@ -17,10 +17,10 @@ public sealed class record_idController: ControllerBase
         public bool ok { get; init;}
         public bool is_unique { get; init;}
     }
-    public IConfiguration Configuration { get; }
-    public record_idController(IConfiguration configuration)
+    public IConfiguration configuration { get; }
+    public record_idController(IConfiguration _configuration)
     {
-        Configuration = configuration;
+        configuration = _configuration;
     }
 
     [HttpGet]
@@ -30,10 +30,10 @@ public sealed class record_idController: ControllerBase
         try
         {        
             //"2016-06-12T13:49:24.759Z"
-            //string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{Configuration["mmria_settings:metadata_version"]}/validator";
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+            //string request_string = configuration["mmria_settings:couchdb_url + $"/metadata/version_specification-{Configuration["mmria_settings:metadata_version"]}/validator";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
 
-            var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_view_curl.executeAsync();
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
