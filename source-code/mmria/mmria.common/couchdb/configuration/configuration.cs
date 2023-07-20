@@ -26,6 +26,25 @@ public sealed class ConfigurationSet
 
     public string data_type { get; } = "configuration-set";
 
+    public Dictionary<string, string> name_value { get;set; }
+
+    public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
+
+    public DateTime date_created { get; set; } 
+    public string created_by { get; set; } 
+    public DateTime date_last_updated { get; set; } 
+    public string last_updated_by { get; set; } 
+
+}
+
+public sealed class Configuration
+{
+    public Configuration()
+    {
+        this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
+        this.name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    }
+
     public static string g_geocode_api_key;
     public static string geocode_api_url;
     public static string couchdb_url = "http://localhost:5984";
@@ -48,20 +67,26 @@ public sealed class ConfigurationSet
     public Dictionary<string, string> name_value { get;set; }
 
     public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
-
-    public DateTime date_created { get; set; } 
-    public string created_by { get; set; } 
-    public DateTime date_last_updated { get; set; } 
-    public string last_updated_by { get; set; } 
-
 }
 
 public sealed class ConfigurationMaster
 {
     public ConfigurationMaster()
     {
-        ConfigurationSet = new Dictionary<string, ConfigurationSet>(StringComparer.OrdinalIgnoreCase);
+        ConfigurationSet = new Dictionary<string, Configuration>(StringComparer.OrdinalIgnoreCase);
     }
+    public string _id { get; set;}
+    public string _rev { get; set; }
 
-    public Dictionary<string, ConfigurationSet> ConfigurationSet { get; set; }
+    public DateTime date_created { get; set; } 
+    public string created_by { get; set; } 
+    public DateTime date_last_updated { get; set; } 
+    public string last_updated_by { get; set; } 
+
+    public string data_type { get; } = "configuration-master";
+
+
+    public Dictionary<string, Configuration> ConfigurationSet { get; set; }
+
+    
 }
