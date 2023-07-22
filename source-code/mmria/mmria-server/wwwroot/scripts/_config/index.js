@@ -8,6 +8,10 @@ async function main()
 {
     config = await get_config();
     config_master = await get_config_master();
+
+    const el = document.getElementById("content");
+
+    el.innerHTML = "<h2>View Configuration</h2>";
 }
 
 async function get_config()
