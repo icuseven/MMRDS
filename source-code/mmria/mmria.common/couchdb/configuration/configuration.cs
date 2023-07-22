@@ -17,8 +17,8 @@ public sealed class ConfigurationSet
 {
     public ConfigurationSet()
     {
-        this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
-        this.name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
+        name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     }
     public string _id { get; set;}
     public string _rev { get; set; }
@@ -41,8 +41,8 @@ public sealed class Configuration
 {
     public Configuration()
     {
-        this.detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
-        this.name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        detail_list = new Dictionary<string, DBConfigurationDetail>(StringComparer.OrdinalIgnoreCase);
+        name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     }
 
     public static string g_geocode_api_key;
@@ -73,7 +73,8 @@ public sealed class ConfigurationMaster
 {
     public ConfigurationMaster()
     {
-        ConfigurationSet = new Dictionary<string, Configuration>(StringComparer.OrdinalIgnoreCase);
+        name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        configuration_set = new Dictionary<string, Configuration>(StringComparer.OrdinalIgnoreCase);
     }
     public string _id { get; set;}
     public string _rev { get; set; }
@@ -85,8 +86,9 @@ public sealed class ConfigurationMaster
 
     public string data_type { get; } = "configuration-master";
 
+    public Dictionary<string, string> name_value { get;set; }
 
-    public Dictionary<string, Configuration> ConfigurationSet { get; set; }
+    public Dictionary<string, Configuration> configuration_set { get; set; }
 
     
 }
