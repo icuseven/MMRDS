@@ -20,11 +20,13 @@ namespace mmria.server;
 public sealed class export_queueController: ControllerBase
 { 
 
+    IConfiguration configuration;
     private ActorSystem _actorSystem;
 
-    public export_queueController(ActorSystem actorSystem)
+    public export_queueController(ActorSystem actorSystem, IConfiguration _configuration)
     {
         _actorSystem = actorSystem;
+        configuration = _configuration;
     }
 
 
@@ -46,8 +48,8 @@ public sealed class export_queueController: ControllerBase
 
         try
         {
-            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_all_docs?include_docs=true";
-            var export_queue_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}export_queue/_all_docs?include_docs=true";
+            var export_queue_curl = new cURL ("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             string responseFromServer = await export_queue_curl.executeAsync();
 
@@ -175,9 +177,9 @@ public sealed class export_queueController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_item, settings); 
 
-            string export_queue_request_url = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/"  +  queue_item._id;
+            string export_queue_request_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}export_queue/"  +  queue_item._id;
 
-            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
 
             string responseFromServer = await export_queue_curl.executeAsync();
@@ -199,11 +201,11 @@ public sealed class export_queueController: ControllerBase
 
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
                 (
-                    Program.config_cron_schedule,
-                    Program.config_couchdb_url,
-                    Program.config_timer_user_name,
-                    Program.config_timer_value,
-                    Program.config_export_directory,
+                    configuration["mmria_settings:cron_schedule"],
+                    configuration["mmria_settings:couchdb_url"],
+                    configuration["mmria_settings:timer_user_name"],
+                    configuration["mmria_settings:timer_value"],
+                    configuration["mmria_settings:export_directory"],
                     juris_user_name,
                     Program.metadata_release_version_name
 

@@ -33,7 +33,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_password"];
+            var config_timer_password = _configuration["mmria_settings:timer_value"];
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
 
 

@@ -181,7 +181,7 @@ public sealed class backupManagerController : Controller
             {
                 using (var content = response.Content)
                 {
-                    var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
+                    var file_path = System.IO.Path.Combine(_configuration["config_export_directory"], id);
 
                     using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
@@ -226,8 +226,8 @@ public sealed class backupManagerController : Controller
             {
                 using (var content = response.Content)
                 {
-                    var directory_path = System.IO.Path.Combine(Program.config_export_directory, folder);
-                    var file_path = System.IO.Path.Combine(Program.config_export_directory, folder, file_name);
+                    var directory_path = System.IO.Path.Combine(_configuration["config_export_directory"], folder);
+                    var file_path = System.IO.Path.Combine(_configuration["config_export_directory"], folder, file_name);
 
                     System.IO.Directory.CreateDirectory(directory_path);
 

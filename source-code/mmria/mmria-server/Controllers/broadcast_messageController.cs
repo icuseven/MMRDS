@@ -47,7 +47,7 @@ public sealed class broadcast_messageController : Controller
         var result = new mmria.common.metadata.BroadcastMessageList();
 
 
-        string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
+        string url = $"{_configuration["mmria_settings:couchdb_url"]}/metadata/broadcast-message-list";
         
         cURL curl = new cURL("GET", null, url, null, null, null);
         try
@@ -159,7 +159,7 @@ public sealed class broadcast_messageController : Controller
     {
         var result = new mmria.common.model.couchdb.document_put_response();
 
-        string url = $"{Program.config_couchdb_url}/metadata/broadcast-message-list";
+        string url = $"{_configuration["mmria_settings:couchdb_url"]}/metadata/broadcast-message-list";
         
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

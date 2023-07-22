@@ -34,7 +34,7 @@ public sealed class interactive_report_viewController: ControllerBase
         
         var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
         var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = configuration["mmria_settings:timer_password"];
+        var config_timer_value = configuration["mmria_settings:timer_value"];
         var config_db_prefix = "";
         
         if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))

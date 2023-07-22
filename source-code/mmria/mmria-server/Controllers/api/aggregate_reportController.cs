@@ -14,9 +14,9 @@ namespace mmria.server;
 public sealed class aggregate_reportController: ControllerBase 
 { 
     IConfiguration configuration;
-    public aggregate_reportController(IConfiguration p_configuration)
+    public aggregate_reportController(IConfiguration _configuration)
     {
-        configuration = p_configuration;
+        configuration = _configuration;
     }
 
     [HttpGet]
@@ -30,10 +30,10 @@ public sealed class aggregate_reportController: ControllerBase
         
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}report/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_settings:couch_db_url"]}/{configuration["mmria_settings:db_prefix"]}report/_all_docs?include_docs=true";
 
 
-            var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var request_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await request_curl.executeAsync();
 
             System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());

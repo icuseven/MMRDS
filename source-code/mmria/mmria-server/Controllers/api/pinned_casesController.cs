@@ -6,32 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class pinned_casesController : ControllerBase
 {
+    IConfiguration configuration;
+    public pinned_casesController(IConfiguration _configuration)
+    {
+        configuration = _configuration;
+    }
+
     [Authorize(Roles = "abstractor")]
     [HttpGet]
     public async Task<mmria.common.model.couchdb.pinned_case_set> Get()
     {
         mmria.common.model.couchdb.pinned_case_set result = await GetPinnedCaseSet();
-
-        
-        /*
-        try
-        {
-            string request_string = $"{Program.config_couchdb_url}/jurisdiction/penned-case-set";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            string responseFromServer = await case_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
-        }
-        catch (Exception ex)
-        {
-        Console.WriteLine(ex);
-        }*/
-
         return result;
     }
 
@@ -147,8 +139,8 @@ public sealed class pinned_casesController : ControllerBase
 
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}jurisdiction/pinned-case-set";
+            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }
@@ -195,17 +187,13 @@ public sealed class pinned_casesController : ControllerBase
 
         if(value._id == "pinned-case-set")
         {
-            string url = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
+            string url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}jurisdiction/pinned-case-set";
             //System.Console.WriteLine ("json\n{0}", object_string);
 
-            cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
-
-            //bool save_document = false;
-
+            cURL put_document_curl = new cURL("PUT", null, url, document_content, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             try
             {
-
                 string responseFromServer = await put_document_curl.executeAsync();
                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
             }

@@ -29,13 +29,19 @@ public sealed class IsDuplicateCaseRequest
 [Route("api/[controller]")]
 public sealed class isDuplicateCaseController: ControllerBase 
 { 
-    private ActorSystem _actorSystem;
-    private readonly IAuthorizationService _authorizationService;
-    //private readonly IDocumentRepository _documentRepository;
-    public isDuplicateCaseController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+    ActorSystem _actorSystem;
+    readonly IAuthorizationService _authorizationService;
+    IConfiguration configuration;
+    public isDuplicateCaseController
+    (
+        ActorSystem actorSystem, 
+        IAuthorizationService authorizationService,
+        IConfiguration _configuration
+    )
     {
         _actorSystem = actorSystem;
         _authorizationService = authorizationService;
+        configuration = _configuration;
     }
     
     
@@ -208,7 +214,7 @@ public sealed class isDuplicateCaseController: ControllerBase
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
-            request_builder.Append($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+            request_builder.Append($"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/{sort_view}?");
 
             if (skip > -1)
             {
@@ -232,7 +238,7 @@ public sealed class isDuplicateCaseController: ControllerBase
 
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_view_curl.executeAsync();
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
@@ -301,12 +307,12 @@ public sealed class isDuplicateCaseController: ControllerBase
     {
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_all_docs?include_docs=true";
 
             if (!string.IsNullOrWhiteSpace(case_id))
             {
-                request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-                var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}";
+                var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);

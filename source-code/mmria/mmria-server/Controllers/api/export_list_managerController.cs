@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 namespace mmria.server;
 
@@ -12,6 +13,11 @@ namespace mmria.server;
 public sealed class export_list_managerController: ControllerBase 
 { 
 
+    IConfiguration configuration;
+    public export_list_managerController(IConfiguration _configuration)
+    {
+        configuration = _configuration;
+    }
 
     // GET api/values 
     //public IEnumerable<master_record> Get() 
@@ -20,7 +26,7 @@ public sealed class export_list_managerController: ControllerBase
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + $"/metadata/export-standard-list";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/export-standard-list";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -83,9 +89,9 @@ public sealed class export_list_managerController: ControllerBase
             // Read the content.
             string document_json = await reader0.ReadToEndAsync ();
 
-            string metadata_url = Program.config_couchdb_url + $"/metadata/export-standard-list";
+            string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/export-standard-list";
 
-            var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, Program.config_timer_user_name, Program.config_timer_value,"text/*");
+            var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"],"text/*");
 
             string responseFromServer = await de_identified_curl.executeAsync ();
 

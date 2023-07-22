@@ -30,8 +30,8 @@ public sealed class populate_cdc_instanceController : ControllerBase
         mmria.common.metadata.Populate_CDC_Instance result = new();
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/populate-cdc-instance";
+            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
 
@@ -126,10 +126,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
         if(populate_cdc_instance._id == "populate-cdc-instance")
         {
-            string url = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
+            string url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/populate-cdc-instance";
             //System.Console.WriteLine ("json\n{0}", object_string);
 
-            cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
+            cURL put_document_curl = new cURL("PUT", null, url, document_content, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             //bool save_document = false;
 
@@ -197,14 +197,13 @@ public sealed class populate_cdc_instanceController : ControllerBase
         return result;
     } 
 
-
     private mmria.common.couchdb.ConfigurationSet GetConfiguration()
     {
         var result = new mmria.common.couchdb.ConfigurationSet();
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["config_id"]}";
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 
@@ -216,7 +215,6 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
         return result;
     }
-
 
     public static string Base64Decode(string base64EncodedData)
     {

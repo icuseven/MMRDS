@@ -28,10 +28,10 @@ public sealed class overdose_measureController: ControllerBase
         public int limit;
     }
 
-    public IConfiguration _configuration { get; }
-    public overdose_measureController(IConfiguration configuration)
+    public IConfiguration configuration { get; }
+    public overdose_measureController(IConfiguration _configuration)
     {
-        _configuration = configuration;
+        this.configuration = configuration;
     }
     // GET api/values 
     //public IEnumerable<master_record> Get() 
@@ -42,14 +42,14 @@ public sealed class overdose_measureController: ControllerBase
         Result_Struct result = new Result_Struct();
         
         
-        var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_password"];
+        var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
+        var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
+        var config_timer_value = configuration["mmria_settings:timer_value"];
         var config_db_prefix = "";
         
-        if(!string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+        if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))
         {
-            config_db_prefix = _configuration["mmria_settings:db_prefix"];
+            config_db_prefix = configuration["mmria_settings:db_prefix"];
         }
 
         try

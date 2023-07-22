@@ -26,7 +26,7 @@ public sealed class _configController : Controller
         app_config.export_directory = configuration["mmria_settings:export_directory"];
         app_config.couchdb_url = configuration["mmria_settings:couchdb_url"];
         app_config.timer_user_name = configuration["mmria_settings:timer_user_name"];
-        app_config.timer_value = configuration["mmria_settings:timer_password"];
+        app_config.timer_value = configuration["mmria_settings:timer_value"];
         app_config.cron_schedule = configuration["mmria_settings:cron_schedule"];
         app_config.pass_word_minimum_length = int.Parse(configuration["password_settings:minimum_length"]);
         app_config.pass_word_days_before_expires = int.Parse(configuration["password_settings:days_before_expires"]);
@@ -54,7 +54,7 @@ public sealed class _configController : Controller
         configuration["mmria_settings:export_directory"] = app_config.export_directory;
         configuration["mmria_settings:couchdb_url"] = app_config.couchdb_url;
         configuration["mmria_settings:timer_user_name"] = app_config.timer_user_name;
-        configuration["mmria_settings:timer_password"] = app_config.timer_value;
+        configuration["mmria_settings:timer_value"] = app_config.timer_value;
         configuration["mmria_settings:cron_schedule"] = app_config.cron_schedule;
         configuration["password_settings:minimum_length"] = app_config.pass_word_minimum_length.Value.ToString();
         configuration["password_settings:days_before_expires"] = app_config.pass_word_days_before_expires.Value.ToString();

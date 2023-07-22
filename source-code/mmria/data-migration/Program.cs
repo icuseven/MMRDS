@@ -226,7 +226,7 @@ class Program
         var config_id = Configuration["data_migration:config_id"];
         config_couchdb_url = Configuration["data_migration:couchdb_url"];
         config_timer_user_name = Configuration["data_migration:timer_user_name"];
-        config_timer_value = Configuration["data_migration:timer_password"];
+        config_timer_value = Configuration["data_migrationtimer_value"];
         
         ConfigurationSet = GetConfiguration(config_id);
 

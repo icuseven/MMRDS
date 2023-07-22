@@ -19,12 +19,15 @@ public sealed class caseController: ControllerBase
 
     private ActorSystem _actorSystem;
 
+    IConfiguration configuration;
+
 
     private readonly IAuthorizationService _authorizationService;
     //private readonly IDocumentRepository _documentRepository;
 
-    public caseController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+    public caseController( IConfiguration p_configuration, ActorSystem actorSystem, IAuthorizationService authorizationService)
     {
+         configuration = p_configuration;
         _actorSystem = actorSystem;
         _authorizationService = authorizationService;
     }
@@ -35,12 +38,12 @@ public sealed class caseController: ControllerBase
     { 
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_setting:couchdb_url"]}/{configuration["mmria_setting:db_prefix"]}mmrds/_all_docs?include_docs=true";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
-                request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-                var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}";
+                var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_setting:timer_user_name"], configuration["mmria_setting:timer_value"]);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
@@ -158,7 +161,7 @@ public sealed class caseController: ControllerBase
             // begin - check if doc exists
             try 
             {
-                var check_document_curl = new cURL ("GET", null, $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}", null, Program.config_timer_user_name, Program.config_timer_value);
+                var check_document_curl = new cURL ("GET", null, $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{id_val}", null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                 string check_document_json = await check_document_curl.executeAsync ();
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
                 IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
@@ -184,8 +187,8 @@ public sealed class caseController: ControllerBase
 
 
 
-            string metadata_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}";
-            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{id_val}";
+            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             try
             {
@@ -203,8 +206,8 @@ public sealed class caseController: ControllerBase
 
             var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
 
-            string audit_url = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{audit_data._id}";
-            cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, Program.config_timer_user_name, Program.config_timer_value);
+            string audit_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}audit/{audit_data._id}";
+            cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             try
             {
@@ -256,15 +259,15 @@ public sealed class caseController: ControllerBase
 
             if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
             {
-                request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + rev;
+                request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}?rev={rev}";
             }
             else 
             {
                 return null;
             }
 
-            var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_value);
+            var delete_report_curl = new cURL ("DELETE", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var check_document_curl = new cURL ("GET", null, $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}", null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
             string document_json = null;
             // check if doc exists
@@ -288,7 +291,7 @@ public sealed class caseController: ControllerBase
                 
                 if (result_dictionary.ContainsKey ("_rev")) 
                 {
-                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
+                    request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}?rev={result_dictionary ["_rev"]}";
                     //System.Console.WriteLine ("json\n{0}", object_string);
                 }
             } 
