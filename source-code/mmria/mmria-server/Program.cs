@@ -303,7 +303,7 @@ public sealed partial class Program
                 Log.Information("Program.config_vitals_service_key is present");
             }
 
-            var DbConfigSet = GetConfiguration();
+            var DbConfigSet = GetConfiguration(configuration);
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
             Program.configuration_set = DbConfigSet;
