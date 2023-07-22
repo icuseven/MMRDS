@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
@@ -42,7 +43,52 @@ public sealed class _configController : Controller
     }
 
 
-[HttpPost]
+
+    [HttpGet]
+    public async Task<IActionResult> GetConfiguration()
+    {
+        var app_config = new mmria.common.couchdb.Configuration();
+
+        try
+        {
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
+
+            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            string responseFromServer = await case_curl.executeAsync();
+
+            app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.Configuration> (responseFromServer);
+        }
+        catch(System.Exception ex)
+        {
+            System.Console.WriteLine (ex);
+        } 
+        return Json(app_config);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetConfigurationMaster()
+    {
+        var app_config = new mmria.common.couchdb.ConfigurationMaster();
+
+        try
+        {
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
+
+            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            string responseFromServer = await case_curl.executeAsync();
+
+            app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationMaster> (responseFromServer);
+        }
+        catch(System.Exception ex)
+        {
+            System.Console.WriteLine (ex);
+        } 
+
+        return Json(app_config);
+    }
+
+
+    [HttpPost]
     public IActionResult Index(mmria.server.model.app_config app_config)
     {
         
