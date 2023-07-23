@@ -74,21 +74,24 @@ function render_global_name_value()
         const value = config_master.name_value[key];
         const size = value.length + 3;
 
+        const id = `g_name_value-${key}`;
+
         result.push('<tr><td colspan=3>');
-        result.push(`<label><b>${key}</b> <input type="text" value="${value}" size="${size}"></input></label>`);
-        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
+        result.push(`<label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
         result.push('</td></tr>');
     }
 
     result.push(`<tr>
     <td>
-    <input type="button" value="add"></input>
+    <input type="text" id="add_new_g_name_value" value=""></input>
+    <input type="button" value="add" onclick="add_item('add_new_g_name_value')"></input>
     </td>
     <td>
     &nbsp;
     </td>
     <td>
-    <input type="button" value="paste"></input>
+    <input type="button" value="paste" onclick="paste_item('add_new_g_name_value')"></input>
     </td>
 
 </tr>`);
@@ -223,7 +226,7 @@ function render_config_detail()
     const val = config_master.configuration_set[selected_config];
 
     if(val == null) return "";
-    
+
     result.push(
         ` <table>
         <tr>
@@ -245,20 +248,25 @@ function render_config_detail()
         }
         else
         {
-            result.push(`<tr><td colspan=3><label>${key} <input type="text" value="${value}" size="${size}"></input></label></td></tr>`);
+            const id = `detail-${selected_config}-${key}`;
+            result.push(`<tr><td colspan=3><label>${key} <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
+
         }
         
     }
 
     result.push(`<tr>
     <td>
-    <input type="button" value="add"></input>
+    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
+    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
     </td>
     <td>
     &nbsp;
     </td>
     <td>
-    <input type="button" value="paste"></input>
+    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
     </td>
 
     </tr>`);
@@ -270,21 +278,25 @@ function render_config_detail()
         const v = val.name_value[k];
         const s = v.length + 3;
 
+        const id = `name_value-${selected_config}-${k}`;
+
         result.push('<tr><td colspan=3>');
-        result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
-        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
+        result.push(`<label><b>${k}</b> <input type="text" id="${id}" value="${v}" size="${s}"></input></label>`);
+        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
         result.push('</td></tr>');
     }
 
     result.push(`<tr>
         <td>
-        <input type="button" value="add"></input>
+        <input type="text" id="add_new_name_value-${selected_config}" value=""></input>
+        <input type="button" value="add" onclick="add_item('add_new_name_value-${selected_config}')"></input>
         </td>
         <td>
         &nbsp;
         </td>
         <td>
-        <input type="button" value="paste"></input>
+        <input type="button" value="paste" onclick="paste_item('add_new_name_value-${selected_config}')"></input>
         </td>
 
     </tr>`);
@@ -298,21 +310,25 @@ function render_config_detail()
         const v = val.detail_list[k];
         const s = v.length + 3;
 
+        const id = `detail_list-${selected_config}-${k}`;
+
         result.push('<tr><td colspan=3>');
         result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
-        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
+        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
         result.push('</td></tr>');
     }
 
     result.push(`<tr>
         <td>
-        <input type="button" value="add"></input>
+        <input type="text" id="add_new_detail_list-${selected_config}" value=""></input>
+        <input type="button" value="add" onclick="add_item('add_new_detail_list-${selected_config}')"></input>
         </td>
         <td>
         &nbsp;
         </td>
         <td>
-        <input type="button" value="paste"></input>
+        <input type="button" value="paste" onclick="paste_item('add_new_detail_list-${selected_config}')"></input>
         </td>
 
     </tr>`);
@@ -330,8 +346,28 @@ function prefix_selection_changed(value)
 
     selected_config = value;
 
-    console.log("prefix_selection_changed: " + value);
+    //console.log("prefix_selection_changed: " + value);
 
     const el = document.getElementById("config_detail");
     el.innerHTML = render_config_detail();
+}
+
+function copy_item(p_id)
+{
+    console.log("copy: " + p_id);
+}
+
+function delete_item(p_id)
+{
+    console.log("delete: " + p_id);
+}
+
+function add_item(p_id)
+{
+    console.log("add: " + p_id);
+}
+
+function paste_item(p_id)
+{
+    console.log("paste: " + p_id);
 }
