@@ -1,6 +1,7 @@
 
 var config = null;
 var config_master = null;
+var selected_config = null;
 
 window.onload = main;
 
@@ -8,6 +9,28 @@ async function main()
 {
     config = await get_config();
     config_master = await get_config_master();
+
+    var values =  Object.values(config_master.configuration_set);
+
+    if(values.length == 0)
+    {
+        for (const key in config.detail_list) 
+        {
+            const item = config.detail_list[key];
+            config_master.configuration_set[key] = {
+                couchdb_url : item.url,
+                db_prefix : item.prefix,
+                web_site_url :"http://*:8080",
+                timer_user_name : item.user_name,
+                timer_value :item.user_value,
+                name_value : {},
+                detail_list: {}
+
+            }
+    
+            //console.log(key);
+        }
+    }
 
     const el = document.getElementById("content");
 
@@ -40,14 +63,36 @@ async function get_config_master()
     return result;
 }
 
+function render_global_name_value()
+{
+    const result = [];
+
+    
+
+    for (const key in config_master.name_value) 
+    {
+        const value = config_master.name_value[key];
+        const size = value.length + 3;
+
+        result.push('<tr><td colspan=3>');
+        result.push(`<label><b>${key}</b> <input type="text" value="${value}" size="${size}"></input></label>`);
+        result.push('</td></tr>');
+    }
+
+    
+
+    return result.join('');
+}
+
+
 
 function render_prefix_control()
 {
     const result = [];
 
-    result.push('<select id="prefix" size=5><option value="">(select value)</option>');
+    result.push('<select id="prefix" size=5 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
 
-    for (const key in Object.values(config_master.configuration_set)) 
+    for (const key in config_master.configuration_set) 
     {
         result.push(`<option value="${key}">${key}</option>`);
     }
@@ -70,7 +115,14 @@ async function render()
         <th colspan=3>view configuration settings</th>
     </tr>
     <tr>
+    <th colspan=3><hr/></th>
+</tr>
+    <tr>
         <th colspan=3>global name value list</th>
+    </tr>
+    ${render_global_name_value()}
+    <tr>
+        <th colspan=3><hr/></th>
     </tr>
     <tr>
         <th colspan=3>
@@ -78,10 +130,9 @@ async function render()
         </th>
         
     </tr>
-    <tr>
-        <th colspan=3>installation information</th>
-    </tr>
 </table>
+
+        <div id="config_detail">${render_config_detail()}</div>
     `
     );
 
@@ -149,4 +200,63 @@ async function render()
 */
 
     return result;
+}
+
+function render_config_detail()
+{
+    const result = [];
+    const val = config_master.configuration_set[selected_config];
+
+    result.push(
+        ` <table>
+        <tr>
+            <th colspan=3>configuration detail</th>
+        </tr>        
+        `
+    )
+
+    
+    for (const key in val) 
+    {
+        const value = val[key];
+        const size = value.length + 3;
+
+        if(typeof(value) === 'object')
+        {
+
+            result.push(`<tr><td colspan=3><hr/></td></tr>`)
+            result.push(`<tr><th colspan=3>${key}</th></tr>`)
+            for (const k in value) 
+            {
+                const v = value[k];
+                const s = v.length + 3;
+        
+                result.push('<tr><td colspan=3>');
+                result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
+                result.push('</td></tr>');
+            }
+        }
+        else
+        {
+            result.push(`<tr><td colspan=3><label>${key} <input type="text" value="${value}" size="${size}"></input></label></td></tr>`);
+        }
+    }
+
+    result.push("</table>");
+
+    return result.join("");
+
+}
+
+function prefix_selection_changed(value)
+{
+    const val = config_master.configuration_set[value];
+    if(val == null) return;
+
+    selected_config = value;
+
+    console.log("prefix_selection_changed: " + value);
+
+    const el = document.getElementById("config_detail");
+    el.innerHTML = render_config_detail();
 }
