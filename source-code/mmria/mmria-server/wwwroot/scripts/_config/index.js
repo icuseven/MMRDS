@@ -76,9 +76,22 @@ function render_global_name_value()
 
         result.push('<tr><td colspan=3>');
         result.push(`<label><b>${key}</b> <input type="text" value="${value}" size="${size}"></input></label>`);
+        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
         result.push('</td></tr>');
     }
 
+    result.push(`<tr>
+    <td>
+    <input type="button" value="add"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+    <td>
+    <input type="button" value="paste"></input>
+    </td>
+
+</tr>`);
     
 
     return result.join('');
@@ -205,8 +218,12 @@ async function render()
 function render_config_detail()
 {
     const result = [];
+    if(selected_config == null) return "";
+
     const val = config_master.configuration_set[selected_config];
 
+    if(val == null) return "";
+    
     result.push(
         ` <table>
         <tr>
@@ -224,23 +241,81 @@ function render_config_detail()
         if(typeof(value) === 'object')
         {
 
-            result.push(`<tr><td colspan=3><hr/></td></tr>`)
-            result.push(`<tr><th colspan=3>${key}</th></tr>`)
-            for (const k in value) 
-            {
-                const v = value[k];
-                const s = v.length + 3;
-        
-                result.push('<tr><td colspan=3>');
-                result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
-                result.push('</td></tr>');
-            }
+
         }
         else
         {
             result.push(`<tr><td colspan=3><label>${key} <input type="text" value="${value}" size="${size}"></input></label></td></tr>`);
         }
+        
     }
+
+    result.push(`<tr>
+    <td>
+    <input type="button" value="add"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+    <td>
+    <input type="button" value="paste"></input>
+    </td>
+
+    </tr>`);
+
+    result.push(`<tr><td colspan=3><hr/></td></tr>`)
+    result.push(`<tr><th colspan=3>name_value</th></tr>`)
+    for (const k in val.name_value) 
+    {
+        const v = val.name_value[k];
+        const s = v.length + 3;
+
+        result.push('<tr><td colspan=3>');
+        result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
+        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
+        result.push('</td></tr>');
+    }
+
+    result.push(`<tr>
+        <td>
+        <input type="button" value="add"></input>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td>
+        <input type="button" value="paste"></input>
+        </td>
+
+    </tr>`);
+
+
+
+    result.push(`<tr><td colspan=3><hr/></td></tr>`)
+    result.push(`<tr><th colspan=3>detail_list</th></tr>`)
+    for (const k in val.detail_list) 
+    {
+        const v = val.detail_list[k];
+        const s = v.length + 3;
+
+        result.push('<tr><td colspan=3>');
+        result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
+        result.push(` <input type="button" value="copy"></input> | <input type="button" value="delete"></input>`)
+        result.push('</td></tr>');
+    }
+
+    result.push(`<tr>
+        <td>
+        <input type="button" value="add"></input>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        <td>
+        <input type="button" value="paste"></input>
+        </td>
+
+    </tr>`);
 
     result.push("</table>");
 
