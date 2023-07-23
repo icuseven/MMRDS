@@ -23,9 +23,37 @@ async function main()
                 web_site_url :"http://*:8080",
                 timer_user_name : item.user_name,
                 timer_value :item.user_value,
+                is_schedule_enabled : true,
+             is_db_check_enabled:false,
+             is_environment_based: true,
+             is_development: false,
+             vitals_url : "http://mmria-services:8080/api/Message/IJESet",
+             vitals_service_key:"",
+             metadata_version : "23.05.30",
+                
+                is_environment_based : "",
+                log_directory: "/home/net_core_user/app/workdir/mmria-log",
+                export_directory: "/home/net_core_user/app/workdir/mmria-export",
+                use_development_settings: false,
+                cron_schedule : "0 */1 * * * ?",
+                app_instance_name : key,
+                EMAIL_USE_AUTHENTICATION : "",
+                EMAIL_USE_SSL : "",
+                SMTP_HOST : "",
+                SMTP_PORT : "",
+                EMAIL_FROM : "",
+                EMAIL_PASSWORD : "",
+                pass_word_minimum_length : 8,
+                pass_word_days_before_expires : 0,
+                pass_word_days_before_user_is_notified_of_expiration : 0,
+                session_idle_timeout_minutes: 70,
+                default_days_in_effective_date_interval : 0,
+                unsuccessful_login_attempts_number_before_lockout : 5,
+                unsuccessful_login_attempts_within_number_of_minutes : 120,
+                unsuccessful_login_attempts_lockout_number_of_minutes : 15,
+                
                 name_value : {},
-                detail_list: {}
-
+                detail_list: {},
             }
     
             //console.log(key);
@@ -72,7 +100,7 @@ function render_global_name_value()
     for (const key in config_master.name_value) 
     {
         const value = config_master.name_value[key];
-        const size = value.length + 3;
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
         const id = `g_name_value-${key}`;
 
@@ -151,6 +179,11 @@ async function render()
         <div id="config_detail">${render_config_detail()}</div>
     `
     );
+
+
+
+
+    
 
 
 /*
@@ -239,7 +272,7 @@ function render_config_detail()
     for (const key in val) 
     {
         const value = val[key];
-        const size = value.length + 3;
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
         if(typeof(value) === 'object')
         {
@@ -276,7 +309,7 @@ function render_config_detail()
     for (const k in val.name_value) 
     {
         const v = val.name_value[k];
-        const s = v.length + 3;
+        const s = typeof(v) === "string" ? v.length + 3: v.toString().length + 3;
 
         const id = `name_value-${selected_config}-${k}`;
 
@@ -308,7 +341,7 @@ function render_config_detail()
     for (const k in val.detail_list) 
     {
         const v = val.detail_list[k];
-        const s = v.length + 3;
+        const s = typeof(v) === "string" ? v.length + 3: v.toString().length + 3;
 
         const id = `detail_list-${selected_config}-${k}`;
 
