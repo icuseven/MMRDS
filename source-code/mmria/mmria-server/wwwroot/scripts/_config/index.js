@@ -10,54 +10,80 @@ async function main()
     config = await get_config();
     config_master = await get_config_master();
 
-    var values =  Object.values(config_master.configuration_set);
+    const boolean_keys =  Object.values(config_master.boolean_keys);
 
-    if(values.length == 0)
+    if(boolean_keys.length == 0)
     {
-        for (const key in config.detail_list) 
-        {
-            const item = config.detail_list[key];
-            config_master.configuration_set[key] = {
-                couchdb_url : item.url,
-                db_prefix : item.prefix,
-                web_site_url :"http://*:8080",
-                timer_user_name : item.user_name,
-                timer_value :item.user_value,
-                is_schedule_enabled : true,
-             is_db_check_enabled:false,
-             is_environment_based: true,
-             is_development: false,
-             vitals_url : "http://mmria-services:8080/api/Message/IJESet",
-             vitals_service_key:"",
-             metadata_version : "23.05.30",
-                
-                is_environment_based : "",
-                log_directory: "/home/net_core_user/app/workdir/mmria-log",
-                export_directory: "/home/net_core_user/app/workdir/mmria-export",
-                use_development_settings: false,
-                cron_schedule : "0 */1 * * * ?",
-                app_instance_name : key,
-                EMAIL_USE_AUTHENTICATION : "",
-                EMAIL_USE_SSL : "",
-                SMTP_HOST : "",
-                SMTP_PORT : "",
-                EMAIL_FROM : "",
-                EMAIL_PASSWORD : "",
-                pass_word_minimum_length : 8,
-                pass_word_days_before_expires : 0,
-                pass_word_days_before_user_is_notified_of_expiration : 0,
-                session_idle_timeout_minutes: 70,
-                default_days_in_effective_date_interval : 0,
-                unsuccessful_login_attempts_number_before_lockout : 5,
-                unsuccessful_login_attempts_within_number_of_minutes : 120,
-                unsuccessful_login_attempts_lockout_number_of_minutes : 15,
-                
-                name_value : {},
-                detail_list: {},
-            }
-    
-            //console.log(key);
-        }
+
+        config_master.string_keys["global"] = {
+            "is_schedule_enabled ": true,
+            "is_db_check_enabled": false,
+            "is_environment_based": true,
+            "is_development": false,
+            "use_development_settings": false,
+            "sams:is_enabled": false
+        };
+    }
+
+    const integer_keys =  Object.values(config_master.integer_keys);
+
+    if(integer_keys.length == 0)
+    {
+        config_master.string_keys["global"] = {
+            "session_idle_timeout_minutes": 70,
+            "pass_word_minimum_length": 8,
+            "pass_word_days_before_expires": 0,
+            "pass_word_days_before_user_is_notified_of_expiration": 0,
+            "default_days_in_effective_date_interval": 0,
+            "unsuccessful_login_attempts_number_before_lockout": 5,
+            "unsuccessful_login_attempts_within_number_of_minutes": 120,
+            "unsuccessful_login_attempts_lockout_number_of_minutes": 15
+        };
+        
+    }
+
+
+    const string_keys =  Object.values(config_master.string_keys);
+
+    if(string_keys.length == 0)
+    {
+        
+        config_master.string_keys["global"] = {
+            "geocode_api_key": "",
+            "geocode_api_url": "",
+            "couchdb_url": "http://localhost:5984",
+            "db_prefix": "",
+            "web_site_url": "http://*:8080",
+            "timer_user_name": "",
+            "timer_value": "",
+            "cron_schedule": "0 */1 * * * ?",
+            "log_directory": "/home/net_core_user/app/workdir/mmria-log",
+            "export_directory": "/home/net_core_user/app/workdir/mmria-export",
+            "metadata_version": "23.05.30",
+            "vitals_url": "http://mmria-services:8080/api/Message/IJESet",
+            "vitals_service_key": "",
+            "app_instance_name": "",
+            "cvs_api_id": "",
+            "cvs_api_key": "",
+            "cvs_api_url": "",
+            "steve_api:sea_bucket_kms_key": "",
+            "steve_api:client_name": "",
+            "steve_api:client_secreat_key": "",
+            "steve_api:base_url": "",
+            "exclude_from_broadcast_list": "",
+            "sams:direct_login_url": "",
+            "sams:endpoint_authorization": "",
+            "sams:endpoint_token": "",
+            "sams:endpoint_user_info": "",
+            "sams:endpoint_token_validation": "",
+            "sams:endpoint_user_info_sys": "",
+            "sams:client_id": "",
+            "sams:client_secret": "",
+            "sams:callback_url": "",
+            "sams:logout_url": "",
+            "sams:activity_name": ""
+        };
+        
     }
 
     const el = document.getElementById("content");
