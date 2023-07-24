@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using mmria.server.extension;
 
 namespace mmria.server.Controllers;
 
@@ -10,11 +13,16 @@ namespace mmria.server.Controllers;
 public sealed class _configController : Controller
 {
 
-    private IConfiguration configuration { get; }
-    
-    public _configController(IConfiguration p_configuration)
+    IConfiguration configuration;
+    mmria.common.couchdb.ConfigurationSet config_set;
+    public _configController
+    (
+        IConfiguration p_configuration, 
+        mmria.common.couchdb.ConfigurationSet p_config_db
+    )
     {
         configuration = p_configuration;
+        config_set = p_config_db;
     }
 
     public IActionResult Index()
@@ -64,6 +72,7 @@ public sealed class _configController : Controller
         } 
         return Json(app_config);
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetConfigurationMaster()
@@ -115,6 +124,121 @@ public sealed class _configController : Controller
         
 
         return View(app_config);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAppliedConfiguration()
+    {
+        var result = new mmria.common.couchdb.ConfigurationMaster();
+
+        try
+        {
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
+
+            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            string responseFromServer = await case_curl.executeAsync();
+
+        result.boolean_keys.Add("global", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
+        result.string_keys.Add("global", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+        result.integer_keys.Add("global", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
+    
+    
+        result.string_keys["global"].Add("geocode_api_key", configuration["mmria_settings:geocode_api_key"]);
+        result.string_keys["global"].Add("geocode_api_url", configuration["mmria_settings:geocode_api_url"]);
+        result.string_keys["global"].Add("couchdb_url", configuration["mmria_settings:couchdb_url"]);
+        result.string_keys["global"].Add("db_prefix", configuration["mmria_settings:db_prefix"]);
+        result.string_keys["global"].Add("web_site_url", configuration["mmria_settings:web_site_url"]);
+        result.string_keys["global"].Add("timer_user_name", configuration["mmria_settings:timer_user_name"]);
+        result.string_keys["global"].Add("timer_value", configuration["mmria_settings:timer_value"]);
+        result.string_keys["global"].Add("cron_schedule", configuration["mmria_settings:cron_schedule"]);
+
+        result.string_keys["global"].Add("log_directory", configuration["mmria_settings:log_directory"]);
+        result.string_keys["global"].Add("export_directory", configuration["mmria_settings:export_directory"]);
+        result.string_keys["global"].Add("metadata_version", configuration["mmria_settings:metadata_version"]);
+        result.string_keys["global"].Add("vitals_url", configuration["mmria_settings:vitals_url"]);
+        result.string_keys["global"].Add("vitals_service_key", configuration["mmria_settings:vitals_service_key"]);
+        result.string_keys["global"].Add("app_instance_name", configuration["mmria_settings:app_instance_name"]);
+                            
+
+        result.string_keys["global"].Add("cvs_api_id", config_set.name_value["cvs_api_id"]);
+        result.string_keys["global"].Add("cvs_api_key", config_set.name_value["cvs_api_key"]);
+        result.string_keys["global"].Add("cvs_api_url", config_set.name_value["cvs_api_url"]);
+
+        result.string_keys["global"].Add("steve_api:sea_bucket_kms_key", configuration["steve_api:sea_bucket_kms_key"]);
+        result.string_keys["global"].Add("steve_api:client_name", configuration["steve_api:client_name"]);
+        result.string_keys["global"].Add("steve_api:client_secreat_key", configuration["steve_api:client_secreat_key"]);
+        result.string_keys["global"].Add("steve_api:base_url", configuration["steve_api:base_url"]);
+        result.string_keys["global"].Add("exclude_from_broadcast_list", config_set.name_value["exclude_from_broadcast_list"]);
+
+        result.string_keys["global"].Add("sams:direct_login_url", configuration["sams:direct_login_url"]);
+        result.string_keys["global"].Add("sams:endpoint_authorization",configuration["sams:endpoint_authorization"]);
+        result.string_keys["global"].Add("sams:endpoint_token",configuration["sams:endpoint_token"]);
+        result.string_keys["global"].Add("sams:endpoint_user_info",configuration["sams:endpoint_user_info"]);
+        result.string_keys["global"].Add("sams:endpoint_token_validation",configuration["sams:endpoint_token_validation"]);
+        result.string_keys["global"].Add("sams:endpoint_user_info_sys",configuration["sams:endpoint_user_info_sys"]);
+        result.string_keys["global"].Add("sams:client_id",configuration["sams:client_id"]);
+        result.string_keys["global"].Add("sams:client_secret",configuration["sams:client_secret"]);
+        result.string_keys["global"].Add("sams:callback_url",configuration["sams:callback_url"]);
+        result.string_keys["global"].Add("sams:logout_url", configuration["sams:logout_url"]);
+        result.string_keys["global"].Add("sams:activity_name", configuration["sams:activity_name"]);
+
+
+
+        bool is_schedule_enabled = true;
+        configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref is_schedule_enabled);
+        bool is_db_check_enabled = false;
+        configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref is_db_check_enabled);
+        bool is_environment_based = true;
+        configuration["mmria_settings:is_environment_based"].SetIfIsNotNullOrWhiteSpace(ref is_environment_based);
+        bool is_development = false;
+        configuration["mmria_settings:is_development"].SetIfIsNotNullOrWhiteSpace(ref is_development);
+        bool use_development_settings = false;
+        configuration["mmria_settings:use_development_settings"].SetIfIsNotNullOrWhiteSpace(ref use_development_settings);
+        bool sams_is_enabled = false;
+        configuration["mmria_settings:sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
+
+        result.boolean_keys["global"].Add("is_schedule_enabled ", is_schedule_enabled);
+        result.boolean_keys["global"].Add("is_db_check_enabled", is_db_check_enabled);
+        result.boolean_keys["global"].Add("is_environment_based", is_environment_based);
+        result.boolean_keys["global"].Add("is_development", is_development);
+        result.boolean_keys["global"].Add("use_development_settings", use_development_settings);
+        result.boolean_keys["global"].Add("sams:is_enabled", sams_is_enabled);
+
+
+        int session_idle_timeout_minutes = 70;
+        configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref session_idle_timeout_minutes);
+        int pass_word_minimum_length = 8;
+        configuration["password_settings:minimum_length"].SetIfIsNotNullOrWhiteSpace(ref pass_word_minimum_length);
+        int pass_word_days_before_expires = 0;
+        configuration["password_settings:days_before_expires"].SetIfIsNotNullOrWhiteSpace(ref pass_word_days_before_expires);
+        int pass_word_days_before_user_is_notified_of_expiration = 0;
+        configuration["password_settings:days_before_user_is_notified_of_expiration"].SetIfIsNotNullOrWhiteSpace(ref pass_word_days_before_user_is_notified_of_expiration);
+        int default_days_in_effective_date_interval = 120;
+        configuration["authentication_settings:default_days_in_effective_date_interval"].SetIfIsNotNullOrWhiteSpace(ref default_days_in_effective_date_interval);
+        int unsuccessful_login_attempts_number_before_lockout = 5;
+        configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_number_before_lockout);
+        int unsuccessful_login_attempts_within_number_of_minutes = 5;
+        configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_within_number_of_minutes);
+        int unsuccessful_login_attempts_lockout_number_of_minutes = 120;
+        configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_lockout_number_of_minutes);
+
+
+
+        result.integer_keys["global"].Add("session_idle_timeout_minutes", session_idle_timeout_minutes);
+        result.integer_keys["global"].Add("pass_word_minimum_length", pass_word_minimum_length);
+        result.integer_keys["global"].Add("pass_word_days_before_expires", pass_word_days_before_expires);
+        result.integer_keys["global"].Add("pass_word_days_before_user_is_notified_of_expiration", pass_word_days_before_user_is_notified_of_expiration);
+        result.integer_keys["global"].Add("default_days_in_effective_date_interval", default_days_in_effective_date_interval);
+        result.integer_keys["global"].Add("unsuccessful_login_attempts_number_before_lockout", unsuccessful_login_attempts_number_before_lockout);
+        result.integer_keys["global"].Add("unsuccessful_login_attempts_within_number_of_minutes", unsuccessful_login_attempts_within_number_of_minutes);
+        result.integer_keys["global"].Add("unsuccessful_login_attempts_lockout_number_of_minutes", unsuccessful_login_attempts_lockout_number_of_minutes);
+
+        }
+        catch(System.Exception ex)
+        {
+            System.Console.WriteLine (ex);
+        } 
+        return Json(result);
     }
 
 }

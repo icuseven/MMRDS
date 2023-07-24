@@ -2,6 +2,7 @@
 var config = null;
 var config_master = null;
 var selected_config = null;
+var applied_config_master = null;
 
 window.onload = main;
 
@@ -9,6 +10,7 @@ async function main()
 {
     config = await get_config();
     config_master = await get_config_master();
+    applied_config_master = await get_applied_config_master();
 
     const boolean_keys =  Object.values(config_master.boolean_keys);
 
@@ -116,6 +118,20 @@ async function get_config_master()
 
     return result;
 }
+
+async function get_applied_config_master()
+{
+    const url = `${location.protocol}//${location.host}/_config/GetAppliedConfiguration`;
+
+    const result = await $.ajax
+    ({
+        url: url,
+    });
+
+    return result;
+}
+
+
 
 function render_global_name_value()
 {
