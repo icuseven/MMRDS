@@ -17,30 +17,14 @@ async function main()
     if(boolean_keys.length == 0)
     {
 
-        config_master.string_keys["global"] = {
-            "is_schedule_enabled ": true,
-            "is_db_check_enabled": false,
-            "is_environment_based": true,
-            "is_development": false,
-            "use_development_settings": false,
-            "sams:is_enabled": false
-        };
+        config_master.boolean_keys = applied_config_master.boolean_keys;
     }
 
     const integer_keys =  Object.values(config_master.integer_keys);
 
     if(integer_keys.length == 0)
     {
-        config_master.string_keys["global"] = {
-            "session_idle_timeout_minutes": 70,
-            "pass_word_minimum_length": 8,
-            "pass_word_days_before_expires": 0,
-            "pass_word_days_before_user_is_notified_of_expiration": 0,
-            "default_days_in_effective_date_interval": 0,
-            "unsuccessful_login_attempts_number_before_lockout": 5,
-            "unsuccessful_login_attempts_within_number_of_minutes": 120,
-            "unsuccessful_login_attempts_lockout_number_of_minutes": 15
-        };
+        config_master.integer_keys = applied_config_master.integer_keys;
         
     }
 
@@ -49,43 +33,7 @@ async function main()
 
     if(string_keys.length == 0)
     {
-        
-        config_master.string_keys["global"] = {
-            "geocode_api_key": "",
-            "geocode_api_url": "",
-            "couchdb_url": "http://localhost:5984",
-            "db_prefix": "",
-            "web_site_url": "http://*:8080",
-            "timer_user_name": "",
-            "timer_value": "",
-            "cron_schedule": "0 */1 * * * ?",
-            "log_directory": "/home/net_core_user/app/workdir/mmria-log",
-            "export_directory": "/home/net_core_user/app/workdir/mmria-export",
-            "metadata_version": "23.05.30",
-            "vitals_url": "http://mmria-services:8080/api/Message/IJESet",
-            "vitals_service_key": "",
-            "app_instance_name": "",
-            "cvs_api_id": "",
-            "cvs_api_key": "",
-            "cvs_api_url": "",
-            "steve_api:sea_bucket_kms_key": "",
-            "steve_api:client_name": "",
-            "steve_api:client_secreat_key": "",
-            "steve_api:base_url": "",
-            "exclude_from_broadcast_list": "",
-            "sams:direct_login_url": "",
-            "sams:endpoint_authorization": "",
-            "sams:endpoint_token": "",
-            "sams:endpoint_user_info": "",
-            "sams:endpoint_token_validation": "",
-            "sams:endpoint_user_info_sys": "",
-            "sams:client_id": "",
-            "sams:client_secret": "",
-            "sams:callback_url": "",
-            "sams:logout_url": "",
-            "sams:activity_name": ""
-        };
-        
+        config_master.string_keys = applied_config_master.string_keys;
     }
 
     const el = document.getElementById("content");
@@ -133,7 +81,7 @@ async function get_applied_config_master()
 
 
 
-function render_global_name_value()
+function render_boolean_keys2()
 {
     const result = [];
 
@@ -172,15 +120,23 @@ function render_global_name_value()
 
 
 
-function render_prefix_control()
+function render_boolean_select(value)
 {
     const result = [];
 
-    result.push('<select id="prefix" size=5 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
+    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
 
-    for (const key in config_master.configuration_set) 
+    for (const key in config_master.boolean_keys) 
     {
-        result.push(`<option value="${key}">${key}</option>`);
+        if(key == value)
+        {
+            result.push(`<option value="${key}" selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value="${key}">${key}</option>`);
+        }
+        
     }
 
     result.push('</select>');
@@ -189,6 +145,53 @@ function render_prefix_control()
 }
 
 
+function render_integer_select(value)
+{
+    const result = [];
+
+    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
+
+    for (const key in config_master.integer_keys) 
+    {
+        if(key == value)
+        {
+            result.push(`<option value="${key}" selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value="${key}">${key}</option>`);
+        }
+    }
+
+    result.push('</select>');
+
+    return result.join('');
+}
+
+
+function render_string_select(value)
+{
+    const result = [];
+
+    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
+
+    for (const key in config_master.string_keys) 
+    {
+        if(key == value)
+        {
+            result.push(`<option value="${key}" selected>${key}</option>`);
+        }
+        else
+        {
+            result.push(`<option value="${key}">${key}</option>`);
+        }
+    }
+
+    result.push('</select>');
+
+    return result.join('');
+}
+
 async function render()
 {
 
@@ -196,116 +199,31 @@ async function render()
 
     result.push(
     `
- <table>
-    <tr>
-        <th colspan=3>view configuration settings</th>
-    </tr>
-    <tr>
-    <th colspan=3><hr/></th>
-</tr>
-    <tr>
-        <th colspan=3>global name value list</th>
-    </tr>
-    ${render_global_name_value()}
-    <tr>
-        <th colspan=3><hr/></th>
-    </tr>
-    <tr>
-        <th colspan=3>
-            ${render_prefix_control()}
-        </th>
-        
-    </tr>
-</table>
-
-        <div id="config_detail">${render_config_detail()}</div>
+<div id="boolean_keys">${render_boolean_keys()}</div>
+<hr/>
+<div id="integer_keys">${render_integer_keys()}</div>
+<hr/>
+<div id="string_keys">${render_string_keys()}</div>
     `
     );
-
-
-
-
-    
-
-
-/*
-    <tr><td>is_environment_based</td><td>@Html.TextBoxFor(m => m.is_environment_based.Value)</td></tr>
-
-    <tr><td><span title="web_site_url: The only important thing for this setting is the port number. ">web_site_url</span></td><td>@Html.TextBoxFor(m => m.web_site_url, new { @class= "wide" })</td></tr>
-
-    <tr><td>log_directory</td><td>@Html.TextBoxFor(m => m.log_directory, new { @class= "wide" })</td></tr>
-
-    <tr><td>export_directory</td><td>@Html.TextBoxFor(m => m.export_directory, new { @class= "wide" })</td></tr>
-
-
-    <tr><td colspan=2>&nbsp;</td></tr>
-    <tr><td colspan=2 align=center><b>Database Information</b></td></tr>
-    
-    <tr><td>couchdb_url</td><td>@Html.TextBoxFor(m => m.couchdb_url, new { @class= "wide" })</td></tr>
-
-    <tr><td>timer_user_name</td><td>@Html.TextBoxFor(m => m.timer_user_name)</td></tr>
-
-    <tr><td>timer_value</td><td><span title='@Model.timer_value'>@Html.PasswordFor(m => m.timer_value)</span></td></tr>
-
-    <tr><td>cron_schedule</td><td>@Html.TextBoxFor(m => m.cron_schedule)</td></tr>
-
-    <tr><td colspan=2>&nbsp;</td></tr>
-    <tr><td colspan=2 align=center><b>Email Configuration</b></td></tr>
-
-    <tr><td>EMAIL_USE_AUTHENTICATION</td><td>@Html.TextBoxFor(m => m.EMAIL_USE_AUTHENTICATION)</td></tr>
-
-    <tr><td>EMAIL_USE_SSL</td><td>@Html.TextBoxFor(m => m.EMAIL_USE_SSL)</td></tr>
-
-    <tr><td>SMTP_HOST</td><td>@Html.TextBoxFor(m => m.SMTP_HOST)</td></tr>
-
-    <tr><td>SMTP_PORT</td><td>@Html.TextBoxFor(m => m.SMTP_PORT)</td></tr>
-
-    <tr><td>EMAIL_FROM</td><td>@Html.TextBoxFor(m => m.EMAIL_FROM, new { @class= "wide" })</td></tr>
-
-    <tr><td>EMAIL_PASSWORD</td><td><span title='@Model.EMAIL_PASSWORD'>@Html.PasswordFor(m => m.EMAIL_PASSWORD, new { @class= "wide" })</span></td></tr>
-
-    <tr><td colspan=2>&nbsp;</td></tr>
-    <tr><td colspan=2 align=center><b>Password Policy</b></td></tr>
-
-    <tr><td>pass_word_minimum_length</td><td>@Html.TextBoxFor(m => m.pass_word_minimum_length)</td></tr>
-
-    <tr><td>pass_word_days_before_expires</td><td>@Html.TextBoxFor(m => m.pass_word_days_before_expires)</td></tr>
-
-    <tr><td>pass_word_days_before_user_is_notified_of_expiration</td><td>@Html.TextBoxFor(m => m.pass_word_days_before_user_is_notified_of_expiration)</td></tr>
-
-  <tr><td colspan=2>&nbsp;</td></tr>
-  <tr><td colspan=2 align=center><b>Authentication Policy</b></td></tr>
-  <tr><td>default_days_in_effective_date_interval</td><td>@Html.TextBoxFor(m => m.default_days_in_effective_date_interval)</td></tr>
-
-  <tr><td>unsuccessful_login_attempts_number_before_lockout</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_number_before_lockout)</td></tr>            
-
-  <tr><td>unsuccessful_login_attempts_within_number_of_minutes</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_within_number_of_minutes)</td></tr>
-
-  <tr><td>unsuccessful_login_attempts_lockout_number_of_minutes</td><td>@Html.TextBoxFor(m => m.unsuccessful_login_attempts_lockout_number_of_minutes)</td></tr>
-
-    </table>
-}
-<br/>
-<p><b>NOTE:</b> To change settings please edit the appsettings.json configuration file and restart the mmria-server or mmria-service.</p>
-
-*/
 
     return result;
 }
 
-function render_config_detail()
+function render_boolean_keys()
 {
     const result = [];
-    if(selected_config == null) return "";
+    if(selected_config == null) 
+        selected_config = "global";
 
-    const val = config_master.configuration_set[selected_config];
+    const val = config_master.boolean_keys[selected_config];
 
     if(val == null) return "";
 
     result.push(
         ` <table>
         <tr>
-            <th colspan=3>configuration detail</th>
+            <th colspan=3>boolean keys [${render_boolean_select(selected_config)}]</th>
         </tr>        
         `
     )
@@ -324,7 +242,7 @@ function render_config_detail()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label>${key} <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -346,65 +264,123 @@ function render_config_detail()
 
     </tr>`);
 
-    result.push(`<tr><td colspan=3><hr/></td></tr>`)
-    result.push(`<tr><th colspan=3>name_value</th></tr>`)
-    for (const k in val.name_value) 
+    result.push("</table>");
+
+    return result.join("");
+
+}
+
+function render_integer_keys()
+{
+    const result = [];
+    if(selected_config == null) 
+        selected_config = "global";
+
+    const val = config_master.integer_keys[selected_config];
+
+    if(val == null) return "";
+
+    result.push(
+        ` <table>
+        <tr>
+            <th colspan=3>integer keys [${render_integer_select(selected_config)}]</th>
+        </tr>        
+        `
+    )
+
+    
+    for (const key in val) 
     {
-        const v = val.name_value[k];
-        const s = typeof(v) === "string" ? v.length + 3: v.toString().length + 3;
+        const value = val[key];
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
-        const id = `name_value-${selected_config}-${k}`;
+        if(typeof(value) === 'object')
+        {
 
-        result.push('<tr><td colspan=3>');
-        result.push(`<label><b>${k}</b> <input type="text" id="${id}" value="${v}" size="${s}"></input></label>`);
-        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
-                        <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
-        result.push('</td></tr>');
+
+        }
+        else
+        {
+            const id = `detail-${selected_config}-${key}`;
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
+
+        }
+        
     }
 
     result.push(`<tr>
-        <td>
-        <input type="text" id="add_new_name_value-${selected_config}" value=""></input>
-        <input type="button" value="add" onclick="add_item('add_new_name_value-${selected_config}')"></input>
-        </td>
-        <td>
-        &nbsp;
-        </td>
-        <td>
-        <input type="button" value="paste" onclick="paste_item('add_new_name_value-${selected_config}')"></input>
-        </td>
+    <td>
+    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
+    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+    <td>
+    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
+    </td>
 
     </tr>`);
 
+    result.push("</table>");
 
+    return result.join("");
 
-    result.push(`<tr><td colspan=3><hr/></td></tr>`)
-    result.push(`<tr><th colspan=3>detail_list</th></tr>`)
-    for (const k in val.detail_list) 
+}
+
+function render_string_keys()
+{
+    const result = [];
+    if(selected_config == null) 
+        selected_config = "global";
+
+    const val = config_master.string_keys[selected_config];
+
+    if(val == null) return "";
+
+    result.push(
+        ` <table>
+        <tr>
+            <th colspan=3>string keys [${render_string_select(selected_config)}]</th>
+        </tr>        
+        `
+    )
+
+    
+    for (const key in val) 
     {
-        const v = val.detail_list[k];
-        const s = typeof(v) === "string" ? v.length + 3: v.toString().length + 3;
+        const value = val[key];
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
-        const id = `detail_list-${selected_config}-${k}`;
+        if(typeof(value) === 'object')
+        {
 
-        result.push('<tr><td colspan=3>');
-        result.push(`<label><b>${k}</b> <input type="text" value="${v}" size="${s}"></input></label>`);
-        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
-                        <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
-        result.push('</td></tr>');
+
+        }
+        else
+        {
+            const id = `detail-${selected_config}-${key}`;
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
+
+        }
+        
     }
 
     result.push(`<tr>
-        <td>
-        <input type="text" id="add_new_detail_list-${selected_config}" value=""></input>
-        <input type="button" value="add" onclick="add_item('add_new_detail_list-${selected_config}')"></input>
-        </td>
-        <td>
-        &nbsp;
-        </td>
-        <td>
-        <input type="button" value="paste" onclick="paste_item('add_new_detail_list-${selected_config}')"></input>
-        </td>
+    <td>
+    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
+    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+    <td>
+    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
+    </td>
 
     </tr>`);
 
@@ -424,7 +400,7 @@ function prefix_selection_changed(value)
     //console.log("prefix_selection_changed: " + value);
 
     const el = document.getElementById("config_detail");
-    el.innerHTML = render_config_detail();
+    el.innerHTML = render_string_keys();
 }
 
 function copy_item(p_id)
