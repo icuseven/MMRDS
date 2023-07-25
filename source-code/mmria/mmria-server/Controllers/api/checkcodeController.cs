@@ -63,8 +63,6 @@ public sealed class checkcodeController: ControllerBase
         public string data { get; set; }
     }
 
-    // POST api/values 
-    //[Route("api/metadata")]
     [Authorize(Roles  = "form_designer")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Put
@@ -104,6 +102,9 @@ public sealed class checkcodeController: ControllerBase
                 }
 
                 string responseFromServer = await put_curl.executeAsync();
+
+                Console.Write("checkCodeController.Put");
+                Console.Write(responseFromServer);
 
                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
