@@ -42,9 +42,12 @@
             <li>&nbsp;</li>
             <li>
                 Upload Validation Check Code<br/>
-                <form id="check_code_form" action="/api/metadata/PutCheckCode" method="post" enctype="multipart/form-data" target="upload_target"  >
+                @*<form id="check_code_form" action="/api/metadata/PutCheckCode" method="post" enctype="multipart/form-data" target="upload_target"  >
+                <form id="check_code_form" action="/api/metadata/PutCheckCode" method="post" enctype="multipart/form-data" target="upload_target"  ></form>
                 <input id="check_code_json" type="file" accept="text/js, text/json"><input type="button"  onclick="$('#check_code_form').submit()" value="save checkcode" />
-              </form>
+              </form>*@
+              <input id="check_code_form" type="file" onchange="readmultifiles(event, this.files)"   />
+              <span id="check_code_upload_result">Upload result</span>
             </li>
           </ul>
         </div>

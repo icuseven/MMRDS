@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class checkcodeController: ControllerBase 
@@ -26,7 +26,7 @@ public sealed class checkcodeController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+            string request_string = configuration["mmria_settings:couchdb_url"] + $"/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -56,19 +56,29 @@ public sealed class checkcodeController: ControllerBase
     }
 
 
+    public class PutCheckCodeRequest
+    {
+        public PutCheckCodeRequest(){}
+
+        public string data { get; set; }
+    }
+
     // POST api/values 
     //[Route("api/metadata")]
+    [Authorize(Roles  = "form_designer")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Put
     (
-        
+        [FromBody] PutCheckCodeRequest CheckCodeRequest
     ) 
     { 
-        string check_code_json;
+        //string check_code_json;
+        string check_code_json = CheckCodeRequest.data;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
             try
             {
+                /*
 
                 System.IO.Stream dataStream0 = this.Request.Body;
                 // Open the stream using a StreamReader for easy access.
@@ -76,12 +86,13 @@ public sealed class checkcodeController: ControllerBase
                 System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
                 // Read the content.
                 check_code_json = await reader0.ReadToEndAsync ();
+                */
 
-                string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+                string metadata_url = configuration["mmria_settings:config_couchdb_url"] + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
-                var put_curl = new cURL("PUT", null, metadata_url, check_code_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"], "text/*");
+                var put_curl = new mmria.server.cURL("PUT", null, metadata_url, check_code_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"], "text/*");
 
-                var revision = await get_revision($"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z");
+                var revision = await get_revision(configuration["mmria_settings:couchdb_url"] + "/metadata/2016-06-12T13:49:24.759Z");
 
                 if (!string.IsNullOrWhiteSpace(revision))
                 {
@@ -115,7 +126,7 @@ public sealed class checkcodeController: ControllerBase
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var document_curl = new mmria.server.cURL("GET", null, p_document_url, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
         string temp_document_json = null;
 
         try
