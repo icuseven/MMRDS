@@ -1,7 +1,7 @@
 
 var config = null;
 var config_master = null;
-var selected_config = null;
+var selected_config = "shared";
 var applied_config_master = null;
 
 window.onload = main;
@@ -119,61 +119,11 @@ function render_boolean_keys2()
 }
 
 
-
-function render_boolean_select(value)
+function render_config_select(value)
 {
     const result = [];
 
-    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
-
-    for (const key in config_master.boolean_keys) 
-    {
-        if(key == value)
-        {
-            result.push(`<option value="${key}" selected>${key}</option>`);
-        }
-        else
-        {
-            result.push(`<option value="${key}">${key}</option>`);
-        }
-        
-    }
-
-    result.push('</select>');
-
-    return result.join('');
-}
-
-
-function render_integer_select(value)
-{
-    const result = [];
-
-    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
-
-    for (const key in config_master.integer_keys) 
-    {
-        if(key == value)
-        {
-            result.push(`<option value="${key}" selected>${key}</option>`);
-        }
-        else
-        {
-            result.push(`<option value="${key}">${key}</option>`);
-        }
-    }
-
-    result.push('</select>');
-
-    return result.join('');
-}
-
-
-function render_string_select(value)
-{
-    const result = [];
-
-    result.push('<select id="prefix" size=1 onchange="prefix_selection_changed(this.value)"><option value="">(select value)</option>');
+    result.push('<select id="prefix" size=5 onchange="prefix_selection_changed(this.value)">');
 
     for (const key in config_master.string_keys) 
     {
@@ -198,7 +148,10 @@ async function render()
     const result = []
 
     result.push(
-    `
+   `
+   <br/> 
+<div id="select">${render_config_select(selected_config)}</div>
+<hr/>
 <div id="boolean_keys">${render_boolean_keys()}</div>
 <hr/>
 <div id="integer_keys">${render_integer_keys()}</div>
@@ -223,7 +176,7 @@ function render_boolean_keys()
     result.push(
         ` <table>
         <tr>
-            <th colspan=3>boolean keys [${render_boolean_select(selected_config)}]</th>
+            <th colspan=3>boolean keys [${selected_config}]</th>
         </tr>        
         `
     )
@@ -283,7 +236,7 @@ function render_integer_keys()
     result.push(
         ` <table>
         <tr>
-            <th colspan=3>integer keys [${render_integer_select(selected_config)}]</th>
+            <th colspan=3>integer keys [${selected_config}]</th>
         </tr>        
         `
     )
@@ -343,7 +296,7 @@ function render_string_keys()
     result.push(
         ` <table>
         <tr>
-            <th colspan=3>string keys [${render_string_select(selected_config)}]</th>
+            <th colspan=3>string keys [${selected_config}]</th>
         </tr>        
         `
     )
