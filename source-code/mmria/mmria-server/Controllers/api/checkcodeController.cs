@@ -86,7 +86,7 @@ public sealed class checkcodeController: ControllerBase
                 check_code_json = await reader0.ReadToEndAsync ();
                 */
 
-                string metadata_url = configuration["mmria_settings:config_couchdb_url"] + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+                string metadata_url = configuration["mmria_settings:couchdb_url"] + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
                 var put_curl = new mmria.server.cURL("PUT", null, metadata_url, check_code_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"], "text/*");
 

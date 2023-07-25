@@ -876,30 +876,6 @@ function birth_distance(p_control) {
         $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
     }
 }
-//CALCULATE DAYS BETWEEN BIRTH OF CHILD AND DEATH OF MOM
-/*
-path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother
-event=onclick
-*/
-function birth_2_death(p_control) {
-    var days = null;
-    var start_year = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year);
-    var start_month = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month);
-    var start_day = parseInt(g_data.birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day);
-    var end_year = parseInt(g_data.home_record.date_of_death.year);
-    var end_month = parseInt(g_data.home_record.date_of_death.month);
-    var end_day = parseInt(g_data.home_record.date_of_death.day);
-    if ($global.isValidDate(start_year, start_month, start_day) == true && $global.isValidDate(end_year, end_month, end_day) == true) {
-        var start_date = new Date(start_year, start_month - 1, start_day);
-        var end_date = new Date(end_year, end_month - 1, end_day);
-        var days = $global.calc_days(start_date, end_date);
-        this.length_between_child_birth_and_death_of_mother = days;
-        $mmria.save_current_record();
-        $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
-    }
-}
-
-
 
 //GEOCODE PLACE OF LAST RESIDENCE ON DC FORM
 /*
@@ -2142,17 +2118,7 @@ function distance_clear_bc(p_control)
     $mmria.save_current_record();
     $mmria.set_control_value('birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence', this.estimated_distance_from_residence);
 }
-// CLEAR DAYS BETWEEN BIRTH OF INFANT AND DEATH OF MOTHER ON BC FORM
-/*
-path=birth_fetal_death_certificate_parent/cmd_length_between_child_birth_and_death_of_mother_clear
-event=onclick
-*/
-function days_clear_bc(p_control) 
-{
-    this.length_between_child_birth_and_death_of_mother = '';
-    $mmria.save_current_record();
-    $mmria.set_control_value('birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother', this.length_between_child_birth_and_death_of_mother);
-}
+
 // CLEAR HOURS BETWEEN ONSET OF LABOR AND ARRIVAL ON HOSPITAL FORM
 /*
 path=er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/cmd_duration_of_labor_prior_to_arrival_clear

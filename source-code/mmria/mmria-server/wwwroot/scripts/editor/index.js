@@ -467,12 +467,13 @@ async function perform_validation_save(p_metadata, p_check_code_text)
 
 	try 
 	{
-		let response = await fetch(location.protocol + '//' + location.host + '/api/checkcode');
+		const response = await fetch(location.protocol + '//' + location.host + '/api/checkcode');
 
 		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//var global_code = escodegen.generate(temp_ast, { comment: true });
-		g_ast = esprima.parse(await response.text(), { comment: true, loc: true });
+        const text = await response.text();
+		g_ast = esprima.parse(text, { comment: true, loc: true });
 	} 
 	catch (e) 
 	{
