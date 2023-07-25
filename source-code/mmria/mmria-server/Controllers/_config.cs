@@ -138,40 +138,40 @@ public sealed class _configController : Controller
             var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
 
-            result.boolean_keys.Add("global", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
-            result.string_keys.Add("global", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
-            result.integer_keys.Add("global", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
+            result.boolean_keys.Add("shared", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
+            result.string_keys.Add("shared", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
+            result.integer_keys.Add("shared", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
         
-            result.string_keys["global"].Add("geocode_api_url", configuration["mmria_settings:geocode_api_url"]);
-            result.string_keys["global"].Add("couchdb_url", configuration["mmria_settings:couchdb_url"]);
-            result.string_keys["global"].Add("db_prefix", configuration["mmria_settings:db_prefix"]);
-            result.string_keys["global"].Add("web_site_url", configuration["mmria_settings:web_site_url"]);
-            result.string_keys["global"].Add("timer_user_name", configuration["mmria_settings:timer_user_name"]);
-            result.string_keys["global"].Add("timer_value", configuration["mmria_settings:timer_value"]);
-            result.string_keys["global"].Add("cron_schedule", configuration["mmria_settings:cron_schedule"]);
+            result.string_keys["shared"].Add("geocode_api_url", configuration["mmria_settings:geocode_api_url"]);
+            result.string_keys["shared"].Add("couchdb_url", configuration["mmria_settings:couchdb_url"]);
+            result.string_keys["shared"].Add("db_prefix", configuration["mmria_settings:db_prefix"]);
+            result.string_keys["shared"].Add("web_site_url", configuration["mmria_settings:web_site_url"]);
+            result.string_keys["shared"].Add("timer_user_name", configuration["mmria_settings:timer_user_name"]);
+            result.string_keys["shared"].Add("timer_value", configuration["mmria_settings:timer_value"]);
+            result.string_keys["shared"].Add("cron_schedule", configuration["mmria_settings:cron_schedule"]);
 
-            result.string_keys["global"].Add("log_directory", configuration["mmria_settings:log_directory"]);
-            result.string_keys["global"].Add("export_directory", configuration["mmria_settings:export_directory"]);
-            result.string_keys["global"].Add("metadata_version", configuration["mmria_settings:metadata_version"]);
-            result.string_keys["global"].Add("vitals_url", configuration["mmria_settings:vitals_url"]);
-            result.string_keys["global"].Add("app_instance_name", configuration["mmria_settings:app_instance_name"]);
+            result.string_keys["shared"].Add("log_directory", configuration["mmria_settings:log_directory"]);
+            result.string_keys["shared"].Add("export_directory", configuration["mmria_settings:export_directory"]);
+            result.string_keys["shared"].Add("metadata_version", configuration["mmria_settings:metadata_version"]);
+            result.string_keys["shared"].Add("vitals_url", configuration["mmria_settings:vitals_url"]);
+            result.string_keys["shared"].Add("app_instance_name", configuration["mmria_settings:app_instance_name"]);
             
             foreach(var kvp in config_set.name_value)
             {
-                result.string_keys["global"].Add(kvp.Key, kvp.Value);
+                result.string_keys["shared"].Add(kvp.Key, kvp.Value);
             }
 
-            result.string_keys["global"].Add("sams:direct_login_url", configuration["sams:direct_login_url"]);
-            result.string_keys["global"].Add("sams:endpoint_authorization",configuration["sams:endpoint_authorization"]);
-            result.string_keys["global"].Add("sams:endpoint_token",configuration["sams:endpoint_token"]);
-            result.string_keys["global"].Add("sams:endpoint_user_info",configuration["sams:endpoint_user_info"]);
-            result.string_keys["global"].Add("sams:endpoint_token_validation",configuration["sams:endpoint_token_validation"]);
-            result.string_keys["global"].Add("sams:endpoint_user_info_sys",configuration["sams:endpoint_user_info_sys"]);
-            result.string_keys["global"].Add("sams:client_id",configuration["sams:client_id"]);
-            result.string_keys["global"].Add("sams:client_secret",configuration["sams:client_secret"]);
-            result.string_keys["global"].Add("sams:callback_url",configuration["sams:callback_url"]);
-            result.string_keys["global"].Add("sams:logout_url", configuration["sams:logout_url"]);
-            result.string_keys["global"].Add("sams:activity_name", configuration["sams:activity_name"]);
+            result.string_keys["shared"].Add("sams:direct_login_url", configuration["sams:direct_login_url"]);
+            result.string_keys["shared"].Add("sams:endpoint_authorization",configuration["sams:endpoint_authorization"]);
+            result.string_keys["shared"].Add("sams:endpoint_token",configuration["sams:endpoint_token"]);
+            result.string_keys["shared"].Add("sams:endpoint_user_info",configuration["sams:endpoint_user_info"]);
+            result.string_keys["shared"].Add("sams:endpoint_token_validation",configuration["sams:endpoint_token_validation"]);
+            result.string_keys["shared"].Add("sams:endpoint_user_info_sys",configuration["sams:endpoint_user_info_sys"]);
+            result.string_keys["shared"].Add("sams:client_id",configuration["sams:client_id"]);
+            result.string_keys["shared"].Add("sams:client_secret",configuration["sams:client_secret"]);
+            result.string_keys["shared"].Add("sams:callback_url",configuration["sams:callback_url"]);
+            result.string_keys["shared"].Add("sams:logout_url", configuration["sams:logout_url"]);
+            result.string_keys["shared"].Add("sams:activity_name", configuration["sams:activity_name"]);
 
             bool is_schedule_enabled = true;
             configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref is_schedule_enabled);
@@ -186,12 +186,12 @@ public sealed class _configController : Controller
             bool sams_is_enabled = false;
             configuration["mmria_settings:sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
 
-            result.boolean_keys["global"].Add("is_schedule_enabled ", is_schedule_enabled);
-            result.boolean_keys["global"].Add("is_db_check_enabled", is_db_check_enabled);
-            result.boolean_keys["global"].Add("is_environment_based", is_environment_based);
-            result.boolean_keys["global"].Add("is_development", is_development);
-            result.boolean_keys["global"].Add("use_development_settings", use_development_settings);
-            result.boolean_keys["global"].Add("sams:is_enabled", sams_is_enabled);
+            result.boolean_keys["shared"].Add("is_schedule_enabled ", is_schedule_enabled);
+            result.boolean_keys["shared"].Add("is_db_check_enabled", is_db_check_enabled);
+            result.boolean_keys["shared"].Add("is_environment_based", is_environment_based);
+            result.boolean_keys["shared"].Add("is_development", is_development);
+            result.boolean_keys["shared"].Add("use_development_settings", use_development_settings);
+            result.boolean_keys["shared"].Add("sams:is_enabled", sams_is_enabled);
 
 
             int session_idle_timeout_minutes = 70;
@@ -213,14 +213,14 @@ public sealed class _configController : Controller
 
 
 
-            result.integer_keys["global"].Add("session_idle_timeout_minutes", session_idle_timeout_minutes);
-            result.integer_keys["global"].Add("pass_word_minimum_length", pass_word_minimum_length);
-            result.integer_keys["global"].Add("pass_word_days_before_expires", pass_word_days_before_expires);
-            result.integer_keys["global"].Add("pass_word_days_before_user_is_notified_of_expiration", pass_word_days_before_user_is_notified_of_expiration);
-            result.integer_keys["global"].Add("default_days_in_effective_date_interval", default_days_in_effective_date_interval);
-            result.integer_keys["global"].Add("unsuccessful_login_attempts_number_before_lockout", unsuccessful_login_attempts_number_before_lockout);
-            result.integer_keys["global"].Add("unsuccessful_login_attempts_within_number_of_minutes", unsuccessful_login_attempts_within_number_of_minutes);
-            result.integer_keys["global"].Add("unsuccessful_login_attempts_lockout_number_of_minutes", unsuccessful_login_attempts_lockout_number_of_minutes);
+            result.integer_keys["shared"].Add("session_idle_timeout_minutes", session_idle_timeout_minutes);
+            result.integer_keys["shared"].Add("pass_word_minimum_length", pass_word_minimum_length);
+            result.integer_keys["shared"].Add("pass_word_days_before_expires", pass_word_days_before_expires);
+            result.integer_keys["shared"].Add("pass_word_days_before_user_is_notified_of_expiration", pass_word_days_before_user_is_notified_of_expiration);
+            result.integer_keys["shared"].Add("default_days_in_effective_date_interval", default_days_in_effective_date_interval);
+            result.integer_keys["shared"].Add("unsuccessful_login_attempts_number_before_lockout", unsuccessful_login_attempts_number_before_lockout);
+            result.integer_keys["shared"].Add("unsuccessful_login_attempts_within_number_of_minutes", unsuccessful_login_attempts_within_number_of_minutes);
+            result.integer_keys["shared"].Add("unsuccessful_login_attempts_lockout_number_of_minutes", unsuccessful_login_attempts_lockout_number_of_minutes);
 
         }
         catch(System.Exception ex)

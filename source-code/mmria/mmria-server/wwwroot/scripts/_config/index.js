@@ -214,7 +214,7 @@ function render_boolean_keys()
 {
     const result = [];
     if(selected_config == null) 
-        selected_config = "global";
+        selected_config = "shared";
 
     const val = config_master.boolean_keys[selected_config];
 
@@ -274,7 +274,7 @@ function render_integer_keys()
 {
     const result = [];
     if(selected_config == null) 
-        selected_config = "global";
+        selected_config = "shared";
 
     const val = config_master.integer_keys[selected_config];
 
@@ -334,7 +334,7 @@ function render_string_keys()
 {
     const result = [];
     if(selected_config == null) 
-        selected_config = "global";
+        selected_config = "shared";
 
     const val = config_master.string_keys[selected_config];
 
