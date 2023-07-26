@@ -20,15 +20,16 @@ var g_ast = null;
 var g_function_array = [];
 var g_validator_ast = null;
 
-//generate_validation(output_json, g_metadata, metadata_list, "", object_list, "", path_to_node_map, path_to_int_map, path_to_onblur_map, path_to_onclick_map, path_to_onfocus_map, path_to_onchange_map, path_to_source_validation, path_to_derived_validation, path_to_validation_description, object_path_to_metadata_path_map);
 var output_json = [] 
 
-function generate_global(p_output_json, p_metadata, g_ast)
+function generate_global(p_output_json, p_metadata, p_ast)
 {
 
 		generate_dictionary_path_to_int_map(0, p_metadata, "", dictionary_path_to_int_map, "", dictionary_path_to_path_map);
 
 		global_ast.properties = [];
+
+        g_ast = p_ast;
 
 		//var temp_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
 		//g_ast = escodegen.attachComments(p_metadata.global, p_metadata.global.comments, p_metadata.global.tokens);
@@ -36,7 +37,7 @@ function generate_global(p_output_json, p_metadata, g_ast)
 		//g_ast = esprima.parse(global_code, { comment: true, loc: true });
 
 		//map_ast(p_metadata.global, create_global_ast);
-		map_ast(g_ast, create_global_ast, output_json);
+		map_ast(p_ast, create_global_ast, output_json);
 		var ast = global_ast.generate();
 
 		if(g_validator_ast && g_validator_ast != "")
@@ -151,27 +152,23 @@ output_json.push("var path_to_validation_description = [];\n");
 function generate_dictionary_path_to_int_map(p_number, p_metadata, p_dictionary_path, p_dictionary_path_to_int_map, p_path, p_dictionary_path_to_path_map)
 {
     p_dictionary_path_to_int_map[p_dictionary_path] = p_number;
-		p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
+	p_dictionary_path_to_path_map[p_dictionary_path] = p_path;
 
-
-
-
-		if(p_metadata.children && p_metadata.children.length > 0)
-		{		
-			for(var i = 0; i < p_metadata.children.length; i++)
-			{
-				var child = p_metadata.children[i];
-				if(p_dictionary_path == "")
-				{
-					generate_dictionary_path_to_int_map(p_number + 1, child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
-				}
-				else
-				{
-					generate_dictionary_path_to_int_map(p_number + 1, child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
-				}
-				
-			}
-		}
+    if(p_metadata.children && p_metadata.children.length > 0)
+    {		
+        for(var i = 0; i < p_metadata.children.length; i++)
+        {
+            var child = p_metadata.children[i];
+            if(p_dictionary_path == "")
+            {
+                generate_dictionary_path_to_int_map(p_number + 1, child, child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+            }
+            else
+            {
+                generate_dictionary_path_to_int_map(p_number + 1, child, p_dictionary_path + "/" + child.name, p_dictionary_path_to_int_map, p_path + "/children/" + i, p_dictionary_path_to_path_map);
+            }
+        }
+    }
 
 }
 
