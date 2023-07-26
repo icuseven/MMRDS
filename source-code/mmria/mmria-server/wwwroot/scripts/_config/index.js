@@ -398,6 +398,9 @@ function config_selection_changed(value)
 
     selected_config = value;
 
+
+    document.getElementById("delete-config").value = `delete [${selected_config}]`;
+
     document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
 
     document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
