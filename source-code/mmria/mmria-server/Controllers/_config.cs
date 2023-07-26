@@ -59,7 +59,7 @@ public sealed class _configController : Controller
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
             var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
@@ -81,7 +81,7 @@ public sealed class _configController : Controller
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
             var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
@@ -94,6 +94,33 @@ public sealed class _configController : Controller
         } 
 
         return Json(app_config);
+    }
+
+
+    [HttpPut]
+    public async Task<IActionResult> SetConfigurationMaster
+    (
+        [FromBody] mmria.common.couchdb.ConfigurationMaster app_config
+    )
+    {
+        mmria.common.model.couchdb.document_put_response result = new();
+        try
+        {
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(app_config);
+
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
+
+            var case_curl = new cURL("PUT", null, request_string, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            string responseFromServer = await case_curl.executeAsync();
+
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response> (responseFromServer);
+        }
+        catch(System.Exception ex)
+        {
+            System.Console.WriteLine (ex);
+        } 
+
+        return Json(result);
     }
 
 
@@ -133,11 +160,6 @@ public sealed class _configController : Controller
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
-
-            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
-            string responseFromServer = await case_curl.executeAsync();
-
             result.boolean_keys.Add("shared", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
             result.string_keys.Add("shared", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
             result.integer_keys.Add("shared", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
