@@ -3,6 +3,7 @@ var config = null;
 var config_master = null;
 var selected_config = "shared";
 var applied_config_master = null;
+var key_set = new Set();
 
 window.onload = main;
 
@@ -18,6 +19,17 @@ async function main()
     {
 
         config_master.boolean_keys = applied_config_master.boolean_keys;
+        for(const key in config_master.boolean_keys)
+        {
+            key_set.add(key);
+        }
+    }
+    else
+    {
+        for(const key in boolean_keys)
+        {
+            key_set.add(key);
+        }
     }
 
     const integer_keys =  Object.values(config_master.integer_keys);
@@ -25,7 +37,17 @@ async function main()
     if(integer_keys.length == 0)
     {
         config_master.integer_keys = applied_config_master.integer_keys;
-        
+        for(const key in config_master.integer_keys)
+        {
+            key_set.add(key);
+        }
+    }
+    else
+    {
+        for(const key in integer_keys)
+        {
+            key_set.add(key);
+        }
     }
 
 
@@ -34,6 +56,17 @@ async function main()
     if(string_keys.length == 0)
     {
         config_master.string_keys = applied_config_master.string_keys;
+        for(const key in config_master.string_keys)
+        {
+            key_set.add(key);
+        }
+    }
+    else
+    {
+        for(const key in string_keys)
+        {
+            key_set.add(key);
+        }
     }
 
     const el = document.getElementById("content");
@@ -123,9 +156,10 @@ function render_config_select(value)
 {
     const result = [];
 
-    result.push('<select id="prefix" size=5 onchange="prefix_selection_changed(this.value)">');
+    result.push('<select id="prefix" size=5 onchange="config_selection_changed(this.value)">');
 
-    for (const key in config_master.string_keys) 
+    //const key_values = Object.values()
+    for (const key of key_set) 
     {
         if(key == value)
         {
@@ -151,6 +185,15 @@ async function render()
    `
    <br/> 
 <div id="select">${render_config_select(selected_config)}</div>
+
+<div>
+<input type="text" id="add_config" value=""></input>
+<input type="button" value="add" onclick="add_item('add_config')"></input>
+
+<input id="delete-config" type="button" value="delete [${selected_config}}]" onclick="delete_item('delete-config-${selected_config}')"></input>
+</div>
+
+</tr>
 <hr/>
 <div id="boolean_keys">${render_boolean_keys()}</div>
 <hr/>
@@ -195,7 +238,7 @@ function render_boolean_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -203,16 +246,17 @@ function render_boolean_keys()
         
     }
 
+    const id = `add_new_boolean_key-${selected_config}`;
     result.push(`<tr>
     <td>
-    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
-    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
+    <input type="text" id="${id}" value=""></input>
+    <input type="button" value="add key" onclick="add_item('${id}')"></input>
     </td>
     <td>
     &nbsp;
     </td>
     <td>
-    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
+    <input type="button" value="paste" onclick="paste_item('${id}')"></input>
     </td>
 
     </tr>`);
@@ -255,7 +299,7 @@ function render_integer_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -263,16 +307,17 @@ function render_integer_keys()
         
     }
 
+    const id = `add_new_integer_key-${selected_config}`;
     result.push(`<tr>
     <td>
-    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
-    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
+    <input type="text" id="${id}" value=""></input>
+    <input type="button" value="add key" onclick="add_item('${id}')"></input>
     </td>
     <td>
     &nbsp;
     </td>
     <td>
-    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
+    <input type="button" value="paste" onclick="paste_item('${id}')"></input>
     </td>
 
     </tr>`);
@@ -315,7 +360,7 @@ function render_string_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -323,16 +368,17 @@ function render_string_keys()
         
     }
 
+    const id = `add_new_string_key-${selected_config}`;
     result.push(`<tr>
     <td>
-    <input type="text" id="add_new_detail-${selected_config}" value=""></input>
-    <input type="button" value="add" onclick="add_item('add_new_detail-${selected_config}')"></input>
+    <input type="text" id="${id}" value=""></input>
+    <input type="button" value="add key" onclick="add_item('${id}')"></input>
     </td>
     <td>
     &nbsp;
     </td>
     <td>
-    <input type="button" value="paste" onclick="paste_item('add_new_detail-${selected_config}')"></input>
+    <input type="button" value="paste" onclick="paste_item('${id}')"></input>
     </td>
 
     </tr>`);
@@ -343,17 +389,18 @@ function render_string_keys()
 
 }
 
-function prefix_selection_changed(value)
+function config_selection_changed(value)
 {
-    const val = config_master.configuration_set[value];
-    if(val == null) return;
+    if(value == null) return;
 
     selected_config = value;
 
-    //console.log("prefix_selection_changed: " + value);
+    document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
 
-    const el = document.getElementById("config_detail");
-    el.innerHTML = render_string_keys();
+    document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
+
+    document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
+
 }
 
 function copy_item(p_id)
@@ -368,7 +415,56 @@ function delete_item(p_id)
 
 function add_item(p_id)
 {
-    console.log("add: " + p_id);
+
+    const el_id = document.getElementById(p_id);
+    let new_value = null;
+    let config_name = null;
+
+    //console.log("add: " + p_id);
+    const arr = p_id.trim().split("-");
+    switch(arr[0])
+    {
+        case "add_config":
+            
+            new_value = el_id.value.trim().toLowerCase();
+            key_set.add(new_value)
+            config_master.boolean_keys[new_value] = {};
+            config_master.integer_keys[new_value] = {};
+            config_master.string_keys[new_value] = {};
+            const select = document.getElementById("select");
+            select.innerHTML = render_config_select();
+            break;
+        case "add_new_boolean_key":
+            new_value = el_id.value.trim().toLowerCase();
+            config_name = arr[1];
+            config_master.boolean_keys[config_name][new_value] = false;
+            
+            document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
+            break;
+        case "add_new_integer_key":
+            new_value = el_id.value.trim().toLowerCase();
+            config_name = arr[1];
+            config_master.integer_keys[config_name][new_value] = 0;
+
+            document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
+
+            break;
+
+        case "add_new_string_key":
+            new_value = el_id.value.trim().toLowerCase();
+            config_name = arr[1];
+            config_master.string_keys[config_name][new_value] = "";
+            document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
+                    
+
+            break;
+    }
+
+}
+
+function update_item(p_id)
+{
+    console.log("update: " + p_id);
 }
 
 function paste_item(p_id)
