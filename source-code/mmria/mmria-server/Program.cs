@@ -211,6 +211,12 @@ public sealed partial class Program
                 System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
                 System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
 
+
+                string log_directory = configuration["mmria_settings:log_directory"];                
+                System.Environment.GetEnvironmentVariable("log_directory").SetIfIsNotNullOrWhiteSpace(ref log_directory);
+
+                configuration["mmria_settings:log_directory"] = log_directory;
+
                 configuration["mmria_settings:couchdb_url"]  = Program.config_couchdb_url;
                 configuration["mmria_settings:web_site_url"] = Program.config_web_site_url;
 
