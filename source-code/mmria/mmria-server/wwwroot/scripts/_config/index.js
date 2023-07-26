@@ -4,6 +4,9 @@ var config_master = null;
 var selected_config = "shared";
 var applied_config_master = null;
 var key_set = new Set();
+var copy_key = null;
+var copy_value = null;
+var copy_config = null;
 
 window.onload = main;
 
@@ -71,7 +74,7 @@ async function main()
 
     const el = document.getElementById("content");
 
-    const result = await render();
+    const result = render();
     
     el.innerHTML = result.join("");
 }
@@ -176,7 +179,7 @@ function render_config_select(value)
     return result.join('');
 }
 
-async function render()
+function render()
 {
 
     const result = []
@@ -192,7 +195,7 @@ async function render()
 
 <input id="delete-config" type="button" value="delete [${selected_config}}]" onclick="delete_item('delete-config-${selected_config}')"></input>
 </div>
-
+<div id="copy_buffer"></div>
 </tr>
 <hr/>
 <div id="boolean_keys">${render_boolean_keys()}</div>
@@ -405,7 +408,20 @@ function config_selection_changed(value)
 
 function copy_item(p_id)
 {
-    console.log("copy: " + p_id);
+    const el_id = document.getElementById(p_id);
+    let new_value = null;
+    let config_name = null;
+
+    //console.log("add: " + p_id);
+    const arr = p_id.trim().split("-");
+
+    copy_config = arr[1];
+    copy_key= arr[2];
+    copy_value = el_id.value;
+
+    const copy_buffer = document.getElementById("copy_buffer");
+    copy_buffer.innerHTML = `config: ${copy_config} key: ${copy_key} value: ${copy_value}`;
+
 }
 
 function delete_item(p_id)
@@ -427,6 +443,8 @@ function add_item(p_id)
         case "add_config":
             
             new_value = el_id.value.trim().toLowerCase();
+            if(new_value.trim().length < 1) return;
+
             key_set.add(new_value)
             config_master.boolean_keys[new_value] = {};
             config_master.integer_keys[new_value] = {};
@@ -469,5 +487,46 @@ function update_item(p_id)
 
 function paste_item(p_id)
 {
-    console.log("paste: " + p_id);
+    function isInt(value) 
+    {
+        var x = parseFloat(value);
+        return !isNaN(value) && (x | 0) === x;
+      }
+
+    //console.log("paste: " + p_id);
+    const el_id = document.getElementById(p_id);
+    let new_value = null;
+    let config_name = null;
+
+    //console.log("add: " + p_id);
+    const arr = p_id.trim().split("-");
+
+    const target_copy_config = arr[1];
+    const target_copy_key= arr[2];
+    const target_copy_value = el_id.value;
+    
+    if
+    (
+        typeof copy_value === 'boolean' ||
+        copy_value == "true" ||
+        copy_value == "false"
+    )
+    {
+        config_master.boolean_keys[target_copy_config][copy_key] = copy_value;
+        document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
+    }
+    else if(isInt(copy_value))
+    {
+        config_master.integer_keys[target_copy_config][copy_key] = copy_value;
+        document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
+    }
+    else
+    {
+        config_master.string_keys[target_copy_config][copy_key] = copy_value;
+        document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
+    }
+
+
+
+
 }
