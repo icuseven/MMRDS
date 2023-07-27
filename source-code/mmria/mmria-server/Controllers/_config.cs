@@ -47,7 +47,7 @@ public sealed class _configController : Controller
         app_config.EMAIL_FROM = configuration["smtp:email_from"];
         app_config.EMAIL_PASSWORD = configuration["smtp:email_password"];
         app_config.shared_config_id = configuration["mmria_settings:shared_config_id"];
-        app_config.host_site = HttpContext.Request.Host.ToString().Split("-")[0];
+        app_config.host_site = HttpContext.Request.Host.GetPrefix();
         return View(app_config);
     }
 

@@ -61,3 +61,17 @@ public static class StartupExtension
         else that = defaultValue;
     }
 }
+
+    public static class HostString
+    {
+        public static string GetPrefix(this Microsoft.AspNetCore.Http.HostString @this)
+        {
+            if (!string.IsNullOrWhiteSpace(@this.Host))
+            {
+                return @this.Host.ToString().Split("-")[0];
+            
+            }
+
+            return null;
+        }
+    }
