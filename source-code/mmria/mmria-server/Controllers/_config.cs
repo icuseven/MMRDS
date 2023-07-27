@@ -46,7 +46,7 @@ public sealed class _configController : Controller
         app_config.SMTP_PORT = int.Parse(configuration["smtp:port"]);
         app_config.EMAIL_FROM = configuration["smtp:email_from"];
         app_config.EMAIL_PASSWORD = configuration["smtp:email_password"];
-
+        app_config.shared_config_id = configuration["mmria_settings:shared_config_id"];
         return View(app_config);
     }
 
@@ -97,7 +97,7 @@ public sealed class _configController : Controller
     }
 
 
-    [HttpPut]
+    [HttpPost]
     public async Task<IActionResult> SetConfigurationMaster
     (
         [FromBody] mmria.common.couchdb.ConfigurationMaster app_config
@@ -106,7 +106,9 @@ public sealed class _configController : Controller
         mmria.common.model.couchdb.document_put_response result = new();
         try
         {
-            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(app_config);
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(app_config, settings);
 
             string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
@@ -124,35 +126,6 @@ public sealed class _configController : Controller
     }
 
 
-    [HttpPost]
-    public IActionResult Index(mmria.server.model.app_config app_config)
-    {
-        
-        //var app_config = new mmria.server.model.app_config();
-
-        configuration["mmria_settings:is_environment_based"] = app_config.is_environment_based.Value.ToString();
-        configuration["mmria_settings:web_site_url"] = app_config.web_site_url;
-        configuration["mmria_settings:log_directory"] = app_config.log_directory;
-        configuration["mmria_settings:export_directory"] = app_config.export_directory;
-        configuration["mmria_settings:couchdb_url"] = app_config.couchdb_url;
-        configuration["mmria_settings:timer_user_name"] = app_config.timer_user_name;
-        configuration["mmria_settings:timer_value"] = app_config.timer_value;
-        configuration["mmria_settings:cron_schedule"] = app_config.cron_schedule;
-        configuration["password_settings:minimum_length"] = app_config.pass_word_minimum_length.Value.ToString();
-        configuration["password_settings:days_before_expires"] = app_config.pass_word_days_before_expires.Value.ToString();
-        configuration["password_settings:days_before_user_is_notified_of_expiration"] = app_config.pass_word_days_before_user_is_notified_of_expiration.Value.ToString();
-        configuration["smtp:use_authentication"] = app_config.EMAIL_USE_AUTHENTICATION.Value.ToString();
-        configuration["smtp:use_ssl"] = app_config.EMAIL_USE_SSL.Value.ToString();
-        configuration["smtp:host"] = app_config.SMTP_HOST;
-        configuration["smtp:port"] = app_config.SMTP_PORT.ToString();
-        configuration["smtp:email_from"] = app_config.EMAIL_FROM;
-        configuration["smtp:email_password"] = app_config.EMAIL_PASSWORD;
-        
-        
-
-        return View(app_config);
-    }
-
     [HttpGet]
     public async Task<IActionResult> GetAppliedConfiguration()
     {
@@ -160,6 +133,8 @@ public sealed class _configController : Controller
 
         try
         {
+            result._id = configuration["mmria_settings:shared_config_id"];
+
             result.boolean_keys.Add("shared", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
             result.string_keys.Add("shared", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
             result.integer_keys.Add("shared", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));

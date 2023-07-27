@@ -80,10 +80,10 @@ public sealed class ConfigurationMaster
     public string _id { get; set;}
     public string _rev { get; set; }
 
-    public DateTime date_created { get; set; } 
-    public string created_by { get; set; } 
-    public DateTime date_last_updated { get; set; } 
-    public string last_updated_by { get; set; } 
+    public DateTime? date_created { get; set; } = DateTime.UtcNow;
+    public string created_by { get; set; } = "system";
+    public DateTime? date_last_updated { get; set; }  = DateTime.UtcNow;
+    public string last_updated_by { get; set; } = "system";
 
     public string data_type { get; } = "configuration-master";
 

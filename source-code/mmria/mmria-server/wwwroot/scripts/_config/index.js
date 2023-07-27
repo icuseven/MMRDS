@@ -18,9 +18,14 @@ async function main()
 
     const boolean_keys =  Object.values(config_master.boolean_keys);
 
+
+    if(config_master._id == null)
+    {
+        config_master._id = applied_config_master._id;
+    }
+
     if(boolean_keys.length == 0)
     {
-
         config_master.boolean_keys = applied_config_master.boolean_keys;
         for(const key in config_master.boolean_keys)
         {
@@ -116,12 +121,48 @@ async function get_applied_config_master()
 }
 
 
+async function save()
+{
+    const save_output = document.getElementById("save_output");
+
+    const response = await set_config_master();
+
+    if(response.ok)
+    {
+        save_output.innerHTML = "Config saved.";
+    }
+    else
+    {
+        save_output.innerHTML = "Problem saving";
+    }
+
+}
+
+async function set_config_master()
+{
+    const url = `${location.protocol}//${location.host}/_config/SetConfigurationMaster`;
+
+    const response = await $.ajax
+    ({
+        url: url,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(config_master),
+        type: 'POST',
+    });
+
+    if (response.ok) 
+    {
+        config_master._rev = response.rev;
+    }
+
+    return response;
+}
+
 
 function render_boolean_keys2()
 {
     const result = [];
-
-    
 
     for (const key in config_master.name_value) 
     {
@@ -185,17 +226,19 @@ function render()
     const result = []
 
     result.push(
-   `
+   `<br/>
    <br/> 
 <div id="select">${render_config_select(selected_config)}</div>
 
 <div>
+<br/>
 <input type="text" id="add_config" value=""></input>
 <input type="button" value="add" onclick="add_item('add_config')"></input>
-
 <input id="delete-config" type="button" value="delete [${selected_config}}]" onclick="delete_item('delete-config-${selected_config}')"></input>
 </div>
-<div id="copy_buffer"></div>
+<br/>
+<div id="copy_buffer">&nbsp</div>
+<br/>
 </tr>
 <hr/>
 <div id="boolean_keys">${render_boolean_keys()}</div>
@@ -203,6 +246,14 @@ function render()
 <div id="integer_keys">${render_integer_keys()}</div>
 <hr/>
 <div id="string_keys">${render_string_keys()}</div>
+
+<hr/>
+<br/>
+<input type="button" value="save" onclick="save()"/>
+<br/>
+<div id="save_output"></div>
+<br/>
+<br/>
     `
     );
 
