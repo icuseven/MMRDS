@@ -47,6 +47,7 @@ public sealed class _configController : Controller
         app_config.EMAIL_FROM = configuration["smtp:email_from"];
         app_config.EMAIL_PASSWORD = configuration["smtp:email_password"];
         app_config.shared_config_id = configuration["mmria_settings:shared_config_id"];
+        app_config.host_site = HttpContext.Request.Host.ToString().Split("-")[0];
         return View(app_config);
     }
 
@@ -65,6 +66,7 @@ public sealed class _configController : Controller
             string responseFromServer = await case_curl.executeAsync();
 
             app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.Configuration> (responseFromServer);
+
         }
         catch(System.Exception ex)
         {

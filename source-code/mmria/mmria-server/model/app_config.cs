@@ -41,5 +41,7 @@ public sealed class app_config
         public int? unsuccessful_login_attempts_lockout_number_of_minutes {get; set;} = 15;
 
         public string shared_config_id { get; set; }
+
+        public string host_site {get; set; }
         
 }

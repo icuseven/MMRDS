@@ -16,7 +16,7 @@ async function main()
     config_master = await get_config_master();
     applied_config_master = await get_applied_config_master();
 
-    const boolean_keys =  Object.values(config_master.boolean_keys);
+    const boolean_keys =  Object.keys(config_master.boolean_keys);
 
 
     if(config_master._id == null)
@@ -34,13 +34,13 @@ async function main()
     }
     else
     {
-        for(const key in boolean_keys)
+        for(const key of boolean_keys)
         {
             key_set.add(key);
         }
     }
 
-    const integer_keys =  Object.values(config_master.integer_keys);
+    const integer_keys =  Object.keys(config_master.integer_keys);
 
     if(integer_keys.length == 0)
     {
@@ -52,14 +52,14 @@ async function main()
     }
     else
     {
-        for(const key in integer_keys)
+        for(const key of integer_keys)
         {
             key_set.add(key);
         }
     }
 
 
-    const string_keys =  Object.values(config_master.string_keys);
+    const string_keys =  Object.keys(config_master.string_keys);
 
     if(string_keys.length == 0)
     {
@@ -71,7 +71,7 @@ async function main()
     }
     else
     {
-        for(const key in string_keys)
+        for(const key of string_keys)
         {
             key_set.add(key);
         }
@@ -160,49 +160,12 @@ async function set_config_master()
 }
 
 
-function render_boolean_keys2()
-{
-    const result = [];
-
-    for (const key in config_master.name_value) 
-    {
-        const value = config_master.name_value[key];
-        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
-
-        const id = `g_name_value-${key}`;
-
-        result.push('<tr><td colspan=3>');
-        result.push(`<label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}"></input></label>`);
-        result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | <input type="button" value="delete" onclick="delete_item('${id}')"></input>`)
-        result.push('</td></tr>');
-    }
-
-    result.push(`<tr>
-    <td>
-    <input type="text" id="add_new_g_name_value" value=""></input>
-    <input type="button" value="add" onclick="add_item('add_new_g_name_value')"></input>
-    </td>
-    <td>
-    &nbsp;
-    </td>
-    <td>
-    <input type="button" value="paste" onclick="paste_item('add_new_g_name_value')"></input>
-    </td>
-
-</tr>`);
-    
-
-    return result.join('');
-}
-
-
 function render_config_select(value)
 {
     const result = [];
 
     result.push('<select id="prefix" size=5 onchange="config_selection_changed(this.value)">');
 
-    //const key_values = Object.values()
     for (const key of key_set) 
     {
         if(key == value)
@@ -227,10 +190,13 @@ function render()
 
     result.push(
    `<br/>
-   <br/> 
+   <br/>
+   <div id="host_site"><b>host site:</b> ${host_site}</div> 
+   <br/>
 <div id="select">${render_config_select(selected_config)}</div>
 
 <div>
+
 <br/>
 <input type="text" id="add_config" value=""></input>
 <input type="button" value="add" onclick="add_item('add_config')"></input>
