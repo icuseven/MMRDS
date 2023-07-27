@@ -398,7 +398,6 @@ function config_selection_changed(value)
 
     selected_config = value;
 
-
     document.getElementById("delete-config").value = `delete [${selected_config}]`;
 
     document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
@@ -412,10 +411,9 @@ function config_selection_changed(value)
 function copy_item(p_id)
 {
     const el_id = document.getElementById(p_id);
-    let new_value = null;
-    let config_name = null;
+    //let new_value = null;
+    //let config_name = null;
 
-    //console.log("add: " + p_id);
     const arr = p_id.trim().split("-");
 
     copy_config = arr[1];
@@ -434,12 +432,10 @@ function delete_item(p_id)
 
 function add_item(p_id)
 {
-
     const el_id = document.getElementById(p_id);
     let new_value = null;
     let config_name = null;
 
-    //console.log("add: " + p_id);
     const arr = p_id.trim().split("-");
     switch(arr[0])
     {
@@ -459,16 +455,13 @@ function add_item(p_id)
             new_value = el_id.value.trim().toLowerCase();
             config_name = arr[1];
             config_master.boolean_keys[config_name][new_value] = false;
-            
             document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
             break;
         case "add_new_integer_key":
             new_value = el_id.value.trim().toLowerCase();
             config_name = arr[1];
             config_master.integer_keys[config_name][new_value] = 0;
-
             document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
-
             break;
 
         case "add_new_string_key":
@@ -476,11 +469,8 @@ function add_item(p_id)
             config_name = arr[1];
             config_master.string_keys[config_name][new_value] = "";
             document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
-                    
-
             break;
     }
-
 }
 
 function update_item(p_id)
@@ -494,19 +484,17 @@ function paste_item(p_id)
     {
         var x = parseFloat(value);
         return !isNaN(value) && (x | 0) === x;
-      }
+    }
 
-    //console.log("paste: " + p_id);
-    const el_id = document.getElementById(p_id);
-    let new_value = null;
-    let config_name = null;
+    //const el_id = document.getElementById(p_id);
+    //let new_value = null;
+    //let config_name = null;
 
-    //console.log("add: " + p_id);
     const arr = p_id.trim().split("-");
 
     const target_copy_config = arr[1];
-    const target_copy_key= arr[2];
-    const target_copy_value = el_id.value;
+    //const target_copy_key= arr[2];
+    //const target_copy_value = el_id.value;
     
     if
     (
@@ -528,8 +516,4 @@ function paste_item(p_id)
         config_master.string_keys[target_copy_config][copy_key] = copy_value;
         document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
     }
-
-
-
-
 }

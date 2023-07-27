@@ -73,80 +73,9 @@ public sealed class ConfigurationMaster
 {
     public ConfigurationMaster()
     {
-        name_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        //configuration_set = new Dictionary<string, Configuration>(StringComparer.OrdinalIgnoreCase);
         boolean_keys = new Dictionary<string, Dictionary<string, bool>>(StringComparer.OrdinalIgnoreCase);
         string_keys = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
         integer_keys = new Dictionary<string, Dictionary<string, int>>(StringComparer.OrdinalIgnoreCase);
-        
-        /*
-        boolean_keys.Add("shared", new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
-        string_keys.Add("shared", new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase));
-        integer_keys.Add("shared", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
-    
-    
-        string_keys["shared"].Add("geocode_api_key", "");
-        string_keys["shared"].Add("geocode_api_url", "");
-        string_keys["shared"].Add("couchdb_url", "http://localhost:5984");
-        string_keys["shared"].Add("db_prefix", "");
-        string_keys["shared"].Add("web_site_url", "http://*:8080");
-        string_keys["shared"].Add("timer_user_name", "");
-        string_keys["shared"].Add("timer_value", "");
-        string_keys["shared"].Add("cron_schedule", "0 * /1 * * * ?");
-
-        string_keys["shared"].Add("log_directory", "/home/net_core_user/app/workdir/mmria-log");
-        string_keys["shared"].Add("export_directory", "/home/net_core_user/app/workdir/mmria-export");
-        string_keys["shared"].Add("metadata_version", "23.05.30");
-        string_keys["shared"].Add("vitals_url", "http://mmria-services:8080/api/Message/IJESet");
-        string_keys["shared"].Add("vitals_service_key", "");
-        string_keys["shared"].Add("app_instance_name", "");
-
-
-        string_keys["shared"].Add("cvs_api_id", "");
-        string_keys["shared"].Add("cvs_api_key", "");
-        string_keys["shared"].Add("cvs_api_url", "");
-
-        string_keys["shared"].Add("steve_api:sea_bucket_kms_key", "");
-        string_keys["shared"].Add("steve_api:client_name", "");
-        string_keys["shared"].Add("steve_api:client_secreat_key", "");
-        string_keys["shared"].Add("steve_api:base_url", "");
-        string_keys["shared"].Add("exclude_from_broadcast_list","");
-
-        string_keys["shared"].Add("sams:direct_login_url", "");
-        string_keys["shared"].Add("sams:endpoint_authorization","");
-        string_keys["shared"].Add("sams:endpoint_token","");
-        string_keys["shared"].Add("sams:endpoint_user_info","");
-        string_keys["shared"].Add("sams:endpoint_token_validation","");
-        string_keys["shared"].Add("sams:endpoint_user_info_sys","");
-        string_keys["shared"].Add("sams:client_id","");
-        string_keys["shared"].Add("sams:client_secret","");
-        string_keys["shared"].Add("sams:callback_url","");
-        string_keys["shared"].Add("sams:logout_url", "");
-        string_keys["shared"].Add("sams:activity_name", "");
-
-
-
-        boolean_keys["shared"].Add("is_schedule_enabled ", true);
-        boolean_keys["shared"].Add("is_db_check_enabled", false);
-        boolean_keys["shared"].Add("is_environment_based", true);
-        boolean_keys["shared"].Add("is_development", false);
-        boolean_keys["shared"].Add("use_development_settings", false);
-        boolean_keys["shared"].Add("sams:is_enabled", false);
-
-
-        integer_keys["shared"].Add("session_idle_timeout_minutes", 70);
-        integer_keys["shared"].Add("pass_word_minimum_length", 8);
-        integer_keys["shared"].Add("pass_word_days_before_expires", 0);
-        integer_keys["shared"].Add("pass_word_days_before_user_is_notified_of_expiration", 0);
-        integer_keys["shared"].Add("default_days_in_effective_date_interval", 0);
-        integer_keys["shared"].Add("unsuccessful_login_attempts_number_before_lockout", 5);
-        integer_keys["shared"].Add("unsuccessful_login_attempts_within_number_of_minutes", 120);
-        integer_keys["shared"].Add("unsuccessful_login_attempts_lockout_number_of_minutes", 15);
-        */
-
-
-
-
     }
     public string _id { get; set;}
     public string _rev { get; set; }
@@ -157,11 +86,6 @@ public sealed class ConfigurationMaster
     public string last_updated_by { get; set; } 
 
     public string data_type { get; } = "configuration-master";
-
-    public Dictionary<string, string> name_value { get;set; }
-
-    //public Dictionary<string, Configuration> configuration_set { get; set; }
-
 
     public Dictionary<string, Dictionary<string, bool>> boolean_keys { get;set; }
     public Dictionary<string, Dictionary<string, string>> string_keys { get;set; }
@@ -207,5 +131,67 @@ public sealed class ConfigurationMaster
     
         return null;
     }
+
+
+    public bool? GetSharedBoolean(string key)
+    {
+        if(boolean_keys["shared"].ContainsKey(key))
+        {
+            return boolean_keys["shared"][key];
+        }
+
+        return null;
+    }
+
+    public string GetSharedString(string key)
+    {
+        if(string_keys["shared"].ContainsKey(key))
+        {
+            return string_keys["shared"][key];
+        }
+
+        return null;
+    }
     
+    public int? GetSharedInteger(string key)
+    {
+        if(integer_keys["shared"].ContainsKey(key))
+        {
+            return integer_keys["shared"][key];
+        }
+    
+        return null;
+    }
+
+
+    public bool? GetOverridedBoolean(string context, string key)
+    {
+        if(boolean_keys[context].ContainsKey(key))
+        {
+            return boolean_keys[context][key];
+        }
+
+        return null;
+    }
+
+    public string GetOverridedString(string context, string key)
+    {
+        if(string_keys[context].ContainsKey(key))
+        {
+            return string_keys[context][key];
+        }
+
+        return null;
+    }
+    
+    public int? GetOverridedInteger(string context,string key)
+    {
+        if(integer_keys[context].ContainsKey(key))
+        {
+            return integer_keys[context][key];
+        }
+    
+        return null;
+    }
+
 }
