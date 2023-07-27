@@ -730,15 +730,15 @@ public sealed partial class Program
     }
 
 
-    static mmria.common.couchdb.ConfigurationMaster GetConfigurationMaster(IConfiguration configuration)
+    static mmria.common.couchdb.OverridableConfiguration GetConfigurationMaster(IConfiguration configuration)
     {
-        var result = new mmria.common.couchdb.ConfigurationMaster();
+        var result = new mmria.common.couchdb.OverridableConfiguration();
         try
         {
             string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationMaster> (responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)
         {

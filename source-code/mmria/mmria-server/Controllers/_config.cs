@@ -77,7 +77,7 @@ public sealed class _configController : Controller
     [HttpGet]
     public async Task<IActionResult> GetConfigurationMaster()
     {
-        var app_config = new mmria.common.couchdb.ConfigurationMaster();
+        var app_config = new mmria.common.couchdb.OverridableConfiguration();
 
         try
         {
@@ -86,7 +86,7 @@ public sealed class _configController : Controller
             var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
 
-            app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationMaster> (responseFromServer);
+            app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(System.Exception ex)
         {
@@ -100,7 +100,7 @@ public sealed class _configController : Controller
     [HttpPost]
     public async Task<IActionResult> SetConfigurationMaster
     (
-        [FromBody] mmria.common.couchdb.ConfigurationMaster app_config
+        [FromBody] mmria.common.couchdb.OverridableConfiguration app_config
     )
     {
         mmria.common.model.couchdb.document_put_response result = new();
@@ -129,7 +129,7 @@ public sealed class _configController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAppliedConfiguration()
     {
-        var result = new mmria.common.couchdb.ConfigurationMaster();
+        var result = new mmria.common.couchdb.OverridableConfiguration();
 
         try
         {

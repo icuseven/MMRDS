@@ -13,6 +13,27 @@ public sealed class DBConfigurationDetail
     public string user_value { get; set; }
 
 }
+
+public sealed class SAMSConfigurationDetail
+{
+    public string client_id { get; set;}
+    public string client_secret { get; set; }
+
+    public string callback_url { get; set; }
+
+    public string activity_name { get; set; }
+
+}
+
+
+public sealed class CVSConfigurationDetail
+{
+    public string cvs_api_id  { get; set;}
+    public string cvs_api_key  { get; set; }
+
+    public string cvs_api_url  { get; set; }
+}
+
 public sealed class ConfigurationSet
 {
     public ConfigurationSet()
@@ -69,9 +90,9 @@ public sealed class Configuration
     public Dictionary<string, DBConfigurationDetail> detail_list { get;set; }
 }
 
-public sealed class ConfigurationMaster
+public sealed class OverridableConfiguration
 {
-    public ConfigurationMaster()
+    public OverridableConfiguration()
     {
         boolean_keys = new Dictionary<string, Dictionary<string, bool>>(StringComparer.OrdinalIgnoreCase);
         string_keys = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
@@ -202,6 +223,30 @@ public sealed class ConfigurationMaster
         result.prefix = string_keys[context]["db_prefix"];
         result.user_name = string_keys[context]["timer_user_name"];
         result.user_value = string_keys[context]["timer_value"];
+
+        return result;
+    }
+
+    public SAMSConfigurationDetail GetSAMSConfigurationDetail(string context)
+    {
+        SAMSConfigurationDetail result = new();
+
+        result.client_id = string_keys[context]["sams:client_id"];
+        result.client_secret = string_keys[context]["sams:client_secret"];
+        result.callback_url = string_keys[context]["sams:callback_url"];
+        result.activity_name = string_keys[context]["sams:activity_name"];
+
+        return result;
+    }
+
+    CVSConfigurationDetail  GetCVSConfigurationDetail(string context)
+    {
+        CVSConfigurationDetail result = new();
+
+        result.cvs_api_id = string_keys[context]["sams:client_id"];
+        result.cvs_api_key = string_keys[context]["sams:client_secret"];
+        result.cvs_api_url = string_keys[context]["sams:callback_url"];
+        
 
         return result;
     }
