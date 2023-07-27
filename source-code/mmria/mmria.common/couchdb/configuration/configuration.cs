@@ -194,4 +194,16 @@ public sealed class ConfigurationMaster
         return null;
     }
 
+    public DBConfigurationDetail GetDBConfig(string context)
+    {
+        DBConfigurationDetail result = new();
+
+        result.url = string_keys[context]["couchdb_url"];
+        result.prefix = string_keys[context]["db_prefix"];
+        result.user_name = string_keys[context]["timer_user_name"];
+        result.user_value = string_keys[context]["timer_value"];
+
+        return result;
+    }
+
 }
