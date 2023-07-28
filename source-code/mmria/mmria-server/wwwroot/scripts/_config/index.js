@@ -683,6 +683,11 @@ function update_boolean_item(p_id)
     const config_name = arr[1];
     const key = arr[2];
     config_master.boolean_keys[config_name][key] = new_value;
+    
+    const size = typeof(new_value) === "string" ? new_value.length + 3: new_value.toString().length + 3;
+    el_id.size = size;
+    
+
 }
 
 function update_integer_item(p_id)
@@ -697,6 +702,10 @@ function update_integer_item(p_id)
     const config_name = arr[1];
     const key = arr[2];
     config_master.integer_keys[config_name][key] = new_value;
+
+    const size = typeof(new_value) === "string" ? new_value.length + 3: new_value.toString().length + 3;
+    el_id.size = size;
+
 }
 
 function update_string_item(p_id)
@@ -712,6 +721,9 @@ function update_string_item(p_id)
     const key = arr[2];
 
     config_master.string_keys[config_name][key] = new_value;
+
+    const size = typeof(new_value) === "string" ? new_value.length + 3: new_value.toString().length + 3;
+    el_id.size = size;
 }
 
 function paste_item(p_id)
