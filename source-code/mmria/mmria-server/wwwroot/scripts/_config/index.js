@@ -460,7 +460,7 @@ function render_db_keys()
 
 
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_string_item('${id}')"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_string_item('${id}')"></input> ${(key=="db_prefix")? " <- include trailing underscore":""}</label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
     }

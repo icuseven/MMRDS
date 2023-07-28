@@ -12,6 +12,12 @@ public sealed class DBConfigurationDetail
 
     public string user_value { get; set; }
 
+
+    public string Get_DB_Url(string p_database_name)
+    {
+        return $"{url}/{prefix}{p_database_name}";
+    }
+
 }
 
 public sealed class SAMSConfigurationDetail
