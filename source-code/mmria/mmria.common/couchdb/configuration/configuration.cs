@@ -243,9 +243,9 @@ public sealed class OverridableConfiguration
     {
         CVSConfigurationDetail result = new();
 
-        result.cvs_api_id = string_keys[context]["sams:client_id"];
-        result.cvs_api_key = string_keys[context]["sams:client_secret"];
-        result.cvs_api_url = string_keys[context]["sams:callback_url"];
+        result.cvs_api_id = string_keys[context]["cvs_api_id"];
+        result.cvs_api_key = string_keys[context]["cvs_api_key"];
+        result.cvs_api_url = string_keys[context]["cvs_api_url"];
         
 
         return result;

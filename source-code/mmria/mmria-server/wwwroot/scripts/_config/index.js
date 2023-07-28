@@ -207,6 +207,11 @@ function render()
 <br/>
 </tr>
 <hr/>
+
+<div id="db_keys">${render_db_keys()}</div>
+<hr/>
+<div id="sams_keys">${render_sams_keys()}</div>
+<hr/>
 <div id="boolean_keys">${render_boolean_keys()}</div>
 <hr/>
 <div id="integer_keys">${render_integer_keys()}</div>
@@ -258,7 +263,7 @@ function render_boolean_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_boolean_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -319,7 +324,7 @@ function render_integer_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_integer_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -372,7 +377,12 @@ function render_string_keys()
         const value = val[key];
         const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
-        if(typeof(value) === 'object')
+        if
+        (
+            typeof(value) === 'object' ||
+            db_key_set.has(key) ||
+            sams_key_set.has(key)
+        )
         {
 
 
@@ -380,7 +390,7 @@ function render_string_keys()
         else
         {
             const id = `detail-${selected_config}-${key}`;
-            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_item('${id}')"></input></label>`);
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_string_item('${id}')"></input></label>`);
             result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
 
@@ -409,11 +419,143 @@ function render_string_keys()
 
 }
 
+
+const db_key_set = new Set();
+db_key_set.add()
+db_key_set.add("couchdb_url");
+db_key_set.add("db_prefix");
+db_key_set.add("timer_user_name");
+db_key_set.add("timer_value");
+
+function render_db_keys()
+{
+
+    const result = [];
+    if(selected_config == null) 
+        selected_config = "shared";
+
+    const val = config_master.string_keys[selected_config];
+
+    if(val == null) return "";
+
+    result.push(
+        ` <table>
+        <tr>
+            <th colspan=3>db string keys [${selected_config}]</th>
+        </tr>        
+        `
+    )
+
+
+    render_key("couchdb_url");
+    render_key("db_prefix");
+    render_key("timer_user_name");
+    render_key("timer_value");
+
+    function render_key(key)
+    {
+        const value = val[key];
+        if(value == null) return;
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
+
+
+            const id = `detail-${selected_config}-${key}`;
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_string_item('${id}')"></input></label>`);
+            result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
+    }
+
+    const id = `add_new_db_string_set-${selected_config}`;
+    result.push(`<tr>
+    <td>
+    <input type="button" value="add db string set" onclick="add_item('${id}')"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+
+    </tr>`);
+
+    result.push("</table>");
+
+    return result.join("");
+
+}
+
+
+const sams_key_set = new Set();
+sams_key_set.add("sams:client_id");
+sams_key_set.add("sams:client_secret");
+sams_key_set.add("sams:callback_url");
+sams_key_set.add("sams:activity_name");
+
+function render_sams_keys()
+{
+    const result = [];
+    if(selected_config == null) 
+        selected_config = "shared";
+
+    const val = config_master.string_keys[selected_config];
+
+    if(val == null) return "";
+
+    result.push(
+        ` <table>
+        <tr>
+            <th colspan=3>custom sams keys [${selected_config}]</th>
+        </tr>        
+        `
+    )
+
+
+    render_key("sams:client_id");
+    render_key("sams:client_secret");
+    render_key("sams:callback_url");
+    render_key("sams:activity_name");
+        
+    function render_key(key)
+    {
+        const value = val[key];
+
+        if(value == null) return;
+
+        const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
+
+
+            const id = `detail-${selected_config}-${key}`;
+            result.push(`<tr><td colspan=3><label><b>${key}</b> <input id="${id}" type="text" value="${value}" size="${size}" onblur="update_string_item('${id}')"></input></label>`);
+            result.push(` <input type="button" value="copy" onclick="copy_item('${id}')"></input> | 
+                        <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
+    }
+
+    const id = `add_new_custom_sams_string_set-${selected_config}`;
+    result.push(`<tr>
+    <td>
+    <input type="button" value="add new sams custom string set" onclick="add_item('${id}')"></input>
+    </td>
+    <td>
+    &nbsp;
+    </td>
+    </tr>`);
+
+    result.push("</table>");
+
+    return result.join("");
+
+}
+
+
 function config_selection_changed(value)
 {
     if(value == null) return;
 
     selected_config = value;
+
+
+
+    document.getElementById("db_keys").innerHTML = render_db_keys(selected_config);
+
+    document.getElementById("sams_keys").innerHTML = render_sams_keys(selected_config);
 
     document.getElementById("delete-config").value = `delete [${selected_config}]`;
 
@@ -487,12 +629,89 @@ function add_item(p_id)
             config_master.string_keys[config_name][new_value] = "";
             document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
             break;
+
+        case "add_new_db_string_set":
+            config_name = arr[1];
+
+            if(!config_master.string_keys[config_name].hasOwnProperty("couchdb_url"))
+                config_master.string_keys[config_name]["couchdb_url"] = "";
+
+            if(!config_master.string_keys[config_name].hasOwnProperty("db_prefix"))
+                config_master.string_keys[config_name]["db_prefix"] = "";
+
+            if(!config_master.string_keys[config_name].hasOwnProperty("timer_user_name"))
+                config_master.string_keys[config_name]["timer_user_name"] = "";
+
+            if(!config_master.string_keys[config_name].hasOwnProperty("timer_value"))
+                config_master.string_keys[config_name]["timer_value"] = "";
+
+            document.getElementById("db_keys").innerHTML = render_db_keys(selected_config);
+            
+            break;
+
+        case "add_new_custom_sams_string_set":
+            config_name = arr[1];
+            if(!config_master.string_keys[config_name].hasOwnProperty("sams:client_id"))
+                config_master.string_keys[config_name]["sams:client_id"] = "";
+            
+            if(!config_master.string_keys[config_name].hasOwnProperty("sams:client_secret"))
+                config_master.string_keys[config_name]["sams:client_secret"] = "";
+        
+            if(!config_master.string_keys[config_name].hasOwnProperty("sams:callback_url"))
+                config_master.string_keys[config_name]["sams:callback_url"] = "";
+        
+            if(!config_master.string_keys[config_name].hasOwnProperty("sams:activity_name"))
+                config_master.string_keys[config_name]["sams:activity_name"] = "";
+        
+        
+            document.getElementById("sams_keys").innerHTML = render_sams_keys(selected_config);
+            
+            break;
     }
 }
 
-function update_item(p_id)
+
+function update_boolean_item(p_id)
 {
     console.log("update: " + p_id);
+
+    const el_id = document.getElementById(p_id);
+    const new_value = el_id.value;
+
+
+    const arr = p_id.trim().split("-");
+    const config_name = arr[1];
+    const key = arr[2];
+    config_master.boolean_keys[config_name][key] = new_value;
+}
+
+function update_integer_item(p_id)
+{
+    console.log("update: " + p_id);
+
+    const el_id = document.getElementById(p_id);
+    const new_value = el_id.value;
+
+
+    const arr = p_id.trim().split("-");
+    const config_name = arr[1];
+    const key = arr[2];
+    config_master.integer_keys[config_name][key] = new_value;
+}
+
+function update_string_item(p_id)
+{
+    console.log("update: " + p_id);
+
+    const el_id = document.getElementById(p_id);
+    const new_value = el_id.value;
+
+
+    const arr = p_id.trim().split("-");
+    const config_name = arr[1];
+    const key = arr[2];
+
+    config_master.string_keys[config_name][key] = new_value;
 }
 
 function paste_item(p_id)
