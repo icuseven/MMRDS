@@ -502,7 +502,7 @@ function render_sams_keys()
     result.push(
         ` <table>
         <tr>
-            <th colspan=3>custom sams keys [${selected_config}]</th>
+            <th colspan=3>sams client keys [${selected_config}]</th>
         </tr>        
         `
     )
@@ -683,7 +683,7 @@ function update_boolean_item(p_id)
     const config_name = arr[1];
     const key = arr[2];
     config_master.boolean_keys[config_name][key] = new_value;
-    
+
     const size = typeof(new_value) === "string" ? new_value.length + 3: new_value.toString().length + 3;
     el_id.size = size;
     
