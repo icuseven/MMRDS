@@ -208,15 +208,15 @@ function render()
 </tr>
 <hr/>
 
-<div id="db_keys">${render_db_keys()}</div>
+<div id="db_keys" style="background-color:#BBBBCB;font-family:tahoma;">${render_db_keys()}</div>
 <hr/>
-<div id="sams_keys">${render_sams_keys()}</div>
+<div id="sams_keys" style="background-color:#BBCBBB;font-family:tahoma;">${render_sams_keys()}</div>
 <hr/>
-<div id="boolean_keys">${render_boolean_keys()}</div>
+<div id="boolean_keys" style="background-color:#CBBBBB;font-family:tahoma;">${render_boolean_keys()}</div>
 <hr/>
-<div id="integer_keys">${render_integer_keys()}</div>
+<div id="integer_keys" style="background-color:#CBCBBB;font-family:tahoma;">${render_integer_keys()}</div>
 <hr/>
-<div id="string_keys">${render_string_keys()}</div>
+<div id="string_keys" style="background-color:#CDCCCD;font-family:tahoma;">${render_string_keys()}</div>
 
 <hr/>
 <br/>
