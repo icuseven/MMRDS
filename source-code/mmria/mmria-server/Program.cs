@@ -325,6 +325,8 @@ public sealed partial class Program
             
                 configuration["mmria_settings:config_id"] = SetFromIfHasValue(configuration["mmria_settings:config_id"], System.Environment.GetEnvironmentVariable("config_id"));
                 Program.config_id = SetFromIfHasValue(Program.config_id, configuration["mmria_settings:config_id"]);
+
+                configuration["mmria_settings:shared_config_id"] = SetFromIfHasValue(configuration["mmria_settings:shared_config_id"], System.Environment.GetEnvironmentVariable("shared_config_id"));
                 
                 Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"), 90);
                 Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
