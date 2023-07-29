@@ -183,6 +183,15 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
 
+
+            Log.Information("Overriable Config:");
+            Log.Information($"couchdb_url: {couchdb_url}");
+            Log.Information($"timer_user_name: {timer_user_name}");
+            Log.Information($"shared_config_id: {shared_config_id}");
+            Log.Information("");
+
+
+
             var config = GetOverridableConfiguration
             (
                 new()
