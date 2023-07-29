@@ -223,14 +223,19 @@ public sealed class OverridableConfiguration
 
     public DBConfigurationDetail GetDBConfig(string context)
     {
-        DBConfigurationDetail result = new();
+        DBConfigurationDetail? result = null;
 
-        result.url = string_keys[context]["couchdb_url"];
-        result.prefix = string_keys[context]["db_prefix"];
-        result.user_name = string_keys[context]["timer_user_name"];
-        result.user_value = string_keys[context]["timer_value"];
+        if(string_keys.ContainsKey(context))
+        {
+            result = new();
 
+            result.url = string_keys[context]["couchdb_url"];
+            result.prefix = string_keys[context]["db_prefix"];
+            result.user_name = string_keys[context]["timer_user_name"];
+            result.user_value = string_keys[context]["timer_value"];
+        }
         return result;
+    
     }
 
     public SAMSConfigurationDetail GetSAMSConfigurationDetail(string context)

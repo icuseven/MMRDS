@@ -34,6 +34,28 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
         string host_prefix = Request.Host.GetPrefix();
 
         var db_config = _configuration.GetDBConfig(host_prefix);
+
+        if(db_config == null)
+        {
+            string couchdb_url =  null;
+            string timer_user_name = null;
+            string timer_value = null;
+            string db_prefix = null;
+
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
+            System.Environment.GetEnvironmentVariable("db_prefix").SetIfIsNotNullOrWhiteSpace(ref db_prefix);
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
+    
+            db_config = new()
+            {
+                url =  couchdb_url,
+                user_name = timer_user_name,
+                user_value = timer_value
+            };
+            
+
+        }
         
         if
         (
@@ -41,6 +63,13 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
             !string.IsNullOrWhiteSpace(Request.Cookies["sid"])
         )
         {
+
+/*
+            var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
+            var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
+            var config_timer_password = _configuration["mmria_settings:timer_value"];
+            var config_db_prefix = _configuration["mmria_settings:db_prefix"];
+*/
 
             mmria.server.model.actor.Session_MessageDTO session_message = null;
             try
@@ -115,6 +144,10 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                     } 
                 }
 
+                //mmria.common.model.couchdb.user user = null;
+
+
+
                 const string Issuer = "https://contoso.com";
                 var claims = new List<Claim>();
                 claims.Add(new Claim(ClaimTypes.Name, session_message.user_id, ClaimValueTypes.String, Issuer));
@@ -183,6 +216,8 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
         else
         {
             Response.Redirect("/Account/Login");
+
         }
     }
+
 }
