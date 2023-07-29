@@ -136,6 +136,12 @@ async function save()
         save_output.innerHTML = "Problem saving";
     }
 
+    window.setTimeout(clear_save_message, 3000);
+}
+
+function clear_save_message()
+{
+    save_output.innerHTML = "";
 }
 
 async function set_config_master()
@@ -446,6 +452,7 @@ function render_db_keys()
         `
     )
 
+    let key_count = 0;
 
     render_key("couchdb_url");
     render_key("db_prefix");
@@ -456,6 +463,8 @@ function render_db_keys()
     {
         const value = val[key];
         if(value == null) return;
+        key_count+=1;
+
         const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
 
@@ -465,16 +474,18 @@ function render_db_keys()
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
     }
 
-    const id = `add_new_db_string_set-${selected_config}`;
-    result.push(`<tr>
-    <td>
-    <input type="button" value="add db string set" onclick="add_item('${id}')"></input>
-    </td>
-    <td>
-    &nbsp;
-    </td>
-
-    </tr>`);
+    if(key_count == 0)
+    {
+        const id = `add_new_db_string_set-${selected_config}`;
+        result.push(`<tr>
+        <td>
+        <input type="button" value="add db string set" onclick="add_item('${id}')"></input>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        </tr>`);
+    }
 
     result.push("</table>");
 
@@ -496,6 +507,8 @@ function render_sams_keys()
         selected_config = "shared";
 
     const val = config_master.string_keys[selected_config];
+
+    let key_count = 0;
 
     if(val == null) return "";
 
@@ -519,6 +532,8 @@ function render_sams_keys()
 
         if(value == null) return;
 
+        key_count += 1;
+
         const size = typeof(value) === "string" ? value.length + 3: value.toString().length + 3;
 
 
@@ -528,16 +543,18 @@ function render_sams_keys()
                         <input type="button" value="delete" onclick="delete_item('${id}')"></input></td></tr>`)
     }
 
-    const id = `add_new_custom_sams_string_set-${selected_config}`;
-    result.push(`<tr>
-    <td>
-    <input type="button" value="add new sams custom string set" onclick="add_item('${id}')"></input>
-    </td>
-    <td>
-    &nbsp;
-    </td>
-    </tr>`);
-
+    if(key_count == 0)
+    {
+        const id = `add_new_custom_sams_string_set-${selected_config}`;
+        result.push(`<tr>
+        <td>
+        <input type="button" value="add new sams custom string set" onclick="add_item('${id}')"></input>
+        </td>
+        <td>
+        &nbsp;
+        </td>
+        </tr>`);
+    }
     result.push("</table>");
 
     return result.join("");
@@ -612,12 +629,14 @@ function add_item(p_id)
             break;
         case "add_new_boolean_key":
             new_value = el_id.value.trim().toLowerCase();
+            if(new_value.length == 0) return;
             config_name = arr[1];
             config_master.boolean_keys[config_name][new_value] = false;
             document.getElementById("boolean_keys").innerHTML = render_boolean_keys(selected_config);
             break;
         case "add_new_integer_key":
             new_value = el_id.value.trim().toLowerCase();
+            if(new_value.length == 0) return;
             config_name = arr[1];
             config_master.integer_keys[config_name][new_value] = 0;
             document.getElementById("integer_keys").innerHTML = render_integer_keys(selected_config);
@@ -625,6 +644,7 @@ function add_item(p_id)
 
         case "add_new_string_key":
             new_value = el_id.value.trim().toLowerCase();
+            if(new_value.length == 0) return;
             config_name = arr[1];
             config_master.string_keys[config_name][new_value] = "";
             document.getElementById("string_keys").innerHTML = render_string_keys(selected_config);
