@@ -113,7 +113,7 @@ public sealed class _configController : Controller
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(app_config, settings);
 
             string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
-
+            System.Console.WriteLine (request_string);
             var case_curl = new cURL("PUT", null, request_string, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
             string responseFromServer = await case_curl.executeAsync();
 
