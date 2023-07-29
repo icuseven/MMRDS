@@ -171,11 +171,39 @@ public sealed partial class Program
 
             //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
             //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+            
+
+            string couchdb_url =  configuration["mmria_settings:couchdb_url"];
+            string timer_user_name = configuration["mmria_settings:timer_user_name"];
+            string timer_value = configuration["mmria_settings:timer_value"];
+            string shared_config_id = configuration["mmria_settings:shared_config_id"];
+
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
+            System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+
+            var config = GetOverridableConfiguration
+            (
+                new()
+                {
+                    url =  couchdb_url,
+                    user_name = timer_user_name,
+                    user_value = timer_value
+                },
+                shared_config_id
+            );
+
+            
             Program.config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-            Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-            //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
             Program.config_timer_value = configuration["mmria_settings:timer_value"];
+
+
+
+            Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+            //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
+
             Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
             Program.config_export_directory = configuration["mmria_settings:export_directory"];
 
@@ -202,12 +230,10 @@ public sealed partial class Program
 
                 //Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
                 //Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
-                System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_couchdb_url);
+                
                 System.Environment.GetEnvironmentVariable("web_site_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_web_site_url);
 
                 //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-                System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_user_name);
-                System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_value);
                 System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
                 System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
 
@@ -730,13 +756,17 @@ public sealed partial class Program
     }
 
 
-    static mmria.common.couchdb.OverridableConfiguration GetConfigurationMaster(IConfiguration configuration)
+    static mmria.common.couchdb.OverridableConfiguration GetOverridableConfiguration
+    (
+        mmria.common.couchdb.DBConfigurationDetail configuration,
+        string shared_config_id
+    )
     {
         var result = new mmria.common.couchdb.OverridableConfiguration();
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{configuration.url}/configuration/{shared_config_id}";
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
