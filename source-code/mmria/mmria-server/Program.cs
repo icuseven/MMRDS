@@ -192,7 +192,7 @@ public sealed partial class Program
 
 
 
-            var config = GetOverridableConfiguration
+            var overridable_config = GetOverridableConfiguration
             (
                 new()
                 {
@@ -202,6 +202,9 @@ public sealed partial class Program
                 },
                 shared_config_id
             );
+
+
+            builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
             
             Program.config_couchdb_url = configuration["mmria_settings:couchdb_url"];
@@ -245,6 +248,12 @@ public sealed partial class Program
                 //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
                 System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
                 System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
+              
+                System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_couchdb_url);
+
+                //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
+                System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_user_name);
+                System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_value);
 
 
                 string log_directory = configuration["mmria_settings:log_directory"];                
@@ -360,6 +369,8 @@ public sealed partial class Program
 
             collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
             collection.AddSingleton<IConfiguration>(configuration);
+            collection.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
+
             collection.AddLogging();
 
             var provider = collection.BuildServiceProvider();
