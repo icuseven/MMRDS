@@ -6,19 +6,30 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
 using Akka.Actor;
+using Microsoft.Extensions.DependencyInjection;
 using mmria.common.steve;
 
 namespace mmria.server;
 
 public sealed class SteveAPISupervisor : ReceiveActor
 {
-    IConfiguration configuration;
+    readonly IServiceScope _scope;
+
+    mmria.common.couchdb.OverridableConfiguration configuration = null;
     ILogger logger;
 
-    protected override void PreStart() => Console.WriteLine("Process_Message started");
-    protected override void PostStop() => Console.WriteLine("Process_Message stopped");
-    public SteveAPISupervisor()
+    protected override void PreStart() => Console.WriteLine("SteveAPISupervisor started");
+    protected override void PostStop()
     {
+        _scope.Dispose();
+    }
+
+    public SteveAPISupervisor(IServiceProvider sp)
+    {  
+        _scope = sp.CreateScope();
+
+        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
+
         Receive<DownloadRequest>(message =>
         {
             //var processor = Context.ActorSelection("akka://mmria-actor-system/user/populate-cdc-instance-supervisor/child*");
@@ -31,5 +42,7 @@ public sealed class SteveAPISupervisor : ReceiveActor
         });
 
     }
+
+
 
 }

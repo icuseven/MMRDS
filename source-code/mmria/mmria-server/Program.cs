@@ -404,8 +404,8 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
-            actorSystem.ActorOf<mmria.server.SteveAPISupervisor>("steve-api-supervisor");
+            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
+            actorSystem.ActorOf(Props.Create<mmria.server.SteveAPISupervisor>(provider), "steve-api-supervisor");
         
 
             quartzSupervisor.Tell("init");
@@ -526,97 +526,6 @@ public sealed partial class Program
             }
 
             app.Use(middleware);
-
-/*
-            app.Use
-            (
-                async (context, next) =>
-                {
-                    var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
-
-                    switch (context.Request.Method.ToLower())
-                    {
-                        case "get":
-                        case "put":
-                        case "post":
-                        case "head":
-                        case "delete":
-
-                        if
-                        (
-                            (
-                                context.Request.Headers.ContainsKey("Content-Length") &&
-                                context.Request.Headers["Content-Length"].Count > 1
-                            ) 
-                            ||
-                            (
-                                context.Request.Headers.ContainsKey("Transfer-Encoding") &&
-                                context.Request.Headers["Transfer-Encoding"].Count > 1
-                            )
-                        )
-                        {
-                            context.Response.StatusCode = 400;
-                            context.Response.Headers.Add("Connection", "close");
-                            resetFeature.Reset(errorCode: 4);
-                            //context.Abort();
-                            //context.RequestAborted.Session
-                        }
-                        else if
-                        (
-                            context.Request.Headers.ContainsKey("Content-Length") &&
-                            context.Request.Headers.ContainsKey("Transfer-Encoding")
-                        )
-                        {
-                            context.Response.StatusCode = 400;
-                            context.Response.Headers.Add("Connection", "close");
-                            resetFeature.Reset(errorCode: 4);
-                            // context.Abort();
-                        }
-                        else if
-                        (
-                            context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
-                            context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
-                            context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
-                        )
-                        {
-                            context.Response.Headers.Add("X-Frame-Options", "DENY");
-                            context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none'");
-                            context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                            context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                            context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-                            context.Response.Headers.Add("Connection", "close");
-                            context.Response.StatusCode = 400;
-                            //resetFeature.Reset(errorCode: 4);
-                            //context.Abort();
-                        }
-                        else if(next is null)
-                        {
-                            context.Response.StatusCode = 400;
-                            context.Response.Headers.Add("Connection", "close");
-                            resetFeature.Reset(errorCode: 4);
-                        }
-                        else
-                        {
-                            context.Response.Headers.Add("X-Frame-Options", "DENY");
-                            context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
-                            context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                            context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                            context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-
-                            await next();
-                        }
-
-                        break;
-                        default:
-                        context.Response.StatusCode = 400;
-                        context.Response.Headers.Add("Connection", "close");
-                        resetFeature.Reset(errorCode: 4);
-                        //context.Abort();
-                        break;
-                    }
-                }
-            );
-            */
 
             app.UseDefaultFiles();
             //app.UseStaticFiles();

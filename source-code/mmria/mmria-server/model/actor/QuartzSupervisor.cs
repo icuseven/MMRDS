@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
+using Akka.DI.Core;
+using Akka.DI.Extensions;
+using Akka.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using mmria.server.model.actor.quartz;
 
 namespace mmria.server.model.actor;
@@ -46,14 +50,22 @@ public sealed class QuartzSupervisor : UntypedActor
     //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
 
     //private ScheduleInfoMessage scheduleInfo = null;
+    readonly IServiceScope _scope;
 
-/*
-    public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
+    mmria.common.couchdb.OverridableConfiguration configuration = null;
+
+    public QuartzSupervisor(IServiceProvider sp)
     {
-        this.scheduleInfo = p_scheduleInfo;
+        _scope = sp.CreateScope();
+
+        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
     }
 
-
+    protected override void PostStop()
+    {
+        _scope.Dispose();
+    }
+/*
     public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
 */
 
