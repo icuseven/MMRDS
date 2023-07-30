@@ -117,46 +117,50 @@ public sealed class OverridableConfiguration
     public Dictionary<string, Dictionary<string, bool>> boolean_keys { get;set; }
     public Dictionary<string, Dictionary<string, string>> string_keys { get;set; }
     public Dictionary<string, Dictionary<string, int>> integer_keys { get;set; }
-    public bool? GetBoolean(string key, string prefix = "shared")
+    public bool? GetBoolean(string key, string prefix)
     {
-        if(boolean_keys.ContainsKey(key))
-        {
-            if(boolean_keys[key].ContainsKey(prefix))
-            {
-                return boolean_keys[key][prefix];
-            }
-            else if(boolean_keys[key].ContainsKey("shared")) return boolean_keys[key]["shared"];
-        }
+        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedBoolean(key);
 
-        return null;
+        if(boolean_keys.ContainsKey(prefix))
+        {
+            if(boolean_keys[prefix].ContainsKey(key))
+            {
+                return boolean_keys[prefix][key];
+            }
+        }
+        
+        return GetSharedBoolean(key);
     }
 
-    public string GetString(string key, string prefix = "shared")
+    public string GetString(string key, string prefix)
     {
-        if(string_keys.ContainsKey(key))
-        {
-            if(string_keys[key].ContainsKey(prefix))
-            {
-                return string_keys[key][prefix];
-            }
-            else if(string_keys[key].ContainsKey("shared")) return string_keys[key]["shared"];
-        }
+        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedString(key);
 
-        return null;
+        if(string_keys.ContainsKey(prefix))
+        {
+            if(string_keys[prefix].ContainsKey(key))
+            {
+                return string_keys[prefix][key];
+            }
+        }
+        
+        return GetSharedString(key);
     }
     
-    public int? GetInteger(string key, string prefix = "shared")
+    public int? GetInteger(string key, string prefix)
     {
-        if(integer_keys.ContainsKey(key))
+        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedInteger(key);
+
+        if(integer_keys.ContainsKey(prefix))
         {
-            if(integer_keys[key].ContainsKey(prefix))
+            if(integer_keys[prefix].ContainsKey(key))
             {
-                return integer_keys[key][prefix];
+                return integer_keys[prefix][key];
             }
-            else if(integer_keys[key].ContainsKey("shared")) return integer_keys[key]["shared"];
         }
     
-        return null;
+        return GetSharedInteger(key);
+
     }
 
 
@@ -223,7 +227,7 @@ public sealed class OverridableConfiguration
 
     public DBConfigurationDetail GetDBConfig(string context)
     {
-        DBConfigurationDetail? result = null;
+        DBConfigurationDetail result = null;
 
         if(string_keys.ContainsKey(context))
         {
