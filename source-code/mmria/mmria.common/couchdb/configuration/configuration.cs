@@ -5,13 +5,13 @@ namespace mmria.common.couchdb;
 
 public sealed class DBConfigurationDetail
 {
+    public DBConfigurationDetail() { }
     public string prefix { get; set;}
     public string url { get; set; }
 
     public string user_name { get; set; }
 
     public string user_value { get; set; }
-
 
     public string Get_Prefix_DB_Url(string p_database_name)
     {

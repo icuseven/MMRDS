@@ -432,6 +432,7 @@ db_key_set.add("couchdb_url");
 db_key_set.add("db_prefix");
 db_key_set.add("timer_user_name");
 db_key_set.add("timer_value");
+db_key_set.add("app_instance_name");
 
 function render_db_keys()
 {
@@ -458,6 +459,8 @@ function render_db_keys()
     render_key("db_prefix");
     render_key("timer_user_name");
     render_key("timer_value");
+    render_key("app_instance_name");
+    
 
     function render_key(key)
     {

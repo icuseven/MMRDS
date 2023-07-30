@@ -81,21 +81,28 @@ public sealed class QuartzSupervisor : UntypedActor
 
             case "pulse":
 
-            
-            
+                var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
+
+                if (db_config == null) break;
+
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
-                        Program.config_cron_schedule,
-                        Program.config_couchdb_url,
-                        Program.config_timer_user_name,
-                        Program.config_timer_value,
+                        configuration.GetSharedString("cron_schedule"),
+                        db_config.url,
+                        db_config.user_name,
+                        db_config.user_value,
                         Program.config_export_directory,
-                        Program.app_instance_name,
-                        Program.metadata_release_version_name
+                        null, //Program.app_instance_name,
+                        configuration.GetSharedString("metadata_version")
                     );
+            
 
-
-                if(Program.is_db_check_enabled)
+                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetSharedString("app_instance_name"));
+                if
+                (
+                    is_db_check_enabled.HasValue && 
+                    is_db_check_enabled.Value
+                )
                 {
                     Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
@@ -140,7 +147,7 @@ public sealed class QuartzSupervisor : UntypedActor
     }
 
 }
-
+ /*
 public sealed class CheckForChanges : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("CheckForChanges started");
@@ -150,7 +157,7 @@ public sealed class CheckForChanges : UntypedActor
     {
             Console.WriteLine($"CheckForChanges {System.DateTime.Now}");
 
-        /*
+       
         switch (message)
         {
             case WriteFile file:
@@ -175,12 +182,12 @@ public sealed class CheckForChanges : UntypedActor
                 case RecordFileMessage rfm:
                     Console.WriteLine(rfm.filename);
                     break;
-        }*/
+        }
 
     }
 
 }
-
+*/
 
 
 

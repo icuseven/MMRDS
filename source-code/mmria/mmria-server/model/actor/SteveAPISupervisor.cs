@@ -40,9 +40,5 @@ public sealed class SteveAPISupervisor : ReceiveActor
 
             Sender.Tell(System.DateTime.Now);
         });
-
     }
-
-
-
 }
