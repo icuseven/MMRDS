@@ -53,6 +53,10 @@ public sealed class audit_detail_view
   public string _rev { get;set; } // ": "1-aa412d69475e8e489049276758b6469a",
   public string case_id { get;set; } // ": "006b515c-8d43-4471-8f9e-72c4db60bc58",
   public string case_rev { get;set; } // ": "7-dcb0eadbf8ea69a47cc1e25cde706ed8",
+  
+  public string record_id { get;set; }
+  public bool? is_delete { get;set; }
+  public string delete_rev { get;set; }
   public string user_name { get;set; } // ": "user9",
   public string note { get;set; } // ": "save_and_finish_click",
   public string metadata_version { get;set; } // ": "21.10.01",
