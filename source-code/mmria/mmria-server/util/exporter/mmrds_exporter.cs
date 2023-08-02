@@ -358,7 +358,15 @@ public sealed class mmrds_exporter
                 !path_to_node_map.ContainsKey(path) ||
                 path_to_node_map[path].type.ToLower() == "app" ||
                 path_to_node_map[path].type.ToLower() == "form" ||
-                path_to_node_map[path].type.ToLower() == "group" ||
+                ( 
+                    path_to_node_map[path].type.ToLower() == "group" &&
+                    (
+                        path_to_node_map[path].tags == null ||
+                        path_to_node_map[path].tags.Length < 1 ||
+                        !path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                    )
+                    
+                ) ||
                 path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                 path_to_node_map[path].type.ToLower() == "button" ||
                 path_to_node_map[path].type.ToLower() == "chart" ||
@@ -385,11 +393,67 @@ public sealed class mmrds_exporter
                 //System.Console.WriteLine("break");
             }
 
+            int? ConvertToInt(object value)
+            {
+                int? result = null;
+                int try_int = -1;
+                if
+                (
+                    value != null
+                )
+                {
+                    if(int.TryParse(value.ToString(), out try_int))
+                    {
+                        if(try_int != 9999)
+                        {
+                            result = try_int;
+                        }
+                    }
+                }
+
+                return result;
+            }
+
+            
             object val = get_value(case_doc as IDictionary<string, object>, path);
             try
             {
+
                 switch (path_to_node_map[path].type.ToLower())
                 {
+
+                    case "group":
+
+                        int? month = null;
+                        int? day = null;
+                        int? year = null;
+
+                        var month_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                        var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                        var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                        
+                        
+
+                        val = "";
+
+                        month = ConvertToInt(month_result);
+                        day = ConvertToInt(day_result);
+                        year = ConvertToInt(year_result);
+
+                        if
+                        (
+                            month.HasValue && 
+                            day.HasValue &&
+                            year.HasValue
+                        )
+                        {
+                            string file_field_name = path_to_field_name_map[path];
+                            val = $"{month}/{day}/{year}";  
+                            row[file_field_name] = val;
+
+                        }
+                        
+                    break;
 
                 case "number":
                     double try_double = 0;
@@ -2115,13 +2179,27 @@ public sealed class mmrds_exporter
         {
             case "app":
             case "form":
-            case "group":
             case "grid":
             case "always_enabled_button":
             case "button":
             case "chart":
             case "label":
             continue;
+            case "group":
+                if
+                (
+                    p_path_to_node_map[path].tags ==null ||
+                    p_path_to_node_map[path].tags.Length == 0 ||
+                    !p_path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                )
+                {
+                    continue;
+                }
+                else
+                {
+                    column = new System.Data.DataColumn(file_field_name, typeof(string));
+                }
+                break;
             case "number":
 
             if (p_path_to_node_map[path].mirror_reference == null)
@@ -2307,7 +2385,16 @@ public sealed class mmrds_exporter
         case "form":
         case "group":
         case "grid":
-            for (var i = 0; i < p_metadata.children.Length; i++)
+            if
+            (
+                p_metadata.sass_export_name != null &&
+                p_metadata.sass_export_name != "" &&
+                p_search_path == p_path
+            )
+            {
+                result = p_metadata.sass_export_name;
+            }
+            else for (var i = 0; i < p_metadata.children.Length; i++)
             {
             var child = p_metadata.children[i];
             result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
