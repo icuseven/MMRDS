@@ -9,3 +9,8 @@ function $case_status_confirm()
   
 }
 
+
+function $case_document_begin_edit(value)
+{
+    console.log(value);
+}
