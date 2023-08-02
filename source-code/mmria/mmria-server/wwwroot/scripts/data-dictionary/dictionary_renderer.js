@@ -533,7 +533,7 @@ function render_group_item
 			let path_array = p_path.split('/');
 			let description = "";
 			let list_values = [];
-			let data_type = "date (string)"
+			let data_type = "date"
 
 			if(path_array.length > 2)
 			{
