@@ -192,6 +192,39 @@ public sealed partial class Program
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
 
+            string couchdb_url =  configuration["mmria_settings:couchdb_url"];
+            string timer_user_name = configuration["mmria_settings:timer_user_name"];
+            string timer_value = configuration["mmria_settings:timer_value"];
+            string shared_config_id = configuration["mmria_settings:shared_config_id"];
+
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
+            System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+
+
+            Log.Information("Overriable Config:");
+            Log.Information($"couchdb_url: {couchdb_url}");
+            Log.Information($"timer_user_name: {timer_user_name}");
+            Log.Information($"shared_config_id: {shared_config_id}");
+            Log.Information("");
+
+
+            var overridable_config = GetOverridableConfiguration
+            (
+                new()
+                {
+                    url =  couchdb_url,
+                    user_name = timer_user_name,
+                    user_value = timer_value
+                },
+                shared_config_id
+            );
+
+
+            builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
+
+
             if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
             {
                 Log.Information("using Environment");
@@ -583,6 +616,28 @@ public sealed partial class Program
             var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return result;
+    }
+
+    static mmria.common.couchdb.OverridableConfiguration GetOverridableConfiguration
+    (
+        mmria.common.couchdb.DBConfigurationDetail configuration,
+        string shared_config_id
+    )
+    {
+        var result = new mmria.common.couchdb.OverridableConfiguration();
+        try
+        {
+            string request_string = $"{configuration.url}/configuration/{shared_config_id}";
+            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
+            string responseFromServer = case_curl.execute();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)
         {

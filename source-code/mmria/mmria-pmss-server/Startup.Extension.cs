@@ -60,4 +60,34 @@ public static class StartupExtension
         }
         else that = defaultValue;
     }
+
+    public static void SetIfIsNotNullOrWhiteSpace(this int? @this, ref int that)
+    {
+        if (@this.HasValue)
+        {
+            that = @this.Value;
+        }
+    }
+
+    public static void SetIfIsNotNullOrWhiteSpace(this bool? @this, ref bool that)
+    {
+        if (@this.HasValue)
+        {
+            that = @this.Value;
+        }
+    }
 }
+
+    public static class HostString
+    {
+        public static string GetPrefix(this Microsoft.AspNetCore.Http.HostString @this)
+        {
+            if (!string.IsNullOrWhiteSpace(@this.Host))
+            {
+                return @this.Host.ToString().Split("-")[0];
+            
+            }
+
+            return null;
+        }
+    }
