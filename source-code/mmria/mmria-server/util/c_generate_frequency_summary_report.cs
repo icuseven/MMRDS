@@ -184,7 +184,8 @@ prenatal/routine_monitoring/date_and_time
             (
                 o.tags.Contains("FREQ", StringComparer.OrdinalIgnoreCase) || 
                 o.tags.Contains("STAT_N", StringComparer.OrdinalIgnoreCase) ||
-                o.tags.Contains("STAT_D", StringComparer.OrdinalIgnoreCase) 
+                o.tags.Contains("STAT_D", StringComparer.OrdinalIgnoreCase) ||
+                o.tags.Contains("CALC_DATE", StringComparer.OrdinalIgnoreCase) 
                 
             )
         ).ToList();
@@ -444,14 +445,22 @@ prenatal/routine_monitoring/date_and_time
 
         switch(p_node.type.ToLower())
         {
-            case "group":
-                for(var i = 0; i < p_node.children.Count(); i++)
+            /*case "group":
+                if
+                (
+                    p_node.tags != null &&
+                    p_node.tags.Contains("CALC_DATE") 
+                )
+                {
+
+                }
+                else for(var i = 0; i < p_node.children.Count(); i++)
                 {
                     var item = p_node.children[i];
                     process(item,  p_is_multiform, p_is_grid, path, Context);
                     
                 }
-                break;
+                break;*/
             case "grid":
                 for(var i = 0; i < p_node.children.Count(); i++)
                 {
@@ -477,8 +486,28 @@ prenatal/routine_monitoring/date_and_time
                 break;
 
 
-
+            case "group":
             default:
+
+                 if
+                (
+                    p_node.type.ToLower() == "group" &&
+                    (
+                        p_node.tags == null ||
+                        p_node.tags.Length == 0 ||
+                        !p_node.tags.Contains("CALC_DATE") 
+                    )
+                )
+                {
+                    for(var i = 0; i < p_node.children.Count(); i++)
+                    {
+                        var item = p_node.children[i];
+                        process(item,  p_is_multiform, p_is_grid, path, Context);
+                        
+                    }
+                }
+                
+                
                 if(p_node.tags.Length == 0) break;
                 
                 if
@@ -487,7 +516,9 @@ prenatal/routine_monitoring/date_and_time
 
                     !p_node.tags.Contains("STAT_N") &&
  
-                    !p_node.tags.Contains("STAT_D") 
+                    !p_node.tags.Contains("STAT_D") &&
+
+                    !p_node.tags.Contains("CALC_DATE")
                 )
                 {
                     break;
@@ -788,6 +819,11 @@ prenatal/routine_monitoring/date_and_time
                     return result;
                 }
 
+
+                if(p_node.type == "group")
+                {
+                    //Console.WriteLine("Generate Frequency <todo> CALC_DATE Group");
+                }
 
                 if(p_is_multiform)
                 {

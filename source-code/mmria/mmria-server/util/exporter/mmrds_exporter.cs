@@ -393,27 +393,6 @@ public sealed class mmrds_exporter
                 //System.Console.WriteLine("break");
             }
 
-            int? ConvertToInt(object value)
-            {
-                int? result = null;
-                int try_int = -1;
-                if
-                (
-                    value != null
-                )
-                {
-                    if(int.TryParse(value.ToString(), out try_int))
-                    {
-                        if(try_int != 9999)
-                        {
-                            result = try_int;
-                        }
-                    }
-                }
-
-                return result;
-            }
-
             
             object val = get_value(case_doc as IDictionary<string, object>, path);
             try
@@ -767,6 +746,46 @@ public sealed class mmrds_exporter
                                 {
                                     switch (path_to_node_map[node].type.ToLower())
                                     {
+                                        case "group":
+
+                                        int? month = null;
+                                        int? day = null;
+                                        int? year = null;
+
+                                        var month_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                                        var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                                        var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                                        
+                                        
+
+                                        val = "";
+
+                                        month = ConvertToInt(month_result);
+                                        day = ConvertToInt(day_result);
+                                        year = ConvertToInt(year_result);
+
+                                        if
+                                        (
+                                            month.HasValue && 
+                                            day.HasValue &&
+                                            year.HasValue
+                                        )
+                                        {
+                                            //string file_field_name = path_to_field_name_map[path];
+                                            val = $"{month}/{day}/{year}";  
+                                            grid_row[file_field_name] = val;
+
+                                        }
+                                        
+                                    break;
+
+
+
+
+
+
+
+
                                     case "number":
                                         if (!string.IsNullOrWhiteSpace(val.ToString()))
                                         {
@@ -1058,7 +1077,15 @@ public sealed class mmrds_exporter
                     if (
                     path_to_node_map[path].type.ToLower() == "app" ||
                     path_to_node_map[path].type.ToLower() == "form" ||
-                    path_to_node_map[path].type.ToLower() == "group" ||
+                    ( 
+                        path_to_node_map[path].type.ToLower() == "group" &&
+                        (
+                            path_to_node_map[path].tags == null ||
+                            path_to_node_map[path].tags.Length < 1 ||
+                            !path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                        )
+                    
+                    ) ||
                     path_to_node_map[path].type.ToLower() == "grid" ||
                     path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                     path_to_node_map[path].type.ToLower() == "button" ||
@@ -1087,7 +1114,44 @@ public sealed class mmrds_exporter
 
                     switch (path_to_node_map[path].type.ToLower())
                     {
+                    case "group":
 
+                        int? month = null;
+                        int? day = null;
+                        int? year = null;
+
+
+                        var dictionary = val as IDictionary<string,object>;
+
+                        //var month_result =  dictionary["month"]get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                        //var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                        //var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                        
+                        var month_result =  dictionary["month"];
+                        var day_result =  dictionary["day"];
+                        var year_result =  dictionary["year"];
+                        
+
+                        var new_val = "";
+
+                        month = ConvertToInt(month_result);
+                        day = ConvertToInt(day_result);
+                        year = ConvertToInt(year_result);
+
+                        if
+                        (
+                            month.HasValue && 
+                            day.HasValue &&
+                            year.HasValue
+                        )
+                        {
+                            string file_field_name = path_to_field_name_map[path];
+                            new_val = $"{month}/{day}/{year}";  
+                            form_row[file_field_name] = new_val;
+
+                        }
+                        
+                    break;
                     case "number":
                         if (val != null)
                         {
@@ -2778,5 +2842,24 @@ public sealed class mmrds_exporter
         }
         this.qualitativeStreamCount[index] += 1;
     }
+    int? ConvertToInt(object value)
+    {
+        int? result = null;
+        int try_int = -1;
+        if
+        (
+            value != null
+        )
+        {
+            if(int.TryParse(value.ToString(), out try_int))
+            {
+                if(try_int != 9999)
+                {
+                    result = try_int;
+                }
+            }
+        }
 
+        return result;
+    }
 }

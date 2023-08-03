@@ -10,7 +10,7 @@ function $case_status_confirm()
 }
 
 
-function $case_document_begin_edit(value)
+function $case_document_begin_edit()
 {
-    console.log(value);
+    console.log("begin edit");
 }
