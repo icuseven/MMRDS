@@ -85,6 +85,8 @@ public sealed class c_sync_document
     public async System.Threading.Tasks.Task executeAsync()
     {
 
+        return;
+
         string de_identified_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + this.document_id);
         System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
         string de_identified_json = null;

@@ -87,6 +87,9 @@ public sealed class Report_PowerBI_Index_Struct
 
     public async Task executeAsync ()
     {
+
+        return; 
+        
         try
         {
 
