@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
+using Akka.DI.Core;
+using Akka.DI.Extensions;
+using Akka.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using mmria.pmss.server.model.actor.quartz;
 
 namespace mmria.pmss.server.model.actor;
@@ -46,14 +50,22 @@ public sealed class QuartzSupervisor : UntypedActor
     //private IActorRef checkForChanges = Context.ActorOf(Props.Create<CheckForChanges>(), "CheckForChanges");
 
     //private ScheduleInfoMessage scheduleInfo = null;
+    readonly IServiceScope _scope;
 
-/*
-    public QuartzSupervisor(ScheduleInfoMessage p_scheduleInfo)
+    mmria.common.couchdb.OverridableConfiguration configuration = null;
+
+    public QuartzSupervisor(IServiceProvider sp)
     {
-        this.scheduleInfo = p_scheduleInfo;
+        _scope = sp.CreateScope();
+
+        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
     }
 
-
+    protected override void PostStop()
+    {
+        _scope.Dispose();
+    }
+/*
     public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
 */
 
@@ -69,21 +81,28 @@ public sealed class QuartzSupervisor : UntypedActor
 
             case "pulse":
 
-            
-            
+                var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
+
+                if (db_config == null) break;
+
                 mmria.pmss.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
-                        Program.config_cron_schedule,
-                        Program.config_couchdb_url,
-                        Program.config_timer_user_name,
-                        Program.config_timer_value,
+                        configuration.GetSharedString("cron_schedule"),
+                        db_config.url,
+                        db_config.user_name,
+                        db_config.user_value,
                         Program.config_export_directory,
-                        Program.app_instance_name,
-                        Program.metadata_release_version_name
+                        null, //Program.app_instance_name,
+                        configuration.GetSharedString("metadata_version")
                     );
+            
 
-
-                if(Program.is_db_check_enabled)
+                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetSharedString("app_instance_name"));
+                if
+                (
+                    is_db_check_enabled.HasValue && 
+                    is_db_check_enabled.Value
+                )
                 {
                     Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
@@ -128,7 +147,7 @@ public sealed class QuartzSupervisor : UntypedActor
     }
 
 }
-
+ /*
 public sealed class CheckForChanges : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("CheckForChanges started");
@@ -138,7 +157,7 @@ public sealed class CheckForChanges : UntypedActor
     {
             Console.WriteLine($"CheckForChanges {System.DateTime.Now}");
 
-        /*
+       
         switch (message)
         {
             case WriteFile file:
@@ -163,12 +182,12 @@ public sealed class CheckForChanges : UntypedActor
                 case RecordFileMessage rfm:
                     Console.WriteLine(rfm.filename);
                     break;
-        }*/
+        }
 
     }
 
 }
-
+*/
 
 
 
@@ -187,7 +206,7 @@ public sealed class CheckForChanges : UntypedActor
                     //Program.sched = sf.GetScheduler ();
                     DateTimeOffset startTime = DateBuilder.NextGivenSecondDate (null, 15);
 
-                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.pmss.server.model.check_for_changes_job> ()
+                    IJobDetail check_for_changes_job = JobBuilder.Create<mmria.server.model.check_for_changes_job> ()
                                                                         .WithIdentity ("check_for_changes_job", "group1")
                                                                         .Build ();
 
@@ -205,7 +224,7 @@ public sealed class CheckForChanges : UntypedActor
 
 
 
-                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.pmss.server.model.rebuild_queue_job> ()
+                    IJobDetail rebuild_queue_job = JobBuilder.Create<mmria.server.model.rebuild_queue_job> ()
                                                                     .WithIdentity ("rebuild_queue_job", "group2")
                                                                     .Build ();
 

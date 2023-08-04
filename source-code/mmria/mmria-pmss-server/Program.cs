@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
+using Akka.DI.Extensions.DependencyInjection;
 
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -224,7 +225,6 @@ public sealed partial class Program
 
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
-
             if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
             {
                 Log.Information("using Environment");
@@ -348,8 +348,19 @@ public sealed partial class Program
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
             configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
             configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
-                        
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system");
+
+
+            var collection = new ServiceCollection();
+
+            collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+            collection.AddSingleton<IConfiguration>(configuration);
+            collection.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
+
+            collection.AddLogging();
+
+            var provider = collection.BuildServiceProvider();          
+
+            Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
