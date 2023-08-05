@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;   
 using mmria.common.cvs;
 
 namespace mmria.server;
@@ -38,24 +40,24 @@ public sealed class cvsAPIController: ControllerBase
         public bool is_valid_year { get;set; } = true;
 
     }
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
 
     string folder_name = null;
 
-    IConfiguration configuration;
-    readonly IAuthorizationService _authorizationService;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     public cvsAPIController
     (
-        IConfiguration _configuration,
-        mmria.common.couchdb.ConfigurationSet p_config_db, 
-        IAuthorizationService authorizationService
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         configuration = _configuration;
-        ConfigDB = p_config_db;
-        _authorizationService = authorizationService;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
-        this.folder_name = System.IO.Path.Combine(configuration["mmria_settings:export_directory"], "csv");
+        db_config = configuration.GetDBConfig(host_prefix);
+
+        this.folder_name = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), "csv");
 
         System.IO.Directory.CreateDirectory(this.folder_name);
 
@@ -110,8 +112,9 @@ public sealed class cvsAPIController: ControllerBase
         IActionResult result = null;
         var response_string = string.Empty;
         System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
+        var cvs = configuration.GetCVSConfigurationDetail();
 
-        var base_url = ConfigDB.name_value["cvs_api_url"];
+        var base_url = cvs.cvs_api_url;
 
         try
         {
@@ -122,8 +125,8 @@ public sealed class cvsAPIController: ControllerBase
                 case "server":
                     var sever_status_body = new server_status_post_body()
                     {
-                        id = ConfigDB.name_value["cvs_api_id"],
-                        secret = ConfigDB.name_value["cvs_api_key"],
+                        id = cvs.cvs_api_id,
+                        secret = cvs.cvs_api_key,
 
                     };
 
@@ -142,8 +145,8 @@ public sealed class cvsAPIController: ControllerBase
                     {
                         var get_all_data_body = new get_all_data_post_body()
                         {
-                            id = ConfigDB.name_value["cvs_api_id"],
-                            secret = ConfigDB.name_value["cvs_api_key"],
+                            id = cvs.cvs_api_id,
+                            secret = cvs.cvs_api_key,
                             payload = new()
                             {
                                 
@@ -178,8 +181,8 @@ public sealed class cvsAPIController: ControllerBase
 
                     var get_dashboard_body = new get_dashboard_post_body()
                     {
-                        id = ConfigDB.name_value["cvs_api_id"],
-                        secret = ConfigDB.name_value["cvs_api_key"],
+                        id = cvs.cvs_api_id,
+                        secret = cvs.cvs_api_key,
                         payload = new()
                         {
                             lat = post_payload.lat,
@@ -197,8 +200,8 @@ public sealed class cvsAPIController: ControllerBase
                         try
                         {
                             
-                            string view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=30000&descending=true";
-                            var case_view_curl = new cURL("GET", null, view_request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+                            string view_request_string = db_config.Get_Prefix_DB_Url($"mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=30000&descending=true");
+                            var case_view_curl = new cURL("GET", null, view_request_string, null, db_config.user_name, db_config.user_value);
                             string responseFromServer = await case_view_curl.executeAsync();
 
 
@@ -212,10 +215,10 @@ public sealed class cvsAPIController: ControllerBase
                                     cvi => cvi.value.record_id.Equals(post_payload.id, StringComparison.OrdinalIgnoreCase)
                                 ).FirstOrDefault();
 
-                            string case_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{data.id}";
+                            string case_request_string = db_config.Get_Prefix_DB_Url($"mmrds/{data.id}");
 
 
-                            var case_curl = new cURL("GET", null, case_request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+                            var case_curl = new cURL("GET", null, case_request_string, null, db_config.user_name, db_config.user_value);
                             string case_response = await case_curl.executeAsync();
 
                             var case_dictionary = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (case_response) as IDictionary<string,object>;
@@ -325,13 +328,13 @@ public sealed class cvsAPIController: ControllerBase
 
                             var get_year_body = new get_year_post_body()
                             {
-                                id = ConfigDB.name_value["cvs_api_id"],
-                                secret = ConfigDB.name_value["cvs_api_key"],
+                                id = cvs.cvs_api_id,
+                                secret = cvs.cvs_api_key,
                                 payload = new()
                             };
 
                             body_text = JsonSerializer.Serialize(get_year_body);
-                            var get_year_curl = new cURL("POST", null, base_url, body_text, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+                            var get_year_curl = new cURL("POST", null, base_url, body_text, db_config.user_name, db_config.user_value);
                             string get_year_response = await get_year_curl.executeAsync();
                             var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
                             if

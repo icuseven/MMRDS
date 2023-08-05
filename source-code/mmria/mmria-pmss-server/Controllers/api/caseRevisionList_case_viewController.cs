@@ -13,37 +13,39 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension;    
+	
+namespace mmria.server;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("api/[controller]")]
 public sealed class caseRevisionList_case_viewController: ControllerBase 
 {  
+    mmria.common.couchdb.OverridableConfiguration configuration;
 
-    IConfiguration configuration;
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
-
-    delegate bool is_valid_predicate(mmria.common.model.couchdb.pmss_case_view_item item);
+    delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
  
-    public caseRevisionList_case_viewController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public caseRevisionList_case_viewController
+    (
+
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
     }
 
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
+    public async Task<mmria.common.model.couchdb.case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         string jurisdiction_id,
         string search_key
     ) 
     {
-
-
-        var config = ConfigDB.detail_list[jurisdiction_id];
+        var config = configuration.GetDBConfig(jurisdiction_id);
 
         System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
 
@@ -53,16 +55,16 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
         string responseFromServer = await case_view_curl.executeAsync();
 
 
-        mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+        mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-        mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
+        mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
         result.offset = case_view_response.offset;
         result.total_rows = case_view_response.total_rows;
 
-        is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
+        is_valid_predicate f = (mmria.common.model.couchdb.case_view_item item) =>
             {
                 bool result = false;
-                if(is_matching_search_text(item.value.pmssno, search_key))
+                if(is_matching_search_text(item.value.record_id, search_key))
                 {
                     result = true;
                 }

@@ -18,15 +18,10 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class caseController: ControllerBase 
 { 
-
-
     ActorSystem _actorSystem;	
-	IHttpContextAccessor _accessor;
-
 
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
-
     string host_prefix = null;
 
     private readonly IAuthorizationService _authorizationService;
@@ -44,7 +39,7 @@ public sealed class caseController: ControllerBase
         _actorSystem = actorSystem;
         _authorizationService = authorizationService;
 
-        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
         db_config = configuration.GetDBConfig(host_prefix);
     }

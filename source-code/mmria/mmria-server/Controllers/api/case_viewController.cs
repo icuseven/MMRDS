@@ -24,8 +24,6 @@ namespace mmria.server;
 public sealed class case_viewController: ControllerBase 
 {  
 
-	IHttpContextAccessor _accessor;
-
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
 
@@ -36,9 +34,8 @@ public sealed class case_viewController: ControllerBase
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
-        _accessor = httpContextAccessor;
         configuration = _configuration;
-        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
         db_config = configuration.GetDBConfig(host_prefix);
 

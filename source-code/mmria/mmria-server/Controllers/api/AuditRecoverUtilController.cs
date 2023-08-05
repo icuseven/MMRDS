@@ -15,8 +15,6 @@ namespace mmria.server;
 
 public sealed class AuditRecoverUtilController: ControllerBase 
 {
-
-    IHttpContextAccessor _accessor;
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
 
@@ -29,9 +27,8 @@ public sealed class AuditRecoverUtilController: ControllerBase
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
-        _accessor = httpContextAccessor;
         configuration = _configuration;
-        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
         db_config = configuration.GetDBConfig(host_prefix);
 
@@ -76,12 +73,12 @@ public sealed class AuditRecoverUtilController: ControllerBase
         try
         {
 
-            var case_view_request_string = db_config.Get_Prefix_DB_Url($"mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"");
+            var config = configuration.GetDBConfig(jurisdiction_id);
 
-            var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, db_config.user_name, db_config.user_value);
+            var case_view_request_string = $"{config.url}/{config.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
+
+            var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, config.user_name, config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
-
-
 
             var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
@@ -92,7 +89,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
 
             //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
             var (request_string, post_data) = get_find_url(db_config, case_id);
-            var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, db_config.user_name, db_config.user_value);
+            var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, config.user_name, config.user_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
 

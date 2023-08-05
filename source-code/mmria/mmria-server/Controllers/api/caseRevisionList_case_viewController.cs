@@ -13,23 +13,27 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;    
+	
 namespace mmria.server;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("api/[controller]")]
 public sealed class caseRevisionList_case_viewController: ControllerBase 
 {  
-
-    IConfiguration configuration;
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
+    mmria.common.couchdb.OverridableConfiguration configuration;
 
     delegate bool is_valid_predicate(mmria.common.model.couchdb.case_view_item item);
  
-    public caseRevisionList_case_viewController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public caseRevisionList_case_viewController
+    (
+
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
     }
 
 
@@ -41,9 +45,7 @@ public sealed class caseRevisionList_case_viewController: ControllerBase
         string search_key
     ) 
     {
-
-
-        var config = ConfigDB.detail_list[jurisdiction_id];
+        var config = configuration.GetDBConfig(jurisdiction_id);
 
         System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
 

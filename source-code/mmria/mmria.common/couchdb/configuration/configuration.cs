@@ -254,13 +254,13 @@ public sealed class OverridableConfiguration
         return result;
     }
 
-    CVSConfigurationDetail  GetCVSConfigurationDetail(string context)
+    public CVSConfigurationDetail  GetCVSConfigurationDetail()
     {
         CVSConfigurationDetail result = new();
 
-        result.cvs_api_id = string_keys[context]["cvs_api_id"];
-        result.cvs_api_key = string_keys[context]["cvs_api_key"];
-        result.cvs_api_url = string_keys[context]["cvs_api_url"];
+        result.cvs_api_id = string_keys["shared"]["cvs_api_id"];
+        result.cvs_api_key = string_keys["shared"]["cvs_api_key"];
+        result.cvs_api_url = string_keys["shared"]["cvs_api_url"];
         
 
         return result;
