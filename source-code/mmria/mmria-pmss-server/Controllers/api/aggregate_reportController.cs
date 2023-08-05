@@ -4,34 +4,52 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension;
 
 using mmria.common;
 
-namespace mmria.pmss.server;
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
 { 
-    public aggregate_reportController()
-    {
+    IHttpContextAccessor _accessor;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
+    string host_prefix = null;
+
+    public aggregate_reportController  
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        _accessor = httpContextAccessor;
+        configuration = _configuration;
+        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
-    public async System.Threading.Tasks.Task<IList<mmria.pmss.server.model.c_report_object>> Get()
+    public async System.Threading.Tasks.Task<IList<mmria.server.model.c_report_object>> Get()
     {
 
-        List<mmria.pmss.server.model.c_report_object> result =  new List<mmria.pmss.server.model.c_report_object>();
+        List<mmria.server.model.c_report_object> result =  new List<mmria.server.model.c_report_object>();
 
         System.Console.WriteLine ("Recieved message.");
 
-        
+
         try
         {
-            string request_string = this.get_couch_db_url() + $"/{Program.db_prefix}report/_all_docs?include_docs=true";
+            string request_string = db_config.Get_Prefix_DB_Url("report/_all_docs?include_docs=true");
 
 
-            var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var request_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await request_curl.executeAsync();
 
             System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
@@ -52,14 +70,14 @@ public sealed class aggregate_reportController: ControllerBase
                 if(row_dictionary != null && row_dictionary.ContainsKey("doc"))
                 {
 
-                    KeyValuePair<bool,mmria.pmss.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
+                    KeyValuePair<bool,mmria.server.model.c_report_object> convert_result = convert(row_dictionary["doc"]  as IDictionary<string,object>);
 
 
                     if(convert_result.Key)
                     {
                         var item = convert_result.Value;
                         
-            //tracking/date_of_death/year ne 9999 
+            //home_record/date_of_death/year ne 9999 
             // and committee_review/date_of_review is not missing
                         if
                         (
@@ -87,10 +105,10 @@ public sealed class aggregate_reportController: ControllerBase
     } 
 
 
-    private KeyValuePair<bool,mmria.pmss.server.model.c_report_object> convert (IDictionary<string, object> p_item)
+    private KeyValuePair<bool,mmria.server.model.c_report_object> convert (IDictionary<string, object> p_item)
     {
         
-        mmria.pmss.server.model.c_report_object  temp = new mmria.pmss.server.model.c_report_object ();
+        mmria.server.model.c_report_object  temp = new mmria.server.model.c_report_object ();
         bool is_complete_conversion = true;
 
         temp._id = p_item ["_id"].ToString ();
@@ -257,7 +275,7 @@ public sealed class aggregate_reportController: ControllerBase
         }
 
         
-        return new KeyValuePair<bool,mmria.pmss.server.model.c_report_object>(is_complete_conversion, temp);
+        return new KeyValuePair<bool,mmria.server.model.c_report_object>(is_complete_conversion, temp);
     }
 
 
@@ -271,13 +289,6 @@ public sealed class aggregate_reportController: ControllerBase
             p_result.Add(kvp.Key, int.Parse(kvp.Value.ToString()));
         }
         
-    }
-
-    private string get_couch_db_url()
-    {
-        string result = Program.config_couchdb_url;
-
-        return result;
     }
 } 
 

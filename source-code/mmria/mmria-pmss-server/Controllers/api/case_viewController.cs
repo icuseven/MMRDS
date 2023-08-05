@@ -13,23 +13,39 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension;
+
+namespace mmria.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/[controller]")]
 public sealed class case_viewController: ControllerBase 
 {  
 
-    IConfiguration configuration;
+	IHttpContextAccessor _accessor;
 
-    public case_viewController(IConfiguration p_configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+
+    string host_prefix = null;
+
+    public case_viewController  (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        _accessor = httpContextAccessor;
+        configuration = _configuration;
+        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
+
     }
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
+    public async Task<mmria.common.model.couchdb.case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,
@@ -48,9 +64,9 @@ public sealed class case_viewController: ControllerBase
     {
 
         var is_identefied_case = true;
-        var cvs = new mmria.pmss.server.utils.CaseViewSearch
+        var cvs = new mmria.server.utils.CaseViewSearch
         (
-            configuration, 
+            db_config, 
             User,
             is_identefied_case,
             include_pinned_cases
@@ -85,16 +101,16 @@ public sealed class case_viewController: ControllerBase
 
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+            string request_string = db_config.Get_Prefix_DB_Url("mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000");
 
-            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
-                result.Add(cvi.value.pmssno);
+                result.Add(cvi.value.record_id);
 
             }
         }
@@ -104,41 +120,6 @@ public sealed class case_viewController: ControllerBase
         }
 
         return result;
-    }
-
-    [HttpGet("next-pmss-number/{prefix}")]
-    public async Task<string> GetNextPMSSNumber
-    (
-        string prefix
-    )
-    {
-        var result = new List<string>();
-
-
-        try
-        {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_pmss_number?skip=0&take=250000";
-
-            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            string responseFromServer = await case_view_curl.executeAsync();
-
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
-
-            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
-            {
-                if(cvi.value.pmssno.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-                {
-                    result.Add(cvi.value.pmssno);
-                }
-
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 } 
