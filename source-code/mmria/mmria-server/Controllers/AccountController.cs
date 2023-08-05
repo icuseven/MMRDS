@@ -30,8 +30,6 @@ public sealed partial class AccountController : Controller
     ActorSystem _actorSystem;
 
     mmria.common.couchdb.OverridableConfiguration _configuration;
-    //public AccountController(IConfiguration configuration)
-
     common.couchdb.DBConfigurationDetail db_config;
 
     string host_prefix = null;

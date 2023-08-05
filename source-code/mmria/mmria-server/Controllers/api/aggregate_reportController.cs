@@ -5,6 +5,9 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension;
 
 using mmria.common;
 
@@ -13,10 +16,23 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
 { 
-    IConfiguration configuration;
-    public aggregate_reportController(IConfiguration _configuration)
+    IHttpContextAccessor _accessor;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+
+    string host_prefix = null;
+
+    public aggregate_reportController  
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
+        _accessor = httpContextAccessor;
         configuration = _configuration;
+        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -30,10 +46,10 @@ public sealed class aggregate_reportController: ControllerBase
         
         try
         {
-            string request_string = $"{configuration["mmria_settings:couch_db_url"]}/{configuration["mmria_settings:db_prefix"]}report/_all_docs?include_docs=true";
+            string request_string = db_config.Get_Prefix_DB_Url("report/_all_docs?include_docs=true");
 
 
-            var request_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var request_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await request_curl.executeAsync();
 
             System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
