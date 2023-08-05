@@ -12,27 +12,35 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 namespace mmria.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/[controller]")]
 public sealed class export_queueController: ControllerBase
 { 
+    ActorSystem _actorSystem;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    IConfiguration configuration;
-    private ActorSystem _actorSystem;
-
-    public export_queueController(ActorSystem actorSystem, IConfiguration _configuration)
+    public export_queueController
+    (
+        ActorSystem actorSystem, 
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         _actorSystem = actorSystem;
         configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
     [HttpGet]
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
     public async System.Threading.Tasks.Task<IEnumerable<export_queue_item>> Get() 
     { 
         List<export_queue_item> result = new List<export_queue_item>();
@@ -48,8 +56,8 @@ public sealed class export_queueController: ControllerBase
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}export_queue/_all_docs?include_docs=true";
-            var export_queue_curl = new cURL ("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            string request_string = db_config.Get_Prefix_DB_Url($"export_queue/_all_docs?include_docs=true");
+            var export_queue_curl = new cURL ("GET", null, request_string, null, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await export_queue_curl.executeAsync();
 
@@ -104,22 +112,10 @@ public sealed class export_queueController: ControllerBase
             }
 
             return result;
-
-            /*
-    < HTTP/1.1 200 OK
-    < Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-    < Version=1; Path=/; HttpOnly
-    > ...
-    <
-    {"ok":true}*/
-
-
-
         }
         catch(Exception)
         {
             //Console.WriteLine (ex);
-
         } 
 
         return null;
@@ -177,16 +173,14 @@ public sealed class export_queueController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_item, settings); 
 
-            string export_queue_request_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}export_queue/"  +  queue_item._id;
+            string export_queue_request_url = db_config.Get_Prefix_DB_Url("export_queue/" + queue_item._id);
 
-            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
-
+            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await export_queue_curl.executeAsync();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
         
-
             if
             (
                 result.ok && 
@@ -201,19 +195,17 @@ public sealed class export_queueController: ControllerBase
 
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.server.model.actor.ScheduleInfoMessage
                 (
-                    configuration["mmria_settings:cron_schedule"],
-                    configuration["mmria_settings:couchdb_url"],
-                    configuration["mmria_settings:timer_user_name"],
-                    configuration["mmria_settings:timer_value"],
-                    configuration["mmria_settings:export_directory"],
+                    configuration.GetString("cron_schedule", host_prefix),
+                    db_config.url,
+                    db_config.user_name,
+                    db_config.user_value,
+                    configuration.GetString("export_directory", host_prefix),
                     juris_user_name,
                     Program.metadata_release_version_name
 
                 );
 
-                //_actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
-                //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
             }
             else // if (!result.ok) 
             {
