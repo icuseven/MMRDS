@@ -10,16 +10,26 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;
 namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class jurisdiction_treeController: ControllerBase 
 { 
-    IConfiguration configuration;
-    public jurisdiction_treeController(IConfiguration _configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public jurisdiction_treeController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -30,9 +40,9 @@ public sealed class jurisdiction_treeController: ControllerBase
 
         try
         {
-            string jurisdiction_tree_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}jurisdiction/jurisdiction_tree";
+            string jurisdiction_tree_url = db_config.Get_Prefix_DB_Url("jurisdiction/jurisdiction_tree");
 
-            var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, db_config.user_name, db_config.user_value);
             string response_from_server = await jurisdiction_curl.executeAsync ();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
@@ -47,7 +57,6 @@ public sealed class jurisdiction_treeController: ControllerBase
     }
 
 
-    // POST api/values 
     [Authorize(Roles  = "jurisdiction_admin,installation_admin")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
@@ -79,11 +88,9 @@ public sealed class jurisdiction_treeController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(jurisdiction_tree, settings);
 
-            string jurisdiction_tree_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}jurisdiction/jurisdiction_tree";
+            string jurisdiction_tree_url = db_config.Get_Prefix_DB_Url("jurisdiction/jurisdiction_tree");
 
-            cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, jurisdiction_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
-
-
+            cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, jurisdiction_json, db_config.user_name, db_config.user_value);
 
             try
             {

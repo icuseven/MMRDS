@@ -3,14 +3,27 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension;
+
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class metadataController: ControllerBase 
 { 
-    public metadataController()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public metadataController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     
     [AllowAnonymous] 
@@ -24,7 +37,7 @@ public sealed class metadataController: ControllerBase
         {
 
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z";
+            string request_string = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -61,7 +74,7 @@ public sealed class metadataController: ControllerBase
         {
 
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/{id}";
+            string request_string =  $"{db_config.url}/metadata/{id}";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -102,9 +115,9 @@ public sealed class metadataController: ControllerBase
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 
-                string metadata_url = Program.config_couchdb_url + "/metadata/"  + metadata._id;
+                string metadata_url = $"{db_config.url}/metadata/"  + metadata._id;
 
-                var metadata_curl = new cURL("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                var metadata_curl = new cURL("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
 
                 string responseFromServer = await metadata_curl.executeAsync();
@@ -136,7 +149,7 @@ public sealed class metadataController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+            string request_string = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
                 request.Method = "GET";
@@ -157,12 +170,6 @@ public sealed class metadataController: ControllerBase
         return result;
     }
 
-    public class PutCheckCodeRequest
-    {
-        public PutCheckCodeRequest(){}
-
-        public string data { get; set; }
-    }
 
     // POST api/values 
     //[Route("api/metadata")]
@@ -170,22 +177,28 @@ public sealed class metadataController: ControllerBase
     [HttpPost("PutCheckCode")]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> PutCheckCode
     (
-        [FromBody] PutCheckCodeRequest CheckCodeRequest
+        
     ) 
     { 
-        //string check_code_json;
+        string check_code_json;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-        string check_code_json = CheckCodeRequest.data;
             try
             {
 
-                string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+                System.IO.Stream dataStream0 = this.Request.Body;
+                // Open the stream using a StreamReader for easy access.
+                //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
+                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
+                // Read the content.
+                check_code_json = await reader0.ReadToEndAsync ();
 
-                var metadata_curl = new cURL("PUT", null, metadata_url, check_code_json, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+                string metadata_url = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+
+                var metadata_curl = new cURL("PUT", null, metadata_url, check_code_json, db_config.user_name, db_config.user_value, "text/*");
 
 
-                var revision = await get_revision(Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z");
+                var revision = await get_revision(db_config.url + "/metadata/2016-06-12T13:49:24.759Z");
                 if (!string.IsNullOrWhiteSpace(revision))
                 {
                     //string If_Match = this.Request.Headers["If-Match"];
@@ -251,9 +264,9 @@ public sealed class metadataController: ControllerBase
                     MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
             };
             string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_version_specification, settings);
-            string metadata_url = Program.config_couchdb_url + $"/metadata/{p_version_specification._id}";
+            string metadata_url = $"{db_config.url}/metadata/{p_version_specification._id}";
 
-            var metadata_curl = new cURL("PUT", null, metadata_url, json_string, Program.config_timer_user_name, Program.config_timer_value);
+            var metadata_curl = new cURL("PUT", null, metadata_url, json_string, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await metadata_curl.executeAsync();
 
@@ -279,7 +292,7 @@ public sealed class metadataController: ControllerBase
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try

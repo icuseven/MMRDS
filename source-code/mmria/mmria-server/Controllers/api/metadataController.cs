@@ -3,17 +3,27 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension;
 
 namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class metadataController: ControllerBase 
 { 
-    IConfiguration configuration;
-    public metadataController(IConfiguration _configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public metadataController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     
     [AllowAnonymous] 
@@ -27,7 +37,7 @@ public sealed class metadataController: ControllerBase
         {
 
             //"2016-06-12T13:49:24.759Z"
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z";
+            string request_string = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -64,7 +74,7 @@ public sealed class metadataController: ControllerBase
         {
 
             //"2016-06-12T13:49:24.759Z"
-            string request_string =  $"{configuration["mmria_settings:couchdb_url"]}/metadata/{id}";
+            string request_string =  $"{db_config.url}/metadata/{id}";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -105,9 +115,9 @@ public sealed class metadataController: ControllerBase
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 object_string = Newtonsoft.Json.JsonConvert.SerializeObject(metadata, settings);
 
-                string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/"  + metadata._id;
+                string metadata_url = $"{db_config.url}/metadata/"  + metadata._id;
 
-                var metadata_curl = new cURL("PUT", null, metadata_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+                var metadata_curl = new cURL("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
 
                 string responseFromServer = await metadata_curl.executeAsync();
@@ -139,7 +149,7 @@ public sealed class metadataController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+            string request_string = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
                 request.Method = "GET";
@@ -183,12 +193,12 @@ public sealed class metadataController: ControllerBase
                 // Read the content.
                 check_code_json = await reader0.ReadToEndAsync ();
 
-                string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
+                string metadata_url = $"{db_config.url}/metadata/2016-06-12T13:49:24.759Z/mmria-check-code.js";
 
-                var metadata_curl = new cURL("PUT", null, metadata_url, check_code_json, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"], "text/*");
+                var metadata_curl = new cURL("PUT", null, metadata_url, check_code_json, db_config.user_name, db_config.user_value, "text/*");
 
 
-                var revision = await get_revision(configuration["mmria_settings:couchdb_url"] + "/metadata/2016-06-12T13:49:24.759Z");
+                var revision = await get_revision(db_config.url + "/metadata/2016-06-12T13:49:24.759Z");
                 if (!string.IsNullOrWhiteSpace(revision))
                 {
                     //string If_Match = this.Request.Headers["If-Match"];
@@ -254,9 +264,9 @@ public sealed class metadataController: ControllerBase
                     MissingMemberHandling =  Newtonsoft.Json.MissingMemberHandling.Ignore
             };
             string json_string = Newtonsoft.Json.JsonConvert.SerializeObject(p_version_specification, settings);
-            string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/{p_version_specification._id}";
+            string metadata_url = $"{db_config.url}/metadata/{p_version_specification._id}";
 
-            var metadata_curl = new cURL("PUT", null, metadata_url, json_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var metadata_curl = new cURL("PUT", null, metadata_url, json_string, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await metadata_curl.executeAsync();
 
@@ -282,7 +292,7 @@ public sealed class metadataController: ControllerBase
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try
