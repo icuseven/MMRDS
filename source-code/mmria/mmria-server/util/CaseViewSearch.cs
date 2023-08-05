@@ -14,7 +14,7 @@ namespace mmria.server.utils;
 
 public sealed class CaseViewSearch
 {
-    IConfiguration configuration;
+    common.couchdb.DBConfigurationDetail configuration;
 
     System.Security.Claims.ClaimsPrincipal User;
 
@@ -24,7 +24,7 @@ public sealed class CaseViewSearch
 
     public CaseViewSearch
     (
-        IConfiguration p_configuration, 
+        common.couchdb.DBConfigurationDetail p_configuration, 
         System.Security.Claims.ClaimsPrincipal p_user, 
         bool p_is_case_identified_data = false,
         bool p_include_pinned_cases = false
@@ -971,7 +971,7 @@ public sealed class CaseViewSearch
             }
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
             create_predicates
@@ -1066,19 +1066,11 @@ public sealed class CaseViewSearch
                 result.rows =  data.Skip (skip).Take (take).ToList ();
             }
 
-
-
-        
-
             return result;
-            
-        
-            
         }
         catch(Exception ex)
         {
             Console.WriteLine (ex);
-
         }
 
 
@@ -1149,7 +1141,7 @@ public sealed class CaseViewSearch
         try
         {
             string request_string = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_curl = new cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }

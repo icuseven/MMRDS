@@ -43,7 +43,7 @@ public sealed class aggregate_reportController: ControllerBase
 
         System.Console.WriteLine ("Recieved message.");
 
-        
+
         try
         {
             string request_string = db_config.Get_Prefix_DB_Url("report/_all_docs?include_docs=true");
