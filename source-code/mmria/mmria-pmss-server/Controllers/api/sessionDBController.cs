@@ -13,9 +13,9 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 
-//https://wiki.apache.org/couchdb/Session_API
+using  mmria.server.extension;    
 
-namespace mmria.pmss.server;
+namespace mmria.server;
 
 //[Authorize(Roles  = "jurisdiction_admin")]
 [AllowAnonymous] 
@@ -23,12 +23,18 @@ namespace mmria.pmss.server;
 public sealed class sessionDBController: ControllerBase 
 {
 
-    //{"ok":true,"userCtx":{"name":null,"roles":[]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"]}}
-    //{"ok":true,"userCtx":{"name":"mmrds","roles":["_admin"]},"info":{"authentication_db":"_users","authentication_handlers":["oauth","cookie","default"],"authenticated":"cookie"}}
-
-    public sessionDBController ()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public sessionDBController 
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
@@ -37,7 +43,7 @@ public sealed class sessionDBController: ControllerBase
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + "/_session";
+            string request_string = db_config.url + "/_session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
             request.PreAuthenticate = false;
@@ -140,7 +146,7 @@ public sealed class sessionDBController: ControllerBase
             //System.Console.Write ($"temp {temp}");
             post_request_struct = Newtonsoft.Json.JsonConvert.DeserializeObject<Post_Request_Struct> (temp);
 
-            //mmria.pmss.server.utilsLuceneSearchIndexer.RunIndex(new List<mmria.common.model.tracking> { mmria.common.model.tracking.convert(queue_request)});
+            //mmria.server.utilsLuceneSearchIndexer.RunIndex(new List<mmria.common.model.home_record> { mmria.common.model.home_record.convert(queue_request)});
             //System.Dynamic.ExpandoObject json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(result, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
 
 
@@ -157,12 +163,12 @@ HOST="http://127.0.0.1:5984"
 */
         try
         {
-            string post_data = string.Format ("name={0}&password={1}", Program.config_timer_user_name, Program.config_timer_value);
+            string post_data = string.Format ("name={0}&password={1}", db_config.user_name, db_config.user_value);
             byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
 
             
-            string request_string = Program.config_couchdb_url + "/_session";
+            string request_string = db_config.url + "/_session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             //request.UseDefaultCredentials = true;
 
@@ -228,7 +234,7 @@ HOST="http://127.0.0.1:5984"
     { 
         try
         {
-            string request_string = Program.config_couchdb_url + "/_session";
+            string request_string = db_config.url + "/_session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "DELETE";
             request.PreAuthenticate = false;

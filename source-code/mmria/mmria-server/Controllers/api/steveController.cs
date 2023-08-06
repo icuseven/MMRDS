@@ -7,10 +7,12 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net.Http;
-using Microsoft.Extensions.Configuration;
+
 using Microsoft.AspNetCore.Authorization;
 using System.Net;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 using mmria.common.steve;
 
 namespace mmria.server.Controllers;
@@ -21,12 +23,21 @@ namespace mmria.server.Controllers;
 public sealed class steveController : ControllerBase
 {
     private ActorSystem _actorSystem;
-    private IConfiguration _configurationSet;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public steveController(ActorSystem actorSystem, IConfiguration configurationSet)
+    public steveController
+    (
+        ActorSystem actorSystem, 
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         _actorSystem = actorSystem;
-        _configurationSet = configurationSet;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
@@ -63,12 +74,12 @@ public sealed class steveController : ControllerBase
 
         var AuthRequestBody = new AuthRequestBody()
         {
-            seaBucketKMSKey = _configurationSet["steve_api:sea_bucket_kms_key"],
-            clientName = _configurationSet["steve_api:client_name"],
-            clientSecretKey = _configurationSet["steve_api:client_secreat_key"]
+            seaBucketKMSKey = configuration.GetSharedString("steve_api:sea_bucket_kms_key"),
+            clientName = configuration.GetSharedString("steve_api:client_name"),
+            clientSecretKey = configuration.GetSharedString("steve_api:client_secreat_key")
         };
 
-        var base_url = _configurationSet["steve_api:base_url"];
+        var base_url = configuration.GetSharedString("steve_api:base_url");
         var auth_url = $"{base_url}/auth";
 
         string jsonString = System.Text.Json.JsonSerializer.Serialize(AuthRequestBody);
