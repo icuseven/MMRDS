@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
-using mmria.common.model;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 
-namespace mmria.pmss.server;
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class queueController: ControllerBase
 {
-    public queueController ()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public queueController 
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpPost]
@@ -24,7 +35,7 @@ public sealed class queueController: ControllerBase
         queue_item.queue_id = System.Guid.NewGuid ().ToString ();
         queue_item.case_list = set_queue_request.case_list;
 
-        string queue_url = Program.config_couchdb_url + "/queue/"  + queue_item.queue_id;
+        string queue_url = db_config.url + "/queue/"  + queue_item.queue_id;
 
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(queue_item);
 

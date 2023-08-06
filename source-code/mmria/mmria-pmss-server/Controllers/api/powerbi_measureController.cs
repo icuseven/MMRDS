@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension; 
+
+namespace mmria.server;
 
 [Route("api/powerbi-measures/{indicator_id?}")]
 public sealed class powerbi_measureController: ControllerBase
@@ -15,7 +17,7 @@ public sealed class powerbi_measureController: ControllerBase
 
     public struct Result_Struct
     {
-        public mmria.pmss.server.model.c_opioid_report_object[] docs;
+        public mmria.server.model.c_opioid_report_object[] docs;
     }
 
     struct Selector_Struc
@@ -29,30 +31,32 @@ public sealed class powerbi_measureController: ControllerBase
         public int limit;
     }
 
-    public IConfiguration _configuration { get; }
-    public powerbi_measureController(IConfiguration configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public powerbi_measureController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _configuration = configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
+
+
     [AllowAnonymous] 
     [HttpGet]
     public async Task<Result_Struct> Get(string indicator_id)
     {
         Result_Struct result = new Result_Struct();
-        result.docs = new List<mmria.pmss.server.model.c_opioid_report_object>().ToArray();
+        result.docs = new List<mmria.server.model.c_opioid_report_object>().ToArray();
         
-        
-        var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
-        
-        if(!string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = _configuration["mmria_settings:db_prefix"];
-        }
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
 
         try
         {
@@ -66,8 +70,7 @@ public sealed class powerbi_measureController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
 
-            System.Console.WriteLine(selector_struc_string);
-
+            //System.Console.WriteLine(selector_struc_string);
 
             string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_find";
 
@@ -77,13 +80,13 @@ public sealed class powerbi_measureController: ControllerBase
             if(!string.IsNullOrWhiteSpace(indicator_id))
             {
 
-                List<mmria.pmss.server.model.c_opioid_report_object> new_list = new();
+                List<mmria.server.model.c_opioid_report_object> new_list = new();
                 var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
 
                 var regex = new System.Text.RegularExpressions.Regex("^" + indicator_id);
                 foreach(var doc in response_result.docs)
                 {
-                    var new_data = new System.Collections.Generic.List<mmria.pmss.server.model.opioid_report_value_struct>();
+                    var new_data = new System.Collections.Generic.List<mmria.server.model.opioid_report_value_struct>();
                     foreach(var item in doc.data)
                     {
                         if
@@ -100,7 +103,6 @@ public sealed class powerbi_measureController: ControllerBase
                     
                 }
 
-                //result.docs = new_list.ToArray();
                 result.docs = response_result.docs;
             }
             else
@@ -108,7 +110,7 @@ public sealed class powerbi_measureController: ControllerBase
                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<Result_Struct>(responseFromServer);
             }
 
-            System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
+            //System.Console.WriteLine($"case_response.docs.length {result.docs.Length}");
         }
         catch(Exception ex) 
         {

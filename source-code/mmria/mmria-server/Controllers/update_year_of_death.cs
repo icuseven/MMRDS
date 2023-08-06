@@ -44,7 +44,7 @@ public sealed class update_year_of_deathController : Controller
     public async Task<IActionResult> FindRecord(mmria.server.model.year_of_death.YearOfDeathRequest Model)
     {
         var model = new mmria.server.model.year_of_death.YearOfDeathRequestResponse();
-        
+        model.SearchText = Model.RecordId;
         try
         {
             string responseFromServer  = null;
@@ -112,7 +112,7 @@ public sealed class update_year_of_deathController : Controller
 
                             Role = Model.Role
                         };
-
+                        
                         model.YearOfDeathDetail.Add(x);
                     }
                 }
