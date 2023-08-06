@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension;
+
+namespace mmria.server;
 
 [Route("api/overdose-measures")]
 public sealed class overdose_measureController: ControllerBase
@@ -28,30 +30,31 @@ public sealed class overdose_measureController: ControllerBase
         public int limit;
     }
 
-    public IConfiguration _configuration { get; }
-    public overdose_measureController(IConfiguration configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public overdose_measureController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _configuration = configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
+
     [AllowAnonymous] 
     [HttpGet]
     public async Task<Result_Struct> Get()
     {
         Result_Struct result = new Result_Struct();
         
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
         
-        var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
-        
-        if(!string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = _configuration["mmria_settings:db_prefix"];
-        }
-
         try
         {
             var selector_struc = new Selector_Struc();

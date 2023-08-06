@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension; 
+
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class nioshController: ControllerBase
@@ -16,11 +18,20 @@ public sealed class nioshController: ControllerBase
     {
         public bool ok { get; init;}
         public bool is_unique { get; init;}
-    }
-    public IConfiguration Configuration { get; }
-    public nioshController(IConfiguration configuration)
+    }    
+    
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public nioshController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        Configuration = configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -47,9 +58,7 @@ public sealed class nioshController: ControllerBase
                 builder.Append($"&i={i}");
             }
 
-            
-
-
+    
             if(has_occupation || has_industry)
             {
                 var niosh_url = builder.ToString();
@@ -78,7 +87,6 @@ public sealed class nioshController: ControllerBase
 
         return result;
     } 
-    
 } 
 
 

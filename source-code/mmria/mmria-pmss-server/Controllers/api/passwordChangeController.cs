@@ -10,22 +10,38 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Akka.Actor;
+
+using mmria.server.extension;
 
 using mmria.common.model;
 
-namespace mmria.pmss.server;
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class passwordChangeController: ControllerBase 
 { 
-    private IHttpContextAccessor _accessor;
-    private ActorSystem _actorSystem;
+    ActorSystem actorSystem;
+    IHttpContextAccessor accessor;
+    
 
-    public passwordChangeController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public passwordChangeController
+    (
+        ActorSystem _actorSystem,
+        IHttpContextAccessor _accessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _accessor = httpContextAccessor;
-        _actorSystem = actorSystem;
+
+        actorSystem = _actorSystem;
+        accessor = _accessor;
+        configuration = _configuration;
+        host_prefix = accessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
@@ -34,7 +50,9 @@ public sealed class passwordChangeController: ControllerBase
     { 
         var days_til_expires = -1;
 
-        var days_before_expires = Program.config_pass_word_days_before_expires;
+        int days_before_expires = 3;
+
+        configuration.GetInteger("password_days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref days_before_expires);
 
         DateTime grace_period_date = DateTime.Now;
 
@@ -47,9 +65,9 @@ public sealed class passwordChangeController: ControllerBase
                     u => u.IsAuthenticated && 
                     u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-                var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
+                var session_event_request_url = db_config.Get_Prefix_DB_Url($"session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"");
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, db_config.user_name, db_config.user_value);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -106,15 +124,10 @@ public sealed class passwordChangeController: ControllerBase
                 u => u.IsAuthenticated && 
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
-/* */
-
-
-
-
         try
         {
-            string user_db_url = Program.config_couchdb_url + "/_users/org.couchdb.user:" + userName;
-            var user_curl = new cURL("GET", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            string user_db_url = db_config.url + "/_users/org.couchdb.user:" + userName;
+            var user_curl = new cURL("GET", null, user_db_url, object_string, db_config.user_name, db_config.user_value);
             var responseFromServer = await user_curl.executeAsync();
             var user_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
 
@@ -133,21 +146,21 @@ public sealed class passwordChangeController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user_object, settings);
 
-            user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            user_curl = new cURL("PUT", null, user_db_url, object_string, db_config.user_name, db_config.user_value);
             responseFromServer = await user_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
             if (result.ok) 
             {
-                var Session_Event_Message = new mmria.pmss.server.model.actor.Session_Event_Message
+                var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
                 (
                     DateTime.Now,
                     userName,
-                    _accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
-                    mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.password_changed
+                    accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
+                    mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.password_changed
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+                actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
             }
 
