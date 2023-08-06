@@ -44,7 +44,7 @@ public sealed class clear_case_statusController : Controller
     public async Task<IActionResult> FindRecord(mmria.server.model.casestatus.CaseStatusRequest Model)
     {
         var model = new mmria.server.model.casestatus.CaseStatusRequestResponse();
-        
+        model.SearchText = Model.RecordId;
         try
         {
             string responseFromServer  = null;
