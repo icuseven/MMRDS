@@ -4,14 +4,26 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Serilog;
 using Serilog.Configuration;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension; 
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class user_role_jurisdictionController: ControllerBase 
 { 
-    public user_role_jurisdictionController()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public user_role_jurisdictionController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -22,21 +34,15 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
         try
         {
-            string jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + p_urj_id;
+            string jurisdiction_url = db_config.url + $"/{db_config.prefix}jurisdiction/" + p_urj_id;
             if(string.IsNullOrWhiteSpace(p_urj_id))
             {
-                jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/_all_docs?include_docs=true";
+                jurisdiction_url = db_config.url + $"/{db_config.prefix}jurisdiction/_all_docs?include_docs=true";
 
-                var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var case_curl = new cURL("GET", null, jurisdiction_url, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                //var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction[]> (responseFromServer);
-
-                //var user_role_list_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
-
                 var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user_role_jurisdiction>> (responseFromServer);
-
-
 
                 foreach(var row in user_role_list.rows)
                 {
@@ -46,7 +52,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                     (
                         user_role_jurisdiction.data_type != null &&
                         user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-                        mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction))
+                        mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction))
                     {
                         result.Add(user_role_jurisdiction);
                     }						
@@ -55,8 +61,8 @@ public sealed class user_role_jurisdictionController: ControllerBase
             }
             else
             {
-                jurisdiction_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + p_urj_id;	
-                var case_curl = new cURL("GET", null, jurisdiction_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                jurisdiction_url = db_config.url + $"/{db_config.prefix}jurisdiction/" + p_urj_id;	
+                var case_curl = new cURL("GET", null, jurisdiction_url, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var user_role_jurisdiction = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (responseFromServer);
@@ -66,7 +72,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 (
                     user_role_jurisdiction.data_type != null &&
                     user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-                    mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction)
+                    mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction)
                 )
                 {
                     result.Add(user_role_jurisdiction);
@@ -86,8 +92,6 @@ public sealed class user_role_jurisdictionController: ControllerBase
     }
 
 
-    // POST api/values 
-    //[Route("api/metadata")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
     (
@@ -99,9 +103,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
         try
         {
-
-
-            if(!mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
+            if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
             {
                 return null;
             }
@@ -110,11 +112,9 @@ public sealed class user_role_jurisdictionController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             user_role_jurisdiction_json = Newtonsoft.Json.JsonConvert.SerializeObject(user_role_jurisdiction, settings);
 
-            string jurisdiction_tree_url = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + user_role_jurisdiction._id;
+            string jurisdiction_tree_url = db_config.url + $"/{db_config.prefix}jurisdiction/" + user_role_jurisdiction._id;
 
-
-            cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, Program.config_timer_user_name, Program.config_timer_value);
-
+            cURL document_curl = new cURL ("PUT", null, jurisdiction_tree_url, user_role_jurisdiction_json, db_config.user_name, db_config.user_value);
 
             try
             {
@@ -151,15 +151,15 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
             if (!string.IsNullOrWhiteSpace (_id) && !string.IsNullOrWhiteSpace (rev)) 
             {
-                request_string = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id + "?rev=" + rev;
+                request_string = db_config.url + $"/{db_config.prefix}jurisdiction/" + _id + "?rev=" + rev;
             }
             else 
             {
                 return null;
             }
 
-            var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id, null, Program.config_timer_user_name, Program.config_timer_value);
+            var delete_report_curl = new cURL ("DELETE", null, request_string, null, db_config.user_name, db_config.user_value);
+            var check_document_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}jurisdiction/" + _id, null, db_config.user_name, db_config.user_value);
                 // check if doc exists
 
             try 
@@ -169,14 +169,14 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (document_json);
                 //IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
-                if(!mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
+                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
                 {
                     return null;
                 }
 
                 if (!string.IsNullOrWhiteSpace(check_document_curl_result._rev)) 
                 {
-                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}jurisdiction/" + _id + "?rev=" + check_document_curl_result._rev;
+                    request_string = db_config.url + $"/{db_config.prefix}jurisdiction/" + _id + "?rev=" + check_document_curl_result._rev;
                     //System.Console.WriteLine ("json\n{0}", object_string);
                 }
 

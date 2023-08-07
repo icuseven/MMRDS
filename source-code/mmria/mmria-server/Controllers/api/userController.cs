@@ -10,13 +10,30 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 using mmria.common.model;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;
 namespace mmria.server;
 
 
 [Route("api/[controller]")]
 public sealed class userController: ControllerBase 
 { 
+
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+
+    public userController
+	(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
     
     [Authorize(Roles  = "abstractor,data_analyst")]
     [Route("my-user")]
@@ -35,9 +52,9 @@ public sealed class userController: ControllerBase
                     u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
             }
 
-            string request_string = $"{Program.config_couchdb_url}/_users/org.couchdb.user:{userName}";
+            string request_string = $"{db_config.url}/_users/org.couchdb.user:{userName}";
 
-            var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("GET",null,request_string,null, db_config.user_name, db_config.user_value);
             string responseFromServer = await user_curl.executeAsync();
 
             var result  = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -69,9 +86,9 @@ public sealed class userController: ControllerBase
 
 
 
-            string request_string = Program.config_couchdb_url + "/_users/_all_docs?include_docs=true&skip=1";
+            string request_string = db_config.url + "/_users/_all_docs?include_docs=true&skip=1";
 
-            var user_curl = new cURL("GET",null,request_string,null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("GET",null,request_string,null, db_config.user_name, db_config.user_value);
             string responseFromServer = await user_curl.executeAsync();
 
             var user_alldocs_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>>(responseFromServer);
@@ -91,7 +108,7 @@ public sealed class userController: ControllerBase
                 foreach(var jurisdiction_item in jurisdiction_hashset)
                 {
 
-                    if(string.IsNullOrWhiteSpace(Program.db_prefix))
+                    if(string.IsNullOrWhiteSpace(db_config.prefix))
                     {
                         if(uai.doc.app_prefix_list == null || uai.doc.app_prefix_list.Count == 0)
                         {
@@ -102,9 +119,9 @@ public sealed class userController: ControllerBase
                             is_app_prefix_ok = true;
                         }
                     }
-                    else if(uai.doc.app_prefix_list.ContainsKey(Program.db_prefix))
+                    else if(uai.doc.app_prefix_list.ContainsKey(db_config.prefix))
                     {
-                        is_app_prefix_ok = uai.doc.app_prefix_list[Program.db_prefix];
+                        is_app_prefix_ok = uai.doc.app_prefix_list[db_config.prefix];
                     }
 
                     if(jurisdiction_item.jurisdiction_id == "/")
@@ -164,9 +181,9 @@ public sealed class userController: ControllerBase
         mmria.common.model.couchdb.user result = null;
         try
         {
-            string request_string = Program.config_couchdb_url + "/_users/" + id;
+            string request_string = db_config.url + "/_users/" + id;
 
-            var user_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             var responseFromServer = await user_curl.executeAsync();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -188,9 +205,9 @@ public sealed class userController: ControllerBase
         mmria.common.model.couchdb.user result = null;
         try
         {
-            string request_string = Program.config_couchdb_url + "/_users/" + id;
+            string request_string = db_config.url + "/_users/" + id;
 
-            var user_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             var responseFromServer = await user_curl.executeAsync();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -215,7 +232,7 @@ public sealed class userController: ControllerBase
         {
 
                 
-            if(string.IsNullOrWhiteSpace(Program.db_prefix))
+            if(string.IsNullOrWhiteSpace(db_config.prefix))
             {
                 if(user.app_prefix_list == null)
                 {
@@ -227,9 +244,9 @@ public sealed class userController: ControllerBase
                     user.app_prefix_list.Add("__no_prefix__", true);
                 }
             }
-            else if(!user.app_prefix_list.ContainsKey(Program.db_prefix))
+            else if(!user.app_prefix_list.ContainsKey(db_config.prefix))
             {
-                user.app_prefix_list.Add(Program.db_prefix, true);
+                user.app_prefix_list.Add(db_config.prefix, true);
             }
             
 
@@ -239,9 +256,9 @@ public sealed class userController: ControllerBase
 
             
 
-            string user_db_url = Program.config_couchdb_url + "/_users/"  + user._id;
+            string user_db_url = db_config.url + "/_users/"  + user._id;
 
-            var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("PUT", null, user_db_url, object_string, db_config.user_name, db_config.user_value);
             var responseFromServer = await user_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
@@ -271,15 +288,15 @@ public sealed class userController: ControllerBase
 
             if (!string.IsNullOrWhiteSpace (user_id) && !string.IsNullOrWhiteSpace (rev)) 
             {
-                request_string = Program.config_couchdb_url + "/_users/" + user_id + "?rev=" + rev;
+                request_string = db_config.url + "/_users/" + user_id + "?rev=" + rev;
             }
             else 
             {
                 return null;
             }
 
-            var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + "/_users/" + user_id, null, Program.config_timer_user_name, Program.config_timer_value);
+            var delete_report_curl = new cURL ("DELETE", null, request_string, null, db_config.user_name, db_config.user_value);
+            var check_document_curl = new cURL ("GET", null, db_config.url + "/_users/" + user_id, null, db_config.user_name, db_config.user_value);
                 // check if doc exists
             mmria.common.model.couchdb.user user = null;
 
@@ -291,7 +308,7 @@ public sealed class userController: ControllerBase
                 
                 
                 
-                if(string.IsNullOrWhiteSpace(Program.db_prefix))
+                if(string.IsNullOrWhiteSpace(db_config.prefix))
                 {
                     if
                     (
@@ -305,7 +322,7 @@ public sealed class userController: ControllerBase
                         is_only_remove_prefix = false;
                     }
                 }
-                else if(user.app_prefix_list.Count == 1 && user.app_prefix_list.ContainsKey(Program.db_prefix))
+                else if(user.app_prefix_list.Count == 1 && user.app_prefix_list.ContainsKey(db_config.prefix))
                 {
                     is_only_remove_prefix = false;
                 }
@@ -333,15 +350,15 @@ public sealed class userController: ControllerBase
             else if(user != null)
             {
 
-                user.app_prefix_list.Remove(Program.db_prefix);
+                user.app_prefix_list.Remove(db_config.prefix);
                 
-                string user_db_url = Program.config_couchdb_url + "/_users/"  + user._id;
+                string user_db_url = db_config.url + "/_users/"  + user._id;
 
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(user, settings);
 
-                var user_curl = new cURL("PUT", null, user_db_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                var user_curl = new cURL("PUT", null, user_db_url, object_string, db_config.user_name, db_config.user_value);
                 var responseFromServer = await user_curl.executeAsync();
                 var put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
 
