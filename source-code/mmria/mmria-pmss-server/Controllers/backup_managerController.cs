@@ -13,29 +13,40 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server.Controllers;
+using  mmria.server.extension; 
+namespace mmria.server.Controllers;
 
 [Authorize(Roles = "installation_admin")]
 
 public sealed class backupManagerController : Controller
 {
 
-    private readonly IConfiguration _configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
+
+
+
     private readonly ILogger<backupManagerController> _logger;
 
     public backupManagerController
     (
         ILogger<backupManagerController> logger, 
-        IConfiguration configuration, 
-        mmria.common.couchdb.ConfigurationSet p_config_db
+        mmria.common.couchdb.ConfigurationSet p_config_db,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
 	{
         _logger = logger;
-		_configuration = configuration;
         ConfigDB = p_config_db;
+
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
    
@@ -43,12 +54,12 @@ public sealed class backupManagerController : Controller
     public async Task<IActionResult> Index()
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
 
         var base_url = $"{config_url}/api/backup/GetFileList";
 
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
@@ -58,35 +69,55 @@ public sealed class backupManagerController : Controller
         return View(file_list);
     }
 
+    public record RemovalListResult(List<string> file_list, int over_number_of_days);
 
     [Route("backupManager/RemoveFileList/{over_number_of_days}")]
     public async Task<IActionResult> RemoveFileList(int over_number_of_days)
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
 
         var base_url = $"{config_url}/api/backup/GetRemoveFileList/{over_number_of_days}";
 
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
 
         List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
 
-        return View(file_list);
+        return View(new RemovalListResult(file_list, over_number_of_days));
+    }
+
+    [Route("backupManager/PerformFileRemoval/{over_number_of_days}")]
+    public async Task<IActionResult> PerformFileRemoval(int over_number_of_days)
+    {
+
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
+
+        var base_url = $"{config_url}/api/backup/RemoveFiles/{over_number_of_days}";
+
+
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
+        server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+
+        var responseContent = await server_statu_curl.executeAsync();
+
+        List<string> file_list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(responseContent);
+
+        return View(new RemovalListResult(file_list, over_number_of_days));
     }
 
     [Route("backupManager/SubFolderFileList/{id}")]
     public async Task<IActionResult> SubFolderFileList(string id)
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
 
         var base_url = $"{config_url}/api/backup/GetSubFolderFileList/{id}";
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
@@ -99,12 +130,12 @@ public sealed class backupManagerController : Controller
     //[Route("backup-manager/PerformHotBackup")]
     public async Task<IActionResult>  PerformHotBackup()
     {
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
 
         var base_url = $"{config_url}/api/backup/PerformHotBackup";
 
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
@@ -117,10 +148,10 @@ public sealed class backupManagerController : Controller
     public async Task<IActionResult>  PerformColdBackup()
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
         var base_url = $"{config_url}/api/backup/PerformColdBackup";
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
@@ -132,10 +163,10 @@ public sealed class backupManagerController : Controller
     public async Task<IActionResult>  PerformCompression()
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
         var base_url = $"{config_url}/api/backup/PerformCompression";
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
 
         var responseContent = await server_statu_curl.executeAsync();
@@ -148,10 +179,10 @@ public sealed class backupManagerController : Controller
     public async Task<IActionResult>  GetFile(string id)
     {
 
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
         var base_url = $"{config_url}/api/backup/GetFile/{id}";
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
 
         using (var client = new HttpClient())
@@ -161,7 +192,7 @@ public sealed class backupManagerController : Controller
             {
                 using (var content = response.Content)
                 {
-                    var file_path = System.IO.Path.Combine(Program.config_export_directory, id);
+                    var file_path = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), id);
 
                     using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
@@ -190,13 +221,12 @@ public sealed class backupManagerController : Controller
 
 
     [Route("backupManager/GetSubFolderFile/{folder}/{file_name}")]
-    public async Task<IActionResult>  GetSubFolderFile(string folder, string file_name)
+    public async Task<IActionResult> GetSubFolderFile(string folder, string file_name)
     {
-
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
         var base_url = $"{config_url}/api/backup/GetSubFolderFile/{folder}/{file_name}";
 
-        var server_statu_curl = new mmria.pmss.server.cURL("GET", null, base_url, null);
+        var server_statu_curl = new mmria.server.cURL("GET", null, base_url, null);
         server_statu_curl.AddHeader("vital-service-key",  ConfigDB.name_value["vital_service_key"]);
 
         using (var client = new HttpClient())
@@ -206,8 +236,8 @@ public sealed class backupManagerController : Controller
             {
                 using (var content = response.Content)
                 {
-                    var directory_path = System.IO.Path.Combine(Program.config_export_directory, folder);
-                    var file_path = System.IO.Path.Combine(Program.config_export_directory, folder, file_name);
+                    var directory_path = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), folder);
+                    var file_path = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), folder, file_name);
 
                     System.IO.Directory.CreateDirectory(directory_path);
 
@@ -215,7 +245,6 @@ public sealed class backupManagerController : Controller
                     {
                         await response.Content.CopyToAsync(fs);
                         //await fs.FlushAsync();
-                        
                     }
                             
                     if(System.IO.File.Exists(file_path))

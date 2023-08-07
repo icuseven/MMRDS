@@ -6,19 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "abstractor,data_analyst")]
 
 public sealed class aggregate_reportController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-    private IConfiguration configuration;
-
-    public aggregate_reportController(IAuthorizationService authorizationService, IConfiguration p_configuration)
+    public aggregate_reportController()
     {
-        _authorizationService = authorizationService;
-        configuration = p_configuration;
+
     }
     
     [Route("aggregate-report")]
