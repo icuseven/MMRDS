@@ -6,14 +6,30 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;  
 namespace mmria.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class version_attachController: ControllerBase
 { 
+
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public version_attachController
+	(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
+
     [Authorize(Roles  = "form_designer")]
-    //[Route("{id}")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post
     (
@@ -21,9 +37,6 @@ public sealed class version_attachController: ControllerBase
         //mmria.common.metadata.Add_Attachement add_attachement
     ) 
     { 
-
-
-
         string document_content;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
@@ -69,7 +82,6 @@ public sealed class version_attachController: ControllerBase
                 }
 
                 
-
                 if
                 (
                     //p_version_specification.data_type == null ||
@@ -83,12 +95,10 @@ public sealed class version_attachController: ControllerBase
                     return null;
                 }
 
-
-                string check_url = Program.config_couchdb_url + "/metadata/"  + add_attachement._id;
-                cURL check_document_curl = new cURL ("Get", null, check_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                string check_url = db_config.url + "/metadata/"  + add_attachement._id;
+                cURL check_document_curl = new cURL ("Get", null, check_url, null, db_config.user_name, db_config.user_value);
 
                 bool save_document = false;
-
 
                 try
                 {
@@ -117,14 +127,12 @@ public sealed class version_attachController: ControllerBase
                     Console.WriteLine(ex);
                 }
                 
-
-
                 if(save_document)
                 {
 
-                    string metadata_url = Program.config_couchdb_url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
+                    string metadata_url = db_config.url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
 
-                    var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+                    var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, db_config.user_name, db_config.user_value, "text/*");
                     put_curl.AddHeader("If-Match",  add_attachement._rev);
 
                     string responseFromServer = await put_curl.executeAsync();

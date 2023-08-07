@@ -6,14 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension;
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class version_code_genController: ControllerBase
 { 
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+
+    public version_code_genController
+	(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
+
     [AllowAnonymous] 
     [HttpGet]
     public async Task<string> Get()
@@ -22,8 +37,8 @@ public sealed class version_code_genController: ControllerBase
 
         try
         {
-            //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+
+            string request_string = db_config.url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -68,7 +83,7 @@ public sealed class version_code_genController: ControllerBase
             var payload_string = Newtonsoft.Json.JsonConvert.SerializeObject(byName["payload"], settings);
 
 
-            //generatedFile = await GenerateFileAsync(payload_string);
+            generatedFile = await GenerateFileAsync(payload_string);
 
         }
         catch(Exception ex)
@@ -82,7 +97,7 @@ public sealed class version_code_genController: ControllerBase
 */
         return Content(generatedFile, "text/plain");
     }
-/*
+
     async Task<string> GenerateFileAsync(string schemaJson)
     {
             string result = null;
@@ -103,7 +118,7 @@ public sealed class version_code_genController: ControllerBase
 //NJsonSchema.CodeGeneration.CSharp.CSharpClassStyle.
             return result;
     }
-*/
+
 } 
 
 

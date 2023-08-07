@@ -35,19 +35,18 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
 
     private const string over_limit_message = "Over the qualitative limit. check the over-the-qualitative-limit.txt file for details.";
 
-    private IConfiguration Configuration;
+    private common.couchdb.DBConfigurationDetail db_config;
 
-    public export_all_generate_name_map(IConfiguration configuration)
+    public export_all_generate_name_map(common.couchdb.DBConfigurationDetail _db_config)
     {
-        this.Configuration = configuration;
-        //this.is_offline_mode = bool.Parse(Configuration["mmria_settings:is_offline_mode"]);
+        this.db_config = _db_config;
 
     }
     public Dictionary<string, Dictionary<string, string>> Execute(string p_version, string p_export_type = "all")
     {
     
-        string metadata_url = $"{Program.config_couchdb_url}/metadata/{p_version}/metadata";
-        cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        string metadata_url = $"{db_config.url}/metadata/{p_version}/metadata";
+        cURL metadata_curl = new cURL("GET", null, metadata_url, null, db_config.user_name, db_config.user_value);
 
         //System.Console.WriteLine("metadata_url: " + metadata_url);
         var curl_result = metadata_curl.execute();
@@ -141,7 +140,7 @@ System.Collections.Generic.Dictionary<string, string> path_to_field_name_map = n
         int stream_file_count = 0;
         foreach (string file_name in path_to_file_name_map.Select(kvp => kvp.Value).Distinct())
         {
-            //path_to_csv_writer.Add(file_name, new WriteCSV(file_name, this.item_directory_name, Configuration.export_directory));
+            
             //Console.WriteLine(file_name);
             stream_file_count++;
         }
