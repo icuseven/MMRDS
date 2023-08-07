@@ -12,19 +12,27 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 using mmria.common.model;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension; 
+namespace mmria.server;
 
 [Authorize]
 [Route("api/[controller]")]
 public sealed class tamuGeoCodeController: ControllerBase 
 { 
-    IConfiguration configuration;
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
-    public tamuGeoCodeController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public tamuGeoCodeController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     
     [Authorize(Roles  = "abstractor")]
@@ -38,7 +46,6 @@ public sealed class tamuGeoCodeController: ControllerBase
         string census_year = "2020"
     ) 
     { 
-
             var result = new mmria.common.texas_am.geocode_response();
 
             int test_year = -1; 
@@ -57,8 +64,7 @@ public sealed class tamuGeoCodeController: ControllerBase
                 };
             }
 
-            string geocode_api_key = ConfigDB.name_value["geocode_api_key"];
-            //string geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+            string geocode_api_key = configuration.GetSharedString("geocode_api_key");
 
             string request_string = string.Format ($"https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={streetAddress}&city={city}&state={state}&zip={zip}&apikey={geocode_api_key}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear={censusYear}&notStore=false&version=4.01");
 
@@ -78,74 +84,6 @@ public sealed class tamuGeoCodeController: ControllerBase
             return result;
     }
 
-    
-/*
-
-    private class TAMUGeoCode
-    {
-
-        public mmria.common.texas_am.geocode_response execute
-        (
-            string geocode_api_key,
-            string street_address,
-            string city,
-            string state,
-            string zip,
-            string census
-        ) 
-        { 
-
-            var result = new common.texas_am.geocode_response();
-
-            string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
-
-            var curl = new mmria.getset.cURL("GET", null, request_string, null);
-            try
-            {
-                string responseFromServer = curl.execute();
-
-                result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
-            
-            }
-            catch(Exception)// ex)
-            {
-                // do nothing for now
-            }
-
-            return result;
-
-        } 
-
-
-        public async Task<IEnumerable<mmria.common.texas_am.geocode_response>> executeAsync
-        (
-            string geocode_api_key,
-            string street_address,
-            string city,
-            string state,
-            string zip
-        ) 
-        { 
-            
-            string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
-
-            var curl = new mmria.getset.cURL("GET", null, request_string, null);
-                        // Read the content.
-            string responseFromServer = await curl.executeAsync();
-
-            var json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
-
-
-
-            var result =  new mmria.common.texas_am.geocode_response[] 
-            { 
-                json_result
-
-            }; 
-
-            return result;
-        } 
-    }*/
 
 } 
 

@@ -8,15 +8,32 @@ using System.Dynamic;
 using mmria.common;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;  
 
-namespace mmria.pmss.server;
+namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class user_role_jurisdiction_viewController: ControllerBase
 {
 
-// GET api/values 
+
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+
+    public user_role_jurisdiction_viewController
+	(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
+
     [HttpGet]
     [Route("my-roles")]
     public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> my_roles()
@@ -71,7 +88,7 @@ effective_end_date
 
 
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
+        var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
 
 
 
@@ -103,8 +120,8 @@ effective_end_date
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-            request_builder.Append (Program.config_couchdb_url);
-            request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
+            request_builder.Append (db_config.url);
+            request_builder.Append ($"/{db_config.prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
             if (string.IsNullOrWhiteSpace (search_key))
@@ -140,7 +157,7 @@ effective_end_date
                 }
             }
 
-            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, db_config.user_name, db_config.user_value);
             string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
             var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
@@ -277,7 +294,7 @@ effective_end_date
         }
 
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
+        var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(User);
         string sort_view = sort.ToLower ();
         switch (sort_view)
         {
@@ -304,8 +321,8 @@ effective_end_date
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-            request_builder.Append (Program.config_couchdb_url);
-            request_builder.Append ($"/{Program.db_prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
+            request_builder.Append (db_config.url);
+            request_builder.Append ($"/{db_config.prefix}jurisdiction/_design/sortable/_view/{sort_view}?");
 
 
             if (string.IsNullOrWhiteSpace (search_key))
@@ -341,7 +358,7 @@ effective_end_date
                 }
             }
 
-            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, db_config.user_name, db_config.user_value);
             string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
 
             var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);

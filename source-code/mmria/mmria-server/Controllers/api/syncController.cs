@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 
 namespace mmria.server;
 
@@ -11,9 +13,18 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class syncController: ControllerBase 
 { 
-    public syncController()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public syncController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -30,9 +41,9 @@ public sealed class syncController: ControllerBase
                 {
                     
                     mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
-                                                                        Program.config_couchdb_url,
-                                                                        Program.config_timer_user_name,
-                                                                        Program.config_timer_value
+                                                                        db_config.url,
+                                                                        db_config.user_name,
+                                                                        db_config.user_value
                                                                     );
 
                     sync_all.executeAsync (); 

@@ -5,15 +5,27 @@ using System.Linq;
 using Serilog;
 using Serilog.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
-namespace mmria.pmss.server;
+using  mmria.server.extension; 
+namespace mmria.server;
 
 [Authorize(Policy = "form_designer")]
 [Route("api/[controller]")]
 public sealed class ui_specificationController: ControllerBase 
 { 
-    public ui_specificationController()
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public ui_specificationController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
@@ -27,9 +39,9 @@ public sealed class ui_specificationController: ControllerBase
 
         try
         {
-            string ui_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
+            string ui_specification_url = db_config.url + $"/metadata/_all_docs?include_docs=true";
 
-            var curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
+            var curl = new cURL("GET", null, ui_specification_url, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await curl.executeAsync();
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
@@ -76,9 +88,9 @@ public sealed class ui_specificationController: ControllerBase
 
         try
         {
-            string ui_specification_url = Program.config_couchdb_url + $"/metadata/" + id;
+            string ui_specification_url = db_config.url + $"/metadata/" + id;
             
-            var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
+            var ui_specification_curl = new cURL("GET", null, ui_specification_url, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await ui_specification_curl.executeAsync();
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
@@ -129,10 +141,10 @@ public sealed class ui_specificationController: ControllerBase
             };
             ui_specification_json = Newtonsoft.Json.JsonConvert.SerializeObject(ui_specification, settings);
 
-            string ui_specification_url = Program.config_couchdb_url + "/metadata/" + ui_specification._id;
+            string ui_specification_url = db_config.url + "/metadata/" + ui_specification._id;
 
 
-            cURL document_curl = new cURL ("PUT", null, ui_specification_url, ui_specification_json, Program.config_timer_user_name, Program.config_timer_value);
+            cURL document_curl = new cURL ("PUT", null, ui_specification_url, ui_specification_json, db_config.user_name, db_config.user_value);
 
 
             try
@@ -175,7 +187,7 @@ public sealed class ui_specificationController: ControllerBase
                     && _id != "default-ui-specification"
             ) 
             {
-                request_string = Program.config_couchdb_url + "/metadata/" + _id + "?rev=" + rev;
+                request_string = db_config.url + "/metadata/" + _id + "?rev=" + rev;
             }
             else 
             {
@@ -193,7 +205,7 @@ public sealed class ui_specificationController: ControllerBase
             }
 
 
-            var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var delete_report_curl = new cURL ("DELETE", null, request_string, null, db_config.user_name, db_config.user_value);
 
 
             string responseFromServer = await delete_report_curl.executeAsync ();;
