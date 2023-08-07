@@ -12,10 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
+using  mmria.pmss.server.extension; 
 using mmria.common.steve;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "committee_member")]
 [Route("api/[controller]")]

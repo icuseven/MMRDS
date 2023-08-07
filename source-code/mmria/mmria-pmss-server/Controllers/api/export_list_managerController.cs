@@ -7,9 +7,9 @@ using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
+using  mmria.pmss.server.extension; 
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class export_list_managerController: ControllerBase 

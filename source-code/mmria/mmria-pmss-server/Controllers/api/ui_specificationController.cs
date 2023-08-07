@@ -7,8 +7,8 @@ using Serilog.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server;
 
 [Authorize(Policy = "form_designer")]
 [Route("api/[controller]")]

@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;
-namespace mmria.server;
+using  mmria.pmss.server.extension;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class sessionController: ControllerBase

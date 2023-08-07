@@ -8,8 +8,8 @@ using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server.Controllers;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class substance_mappingController : ControllerBase

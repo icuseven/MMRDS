@@ -14,8 +14,8 @@ using System.Security.Claims;
 using mmria.common.model;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server;
 
 [Authorize]
 [Route("api/[controller]")]

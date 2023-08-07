@@ -12,8 +12,8 @@ using System.Security.Claims;
 using mmria.common.model;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;
-namespace mmria.server;
+using  mmria.pmss.server.extension;
+namespace mmria.pmss.server;
 
 
 [Route("api/[controller]")]
@@ -80,9 +80,9 @@ public sealed class userController: ControllerBase
     { 
         try
         {
-            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
 
-            var jurisdiction_username_hashset = mmria.server.utils.authorization_case.get_user_jurisdiction_set();
+            var jurisdiction_username_hashset = mmria.pmss.server.utils.authorization_case.get_user_jurisdiction_set();
 
 
 
@@ -328,7 +328,7 @@ public sealed class userController: ControllerBase
                 }
 
 
-                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
+                if(!mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
                 {
                     return null;
                 }

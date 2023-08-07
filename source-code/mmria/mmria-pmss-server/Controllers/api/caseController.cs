@@ -10,9 +10,9 @@ using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;  
+using  mmria.pmss.server.extension;  
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 
 [Route("api/[controller]")]
@@ -60,7 +60,7 @@ public sealed class caseController: ControllerBase
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-                if(mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadCase, result))
+                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
                     return result;
                 }
@@ -163,7 +163,7 @@ public sealed class caseController: ControllerBase
                 home_record.Add("jurisdiction_id", "/");
             }
 
-            if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
                 Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
@@ -181,7 +181,7 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
                     Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
@@ -232,13 +232,13 @@ public sealed class caseController: ControllerBase
 
             }
 
-            var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+            var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
             (
                 id_val,
                     object_string
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
     
             /*
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
@@ -267,7 +267,7 @@ public sealed class caseController: ControllerBase
         try
         {
             string request_string = null;
-            //mmria.server.utils.c_sync_document sync_document = null;
+            //mmria.pmss.server.utils.c_sync_document sync_document = null;
 
             if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
             {
@@ -293,7 +293,7 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
                     Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
@@ -319,14 +319,14 @@ public sealed class caseController: ControllerBase
 
             if(! string.IsNullOrWhiteSpace(document_json))
             {
-                var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
+                var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
                 (
                     case_id,
                     document_json,
                     "DELETE"
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
                 /*
                 var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
                 case_sync_actor.Tell(Sync_Document_Message);

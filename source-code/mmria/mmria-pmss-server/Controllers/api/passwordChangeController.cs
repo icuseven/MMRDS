@@ -13,11 +13,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 
-using mmria.server.extension;
+using mmria.pmss.server.extension;
 
 using mmria.common.model;
 
-namespace mmria.server;
+namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class passwordChangeController: ControllerBase 
@@ -152,15 +152,15 @@ public sealed class passwordChangeController: ControllerBase
 
             if (result.ok) 
             {
-                var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
+                var Session_Event_Message = new mmria.pmss.server.model.actor.Session_Event_Message
                 (
                     DateTime.Now,
                     userName,
                     accessor.HttpContext.Connection.RemoteIpAddress.ToString(),
-                    mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.password_changed
+                    mmria.pmss.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.password_changed
                 );
 
-                actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+                actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
 
             }
 

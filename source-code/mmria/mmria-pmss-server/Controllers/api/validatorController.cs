@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;  
-namespace mmria.server;
+using  mmria.pmss.server.extension;  
+namespace mmria.pmss.server;
 
 [Route("api/[controller]/{rev?}")]
 public sealed class validatorController: ControllerBase

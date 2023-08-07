@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;  
+using  mmria.pmss.server.extension;  
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
     
 [Route("api/[controller]")]
 [AllowAnonymous] 

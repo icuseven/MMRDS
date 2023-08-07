@@ -1478,7 +1478,7 @@ var $mmria = function()
                          <p>To prevent data loss, <b>do NOT close this PMSS form.</b></p>
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
                          <p>If this error occurs again, please contact <b>PMSS Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
-                         <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
+                         <a href="javascript:$mmria.pmss.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.pmss.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>
                          <textarea id=server_response_textarea rows=7 cols=55 readonly>

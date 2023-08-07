@@ -15,8 +15,8 @@ using System.Security.Claims;
 
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/dqr-detail/{quarter_string}")]
@@ -24,7 +24,7 @@ public sealed class dqrReportController: ControllerBase
 {  
     public struct Result_Struct
     {
-        public mmria.server.model.dqr.DQRDetail[] docs;
+        public mmria.pmss.server.model.dqr.DQRDetail[] docs;
     }
 
     struct Selector_Struc

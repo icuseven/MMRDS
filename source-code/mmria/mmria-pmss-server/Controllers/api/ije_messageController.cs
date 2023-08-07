@@ -14,8 +14,8 @@ using System.Security.Claims;
 using mmria.common.model;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;  
-namespace mmria.server;
+using  mmria.pmss.server.extension;  
+namespace mmria.pmss.server;
 
 [Authorize]
 [Route("api/[controller]")]
@@ -89,10 +89,10 @@ public sealed class ije_messageController: ControllerBase
 
     [Authorize(Roles  = "vital_importer")]
     [HttpPost]
-    public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
+    public async System.Threading.Tasks.Task<mmria.pmss.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.pmss.server.model.NewIJESet_Message ijeset) 
     { 
         string object_string = null;
-        mmria.server.model.NewIJESet_MessageResponse result = new ();
+        mmria.pmss.server.model.NewIJESet_MessageResponse result = new ();
 
         try
         {
@@ -101,7 +101,7 @@ public sealed class ije_messageController: ControllerBase
             object_string = Newtonsoft.Json.JsonConvert.SerializeObject(ijeset, settings);
 
                 //var localUrl = "https://localhost:44331/api/Message/IJESet";
-                //var message_curl = new mmria.server.cURL("POST", null, localUrl, message);
+                //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
             string user_db_url = configuration.GetString("vitals_url",host_prefix);
@@ -109,7 +109,7 @@ public sealed class ije_messageController: ControllerBase
             var user_curl = new cURL("PUT", null, user_db_url, object_string);
             user_curl.AddHeader("vital-service-key", configuration.GetString("vital_service_key",host_prefix));
             var responseFromServer = await user_curl.executeAsync();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.NewIJESet_MessageResponse>(responseFromServer);
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.NewIJESet_MessageResponse>(responseFromServer);
 
             if (!result.ok) 
             {
