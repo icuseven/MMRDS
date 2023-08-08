@@ -1,18 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [AllowAnonymous] 
 
 
 public sealed class data_dictionaryController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public data_dictionaryController(IAuthorizationService authorizationService)
+    public data_dictionaryController()
     {
-        _authorizationService = authorizationService;
 ;
     }
 

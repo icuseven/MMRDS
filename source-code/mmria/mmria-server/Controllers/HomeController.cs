@@ -13,8 +13,6 @@ namespace mmria.server.Controllers;
 public sealed class HomeController : Controller
 {
 
-
-
     private IConfiguration _config;
     
             public HomeController(IConfiguration p_config)

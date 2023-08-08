@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension; 
 
 namespace mmria.server.Controllers;
 
@@ -20,12 +22,19 @@ public sealed class CvsController : Controller
 
     }
     private readonly IAuthorizationService _authorizationService;
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public CvsController(IAuthorizationService authorizationService, IConfiguration p_configuration)
+    public CvsController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _authorizationService = authorizationService;
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
