@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "installation_admin")]
 [Route("recover-case")]
