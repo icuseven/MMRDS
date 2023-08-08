@@ -68,10 +68,10 @@
 }
 else
 {
-    <h1 class="h2" tabindex="-1">Update Year of Death and MMRIA Record ID</h1>
+    <h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
     <a class="btn btn-secondary" href="/recover_deleted_case">Search Again</a>
 
-    <h3 class="h4">Update Year of Death and MMRIA Record ID for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
+    <h3 class="h4">Recover Deleted Case for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
     <br/>
 
     <p><strong>Year of Death:</strong> @Model.YearOfDeath => <b>@Model.YearOfDeathReplacement</b></p>
@@ -93,7 +93,7 @@ else
         </div>
     </div>
 
-    <form method="post" action="/recover_deleted_case/UpdateDeletedCase">
+    <form method="post" action="/recover-deleted-case/UpdateDeletedCase">
         <input type="hidden" name="_id" value="@Model._id"/>
         <input type="hidden" name="RecordId" value="@Model.RecordId" />
         <input type="hidden" name="RecordIdReplacement" value="@Model.RecordIdReplacement" />
@@ -111,7 +111,7 @@ else
         <input type="hidden" name="is_only_record_id_change" value="false" />
 
         <button class="btn btn-primary mb-3" type="Submit">Confirm Change</button>
-        <a class="btn btn-link mb-3" href="/recover_deleted_case">Cancel</a>
+        <a class="btn btn-link mb-3" href="/recover-deleted-case">Cancel</a>
     </form>
 }
 

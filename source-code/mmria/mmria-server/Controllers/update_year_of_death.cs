@@ -15,7 +15,11 @@ public sealed class update_year_of_deathController : Controller
 
 
     private System.Collections.Generic.Dictionary<string, string> YearOfDeathToDisplay;
-    public update_year_of_deathController(IAuthorizationService authorizationService, mmria.common.couchdb.ConfigurationSet DbConfigurationSet)
+    public update_year_of_deathController
+    (
+        IAuthorizationService authorizationService, 
+        mmria.common.couchdb.ConfigurationSet DbConfigurationSet
+    )
     {
         _authorizationService = authorizationService;
         _dbConfigSet = DbConfigurationSet;

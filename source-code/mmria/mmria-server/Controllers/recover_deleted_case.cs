@@ -10,7 +10,7 @@ using  mmria.server.extension;
 namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "installation_admin")]
-[Route("recover-deleted-case")]
+[Route("recover-deleted-case/{action=Index}")]
 public sealed class recover_deleted_caseController : Controller
 {
     mmria.common.couchdb.OverridableConfiguration configuration;
@@ -28,7 +28,8 @@ public sealed class recover_deleted_caseController : Controller
 
         mmria.common.couchdb.ConfigurationSet p_config_db,
         IHttpContextAccessor httpContextAccessor, 
-        mmria.common.couchdb.OverridableConfiguration _configuration
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        mmria.common.couchdb.ConfigurationSet DbConfigurationSet
     )
     {
 
@@ -36,6 +37,13 @@ public sealed class recover_deleted_caseController : Controller
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
+
+        _dbConfigSet = DbConfigurationSet;
+
+        if(_dbConfigSet.detail_list.ContainsKey("vital_import"))
+        {
+            _dbConfigSet.detail_list.Remove("vital_import");
+        }
     }
 
     public IActionResult Index()

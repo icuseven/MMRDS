@@ -20,9 +20,9 @@
     int max_year = DateTime.Now.Year;
 }
 
-<h1 class="h2" tabindex="-1">Update Year of Death and/or MMRIA Record ID</h1>
+<h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
 <p>Choose case from the table results below.</p>
-<a class="btn btn-secondary mb-3" href="/recover_deleted_case">Search Again</a>
+<a class="btn btn-secondary mb-3" href="/recover-deleted-case">Search Again</a>
 
 <table class="table">
     <thead class="thead"><tr class="tr bg-tertiary"><th class="th h4" colspan="99" scope="colgroup">Search results</th></tr></thead>
@@ -53,7 +53,7 @@
             i++;
 
             <tr class="tr">
-                <form method="post" action="/recover_deleted_case/ConfirmUpdateYearOfDeathRequest">
+                <form method="post" action="/recover-deleted-case/ConfirmUpdateYearOfDeathRequest">
                 <input type="hidden" name="_id" value="@item._id" />
                 <input type="hidden" name="RecordId" value="@item.RecordId" />
                 <input type="hidden" name="FirstName" value="@item.FirstName" />
@@ -70,31 +70,9 @@
                 <td class="td">@i</td>
                 <td class="td">@item.RecordId</td>
                 <td class="td"style="width:160px;">
-                    @if
-                    (
-                        item.CaseStatus.HasValue && 
-                        Locked_status_list.Contains(item.CaseStatus.Value)
-                    )
-                    {
-                        @item.YearOfDeath
-                    }
-                    else
-                    {
-                        @Html.Raw($"{item.YearOfDeath}&nbsp;=>&nbsp;<select name=\"YearOfDeathReplacement\" value=\"{item.YearOfDeath}\" aria-valuemin=\"1920\" aria-valuemax=\"{max_year}\"  aria-label=\"Year of death\">")
-                        <option value=9999 disabled>(blank)</option>
-                        @foreach (var year in Enumerable.Range(1920, (max_year + 1) - 1920).OrderDescending())
-                        {
-                            @if(year == @item.YearOfDeath)
-                            {
-                                <option value="@year" selected>@year</option>
-                            }
-                            else
-                            {
-                                <option value="@year">@year</option>
-                            }
-                        }
-                        @Html.Raw("</select>");
-                    }
+
+                    @item.YearOfDeath
+                    
                 </td>
                 <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
                 <td class="td">@item.DateOfDeath</td>
@@ -111,7 +89,7 @@
                         }
                         else
                         {
-                            <input class="btn btn-primary" type="submit" value="Change" />
+                            <input class="btn btn-primary" type="submit" value="Recover" />
                         }
                     
                 </td>

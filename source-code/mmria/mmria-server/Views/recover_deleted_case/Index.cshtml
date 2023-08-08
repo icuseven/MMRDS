@@ -14,7 +14,7 @@
             .Split("-")[0];
     }
 
-    bool is_cdc_admin = false;
+   bool is_cdc_admin = false;
 
     var roles = new List<string>();
 
@@ -44,11 +44,11 @@
     }
 }
 
-<h1 class="h2" tabindex="-1">Update Year of Death and/or MMRIA Record ID</h1>
+<h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
 
 <p class="mb-4">Enter the MMRIA Record ID.  Click the button to search for matching case(s).</p>
 
-<form method="post" action="/recover_deleted_case/FindRecord">
+<form method="post" action="/recover-deleted-case/FindRecord">
     @if(is_cdc_admin)
     {
         <input type="hidden" name="Role" value="cdc_admin" /> 
