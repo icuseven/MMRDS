@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using  mmria.server.extension; 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "installation_admin")]
+[Authorize(Roles  = "installation_admin,cdc_admin")]
 [Route("recover-deleted-case/{action=Index}")]
 public sealed class recover_deleted_caseController : Controller
 {
