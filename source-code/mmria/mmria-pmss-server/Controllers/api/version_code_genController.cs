@@ -37,7 +37,6 @@ public sealed class version_code_genController: ControllerBase
 
         try
         {
-
             string request_string = db_config.url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));

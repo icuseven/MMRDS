@@ -65,6 +65,8 @@ public sealed class clear_case_statusController : Controller
 
             if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
+                model.is_cdc_admin = true;
+                
                 var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
                 string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);

@@ -43,6 +43,8 @@ public sealed class CaseStatusRequestResponse
 
     public string SearchText { get; set; }
 
+    public bool is_cdc_admin { get; set; }
+
 }
 
     public sealed class CaseStatusResult
