@@ -522,7 +522,7 @@ public sealed partial class Program
             }
             else
             {
-                app.UseHttpsRedirection();
+                //app.UseHttpsRedirection();
             }
 
             app.Use(middleware);
