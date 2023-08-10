@@ -7,11 +7,10 @@ namespace mmria.server.Controllers;
 
 public sealed class migrationplanController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
- 
-    public migrationplanController(IAuthorizationService authorizationService)
+
+    public migrationplanController()
     {
-        _authorizationService = authorizationService;
+
      }
 
     public IActionResult Index()

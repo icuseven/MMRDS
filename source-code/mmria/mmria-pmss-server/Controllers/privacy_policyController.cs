@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [AllowAnonymous] 
 [Route("privacy-policy")]
 
 public sealed class privacy_policyController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public privacy_policyController(IAuthorizationService authorizationService)
+    public privacy_policyController()
     {
-        _authorizationService = authorizationService;
+        
     }
     public IActionResult Index()
     {

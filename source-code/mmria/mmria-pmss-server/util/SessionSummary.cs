@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.pmss.server.utils;
+namespace mmria.server.utils;
 
 public sealed class SessionSummaryItem
 {
@@ -88,13 +88,12 @@ public sealed class SessionSummary
 
     }
 
-    IConfiguration configuration;
+
 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    public SessionSummary(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public SessionSummary(mmria.common.couchdb.ConfigurationSet p_config_db)
     {
-        configuration = p_configuration;
         ConfigDB = p_config_db;
     }
 

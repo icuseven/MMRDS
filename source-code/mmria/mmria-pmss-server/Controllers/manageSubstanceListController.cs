@@ -1,17 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "form_designer,cdc_analyst")]
 [Route("manage-substance-lists")]
 public sealed class manageSubstanceListsController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public manageSubstanceListsController(IAuthorizationService authorizationService)
+    public manageSubstanceListsController()
     {
-        _authorizationService = authorizationService;
 
     }
     public IActionResult Index()
