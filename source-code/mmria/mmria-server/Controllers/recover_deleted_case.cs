@@ -52,9 +52,9 @@ public sealed class recover_deleted_caseController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.server.model.year_of_death.YearOfDeathRequest Model)
+    public async Task<IActionResult> FindRecord(mmria.server.model.recover_deleted.Request Model)
     {
-        var model = new mmria.server.model.year_of_death.YearOfDeathRequestResponse();
+        var model = new mmria.server.model.recover_deleted.RequestResponse();
         model.SearchText = Model.RecordId;
         try
         {
@@ -101,9 +101,10 @@ public sealed class recover_deleted_caseController : Controller
 
                     )
                     {
-                        var x = new mmria.server.model.year_of_death.YearOfDeathDetail()
+                        var x = new mmria.common.model.couchdb.Change_Stack()
                         {
                             _id = item.id,
+                            /*
                             RecordId = item.value?.record_id,
                             FirstName = item.value?.first_name,
                             LastName = item.value?.last_name,
@@ -121,10 +122,10 @@ public sealed class recover_deleted_caseController : Controller
 
                             CaseStatus = item.value.case_status,
 
-                            Role = Model.Role
+                            Role = Model.Role*/
                         };
                         
-                        model.YearOfDeathDetail.Add(x);
+                        model.Detail.Add(x);
                     }
                 }
                 catch(Exception ex)
@@ -143,7 +144,7 @@ public sealed class recover_deleted_caseController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmUpdateDeletedCaseRequest(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public IActionResult ConfirmUpdateDeletedCaseRequest(mmria.common.model.couchdb.Change_Stack Model)
     {
         var model = Model;
 
@@ -153,7 +154,7 @@ public sealed class recover_deleted_caseController : Controller
         string user_name = db_config.user_name;
         string user_value = db_config.user_value;
         string prefix = "";
-
+/*
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
         {
             var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
@@ -173,21 +174,23 @@ public sealed class recover_deleted_caseController : Controller
 
         while (ExistingRecordIds.Contains(record_id))
         {
-            record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
+            record_id = $"{array[0]}-{Model.Replacement}-{GenerateRandomFourDigits().ToString()}";
         };
 
         Model.RecordIdReplacement = record_id;
+        */
 
         return View(model);
     }
 
     
-    public async Task<IActionResult> UpdateDeletedCase(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> UpdateDeletedCase(mmria.common.model.couchdb.Change_Stack Model)
     {
         var model = Model;
 
         try
         {
+            /*
 
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
@@ -226,6 +229,7 @@ public sealed class recover_deleted_caseController : Controller
                     var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
+                        
                         date_of_death["year"] = model.YearOfDeathReplacement.ToString();
                         home_record["record_id"] = model.RecordIdReplacement;
 
@@ -290,11 +294,11 @@ public sealed class recover_deleted_caseController : Controller
             {
                 model.StatusText = "Problem Setting Status to (blank)";
             }
-            
+            */
         }
         catch(Exception ex)
         {
-            model.StatusText = ex.ToString();
+            //model.StatusText = ex.ToString();
         }
 
         return View(model);
