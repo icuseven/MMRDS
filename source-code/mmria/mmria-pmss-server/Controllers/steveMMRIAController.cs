@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 using System.IO;
 using Akka.Actor;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
-
-namespace mmria.pmss.server.Controllers;
+using  mmria.server.extension; 
+namespace mmria.server.Controllers;
 
 [Authorize(Roles = "cdc_admin,steve_mmria")]
 public sealed class steveMMRIAController : Controller
@@ -20,7 +21,9 @@ public sealed class steveMMRIAController : Controller
 
 
 
-    IConfiguration Configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     ActorSystem _actorSystem;
 
     readonly ILogger<steveMMRIAController> _logger;
@@ -41,12 +44,15 @@ public sealed class steveMMRIAController : Controller
     (
         ActorSystem actorSystem,
         ILogger<steveMMRIAController> logger,
-        IConfiguration configuration
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         _actorSystem = actorSystem;
         _logger = logger;
-        Configuration = configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     string userName
@@ -77,7 +83,7 @@ public sealed class steveMMRIAController : Controller
             if (_download_directory == null)
             {
 
-                _download_directory = System.IO.Path.Combine(Configuration["mmria_settings:export_directory"], userName);
+                _download_directory = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), userName);
             }
             return _download_directory;
         }
@@ -158,10 +164,12 @@ public sealed class steveMMRIAController : Controller
         {
             System.DateTime? result = null; 
 
-            request.seaBucketKMSKey = Configuration["steve_api:sea_bucket_kms_key"];
-            request.clientName = Configuration["steve_api:client_name"];
-            request.clientSecretKey = Configuration["steve_api:client_secret_key"];
-            request.base_url = Configuration["steve_api:base_url"];
+            var steve_api = configuration.GetSteveAPIConfigurationDetail();
+
+            request.seaBucketKMSKey = steve_api.sea_bucket_kms_key;
+            request.clientName = steve_api.client_name;
+            request.clientSecretKey = steve_api.client_secret_key;
+            request.base_url = steve_api.base_url;
             request.download_directory = download_directory;
             request.file_name = GetFileName(request.Mailbox);
 

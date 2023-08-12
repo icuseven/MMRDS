@@ -40,6 +40,16 @@ public sealed class CVSConfigurationDetail
     public string cvs_api_url  { get; set; }
 }
 
+public sealed class SteveAPIConfigurationDetail
+{
+    public SteveAPIConfigurationDetail() {}
+    public string sea_bucket_kms_key  { get; set; }
+    public string client_name  { get; set; }
+    public string client_secret_key  { get; set; }
+    public string base_url { get; set; }
+   
+}
+
 public sealed class ConfigurationSet
 {
     public ConfigurationSet()
@@ -261,6 +271,19 @@ public sealed class OverridableConfiguration
         result.cvs_api_id = string_keys["shared"]["cvs_api_id"];
         result.cvs_api_key = string_keys["shared"]["cvs_api_key"];
         result.cvs_api_url = string_keys["shared"]["cvs_api_url"];
+        
+
+        return result;
+    }
+
+    public SteveAPIConfigurationDetail  GetSteveAPIConfigurationDetail()
+    {
+        SteveAPIConfigurationDetail result = new();
+
+        result.sea_bucket_kms_key = string_keys["shared"]["steve_api:sea_bucket_kms_key "];
+        result.client_name = string_keys["shared"]["steve_api:client_name "];
+        result.client_secret_key = string_keys["shared"]["steve_api:client_secret_key "];
+        result.base_url = string_keys["shared"]["steve_api:base_url "];
         
 
         return result;

@@ -1,17 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace mmria.pmss.server.Controllers;
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "form_designer")]
 [Route("version-manager")]
 public sealed class version_managerController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public version_managerController(IAuthorizationService authorizationService)
+    public version_managerController()
     {
-        _authorizationService = authorizationService;
+
     }
     public IActionResult Index()
     {
