@@ -283,6 +283,8 @@ public sealed class caseController: ControllerBase
         {
 
             var mmria_record_id = "";
+            var first_name = "";
+            var last_name = "";
 
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
@@ -335,11 +337,18 @@ public sealed class caseController: ControllerBase
                 if 
                 (
                     result_dictionary.ContainsKey ("home_record") &&
-                    result_dictionary["home_record"] is IDictionary<string,object> home_record &&
-                    home_record.ContainsKey("record_id")
+                    result_dictionary["home_record"] is IDictionary<string,object> home_record
+                    
                 ) 
                 {
+                    if(home_record.ContainsKey("record_id"))
                     mmria_record_id = home_record["record_id"].ToString();
+
+                    if(home_record.ContainsKey("first_name"))
+                    first_name = home_record["first_name"].ToString();
+
+                    if(home_record.ContainsKey("last_name"))
+                    last_name = home_record["last_name"].ToString();
                 }
             } 
             catch (Exception ex) 
@@ -362,6 +371,8 @@ public sealed class caseController: ControllerBase
                 delete_rev = rev,
 
                 user_name = userName,
+                first_name = first_name,
+                last_name = last_name,
 
                 note = "deleted case",
 
