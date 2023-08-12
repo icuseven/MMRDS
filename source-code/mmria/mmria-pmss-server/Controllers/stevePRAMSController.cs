@@ -11,8 +11,8 @@ using System.IO;
 using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server.Controllers;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles = "cdc_admin,steve_prams")]
 public sealed class stevePRAMSController : Controller

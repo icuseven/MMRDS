@@ -7,7 +7,7 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 public sealed class ItemCount
 {

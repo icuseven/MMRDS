@@ -153,8 +153,6 @@ public sealed partial class Program
             Program.Change_Sequence_Call_Count++;
             Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
 
-            Program.config_geocode_api_key = "";
-            Program.config_geocode_api_url = "";
 
             configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
 

@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.Controllers;
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "abstractor,data_analyst")]
 public sealed class overdose_reportController : Controller

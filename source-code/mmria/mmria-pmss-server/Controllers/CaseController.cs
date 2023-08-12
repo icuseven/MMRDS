@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server.Controllers;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "abstractor")]
 public sealed class CaseController : Controller

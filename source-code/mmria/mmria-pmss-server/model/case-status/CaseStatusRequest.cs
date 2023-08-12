@@ -41,6 +41,10 @@ public sealed class CaseStatusRequestResponse
     }
     public List<CaseStatusDetail> CaseStatusDetail { get; set; }
 
+    public string SearchText { get; set; }
+
+    public bool is_cdc_admin { get; set; }
+
 }
 
     public sealed class CaseStatusResult

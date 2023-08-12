@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server.Controllers;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "cdc_admin")]
 public sealed class update_year_of_deathController : Controller
@@ -54,9 +54,9 @@ public sealed class update_year_of_deathController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.server.model.year_of_death.YearOfDeathRequest Model)
+    public async Task<IActionResult> FindRecord(mmria.pmss.server.model.year_of_death.YearOfDeathRequest Model)
     {
-        var model = new mmria.server.model.year_of_death.YearOfDeathRequestResponse();
+        var model = new mmria.pmss.server.model.year_of_death.YearOfDeathRequestResponse();
         model.SearchText = Model.RecordId;
         try
         {
@@ -103,7 +103,7 @@ public sealed class update_year_of_deathController : Controller
 
                     )
                     {
-                        var x = new mmria.server.model.year_of_death.YearOfDeathDetail()
+                        var x = new mmria.pmss.server.model.year_of_death.YearOfDeathDetail()
                         {
                             _id = item.id,
                             RecordId = item.value?.record_id,
@@ -145,7 +145,7 @@ public sealed class update_year_of_deathController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmUpdateYearOfDeathRequest(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public IActionResult ConfirmUpdateYearOfDeathRequest(mmria.pmss.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
@@ -184,7 +184,7 @@ public sealed class update_year_of_deathController : Controller
     }
 
     
-    public async Task<IActionResult> UpdateYearOfDeath(mmria.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> UpdateYearOfDeath(mmria.pmss.server.model.year_of_death.YearOfDeathDetail Model)
     {
         var model = Model;
 
