@@ -312,45 +312,51 @@ public sealed class mmrds_exporter
                 case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
             )
             {
-            continue;
+                continue;
             }
 
 
             var is_jurisdiction_ok = false;
+            string HR_R_ID = null;
 
             var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
             if (home_record != null)
             {
-            if (!home_record.ContainsKey("jurisdiction_id"))
-            {
-                home_record.Add("jurisdiction_id", "/");
-            }
-
-            foreach (var jurisdiction_item in jurisdiction_hashset)
-            {
-                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                if (!home_record.ContainsKey("jurisdiction_id"))
                 {
-                is_jurisdiction_ok = true;
-                break;
+                    home_record.Add("jurisdiction_id", "/");
                 }
 
-            }
+                if(home_record.ContainsKey("record_id"))
+                {
+                    HR_R_ID = home_record["record_id"].ToString();
+                }
+
+                foreach (var jurisdiction_item in jurisdiction_hashset)
+                {
+                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+                    if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                    {
+                        is_jurisdiction_ok = true;
+                        break;
+                    }
+
+                }
             }
 
             if (!is_jurisdiction_ok)
             {
-            continue;
+                continue;
             }
 
 
             System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
             string mmria_case_id = case_doc["_id"].ToString();
+            row["hr_r_id"] = HR_R_ID;
             row["_id"] = mmria_case_id;
-
+            
             foreach (string path in path_to_flat_map)
             {
             if 
@@ -391,6 +397,11 @@ public sealed class mmrds_exporter
             if(path == "case_narrative/case_opening_overview")
             {
                 //System.Console.WriteLine("break");
+            }
+
+            if(path == "home_record/record_id")
+            {
+                continue;
             }
 
             
@@ -621,6 +632,7 @@ public sealed class mmrds_exporter
                             WriteQualitativeData
                             (
                             mmria_case_id,
+                            HR_R_ID,
                             path,
                             clearText,
                             -1,
@@ -642,6 +654,7 @@ public sealed class mmrds_exporter
                         WriteQualitativeData
                         (
                         mmria_case_id,
+                        HR_R_ID,
                         path,
                         val?.ToString(),
                         -1,
@@ -721,6 +734,7 @@ public sealed class mmrds_exporter
                     }
 
                     System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+                    grid_row["hr_r_id"] = HR_R_ID;
                     grid_row["_id"] = mmria_case_id;
                     grid_row["_record_index"] = i;
                     foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
@@ -966,6 +980,7 @@ public sealed class mmrds_exporter
                                         WriteQualitativeData
                                         (
                                             mmria_case_id,
+                                            HR_R_ID,
                                             node,
                                             val?.ToString(),
                                             i,
@@ -1069,6 +1084,7 @@ public sealed class mmrds_exporter
                 {
                 
                 System.Data.DataRow form_row = path_to_csv_writer[kvp.Value].Table.NewRow();
+                form_row["hr_r_id"] = HR_R_ID;
                 form_row["_id"] = mmria_case_id;
                 form_row["_record_index"] = i;
 
@@ -1331,6 +1347,7 @@ public sealed class mmrds_exporter
                                 WriteQualitativeData
                                 (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     path,
                                     clearText,
                                     i,
@@ -1350,6 +1367,7 @@ public sealed class mmrds_exporter
                             WriteQualitativeData
                             (
                             mmria_case_id,
+                            HR_R_ID,
                             path,
                             val?.ToString(),
                             i,
@@ -1370,6 +1388,7 @@ public sealed class mmrds_exporter
                                 WriteQualitativeData
                                 (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     path,
                                     val?.ToString(),
                                     i,
@@ -1408,6 +1427,7 @@ public sealed class mmrds_exporter
                 (
                     case_doc,
                     mmria_case_id,
+                    HR_R_ID,
                     i,
                     path_to_int_map,
                     path_to_node_map,
@@ -1859,6 +1879,7 @@ public sealed class mmrds_exporter
     (
         IDictionary<string, object> case_doc,
         string mmria_case_id,
+        string HR_R_ID,
         int parent_record_index,
         Dictionary<string, int> path_to_int_map,
         Dictionary<string, mmria.common.metadata.node> path_to_node_map,
@@ -1918,6 +1939,7 @@ public sealed class mmrds_exporter
                 }
 
                 System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+                grid_row["hr_r_id"] = HR_R_ID;
                 grid_row["_id"] = mmria_case_id;
                 grid_row["_record_index"] = i;
                 grid_row["_parent_record_index"] = parent_record_index;
@@ -2125,6 +2147,7 @@ public sealed class mmrds_exporter
                                     WriteQualitativeData
                                     (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     field_node,
                                     grid_item_value?.ToString(),
                                     i,
@@ -2218,8 +2241,11 @@ public sealed class mmrds_exporter
         // create header row
         if (p_add_id)
         {
-        column = new System.Data.DataColumn("_id", typeof(string));
-        p_Table.Columns.Add(column);
+            column = new System.Data.DataColumn("hr_r_id", typeof(string));
+            p_Table.Columns.Add(column);
+
+            column = new System.Data.DataColumn("_id", typeof(string));
+            p_Table.Columns.Add(column);
         }
 
         if (p_add_record_index)
@@ -2805,6 +2831,7 @@ public sealed class mmrds_exporter
 
     private void WriteQualitativeData
     (
+        string p_id, 
         string p_record_id, 
         string p_mmria_path, 
         string p_data, 
@@ -2834,11 +2861,11 @@ public sealed class mmrds_exporter
 
         if (this.qualitativeStreamCount[index] == 0)
         {
-            this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+            this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
         }
         else
         {
-            this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+            this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
         }
         this.qualitativeStreamCount[index] += 1;
     }
