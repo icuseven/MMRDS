@@ -725,6 +725,10 @@ function generate_system_generated_definition_list_table()
 					</thead>
 					<tbody>
                         <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
+                        <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
 						</tr>
@@ -785,6 +789,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
@@ -808,6 +816,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
@@ -831,6 +843,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
