@@ -105,6 +105,7 @@ public sealed class recover_deleted_caseController : Controller
                         )
                     )
                     {
+                        item.value._id = item.id;
                         item.value.StateDatabase = host_prefix;
                         model.Detail.Add(item.value);
                     }
@@ -140,8 +141,6 @@ public sealed class recover_deleted_caseController : Controller
 
         try
         {
-            /*
-
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
             {
@@ -151,171 +150,76 @@ public sealed class recover_deleted_caseController : Controller
             }
 
 
-            string responseFromServer = null;
-            if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
+            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+
+            string audit_url = $"{db_info.url}/{db_info.prefix}audit/{Model._id}";
+            var audit_curl = new cURL("GET", null, audit_url, null, db_info.user_name, db_info.user_value);
+            var audit_response = await audit_curl.executeAsync();
+            var audit_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.Change_Stack>(audit_response);
+
+
+            string get_revs_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?revs=true&open_revs=all";
+            var get_revs_curl = new cURL("GET", null, get_revs_url, null, db_info.user_name, db_info.user_value);
+            var get_revs_curl_response = await get_revs_curl.executeAsync();
+            var start_index = get_revs_curl_response.IndexOf("_rev");
+            var end_index = get_revs_curl_response.IndexOf(",", start_index);
+            var pre_current_rev = get_revs_curl_response.Substring(start_index,end_index - start_index);
+            var current_rev = pre_current_rev.Replace("\"", "").Replace("_rev:","");
+
+
+            string get_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?rev={audit_object.delete_rev}";
+            var get_case_curl = new cURL("GET", null, get_case_url, null, db_info.user_name, db_info.user_value);
+            var get_case_response = await get_case_curl.executeAsync();
+            var get_case_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(get_case_response);
+            
+            IDictionary<string, object> result_dictionary = get_case_object as IDictionary<string, object>;
+            if(result_dictionary.ContainsKey("_rev"))
             {
-        
-                var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
-                var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
-                responseFromServer = await case_view_curl.executeAsync();
+                result_dictionary["_rev"] = current_rev;
             }
-            else
+
+            if(result_dictionary.ContainsKey("_rev"))
             {
-                
-                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
-                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
-                responseFromServer = await case_view_curl.executeAsync();
+                result_dictionary["_rev"] = current_rev;
             }
-            var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
+
+            var put_case_object_string = Newtonsoft.Json.JsonConvert.SerializeObject(get_case_object, settings);
+            
+            
+            string put_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?rev={current_rev}";
+            var put_case_curl = new cURL("PUT", null, put_case_url, put_case_object_string, db_info.user_name, db_info.user_value);
+            
+            try
+            {
+                var put_case_response = await put_case_curl.executeAsync();
+                var put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_case_response);
+                if(put_result.ok)
+                {
+                    var delete_audit_curl = new cURL("DELETE", null, audit_url, null, db_config.user_name, db_config.user_value);
+                    var  delete_response = await delete_audit_curl.executeAsync();
+                    
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.Write("problem saving audit\n{0}", ex);
+
+            }
 
             
-            var dictionary = case_response as IDictionary<string,object>;
-            if(dictionary != null)
-            {
-                var home_record = dictionary["home_record"] as IDictionary<string,object>;
-                if(home_record != null)
-                {
-                    var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
-                    if(date_of_death != null)
-                    {
-                        
-                        date_of_death["year"] = model.YearOfDeathReplacement.ToString();
-                        home_record["record_id"] = model.RecordIdReplacement;
-
-                        dictionary["last_updated_by"] = userName;
-                        dictionary["date_last_updated"] = DateTime.Now;
-
-                        Model.LastUpdatedBy = userName;
-                        Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
-
-                        Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
-
-                        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-                        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response, settings);
-
-                        cURL document_curl = null;
-
-                        if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-                            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
-                        }
-                        else
-                        {
-                            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
-                        }
-
-                        var document_put_response = new mmria.common.model.couchdb.document_put_response();
-                        try
-                        {
-                            responseFromServer = await document_curl.executeAsync();
-                            document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-                        }
-                        catch(Exception ex)
-                        {
-                            model.StatusText = $"Problem Setting Status to (blank)\n{ex}";
-                        }
-
-                        if(document_put_response.ok)
-                        {
-                            model.StatusText = "(blank)";
-                        }
-                        else
-                        {
-                            model.StatusText = "Problem Setting Status to (blank)";
-                        }
-
-                    }
-                    else
-                    {
-                        model.StatusText = "Problem Setting Status to (blank)";
-                    }   
-                }
-                else
-                {
-                    model.StatusText = "Problem Setting Status to (blank)";
-                }
-            }
-            else
-            {
-                model.StatusText = "Problem Setting Status to (blank)";
-            }
-            */
+            
         }
         catch(Exception ex)
         {
-            //model.StatusText = ex.ToString();
+            Console.WriteLine(ex);
         }
 
         return View(model);
     }
 
-    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = "")
-    {
-        var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-
-        try
-        {
-            string request_string;
-
-            if(string.IsNullOrWhiteSpace(p_prefix))
-            {
-                request_string = $"{p_server_url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
-            }
-            else
-            {
-                request_string = $"{p_server_url}/{p_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
-            }
-            var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, user_name, user_value);
-            string responseFromServer = case_view_curl.execute();
-
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
-
-            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
-            {
-                result.Add(cvi.value.record_id);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-        }
-
-        return result;
-    }
-
-    int my_count = -1;
-    private int GenerateRandomFourDigits()
-    {
-        int _min = 1000;
-        int _max = 9999;
-        Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
-        my_count ++;
-        return _rdm.Next(_min, _max);
-        
-    }
-
-
-
-    (string url, string post) get_find_url()
-    {
-        var selector_struc = new Selector_Struc();
-        selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
-        selector_struc.limit = 1_000_000;
-        selector_struc.selector.Add("is_delete", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
-        selector_struc.selector["is_delete"].Add("$eq", "true");
-        selector_struc.use_index = "case-id-date-last-updated-index";
-
-        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-        string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
-
-        string result = $"{db_config.url}/{db_config.prefix}audit/_find";
-        return (result, selector_struc_string);
-    }
 }

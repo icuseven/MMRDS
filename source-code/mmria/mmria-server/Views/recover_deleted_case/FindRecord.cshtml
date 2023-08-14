@@ -53,7 +53,10 @@
 
             <tr class="tr">
                 <form method="post" action="/recover-deleted-case/ConfirmRecoverRequest">
+                
                 <input type="hidden" name="_id" value="@item._id" />
+                <input type="hidden" name="case_id" value="@item.case_id" />
+                <input type="hidden" name="case_rev" value="@item.case_rev" />
                 <input type="hidden" name="record_id" value="@item.record_id" />
                 <input type="hidden" name="first_name" value="@item.first_name" />
                 <input type="hidden" name="last_name" value="@item.last_name" />
