@@ -13,6 +13,13 @@ namespace mmria.server.Controllers;
 [Route("recover-deleted-case/{action=Index}")]
 public sealed class recover_deleted_caseController : Controller
 {
+
+    struct tombstone_struct
+    {
+
+        public string _id;
+        public string _rev;
+    }
     struct Selector_Struc
     {
         //public System.Dynamic.ExpandoObject selector;
@@ -139,6 +146,10 @@ public sealed class recover_deleted_caseController : Controller
     {
         var model = Model;
 
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
+
         try
         {
             var userName = "";
@@ -167,31 +178,31 @@ public sealed class recover_deleted_caseController : Controller
             var current_rev = pre_current_rev.Replace("\"", "").Replace("_rev:","");
 
 
+            var tombstone = new tombstone_struct();
+            tombstone._id = audit_object._id;
+            tombstone._rev = current_rev;
+
+
+
             string get_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?rev={audit_object.delete_rev}";
             var get_case_curl = new cURL("GET", null, get_case_url, null, db_info.user_name, db_info.user_value);
             var get_case_response = await get_case_curl.executeAsync();
             var get_case_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(get_case_response);
             
             IDictionary<string, object> result_dictionary = get_case_object as IDictionary<string, object>;
-            if(result_dictionary.ContainsKey("_rev"))
-            {
-                result_dictionary["_rev"] = current_rev;
-            }
 
             if(result_dictionary.ContainsKey("_rev"))
             {
-                result_dictionary["_rev"] = current_rev;
+                result_dictionary.Remove("_rev");
             }
 
-
-            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
+            result_dictionary["date_last_updated"] = DateTime.Now;
+            result_dictionary["last_updated_by"] = userName;
 
             var put_case_object_string = Newtonsoft.Json.JsonConvert.SerializeObject(get_case_object, settings);
-            
-            
-            string put_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?rev={current_rev}";
+             
+            //string put_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}?rev={current_rev}";
+            string put_case_url = $"{db_info.url}/{db_info.prefix}mmrds/{audit_object.case_id}";
             var put_case_curl = new cURL("PUT", null, put_case_url, put_case_object_string, db_info.user_name, db_info.user_value);
             
             try
@@ -200,18 +211,17 @@ public sealed class recover_deleted_caseController : Controller
                 var put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_case_response);
                 if(put_result.ok)
                 {
-                    var delete_audit_curl = new cURL("DELETE", null, audit_url, null, db_config.user_name, db_config.user_value);
+                    string delete_audit_url = $"{db_info.url}/{db_info.prefix}audit/{Model._id}?rev={audit_object._rev}";
+                    var delete_audit_curl = new cURL("DELETE", null, delete_audit_url, null, db_config.user_name, db_config.user_value);
                     var  delete_response = await delete_audit_curl.executeAsync();
-                    
                 }
             }
             catch(Exception ex)
             {
-                Console.Write("problem saving audit\n{0}", ex);
+                Console.Write("problem restoring deleted case\n{0}", ex);
 
             }
 
-            
             
         }
         catch(Exception ex)
