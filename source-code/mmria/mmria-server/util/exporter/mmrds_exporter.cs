@@ -2263,6 +2263,8 @@ public sealed class mmrds_exporter
 
         foreach (string path in p_path_to_csv_set)
         {
+
+            if(path == "home_record/record_id") continue;
         string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
 
         switch (p_path_to_node_map[path].type.ToLower())
