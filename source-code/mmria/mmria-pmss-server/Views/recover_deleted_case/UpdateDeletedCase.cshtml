@@ -1,5 +1,5 @@
 @using System.Security.Claims;
-@model mmria.pmss.server.model.year_of_death.YearOfDeathDetail
+@model mmria.common.model.couchdb.audit.audit_detail_view;
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
@@ -13,43 +13,16 @@
     }
 }
 
-@if
-(
-    Model.is_only_record_id_change.HasValue &&
-    Model.is_only_record_id_change.Value
-)
-{
-    <h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
-    <a class="btn btn-secondary" href="/recover-deleted-case">Search Again</a>
 
-    <h3 class="h4">MMRIA Record ID has been set to: <strong>@Model.RecordIdReplacement</strong></h3>
-    <p><strong>Year of Death:</strong> @Model.YearOfDeath</p>
-    <p><strong>MMRIA Record ID:</strong> @Model.RecordIdReplacement</p>
-    <p><strong>First Name:</strong> @Model.FirstName</p>
-    <p><strong>Middle Name:</strong> @Model.MiddleName</p>
-    <p><strong>Last Name:</strong> @Model.LastName</p>
-    <p><strong>Date of Death:</strong> @Model.DateOfDeath</p>
-    <p><strong>Last Updated By:</strong> @Model.LastUpdatedBy</p>
-    <p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
+<h1 class="h2" tabindex="-1">Deleted Case Resotred</h1>
+<a class="btn btn-secondary" href="/recover-deleted-case">Search Again</a>
 
+<h3 class="h4">The deleted case has been restored for MMRIA Record ID: <strong>@Model.record_id</strong></h3>
+<p><strong>MMRIA Record ID:</strong> @Model.record_id</p>
+<p><strong>First Name:</strong> @Model.first_name</p>
+<p><strong>Last Name:</strong> @Model.last_name</p>
+<p><strong>Date of Deletion:</strong> @Model.date_created</p>
+<p><strong>Deleted By:</strong> @Model.user_name</p>
 
-    <a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a>
-}
-else
-{
-    <h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
-    <a class="btn btn-secondary" href="/recover-deleted-case">Search Again</a>
+<a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a>
 
-    <h3 class="h4">Year of Death and MMRIA Record ID has been set to: Year of Death: <strong>@Model.YearOfDeathReplacement</strong> MMRIA Record ID: <strong>@Model.RecordIdReplacement</strong></h3>
-    <p><strong>Year of Death:</strong> @Model.YearOfDeathReplacement</p>
-    <p><strong>MMRIA Record ID:</strong> @Model.RecordIdReplacement</p>
-    <p><strong>First Name:</strong> @Model.FirstName</p>
-    <p><strong>Middle Name:</strong> @Model.MiddleName</p>
-    <p><strong>Last Name:</strong> @Model.LastName</p>
-    <p><strong>Date of Death:</strong> @Model.DateOfDeath</p>
-    <p><strong>Last Updated By:</strong> @Model.LastUpdatedBy</p>
-    <p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
-
-    <a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a>
-
-}

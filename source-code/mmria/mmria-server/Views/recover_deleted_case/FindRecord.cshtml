@@ -1,6 +1,6 @@
 @using System.Security.Claims;
 @using System.Linq;
-@model mmria.server.model.year_of_death.YearOfDeathRequestResponse
+@model  mmria.server.model.recover_deleted.RequestResponse;
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
@@ -30,16 +30,15 @@
         <tr class="tr">
             <th class="th">#</th>
             <th class="th">MMRIA Record ID</th>
-            <th class="th">Year of Death</th>
-            <th class="th">Name (First, Middle, Last Name)</th>
-            <th class="th">Date of Death</th>
-            <th class="th">Last Updated (User, Date/Time)</th>
+            <th class="th">Name (First Last)</th>
+            <th class="th">Date of Deletion</th>
+            <th class="th">Deleted By</th>
             <th class="th">Actions</th>
         </tr>
     </thead>
     <tbody>
         @{ var i = 0; }
-        @if(Model.YearOfDeathDetail.Count == 0)
+        @if(Model.Detail.Count == 0)
         {
             <tr class="tr">
                 <td class="td" colspan=7 align=center>
@@ -48,50 +47,25 @@
             </tr>
         }
         else 
-        @foreach (var item in Model.YearOfDeathDetail)
+        @foreach (var item in Model.Detail)
         {
             i++;
 
             <tr class="tr">
-                <form method="post" action="/recover-deleted-case/ConfirmUpdateYearOfDeathRequest">
+                <form method="post" action="/recover-deleted-case/ConfirmRecoverRequest">
                 <input type="hidden" name="_id" value="@item._id" />
-                <input type="hidden" name="RecordId" value="@item.RecordId" />
-                <input type="hidden" name="FirstName" value="@item.FirstName" />
-                <input type="hidden" name="LastName" value="@item.LastName" />
-                <input type="hidden" name="MiddleName" value="@item.MiddleName" />
-                <input type="hidden" name="YearOfDeath" value="@item.YearOfDeath" />
-                <input type="hidden" name="DateOfDeath" value="@item.DateOfDeath" />
-                <input type="hidden" name="DateLastUpdated" value="@item.DateLastUpdated" />
-                <input type="hidden" name="LastUpdatedBy" value="@item.LastUpdatedBy" />
-                <input type="hidden" name="StateOfDeath" value="@item.StateOfDeath" />
-                <input type="hidden" name="StatusDisplay" value="@item.YearOfDeath" />
-                <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />
-                <input type="hidden" name="Role" value="@item.Role" />   
+                <input type="hidden" name="record_id" value="@item.record_id" />
+                <input type="hidden" name="first_name" value="@item.first_name" />
+                <input type="hidden" name="last_name" value="@item.last_name" />
+                <input type="hidden" name="date_created" value="@item.date_created" />
+                <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />  
                 <td class="td">@i</td>
-                <td class="td">@item.RecordId</td>
-                <td class="td"style="width:160px;">
-
-                    @item.YearOfDeath
-                    
-                </td>
-                <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
-                <td class="td">@item.DateOfDeath</td>
-                <td class="td">@item.LastUpdatedBy, @item.DateLastUpdated</td>
+                <td class="td">@item.record_id</td>
+                <td class="td">@item.first_name  @item.last_name</td>
+                <td class="td">@item.date_created</td>
+                <td class="td">@item.user_name</td>
                 <td class="td">
-                                
-                        @if
-                        (
-                            item.CaseStatus.HasValue && 
-                            Locked_status_list.Contains(item.CaseStatus.Value)
-                        )
-                        {
-                            @Html.Raw("Case locked<br/>No Action Needed.");
-                        }
-                        else
-                        {
-                            <input class="btn btn-primary" type="submit" value="Recover" />
-                        }
-                    
+                    <input class="btn btn-primary" type="submit" value="Recover" />
                 </td>
                 </form>
             </tr>

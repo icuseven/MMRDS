@@ -6,13 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.pmss.server.extension; 
-namespace mmria.pmss.server.Controllers;
+using  mmria.server.extension; 
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "installation_admin,cdc_admin")]
 [Route("recover-deleted-case/{action=Index}")]
 public sealed class recover_deleted_caseController : Controller
 {
+    struct Selector_Struc
+    {
+        //public System.Dynamic.ExpandoObject selector;
+        public System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>> selector;
+        public string[] fields;
+
+        public string use_index;
+
+        public int limit;
+    }
+
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
@@ -52,9 +63,9 @@ public sealed class recover_deleted_caseController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.pmss.server.model.year_of_death.YearOfDeathRequest Model)
+    public async Task<IActionResult> FindRecord(mmria.server.model.recover_deleted.Request Model)
     {
-        var model = new mmria.pmss.server.model.year_of_death.YearOfDeathRequestResponse();
+        var model = new mmria.server.model.recover_deleted.RequestResponse();
         model.SearchText = Model.RecordId;
         try
         {
@@ -63,7 +74,7 @@ public sealed class recover_deleted_caseController : Controller
             if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
                 var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                string request_string = $"{db_info.url}/{db_info.prefix}audit/_design/sortable/_view/by_deleted?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
                 responseFromServer = await case_view_curl.executeAsync();
 
@@ -71,60 +82,31 @@ public sealed class recover_deleted_caseController : Controller
             else
             {
              
-                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                string request_string = $"{db_config.url}/{db_config.prefix}audit/_design/sortable/_view/by_deleted?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();   
             }
 
 
-            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
+            var audit_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.audit.audit_detail_view>>(responseFromServer);
 
-            var Locked_status_list = new List<int>(){4,5,6};
-            foreach(var item in case_view_response.rows)
+            foreach(var item in audit_view_response.rows)
             {
                 try
                 {
                     if
                     (
+                        string.IsNullOrWhiteSpace(Model.RecordId) ||
+
                         item.value.record_id != null &&
-                        !string.IsNullOrWhiteSpace(Model.RecordId) &&
                         (
                             item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
                             Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
                         )
-                        /*
-                        &&
-                        (
-                            item.value.case_status.HasValue &&
-                            Locked_status_list.IndexOf(item.value.case_status.Value) > -1
-                        )*/
-
                     )
                     {
-                        var x = new mmria.pmss.server.model.year_of_death.YearOfDeathDetail()
-                        {
-                            _id = item.id,
-                            RecordId = item.value?.record_id,
-                            FirstName = item.value?.first_name,
-                            LastName = item.value?.last_name,
-                            MiddleName = item.value?.middle_name,
-                            DateOfDeath = $"{item.value?.date_of_death_month}/{item.value.date_of_death_year}",
-                            StateOfDeath = item.value?.host_state,
-
-                            LastUpdatedBy = item.value?.last_updated_by,
-
-                            DateLastUpdated = item.value?.date_last_updated,
-
-                            YearOfDeath = item.value.date_of_death_year,
-
-                            StateDatabase = Model.StateDatabase,
-
-                            CaseStatus = item.value.case_status,
-
-                            Role = Model.Role
-                        };
-                        
-                        model.YearOfDeathDetail.Add(x);
+                        item.value.StateDatabase = host_prefix;
+                        model.Detail.Add(item.value);
                     }
                 }
                 catch(Exception ex)
@@ -143,51 +125,22 @@ public sealed class recover_deleted_caseController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmUpdateDeletedCaseRequest(mmria.pmss.server.model.year_of_death.YearOfDeathDetail Model)
+    public IActionResult ConfirmRecoverRequest(mmria.common.model.couchdb.audit.audit_detail_view Model)
     {
         var model = Model;
 
-        
-        
-        string server_url = db_config.url;
-        string user_name = db_config.user_name;
-        string user_value = db_config.user_value;
-        string prefix = "";
-
-        if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
-        {
-            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-            server_url = db_info.url;
-            prefix = db_info.prefix;
-            user_name = db_info.user_name;
-            user_value = db_info.user_value;
-        }
-
-        HashSet<string> ExistingRecordIds = GetExistingRecordIds(server_url, user_name, user_value, prefix);
-
-        var array = Model.RecordId.Split('-');
-
-        string record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{array[2]}";
-
-        System.Console.WriteLine($"ExistingRecordIds.Count{ExistingRecordIds.Count}");
-
-        while (ExistingRecordIds.Contains(record_id))
-        {
-            record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
-        };
-
-        Model.RecordIdReplacement = record_id;
-
+    
         return View(model);
     }
 
     
-    public async Task<IActionResult> UpdateDeletedCase(mmria.pmss.server.model.year_of_death.YearOfDeathDetail Model)
+    public async Task<IActionResult> UpdateDeletedCase(mmria.common.model.couchdb.audit.audit_detail_view Model)
     {
         var model = Model;
 
         try
         {
+            /*
 
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
@@ -226,6 +179,7 @@ public sealed class recover_deleted_caseController : Controller
                     var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
+                        
                         date_of_death["year"] = model.YearOfDeathReplacement.ToString();
                         home_record["record_id"] = model.RecordIdReplacement;
 
@@ -290,11 +244,11 @@ public sealed class recover_deleted_caseController : Controller
             {
                 model.StatusText = "Problem Setting Status to (blank)";
             }
-            
+            */
         }
         catch(Exception ex)
         {
-            model.StatusText = ex.ToString();
+            //model.StatusText = ex.ToString();
         }
 
         return View(model);
@@ -344,5 +298,24 @@ public sealed class recover_deleted_caseController : Controller
         my_count ++;
         return _rdm.Next(_min, _max);
         
+    }
+
+
+
+    (string url, string post) get_find_url()
+    {
+        var selector_struc = new Selector_Struc();
+        selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
+        selector_struc.limit = 1_000_000;
+        selector_struc.selector.Add("is_delete", new System.Collections.Generic.Dictionary<string,string>(StringComparer.OrdinalIgnoreCase));
+        selector_struc.selector["is_delete"].Add("$eq", "true");
+        selector_struc.use_index = "case-id-date-last-updated-index";
+
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
+
+        string result = $"{db_config.url}/{db_config.prefix}audit/_find";
+        return (result, selector_struc_string);
     }
 }
