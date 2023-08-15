@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension; 
-namespace mmria.server.Controllers;
+using  mmria.pmss.server.extension; 
+namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "installation_admin,cdc_admin")]
 [Route("recover-deleted-case/{action=Index}")]
@@ -70,9 +70,9 @@ public sealed class recover_deleted_caseController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.server.model.recover_deleted.Request Model)
+    public async Task<IActionResult> FindRecord(mmria.pmss.server.model.recover_deleted.Request Model)
     {
-        var model = new mmria.server.model.recover_deleted.RequestResponse();
+        var model = new mmria.pmss.server.model.recover_deleted.RequestResponse();
         model.SearchText = Model.RecordId;
         try
         {
