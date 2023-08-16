@@ -377,7 +377,7 @@ public sealed partial class Program
             var DbConfigSet = GetConfiguration
             (
                 couchdb_url,
-                overridable_config.GetString("db_prefix",host_prefix),
+                overridable_config.GetString("config_id",host_prefix),
                 timer_user_name,
                 timer_value
             );
