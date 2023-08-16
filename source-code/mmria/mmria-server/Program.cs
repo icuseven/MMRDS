@@ -374,7 +374,13 @@ public sealed partial class Program
                 Log.Information("Program.config_vitals_service_key is present");
             }
 
-            var DbConfigSet = GetConfiguration(configuration);
+            var DbConfigSet = GetConfiguration
+            (
+                couchdb_url,
+                config_id,
+                timer_user_name,
+                timer_value
+            );
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
             Program.configuration_set = DbConfigSet;
@@ -687,19 +693,30 @@ public sealed partial class Program
         Console.WriteLine("AppDomain_UnhandledExceptionHandler caught : " + e.Message);
     }
 
-    static mmria.common.couchdb.ConfigurationSet GetConfiguration(IConfiguration configuration)
+    static mmria.common.couchdb.ConfigurationSet GetConfiguration
+    (
+        string couchdb_url,
+        string config_id,
+        string user_name, 
+        string user_value
+
+    )
     {
         var result = new mmria.common.couchdb.ConfigurationSet();
+        string request_string = null;
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:config_id"]}";
-            var case_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            request_string = $"{couchdb_url}/configuration/{config_id}";
+
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, user_name, user_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
         }
         catch(Exception ex)
         {
             Console.WriteLine (ex);
+            Console.WriteLine (request_string);
+            
         } 
 
         return result;
