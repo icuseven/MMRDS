@@ -172,11 +172,15 @@ public sealed partial class Program
             string timer_user_name = configuration["mmria_settings:timer_user_name"];
             string timer_value = configuration["mmria_settings:timer_value"];
             string shared_config_id = configuration["mmria_settings:shared_config_id"];
+            string host_prefix = "shared";
+
+            configuration["mmria_settings:shared_config_id"].SetIfIsNotNullOrWhiteSpace(ref host_prefix);
 
             System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+            System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
 
 
 
@@ -209,17 +213,17 @@ public sealed partial class Program
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
             
-            Program.config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-            Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-            Program.config_timer_value = configuration["mmria_settings:timer_value"];
+            Program.config_couchdb_url = overridable_config.GetString("couchdb_url", host_prefix);
+            Program.config_timer_user_name = overridable_config.GetString("timer_user_name", host_prefix);
+            Program.config_timer_value = overridable_config.GetString("timer_value", host_prefix);
 
 
 
-            Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
+            Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
 
-            Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
-            Program.config_export_directory = configuration["mmria_settings:export_directory"];
+            Program.config_cron_schedule = overridable_config.GetString("cron_schedule", host_prefix);
+            Program.config_export_directory = overridable_config.GetString("export_directory", host_prefix);
 
             configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
 
@@ -337,21 +341,22 @@ public sealed partial class Program
                 
             }*/
 
-            Log.Information($"Program.config_timer_user_name = {Program.config_timer_user_name}");
-            Log.Information($"Program.config_couchdb_url = {Program.config_couchdb_url}");
-            Log.Information($"Program.db_prefix = {Program.db_prefix}");
+            Log.Information($"Program.config_timer_user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
+            Log.Information($"Program.config_couchdb_url = {overridable_config.GetString("couchdb_url", host_prefix)}");
+            Log.Information($"Program.db_prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
+            Log.Information($"config_id = {overridable_config.GetString("config_id",host_prefix)}");
+            Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {configuration["Console:LogLevel:Default"]}");
-            Log.Information("sams:callback_url: {0}", configuration["sams:callback_url"]);
-            Log.Information("sams:activity_name: {0}", configuration["sams:activity_name"]);
-            Log.Information("mmria_settings:is_schedule_enabled: {0}", configuration["mmria_settings:is_schedule_enabled"]);
-            Log.Information("mmria_settings:is_db_check_enabled: {0}", configuration["mmria_settings:is_db_check_enabled"]);
-            Log.Information("mmria_settings:is_development: {0}", configuration["mmria_settings:is_development"]);
-            Log.Information("mmria_settings:metadata_version: {0}", configuration["mmria_settings:metadata_version"]);
-            Log.Information("mmria_settings:power_bi_link: {0}", configuration["mmria_settings:power_bi_link"]);
-            Log.Information("mmria_settings:app_instance_name: {0}", configuration["mmria_settings:app_instance_name"]);
-            Log.Information("mmria_settings:session_idle_timeout_minutes: {0}", configuration["mmria_settings:session_idle_timeout_minutes"]);
-            Log.Information("Program.config_session_idle_timeout_minutes: {0}", Program.config_session_idle_timeout_minutes);
+            Log.Information("sams:callback_url: {0}", overridable_config.GetString("sams:callback_url",host_prefix));
+            Log.Information("sams:activity_name: {0}", overridable_config.GetString("sams:activity_name",host_prefix));
+            Log.Information("mmria_settings:is_schedule_enabled: {0}", overridable_config.GetBoolean("is_schedule_enabled", host_prefix));
+            Log.Information("mmria_settings:is_db_check_enabled: {0}", overridable_config.GetBoolean("is_db_check_enabled", host_prefix));
+            Log.Information("mmria_settings:is_development: {0}", overridable_config.GetBoolean("is_development", host_prefix));
+            Log.Information("mmria_settings:metadata_version: {0}", overridable_config.GetString("metadata_version", host_prefix));
+            Log.Information("mmria_settings:app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
+            Log.Information("mmria_settings:session_idle_timeout_minutes: {0}", overridable_config.GetInteger("session_idle_timeout_minutes", host_prefix));
+            Log.Information("Program.config_session_idle_timeout_minutes: {0}", overridable_config.GetInteger("session_idle_timeout_minutes", host_prefix));
 
             if(!string.IsNullOrWhiteSpace(Program.vitals_service_key))
             {
