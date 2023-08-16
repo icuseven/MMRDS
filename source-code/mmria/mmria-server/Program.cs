@@ -167,9 +167,6 @@ public sealed partial class Program
             configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref Program.config_id );
 
 
-            //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
-            //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
-            
 
             string couchdb_url =  configuration["mmria_settings:couchdb_url"];
             string timer_user_name = configuration["mmria_settings:timer_user_name"];
@@ -180,6 +177,13 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+
+
+
+
+            //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
+            //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
+            
 
 
             Log.Information("Overriable Config:");
@@ -228,7 +232,7 @@ public sealed partial class Program
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
 
-            if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
+            /*if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
             {
                 Log.Information("using Environment");
 
@@ -236,16 +240,16 @@ public sealed partial class Program
                 //Log.Information ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
                 Log.Information("couchdb_url: {0}", System.Environment.GetEnvironmentVariable("couchdb_url"));
                 Log.Information("web_site_url: {0}", System.Environment.GetEnvironmentVariable("web_site_url"));
-                Log.Information("export_directory: {0}", System.Environment.GetEnvironmentVariable("export_directory"));
+                //Log.Information("export_directory: {0}", System.Environment.GetEnvironmentVariable("export_directory"));
 
                 //Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
                 //Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
                 
-                System.Environment.GetEnvironmentVariable("web_site_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_web_site_url);
+                //System.Environment.GetEnvironmentVariable("web_site_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_web_site_url);
 
                 //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-                System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
-                System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
+                //System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
+                //System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
               
                 System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_couchdb_url);
 
@@ -330,7 +334,8 @@ public sealed partial class Program
                 Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
                 Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"), 120);
                 Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_lockout_number_of_minutes"), 15);
-            }
+                
+            }*/
 
             Log.Information($"Program.config_timer_user_name = {Program.config_timer_user_name}");
             Log.Information($"Program.config_couchdb_url = {Program.config_couchdb_url}");
