@@ -142,6 +142,19 @@ public sealed class OverridableConfiguration
         return GetSharedBoolean(key);
     }
 
+
+    public string SetString(string prefix, string key, string value)
+    {
+        if(!string_keys.ContainsKey(prefix))
+        {
+            string_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
+        }
+
+        string_keys[prefix][key] = value;
+        
+        return GetSharedString(key);
+    }
+
     public string GetString(string key, string prefix)
     {
         if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedString(key);
