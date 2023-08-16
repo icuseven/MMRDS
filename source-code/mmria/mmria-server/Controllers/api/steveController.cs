@@ -76,7 +76,7 @@ public sealed class steveController : ControllerBase
         {
             seaBucketKMSKey = configuration.GetSharedString("steve_api:sea_bucket_kms_key"),
             clientName = configuration.GetSharedString("steve_api:client_name"),
-            clientSecretKey = configuration.GetSharedString("steve_api:client_secreat_key")
+            clientSecretKey = configuration.GetSharedString("steve_api:client_secret_key")
         };
 
         var base_url = configuration.GetSharedString("steve_api:base_url");

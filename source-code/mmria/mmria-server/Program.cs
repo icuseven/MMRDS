@@ -382,7 +382,7 @@ public sealed partial class Program
 
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
-            configuration["steve_api:client_secreat_key"] = DbConfigSet.name_value["steve_api:client_secreat_key"];
+            configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
             configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
                         
 
