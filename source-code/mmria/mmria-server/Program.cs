@@ -377,7 +377,7 @@ public sealed partial class Program
             var DbConfigSet = GetConfiguration
             (
                 couchdb_url,
-                config_id,
+                overridable_config.GetString("db_prefix",host_prefix),
                 timer_user_name,
                 timer_value
             );
@@ -707,6 +707,7 @@ public sealed partial class Program
         try
         {
             request_string = $"{couchdb_url}/configuration/{config_id}";
+            Console.WriteLine (request_string);
 
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, user_name, user_value);
             string responseFromServer = case_curl.execute();
