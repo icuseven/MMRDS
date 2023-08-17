@@ -34,9 +34,6 @@ namespace mmria.server;
 
 public sealed partial class Program
 {
-    static bool config_is_service = true;
-    public static string config_geocode_api_key;
-    public static string config_geocode_api_url;
     public static string config_couchdb_url = "http://localhost:5984";
 
     public static string db_prefix = "";
@@ -44,15 +41,11 @@ public sealed partial class Program
     //public static string config_file_root_folder;
     public static string config_timer_user_name;
     public static string config_timer_value;
-    public static string config_cron_schedule;
     public static string config_export_directory;
-
-    public static string app_instance_name;
 
     public static string metadata_release_version_name;
 
     public static string vitals_service_key;
-    public static string config_id;
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
 
@@ -69,12 +62,6 @@ public sealed partial class Program
     public static int config_pass_word_minimum_length = 8;
     public static int config_pass_word_days_before_expires = 0;
     public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;
-    public static bool config_EMAIL_USE_AUTHENTICATION = true;
-    public static bool config_EMAIL_USE_SSL = true;
-    public static string config_SMTP_HOST = null;
-    public static int config_SMTP_PORT = 587;
-    public static string config_EMAIL_FROM = null;
-    public static string config_EMAIL_PASSWORD = null;
     public static int config_default_days_in_effective_date_interval = 90;
     public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
     public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
@@ -157,15 +144,13 @@ public sealed partial class Program
             configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
 
             configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
-            configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref Program.app_instance_name);
+            
             configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrWhiteSpace(ref Program.metadata_release_version_name);
             configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrWhiteSpace(ref Program.db_prefix);
             configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
             configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
             configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
             configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrWhiteSpace(ref Program.vitals_service_key);
-            configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref Program.config_id );
-
 
 
             string couchdb_url =  configuration["mmria_settings:couchdb_url"];
@@ -200,7 +185,7 @@ public sealed partial class Program
             Log.Information($"timer_user_name: {timer_user_name}");
             Log.Information($"host_prefix: {host_prefix}");
             Log.Information($"shared_config_id: {shared_config_id}");
-            Log.Information("");
+            Log.Information("***********************\n");
 
 
 
@@ -228,7 +213,6 @@ public sealed partial class Program
             Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
 
-            Program.config_cron_schedule = overridable_config.GetString("cron_schedule", host_prefix);
             Program.config_export_directory = overridable_config.GetString("export_directory", host_prefix);
 
             configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
@@ -387,11 +371,11 @@ public sealed partial class Program
             Log.Information("is_db_check_enabled: {0}", overridable_config.GetBoolean("is_db_check_enabled", host_prefix));
             Log.Information("is_development: {0}", overridable_config.GetBoolean("is_development", host_prefix));
             Log.Information("session_idle_timeout_minutes: {0}", overridable_config.GetInteger("session_idle_timeout_minutes", host_prefix));
-            Log.Information("session_idle_timeout_minutes: {0}", overridable_config.GetInteger("session_idle_timeout_minutes", host_prefix));
+            Log.Information("vitals_url: {0}", overridable_config.GetString("vitals_url", host_prefix));
 
-            if(!string.IsNullOrWhiteSpace(Program.vitals_service_key))
+            if(!string.IsNullOrWhiteSpace(overridable_config.GetString("vitals_service_key", host_prefix)))
             {
-                Log.Information("Program.config_vitals_service_key is present");
+                Log.Information("vitals_service_key is present");
             }
 
             var DbConfigSet = GetConfiguration
@@ -423,6 +407,14 @@ public sealed partial class Program
             var provider = collection.BuildServiceProvider();
 
 
+            // ******* To Be removed start
+            Program.metadata_release_version_name = overridable_config.GetString("metadata_version", host_prefix);
+
+
+
+            // ******* To Be removed end
+
+
 
             Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
@@ -439,7 +431,7 @@ public sealed partial class Program
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("trigger1", "group1")
                 .StartAt(runTime.AddMinutes(3))
-                .WithCronSchedule(Program.config_cron_schedule)
+                .WithCronSchedule(overridable_config.GetString("cron_schedule", host_prefix))
                 .Build();
 
             sched.ScheduleJob(job, trigger);
