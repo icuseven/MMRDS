@@ -142,18 +142,18 @@ public sealed class OverridableConfiguration
         return GetSharedBoolean(key);
     }
 
-
-    public string SetString(string prefix, string key, string value)
+    public void SetBoolean(string prefix, string key, bool value)
     {
-        if(!string_keys.ContainsKey(prefix))
+        if(!boolean_keys.ContainsKey(prefix))
         {
-            string_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
+            boolean_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        string_keys[prefix][key] = value;
+        boolean_keys[prefix][key] = value;
         
-        return GetSharedString(key);
     }
+
+
 
     public string GetString(string key, string prefix)
     {
@@ -168,6 +168,15 @@ public sealed class OverridableConfiguration
         }
         
         return GetSharedString(key);
+    }
+    public void SetString(string prefix, string key, string value)
+    {
+        if(!string_keys.ContainsKey(prefix))
+        {
+            string_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
+        }
+
+        string_keys[prefix][key] = value;
     }
     
     public int? GetInteger(string key, string prefix)
@@ -184,6 +193,17 @@ public sealed class OverridableConfiguration
     
         return GetSharedInteger(key);
 
+    }
+
+    public void SetInteger(string prefix, string key, int value)
+    {
+        if(!integer_keys.ContainsKey(prefix))
+        {
+            integer_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
+        }
+
+        integer_keys[prefix][key] = value;
+        
     }
 
 
