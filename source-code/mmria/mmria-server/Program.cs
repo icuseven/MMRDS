@@ -173,16 +173,19 @@ public sealed partial class Program
             string timer_value = configuration["mmria_settings:timer_value"];
             string shared_config_id = configuration["mmria_settings:shared_config_id"];
             string host_prefix = "shared";
+            string app_instance_name = null;
 
 
             configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref host_prefix);
             configuration["mmria_settings:shared_config_id"].SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+            configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
 
             System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
             System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
 
 
 
@@ -348,16 +351,33 @@ public sealed partial class Program
             {
                 
                 overridable_config.SetString(host_prefix, "config_id", host_prefix);
+                Log.Information($"*config_id = {overridable_config.GetString("config_id",host_prefix)}");
             }
+            else
+            {
+                Log.Information($"config_id = {overridable_config.GetString("config_id",host_prefix)}");
+            }
+
+
+            if(string.IsNullOrWhiteSpace(overridable_config.GetString("app_instance_name",host_prefix)))
+            {
+                
+                overridable_config.SetString(host_prefix, "app_instance_name", host_prefix);
+                Log.Information("*app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
+            }
+            else
+            {
+                Log.Information("app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
+            }
+
 
             Log.Information($"host_prefix = {host_prefix}");
             Log.Information("metadata_version: {0}", overridable_config.GetString("metadata_version", host_prefix));
-            Log.Information("app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
           
             Log.Information($"Program.config_timer_user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
             Log.Information($"Program.config_couchdb_url = {overridable_config.GetString("couchdb_url", host_prefix)}");
             Log.Information($"Program.db_prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
-            Log.Information($"config_id = {overridable_config.GetString("config_id",host_prefix)}");
+            
             Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {configuration["Console:LogLevel:Default"]}");
