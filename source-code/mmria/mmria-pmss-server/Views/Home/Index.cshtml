@@ -15,6 +15,7 @@
   var is_data_analyst = false;
   var is_steve_mmria = false;
   var is_steve_prams = false;
+  var is_vro = false;
 
   ViewBag.Sidebar = false;
   
@@ -83,6 +84,12 @@
             is_authenticated = true;
             is_guest = false;
             break;
+        case "vro":
+            is_vro = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+
       }
     }
   }
@@ -224,6 +231,21 @@ else
         </div>
       </li>
     }
+
+
+    @if(is_vro)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Vital Records Office</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/Case">View Case Data</a></li>
+            <li><a href="/export-queue">Export Data</a></li>
+          </ul>
+        </div>
+      </li>
+    }
+
 
     
     @if(is_steve_mmria)

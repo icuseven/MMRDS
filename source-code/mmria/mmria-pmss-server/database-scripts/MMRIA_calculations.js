@@ -13,18 +13,8 @@ function $case_document_begin_edit()
 }
 
 
-/*
-
 function $tracing_dod_update()
 {
-    /*
-    /tracking/date_of_death/dod
-
-    /tracking/date_of_death/month
-    /tracking/date_of_death/day
-    /tracking/date_of_death/year
-    * /
-
     const month = g_data.tracking.date_of_death.month;
     const day = g_data.tracking.date_of_death.day;
     const year = g_data.tracking.date_of_death.year;
@@ -50,12 +40,10 @@ function $tracing_dod_update()
 }
 
 
-
-
 /*
 path=tracking/date_of_death/month
 event=onchange
-* /
+*/
 function tracking_date_of_death_month_onchange(p_control) 
 {
     $global.tracing_dod_update();
@@ -64,7 +52,7 @@ function tracking_date_of_death_month_onchange(p_control)
 /*
 path=tracking/date_of_death/day
 event=onchange
-* /
+*/
 function tracking_date_of_death_day_onchange(p_control) 
 {
     $global.tracing_dod_update();
@@ -73,10 +61,10 @@ function tracking_date_of_death_day_onchange(p_control)
 /*
 path=tracking/date_of_death/year
 event=onchange
-* /
+*/
 function tracking_date_of_death_year_onchange(p_control) 
 {
     $global.tracing_dod_update();
 }
-*/
+
 
