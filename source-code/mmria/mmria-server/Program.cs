@@ -201,6 +201,8 @@ public sealed partial class Program
             );
 
 
+            overridable_config.SetString(host_prefix, "shared_config_id", shared_config_id);
+
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
             
@@ -225,111 +227,6 @@ public sealed partial class Program
             Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
-
-            /*if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
-            {
-                Log.Information("using Environment");
-
-                //Log.Information ("geocode_api_key: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_key"));
-                //Log.Information ("geocode_api_url: {0}", System.Environment.GetEnvironmentVariable ("geocode_api_url"));
-                Log.Information("couchdb_url: {0}", System.Environment.GetEnvironmentVariable("couchdb_url"));
-                Log.Information("web_site_url: {0}", System.Environment.GetEnvironmentVariable("web_site_url"));
-                //Log.Information("export_directory: {0}", System.Environment.GetEnvironmentVariable("export_directory"));
-
-                //Program.config_geocode_api_key = System.Environment.GetEnvironmentVariable ("geocode_api_key");
-                //Program.config_geocode_api_url = System.Environment.GetEnvironmentVariable ("geocode_api_url");
-                
-                //System.Environment.GetEnvironmentVariable("web_site_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_web_site_url);
-
-                //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-                //System.Environment.GetEnvironmentVariable("cron_schedule").SetIfIsNotNullOrWhiteSpace(ref Program.config_cron_schedule);
-                //System.Environment.GetEnvironmentVariable("export_directory").SetIfIsNotNullOrWhiteSpace(ref Program.config_export_directory, "/workspace/export");
-              
-                System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref Program.config_couchdb_url);
-
-                //Program.config_file_root_folder = System.Environment.GetEnvironmentVariable ("file_root_folder");
-                System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_user_name);
-                System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref Program.config_timer_value);
-
-
-                string log_directory = configuration["mmria_settings:log_directory"];                
-                System.Environment.GetEnvironmentVariable("log_directory").SetIfIsNotNullOrWhiteSpace(ref log_directory);
-
-                configuration["mmria_settings:log_directory"] = log_directory;
-
-                configuration["mmria_settings:couchdb_url"]  = Program.config_couchdb_url;
-                configuration["mmria_settings:web_site_url"] = Program.config_web_site_url;
-
-                configuration["mmria_settings:timer_user_name"] = Program.config_timer_user_name;
-                configuration["mmria_settings:timer_value"] = Program.config_timer_value;
-                configuration["mmria_settings:cron_schedule"] = Program.config_cron_schedule;
-
-                configuration["mmria_settings:export_directory"] = Program.config_export_directory;
-
-                System.Environment.GetEnvironmentVariable("session_idle_timeout_minutes")
-                    .SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes, 30);
-                configuration["mmria_settings:session_idle_timeout_minutes"] = Program.config_session_idle_timeout_minutes.ToString();
-
-                System.Environment.GetEnvironmentVariable("password_minimum_length")
-                    .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_minimum_length, 8);
-        
-                System.Environment.GetEnvironmentVariable("password_days_before_expires")
-                    .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_days_before_expires, 0);
-
-                System.Environment.GetEnvironmentVariable("password_days_before_user_is_notified_of_expiration")
-                    .SetIfIsNotNullOrWhiteSpace(ref Program.config_pass_word_days_before_user_is_notified_of_expiration, 0);
-
-                System.Environment.GetEnvironmentVariable("vitals_url")
-                    .SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
-                configuration["mmria_settings:vitals_url"] = SetFromIfHasValue(configuration["mmria_settings:vitals_url"], Program.config_vitals_url);
-
-                configuration["sams:endpoint_authorization"] = SetFromIfHasValue(configuration["sams:endpoint_authorization"], System.Environment.GetEnvironmentVariable("sams_endpoint_authorization"));
-                
-                configuration["mmria_settings:is_development"] = SetFromIfHasValue(configuration["mmria_settings:is_development"], System.Environment.GetEnvironmentVariable("use_development_settings"));
-                
-                configuration["mmria_settings:metadata_version"] = SetFromIfHasValue(configuration["mmria_settings:metadata_version"], System.Environment.GetEnvironmentVariable("metadata_version"));
-                Program.metadata_release_version_name = SetFromIfHasValue(Program.metadata_release_version_name, System.Environment.GetEnvironmentVariable("metadata_version"));
-                
-                configuration["sams:endpoint_token"] = SetFromIfHasValue(configuration["sams:endpoint_token"], System.Environment.GetEnvironmentVariable("sams_endpoint_token"));
-                configuration["sams:endpoint_user_info"] = SetFromIfHasValue(configuration["sams:endpoint_user_info"] , System.Environment.GetEnvironmentVariable("sams_endpoint_user_info"));
-                configuration["sams:token_validation"] = SetFromIfHasValue(configuration["sams:token_validation"], System.Environment.GetEnvironmentVariable("sams_endpoint_token_validation"));
-                configuration["sams:user_info_sys"] = SetFromIfHasValue(configuration["sams:user_info_sys"], System.Environment.GetEnvironmentVariable("sams_endpoint_user_info_sys"));
-                
-                configuration["sams:client_id"] = SetFromIfHasValue(configuration["sams:client_id"], System.Environment.GetEnvironmentVariable("sams_client_id"));
-                configuration["sams:client_secret"] = SetFromIfHasValue(configuration["sams:client_secret"], System.Environment.GetEnvironmentVariable("sams_client_secret"));
-                configuration["sams:callback_url"] = SetFromIfHasValue(configuration["sams:callback_url"], System.Environment.GetEnvironmentVariable("sams_callback_url"));
-                configuration["sams:logout_url"] = SetFromIfHasValue(configuration["sams:logout_url"], System.Environment.GetEnvironmentVariable("sams_logout_url"));
-                configuration["sams:is_enabled"] = SetFromIfHasValue(configuration["sams:is_enabled"], System.Environment.GetEnvironmentVariable("sams_is_enabled"));
-            
-                configuration["is_schedule_enabled"] = SetFromIfHasValue(configuration["is_schedule_enabled"], System.Environment.GetEnvironmentVariable("is_schedule_enabled"));
-                configuration["is_db_check_enabled"] = SetFromIfHasValue(configuration["is_db_check_enabled"], System.Environment.GetEnvironmentVariable("is_db_check_enabled"));
-
-                configuration["mmria_settings:app_instance_name"] = SetFromIfHasValue(configuration["mmria_settings:app_instance_name"], System.Environment.GetEnvironmentVariable("app_instance_name"));
-                Program.app_instance_name = SetFromIfHasValue(Program.app_instance_name, configuration["mmria_settings:app_instance_name"]);
-            
-                configuration["mmria_settings:db_prefix"] = SetFromIfHasValue(configuration["mmria_settings:db_prefix"], System.Environment.GetEnvironmentVariable("db_prefix"));
-                Program.db_prefix = SetFromIfHasValue(Program.db_prefix, configuration["mmria_settings:db_prefix"]);
-            
-                configuration["mmria_settings:cdc_instance_pull_list"] = SetFromIfHasValue(configuration["mmria_settings:cdc_instance_pull_list"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_list"));
-                Program.config_cdc_instance_pull_list = SetFromIfHasValue(Program.config_cdc_instance_pull_list, configuration["mmria_settings:cdc_instance_pull_list"]);
-            
-                configuration["mmria_settings:cdc_instance_pull_db_url"] = SetFromIfHasValue(configuration["mmria_settings:cdc_instance_pull_db_url"], System.Environment.GetEnvironmentVariable("cdc_instance_pull_db_url"));
-                Program.config_cdc_instance_pull_db_url = SetFromIfHasValue(Program.config_cdc_instance_pull_db_url, configuration["mmria_settings:cdc_instance_pull_db_url"]);
-            
-                configuration["mmria_settings:vitals_service_key"] = SetFromIfHasValue(configuration["mmria_settings:vitals_service_key"], System.Environment.GetEnvironmentVariable("vitals_service_key"));
-                Program.vitals_service_key = SetFromIfHasValue(Program.vitals_service_key, configuration["mmria_settings:vitals_service_key"]);
-            
-                configuration["mmria_settings:config_id"] = SetFromIfHasValue(configuration["mmria_settings:config_id"], System.Environment.GetEnvironmentVariable("config_id"));
-                Program.config_id = SetFromIfHasValue(Program.config_id, configuration["mmria_settings:config_id"]);
-
-                configuration["mmria_settings:shared_config_id"] = SetFromIfHasValue(configuration["mmria_settings:shared_config_id"], System.Environment.GetEnvironmentVariable("shared_config_id"));
-                
-                Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, System.Environment.GetEnvironmentVariable("default_days_in_effective_date_interval"), 90);
-                Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_number_before_lockout"), 5);
-                Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_within_number_of_minutes"), 120);
-                Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, System.Environment.GetEnvironmentVariable("unsuccessful_login_attempts_lockout_number_of_minutes"), 15);
-                
-            }*/
 
             if(string.IsNullOrWhiteSpace(overridable_config.GetString("config_id",host_prefix)))
             {
@@ -523,7 +420,14 @@ public sealed partial class Program
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            if (Program.is_schedule_enabled)
+            var is_schedule_enabled = overridable_config.GetBoolean("is_schedule_enabled", host_prefix);
+
+
+            if 
+            (
+                is_schedule_enabled.HasValue && 
+                is_schedule_enabled.Value
+            )
             {
                 System.Threading.Tasks.Task.Run
                 (
