@@ -38,12 +38,12 @@ public sealed class caseController: ControllerBase
     { 
         try
         {
-            string request_string = $"{configuration["mmria_setting:couchdb_url"]}/{configuration["mmria_setting:db_prefix"]}mmrds/_all_docs?include_docs=true";
+            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_all_docs?include_docs=true";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
                 request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}";
-                var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_setting:timer_user_name"], configuration["mmria_setting:timer_value"]);
+                var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
