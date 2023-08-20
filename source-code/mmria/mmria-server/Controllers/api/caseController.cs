@@ -100,7 +100,6 @@ public sealed class caseController: ControllerBase
         string object_string = null;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-
         try
         {
             var mmria_record_id = "";
@@ -200,9 +199,6 @@ public sealed class caseController: ControllerBase
                     return result;
                 }
 
-                
-
-
             } 
             catch (Exception ex) 
             {
@@ -225,6 +221,7 @@ public sealed class caseController: ControllerBase
             }
             catch(Exception ex)
             {
+                result.error_description = ex.ToString();
                 Console.Write("auth_session_token: {0}", auth_session_token);
                 Console.WriteLine(ex);
             }
