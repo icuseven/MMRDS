@@ -181,15 +181,23 @@ public sealed class caseController: ControllerBase
             string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{id_val}";
             cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
 
+
+            string save_response_from_server = null;
             try
             {
-                string responseFromServer = await document_curl.executeAsync();
-                result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                save_response_from_server = await document_curl.executeAsync();
+                result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(save_response_from_server);
             }
             catch(Exception ex)
             {
                 Console.Write("auth_session_token: {0}", auth_session_token);
                 Console.WriteLine(ex);
+            }
+
+            if (!result.ok)
+            {
+                Console.Write($"save failed for: {id_val}");
+                Console.Write($"save_response:\n{save_response_from_server}");
             }
 
 
@@ -223,10 +231,7 @@ public sealed class caseController: ControllerBase
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
             case_sync_actor.Tell(Sync_Document_Message);
             */
-            if (!result.ok)
-            {
 
-            }
 
         }
         catch(Exception ex) 
