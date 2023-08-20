@@ -2071,7 +2071,11 @@ function save_case(p_data, p_call_back, p_note)
 
             if(case_response.ok == null || case_response.ok == false) 
             {
-                $mmria.unstable_network_dialog_show(xhr, p_note);
+                const err = {
+                    status: 500,
+                    responseText : case_response.error_description
+                };
+                $mmria.unstable_network_dialog_show(err, p_note);
                 return;
             }
 
