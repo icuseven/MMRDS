@@ -2066,19 +2066,30 @@ function save_case(p_data, p_call_back, p_note)
         g_case_narrative_is_updated = false;
         g_case_narrative_is_updated_date = null;
 
-        if (g_data && g_data._id == case_response.id) 
+        if (g_data) 
         {
-          g_data._rev = case_response.rev;
-          g_data_is_checked_out = is_case_checked_out(g_data);
-          g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
-          set_local_case(g_data);
-          //console.log('set_value save finished');
+
+            if(case_response.ok == null || case_response.ok == false) 
+            {
+                $mmria.unstable_network_dialog_show(xhr, p_note);
+                return;
+            }
+
+            if(g_data._id == case_response.id)
+            {
+                g_data._rev = case_response.rev;
+                g_data_is_checked_out = is_case_checked_out(g_data);
+                g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
+                set_local_case(g_data);
+                //console.log('set_value save finished');
+            }
         }
 
         if (p_call_back) 
         {
           p_call_back();
         }
+
       })
       .fail(function (xhr, err) 
       {

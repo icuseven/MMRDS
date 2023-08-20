@@ -175,6 +175,7 @@ public sealed class caseController: ControllerBase
 
             if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
+                result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
                 Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
             }
@@ -194,6 +195,7 @@ public sealed class caseController: ControllerBase
                     !mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
+                    result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
                     Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
                     return result;
                 }
@@ -229,6 +231,7 @@ public sealed class caseController: ControllerBase
 
             if (!result.ok)
             {
+                result.error_description = save_response_from_server;
                 Console.Write($"save failed for: {id_val}");
                 Console.Write($"save_response:\n{save_response_from_server}");
             }
@@ -266,10 +269,7 @@ public sealed class caseController: ControllerBase
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
             case_sync_actor.Tell(Sync_Document_Message);
             */
-            if (!result.ok)
-            {
 
-            }
 
         }
         catch(Exception ex) 
