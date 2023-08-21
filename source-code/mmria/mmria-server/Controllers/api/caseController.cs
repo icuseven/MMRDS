@@ -194,7 +194,7 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-            if (!result.ok)
+            if (!result.ok && string.IsNullOrWhiteSpace(result.error_description))
             {
                 Console.Write($"save failed for: {id_val}");
                 Console.Write($"save_response:\n{save_response_from_server}");
