@@ -226,7 +226,7 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-            if (!result.ok)
+            if (!result.ok  && result.error_description  == null)
             {
                 result.error_description = save_response_from_server;
                 Console.Write($"save failed for: {id_val}");
