@@ -12,33 +12,6 @@ function $case_document_begin_edit()
     //console.log("begin edit");
 }
 
-
-function $tracing_dod_update()
-{
-    const month = g_data.tracking.date_of_death.month;
-    const day = g_data.tracking.date_of_death.day;
-    const year = g_data.tracking.date_of_death.year;
-
-    if
-    (
-        month != null &&
-        month != 9999 &&
-        day != null &&
-        day != 9999 &&
-        year != null &&
-        year != 9999 
-    )
-    {
-        const new_date_string = `${year}-${month}-${day}`;
-        const date_display = `${month}/${day}/${year}`;
-
-        g_data.tracking.date_of_death.dod = new_date_string;
-
-        $mmria.set_control_value('tracking/date_of_death/dod', date_display);
-    }
-
-}
-
 function $tracing_dod_update
 (
     month,
@@ -51,8 +24,10 @@ function $tracing_dod_update
     (
         month != null &&
         month != 9999 &&
+        month != 99 &&
         day != null &&
         day != 9999 &&
+        day != 99 &&
         year != null &&
         year != 9999 
     )
@@ -63,6 +38,11 @@ function $tracing_dod_update
         g_data.tracking.date_of_death.dod = new_date_string;
 
         $mmria.set_control_value('tracking/date_of_death/dod', date_display);
+    }
+    else
+    {
+        g_data.tracking.date_of_death.dod = '';
+        $mmria.set_control_value('tracking/date_of_death/dod', '');
     }
 
 }
