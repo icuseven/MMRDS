@@ -138,6 +138,7 @@ public sealed class caseController: ControllerBase
 
                 if(! is_match)
                 {
+                    result.error_description = $"_id failed regex check: {id_val}";
                     return result;
                 }
             }
@@ -150,6 +151,7 @@ public sealed class caseController: ControllerBase
 
             if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
+                result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
                 Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
             }
@@ -169,6 +171,7 @@ public sealed class caseController: ControllerBase
                     !mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
+                    result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
                     Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
                     return result;
                 }
@@ -187,17 +190,25 @@ public sealed class caseController: ControllerBase
             string metadata_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}";
             cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
 
+
+            string save_response_from_server = null;
             try
             {
-                string responseFromServer = await document_curl.executeAsync();
-                result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+                save_response_from_server = await document_curl.executeAsync();
+                result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(save_response_from_server);
             }
             catch(Exception ex)
             {
+                result.error_description = ex.ToString();
                 Console.Write("auth_session_token: {0}", auth_session_token);
                 Console.WriteLine(ex);
             }
 
+            if (!result.ok && string.IsNullOrWhiteSpace(result.error_description))
+            {
+                Console.Write($"save failed for: {id_val}");
+                Console.Write($"save_response:\n{save_response_from_server}");
+            }
 
             var audit_data = save_case_request.Change_Stack;
 
