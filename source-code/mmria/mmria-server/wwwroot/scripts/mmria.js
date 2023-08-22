@@ -1505,7 +1505,7 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Unable to Save/Network Unstable</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
@@ -1514,14 +1514,15 @@ var $mmria = function()
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
                          
                          <p>
-                         <b>If this error occurs again:</b> 
+                         <b>If this error occurs again, please do the following:</b> 
                          <ol>
-                            <li>Click <b>"Show Error Detail"</b>, then click <b>“Copy Details to Clipboard”</b> button.</li>
-                            <li>Then compose a new Email:
+                            <li>Select <u>Show Error Detail</u> below</li>
+                            <li>Select <u>Copy Details to Clipboard</u></li>
+                            <li>Send an email to MMRIA Support with the following details:
                             <ul>
                             <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
-                            <li>Email Subject: MMRIA Save Error</li>
-                            <li>Email Body:      Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
+                            <li>Subject: MMRIA Save Error</li>
+                            <li>Body: Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
                             </ul>
                          </li>
                         </ol>
