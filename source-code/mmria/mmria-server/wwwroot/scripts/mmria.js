@@ -1512,7 +1512,19 @@ var $mmria = function()
                         <div class="modal-body">
                          <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
-                         <p>If this error occurs again, please contact <b>MMRIA Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         
+                         <p>
+                         <b>If this error occurs again:</b> 
+                         <ol>
+                            <li>Click <b>"Show Error Detail"</b>, then click <b>“Copy Details to Clipboard”</b> button.</li>
+                            <li>Then compose a new Email:
+                            <ul>
+                            <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
+                            <li>Email Subject: MMRIA Save Error</li>
+                            <li>Email Body:      Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
+                            </ul>
+                         </li>
+                        </ol>
                          <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>
