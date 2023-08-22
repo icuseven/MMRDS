@@ -2076,9 +2076,8 @@ function save_case(p_data, p_call_back, p_note)
                 };
                 $mmria.unstable_network_dialog_show(err, p_note);
                 return;
-            }
-
-            if(g_data._id == case_response.id)
+            } 
+            else if(g_data._id == case_response.id)
             {
                 g_data._rev = case_response.rev;
                 g_data_is_checked_out = is_case_checked_out(g_data);

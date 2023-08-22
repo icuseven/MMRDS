@@ -140,7 +140,7 @@ public sealed class caseController: ControllerBase
                 var is_match = System.Text.RegularExpressions.Regex.IsMatch
                 (
                     id_val, 
-                    @"^[0-9][0-9a-fA-F/-]+[0-9]$"
+                    @"^[0-9a-fA-F][0-9a-fA-F/-]+[0-9a-fA-F]$"
                 );
 
                 if(! is_match)
