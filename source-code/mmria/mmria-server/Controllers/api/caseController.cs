@@ -129,11 +129,18 @@ public sealed class caseController: ControllerBase
             else
             {
                 id_val = temp_id.ToString();
-
+/*
                 var is_match = System.Text.RegularExpressions.Regex.IsMatch
                 (
                     id_val, 
                     @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$"
+                );
+*/
+
+                var is_match = System.Text.RegularExpressions.Regex.IsMatch
+                (
+                    id_val, 
+                    @"^[0-9][0-9a-fA-F/-]+[0-9]$"
                 );
 
                 if(! is_match)
