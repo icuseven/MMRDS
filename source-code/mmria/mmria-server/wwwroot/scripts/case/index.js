@@ -2068,7 +2068,12 @@ function save_case(p_data, p_call_back, p_note)
 
         if (g_data) 
         {
-            if(case_response.ok == null || case_response.ok == false) 
+            if
+            (
+                case_response.ok == null ||
+                case_response.ok == false ||
+                case_response.rev == null
+            ) 
             {
                 const err = {
                     status: 500,
@@ -2077,7 +2082,11 @@ function save_case(p_data, p_call_back, p_note)
                 $mmria.unstable_network_dialog_show(err, p_note);
                 return;
             } 
-            else if(g_data._id == case_response.id)
+            else if
+            (
+                case_response.ok == true && 
+                g_data._id == case_response.id
+            )
             {
                 g_data._rev = case_response.rev;
                 g_data_is_checked_out = is_case_checked_out(g_data);
