@@ -2075,6 +2075,8 @@ function save_case(p_data, p_call_back, p_note)
                 case_response.rev == null
             ) 
             {
+                if(case_response.indexOf("(409) Conflict") > -1) return;
+                
                 const err = {
                     status: 500,
                     responseText : case_response.error_description
