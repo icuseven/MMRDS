@@ -1505,14 +1505,27 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Unable to Save/Network Unstable</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                          <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
-                         <p>If this error occurs again, please contact <b>MMRIA Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         
+                         <p>
+                         <b>If this error occurs again, please do the following:</b> 
+                         <ol>
+                            <li>Select <u>Show Error Detail</u> below</li>
+                            <li>Select <u>Copy Details to Clipboard</u></li>
+                            <li>Send an email to MMRIA Support with the following details:
+                            <ul>
+                            <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
+                            <li>Subject: MMRIA Save Error</li>
+                            <li>Body: Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
+                            </ul>
+                         </li>
+                        </ol>
                          <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>
