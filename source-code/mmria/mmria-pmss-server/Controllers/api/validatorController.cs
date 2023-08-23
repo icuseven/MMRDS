@@ -6,19 +6,29 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension;  
 namespace mmria.pmss.server;
 
 [Route("api/[controller]/{rev?}")]
 public sealed class validatorController: ControllerBase
 { 
-    public IConfiguration Configuration { get; }
-    public validatorController(IConfiguration configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public validatorController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        Configuration = configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
+
+
     [AllowAnonymous] 
     [HttpGet]
     public async Task<FileResult> Get()
@@ -27,11 +37,8 @@ public sealed class validatorController: ControllerBase
 
         try
         {
-            //"2016-06-12T13:49:24.759Z"
-            //string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{Configuration["mmria_settings:metadata_version"]}/validator";
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+            string request_string = db_config.url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
-//
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
             request.PreAuthenticate = false;
@@ -65,9 +72,8 @@ public sealed class validatorController: ControllerBase
         }
     }
 
-    // POST api/values 
+
     [Authorize(Roles  = "form_designer")]
-    //[Route("rev/{rev}")]
     [HttpPost]
     [HttpPut]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.document_put_response> Post() 
@@ -85,12 +91,12 @@ public sealed class validatorController: ControllerBase
             // Read the content.
             string validator_js_text = await reader0.ReadToEndAsync ();
 
-            string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
+            string metadata_url = db_config.url + "/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
-            var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, Program.config_timer_user_name, Program.config_timer_value,"text/*");
+            var validator_curl = new cURL("PUT", null, metadata_url, validator_js_text, db_config.user_name, db_config.user_value,"text/*");
 
 
-            var revision = await get_revision(Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z");
+            var revision = await get_revision(db_config.url + "/metadata/2016-06-12T13:49:24.759Z");
 
 
 /*
@@ -172,7 +178,7 @@ public sealed class validatorController: ControllerBase
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try

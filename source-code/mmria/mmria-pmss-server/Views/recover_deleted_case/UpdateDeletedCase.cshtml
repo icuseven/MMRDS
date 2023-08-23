@@ -1,0 +1,28 @@
+@using System.Security.Claims;
+@model mmria.common.model.couchdb.audit.audit_detail_view;
+@{ 
+    Layout = "_LayoutBase";
+    ViewBag.BreadCrumbs = true;
+    var userName = "";
+    
+    if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        userName = User.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+    }
+}
+
+
+<h1 class="h2" tabindex="-1">Deleted Case Resotred</h1>
+<a class="btn btn-secondary" href="/recover-deleted-case">Search Again</a>
+
+<h3 class="h4">The deleted case has been restored for MMRIA Record ID: <strong>@Model.record_id</strong></h3>
+<p><strong>MMRIA Record ID:</strong> @Model.record_id</p>
+<p><strong>First Name:</strong> @Model.first_name</p>
+<p><strong>Last Name:</strong> @Model.last_name</p>
+<p><strong>Date of Deletion:</strong> @Model.date_created</p>
+<p><strong>Deleted By:</strong> @Model.user_name</p>
+
+<a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a>
+

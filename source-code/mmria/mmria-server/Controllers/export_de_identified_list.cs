@@ -7,11 +7,8 @@ namespace mmria.server.Controllers;
 [Route("export-de-identified-list")]
 public sealed class export_de_identified_listController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public export_de_identified_listController(IAuthorizationService authorizationService)
+    public export_de_identified_listController()
     {
-        _authorizationService = authorizationService;
 
     }
     public IActionResult Index()

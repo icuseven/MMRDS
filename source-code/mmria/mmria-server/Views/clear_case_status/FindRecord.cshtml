@@ -19,7 +19,15 @@
 
 <h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
 <p>Choose case from the table results below.</p>
-<a class="btn btn-secondary mb-3" href="/clear_case_status">Search Again</a>
+@if(Model.is_cdc_admin)
+{
+    <a class="btn btn-secondary mb-3" href="/clear_case_status?role=cdc_admin">Search Again</a>
+}
+else
+{
+    <a class="btn btn-secondary mb-3" href="/clear_case_status">Search Again</a>
+}
+
 
 <table class="table">
     <thead class="thead"><tr class="tr bg-tertiary"><th class="th h4" colspan="99" scope="colgroup">Search results</th></tr></thead>
@@ -40,7 +48,7 @@
         {
             <tr class="tr">
                 <td class="td" colspan=7 align=center>
-                    No Matching Cases Found. 
+                    [@Model.SearchText] - No Matching Cases Found. 
                 </td>
             </tr>
         }

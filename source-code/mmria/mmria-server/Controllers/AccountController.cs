@@ -26,17 +26,29 @@ namespace mmria.server.Controllers;
 public sealed partial class AccountController : Controller
 {
 
-    private IHttpContextAccessor _accessor;
-    private ActorSystem _actorSystem;
+    IHttpContextAccessor _accessor;
+    ActorSystem _actorSystem;
 
-    private IConfiguration _configuration;
-    //public AccountController(IConfiguration configuration)
+    mmria.common.couchdb.OverridableConfiguration _configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
-    public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
+    string host_prefix = null;
+    bool? use_sams = null;
+
+    public AccountController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        ActorSystem actorSystem, 
+        mmria.common.couchdb.OverridableConfiguration configuration
+    )
     {
         _accessor = httpContextAccessor;
         _actorSystem = actorSystem;
         _configuration = configuration;
+        host_prefix = _accessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = _configuration.GetDBConfig(host_prefix);
+        use_sams = _configuration.GetBoolean("sams:is_enabled", host_prefix);
     }
 
     public List<ApplicationUser> Users => new List<ApplicationUser>() 
@@ -51,7 +63,7 @@ public sealed partial class AccountController : Controller
     {
         ViewBag.user_name = user_name;
         ViewBag.grace_period_date = grace_period_date;
-        ViewBag.unsuccessful_login_attempts_lockout_number_of_minutes = _configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"];
+        ViewBag.unsuccessful_login_attempts_lockout_number_of_minutes = _configuration.GetInteger("unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix);
 
         return View();
     }
@@ -65,55 +77,17 @@ public sealed partial class AccountController : Controller
     }
 
 
-/*
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public async Task<IActionResult> Login(string returnUrl = null)
-    {
-        const string Issuer = "https://contoso.com";
-
-        var claims = new List<Claim>();
-        claims.Add(new Claim(ClaimTypes.Name, "user1", ClaimValueTypes.String, Issuer));
-        claims.Add(new Claim(ClaimTypes.Role, "abstractor", ClaimValueTypes.String, Issuer));
-        //claims.Add(new Claim("EmployeeId", string.Empty, ClaimValueTypes.String, Issuer));
-        claims.Add(new Claim("EmployeeId", "123", ClaimValueTypes.String, Issuer));
-        claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
-
-        var userIdentity = new ClaimsIdentity("SuperSecureLogin");
-        userIdentity.AddClaims(claims);
-        var userPrincipal = new ClaimsPrincipal(userIdentity);
-
-        await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme,
-            userPrincipal,
-            new AuthenticationProperties
-            {
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(30),
-                IsPersistent = false,
-                AllowRefresh = false
-            });
-
-        return RedirectToLocal(returnUrl);
-    } */
-
     [AllowAnonymous] 
     [HttpPost]
     public async Task<IActionResult> Login(ApplicationUser user, string returnUrl = null) 
     {
 
-        var use_sams = false;
-        
-        if(!string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"]))
+        if(use_sams.HasValue)
         {
-            bool.TryParse(_configuration["sams:is_enabled"], out use_sams);
-        }
-
-        if(use_sams)
-        {
-            return RedirectToAction("SignIn");
+            if(use_sams.Value)
+            {
+                return RedirectToAction("SignIn");
+            }
         }
 
         const string badUserNameOrValueMessage = "Username or password is incorrect.";
@@ -132,12 +106,12 @@ public sealed partial class AccountController : Controller
         {
             int unsuccessful_login_attempts_number_before_lockout = 5;
             
-            _configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_number_before_lockout);
+            _configuration.GetInteger("unsuccessful_login_attempts_number_before_lockout", host_prefix).SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_number_before_lockout);
             int unsuccessful_login_attempts_within_number_of_minutes = 3;
-            _configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_within_number_of_minutes);
+            _configuration.GetInteger("unsuccessful_login_attempts_within_number_of_minutes", host_prefix).SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_within_number_of_minutes);
             int unsuccessful_login_attempts_lockout_number_of_minutes = 3; 
-            _configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"].SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_lockout_number_of_minutes);
-            var password_days_before_expires = _configuration["password_settings:days_before_expires"];
+            _configuration.GetInteger("unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix).SetIfIsNotNullOrWhiteSpace(ref unsuccessful_login_attempts_lockout_number_of_minutes);
+            var password_days_before_expires = _configuration.GetInteger("days_before_expires", host_prefix);
 
             var is_locked_out = false;
             var failed_login_count = 0;
@@ -147,12 +121,12 @@ public sealed partial class AccountController : Controller
 
             try
             {
-                var user_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
-                var user_request_curl = new cURL("GET", null, user_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_value"]);
+                var user_request_url = $"{db_config.url}/_users/{System.Web.HttpUtility.HtmlEncode("org.couchdb.user:" + user.UserName.ToLower())}";
+                var user_request_curl = new cURL("GET", null, user_request_url, null, db_config.user_name, db_config.user_value);
                 string user_response_string = await user_request_curl.executeAsync ();
                 var test_user = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(user_response_string);
 
-                if(string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+                if(string.IsNullOrWhiteSpace(db_config.prefix))
                 {
                     if(test_user.app_prefix_list == null || test_user.app_prefix_list.Count == 0)
                     {
@@ -163,14 +137,14 @@ public sealed partial class AccountController : Controller
                         is_app_prefix_ok = true;
                     }
                 }
-                else if(test_user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
+                else if(test_user.app_prefix_list.ContainsKey(db_config.prefix))
                 {
-                    is_app_prefix_ok = test_user.app_prefix_list[_configuration["mmria_settings:db_prefix"]];
+                    is_app_prefix_ok = test_user.app_prefix_list[db_config.prefix];
                 }
 
-                var session_event_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/{_configuration["mmria_settings:db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"";
+                var session_event_request_url = db_config.Get_Prefix_DB_Url($"session/_design/session_event_sortable/_view/by_user_id?startkey=\"{user.UserName}\"&endkey=\"{user.UserName}\"");
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_value"]);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, db_config.user_name, db_config.user_value);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -230,7 +204,7 @@ public sealed partial class AccountController : Controller
             string post_data = string.Format ("name={0}&password={1}", user.UserName, user.Value);
             byte[] post_byte_array = System.Text.Encoding.ASCII.GetBytes(post_data);
 
-            string request_string = _configuration["mmria_settings:couchdb_url"] + "/_session";
+            string request_string = db_config.url + "/_session";
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             //request.UseDefaultCredentials = true;
 
@@ -317,10 +291,8 @@ public sealed partial class AccountController : Controller
 
                 var session_idle_timeout_minutes = 30;
                 
-                if(_configuration["mmria_settings:session_idle_timeout_minutes"] != null)
-                {
-                    int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
-                }
+                _configuration.GetInteger("session_idle_timeout_minutes",host_prefix).SetIfIsNotNullOrWhiteSpace(ref session_idle_timeout_minutes);
+                
 
                 var userIdentity = new ClaimsIdentity("SuperSecureLogin");
                 userIdentity.AddClaims(claims);
@@ -364,16 +336,16 @@ public sealed partial class AccountController : Controller
                     session_data
                 );
 
-                var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-                var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-                var config_timer_password = _configuration["mmria_settings:timer_value"];
+                var config_couchdb_url = db_config.url;
+                var config_timer_user_name = db_config.user_name;
+                var config_timer_password = db_config.user_value;
 
 
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
 
-                request_string = config_couchdb_url + $"/{_configuration["mmria_settings:mmria_settings:db_prefix"]}session/{Session_Message._id}";
+                request_string = config_couchdb_url + $"/{db_config.prefix}session/{Session_Message._id}";
 
                 mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_password);
 
@@ -463,11 +435,12 @@ public sealed partial class AccountController : Controller
     [HttpPost]
     public IActionResult Logout() 
     {
+            //var db_config = _configuration.GetDBConfig(host_prefix);
 
-            var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-            var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-            var config_timer_password = _configuration["mmria_settings:timer_value"];
-            var config_db_prefix = _configuration["mmria_settings:db_prefix"];
+            var config_couchdb_url = db_config.url;
+            var config_timer_user_name = db_config.user_name;
+            var config_timer_password = db_config.user_value;
+            var config_db_prefix = db_config.prefix;
 
             mmria.server.model.actor.Session_MessageDTO session_message = null;
             try
@@ -516,12 +489,12 @@ public sealed partial class AccountController : Controller
 
         if
         (
-            !string.IsNullOrWhiteSpace(_configuration["sams:is_enabled"])  &&
-            _configuration["sams:is_enabled"].ToLower() == "true" 
+            use_sams.HasValue  &&
+            use_sams.Value 
         )
         {
 
-            return Redirect(_configuration["sams:logout_url"]);
+            return Redirect(_configuration.GetSharedString("sams:logout_url"));
         }
         else
         {
@@ -568,11 +541,13 @@ public sealed partial class AccountController : Controller
 
     public async Task<IActionResult> Profile()
     {
+        //var db_config = _configuration.GetDBConfig(host_prefix);
+
         var days_til_value_expires = -1;
 
         int password_days_before_expires = 0;
         
-        _configuration["password_settings:days_before_expires"].SetIfIsNotNullOrWhiteSpace(ref password_days_before_expires);
+        _configuration.GetInteger("password_settings:days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref password_days_before_expires);
 
         if(password_days_before_expires > 0)
         {
@@ -583,9 +558,9 @@ public sealed partial class AccountController : Controller
                     u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
 
                 
-                var session_event_request_url = $"{_configuration["mmria_settings:couchdb_url"]}/{_configuration["mmria_settings:db_prefix"]}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
+                var session_event_request_url = db_config.Get_Prefix_DB_Url($"session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"");
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, _configuration["mmria_settings:timer_user_name"], _configuration["mmria_settings:timer_value"]);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, db_config.user_name, db_config.user_value);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -627,7 +602,13 @@ public sealed partial class AccountController : Controller
         
         ViewBag.days_til_password_expires = days_til_value_expires;
         ViewBag.config_password_days_before_expires = password_days_before_expires;
-        ViewBag.sams_is_enabled = _configuration["sams:is_enabled"];
+
+
+        if(use_sams.HasValue)
+        {
+            ViewBag.sams_is_enabled = use_sams.Value;
+        }
+        else ViewBag.sams_is_enabled = false;
 
         return View();
     }
@@ -706,12 +687,16 @@ public sealed partial class AccountController : Controller
         userIdentity.AddClaims(claims);
         var userPrincipal = new ClaimsPrincipal(userIdentity);
 
+
+        int session_idle_timeout_minutes = 10;
+        
+        _configuration.GetInteger("session_idle_timeout_minutes", host_prefix).SetIfIsNotNullOrWhiteSpace(ref session_idle_timeout_minutes);
         await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             userPrincipal,
             new AuthenticationProperties
             {
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"])),
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(session_idle_timeout_minutes),
                 IsPersistent = false,
                 AllowRefresh = true,
             });

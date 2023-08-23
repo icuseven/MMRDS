@@ -7,11 +7,9 @@ namespace mmria.pmss.server.Controllers;
 [Route("power-bi-user")]
 public sealed class power_bi_userController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
- 
-    public power_bi_userController(IAuthorizationService authorizationService)
+    public power_bi_userController()
     {
-        _authorizationService = authorizationService;
+
     }
     public IActionResult Index()
     {

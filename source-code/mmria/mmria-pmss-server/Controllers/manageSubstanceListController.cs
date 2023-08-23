@@ -7,11 +7,8 @@ namespace mmria.pmss.server.Controllers;
 [Route("manage-substance-lists")]
 public sealed class manageSubstanceListsController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public manageSubstanceListsController(IAuthorizationService authorizationService)
+    public manageSubstanceListsController()
     {
-        _authorizationService = authorizationService;
 
     }
     public IActionResult Index()

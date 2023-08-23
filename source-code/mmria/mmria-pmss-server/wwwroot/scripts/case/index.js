@@ -3576,10 +3576,10 @@ async function add_new_case_button_click(p_input)
             let item = g_metadata.lookup[i];
             switch(item.name.toLowerCase())
             {
-                case "state_pmss":
+                case "state":
                     state_list = item;
                     break;
-                case "year_pmss":
+                case "year":
                     year_list = item;
                     break;
             }

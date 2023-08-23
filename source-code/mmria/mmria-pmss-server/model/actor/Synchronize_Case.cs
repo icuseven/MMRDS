@@ -58,6 +58,7 @@ public sealed class Synchronize_Case : UntypedActor
 
             case Sync_All_Documents_Message sync_all_documents_message:
 
+                /*
                 mmria.pmss.server.utils.c_document_sync_all sync_all = new mmria.pmss.server.utils.c_document_sync_all (
                                                                         Program.config_couchdb_url,
                                                                         Program.config_timer_user_name,
@@ -65,6 +66,7 @@ public sealed class Synchronize_Case : UntypedActor
                                                                     );
 
                 sync_all.executeAsync ();
+                */
 
             break;
         }

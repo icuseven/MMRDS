@@ -2,7 +2,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;  
 
 namespace mmria.pmss.server.Controllers;
     
@@ -11,18 +13,25 @@ namespace mmria.pmss.server.Controllers;
 public sealed class healthzController : Controller
 {
 
-    private IConfiguration configuration { get; }
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     
-    public healthzController(IConfiguration p_configuration)
+    public healthzController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
     public async Task<IActionResult> Index()
     {
-
-        if (!await url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", Program.config_timer_user_name, Program.config_timer_value)) 
+        if (!await url_endpoint_exists (db_config.Get_Prefix_DB_Url($"mmrds"), db_config.user_name, db_config.user_value)) 
         {
             return StatusCode(500); 
         }
@@ -30,7 +39,6 @@ public sealed class healthzController : Controller
         {
             return Ok(); 
         }
-        
     }
 
     async Task<bool> url_endpoint_exists (string p_target_server, string p_user_name, string p_value, string p_method = "HEAD")
@@ -39,10 +47,8 @@ public sealed class healthzController : Controller
 
         try
         {
-            //Creating the HttpWebRequest
             System.Net.HttpWebRequest request = System.Net.WebRequest.Create(p_target_server) as System.Net.HttpWebRequest;
-            //Setting the Request method HEAD, you can also use GET too.
-
+     
             if(request != null)
             {
                 request.Method = p_method;
@@ -53,9 +59,8 @@ public sealed class healthzController : Controller
                     request.Headers.Add("Authorization", "Basic " + encoded);
                 }
 
-                //Getting the Web Response.
                 System.Net.HttpWebResponse response = await request.GetResponseAsync() as System.Net.HttpWebResponse;
-                //Returns TRUE if the Status code == 200
+
                 if(response != null)
                 {
                     response_result = response.StatusCode;
@@ -76,5 +81,4 @@ public sealed class healthzController : Controller
             return false;
         }            
     }
-
 }

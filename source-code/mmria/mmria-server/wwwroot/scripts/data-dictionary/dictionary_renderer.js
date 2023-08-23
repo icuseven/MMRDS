@@ -191,6 +191,26 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			break;
 
 		case "group":
+
+                if
+                (
+                    p_metadata.tags.length > 0 &&
+
+                    p_metadata.tags[0].indexOf("CALC_DATE") > -1
+                ) 
+                {
+                    render_group_item(p_result, p_metadata, p_path, p_selected_form, p_search_text);
+                }
+
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+
+                    
+                    let item = p_metadata.children[i];
+                    render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+                }
+                break;
 		case "grid":
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
@@ -433,6 +453,207 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 	}
 }
 
+function render_group_item
+(
+    p_result, p_metadata, p_path, p_selected_form, p_search_text
+)
+{
+    let file_name = "";
+			let field_name = "";
+			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
+
+			if(file_field_item)
+			{
+				file_name = file_field_item.file_name;
+				field_name = file_field_item.field_name;
+			}
+
+			if(p_search_text != null && p_search_text !="")
+			{
+				let is_search_match = false;
+				let search_array = p_search_text.trim().split(" ");
+				
+				for(let i = 0; i < search_array.length; i++)
+				{
+					let search_term = search_array[i].toLowerCase().trim();
+					
+					if
+					(
+						search_term == null || 
+						search_term == ""
+					)
+					{
+						continue;
+                    }
+                    /*
+                    if
+                    (
+                        p_metadata.name.toLowerCase().indexOf(search_term.trim()) > -1 ||
+						p_metadata.prompt.toLowerCase().indexOf(search_term.trim()) > -1
+                    )
+					{
+						is_search_match = true;
+						break;
+					}*/
+
+					for(let j = 0; j < p_metadata.tags.length; j++)
+					{
+						let check_item = p_metadata.tags[j].toLowerCase();
+
+                        if
+                        (
+                            check_item.indexOf(search_term) > -1
+
+                        )
+						{
+							is_search_match = true;
+							break;
+						}
+					}	
+				}
+				
+				if
+				(
+					!is_search_match && 
+					!(
+						p_metadata.name.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
+						p_metadata.prompt.toLowerCase().indexOf(p_search_text.trim()) > -1 ||
+                        (p_metadata.sass_export_name!= null && p_metadata.sass_export_name.toLowerCase().indexOf(p_search_text.trim()) > -1) ||
+                        (file_name!=null && file_name.indexOf(p_search_text.trim()) > -1) ||
+						(field_name!=null && field_name.indexOf(p_search_text.trim()) > -1)
+					)
+				
+				)
+				{
+					return;
+				}
+			}
+
+			let form_name = "(none)";
+			let path_array = p_path.split('/');
+			let description = "";
+			let list_values = [];
+			let data_type = "date"
+
+			if(path_array.length > 2)
+			{
+				form_name = path_array[1];
+				form_name = convert_form_name(form_name);
+			}
+
+
+			if(p_metadata.description != null)
+			{
+				description = p_metadata.description;
+			}
+
+			if(p_metadata.type.toLowerCase() == "list")
+			{
+				let value_list = p_metadata.values;
+
+				if(p_metadata.path_reference && p_metadata.path_reference != "")
+				{
+					value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+			
+					if(value_list == null)	
+					{
+						value_list = p_metadata.values;
+					}
+				}
+
+				list_values.push(`
+					<tr class="tr">
+						<td class="td" width="140"></td>
+						<td class="td p-0" colspan="5">
+							<table class="table table--standard rounded-0 m-0">
+								<thead class="thead">
+									<tr class="tr bg-gray-l2">
+										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
+									</tr>
+								</thead>
+								<thead class="thead">
+									<tr class="tr bg-gray-l2">
+										<th class="th" width="140" scope="col">Value</th>
+										<th class="th" width="680" scope="col">Display</th>
+										<th class="th" width="260" scope="col">Description</th>
+									</tr>
+								</thead>
+								<tbody class="tbody">	
+				`);
+
+					for(let i= 0; i < value_list.length; i++)
+					{
+						list_values.push(`
+									<tr class="tr">
+										<td class="td" width="140">${value_list[i].value}</td>
+										<td class="td" width="680">${value_list[i].display}</td>
+										<td class="td" width="260">${value_list[i].description}</td>
+									</tr>
+						`);
+					}
+				
+				list_values.push(`
+								</tbody>
+							</table>
+						</td>
+						<td class="td" colspan="2"></td>
+					</tr>
+				`);
+			}
+
+			// Remove fields who do not have a form_name or if it doesn't exist
+			// if (!form_name || form_name == '(none)' || form_name == '(blank)') {
+			// if (!form_name || form_name.includes('none') || form_name.includes('blank')) {
+			if (
+				!form_name ||
+				 form_name.indexOf('none') !== -1 ||
+				 form_name == '(none)' ||
+				 form_name.indexOf('blank') !== -1 ||
+				 form_name == '(blank)'
+			) {
+				return;
+			}
+
+			// Adding a header per section
+			if (last_form !== form_name) {
+				last_form = form_name;
+				p_result.push(`
+					<thead class="thead">
+						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+							<th class="th" colspan="7" scope="colgroup">
+								${form_name}
+							</th>
+						</tr>
+					</thead>
+					<thead class="thead">
+						<tr class="tr bg-gray-l1 font-weight-bold">
+							<th class="th" width="140" scope="col">MMRIA Form</th>
+							<th class="th" width="140" scope="col">Export File Name</th>
+							<th class="th" width="120" scope="col">Export Field</th>
+							<th class="th" width="180" scope="col">Prompt</th>
+							<th class="th" width="380" scope="col">Description</th>
+							<th class="th" width="260" scope="col">Path</th>
+							<th class="th" width="110" scope="col">Data Type</th>
+						</tr>
+					</thead>
+				`);
+			}
+
+			p_result.push(`
+				<tr class="tr">
+					<td class="td" width="140">${form_name}</td>
+					<td class="td" width="140">${file_name}</td>
+					<td class="td" width="120">${field_name}</td>
+					<td class="td" width="180">${p_metadata.prompt}</td>
+					<td class="td" width="380">${description}</td>
+					<td class="td" width="260">${p_path}</td>
+					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+				</tr>
+				${list_values.join("")}
+			`);
+
+}
+
 
 function convert_form_name(p_value)
 {
@@ -504,6 +725,10 @@ function generate_system_generated_definition_list_table()
 					</thead>
 					<tbody>
                         <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
+                        <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
 						</tr>
@@ -564,6 +789,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
@@ -587,6 +816,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>
@@ -610,6 +843,10 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</thead>
 					<tbody>
+                    <tr class="tr">
+                            <td class="td" width="266" >hr_r_id</td>
+                            <td class="td" width="1064">Record ID is automatically generated based on Year of Death and MMRIA Jurisdiction.</td>
+                        </tr>
                         <tr class="tr">
 							<td class="td" width="266" >_id</td>
 							<td class="td" width="1064">Automatically generated unique random ID# that can be used to link each MMRIA record across all exported MMRIA forms and grids.</td>

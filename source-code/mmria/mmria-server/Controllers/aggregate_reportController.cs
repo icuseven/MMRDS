@@ -12,13 +12,9 @@ namespace mmria.server.Controllers;
 
 public sealed class aggregate_reportController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-    private IConfiguration configuration;
-
-    public aggregate_reportController(IAuthorizationService authorizationService, IConfiguration p_configuration)
+    public aggregate_reportController()
     {
-        _authorizationService = authorizationService;
-        configuration = p_configuration;
+
     }
     
     [Route("aggregate-report")]

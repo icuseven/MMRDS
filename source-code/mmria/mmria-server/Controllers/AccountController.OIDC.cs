@@ -14,7 +14,9 @@ using System.Net.Http;
 
 
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension; 
 
 
 using Newtonsoft.Json.Linq;
@@ -51,14 +53,29 @@ public sealed partial class AccountController : Controller
 
     private bool user_principal_created = false;
 
+    mmria.common.couchdb.OverridableConfiguration configuration;
 
-    public AccountController(IHttpContextAccessor httpContextAccessor, ActorSystem actorSystem, IConfiguration configuration)
+    mmria.common.couchdb.SAMSConfigurationDetail sams_config;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+
+    public AccountController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        ActorSystem actorSystem, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         _accessor = httpContextAccessor;
         _actorSystem = actorSystem;
-        _configuration = configuration;
+        configuration = _configuration;
+
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+
+        sams_config = configuration.GetSAMSConfigurationDetail(host_prefix);
     }
-    private IConfiguration _configuration;
+
 
     [AllowAnonymous] 
     public ActionResult SignIn()
@@ -67,13 +84,15 @@ public sealed partial class AccountController : Controller
         //Response.Cookies.Delete("sid");
         //Response.Cookies.Delete("expires_at");
 
-        var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
-        var sams_endpoint_token = _configuration["sams:endpoint_token"];
-        var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
-        var sams_endpoint_token_validation = _configuration["sams:endpoint_token_validation"];
-        var sams_endpoint_user_info_sys = _configuration["sams:endpoint_user_info_sys"];
-        var sams_client_id = _configuration["sams:client_id"];
-        var sams_callback_url = _configuration["sams:callback_url"];        
+        
+
+        var sams_endpoint_authorization = configuration.GetString("sams:endpoint_authorization",host_prefix);
+        var sams_endpoint_token = configuration.GetString("sams:endpoint_token",host_prefix);
+        var sams_endpoint_user_info = configuration.GetString("sams:endpoint_user_info",host_prefix);
+        var sams_endpoint_token_validation = configuration.GetString("sams:endpoint_token_validation",host_prefix);
+        var sams_endpoint_user_info_sys = configuration.GetString("sams:endpoint_user_info_sys",host_prefix);
+        var sams_client_id = sams_config.client_id;
+        var sams_callback_url = sams_config.callback_url;        
 
         var state = Guid.NewGuid().ToString("N");
         var nonce = Guid.NewGuid().ToString("N");
@@ -97,15 +116,15 @@ public sealed partial class AccountController : Controller
 
         
 
-        var sams_endpoint_authorization = _configuration["sams:endpoint_authorization"];
-        var sams_endpoint_token = _configuration["sams:endpoint_token"];
-        var sams_endpoint_user_info = _configuration["sams:endpoint_user_info"];
-        var sams_endpoint_token_validation = _configuration["sams:endpoint_token_validation"];
-        var sams_endpoint_user_info_sys = _configuration["sams:endpoint_user_info_sys"];
-        var sams_client_id = _configuration["sams:client_id"];
-        var sams_client_secret = _configuration["sams:client_secret"];
+        var sams_endpoint_authorization = configuration.GetString("sams:endpoint_authorization",host_prefix);
+        var sams_endpoint_token = configuration.GetString("sams:endpoint_token",host_prefix);
+        var sams_endpoint_user_info = configuration.GetString("sams:endpoint_user_info",host_prefix);
+        var sams_endpoint_token_validation = configuration.GetString("sams:endpoint_token_validation",host_prefix);
+        var sams_endpoint_user_info_sys = configuration.GetString("sams:endpoint_user_info_sys",host_prefix);
+        var sams_client_id =sams_config.client_id;
+        var sams_client_secret = sams_config.client_secret;
         
-        var sams_callback_url = _configuration["sams:callback_url"];        
+        var sams_callback_url = sams_config.callback_url;
 
         //?code=6c17b2a3-d65a-44fd-a28c-9aee982f80be&state=a4c8326ca5574999aa13ca02e9384c3d
         // Retrieve code and state from query string, pring for debugging
@@ -208,11 +227,11 @@ public sealed partial class AccountController : Controller
 
 
         //check if user exists
-        var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = _configuration["mmria_settings:timer_value"];
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name =db_config.user_name;
+        var config_timer_value = db_config.user_value;
 
-        var config_session_idle_timeout_minutes = int.Parse(_configuration["mmria_settings:session_idle_timeout_minutes"]);
+        var config_session_idle_timeout_minutes = configuration.GetInteger("session_idle_timeout_minutes", host_prefix);
         mmria.common.model.couchdb.user user = null;
         try
         {
@@ -238,14 +257,14 @@ public sealed partial class AccountController : Controller
             try
             {
                 //test_user.app_prefix_list.ContainsKey("__no_prefix__")
-                if(string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+                if(string.IsNullOrWhiteSpace(db_config.prefix))
                 {
                     user.app_prefix_list.Add("__no_prefix__", true);
                     is_app_prefix_ok = true;
                 }
-                else if(user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
+                else if(user.app_prefix_list.ContainsKey(db_config.prefix))
                 {
-                    user.app_prefix_list[_configuration["mmria_settings:db_prefix"]] = true;
+                    user.app_prefix_list[db_config.prefix] = true;
                     is_app_prefix_ok = true;
                 }
 
@@ -267,7 +286,7 @@ public sealed partial class AccountController : Controller
         }
         else
         {
-            if(string.IsNullOrWhiteSpace(_configuration["mmria_settings:db_prefix"]))
+            if(string.IsNullOrWhiteSpace(db_config.prefix))
             {
                 if(user.app_prefix_list == null || user.app_prefix_list.Count == 0)
                 {
@@ -278,9 +297,9 @@ public sealed partial class AccountController : Controller
                     is_app_prefix_ok = true;
                 }
             }
-            if(user.app_prefix_list.ContainsKey(_configuration["mmria_settings:db_prefix"]))
+            if(user.app_prefix_list.ContainsKey(db_config.prefix))
             {
-                is_app_prefix_ok = user.app_prefix_list[_configuration["mmria_settings:db_prefix"]];
+                is_app_prefix_ok = user.app_prefix_list[db_config.prefix];
             }
         }
 
@@ -331,7 +350,7 @@ public sealed partial class AccountController : Controller
                 role_list.Add(role);
             }
 
-            var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes);
+            var session_expiration_datetime =  DateTime.Now.AddMinutes(config_session_idle_timeout_minutes.Value);
             var Session_Message = new mmria.server.model.actor.Session_Message
             (
                 Guid.NewGuid().ToString(), //_id = 
@@ -355,7 +374,7 @@ public sealed partial class AccountController : Controller
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(Session_Message, settings);
 
-            string request_string = config_couchdb_url + $"/{_configuration["mmria_settings:db_prefix"]}session/{Session_Message._id}";
+            string request_string = config_couchdb_url + $"/{db_config.prefix}session/{Session_Message._id}";
 
             mmria.server.cURL document_curl = new mmria.server.cURL ("PUT", null, request_string, object_string, config_timer_user_name, config_timer_value);
 
@@ -471,11 +490,9 @@ public sealed partial class AccountController : Controller
         var userPrincipal = new ClaimsPrincipal(userIdentity);
 
         var session_idle_timeout_minutes = 30;
-        
-        if(_configuration["mmria_settings:session_idle_timeout_minutes"] != null)
-        {
-            int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
-        }
+        configuration.GetInteger("session_idle_timeout_minutes",host_prefix).SetIfIsNotNullOrWhiteSpace(ref session_idle_timeout_minutes);
+
+
 
         var ticket = new AuthenticationTicket(userPrincipal,"custom");
 

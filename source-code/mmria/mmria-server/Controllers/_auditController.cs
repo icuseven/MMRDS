@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using System.Linq;
 using mmria.common.functional;
 using mmria.server;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 namespace mmria.server.Controllers;
 
 public sealed class Audit_View
@@ -64,11 +66,19 @@ public sealed class _auditController : Controller
     }
 
 
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
-    public _auditController(IConfiguration p_configuration)
+    public _auditController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     (string url, string post) get_find_url(string p_id)
@@ -84,7 +94,7 @@ public sealed class _auditController : Controller
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
 
-        string result = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}audit/_find";
+        string result = $"{db_config.url}/{db_config.prefix}audit/_find";
         return (result, selector_struc_string);
     }
 
@@ -92,9 +102,9 @@ public sealed class _auditController : Controller
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken, string p_id, int page = -1, string user = "all", string search_text = "all", bool showAll = false)
     {
 
-        var case_view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
+        var case_view_request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
-        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var case_view_curl = new cURL("GET",null,case_view_request_string,null, db_config.user_name, db_config.user_value);
         string responseFromServer = await case_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -108,7 +118,7 @@ public sealed class _auditController : Controller
 
         //var request_string = $"{configuration["mmria_settings:couchdb_url}/{configuration["mmria_settings:db_prefix}audit/_all_docs?include_docs=true";
         var (request_string, post_data) = get_find_url(p_id);
-        var audit_view_curl = new cURL("POST",null,request_string,post_data, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var audit_view_curl = new cURL("POST",null,request_string,post_data, db_config.user_name, db_config.user_value);
         responseFromServer = await audit_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -169,9 +179,9 @@ public sealed class _auditController : Controller
     public async Task<IActionResult> MoreDetail(System.Threading.CancellationToken cancellationToken, string p_id, string change_id, int change_item)
     {
 
-        var case_view_request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
+        var case_view_request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_id?key=\"{p_id}\"";
 
-        var case_view_curl = new cURL("GET",null,case_view_request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var case_view_curl = new cURL("GET",null,case_view_request_string,null, db_config.user_name, db_config.user_value);
         string responseFromServer = await case_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -184,8 +194,8 @@ public sealed class _auditController : Controller
 
 
         //var request_string = $"{configuration["mmria_settings:couchdb_url}/{configuration["mmria_settings:db_prefix}audit/_all_docs?include_docs=true";
-        var request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}audit/{change_id}";
-        var audit_view_curl = new cURL("GET",null,request_string,null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+        var request_string = $"{db_config.url}/{db_config.prefix}audit/{change_id}";
+        var audit_view_curl = new cURL("GET",null,request_string,null, db_config.user_name, db_config.user_value);
         responseFromServer = await audit_view_curl.executeAsync();
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -199,7 +209,7 @@ public sealed class _auditController : Controller
             cs.items[i].temp_index = i;
         }
 
-        string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/metadata/version_specification-{cs.metadata_version}/metadata";
+        string metadata_url = $"{db_config.url}/metadata/version_specification-{cs.metadata_version}/metadata";
         
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());

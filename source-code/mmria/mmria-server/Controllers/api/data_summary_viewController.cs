@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;
 namespace mmria.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
@@ -33,11 +35,19 @@ public sealed class data_summary_viewControllerController: ControllerBase
         public int skip;
     } 
     
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public data_summary_viewControllerController(IConfiguration p_configuration)
+    public data_summary_viewControllerController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>> Get(string skip)
     {
@@ -48,16 +58,11 @@ public sealed class data_summary_viewControllerController: ControllerBase
 
         int.TryParse(skip, out skip_number);
 
-        var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
         
-        if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = configuration["mmria_settings:db_prefix"];
-        }
-
         try
         {
 

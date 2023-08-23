@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
+using Akka.DI.Extensions.DependencyInjection;
 
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -176,7 +177,8 @@ public sealed partial class Program
             Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             Program.config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-            Program.config_timer_value = configuration["mmria_settings:timer_value"];
+            Program.config_timer_value = configuration["mmria_settings:timer_password"];
+            configuration["mmria_settings:timer_value"] = configuration["mmria_settings:timer_password"];
             Program.config_cron_schedule = configuration["mmria_settings:cron_schedule"];
             Program.config_export_directory = configuration["mmria_settings:export_directory"];
 
@@ -190,6 +192,38 @@ public sealed partial class Program
             Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
+
+            string couchdb_url =  configuration["mmria_settings:couchdb_url"];
+            string timer_user_name = configuration["mmria_settings:timer_user_name"];
+            string timer_value = configuration["mmria_settings:timer_value"];
+            string shared_config_id = configuration["mmria_settings:shared_config_id"];
+
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
+            System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
+
+
+            Log.Information("Overriable Config:");
+            Log.Information($"couchdb_url: {couchdb_url}");
+            Log.Information($"timer_user_name: {timer_user_name}");
+            Log.Information($"shared_config_id: {shared_config_id}");
+            Log.Information("");
+
+
+            var overridable_config = GetOverridableConfiguration
+            (
+                new()
+                {
+                    url =  couchdb_url,
+                    user_name = timer_user_name,
+                    user_value = timer_value
+                },
+                shared_config_id
+            );
+
+
+            builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
             if (bool.Parse(configuration["mmria_settings:is_environment_based"]))
             {
@@ -314,8 +348,19 @@ public sealed partial class Program
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
             configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
             configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
-                        
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system");
+
+
+            var collection = new ServiceCollection();
+
+            collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+            collection.AddSingleton<IConfiguration>(configuration);
+            collection.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
+
+            collection.AddLogging();
+
+            var provider = collection.BuildServiceProvider();          
+
+            Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
@@ -340,7 +385,7 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(), "QuartzSupervisor");
+            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
             actorSystem.ActorOf<mmria.pmss.server.SteveAPISupervisor>("steve-api-supervisor");
         
 
@@ -439,88 +484,7 @@ public sealed partial class Program
 
             app.Use
             (
-
-                
-
-                async (context, next) =>
-                {
-                    var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
-
-                    switch (context.Request.Method.ToLower())
-                    {
-                        case "get":
-                        case "put":
-                        case "post":
-                        case "head":
-                        case "delete":
-
-                        if
-                        (
-                            (
-                                context.Request.Headers.ContainsKey("Content-Length") &&
-                                context.Request.Headers["Content-Length"].Count > 1
-                            ) 
-                            ||
-                            (
-                                context.Request.Headers.ContainsKey("Transfer-Encoding") &&
-                                context.Request.Headers["Transfer-Encoding"].Count > 1
-                            )
-                        )
-                        {
-                            context.Response.StatusCode = 400;
-                            context.Response.Headers.Add("Connection", "close");
-                            resetFeature.Reset(errorCode: 4);
-                            //context.Abort();
-                            //context.RequestAborted.Session
-                        }
-                        else if
-                        (
-                            context.Request.Headers.ContainsKey("Content-Length") &&
-                            context.Request.Headers.ContainsKey("Transfer-Encoding")
-                        )
-                        {
-                            context.Response.StatusCode = 400;
-                            context.Response.Headers.Add("Connection", "close");
-                            resetFeature.Reset(errorCode: 4);
-                            // context.Abort();
-                        }
-                        else if
-                        (
-                            context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
-                            context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
-                            context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
-                        )
-                        {
-                            context.Response.Headers.Add("X-Frame-Options", "DENY");
-                            context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none'");
-                            context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                            context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                            context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-                            context.Response.Headers.Add("Connection", "close");
-                            context.Response.StatusCode = 400;
-                            resetFeature.Reset(errorCode: 4);
-                            //context.Abort();
-                        }
-                        else
-                        {
-                            context.Response.Headers.Add("X-Frame-Options", "DENY");
-                            context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
-                            context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                            context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                            context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-
-                            await next();
-                        }
-
-                        break;
-                        default:
-                        context.Response.StatusCode = 400;
-                        context.Response.Headers.Add("Connection", "close");
-                        resetFeature.Reset(errorCode: 4);
-                        //context.Abort();
-                        break;
-                    }
-                }
+                middleware
             );
 
             app.UseDefaultFiles();
@@ -567,6 +531,93 @@ public sealed partial class Program
         }    
     }
 
+    static async Task middleware(HttpContext context, Func<Task> next)
+    {
+        var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
+
+        switch (context.Request.Method.ToLower())
+        {
+            case "get":
+            case "put":
+            case "post":
+            case "head":
+            case "delete":
+
+            if
+            (
+                (
+                    context.Request.Headers.ContainsKey("Content-Length") &&
+                    context.Request.Headers["Content-Length"].Count > 1
+                ) 
+                ||
+                (
+                    context.Request.Headers.ContainsKey("Transfer-Encoding") &&
+                    context.Request.Headers["Transfer-Encoding"].Count > 1
+                )
+            )
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+                //context.Abort();
+                //context.RequestAborted.Session
+            }
+            else if
+            (
+                context.Request.Headers.ContainsKey("Content-Length") &&
+                context.Request.Headers.ContainsKey("Transfer-Encoding")
+            )
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+                // context.Abort();
+            }
+            else if
+            (
+                context.Request.Headers.ContainsKey("X-HTTP-METHOD") ||
+                context.Request.Headers.ContainsKey("X-HTTP-Method-Override") ||
+                context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
+            )
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none';");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.Add("Connection", "close");
+                context.Response.StatusCode = 400;
+                //resetFeature.Reset(errorCode: 4);
+                //context.Abort();
+            }
+            else if(next is null)
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+            }
+            else
+            {
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+
+                await next();
+            }
+
+            break;
+            default:
+            context.Response.StatusCode = 400;
+            context.Response.Headers.Add("Connection", "close");
+            resetFeature.Reset(errorCode: 4);
+            //context.Abort();
+            break;
+        }
+    
+    }
+
     static void AppDomain_UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args) 
     {
         Exception e = (Exception) args.ExceptionObject;
@@ -582,6 +633,28 @@ public sealed partial class Program
             var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine (ex);
+        } 
+
+        return result;
+    }
+
+    static mmria.common.couchdb.OverridableConfiguration GetOverridableConfiguration
+    (
+        mmria.common.couchdb.DBConfigurationDetail configuration,
+        string shared_config_id
+    )
+    {
+        var result = new mmria.common.couchdb.OverridableConfiguration();
+        try
+        {
+            string request_string = $"{configuration.url}/configuration/{shared_config_id}";
+            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
+            string responseFromServer = case_curl.execute();
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)
         {

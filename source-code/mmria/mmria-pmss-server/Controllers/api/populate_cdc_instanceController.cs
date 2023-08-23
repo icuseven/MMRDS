@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server.Controllers;
 
@@ -14,13 +16,20 @@ namespace mmria.pmss.server.Controllers;
 public sealed class populate_cdc_instanceController : ControllerBase
 {
 
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    public populate_cdc_instanceController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public populate_cdc_instanceController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [Authorize(Roles = "cdc_admin")]
@@ -30,8 +39,8 @@ public sealed class populate_cdc_instanceController : ControllerBase
         mmria.common.metadata.Populate_CDC_Instance result = new();
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{db_config.url}/metadata/populate-cdc-instance";
+            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
 
@@ -77,10 +86,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
             //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
             //var messge_curl_result = await message_curl.executeAsync();
 
-            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
+            string user_db_url = configuration.GetString("vitals_url", host_prefix).Replace("Message/IJESet", "PopulateCDCInstance");
 
             var user_curl = new cURL("GET", null, user_db_url, object_string);
-            user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+            user_curl.AddHeader("vital-service-key", configuration.GetString("vital_service_key", host_prefix));
             var responseFromServer = await user_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance_Record>(responseFromServer);
 
@@ -126,10 +135,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
         if(populate_cdc_instance._id == "populate-cdc-instance")
         {
-            string url = $"{Program.config_couchdb_url}/metadata/populate-cdc-instance";
+            string url = $"{db_config.url}/metadata/populate-cdc-instance";
             //System.Console.WriteLine ("json\n{0}", object_string);
 
-            cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
+            cURL put_document_curl = new cURL("PUT", null, url, document_content, db_config.user_name, db_config.user_value);
 
             //bool save_document = false;
 
@@ -178,10 +187,10 @@ public sealed class populate_cdc_instanceController : ControllerBase
                 //var message_curl = new mmria.pmss.server.cURL("POST", null, localUrl, message);
                 //var messge_curl_result = await message_curl.executeAsync();
 
-            string user_db_url = configuration["mmria_settings:vitals_url"].Replace("Message/IJESet", "PopulateCDCInstance");
+            string user_db_url = configuration.GetString("vitals_url", host_prefix).Replace("Message/IJESet", "PopulateCDCInstance");
 
             var user_curl = new cURL("PUT", null, user_db_url, object_string);
-            user_curl.AddHeader("vital-service-key", ConfigDB.name_value["vital_service_key"]);
+            user_curl.AddHeader("vital-service-key", configuration.GetString("vital_service_key", host_prefix));
             var responseFromServer = await user_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Populate_CDC_Instance>(responseFromServer);
 
@@ -196,27 +205,6 @@ public sealed class populate_cdc_instanceController : ControllerBase
 
         return result;
     } 
-
-
-    private mmria.common.couchdb.ConfigurationSet GetConfiguration()
-    {
-        var result = new mmria.common.couchdb.ConfigurationSet();
-        try
-        {
-            string request_string = $"{Program.config_couchdb_url}/configuration/{Program.config_id}";
-            var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            string responseFromServer = case_curl.execute();
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
-
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine (ex);
-        } 
-
-        return result;
-    }
-
 
     public static string Base64Decode(string base64EncodedData)
     {

@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension;
 namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
@@ -33,11 +35,19 @@ public sealed class data_summary_viewControllerController: ControllerBase
         public int skip;
     } 
     
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public data_summary_viewControllerController(IConfiguration p_configuration)
+    public data_summary_viewControllerController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     public async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument>> Get(string skip)
     {
@@ -48,16 +58,11 @@ public sealed class data_summary_viewControllerController: ControllerBase
 
         int.TryParse(skip, out skip_number);
 
-        var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
         
-        if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = configuration["mmria_settings:db_prefix"];
-        }
-
         try
         {
 
@@ -71,6 +76,74 @@ public sealed class data_summary_viewControllerController: ControllerBase
             List<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
 
+            /*if(!string.IsNullOrWhiteSpace(skip))
+            {
+                foreach(var doc in response_result.rows)
+                {
+                    if(doc.key.ToLower() == skip.ToLower())
+                    {
+                        foreach(var jurisdiction_item in  jurisdiction_hashset)
+                        {
+                            var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                            if
+                            (
+                                regex.IsMatch(doc.value.case_folder) && 
+                                utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
+                            )
+                            {
+                                if
+                                (
+                                    doc.value.year_of_death.HasValue && doc.value.year_of_death.Value != 9999 &&
+                                    doc.value.month_of_death.HasValue && doc.value.month_of_death.Value != 9999 &&
+                                    doc.value.day_of_death.HasValue && doc.value.day_of_death.Value != 9999 &&
+                                    doc.value.day_of_case_review.HasValue && doc.value.day_of_case_review.Value != 9999 && 
+                                    doc.value.month_of_case_review.HasValue && doc.value.month_of_case_review.Value != 9999 &&
+                                    doc.value.year_of_case_review.HasValue && doc.value.year_of_case_review.Value != 9999
+                                )
+                                {
+                                    result.Add(doc.value);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                    
+                }
+            }
+            else
+            {
+                foreach(var doc in result.rows)
+                {
+                    foreach(var jurisdiction_item in  jurisdiction_hashset)
+                    {
+                        var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+                        if
+                        (
+                            regex.IsMatch(doc.value.case_folder) //&& 
+                            //utils.ResourceRightEnum.ReadCase ==  jurisdiction_item.ResourceRight
+                        )
+                        {
+                            
+                            if
+                            (
+                                doc.value.year_of_death.HasValue && doc.value.year_of_death.Value != 9999 &&
+                                doc.value.month_of_death.HasValue && doc.value.month_of_death.Value != 9999 &&
+                                doc.value.day_of_death.HasValue && doc.value.day_of_death.Value != 9999 &&
+                                doc.value.day_of_case_review.HasValue && doc.value.day_of_case_review.Value != 9999 && 
+                                doc.value.month_of_case_review.HasValue && doc.value.month_of_case_review.Value != 9999 &&
+                                doc.value.year_of_case_review.HasValue && doc.value.year_of_case_review.Value != 9999
+                            )
+                            {
+                                result.Add(doc.value);
+                            //}
+                            break;
+                        }
+                    }
+                }
+            //}
+
+
+            System.Console.WriteLine($"case_response.docs.length {result.Count}");*/
         }
         catch(Exception ex) 
         {

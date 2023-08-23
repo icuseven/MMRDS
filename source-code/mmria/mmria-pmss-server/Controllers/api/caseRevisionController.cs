@@ -9,6 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
 using mmria.common.model.couchdb.recover_doc;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;  
 
 namespace mmria.pmss.server;
 	
@@ -17,21 +20,31 @@ public sealed class caseRevisionController: ControllerBase
 { 
     private ActorSystem _actorSystem;
 
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
+	//IHttpContextAccessor _accessor;
+
+
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+
+    string host_prefix = null;
 
     private readonly IAuthorizationService _authorizationService;
     //private readonly IDocumentRepository _documentRepository;
 
     public caseRevisionController
     (
+        IHttpContextAccessor httpContextAccessor,
         ActorSystem actorSystem, 
         IAuthorizationService authorizationService, 
-        mmria.common.couchdb.ConfigurationSet p_config_db
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         _actorSystem = actorSystem;
         _authorizationService = authorizationService;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     
     [Authorize(Roles  = "installation_admin")]
@@ -40,7 +53,7 @@ public sealed class caseRevisionController: ControllerBase
     { 
         try
         {
-            var config = ConfigDB.detail_list[jurisdiction_id];
+            var config = configuration.GetDBConfig(jurisdiction_id);
 
             string all_revs_url = $"{config.url}/{config.prefix}mmrds/{case_id}?rev={revision_id}";
 
@@ -140,15 +153,15 @@ public sealed class caseRevisionController: ControllerBase
 
 
 
-            var tracking = (IDictionary<string,object>)byName["tracking"];
-            if(!tracking.ContainsKey("jurisdiction_id"))
+            var home_record = (IDictionary<string,object>)byName["home_record"];
+            if(!home_record.ContainsKey("jurisdiction_id"))
             {
-                tracking.Add("jurisdiction_id", "/");
+                home_record.Add("jurisdiction_id", "/");
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, tracking["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
-                Console.Write($"unauthorized PUT {tracking["jurisdiction_id"]}: {byName["_id"]}");
+                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
             }
 

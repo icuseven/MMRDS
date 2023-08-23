@@ -6,12 +6,28 @@ using Microsoft.AspNetCore.Mvc;
 using mmria.common.model;
 using System.Net.Http;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server.Controllers;
 
 [Route("api/[controller]")]
 public sealed class substance_mappingController : ControllerBase
 {
+        mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+
+    public substance_mappingController
+	(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
 
     [AllowAnonymous]
     //[Route("list")]
@@ -21,8 +37,8 @@ public sealed class substance_mappingController : ControllerBase
         mmria.common.metadata.Substance_Mapping result = null;
         try
         {
-        string request_string = $"{Program.config_couchdb_url}/metadata/substance-mapping";
-        var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+        string request_string = $"{db_config.url}/metadata/substance-mapping";
+        var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
         string responseFromServer = await case_curl.executeAsync();
         result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Substance_Mapping>(responseFromServer);
         }
@@ -58,10 +74,10 @@ public sealed class substance_mappingController : ControllerBase
 
         if(substance_mapping._id == "substance-mapping")
         {
-            string url = $"{Program.config_couchdb_url}/metadata/substance-mapping";
+            string url = $"{db_config.url}/metadata/substance-mapping";
             //System.Console.WriteLine ("json\n{0}", object_string);
 
-            cURL put_document_curl = new cURL("PUT", null, url, document_content, Program.config_timer_user_name, Program.config_timer_value);
+            cURL put_document_curl = new cURL("PUT", null, url, document_content, db_config.user_name, db_config.user_value);
 
             //bool save_document = false;
 

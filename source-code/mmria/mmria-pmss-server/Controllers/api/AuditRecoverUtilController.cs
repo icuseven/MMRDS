@@ -6,7 +6,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
+using Microsoft.AspNetCore.Http;
+using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server;
 
@@ -14,13 +15,23 @@ namespace mmria.pmss.server;
 
 public sealed class AuditRecoverUtilController: ControllerBase 
 {
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
-    mmria.common.couchdb.ConfigurationSet configuration_set;
+    string host_prefix = null;
     
     private Dictionary<string,mmria.common.metadata.value_node[]> lookup;
-    public AuditRecoverUtilController(mmria.common.couchdb.ConfigurationSet p_configuration)
+    public AuditRecoverUtilController  
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration_set = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
+
     }
 
     (string url, string post) get_find_url
@@ -62,25 +73,23 @@ public sealed class AuditRecoverUtilController: ControllerBase
         try
         {
 
-            var configuration = configuration_set.detail_list[jurisdiction_id];
+            var config = configuration.GetDBConfig(jurisdiction_id);
 
-            var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
+            var case_view_request_string = $"{config.url}/{config.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
 
-            var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, configuration.user_name, configuration.user_value);
+            var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, config.user_name, config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
+            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
 
-            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
-
-
-            mmria.common.model.couchdb.pmss_case_view_sortable_item case_view_item = 
+            mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
                 case_view_response.rows.Where(i=> i.id == case_id).FirstOrDefault().value;
 
 
             //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
-            var (request_string, post_data) = get_find_url(configuration, case_id);
-            var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, configuration.user_name, configuration.user_value);
+            var (request_string, post_data) = get_find_url(db_config, case_id);
+            var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, config.user_name, config.user_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
 
@@ -142,94 +151,6 @@ public sealed class AuditRecoverUtilController: ControllerBase
 
         return null;
     }
-/*
-    [Authorize(Roles  = "installation_admin")]
-    [HttpGet]
-    public async Task<Audit_Detail_View> MoreDetail
-    (
-        System.Threading.CancellationToken cancellationToken, 
-        string juristiction_id,
-        string case_id, 
-        string change_id, 
-        int change_item
-    )
-    {
-
-        var configuration = configuration_set.detail_list[juristiction_id];
-
-        var case_view_request_string = $"{configuration.url}/{configuration.prefix}mmrds/_design/sortable/_view/by_id?key=\"{case_id}\"";
-
-        var case_view_curl = new mmria.getset.cURL("GET",null,case_view_request_string,null, configuration.user_name, configuration.user_value);
-        string responseFromServer = await case_view_curl.executeAsync();
-
-        cancellationToken.ThrowIfCancellationRequested();
-
-        var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
-
-
-        mmria.common.model.couchdb.case_view_sortable_item case_view_item = 
-            case_view_response.rows.Where(i=> i.id == case_id).FirstOrDefault().value;
-
-
-        //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
-        var request_string = $"{configuration.url}/{configuration.prefix}audit/{change_id}";
-        var audit_view_curl = new mmria.getset.cURL("GET",null,request_string,null, configuration.user_name, configuration.user_value);
-        responseFromServer = await audit_view_curl.executeAsync();
-
-        cancellationToken.ThrowIfCancellationRequested();
-
-        
-        var cs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.Change_Stack>(responseFromServer);
-
-
-        for(var i = 0; i < cs.items.Count; i++)
-        {
-            cs.items[i].temp_index = i;
-        }
-
-        string metadata_url = $"{configuration.url}/metadata/version_specification-{cs.metadata_version}/metadata";
-        
-        var metadata_curl = new mmria.getset.cURL("GET", null, metadata_url, null, null, null);
-        mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
-    
-        this.lookup = get_look_up(metadata);
-        var node = get_metadata_node(metadata, cs.items[change_item].dictionary_path.Trim().TrimStart('/'));
-        if(node == null)
-        {
-            return new Audit_Detail_View()
-            {
-                id = case_id,
-                change_id = change_id,
-                cv = case_view_item,
-                cs = cs,
-                change_item = change_item,
-                MetadataNode = metadata.AsNode()
-                
-
-            };
-        }
-        else
-        {
-            var x = convert(node);
-
-            return new Audit_Detail_View()
-            {
-                id = case_id,
-                change_id = change_id,
-                cv = case_view_item,
-                cs = cs,
-                change_item = change_item,
-                MetadataNode = node,
-                value_to_display = x.value_to_display,
-                display_to_value = x.display_to_value
-
-            };
-        }
-    }
-
-*/
-
-    
 
     private List<Metadata_Node> get_metadata_node_by_type(mmria.common.metadata.app p_metadata, string p_type)
     {
@@ -551,7 +472,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
         public string user  {get;set;} = "all"; 
         public string search_text  {get;set;} = "all";
         public bool showAll {get;set;} = false;
-        public mmria.common.model.couchdb.pmss_case_view_sortable_item cv {get;set;}
+        public mmria.common.model.couchdb.case_view_sortable_item cv {get;set;}
         public List<mmria.common.model.couchdb.Change_Stack> ls {get;set;}
 
         public int page_size {get;set;} 

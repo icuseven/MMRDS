@@ -8,22 +8,34 @@ using System.Dynamic;
 using mmria.common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server;
 
 [Authorize(Roles  = "committee_member")]
 [Route("api/[controller]")]
 public sealed class de_id_viewController: ControllerBase
 {
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
-    public de_id_viewController(IConfiguration p_configuration)
+    string host_prefix = null;
+
+    public de_id_viewController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.pmss_case_view_response> Get
+    public async Task<mmria.common.model.couchdb.case_view_response> Get
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,
@@ -40,7 +52,7 @@ public sealed class de_id_viewController: ControllerBase
         var is_identefied_case = false;
         var cvs = new mmria.pmss.server.utils.CaseViewSearch
         (
-            configuration, 
+            db_config, 
             User,
             is_identefied_case
         );

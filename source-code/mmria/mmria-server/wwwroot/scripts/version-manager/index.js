@@ -317,6 +317,26 @@ function get_sass_name(p_metadata, p_search_path, p_path)
         case "app":
         case "form":
         case "group":
+            if
+            (
+                p_metadata.sass_export_name != null &&
+                p_metadata.sass_export_name != "" && 
+                p_search_path.toLowerCase() == p_path.toLowerCase()
+
+            )
+            {
+                result = p_metadata.sass_export_name;
+            }
+            else for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
+                if(result != null)
+                {
+                    break;
+                }
+            }
+            break;
         case "grid":
             for(let i = 0; i < p_metadata.children.length; i++)
             {

@@ -9,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 using System.IO;
 using Akka.Actor;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;
 namespace mmria.server.Controllers;
 
 
@@ -19,33 +21,39 @@ public sealed class broadcast_messageController : Controller
 
     private readonly IConfiguration _configuration;
     mmria.common.couchdb.ConfigurationSet ConfigDB;
-    private readonly IAuthorizationService _authorizationService;
+   
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
     public broadcast_messageController
     (
-        IAuthorizationService authorizationService,
-        IConfiguration configuration,
-        mmria.common.couchdb.ConfigurationSet p_config_db
+        mmria.common.couchdb.ConfigurationSet p_config_db,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
-        _authorizationService = authorizationService;
-        _configuration = configuration;
         ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
+
+    [Authorize]
     public IActionResult Index()
     {
         return View();
     }
 
 
-
+    [Authorize]
     [HttpGet]
     public async Task<JsonResult> GetBroadcastMessageList()
     {
         var result = new mmria.common.metadata.BroadcastMessageList();
 
 
-        string url = $"{_configuration["mmria_settings:couchdb_url"]}/metadata/broadcast-message-list";
+        string url = $"{db_config.url}/metadata/broadcast-message-list";
         
         cURL curl = new cURL("GET", null, url, null, null, null);
         try
@@ -157,7 +165,7 @@ public sealed class broadcast_messageController : Controller
     {
         var result = new mmria.common.model.couchdb.document_put_response();
 
-        string url = $"{_configuration["mmria_settings:couchdb_url"]}/metadata/broadcast-message-list";
+        string url = $"{db_config.url}/metadata/broadcast-message-list";
         
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -185,7 +193,7 @@ public sealed class broadcast_messageController : Controller
 
     async Task replicate(string object_json)
     {
-        var config_url = _configuration["mmria_settings:vitals_url"].Replace("/api/Message/IJESet","");
+        var config_url = configuration.GetString("vitals_url", host_prefix).Replace("/api/Message/IJESet","");
 
         var base_url = $"{config_url}/api/broadcastMessage/ReplicateMessage";
 

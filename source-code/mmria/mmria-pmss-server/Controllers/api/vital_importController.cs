@@ -8,7 +8,9 @@ using mmria.common;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server;
 	
 [Route("api/[controller]")]
@@ -20,32 +22,35 @@ public sealed class vital_importController: ControllerBase
 
 
     private readonly IAuthorizationService _authorizationService;
-    private readonly IConfiguration _configuration;
-
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
-
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     public vital_importController
     (
         ActorSystem actorSystem, 
-        IConfiguration configuration, 
-        mmria.common.couchdb.ConfigurationSet p_config_db
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         _actorSystem = actorSystem;
-        _configuration = configuration;
-        ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     private bool is_authorized()
     {
         var result = false;
+
+        var vital_service_key = configuration.GetString("vital_service_key", host_prefix);
+        
         if
         (
             (
                 !this.Request.Headers.ContainsKey("vitals_service_key") ||
-                string.IsNullOrWhiteSpace(ConfigDB.name_value["vital_service_key"])
+                string.IsNullOrWhiteSpace(vital_service_key)
             ) &&
-            this.Request.Headers["vitals_service_key"] != ConfigDB.name_value["vital_service_key"]
+            this.Request.Headers["vitals_service_key"] != vital_service_key
         )
         {
             result = false;
@@ -60,7 +65,7 @@ public sealed class vital_importController: ControllerBase
     
     [AllowAnonymous]
     [HttpGet("view")]
-    public async Task<mmria.common.model.couchdb.pmss_case_view_response> GetCaseView
+    public async Task<mmria.common.model.couchdb.case_view_response> GetCaseView
     (
 
         string search_key
@@ -109,7 +114,7 @@ public sealed class vital_importController: ControllerBase
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
-            request_builder.Append ($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+            request_builder.Append ($"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/{sort_view}?");
 
             if (skip > -1) 
             {
@@ -133,19 +138,19 @@ public sealed class vital_importController: ControllerBase
 
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = case_view_curl.execute();
 
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
             
             string key_compare = search_key.ToLower ().Trim (new char [] { '"' });
 
-            mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
+            mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
             result.offset = case_view_response.offset;
             result.total_rows = case_view_response.total_rows;
 
-            foreach(mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+            foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
                 bool add_item = false;
 
@@ -209,12 +214,12 @@ public sealed class vital_importController: ControllerBase
 
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
+            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_all_docs?include_docs=true";
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
-                request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-                var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                request_string = $"{db_config.url}/{db_config.prefix}mmrds/{case_id}";
+                var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
@@ -309,15 +314,15 @@ public sealed class vital_importController: ControllerBase
 
 
 
-            var tracking = (IDictionary<string,object>)byName["tracking"];
-            if(!tracking.ContainsKey("jurisdiction_id"))
+            var home_record = (IDictionary<string,object>)byName["home_record"];
+            if(!home_record.ContainsKey("jurisdiction_id"))
             {
-                tracking.Add("jurisdiction_id", "/");
+                home_record.Add("jurisdiction_id", "/");
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, tracking["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
-                Console.Write($"unauthorized PUT {tracking["jurisdiction_id"]}: {byName["_id"]}");
+                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
             }
 
@@ -325,7 +330,7 @@ public sealed class vital_importController: ControllerBase
             // begin - check if doc exists
             try 
             {
-                var check_document_curl = new cURL ("GET", null, $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}", null, Program.config_timer_user_name, Program.config_timer_value);
+                var check_document_curl = new cURL ("GET", null, $"{db_config.url}/{db_config.prefix}mmrds/{id_val}", null, db_config.user_name, db_config.user_value);
                 string check_document_json = await check_document_curl.executeAsync ();
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
                 IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
@@ -351,8 +356,8 @@ public sealed class vital_importController: ControllerBase
 
 
 
-            string metadata_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}";
-            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            string metadata_url = $"{db_config.url}/{db_config.prefix}mmrds/{id_val}";
+            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
             try
             {
@@ -412,15 +417,15 @@ public sealed class vital_importController: ControllerBase
 
             if (!string.IsNullOrWhiteSpace (case_id) && !string.IsNullOrWhiteSpace (rev)) 
             {
-                request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + rev;
+                request_string = db_config.url + $"/{db_config.prefix}mmrds/" + case_id + "?rev=" + rev;
             }
             else 
             {
                 return null;
             }
 
-            var delete_report_curl = new cURL ("DELETE", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
-            var check_document_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id, null, Program.config_timer_user_name, Program.config_timer_value);
+            var delete_report_curl = new cURL ("DELETE", null, request_string, null, db_config.user_name, db_config.user_value);
+            var check_document_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}mmrds/" + case_id, null, db_config.user_name, db_config.user_value);
 
             string document_json = null;
             // check if doc exists
@@ -444,7 +449,7 @@ public sealed class vital_importController: ControllerBase
                 
                 if (result_dictionary.ContainsKey ("_rev")) 
                 {
-                    request_string = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
+                    request_string = db_config.url + $"/{db_config.prefix}mmrds/" + case_id + "?rev=" + result_dictionary ["_rev"];
                     //System.Console.WriteLine ("json\n{0}", object_string);
                 }
             } 

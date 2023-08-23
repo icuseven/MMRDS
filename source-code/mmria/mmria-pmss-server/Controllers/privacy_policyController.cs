@@ -8,11 +8,9 @@ namespace mmria.pmss.server.Controllers;
 
 public sealed class privacy_policyController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public privacy_policyController(IAuthorizationService authorizationService)
+    public privacy_policyController()
     {
-        _authorizationService = authorizationService;
+        
     }
     public IActionResult Index()
     {

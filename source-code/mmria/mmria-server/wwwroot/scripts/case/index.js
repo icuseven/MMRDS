@@ -2093,6 +2093,7 @@ function save_case(p_data, p_call_back, p_note)
         {
           p_call_back();
         }
+
       })
       .fail(function (xhr, err) 
       {
@@ -2860,7 +2861,7 @@ function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path)
                 g_ui,
                 p_metadata_path,
                 p_object_path,
-                '',
+                p_dictionary_path,
                 false,
                 post_html_call_back
             ).join('');

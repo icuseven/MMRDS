@@ -12,15 +12,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
 
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/dqr-detail/{quarter_string}")]
 public sealed class dqrReportController: ControllerBase 
 {  
-
     public struct Result_Struct
     {
         public mmria.pmss.server.model.dqr.DQRDetail[] docs;
@@ -37,30 +38,31 @@ public sealed class dqrReportController: ControllerBase
         public int limit;
     }
 
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public dqrReportController(IConfiguration p_configuration)
+    public dqrReportController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     public async Task<Result_Struct> Get(string quarter_string)
     {
         var result = new Result_Struct();
         
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
         
-        var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
-        
-        if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = configuration["mmria_settings:db_prefix"];
-        }
-
         try
         {
-
 
             var selector_struc = new Selector_Struc();
             selector_struc.selector = new System.Collections.Generic.Dictionary<string,System.Collections.Generic.Dictionary<string,string>>(StringComparer.OrdinalIgnoreCase);
@@ -80,8 +82,6 @@ public sealed class dqrReportController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             string selector_struc_string = Newtonsoft.Json.JsonConvert.SerializeObject (selector_struc, settings);
 
-
-
             string find_url = $"{config_couchdb_url}/{config_db_prefix}report/_find";
             var case_curl = new cURL("POST", null, find_url, selector_struc_string, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
@@ -96,10 +96,6 @@ public sealed class dqrReportController: ControllerBase
 
         return result;
     }
-
-
-
-
 } 
 
 

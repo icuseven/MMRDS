@@ -8,14 +8,22 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using Microsoft.Extensions.Configuration;
+using mmria.server.extension;
 
 namespace mmria.server.authentication;
 
 public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 {
-    private IConfiguration _configuration;
+    mmria.common.couchdb.OverridableConfiguration _configuration;
 
-    public CustomAuthHandler(IConfiguration configuration, IOptionsMonitor<CustomAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+    public CustomAuthHandler
+    (
+        mmria.common.couchdb.OverridableConfiguration configuration, 
+        IOptionsMonitor<CustomAuthOptions> options, 
+        ILoggerFactory logger, 
+        UrlEncoder encoder, 
+        ISystemClock clock
+    ) 
         : base(options, logger, encoder, clock)
     {
         _configuration = configuration;
@@ -23,7 +31,32 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
-        // Get Authorization header value
+        string host_prefix = Request.Host.GetPrefix();
+
+        var db_config = _configuration.GetDBConfig(host_prefix);
+
+        if(db_config == null)
+        {
+            string couchdb_url =  null;
+            string timer_user_name = null;
+            string timer_value = null;
+            string db_prefix = null;
+
+            System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
+            System.Environment.GetEnvironmentVariable("db_prefix").SetIfIsNotNullOrWhiteSpace(ref db_prefix);
+            System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
+            System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
+    
+            db_config = new()
+            {
+                url =  couchdb_url,
+                user_name = timer_user_name,
+                user_value = timer_value
+            };
+            
+
+        }
+        
         if
         (
             Request.Cookies.ContainsKey("sid") && 
@@ -31,17 +64,18 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
         )
         {
 
+/*
             var config_couchdb_url = _configuration["mmria_settings:couchdb_url"];
             var config_timer_user_name = _configuration["mmria_settings:timer_user_name"];
             var config_timer_password = _configuration["mmria_settings:timer_value"];
             var config_db_prefix = _configuration["mmria_settings:db_prefix"];
-
+*/
 
             mmria.server.model.actor.Session_MessageDTO session_message = null;
             try
             {
-                string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
-                var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, config_timer_user_name, config_timer_password);
+                string request_string = db_config.Get_Prefix_DB_Url($"session/{Request.Cookies["sid"]}");
+                var session_message_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 var responseFromServer =  session_message_curl.execute();
 
                 session_message = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.actor.Session_MessageDTO>(responseFromServer);
@@ -92,9 +126,9 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                     string session_message_json = Newtonsoft.Json.JsonConvert.SerializeObject(session_message);
                     try
                     {
-                        string request_string = $"{config_couchdb_url}/{config_db_prefix}session/{Request.Cookies["sid"]}";
+                        string request_string = db_config.Get_Prefix_DB_Url($"session/{Request.Cookies["sid"]}");
                         
-                        var session_put_curl = new mmria.server.cURL("PUT", null, request_string, session_message_json, config_timer_user_name, config_timer_password);
+                        var session_put_curl = new mmria.server.cURL("PUT", null, request_string, session_message_json, db_config.user_name, db_config.user_value);
                         var responseFromServer =  session_put_curl.execute();
 
                         var response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer); 
@@ -137,9 +171,10 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 
                 var session_idle_timeout_minutes = 30;
                 
-                if(_configuration["mmria_settings:session_idle_timeout_minutes"] != null)
+                var temp_int = _configuration.GetInteger("mmria_settings:session_idle_timeout_minutes", host_prefix);
+                if(temp_int.HasValue)
                 {
-                    int.TryParse(_configuration["mmria_settings:session_idle_timeout_minutes"], out session_idle_timeout_minutes);
+                    session_idle_timeout_minutes = temp_int.Value;
                 }
 
                 var ticket = new AuthenticationTicket(userPrincipal,"custom");
@@ -184,6 +219,5 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 
         }
     }
-
 
 }

@@ -7,11 +7,9 @@ namespace mmria.pmss.server.Controllers;
 [Route("d3-report")]
 public sealed class d3_reportController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
     public d3_reportController(IAuthorizationService authorizationService)
     {
-        _authorizationService = authorizationService;
+
     }
     public IActionResult Index()
     {

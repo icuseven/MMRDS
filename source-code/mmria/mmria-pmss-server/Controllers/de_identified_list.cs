@@ -5,13 +5,10 @@ namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "form_designer, cdc_admin")]
 [Route("de-identified-list")]
-    public sealed class de_identified_listController : Controller
+public sealed class de_identified_listController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public de_identified_listController(IAuthorizationService authorizationService)
+    public de_identified_listController()
     {
-        _authorizationService = authorizationService;
 
     }
     public IActionResult Index()

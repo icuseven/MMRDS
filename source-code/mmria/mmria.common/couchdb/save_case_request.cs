@@ -2,6 +2,7 @@ using System;
 
 namespace mmria.common.model.couchdb;
 
+/*
 public sealed class AuditViewResponseItem
 {
     public string id {get;set;}
@@ -11,7 +12,7 @@ public sealed class AuditViewResponseItem
     public string note {get;set;}
     public int? change_count {get;set;}
 }
-
+*/
 
 public sealed class Change_Stack_Item
 {
@@ -34,7 +35,6 @@ public sealed class Change_Stack_Item
     public int? grid_index {get;set;}
     public string prompt {get;set;}
     
-    
     public string metadata_type {get;set;}
 }
 public sealed class Change_Stack
@@ -45,6 +45,13 @@ public sealed class Change_Stack
 
     public string case_id {get;set;}
     public string case_rev {get;set;}
+
+    public string record_id { get;set; }
+    public bool? is_delete { get;set; }
+    public string delete_rev { get;set; }
+
+    public string first_name { get;set; }
+    public string last_name { get;set; }
 
     public string user_name {get;set;}
 

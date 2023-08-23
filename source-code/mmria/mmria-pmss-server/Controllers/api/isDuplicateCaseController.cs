@@ -8,6 +8,9 @@ using mmria.common;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server;
 
@@ -29,13 +32,21 @@ public sealed class IsDuplicateCaseRequest
 [Route("api/[controller]")]
 public sealed class isDuplicateCaseController: ControllerBase 
 { 
-    private ActorSystem _actorSystem;
-    private readonly IAuthorizationService _authorizationService;
-    //private readonly IDocumentRepository _documentRepository;
-    public isDuplicateCaseController(ActorSystem actorSystem, IAuthorizationService authorizationService)
+    ActorSystem _actorSystem;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public isDuplicateCaseController
+    (
+        ActorSystem actorSystem, 
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         _actorSystem = actorSystem;
-        _authorizationService = authorizationService;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     
     
@@ -74,13 +85,13 @@ public sealed class isDuplicateCaseController: ControllerBase
                             mmria_id = value_result.result.ToString();
 
 
-                            var DSTATE_result = gs.get_value(case_expando_object, "tracking/state_of_death_record");
+                            var DSTATE_result = gs.get_value(case_expando_object, "home_record/state_of_death_record");
                             var host_state_result = gs.get_value(case_expando_object, "host_state");
-                            var DOD_YR_result = gs.get_value(case_expando_object, "tracking/date_of_death/year");
-                            var DOD_MO_result = gs.get_value(case_expando_object, "tracking/date_of_death/month");
-                            var DOD_DY_result = gs.get_value(case_expando_object, "tracking/date_of_death/day");
-                            var LNAME_result = gs.get_value(case_expando_object, "tracking/last_name");
-                            var GNAME_result = gs.get_value(case_expando_object, "tracking/first_name");
+                            var DOD_YR_result = gs.get_value(case_expando_object, "home_record/date_of_death/year");
+                            var DOD_MO_result = gs.get_value(case_expando_object, "home_record/date_of_death/month");
+                            var DOD_DY_result = gs.get_value(case_expando_object, "home_record/date_of_death/day");
+                            var LNAME_result = gs.get_value(case_expando_object, "home_record/last_name");
+                            var GNAME_result = gs.get_value(case_expando_object, "home_record/first_name");
 
                             if
                             (
@@ -117,7 +128,7 @@ public sealed class isDuplicateCaseController: ControllerBase
 
                                     )
                                     {
-                                        var record_id_result = gs.get_value(case_expando_object, "tracking/record_id");
+                                        var record_id_result = gs.get_value(case_expando_object, "home_record/record_id");
                                         if(!record_id_result.is_error && record_id_result.result!= null)
                                         {
                                             record_id = record_id_result.result.ToString();
@@ -168,7 +179,7 @@ public sealed class isDuplicateCaseController: ControllerBase
         return result;
     } 
 
-    private async Task<mmria.common.model.couchdb.pmss_case_view_response> GetCaseView
+    private async Task<mmria.common.model.couchdb.case_view_response> GetCaseView
     (
         string search_key,
         int skip = 0,
@@ -208,7 +219,7 @@ public sealed class isDuplicateCaseController: ControllerBase
         try
         {
             System.Text.StringBuilder request_builder = new System.Text.StringBuilder();
-            request_builder.Append($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+            request_builder.Append(db_config.Get_Prefix_DB_Url($"mmrds/_design/sortable/_view/{sort_view}?"));
 
             if (skip > -1)
             {
@@ -232,19 +243,19 @@ public sealed class isDuplicateCaseController: ControllerBase
 
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
 
             string key_compare = search_key.ToLower().Trim(new char[] { '"' });
 
-            mmria.common.model.couchdb.pmss_case_view_response result = new mmria.common.model.couchdb.pmss_case_view_response();
+            mmria.common.model.couchdb.case_view_response result = new mmria.common.model.couchdb.case_view_response();
             result.offset = case_view_response.offset;
             result.total_rows = case_view_response.total_rows;
 
-            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
                 bool add_item = false;
 
@@ -301,12 +312,12 @@ public sealed class isDuplicateCaseController: ControllerBase
     {
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
+            string request_string = db_config.Get_Prefix_DB_Url("mmrds/_all_docs?include_docs=true");
 
             if (!string.IsNullOrWhiteSpace(case_id))
             {
-                request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{case_id}";
-                var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}");
+                var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);

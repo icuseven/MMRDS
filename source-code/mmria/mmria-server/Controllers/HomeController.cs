@@ -7,19 +7,28 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Akka.Actor;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension;    
+	
 namespace mmria.server.Controllers;
 
 public sealed class HomeController : Controller
 {
 
-
-
-    private IConfiguration _config;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     
-            public HomeController(IConfiguration p_config)
+    public HomeController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _config = p_config;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     public async Task<IActionResult> Index()
@@ -33,17 +42,17 @@ public sealed class HomeController : Controller
 
         var days_til_expiration = -1;
 
-        var password_days_before_expires = Program.config_pass_word_days_before_expires;
+        var password_days_before_expires = configuration.GetInteger("pass_word_days_before_expires",host_prefix);
 
-        if(password_days_before_expires > 0)
+        if(password_days_before_expires.HasValue && password_days_before_expires.Value > 0)
         {
             try
             {
 
                 
-                var session_event_request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
+                var session_event_request_url = $"{db_config.url}/{db_config.prefix}session/_design/session_event_sortable/_view/by_user_id?startkey=\"{userName}\"&endkey=\"{userName}\"";
 
-                var session_event_curl = new cURL("GET", null, session_event_request_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                var session_event_curl = new cURL("GET", null, session_event_request_url, null, db_config.user_name, db_config.user_value);
                 string response_from_server = await session_event_curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);
@@ -67,7 +76,7 @@ public sealed class HomeController : Controller
 
                 if(date_of_last_password_change != DateTime.MinValue)
                 {
-                    days_til_expiration = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+                    days_til_expiration = password_days_before_expires.Value - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
                 }
                     
                 
@@ -85,9 +94,9 @@ public sealed class HomeController : Controller
         {
             ViewBag.is_power_bi_user = false;
 
-            string my_user_url = $"{Program.config_couchdb_url}/_users/org.couchdb.user:{userName}";
+            string my_user_url = $"{db_config.url}/_users/org.couchdb.user:{userName}";
 
-            var user_curl = new cURL("GET",null,my_user_url,null, Program.config_timer_user_name, Program.config_timer_value);
+            var user_curl = new cURL("GET",null,my_user_url,null, db_config.user_name, db_config.user_value);
             string responseFromServer = await user_curl.executeAsync();
 
             var user  = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
@@ -105,7 +114,7 @@ public sealed class HomeController : Controller
         }
 
 
-        ViewBag.sams_is_enabled = _config["sams:is_enabled"];
+        ViewBag.sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix).Value;
         ViewBag.days_til_password_expires = days_til_expiration;
         ViewBag.config_password_days_before_expires = password_days_before_expires;
 

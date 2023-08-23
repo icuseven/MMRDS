@@ -4,20 +4,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "cdc_admin")]
 public sealed class update_year_of_deathController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     private readonly mmria.common.couchdb.ConfigurationSet _dbConfigSet;
 
 
     private System.Collections.Generic.Dictionary<string, string> YearOfDeathToDisplay;
-    public update_year_of_deathController(IAuthorizationService authorizationService, mmria.common.couchdb.ConfigurationSet DbConfigurationSet)
+    public update_year_of_deathController
+    (
+        mmria.common.couchdb.ConfigurationSet DbConfigurationSet,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _authorizationService = authorizationService;
+
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+
         _dbConfigSet = DbConfigurationSet;
 
         if(_dbConfigSet.detail_list.ContainsKey("vital_import"))
@@ -44,7 +57,7 @@ public sealed class update_year_of_deathController : Controller
     public async Task<IActionResult> FindRecord(mmria.server.model.year_of_death.YearOfDeathRequest Model)
     {
         var model = new mmria.server.model.year_of_death.YearOfDeathRequestResponse();
-        
+        model.SearchText = Model.RecordId;
         try
         {
             string responseFromServer  = null;
@@ -60,8 +73,8 @@ public sealed class update_year_of_deathController : Controller
             else
             {
              
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();   
             }
 
@@ -112,7 +125,7 @@ public sealed class update_year_of_deathController : Controller
 
                             Role = Model.Role
                         };
-
+                        
                         model.YearOfDeathDetail.Add(x);
                     }
                 }
@@ -138,9 +151,9 @@ public sealed class update_year_of_deathController : Controller
 
         
         
-        string server_url = Program.config_couchdb_url;
-        string user_name = Program.config_timer_user_name;
-        string user_value = Program.config_timer_value;
+        string server_url = db_config.url;
+        string user_name = db_config.user_name;
+        string user_value = db_config.user_value;
         string prefix = "";
 
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
@@ -199,8 +212,8 @@ public sealed class update_year_of_deathController : Controller
             else
             {
                 
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();
             }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
@@ -240,8 +253,8 @@ public sealed class update_year_of_deathController : Controller
                         }
                         else
                         {
-                            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                            document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
                         }
 
                         var document_put_response = new mmria.common.model.couchdb.document_put_response();

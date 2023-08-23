@@ -7,11 +7,9 @@ namespace mmria.server.Controllers;
 [Route("manage-case-check-outs")]
 public sealed class manage_case_check_outsController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-    
-    public manage_case_check_outsController(IAuthorizationService authorizationService)
+    public manage_case_check_outsController()
     {
-        _authorizationService = authorizationService;
+
     }
     public IActionResult Index()
     {

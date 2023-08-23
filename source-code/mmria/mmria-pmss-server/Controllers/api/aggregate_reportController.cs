@@ -4,6 +4,10 @@ using System.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;
 
 using mmria.common;
 
@@ -12,9 +16,21 @@ namespace mmria.pmss.server;
 [Route("api/[controller]")]
 public sealed class aggregate_reportController: ControllerBase 
 { 
-    public aggregate_reportController()
-    {
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
+    string host_prefix = null;
+
+    public aggregate_reportController  
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -25,13 +41,13 @@ public sealed class aggregate_reportController: ControllerBase
 
         System.Console.WriteLine ("Recieved message.");
 
-        
+
         try
         {
-            string request_string = this.get_couch_db_url() + $"/{Program.db_prefix}report/_all_docs?include_docs=true";
+            string request_string = db_config.Get_Prefix_DB_Url("report/_all_docs?include_docs=true");
 
 
-            var request_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            var request_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await request_curl.executeAsync();
 
             System.Dynamic.ExpandoObject expando_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer, new  Newtonsoft.Json.Converters.ExpandoObjectConverter());
@@ -59,7 +75,7 @@ public sealed class aggregate_reportController: ControllerBase
                     {
                         var item = convert_result.Value;
                         
-            //tracking/date_of_death/year ne 9999 
+            //home_record/date_of_death/year ne 9999 
             // and committee_review/date_of_review is not missing
                         if
                         (
@@ -271,13 +287,6 @@ public sealed class aggregate_reportController: ControllerBase
             p_result.Add(kvp.Key, int.Parse(kvp.Value.ToString()));
         }
         
-    }
-
-    private string get_couch_db_url()
-    {
-        string result = Program.config_couchdb_url;
-
-        return result;
     }
 } 
 

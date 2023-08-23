@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension; 
 
 namespace mmria.pmss.server;
 
@@ -13,10 +14,18 @@ namespace mmria.pmss.server;
 [Route("api/[controller]")]
 public sealed class policyValuesController : Controller
 {
-    IConfiguration configuration;
-    public policyValuesController(IConfiguration p_configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public policyValuesController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [HttpGet]
@@ -24,17 +33,28 @@ public sealed class policyValuesController : Controller
     {
         var result = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 
-            result.Add("minimum_length", configuration["password_settings:minimum_length"]);
-            result.Add("days_before_expires", configuration["password_settings:days_before_expires"]);
-            result.Add("days_before_user_is_notified_of_expiration", configuration["password_settings:days_before_user_is_notified_of_expiration"]);
-            result.Add("default_days_in_effective_date_interval", configuration["authentication_settings:default_days_in_effective_date_interval"]);
-            result.Add("unsuccessful_login_attempts_number_before_lockout", configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"]);
-            result.Add("unsuccessful_login_attempts_within_number_of_minutes", configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"]);
-            result.Add("unsuccessful_login_attempts_lockout_number_of_minutes", configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"]);
-            result.Add("sams_is_enabled", configuration["sams:is_enabled"]);
+        var minimum_length = configuration.GetInteger("password_minimum_length", host_prefix);
+        var days_before_expires = configuration.GetInteger("password_days_before_expires", host_prefix);
+        var days_before_user_is_notified_of_expiration = configuration.GetInteger("password_days_before_user_is_notified_of_expiration", host_prefix);
+        var default_days_in_effective_date_interval = configuration.GetInteger("authentication_settings:default_days_in_effective_date_interval", host_prefix);
+        var unsuccessful_login_attempts_number_before_lockout = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_number_before_lockout", host_prefix);
+        var unsuccessful_login_attempts_within_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_within_number_of_minutes", host_prefix);
+        var unsuccessful_login_attempts_lockout_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix);
+        var sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
+
+        result.Add("minimum_length", minimum_length.HasValue ? minimum_length.Value.ToString() : "");
+        result.Add("days_before_expires", days_before_expires.HasValue ? days_before_expires.Value.ToString(): "");
+        result.Add("days_before_user_is_notified_of_expiration", days_before_user_is_notified_of_expiration.HasValue ? days_before_user_is_notified_of_expiration.Value.ToString(): "");
+        result.Add("default_days_in_effective_date_interval", default_days_in_effective_date_interval.HasValue ? default_days_in_effective_date_interval.Value.ToString(): "");
+        result.Add("unsuccessful_login_attempts_number_before_lockout", unsuccessful_login_attempts_number_before_lockout.HasValue ? unsuccessful_login_attempts_number_before_lockout.Value.ToString(): "");
+        result.Add("unsuccessful_login_attempts_within_number_of_minutes", unsuccessful_login_attempts_within_number_of_minutes.HasValue ? unsuccessful_login_attempts_within_number_of_minutes.Value.ToString(): "");
+        result.Add("unsuccessful_login_attempts_lockout_number_of_minutes", unsuccessful_login_attempts_lockout_number_of_minutes.HasValue ? unsuccessful_login_attempts_lockout_number_of_minutes.Value.ToString(): "");
+        result.Add("sams_is_enabled", sams_is_enabled.HasValue ? "": "");
 
         return result;
     }
+
+
 
 }
 

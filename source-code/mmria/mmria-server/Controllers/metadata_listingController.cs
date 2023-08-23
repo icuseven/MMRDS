@@ -8,11 +8,9 @@ namespace mmria.server.Controllers;
 
 public sealed class metadata_listingController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public metadata_listingController(IAuthorizationService authorizationService)
+    public metadata_listingController()
     {
-        _authorizationService = authorizationService;
+        
     }
     public IActionResult Index()
     {

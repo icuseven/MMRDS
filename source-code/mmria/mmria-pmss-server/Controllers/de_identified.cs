@@ -5,13 +5,10 @@ namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "committee_member")]
 [Route("de-identified")]
-    public sealed class de_identifiedController : Controller
+public sealed class de_identifiedController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public de_identifiedController(IAuthorizationService authorizationService)
+    public de_identifiedController()
     {
-        _authorizationService = authorizationService;
 
     }
     public IActionResult Index()

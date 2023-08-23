@@ -6,15 +6,29 @@ using System.Dynamic;
 using mmria.common.model;
 using Microsoft.AspNetCore.Authorization;
 
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server;
 
 [Route("api/[controller]")]
 public sealed class de_identified_listController: ControllerBase 
 { 
 
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public de_identified_listController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
+    {
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+    }
 
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
     [HttpGet]
     public System.Dynamic.ExpandoObject Get(string id) 
     { 
@@ -32,7 +46,7 @@ public sealed class de_identified_listController: ControllerBase
                 list_id = "de-identified-list";
             }
 
-            string request_string = Program.config_couchdb_url + $"/metadata/{list_id}";
+            string request_string = $"{db_config.url}/metadata/{list_id}";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
 
@@ -54,19 +68,6 @@ public sealed class de_identified_listController: ControllerBase
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
             return result;
-
-
-
-            /*
-    < HTTP/1.1 200 OK
-    < Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-    < Version=1; Path=/; HttpOnly
-    > ...
-    <
-    {"ok":true}*/
-
-
-
         }
         catch(Exception ex)
         {
@@ -85,8 +86,6 @@ public sealed class de_identified_listController: ControllerBase
     { 
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-        //if(!string.IsNullOrWhiteSpace(json))
-
         string list_id = null;
 
         if(!string.IsNullOrWhiteSpace(id) && id.ToLower() == "export")
@@ -102,24 +101,17 @@ public sealed class de_identified_listController: ControllerBase
         {
 
             System.IO.Stream dataStream0 = this.Request.Body;
-            // Open the stream using a StreamReader for easy access.
-            //dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
             System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-            // Read the content.
+
             string document_json = await reader0.ReadToEndAsync ();
 
-            string metadata_url = Program.config_couchdb_url + $"/metadata/{list_id}";
+            string metadata_url = $"{db_config.url}/metadata/{list_id}";
 
-            var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, Program.config_timer_user_name, Program.config_timer_value,"text/*");
+            var de_identified_curl = new cURL("PUT", null, metadata_url, document_json, db_config.user_name, db_config.user_value,"text/*");
 
             string responseFromServer = await de_identified_curl.executeAsync ();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-
-            if (!result.ok) 
-            {
-
-            }
 
         }
         catch(Exception ex)

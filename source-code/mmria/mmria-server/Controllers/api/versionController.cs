@@ -9,17 +9,27 @@ using Serilog;
 using Serilog.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.server.extension; 
 namespace mmria.server;
 
 [Route("api/[controller]")]
 public sealed class versionController: ControllerBase
 { 
 
-    IConfiguration configuration;
-    public versionController(IConfiguration p_configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
+    public versionController
+(
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     [Route("list")]
@@ -32,9 +42,9 @@ public sealed class versionController: ControllerBase
 
         try
         {
-            string version_specification_url = Program.config_couchdb_url + $"/metadata/_all_docs?include_docs=true";
+            string version_specification_url = db_config.url + $"/metadata/_all_docs?include_docs=true";
 
-            var curl = new cURL("GET", null, version_specification_url, null, Program.config_timer_user_name, Program.config_timer_value);
+            var curl = new cURL("GET", null, version_specification_url, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await curl.executeAsync();
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings{
@@ -75,7 +85,7 @@ public sealed class versionController: ControllerBase
     [HttpGet]
     public string release_version()
     {
-        return configuration["mmria_settings:metadata_version"];
+        return configuration.GetString("metadata_version", host_prefix);
     }
 
     [AllowAnonymous] 
@@ -87,7 +97,7 @@ public sealed class versionController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+            string request_string = db_config.url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -119,7 +129,7 @@ public sealed class versionController: ControllerBase
     )
     {
 
-        var export_all_generate_name_map = new mmria.server.utils.export_all_generate_name_map(configuration);
+        var export_all_generate_name_map = new mmria.server.utils.export_all_generate_name_map(db_config);
 
         var result = export_all_generate_name_map.Execute(version_specification_id, type);
 
@@ -140,8 +150,7 @@ public sealed class versionController: ControllerBase
 
         try
         {
-            //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/version_specification-{version_specification_id}/{document_name}";
+            string request_string = db_config.url + $"/metadata/version_specification-{version_specification_id}/{document_name}";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -201,7 +210,7 @@ public sealed class versionController: ControllerBase
         try
         {
             //"2016-06-12T13:49:24.759Z"
-            string request_string = Program.config_couchdb_url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
+            string request_string = db_config.url + $"/metadata/2016-06-12T13:49:24.759Z/validator.js";
 
             System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
             request.Method = "GET";
@@ -251,8 +260,8 @@ public sealed class versionController: ControllerBase
             string id_val = p_Version_Specification._id;
 
 
-            string check_url = Program.config_couchdb_url + "/metadata/"  + id_val;
-            cURL check_document_curl = new cURL ("Get", null, check_url, null, Program.config_timer_user_name, Program.config_timer_value);
+            string check_url = db_config.url + "/metadata/"  + id_val;
+            cURL check_document_curl = new cURL ("Get", null, check_url, null, db_config.user_name, db_config.user_value);
 
             bool save_document = false;
 
@@ -295,8 +304,8 @@ public sealed class versionController: ControllerBase
 
 
                 
-                string metadata_url = Program.config_couchdb_url + "/metadata/"  + id_val;
-                cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                string metadata_url = db_config.url + "/metadata/"  + id_val;
+                cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
                 try
                 {
@@ -346,8 +355,8 @@ public sealed class versionController: ControllerBase
 
 
             
-            string metadata_url = Program.config_couchdb_url + "/metadata/"  + id_val;
-            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            string metadata_url = db_config.url + "/metadata/"  + id_val;
+            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
             try
             {
@@ -440,9 +449,9 @@ public sealed class versionController: ControllerBase
 
                 
 
-                string metadata_url = Program.config_couchdb_url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
+                string metadata_url = db_config.url + $"/metadata/{add_attachement._id}/{add_attachement.doc_name}";
 
-                var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, Program.config_timer_user_name, Program.config_timer_value, "text/*");
+                var put_curl = new cURL("PUT", null, metadata_url, add_attachement.document_content, db_config.user_name, db_config.user_value, "text/*");
                 put_curl.AddHeader("If-Match",  add_attachement._rev);
 
                 string responseFromServer = await put_curl.executeAsync();

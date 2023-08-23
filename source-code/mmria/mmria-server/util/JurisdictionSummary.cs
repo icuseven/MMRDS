@@ -65,13 +65,12 @@ sealed class JSIComparer : IComparer<JurisdictionSummaryItem>
 
 public sealed class JurisdictionSummary
 {
-    IConfiguration configuration;
 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    public JurisdictionSummary(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public JurisdictionSummary(mmria.common.couchdb.ConfigurationSet p_config_db)
     {
-        configuration = p_configuration;
+
         ConfigDB = p_config_db;
     }
 

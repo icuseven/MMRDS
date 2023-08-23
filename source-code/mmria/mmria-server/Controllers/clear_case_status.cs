@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using  mmria.server.extension;
 
 namespace mmria.server.Controllers;
 
@@ -13,12 +15,24 @@ public sealed class clear_case_statusController : Controller
     private readonly IAuthorizationService _authorizationService;
     private readonly mmria.common.couchdb.ConfigurationSet _dbConfigSet;
 
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
     private System.Collections.Generic.Dictionary<string, string> CaseStatusToDisplay;
-    public clear_case_statusController(IAuthorizationService authorizationService, mmria.common.couchdb.ConfigurationSet DbConfigurationSet)
+    public clear_case_statusController
+    (
+        mmria.common.couchdb.ConfigurationSet DbConfigurationSet,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _authorizationService = authorizationService;
+
         _dbConfigSet = DbConfigurationSet;
+
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
 
         if(_dbConfigSet.detail_list.ContainsKey("vital_import"))
         {
@@ -44,13 +58,15 @@ public sealed class clear_case_statusController : Controller
     public async Task<IActionResult> FindRecord(mmria.server.model.casestatus.CaseStatusRequest Model)
     {
         var model = new mmria.server.model.casestatus.CaseStatusRequestResponse();
-        
+        model.SearchText = Model.RecordId;
         try
         {
             string responseFromServer  = null;
 
             if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
+                model.is_cdc_admin = true;
+                
                 var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
                 string request_string = $"{db_info.url}/{db_info.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, db_info.user_name, db_info.user_value);
@@ -60,8 +76,8 @@ public sealed class clear_case_statusController : Controller
             else
             {
              
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();   
             }
 
@@ -168,8 +184,8 @@ public sealed class clear_case_statusController : Controller
             else
             {
                 
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();
             }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
@@ -208,8 +224,8 @@ public sealed class clear_case_statusController : Controller
                         }
                         else
                         {
-                            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                            document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
                         }
 
                         var document_put_response = new mmria.common.model.couchdb.document_put_response();

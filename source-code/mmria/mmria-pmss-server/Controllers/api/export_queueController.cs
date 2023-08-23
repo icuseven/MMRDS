@@ -12,25 +12,35 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
 [Route("api/[controller]")]
 public sealed class export_queueController: ControllerBase
 { 
+    ActorSystem _actorSystem;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    private ActorSystem _actorSystem;
-
-    public export_queueController(ActorSystem actorSystem)
+    public export_queueController
+    (
+        ActorSystem actorSystem, 
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
         _actorSystem = actorSystem;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
 
     [HttpGet]
-    // GET api/values 
-    //public IEnumerable<master_record> Get() 
     public async System.Threading.Tasks.Task<IEnumerable<export_queue_item>> Get() 
     { 
         List<export_queue_item> result = new List<export_queue_item>();
@@ -46,8 +56,8 @@ public sealed class export_queueController: ControllerBase
 
         try
         {
-            string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_all_docs?include_docs=true";
-            var export_queue_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = db_config.Get_Prefix_DB_Url($"export_queue/_all_docs?include_docs=true");
+            var export_queue_curl = new cURL ("GET", null, request_string, null, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await export_queue_curl.executeAsync();
 
@@ -102,22 +112,10 @@ public sealed class export_queueController: ControllerBase
             }
 
             return result;
-
-            /*
-    < HTTP/1.1 200 OK
-    < Set-Cookie: AuthSession=YW5uYTo0QUIzOTdFQjrC4ipN-D-53hw1sJepVzcVxnriEw;
-    < Version=1; Path=/; HttpOnly
-    > ...
-    <
-    {"ok":true}*/
-
-
-
         }
         catch(Exception)
         {
             //Console.WriteLine (ex);
-
         } 
 
         return null;
@@ -142,31 +140,23 @@ public sealed class export_queueController: ControllerBase
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
         }
 
+        var is_match = System.Text.RegularExpressions.Regex.IsMatch
+        (
+            queue_item._id, 
+            @"^\d\d\d\d-\d\d-\d\dT\d\d-\d\d-\d\d.\d\d\dZ.zip$"
+        );
 
-        if(queue_item == null)
-        try
+        
+
+        if(
+            ! is_match  ||
+            queue_item == null
+        )
         {
 
-            using(System.IO.Stream dataStream0 = this.Request.Body)
-            {
-                //await this.Request.Body.t..Body.CopyToAsync(dataStream0);
-                // Open the stream using a StreamReader for easy access.
-                dataStream0.Seek(0, System.IO.SeekOrigin.Begin);
-                System.IO.StreamReader reader0 = new System.IO.StreamReader (dataStream0);
-                // Read the content.
-                var object_string = reader0.ReadToEnd ();
-
-                queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(object_string);
-
-
-                
-            }
-
+            return result;
         }
-        catch(Exception)
-        {
-            //Console.WriteLine (ex);
-        }
+
 
         if(string.IsNullOrWhiteSpace(queue_item.created_by))
         {
@@ -183,16 +173,14 @@ public sealed class export_queueController: ControllerBase
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (queue_item, settings); 
 
-            string export_queue_request_url = Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/"  +  queue_item._id;
+            string export_queue_request_url = db_config.Get_Prefix_DB_Url("export_queue/" + queue_item._id);
 
-            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
-
+            var export_queue_curl = new cURL ("PUT", null, export_queue_request_url, object_string, db_config.user_name, db_config.user_value);
 
             string responseFromServer = await export_queue_curl.executeAsync();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
         
-
             if
             (
                 result.ok && 
@@ -207,19 +195,17 @@ public sealed class export_queueController: ControllerBase
 
                 mmria.pmss.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new mmria.pmss.server.model.actor.ScheduleInfoMessage
                 (
-                    Program.config_cron_schedule,
-                    Program.config_couchdb_url,
-                    Program.config_timer_user_name,
-                    Program.config_timer_value,
-                    Program.config_export_directory,
+                    configuration.GetString("cron_schedule", host_prefix),
+                    db_config.url,
+                    db_config.user_name,
+                    db_config.user_value,
+                    configuration.GetString("export_directory", host_prefix),
                     juris_user_name,
                     Program.metadata_release_version_name
 
                 );
 
-                //_actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>(), "Process_Export_Queue").Tell(new_scheduleInfo);
                 _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
-                //_actorSystem.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
             }
             else // if (!result.ok) 
             {

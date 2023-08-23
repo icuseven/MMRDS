@@ -4,27 +4,39 @@ using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension; 
 
 namespace mmria.server.Controllers;
 
 [Authorize(Roles = "installation_admin,cdc_admin")]
 public sealed class jurisdictionSummaryController : Controller
 {
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    public jurisdictionSummaryController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public jurisdictionSummaryController
+    (
+        mmria.common.couchdb.ConfigurationSet p_config_db,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+
         ConfigDB = p_config_db;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
 
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
     {
 
-        var result = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+        var result = new mmria.server.utils.JurisdictionSummary(ConfigDB);
 
         return View(await result.execute(cancellationToken));
     }
@@ -33,7 +45,7 @@ public sealed class jurisdictionSummaryController : Controller
     public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
     {
 
-        var summary_list = new mmria.server.utils.JurisdictionSummary(configuration, ConfigDB);
+        var summary_list = new mmria.server.utils.JurisdictionSummary(ConfigDB);
 
         var summary_row_list = await summary_list.execute(cancellationToken);
 
@@ -59,7 +71,7 @@ public sealed class jurisdictionSummaryController : Controller
         }   
 
         var Template_xlsx = "database-scripts/Template.xlsx";
-        var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
+        var Output_xlsx = System.IO.Path.Combine (configuration.GetString("export_directory", host_prefix), "Output.xlsx");
 
         if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
         {

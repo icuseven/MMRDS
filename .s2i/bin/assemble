@@ -16,6 +16,9 @@ rm -rf /tmp/src/source-code/mmria/mmria-console
 rm -rf /tmp/src/source-code/mmria/mmria-identity
 rm -rf /tmp/src/source-code/mmria/test
 rm -rf /tmp/src/source-code/mmria/mmria.sln
+rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.html
+rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.js
+rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test2.html
 
 echo "---> Remove unneeded files - End ..."
 

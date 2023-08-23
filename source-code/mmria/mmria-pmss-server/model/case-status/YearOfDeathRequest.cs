@@ -48,7 +48,8 @@ public sealed class YearOfDeathRequestResponse
         YearOfDeathDetail = new List<YearOfDeathDetail>();
     }
     public List<YearOfDeathDetail> YearOfDeathDetail { get; set; }
-    
+
+    public string SearchText { get; set; }   
 
 }
 

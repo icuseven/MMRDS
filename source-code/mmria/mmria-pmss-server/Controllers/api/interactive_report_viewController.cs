@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server;
 
@@ -21,27 +23,29 @@ namespace mmria.pmss.server;
 public sealed class interactive_report_viewController: ControllerBase 
 {  
 
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
-    public interactive_report_viewController(IConfiguration p_configuration)
+    public interactive_report_viewController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
     }
     public async Task<IList<mmria.pmss.server.model.report_measure_value_struct>> Get(string indicator_id)
     {
         var result = new List<mmria.pmss.server.model.report_measure_value_struct>();
         
+        var config_couchdb_url = db_config.url;
+        var config_timer_user_name = db_config.user_name;
+        var config_timer_value = db_config.user_value;
+        var config_db_prefix = db_config.prefix;
         
-        var config_couchdb_url = configuration["mmria_settings:couchdb_url"];
-        var config_timer_user_name = configuration["mmria_settings:timer_user_name"];
-        var config_timer_value = configuration["mmria_settings:timer_value"];
-        var config_db_prefix = "";
-        
-        if(!string.IsNullOrWhiteSpace(configuration["mmria_settings:db_prefix"]))
-        {
-            config_db_prefix = configuration["mmria_settings:db_prefix"];
-        }
-
         try
         {
 
@@ -50,7 +54,6 @@ public sealed class interactive_report_viewController: ControllerBase
             string responseFromServer = await case_curl.executeAsync();
             
             var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
-
 
             List<mmria.pmss.server.model.c_opioid_report_object> new_list = new();
             var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.pmss.server.model.report_measure_value_struct>>(responseFromServer);
@@ -86,7 +89,6 @@ public sealed class interactive_report_viewController: ControllerBase
                             }
                         }
                     }
-                    
                 }
             }
             else
@@ -120,7 +122,6 @@ public sealed class interactive_report_viewController: ControllerBase
                 }
             }
 
-
             System.Console.WriteLine($"case_response.docs.length {result.Count}");
         }
         catch(Exception ex) 
@@ -130,10 +131,6 @@ public sealed class interactive_report_viewController: ControllerBase
 
         return result;
     }
-
-
-
-
 } 
 
 

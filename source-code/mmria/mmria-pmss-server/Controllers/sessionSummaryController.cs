@@ -2,7 +2,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.pmss.server.extension; 
 
 namespace mmria.pmss.server.Controllers;
 
@@ -10,20 +12,30 @@ namespace mmria.pmss.server.Controllers;
 [Authorize(Roles = "form_designer,cdc_admin")]
 public sealed class sessionSummaryController : Controller
 {
-    IConfiguration configuration;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
 
     mmria.common.couchdb.ConfigurationSet ConfigDB;
 
-    public sessionSummaryController(IConfiguration p_configuration, mmria.common.couchdb.ConfigurationSet p_config_db)
+    public sessionSummaryController
+    (
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        mmria.common.couchdb.ConfigurationSet p_config_db
+    )
     {
-        configuration = p_configuration;
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+        
         ConfigDB = p_config_db;
     }
 
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
     {
 
-        var result = new mmria.pmss.server.utils.SessionSummary(configuration, ConfigDB);
+        var result = new mmria.pmss.server.utils.SessionSummary(ConfigDB);
 
         return View(await result.execute(cancellationToken));
     }
@@ -32,7 +44,7 @@ public sealed class sessionSummaryController : Controller
     public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
     {
 
-        var summary_list = new mmria.pmss.server.utils.SessionSummary(configuration, ConfigDB);
+        var summary_list = new mmria.pmss.server.utils.SessionSummary(ConfigDB);
 
         var summary_row_list = await summary_list.execute(cancellationToken);
 
@@ -59,7 +71,7 @@ public sealed class sessionSummaryController : Controller
         }   
 
         var Template_xlsx = "database-scripts/Template.xlsx";
-        var Output_xlsx = System.IO.Path.Combine (configuration["mmria_settings:export_directory"], "Output.xlsx");
+        var Output_xlsx = System.IO.Path.Combine (configuration.GetString("export_directory",host_prefix), "Output.xlsx");
 
         if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
         {
@@ -86,7 +98,7 @@ public sealed class sessionSummaryController : Controller
 
 /*
             var header1 = new List<FastExcel.Cell>();
-            header1.Add(new FastExcel.Cell(1, "PMSS Jurisdiction Summary Report"));
+            header1.Add(new FastExcel.Cell(1, "MMRIA Jurisdiction Summary Report"));
             header1.Add(new FastExcel.Cell(2, ""));
             header1.Add(new FastExcel.Cell(3, ""));
             header1.Add(new FastExcel.Cell(4, ""));
@@ -104,7 +116,7 @@ public sealed class sessionSummaryController : Controller
             header.Add(new FastExcel.Cell(2, "Jurisdiction Abbreviation"));
             header.Add(new FastExcel.Cell(3, "Report Date"));
             header.Add(new FastExcel.Cell(4, "# of Records"));
-            header.Add(new FastExcel.Cell(5, "# of Unique PMSS Users"));
+            header.Add(new FastExcel.Cell(5, "# of Unique MMRIA Users"));
             header.Add(new FastExcel.Cell(6, "Jurisdiction Admin"));
             header.Add(new FastExcel.Cell(7, "Abstractor"));
             header.Add(new FastExcel.Cell(8, "Analyst"));

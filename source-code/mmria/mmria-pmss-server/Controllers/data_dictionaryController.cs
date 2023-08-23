@@ -8,11 +8,8 @@ namespace mmria.pmss.server.Controllers;
 
 public sealed class data_dictionaryController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
-
-    public data_dictionaryController(IAuthorizationService authorizationService)
+    public data_dictionaryController()
     {
-        _authorizationService = authorizationService;
 ;
     }
 

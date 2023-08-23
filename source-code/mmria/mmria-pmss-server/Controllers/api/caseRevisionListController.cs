@@ -16,24 +16,15 @@ namespace mmria.pmss.server;
 [Route("api/[controller]")]
 public sealed class caseRevisionListController: ControllerBase 
 { 
-    private ActorSystem _actorSystem;
-
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
-
-
-    private readonly IAuthorizationService _authorizationService;
-    //private readonly IDocumentRepository _documentRepository;
+    mmria.common.couchdb.OverridableConfiguration configuration;
 
     public caseRevisionListController
     (
-        ActorSystem actorSystem, 
-        IAuthorizationService authorizationService,
-        mmria.common.couchdb.ConfigurationSet p_config_db
+
+        mmria.common.couchdb.OverridableConfiguration p_config_db
     )
     {
-        _actorSystem = actorSystem;
-        _authorizationService = authorizationService;
-        ConfigDB = p_config_db;
+        configuration = p_config_db;
     }
     
     [Authorize(Roles  = "installation_admin")]
@@ -42,7 +33,7 @@ public sealed class caseRevisionListController: ControllerBase
     { 
         try
         {
-            var config = ConfigDB.detail_list[jurisdiction_id];
+            var config = configuration.GetDBConfig(jurisdiction_id);
 
             string all_revs_url = $"{config.url}/{config.prefix}mmrds/{case_id}?revs=true&open_revs=all";
 

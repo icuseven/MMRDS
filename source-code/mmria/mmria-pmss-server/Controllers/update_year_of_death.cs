@@ -4,20 +4,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 
+using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server.Controllers;
 
 [Authorize(Roles  = "cdc_admin")]
 public sealed class update_year_of_deathController : Controller
 {
-    private readonly IAuthorizationService _authorizationService;
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     private readonly mmria.common.couchdb.ConfigurationSet _dbConfigSet;
 
 
     private System.Collections.Generic.Dictionary<string, string> YearOfDeathToDisplay;
-    public update_year_of_deathController(IAuthorizationService authorizationService, mmria.common.couchdb.ConfigurationSet DbConfigurationSet)
+    public update_year_of_deathController
+    (
+        mmria.common.couchdb.ConfigurationSet DbConfigurationSet,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
+    )
     {
-        _authorizationService = authorizationService;
+
+        configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = configuration.GetDBConfig(host_prefix);
+
         _dbConfigSet = DbConfigurationSet;
 
         if(_dbConfigSet.detail_list.ContainsKey("vital_import"))
@@ -44,7 +57,7 @@ public sealed class update_year_of_deathController : Controller
     public async Task<IActionResult> FindRecord(mmria.pmss.server.model.year_of_death.YearOfDeathRequest Model)
     {
         var model = new mmria.pmss.server.model.year_of_death.YearOfDeathRequestResponse();
-        
+        model.SearchText = Model.RecordId;
         try
         {
             string responseFromServer  = null;
@@ -60,13 +73,13 @@ public sealed class update_year_of_deathController : Controller
             else
             {
              
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();   
             }
 
 
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
             var Locked_status_list = new List<int>(){4,5,6};
             foreach(var item in case_view_response.rows)
@@ -75,11 +88,11 @@ public sealed class update_year_of_deathController : Controller
                 {
                     if
                     (
-                        item.value.pmssno != null &&
+                        item.value.record_id != null &&
                         !string.IsNullOrWhiteSpace(Model.RecordId) &&
                         (
-                            item.value.pmssno.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
-                            Model.RecordId.IndexOf(item.value.pmssno, System.StringComparison.OrdinalIgnoreCase) > -1
+                            item.value.record_id.IndexOf(Model.RecordId, System.StringComparison.OrdinalIgnoreCase) > -1 ||
+                            Model.RecordId.IndexOf(item.value.record_id, System.StringComparison.OrdinalIgnoreCase) > -1
                         )
                         /*
                         &&
@@ -93,7 +106,7 @@ public sealed class update_year_of_deathController : Controller
                         var x = new mmria.pmss.server.model.year_of_death.YearOfDeathDetail()
                         {
                             _id = item.id,
-                            RecordId = item.value?.pmssno,
+                            RecordId = item.value?.record_id,
                             FirstName = item.value?.first_name,
                             LastName = item.value?.last_name,
                             MiddleName = item.value?.middle_name,
@@ -108,11 +121,11 @@ public sealed class update_year_of_deathController : Controller
 
                             StateDatabase = Model.StateDatabase,
 
-                           // CaseStatus = item.value.case_status,
+                            CaseStatus = item.value.case_status,
 
                             Role = Model.Role
                         };
-
+                        
                         model.YearOfDeathDetail.Add(x);
                     }
                 }
@@ -138,10 +151,10 @@ public sealed class update_year_of_deathController : Controller
 
         
         
-        string server_url = Program.config_couchdb_url;
-        string user_name = Program.config_timer_user_name;
-        string user_value = Program.config_timer_value;
-        string prefix = null;
+        string server_url = db_config.url;
+        string user_name = db_config.user_name;
+        string user_value = db_config.user_value;
+        string prefix = "";
 
         if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
         {
@@ -158,7 +171,9 @@ public sealed class update_year_of_deathController : Controller
 
         string record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{array[2]}";
 
-        while (ExistingRecordIds.Contains(record_id));
+        System.Console.WriteLine($"ExistingRecordIds.Count{ExistingRecordIds.Count}");
+
+        while (ExistingRecordIds.Contains(record_id))
         {
             record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
         };
@@ -197,8 +212,8 @@ public sealed class update_year_of_deathController : Controller
             else
             {
                 
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                var case_view_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();
             }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
@@ -207,14 +222,14 @@ public sealed class update_year_of_deathController : Controller
             var dictionary = case_response as IDictionary<string,object>;
             if(dictionary != null)
             {
-                var tracking = dictionary["tracking"] as IDictionary<string,object>;
-                if(tracking != null)
+                var home_record = dictionary["home_record"] as IDictionary<string,object>;
+                if(home_record != null)
                 {
-                    var date_of_death = tracking["date_of_death"] as IDictionary<string,object>;
+                    var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
                     if(date_of_death != null)
                     {
                         date_of_death["year"] = model.YearOfDeathReplacement.ToString();
-                        tracking["record_id"] = model.RecordIdReplacement;
+                        home_record["record_id"] = model.RecordIdReplacement;
 
                         dictionary["last_updated_by"] = userName;
                         dictionary["date_last_updated"] = DateTime.Now;
@@ -238,8 +253,8 @@ public sealed class update_year_of_deathController : Controller
                         }
                         else
                         {
-                            string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                            document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
                         }
 
                         var document_put_response = new mmria.common.model.couchdb.document_put_response();
@@ -287,7 +302,7 @@ public sealed class update_year_of_deathController : Controller
         return View(model);
     }
 
-    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = null)
+    public HashSet<string> GetExistingRecordIds(string p_server_url, string user_name,  string user_value, string p_prefix = "")
     {
         var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -298,7 +313,7 @@ public sealed class update_year_of_deathController : Controller
 
             if(string.IsNullOrWhiteSpace(p_prefix))
             {
-                request_string = $"{p_server_url}mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
+                request_string = $"{p_server_url}/mmrds/_design/sortable/_view/by_date_created?skip=0&take=25000";
             }
             else
             {
@@ -307,11 +322,11 @@ public sealed class update_year_of_deathController : Controller
             var case_view_curl = new mmria.getset.cURL("GET", null, request_string, null, user_name, user_value);
             string responseFromServer = case_view_curl.execute();
 
-            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+            mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
-            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
-                result.Add(cvi.value.pmssno);
+                result.Add(cvi.value.record_id);
             }
         }
         catch (Exception ex)
