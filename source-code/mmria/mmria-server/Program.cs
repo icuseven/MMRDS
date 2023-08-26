@@ -230,8 +230,16 @@ public sealed partial class Program
 
             if(string.IsNullOrWhiteSpace(overridable_config.GetString("config_id",host_prefix)))
             {
-                
-                overridable_config.SetString(host_prefix, "config_id", host_prefix);
+                if(string.IsNullOrWhiteSpace(config_id))
+                {
+
+                    overridable_config.SetString(host_prefix, "config_id", host_prefix);
+                }
+                else
+
+                {
+                    overridable_config.SetString(host_prefix, "config_id", config_id);
+                }
                 Log.Information($"*config_id = {overridable_config.GetString("config_id",host_prefix)}");
             }
             else
@@ -305,6 +313,7 @@ public sealed partial class Program
 
 
             // ******* To Be removed start
+            configuration["mmria_settings:config_id"] = overridable_config.GetString("config_id", host_prefix);
             configuration["mmria_settings:export_directory"] = overridable_config.GetString("export_directory", host_prefix);
             configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
             configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
