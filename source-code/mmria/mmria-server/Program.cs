@@ -201,6 +201,29 @@ public sealed partial class Program
                 shared_config_id
             );
 
+            Log.Information($"loaded shared_config key list:");
+            var key_set = new HashSet<string>();
+
+            foreach(var kvp in overridable_config.boolean_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var kvp in overridable_config.string_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var kvp in overridable_config.integer_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var key in key_set)
+            {
+                Log.Information(key);
+            }
+
 
             overridable_config.SetString(host_prefix, "shared_config_id", shared_config_id);
 
