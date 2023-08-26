@@ -14,7 +14,7 @@ namespace mmria.pmss.server.utils;
 
 public sealed class CaseViewSearch
 {
-    common.couchdb.DBConfigurationDetail configuration;
+    common.couchdb.DBConfigurationDetail db_config;
 
     System.Security.Claims.ClaimsPrincipal User;
 
@@ -30,7 +30,7 @@ public sealed class CaseViewSearch
         bool p_include_pinned_cases = false
     )
     {
-        configuration = p_configuration;
+        db_config = p_configuration;
         User = p_user;
 
         is_case_identified_data = p_is_case_identified_data;
@@ -929,11 +929,11 @@ public sealed class CaseViewSearch
 
             if(is_case_identified_data)
             {
-                request_builder.Append ($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/{sort_view}?");
             }
             else
             {
-                request_builder.Append ($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_design/sortable/_view/{sort_view}?");
+                request_builder.Append ($"{db_config.url}/{db_config.prefix}de_id/_design/sortable/_view/{sort_view}?");
             }
 
 
@@ -971,7 +971,7 @@ public sealed class CaseViewSearch
             }
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
+            var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
             create_predicates
@@ -1140,8 +1140,8 @@ public sealed class CaseViewSearch
 
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/jurisdiction/pinned-case-set";
-            var case_curl = new cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
+            string request_string = $"{db_config.url}/jurisdiction/pinned-case-set";
+            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }
