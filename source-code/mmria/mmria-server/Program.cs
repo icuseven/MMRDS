@@ -43,8 +43,6 @@ public sealed partial class Program
     public static string config_timer_value;
     public static string config_export_directory;
 
-    public static string metadata_release_version_name;
-
     public static string vitals_service_key;
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
@@ -145,7 +143,7 @@ public sealed partial class Program
 
             configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
             
-            configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrWhiteSpace(ref Program.metadata_release_version_name);
+            
             configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrWhiteSpace(ref Program.db_prefix);
             configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
             configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
@@ -210,7 +208,7 @@ public sealed partial class Program
             Program.config_timer_user_name = overridable_config.GetString("timer_user_name", host_prefix);
             Program.config_timer_value = overridable_config.GetString("timer_value", host_prefix);
 
-
+           
 
             Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
@@ -305,9 +303,8 @@ public sealed partial class Program
 
 
             // ******* To Be removed start
-            Program.metadata_release_version_name = overridable_config.GetString("metadata_version", host_prefix);
-
-
+            
+            configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
 
             // ******* To Be removed end
 

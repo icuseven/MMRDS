@@ -11,16 +11,23 @@ public sealed class c_convert_to_dqr_detail
     string source_json;
 
     string data_type = "overdose";
+    string metadata_version;
 
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
     private int blank_value = 9999;
 
-    public c_convert_to_dqr_detail (string p_source_json, string p_type = "dqr-detail")
+    public c_convert_to_dqr_detail 
+    (
+        string p_source_json, 
+        string p_type,
+        string p_metadata_version
+    )
     {
 
         source_json = p_source_json;
         this.data_type = p_type;
+        metadata_version = p_metadata_version;
     }
 
     public string execute ()
@@ -29,7 +36,7 @@ public sealed class c_convert_to_dqr_detail
 
         var gs = new migrate.C_Get_Set_Value(new ());
         
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 

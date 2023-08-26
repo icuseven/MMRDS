@@ -7,11 +7,17 @@ namespace mmria.server.utils;
 public sealed class c_de_identifier
 {
     string case_item_json;
+    string metadata_version;
     HashSet<string> de_identified_set = new HashSet<string>();
     
-    public c_de_identifier (string p_case_item_json)
+    public c_de_identifier 
+    (
+        string p_case_item_json,
+        string p_metadata_version
+    )
     {
         this.case_item_json = p_case_item_json;
+        metadata_version = p_metadata_version;
     }
     public async Task<string> executeAsync()
     {
@@ -72,7 +78,7 @@ public sealed class c_de_identifier
                     current_directory = System.IO.Directory.GetCurrentDirectory();
                 }
 
-                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{metadata_version}.json")))
                 {
                     de_identified_json = sr.ReadToEnd();
                 }

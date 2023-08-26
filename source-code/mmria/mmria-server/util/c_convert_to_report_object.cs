@@ -8,6 +8,8 @@ public sealed partial class c_convert_to_report_object
 {
     string source_json;
 
+    string metadata_version;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
 
@@ -98,10 +100,15 @@ public sealed partial class c_convert_to_report_object
         "birth_fetal_death_certificate_parent/race/race_of_mother"
     };
 
-    public c_convert_to_report_object (string p_source_json)
+    public c_convert_to_report_object 
+    (
+        string p_source_json,
+        string p_metadata_version
+    )
     {
 
         source_json = p_source_json;
+        metadata_version = p_metadata_version;
     }
 
 
@@ -111,7 +118,7 @@ public sealed partial class c_convert_to_report_object
         string result = null;
         //Get_Value_Result value_result = null;
 
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 

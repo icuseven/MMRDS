@@ -14,6 +14,8 @@ public sealed partial class c_convert_to_opioid_report_object
 
     string report_type = "overdose";
 
+    string metadata_version;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
     private int blank_value = 9999;
@@ -107,11 +109,17 @@ public sealed partial class c_convert_to_opioid_report_object
         "birth_fetal_death_certificate_parent/race/race_of_mother"
     };
 
-    public c_convert_to_opioid_report_object (string p_source_json, string p_type = "overdose")
+    public c_convert_to_opioid_report_object 
+    (
+        string p_source_json, 
+        string p_type, // "overdose" | "powerbi"
+        string p_metadata_version
+    )
     {
 
         source_json = p_source_json;
         this.report_type = p_type;
+        metadata_version = p_metadata_version;
     }
 
 
@@ -308,7 +316,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 
         
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 

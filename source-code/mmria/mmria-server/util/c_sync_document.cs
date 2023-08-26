@@ -110,7 +110,7 @@ public sealed class c_sync_document
         }
         else
         {
-            de_identified_json = await new mmria.server.utils.c_de_identifier(document_json).executeAsync();
+            de_identified_json = await new mmria.server.utils.c_de_identifier(document_json, metadata_version).executeAsync();
 
             if(string.IsNullOrEmpty(de_identified_json))
             {
@@ -184,7 +184,7 @@ public sealed class c_sync_document
 
         try
         {
-            string aggregate_json = new mmria.server.utils.c_convert_to_report_object(document_json).execute();
+            string aggregate_json = new mmria.server.utils.c_convert_to_report_object(document_json, metadata_version).execute();
 
             string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
 
@@ -223,7 +223,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json).execute();
+            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json, "overdose", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -270,7 +270,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
+            string opioid_report_json = new mmria.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -318,7 +318,7 @@ public sealed class c_sync_document
 
         try
         {
-            string dqr_detail_report_json = new mmria.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail").execute();
+            string dqr_detail_report_json = new mmria.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
