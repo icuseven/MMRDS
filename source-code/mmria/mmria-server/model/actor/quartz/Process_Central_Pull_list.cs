@@ -251,7 +251,9 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                         var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
                                         (
                                             _id,
-                                            de_identified_json
+                                            de_identified_json,
+                                            "PUT",
+                                            scheduleInfo.version_number
                                         );
 
                                         Context.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);

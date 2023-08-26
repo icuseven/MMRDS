@@ -7,14 +7,23 @@ namespace mmria.server.utils;
 public sealed class c_sync_document
 {
 
-    private string document_json;
-    private string document_id;
-    private string method;
+    string document_json;
+    string document_id;
+    string method;
 
-    public c_sync_document (string p_document_id, string p_document_json, string p_method = "PUT")
+    string metadata_version;
+
+    public c_sync_document 
+    (
+        string p_document_id, 
+        string p_document_json, 
+        string p_method,
+        string p_metadata_version
+    )
     {
         this.document_json = p_document_json;
         this.document_id = p_document_id;
+        metadata_version = p_metadata_version;
 
         switch (p_method.ToUpperInvariant ())
         {
@@ -114,7 +123,7 @@ public sealed class c_sync_document
                         current_directory = System.IO.Directory.GetCurrentDirectory();
                     }
 
-                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{metadata_version}.json")))
                     {
                         de_identified_json = await sr.ReadToEndAsync ();
                     }
@@ -365,7 +374,7 @@ public sealed class c_sync_document
 
         try
         {
-            string freq_detail_report_json = new mmria.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail").execute();
+            string freq_detail_report_json = new mmria.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {

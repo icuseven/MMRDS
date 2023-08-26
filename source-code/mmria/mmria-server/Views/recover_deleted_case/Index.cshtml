@@ -46,7 +46,7 @@
 
 <h1 class="h2" tabindex="-1">Recover Deleted Case</h1>
 
-<p class="mb-4">Enter the MMRIA Record ID.  Click the button to search for matching case(s).</p>
+<p class="mb-4">Enter part or all of a MMRIA Record ID to find matching cases. Search with the MMRIA Record ID field empty to find all relevant cases.</p>
 
 <form method="post" action="/recover-deleted-case/FindRecord">
     @if(is_cdc_admin)
@@ -74,7 +74,7 @@
 
     <div class="d-flex align-items-center form-group">
         <label for="RecordId" class="d-block text-right mb-0 mr-3" style="width: 156px">MMRIA Record ID:</label>
-        <input id="RecordId" class="form-control w-auto" type="text" name="RecordId" value="" /> <= Enter Part or Whole ID (leave blank to see all)
+        <input id="RecordId" class="form-control w-auto" type="text" name="RecordId" value="" />
     </div>
 
     <div class="d-flex align-items-center form-group">

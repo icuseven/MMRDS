@@ -86,7 +86,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                         {
                             try
                             {
-                                mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, null, "DELETE");
+                                mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number);
                                 await sync_document.executeAsync ();
                             
         
@@ -108,7 +108,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                                 document_json = await document_curl.executeAsync ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, document_json);
+                                    mmria.server.utils.c_sync_document sync_document = new mmria.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number);
                                     await sync_document.executeAsync ();
                                 }
         

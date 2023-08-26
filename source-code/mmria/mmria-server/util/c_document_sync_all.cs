@@ -38,50 +38,60 @@ public sealed class c_document_sync_all
         {"$regex", "^powerbi"}};
 
     }
-public sealed class Report_Opioid_Index_Attribute_Struct
-{
-    public Report_Opioid_Index_Attribute_Struct(){}
+    public sealed class Report_Opioid_Index_Attribute_Struct
+    {
+        public Report_Opioid_Index_Attribute_Struct(){}
 
-    public  Report_Opioid_Index_Attribute_Partial_Filter_Selector
-        partial_filter_selector { get; set;} = new Report_Opioid_Index_Attribute_Partial_Filter_Selector();
-        public List<string> fields { get; set;} = new List<string>(){"_id"}; 
-}
+        public  Report_Opioid_Index_Attribute_Partial_Filter_Selector
+            partial_filter_selector { get; set;} = new Report_Opioid_Index_Attribute_Partial_Filter_Selector();
+            public List<string> fields { get; set;} = new List<string>(){"_id"}; 
+    }
 
-public sealed class Report_PowerBI_Index_Attribute_Struct
-{
-    public Report_PowerBI_Index_Attribute_Struct(){}
+    public sealed class Report_PowerBI_Index_Attribute_Struct
+    {
+        public Report_PowerBI_Index_Attribute_Struct(){}
 
-    public  Report_PowerBI_Index_Attribute_Partial_Filter_Selector
-        partial_filter_selector { get; set;} = new Report_PowerBI_Index_Attribute_Partial_Filter_Selector();
-        public List<string> fields { get; set;} = new List<string>(){"_id"}; 
-}  
-public sealed class Report_Opioid_Index_Struct
-{
-    public Report_Opioid_Index_Struct(){}
-    public Report_Opioid_Index_Attribute_Struct index {get;set;} = new Report_Opioid_Index_Attribute_Struct();
+        public  Report_PowerBI_Index_Attribute_Partial_Filter_Selector
+            partial_filter_selector { get; set;} = new Report_PowerBI_Index_Attribute_Partial_Filter_Selector();
+            public List<string> fields { get; set;} = new List<string>(){"_id"}; 
+    }  
+    public sealed class Report_Opioid_Index_Struct
+    {
+        public Report_Opioid_Index_Struct(){}
+        public Report_Opioid_Index_Attribute_Struct index {get;set;} = new Report_Opioid_Index_Attribute_Struct();
 
-    public string ddoc { get; set; } = "opioid-report-index";
-    public string type {get; set;} = "json";
-}
+        public string ddoc { get; set; } = "opioid-report-index";
+        public string type {get; set;} = "json";
+    }
 
-public sealed class Report_PowerBI_Index_Struct
-{
-    public Report_PowerBI_Index_Struct(){}
-    public Report_PowerBI_Index_Attribute_Struct index {get;set;} = new Report_PowerBI_Index_Attribute_Struct();
+    public sealed class Report_PowerBI_Index_Struct
+    {
+        public Report_PowerBI_Index_Struct(){}
+        public Report_PowerBI_Index_Attribute_Struct index {get;set;} = new Report_PowerBI_Index_Attribute_Struct();
 
-    public string ddoc { get; set; } = "powerbi-report-index";
-    public string type {get; set;} = "json";
-}
+        public string ddoc { get; set; } = "powerbi-report-index";
+        public string type {get; set;} = "json";
+    }
 
-    private string couchdb_url;
-    private string user_name;
-    private string user_value;
+    string couchdb_url;
+    string user_name;
+    string user_value;
 
-    public c_document_sync_all (string p_couchdb_url, string p_user_name, string p_value)
+    string metadata_version;
+
+    public c_document_sync_all 
+    (
+        string p_couchdb_url, 
+        string p_user_name, 
+        string p_value,
+        string p_metadata_version
+    )
     {
         this.couchdb_url = p_couchdb_url;
         this.user_name = p_user_name;
         this.user_value = p_value;
+
+        metadata_version = p_metadata_version;
     }
 
 
@@ -266,7 +276,7 @@ public sealed class Report_PowerBI_Index_Struct
                             if (document_id.IndexOf ("_design/") < 0)
                             {
                                 string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-                                mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json);
+                                mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version);
                                 await sync_document.executeAsync ();
                             }
                         }

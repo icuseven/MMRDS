@@ -257,7 +257,9 @@ public sealed class caseController: ControllerBase
             var Sync_Document_Message = new mmria.server.model.actor.Sync_Document_Message
             (
                 id_val,
-                    object_string
+                object_string,
+                "PUT",
+                configuration.GetString("metadata_version", host_prefix)
             );
 
             _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
@@ -412,7 +414,8 @@ public sealed class caseController: ControllerBase
                 (
                     case_id,
                     document_json,
-                    "DELETE"
+                    "DELETE",
+                    configuration.GetString("metadata_version", host_prefix)
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);

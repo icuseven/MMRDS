@@ -40,11 +40,13 @@ public sealed class syncController: ControllerBase
                 try 
                 {
                     
-                    mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
-                                                                        db_config.url,
-                                                                        db_config.user_name,
-                                                                        db_config.user_value
-                                                                    );
+                    mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all 
+                    (
+                        db_config.url,
+                        db_config.user_name,
+                        db_config.user_value,
+                        configuration.GetString("metadata_version", host_prefix)
+                    );
 
                     sync_all.executeAsync (); 
                 }

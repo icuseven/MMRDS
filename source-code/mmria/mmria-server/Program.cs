@@ -433,7 +433,11 @@ public sealed partial class Program
                 (
                     new Action(async () =>
                     {
-                        await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
+                        await new mmria.server.utils.c_db_setup
+                        (
+                            Program.actorSystem,
+                            overridable_config.GetString("metadata_version", host_prefix)
+                        ).Setup();
                     }
                 ));
             }

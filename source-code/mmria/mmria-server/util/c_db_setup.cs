@@ -9,11 +9,16 @@ namespace mmria.server.utils;
 
 public sealed class c_db_setup
 {
-    private ActorSystem _actorSystem;
-
-    public c_db_setup(ActorSystem actorSystem)
+    ActorSystem _actorSystem;
+    string metadata_version;
+    public c_db_setup
+    (
+        ActorSystem actorSystem,
+        string p_metadata_version
+    )
     {
         _actorSystem = actorSystem;
+        metadata_version = p_metadata_version;
     }
 
 
@@ -263,7 +268,8 @@ public sealed class c_db_setup
 
                 var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
                 (
-                    DateTime.Now
+                    DateTime.Now,
+                    metadata_version
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);

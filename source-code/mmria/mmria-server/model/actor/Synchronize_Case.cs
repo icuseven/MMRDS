@@ -8,27 +8,42 @@ using mmria.server.model.actor;
 namespace mmria.server.model.actor;
 public sealed class Sync_Document_Message
 {
-    public Sync_Document_Message (string p_document_id, string p_document_json, string p_method = "PUT")
+    public Sync_Document_Message 
+    (
+        string p_document_id, 
+        string p_document_json, 
+        string p_method,
+        string p_metadata_version
+    )
     {
         
         document_id = p_document_id;
         document_json = p_document_json;
-        method = p_method;
+        method = p_method.ToUpper();
+        metadata_version = p_metadata_version;
     }
     public string document_json { get; private set; }
     public string document_id { get; private set;}
     public string method { get; private set;}
+
+    public string metadata_version { get; private set; }
 }
 
 
 
 public sealed class Sync_All_Documents_Message
 {
-    public Sync_All_Documents_Message (DateTime p_time_sent)
+    public Sync_All_Documents_Message 
+    (
+        DateTime p_time_sent,
+        string p_metadata_version
+    )
     {
         time_sent = p_time_sent;
+        metadata_version = p_metadata_version;
     }
     public DateTime time_sent { get; private set; }
+    public string metadata_version { get; private set; }
 }
 public sealed class Synchronize_Case : UntypedActor
 {
@@ -43,7 +58,13 @@ public sealed class Synchronize_Case : UntypedActor
             case Sync_Document_Message sync_document_message:
 
 
-            var sync_document = new mmria.server.utils.c_sync_document (sync_document_message.document_id, sync_document_message.document_json, sync_document_message.method);
+            var sync_document = new mmria.server.utils.c_sync_document 
+            (
+                sync_document_message.document_id, 
+                sync_document_message.document_json, 
+                sync_document_message.method,
+                sync_document_message.metadata_version
+            );
 
             try
             {
@@ -58,11 +79,13 @@ public sealed class Synchronize_Case : UntypedActor
 
             case Sync_All_Documents_Message sync_all_documents_message:
 
-                mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all (
-                                                                        Program.config_couchdb_url,
-                                                                        Program.config_timer_user_name,
-                                                                        Program.config_timer_value
-                                                                    );
+                mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all 
+                (
+                    Program.config_couchdb_url,
+                    Program.config_timer_user_name,
+                    Program.config_timer_value,
+                    sync_all_documents_message.metadata_version
+                );
 
                 sync_all.executeAsync ();
 
