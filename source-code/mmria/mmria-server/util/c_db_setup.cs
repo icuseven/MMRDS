@@ -33,6 +33,14 @@ public sealed class c_db_setup
 
     public async Task Setup()
     {
+
+        System.Console.WriteLine("c_db_setup.setup");
+        System.Console.WriteLine($"host_prefix = {host_prefix}");
+        System.Console.WriteLine($"db_config = {configuration.GetDBConfig(host_prefix)}");
+        System.Console.WriteLine($"metadata_version = {configuration.GetString("metadata_version", host_prefix)}");
+
+    return;
+
         string current_directory = AppContext.BaseDirectory;
         if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))
         {
