@@ -223,7 +223,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                     var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
 
                                     var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
-                                    var de_identified_json = new mmria.pmss.server.utils.c_cdc_de_identifier(document_json, instance_name).executeAsync().GetAwaiter().GetResult();
+                                    var de_identified_json = new mmria.pmss.server.utils.c_cdc_de_identifier(document_json, instance_name, scheduleInfo.version_number).executeAsync().GetAwaiter().GetResult();
                                     
                                     var de_identified_case = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_json);
 
@@ -251,7 +251,9 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                         var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
                                         (
                                             _id,
-                                            de_identified_json
+                                            de_identified_json,
+                                            "PUT",
+                                            scheduleInfo.version_number
                                         );
 
                                         Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);

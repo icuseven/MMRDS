@@ -8,6 +8,8 @@ public sealed partial class c_convert_to_report_object
 {
     string source_json;
 
+    string metadata_version;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
 
@@ -55,7 +57,7 @@ public sealed partial class c_convert_to_report_object
 
     @"
     'id': doc._id,
-    'hr_date_of_death_year': doc.tracking.date_of_death.year,
+    'hr_date_of_death_year': doc.home_record.date_of_death.year,
     'dc_date_of_death': doc.death_certificate.certificate_identification.date_of_death,
     'date_of_review': doc.committee_review.date_of_review,
     'was_this_death_preventable': doc.committee_review.was_this_death_preventable,
@@ -78,9 +80,9 @@ public sealed partial class c_convert_to_report_object
     static HashSet<string> aggregator_set = new HashSet<string>()
     {
         "_id",
-        "tracking/date_of_death/year",
-        "tracking/date_of_death/month",
-        "tracking/date_of_death/day",
+        "home_record/date_of_death/year",
+        "home_record/date_of_death/month",
+        "home_record/date_of_death/day",
         "committee_review/date_of_review",
         "committee_review/was_this_death_preventable",
         "committee_review/pregnancy_relatedness",
@@ -98,10 +100,15 @@ public sealed partial class c_convert_to_report_object
         "birth_fetal_death_certificate_parent/race/race_of_mother"
     };
 
-    public c_convert_to_report_object (string p_source_json)
+    public c_convert_to_report_object 
+    (
+        string p_source_json,
+        string p_metadata_version
+    )
     {
 
         source_json = p_source_json;
+        metadata_version = p_metadata_version;
     }
 
 
@@ -111,7 +118,7 @@ public sealed partial class c_convert_to_report_object
         string result = null;
         //Get_Value_Result value_result = null;
 
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
@@ -147,7 +154,7 @@ public sealed partial class c_convert_to_report_object
 
         try
         {
-            val = get_value(source_object, "tracking/date_of_death/year").result;
+            val = get_value(source_object, "home_record/date_of_death/year").result;
             if(val != null && val.ToString() != "")
             {
                 report_object.year_of_death = System.Convert.ToInt32(val);

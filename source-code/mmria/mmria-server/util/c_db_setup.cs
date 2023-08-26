@@ -40,7 +40,7 @@ public sealed class c_db_setup
         System.Console.WriteLine($"db_config.prefix = {db_config.prefix}");
         System.Console.WriteLine($"metadata_version = {configuration.GetString("metadata_version", host_prefix)}");
 
-    return;
+    //return;
 
         string current_directory = AppContext.BaseDirectory;
         if(!System.IO.Directory.Exists(System.IO.Path.Combine(current_directory, "database-scripts")))

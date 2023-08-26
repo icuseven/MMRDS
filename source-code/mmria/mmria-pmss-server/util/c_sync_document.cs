@@ -7,14 +7,23 @@ namespace mmria.pmss.server.utils;
 public sealed class c_sync_document
 {
 
-    private string document_json;
-    private string document_id;
-    private string method;
+    string document_json;
+    string document_id;
+    string method;
 
-    public c_sync_document (string p_document_id, string p_document_json, string p_method = "PUT")
+    string metadata_version;
+
+    public c_sync_document 
+    (
+        string p_document_id, 
+        string p_document_json, 
+        string p_method,
+        string p_metadata_version
+    )
     {
         this.document_json = p_document_json;
         this.document_id = p_document_id;
+        metadata_version = p_metadata_version;
 
         switch (p_method.ToUpperInvariant ())
         {
@@ -85,8 +94,6 @@ public sealed class c_sync_document
     public async System.Threading.Tasks.Task executeAsync()
     {
 
-        return;
-
         string de_identified_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + this.document_id);
         System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
         string de_identified_json = null;
@@ -103,7 +110,7 @@ public sealed class c_sync_document
         }
         else
         {
-            de_identified_json = await new mmria.pmss.server.utils.c_de_identifier(document_json).executeAsync();
+            de_identified_json = await new mmria.pmss.server.utils.c_de_identifier(document_json, metadata_version).executeAsync();
 
             if(string.IsNullOrEmpty(de_identified_json))
             {
@@ -116,7 +123,7 @@ public sealed class c_sync_document
                         current_directory = System.IO.Directory.GetCurrentDirectory();
                     }
 
-                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+                    using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{metadata_version}.json")))
                     {
                         de_identified_json = await sr.ReadToEndAsync ();
                     }
@@ -177,7 +184,7 @@ public sealed class c_sync_document
 
         try
         {
-            string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json).execute();
+            string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json, metadata_version).execute();
 
             string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
 
@@ -216,7 +223,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json).execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "overdose", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -263,7 +270,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi").execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -311,7 +318,7 @@ public sealed class c_sync_document
 
         try
         {
-            string dqr_detail_report_json = new mmria.pmss.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail").execute();
+            string dqr_detail_report_json = new mmria.pmss.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
@@ -367,7 +374,7 @@ public sealed class c_sync_document
 
         try
         {
-            string freq_detail_report_json = new mmria.pmss.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail").execute();
+            string freq_detail_report_json = new mmria.pmss.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version).execute();
 
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {

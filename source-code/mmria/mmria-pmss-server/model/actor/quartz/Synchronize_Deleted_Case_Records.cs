@@ -85,7 +85,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                         {
                             try
                             {
-                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE");
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number);
                                 await sync_document.executeAsync ();
                                 
             
@@ -108,7 +108,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                                 document_json = document_curl.execute ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json);
+                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number);
                                     await sync_document.executeAsync ();
                                 }
             

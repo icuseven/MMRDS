@@ -14,6 +14,8 @@ public sealed partial class c_convert_to_opioid_report_object
 
     string report_type = "overdose";
 
+    string metadata_version;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
     private int blank_value = 9999;
@@ -64,7 +66,7 @@ public sealed partial class c_convert_to_opioid_report_object
 
     @"
     'id': doc._id,
-    'hr_date_of_death_year': doc.tracking.date_of_death.year,
+    'hr_date_of_death_year': doc.home_record.date_of_death.year,
     'dc_date_of_death': doc.death_certificate.certificate_identification.date_of_death,
     'date_of_review': doc.committee_review.date_of_review,
     'was_this_death_preventable': doc.committee_review.was_this_death_preventable,
@@ -87,9 +89,9 @@ public sealed partial class c_convert_to_opioid_report_object
     static HashSet<string> aggregator_set = new HashSet<string>()
     {
         "_id",
-        "tracking/date_of_death/year",
-        "tracking/date_of_death/month",
-        "tracking/date_of_death/day",
+        "home_record/date_of_death/year",
+        "home_record/date_of_death/month",
+        "home_record/date_of_death/day",
         "committee_review/date_of_review",
         "committee_review/was_this_death_preventable",
         "committee_review/pregnancy_relatedness",
@@ -107,11 +109,17 @@ public sealed partial class c_convert_to_opioid_report_object
         "birth_fetal_death_certificate_parent/race/race_of_mother"
     };
 
-    public c_convert_to_opioid_report_object (string p_source_json, string p_type = "overdose")
+    public c_convert_to_opioid_report_object 
+    (
+        string p_source_json, 
+        string p_type, // "overdose" | "powerbi"
+        string p_metadata_version
+    )
     {
 
         source_json = p_source_json;
         this.report_type = p_type;
+        metadata_version = p_metadata_version;
     }
 
 
@@ -308,7 +316,7 @@ mDeathbyRace  MDeathbyRace17 17
 
 
         
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{Program.metadata_release_version_name}/metadata";
+        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
@@ -412,7 +420,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         try
         {
-            val = get_value(source_object, "tracking/date_of_death/year");
+            val = get_value(source_object, "home_record/date_of_death/year");
             if(val != null && val.ToString() != "")
             {
                 report_object.year_of_death = System.Convert.ToInt32(val);
@@ -426,7 +434,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         try
         {
-            val = get_value(source_object, "tracking/date_of_death/month");
+            val = get_value(source_object, "home_record/date_of_death/month");
             if(val != null && val.ToString() != "")
             {
                 opioid_report_value_header.month_of_death = System.Convert.ToInt32(val);
@@ -441,7 +449,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         try
         {
-            val = get_value(source_object, "tracking/date_of_death/day");
+            val = get_value(source_object, "home_record/date_of_death/day");
             if(val != null && val.ToString() != "")
             {
                 opioid_report_value_header.day_of_death = System.Convert.ToInt32(val);
@@ -492,7 +500,7 @@ mDeathbyRace  MDeathbyRace17 17
 
         try
         {
-            val = get_value(source_object, "tracking/jurisdiction_id");
+            val = get_value(source_object, "home_record/jurisdiction_id");
             if(val != null && val.ToString() != "")
             {
                 report_object.jurisdiction_id = val.ToString();
@@ -1398,7 +1406,7 @@ mDeathbyRace  MDeathbyRace17 17
                 }
 
                 ///birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month
-                ///tracking/date_of_death/month
+                ///home_record/date_of_death/month
 
                 val1 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/year");
                 object val2 = get_value (p_source_object, "death_certificate/demographics/date_of_birth/month");
@@ -1407,9 +1415,9 @@ mDeathbyRace  MDeathbyRace17 17
 
                 var date_of_birth = Convert(val1, val2, val3);
 
-                val1 = get_value (p_source_object, "tracking/date_of_death/year");
-                val2 = get_value (p_source_object, "tracking/date_of_death/month");
-                val3 = get_value (p_source_object, "tracking/date_of_death/day");
+                val1 = get_value (p_source_object, "home_record/date_of_death/year");
+                val2 = get_value (p_source_object, "home_record/date_of_death/month");
+                val3 = get_value (p_source_object, "home_record/date_of_death/day");
 
                 var date_of_death = Convert(val1, val2, val3);
 
@@ -1861,12 +1869,12 @@ death_certificate/Race/race = Other
         var bfdcpfodddod_year = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year");
         var bfdcpfodddod_month = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month");
         var bfdcpfodddod_day = get_value(p_source_object, "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day");
-        var hrdod_year = get_value(p_source_object, "tracking/date_of_death/year");
-        var hrdod_month = get_value(p_source_object, "tracking/date_of_death/month");
-        var hrdod_day = get_value(p_source_object, "tracking/date_of_death/day");
+        var hrdod_year = get_value(p_source_object, "home_record/date_of_death/year");
+        var hrdod_month = get_value(p_source_object, "home_record/date_of_death/month");
+        var hrdod_day = get_value(p_source_object, "home_record/date_of_death/day");
 
-        var hr_abs_dth_timing_dynamic = get_value(p_source_object, "tracking/overall_assessment_of_timing_of_death/abstrator_assigned_status");
-        var hr_abs_dth_days_dynamic = get_value(p_source_object, "tracking/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey");
+        var hr_abs_dth_timing_dynamic = get_value(p_source_object, "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status");
+        var hr_abs_dth_days_dynamic = get_value(p_source_object, "home_record/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey");
         var dcdi_p_statu_dynamic = get_value(p_source_object, "death_certificate/death_information/pregnancy_status");
 
         int hr_abs_dth_timing = -1;
