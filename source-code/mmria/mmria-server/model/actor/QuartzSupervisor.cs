@@ -91,7 +91,7 @@ public sealed class QuartzSupervisor : UntypedActor
                         db_config.url,
                         db_config.user_name,
                         db_config.user_value,
-                        Program.config_export_directory,
+                        configuration.GetSharedString("export_directory"),
                         null, //Program.app_instance_name,
                         configuration.GetSharedString("metadata_version")
                     );

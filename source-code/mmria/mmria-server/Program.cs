@@ -41,16 +41,12 @@ public sealed partial class Program
     //public static string config_file_root_folder;
     public static string config_timer_user_name;
     public static string config_timer_value;
-    public static string config_export_directory;
-
-    public static string vitals_service_key;
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
 
     public static string config_cdc_instance_pull_list;
     public static string config_cdc_instance_pull_db_url;
 
-    public static bool is_schedule_enabled = true;
     public static int config_session_idle_timeout_minutes;
 
     public static bool is_db_check_enabled = false;
@@ -87,6 +83,8 @@ public sealed partial class Program
 
         configuration = builder.Configuration;
 
+        string config_export_directory = "/workspace/export";
+
         try
         {
             /*
@@ -100,12 +98,12 @@ public sealed partial class Program
             if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
             {
                 Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
+                
             }
             else 
             {
                 Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                Program.config_export_directory = configuration["mmria_settings:export_directory"];
+                
             }
 
 
@@ -139,7 +137,7 @@ public sealed partial class Program
             Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
 
 
-            configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
+            
 
             configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
             
@@ -148,7 +146,7 @@ public sealed partial class Program
             configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
             configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
             configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
-            configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrWhiteSpace(ref Program.vitals_service_key);
+            
 
 
             string couchdb_url =  configuration["mmria_settings:couchdb_url"];
@@ -212,8 +210,7 @@ public sealed partial class Program
 
             Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
-
-            Program.config_export_directory = overridable_config.GetString("export_directory", host_prefix);
+            
 
             configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
 
@@ -303,8 +300,10 @@ public sealed partial class Program
 
 
             // ******* To Be removed start
-            
+            configuration["mmria_settings:export_directory"] = overridable_config.GetString("export_directory", host_prefix);
             configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
+            configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
+            configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
 
             // ******* To Be removed end
 
@@ -330,7 +329,13 @@ public sealed partial class Program
 
             sched.ScheduleJob(job, trigger);
 
-            if (Program.is_schedule_enabled)
+
+            var is_schedule_enabled = overridable_config.GetBoolean("is_schedule_enabled", host_prefix);
+            if 
+            (
+                is_schedule_enabled.HasValue && 
+                is_schedule_enabled.Value
+            )
             {
                 sched.Start();
             }
@@ -417,9 +422,6 @@ public sealed partial class Program
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            var is_schedule_enabled = overridable_config.GetBoolean("is_schedule_enabled", host_prefix);
-
-
             if 
             (
                 is_schedule_enabled.HasValue && 
@@ -433,7 +435,8 @@ public sealed partial class Program
                         await new mmria.server.utils.c_db_setup
                         (
                             Program.actorSystem,
-                            overridable_config.GetString("metadata_version", host_prefix)
+                            overridable_config,
+                            host_prefix
                         ).Setup();
                     }
                 ));
