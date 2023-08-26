@@ -85,8 +85,6 @@ public sealed class c_db_setup
             {
                     await new cURL ("PUT", null, db_config.url + $"/_node/nonode@nohost/_config/admins/{db_config.user_name}", $"\"{db_config.user_value}\"", null, null).executeAsync();
 
-                //await new cURL ("PUT", null, db_config.url + "/_node/nonode@nohost/_config/mmria_section/app_version", $"\"{Program.config_app_version}\"", db_config.user_name, Program.config_timer_password).executeAsync();
-
 
                     await new cURL ("PUT", null, db_config.url + "/_node/nonode@nohost/_config/couch_httpd_auth/allow_persistent_cookies", $"\"true\"", db_config.user_name, db_config.user_value).executeAsync();
 
@@ -121,7 +119,7 @@ public sealed class c_db_setup
         if (
 
             await url_endpoint_exists (db_config.url, db_config.user_name, db_config.user_value, "GET") //&&
-            //Verify_Password (db_config.url, db_config.user_name, Program.config_timer_password)
+            
         ) 
         {
             Log.Information("DB Repair Check - start");
@@ -279,6 +277,8 @@ public sealed class c_db_setup
                 var sync_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}mmrds/_changes", null, db_config.user_name, db_config.user_value);
                 string res = await sync_curl.executeAsync ();
                 mmria.server.model.couchdb.c_change_result latest_change_set = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.server.model.couchdb.c_change_result> (res);
+
+
 
                 Program.Last_Change_Sequence = latest_change_set.last_seq;
 
