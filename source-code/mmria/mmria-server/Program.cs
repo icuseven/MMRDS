@@ -29,6 +29,7 @@ using Microsoft.AspNetCore.Components.Web;
 
 using mmria.server.extension;
 using mmria.server.authentication;
+using mmria.common.metadata;
 
 namespace mmria.server;
 
@@ -154,6 +155,7 @@ public sealed partial class Program
             string timer_value = configuration["mmria_settings:timer_value"];
             string shared_config_id = configuration["mmria_settings:shared_config_id"];
             string host_prefix = "shared";
+            string config_id = null;
             string app_instance_name = null;
 
 
@@ -165,8 +167,10 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
-            System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref config_id);
             System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
+            System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            
 
 
 
@@ -176,7 +180,7 @@ public sealed partial class Program
             
 
 
-            Log.Information("Overriable Config:");
+            Log.Information("Pre Overridable Config:");
             Log.Information($"couchdb_url: {couchdb_url}");
             Log.Information($"timer_user_name: {timer_user_name}");
             Log.Information($"host_prefix: {host_prefix}");
