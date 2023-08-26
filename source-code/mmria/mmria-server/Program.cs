@@ -184,6 +184,7 @@ public sealed partial class Program
             Log.Information($"couchdb_url: {couchdb_url}");
             Log.Information($"timer_user_name: {timer_user_name}");
             Log.Information($"host_prefix: {host_prefix}");
+            Log.Information($"config_id: {config_id}");
             Log.Information($"shared_config_id: {shared_config_id}");
             Log.Information("***********************\n");
 

@@ -25,8 +25,8 @@ public sealed class c_db_setup
     {
         _actorSystem = actorSystem;
         configuration = _configuration;
-        db_config = configuration.GetDBConfig(host_prefix);
         host_prefix = p_host_prefix;
+        db_config = configuration.GetDBConfig(host_prefix);
         metadata_version = configuration.GetString("metadata_version", host_prefix);
     }
 
