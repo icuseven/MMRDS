@@ -197,6 +197,7 @@ public sealed class export_queueController: ControllerBase
                 (
                     configuration.GetString("cron_schedule", host_prefix),
                     db_config.url,
+                    db_config.prefix,
                     db_config.user_name,
                     db_config.user_value,
                     configuration.GetString("export_directory", host_prefix),

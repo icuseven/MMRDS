@@ -50,16 +50,16 @@ public sealed class Process_Central_Pull_list : UntypedActor
                 
                     try
                     {
-                        var db_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds";
-                        var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                        var db_url = $"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}mmrds";
+                        var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, scheduleInfo.user_name, scheduleInfo.user_value);
                         delete_mmrds_curl.executeAsync ().GetAwaiter().GetResult();
 
                         string current_directory = AppContext.BaseDirectory;
 
-                        var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var mmrds_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}mmrds", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.executeAsync ().GetAwaiter().GetResult());
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ().GetAwaiter().GetResult();
+                        new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", scheduleInfo.user_name, scheduleInfo.user_value).executeAsync ().GetAwaiter().GetResult();
                         System.Console.WriteLine("mmrds/_security completed successfully");
 
                         try 
@@ -68,14 +68,14 @@ public sealed class Process_Central_Pull_list : UntypedActor
                             {
 
                                 string case_design_sortable = sr.ReadToEnd ();
-                                var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                                var case_design_sortable_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}mmrds/_design/sortable", case_design_sortable, scheduleInfo.user_name, scheduleInfo.user_value);
                                 case_design_sortable_curl.executeAsync ().GetAwaiter().GetResult();
                             }
 
                             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
                             {
                                 string case_store_design_auth = sr.ReadToEndAsync ().GetAwaiter().GetResult();
-                                var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                                var case_store_design_auth_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}mmrds/_design/auth", case_store_design_auth, scheduleInfo.user_name, scheduleInfo.user_value);
                                 case_store_design_auth_curl.executeAsync ().GetAwaiter().GetResult();    
                             }
                                                             
@@ -95,7 +95,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                     try
                     {
 
-                        var delete_de_id_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var delete_de_id_curl = new cURL ("DELETE", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}de_id", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         delete_de_id_curl.execute();
                     }
                     catch (Exception)
@@ -106,7 +106,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
 
                     try
                     {
-                        var delete_report_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var delete_report_curl = new cURL ("DELETE", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}report", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         delete_report_curl.execute();
                     }
                     catch (Exception)
@@ -117,7 +117,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
 
                     try
                     {
-                        var create_de_id_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var create_de_id_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}de_id", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         create_de_id_curl.execute();
                     }
                     catch (Exception)
@@ -137,7 +137,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                         using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  "database-scripts/case_design_sortable.json")))
                         {
                             string result = sr.ReadToEnd();
-                            var create_de_id_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_design/sortable", result, Program.config_timer_user_name, Program.config_timer_value);
+                            var create_de_id_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}de_id/_design/sortable", result, scheduleInfo.user_name, scheduleInfo.user_value);
                             create_de_id_curl.execute();					
                         }
 
@@ -152,7 +152,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
 
                     try
                     {
-                        var create_report_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}report", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var create_report_curl = new cURL ("PUT", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}report", null, scheduleInfo.user_name, scheduleInfo.user_value);
                         create_report_curl.execute();	
                     }
                     catch (Exception)
@@ -165,7 +165,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                     {
                         var Report_Opioid_Index = new mmria.server.utils.c_document_sync_all.Report_Opioid_Index_Struct();
                         string index_json = Newtonsoft.Json.JsonConvert.SerializeObject (Report_Opioid_Index);
-                        var create_report_index_curl = new cURL ("POST", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_index", index_json, Program.config_timer_user_name, Program.config_timer_value);
+                        var create_report_index_curl = new cURL ("POST", null, scheduleInfo.couch_db_url + $"/{scheduleInfo.db_prefix}report/_index", index_json, scheduleInfo.user_name, scheduleInfo.user_value);
                         create_report_index_curl.execute();
                     }
                     catch (Exception)
@@ -220,7 +220,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                         continue;
                                     }
 
-                                    var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
+                                    var  target_url = $"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}mmrds/{_id}";
 
                                     var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
                                     var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json, instance_name, scheduleInfo.version_number).executeAsync().GetAwaiter().GetResult();
@@ -234,7 +234,13 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                         continue;
                                     }
                                     
-                                    var revision = get_revision(target_url).GetAwaiter().GetResult();
+                                    var revision = get_revision
+                                    (
+                                        target_url,
+                                        scheduleInfo.user_name,
+                                        scheduleInfo.user_value
+                                    ).GetAwaiter().GetResult();
+                                    
                                     if(!string.IsNullOrWhiteSpace(revision))
                                     {
                                         de_identified_dictionary["_rev"] = revision;
@@ -242,7 +248,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                     
                                     var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
 
-                                    var put_result_string = Put_Document(save_json, _id, target_url, Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                                    var put_result_string = Put_Document(save_json, _id, target_url, scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
 
                                     var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
 
@@ -271,12 +277,12 @@ public sealed class Process_Central_Pull_list : UntypedActor
                     }
 
 /*
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                    PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}mmrds/_compact",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}mmrds/_view_cleanup",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}de_id/_compact",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}de_id/_view_cleanup",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}report/_compact",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
+                    PostCommand($"{scheduleInfo.couch_db_url}/{scheduleInfo.db_prefix}report/_view_cleanup",scheduleInfo.user_name, scheduleInfo.user_value).GetAwaiter().GetResult();
                     */
                 }
 
@@ -341,12 +347,18 @@ public sealed class Process_Central_Pull_list : UntypedActor
         return result;
     }
 
-    private async System.Threading.Tasks.Task<string> get_revision(string p_document_url)
+    private async System.Threading.Tasks.Task<string> get_revision
+    (
+        string p_document_url,
+        string p_user_name,
+        string p_user_value
+
+    )
     {
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, p_user_name, p_user_value);
         string temp_document_json = null;
 
         try
