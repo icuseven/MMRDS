@@ -52,7 +52,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                     (
                         user_role_jurisdiction.data_type != null &&
                         user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-                        mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction))
+                        mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction))
                     {
                         result.Add(user_role_jurisdiction);
                     }						
@@ -72,7 +72,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 (
                     user_role_jurisdiction.data_type != null &&
                     user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
-                    mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction)
+                    mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction)
                 )
                 {
                     result.Add(user_role_jurisdiction);
@@ -103,7 +103,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
         try
         {
-            if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
+            if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
             {
                 return null;
             }
@@ -169,7 +169,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (document_json);
                 //IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
-                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, mmria.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
+                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
                 {
                     return null;
                 }

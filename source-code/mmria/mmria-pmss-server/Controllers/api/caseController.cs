@@ -56,12 +56,12 @@ public sealed class caseController: ControllerBase
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
                 request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}");
-                var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+                var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
+                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
                     return result;
                 }
@@ -99,7 +99,6 @@ public sealed class caseController: ControllerBase
 
         string object_string = null;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-
 
         try
         {
@@ -150,8 +149,8 @@ public sealed class caseController: ControllerBase
                 var is_match = System.Text.RegularExpressions.Regex.IsMatch
                 (
                     id_val, 
-                    @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$"
-                );
+                    @"^[0-9a-fA-F][0-9a-fA-F/-]+[0-9a-fA-F]$"
+                );	
 
                 if(! is_match)
                 {
@@ -159,7 +158,7 @@ public sealed class caseController: ControllerBase
                 }
             }
 
-            var home_record = (IDictionary<string,object>)byName["tracking"];
+            var home_record = (IDictionary<string,object>)byName["home_record"];
             if(!home_record.ContainsKey("jurisdiction_id"))
             {
                 home_record.Add("jurisdiction_id", "/");
@@ -167,13 +166,13 @@ public sealed class caseController: ControllerBase
 
             if 
             (
-                home_record.ContainsKey("pmssno")
+                home_record.ContainsKey("record_id")
             ) 
             {
-                mmria_record_id = home_record["pmssno"].ToString();
+                mmria_record_id = home_record["record_id"].ToString();
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
                 result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
                 Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
@@ -192,16 +191,13 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
                     result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
                     Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
                     return result;
                 }
-
-                
-
 
             } 
             catch (Exception ex) 
@@ -216,7 +212,7 @@ public sealed class caseController: ControllerBase
 
             string metadata_url = db_config.Get_Prefix_DB_Url($"mmrds/{id_val}");
             cURL document_curl = new cURL ("PUT", null, metadata_url, object_string,db_config.user_name, db_config.user_value);
-
+            
             string save_response_from_server = null;
             try
             {
@@ -230,7 +226,7 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-            if (!result.ok && result.error_description  == null)
+            if (!result.ok  && string.IsNullOrWhiteSpace(result.error_description))
             {
                 result.error_description = save_response_from_server;
                 Console.Write($"save failed for: {id_val}");
@@ -272,6 +268,7 @@ public sealed class caseController: ControllerBase
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
             case_sync_actor.Tell(Sync_Document_Message);
             */
+
 
         }
         catch(Exception ex) 
@@ -330,7 +327,7 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
                     Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");

@@ -43,9 +43,18 @@ public sealed class core_element_exporter
 
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config;
     public core_element_exporter(mmria.pmss.server.model.actor.ScheduleInfoMessage configuration)
     {
         this.Configuration = configuration;
+
+        db_config = new()
+        {
+            url = configuration.couch_db_url,
+            prefix = configuration.db_prefix,
+            user_name = configuration.user_name,
+            user_value = configuration.user_value
+        };
     }
 public void Execute(mmria.pmss.server.export_queue_item queue_item)
 {
@@ -61,14 +70,14 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
 
     this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
+    bool is_header_written = false;
+
 
     string core_file_name = "core_mmria_export.csv";
 
-    if (string.IsNullOrWhiteSpace(this.database_url))
+    if (string.IsNullOrWhiteSpace(db_config.url))
     {
-        this.database_url = Configuration.couch_db_url;
-
-        if (string.IsNullOrWhiteSpace(this.database_url))
+        if (string.IsNullOrWhiteSpace(db_config.url))
         {
             System.Console.WriteLine("missing database_url");
             System.Console.WriteLine(" form database:[file path]");
@@ -108,7 +117,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
     this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
     this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
 
-    string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
+    string metadata_url = db_config.url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
     cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
     mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
     current_metadata = metadata;
@@ -190,7 +199,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
     grantee_column.DefaultValue = queue_item.grantee_name;
     path_to_csv_writer[core_file_name].Table.Columns.Add(grantee_column);
 
-    cURL de_identified_list_curl = new cURL("GET", null, this.database_url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
+    cURL de_identified_list_curl = new cURL("GET", null, db_config.url + "/metadata/de-identified-list", null, this.user_name, this.value_string);
     System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(de_identified_list_curl.execute());
     de_identified_set = new HashSet<string>();
 
@@ -211,18 +220,18 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
 
     List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
-    var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+    var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
 
     try
     {
-        string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+        string request_string = $"{Program.config_couchdb_url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-        var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+        var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
         string case_view_responseFromServer = case_view_curl.execute();
 
-        mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(case_view_responseFromServer);
+        mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
 
-        foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+        foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
         {
             Custom_Case_Id_List.Add(cvi.id);
 
@@ -236,7 +245,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
     foreach(string case_id in Custom_Case_Id_List)
     {
 
-        string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+        string URL = $"{db_config.url}/{db_config.prefix}mmrds/{case_id}";
         cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
         System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
@@ -257,13 +266,13 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
 
         var is_jurisdiction_ok = false;
 
-        var tracking = case_doc["tracking"] as IDictionary<string, object>;
+        var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-        if (tracking != null)
+        if (home_record != null)
         {
-            if (!tracking.ContainsKey("jurisdiction_id"))
+            if (!home_record.ContainsKey("jurisdiction_id"))
             {
-                tracking.Add("jurisdiction_id", "/");
+                home_record.Add("jurisdiction_id", "/");
             }
 
             foreach (var jurisdiction_item in jurisdiction_hashset)
@@ -271,7 +280,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
                 var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-                if (regex.IsMatch(tracking["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
                 {
                     is_jurisdiction_ok = true;
                     break;
@@ -283,6 +292,8 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
         {
             continue;
         }
+
+        
 
         System.Data.DataRow row = path_to_csv_writer[core_file_name].Table.NewRow();
         string mmria_case_id = case_doc["_id"].ToString();
@@ -451,12 +462,19 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
             }
         }
 
+
         if(is_excel_file_type)
         {        
             path_to_csv_writer[core_file_name].Table.Rows.Add(row);
         }
         else
         {
+            if(! is_header_written)
+            {
+                path_to_csv_writer[core_file_name].WriteHeadersToStream();
+                is_header_written = true;
+            }
+
             path_to_csv_writer[core_file_name].WriteToStream(row);
         }
 
@@ -555,6 +573,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
             }
             else
             {
+                mapping_document.WriteHeadersToStream();
                 mapping_document.WriteToStream(mapping_row);
             }
         }
@@ -627,7 +646,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
 
 
 
-
+    var is_mapping_lookup_header_written = false;
     foreach 
     (
         var kvp in 
@@ -679,6 +698,12 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
                             }
                             else
                             {
+                                if(! is_mapping_lookup_header_written)
+                                {
+                                    mapping_look_up_document.WriteHeadersToStream();
+                                    is_mapping_lookup_header_written = true;
+
+                                }
                                 mapping_look_up_document.WriteToStream(row);
                             }
                         }
@@ -756,7 +781,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
 
 
 
-    var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+    var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
     string responseFromServer = get_item_curl.execute();
     export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -765,7 +790,7 @@ public void Execute(mmria.pmss.server.export_queue_item queue_item)
     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
     string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-    var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+    var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
     responseFromServer = set_item_curl.execute();
 
 

@@ -224,7 +224,7 @@ public sealed class vital_importController: ControllerBase
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
+                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
                     return result;
                 }
@@ -320,7 +320,7 @@ public sealed class vital_importController: ControllerBase
                 home_record.Add("jurisdiction_id", "/");
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
             {
                 Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
                 return result;
@@ -338,7 +338,7 @@ public sealed class vital_importController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
                     Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
@@ -441,7 +441,7 @@ public sealed class vital_importController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
                     Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");

@@ -914,7 +914,7 @@ public sealed class CaseViewSearch
     ) 
     {
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 
         string sort_view = sort.ToLower ();
 

@@ -82,7 +82,7 @@ public sealed class userController: ControllerBase
         {
             var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 
-            var jurisdiction_username_hashset = mmria.server.utils.authorization_case.get_user_jurisdiction_set();
+            var jurisdiction_username_hashset = mmria.server.utils.authorization_case.get_user_jurisdiction_set(db_config);
 
 
 
@@ -328,7 +328,7 @@ public sealed class userController: ControllerBase
                 }
 
 
-                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(User, user))
+                if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, user))
                 {
                     return null;
                 }

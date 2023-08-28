@@ -35,6 +35,8 @@ public sealed class mmrds_exporter
 
     mmria.common.metadata.app current_metadata;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+
     private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[5];
     private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0, 0 };
     private const int max_qualitative_length = 31000;
@@ -43,16 +45,27 @@ public sealed class mmrds_exporter
 
     private mmria.pmss.server.model.actor.ScheduleInfoMessage Configuration;
 
-    public mmrds_exporter(mmria.pmss.server.model.actor.ScheduleInfoMessage configuration)
+    public mmrds_exporter
+    (
+        mmria.pmss.server.model.actor.ScheduleInfoMessage configuration
+    )
     {
         this.Configuration = configuration;
+
+        db_config = new()
+        {
+            url = configuration.couch_db_url,
+            prefix = configuration.db_prefix,
+            user_name = configuration.user_name,
+            user_value = configuration.user_value
+        };
     }
     public bool Execute(mmria.pmss.server.export_queue_item queue_item)
     {
 
         try
         {
-        this.database_url = this.Configuration.couch_db_url;
+        db_config.url = this.Configuration.couch_db_url;
         this.juris_user_name = this.Configuration.jurisdiction_user_name;
         this.user_name = this.Configuration.user_name;
         this.value_string = this.Configuration.user_value;
@@ -64,11 +77,11 @@ public sealed class mmrds_exporter
         this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
 
-        if (string.IsNullOrWhiteSpace(this.database_url))
+        if (string.IsNullOrWhiteSpace(db_config.url))
         {
-            this.database_url = Configuration.couch_db_url;
+            db_config.url = Configuration.couch_db_url;
 
-            if (string.IsNullOrWhiteSpace(this.database_url))
+            if (string.IsNullOrWhiteSpace(db_config.url))
             {
                 System.Console.WriteLine("missing database_url");
                 System.Console.WriteLine(" form database:[file path]");
@@ -122,7 +135,7 @@ public sealed class mmrds_exporter
 
 
 
-        string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
+        string metadata_url = db_config.url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
         this.current_metadata = metadata;
@@ -232,7 +245,7 @@ public sealed class mmrds_exporter
         List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
 
 
         if (queue_item.case_filter_type == "custom")
@@ -267,14 +280,14 @@ public sealed class mmrds_exporter
 
             try
             {
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-                var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string case_view_responseFromServer = case_view_curl.execute();
 
-                mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(case_view_responseFromServer);
+                mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
 
-                foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+                foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
                 {
                     Custom_Case_Id_List.Add(cvi.id);
 
@@ -298,7 +311,7 @@ public sealed class mmrds_exporter
         //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
         foreach(string case_id in Custom_Case_Id_List)
         {
-            string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+            string URL = $"{db_config.url}/{db_config.prefix}mmrds/{case_id}";
             cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
             System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
@@ -312,45 +325,51 @@ public sealed class mmrds_exporter
                 case_doc["_id"].ToString().StartsWith("_design", StringComparison.InvariantCultureIgnoreCase)
             )
             {
-            continue;
+                continue;
             }
 
 
             var is_jurisdiction_ok = false;
+            string HR_R_ID = null;
 
-            var tracking = case_doc["tracking"] as IDictionary<string, object>;
+            var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
-            if (tracking != null)
+            if (home_record != null)
             {
-            if (!tracking.ContainsKey("jurisdiction_id"))
-            {
-                tracking.Add("jurisdiction_id", "/");
-            }
-
-            foreach (var jurisdiction_item in jurisdiction_hashset)
-            {
-                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-                if (regex.IsMatch(tracking["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                if (!home_record.ContainsKey("jurisdiction_id"))
                 {
-                is_jurisdiction_ok = true;
-                break;
+                    home_record.Add("jurisdiction_id", "/");
                 }
 
-            }
+                if(home_record.ContainsKey("record_id"))
+                {
+                    HR_R_ID = home_record["record_id"].ToString();
+                }
+
+                foreach (var jurisdiction_item in jurisdiction_hashset)
+                {
+                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+                    if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                    {
+                        is_jurisdiction_ok = true;
+                        break;
+                    }
+
+                }
             }
 
             if (!is_jurisdiction_ok)
             {
-            continue;
+                continue;
             }
 
 
             System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
             string mmria_case_id = case_doc["_id"].ToString();
+            row["hr_r_id"] = HR_R_ID;
             row["_id"] = mmria_case_id;
-
+            
             foreach (string path in path_to_flat_map)
             {
             if 
@@ -358,7 +377,15 @@ public sealed class mmrds_exporter
                 !path_to_node_map.ContainsKey(path) ||
                 path_to_node_map[path].type.ToLower() == "app" ||
                 path_to_node_map[path].type.ToLower() == "form" ||
-                path_to_node_map[path].type.ToLower() == "group" ||
+                ( 
+                    path_to_node_map[path].type.ToLower() == "group" &&
+                    (
+                        path_to_node_map[path].tags == null ||
+                        path_to_node_map[path].tags.Length < 1 ||
+                        !path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                    )
+                    
+                ) ||
                 path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                 path_to_node_map[path].type.ToLower() == "button" ||
                 path_to_node_map[path].type.ToLower() == "chart" ||
@@ -385,11 +412,51 @@ public sealed class mmrds_exporter
                 //System.Console.WriteLine("break");
             }
 
+            if(path == "home_record/record_id")
+            {
+                continue;
+            }
+
+            
             object val = get_value(case_doc as IDictionary<string, object>, path);
             try
             {
+
                 switch (path_to_node_map[path].type.ToLower())
                 {
+
+                    case "group":
+
+                        int? month = null;
+                        int? day = null;
+                        int? year = null;
+
+                        var month_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                        var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                        var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                        
+                        
+
+                        val = "";
+
+                        month = ConvertToInt(month_result);
+                        day = ConvertToInt(day_result);
+                        year = ConvertToInt(year_result);
+
+                        if
+                        (
+                            month.HasValue && 
+                            day.HasValue &&
+                            year.HasValue
+                        )
+                        {
+                            string file_field_name = path_to_field_name_map[path];
+                            val = $"{month}/{day}/{year}";  
+                            row[file_field_name] = val;
+
+                        }
+                        
+                    break;
 
                 case "number":
                     double try_double = 0;
@@ -578,6 +645,7 @@ public sealed class mmrds_exporter
                             WriteQualitativeData
                             (
                             mmria_case_id,
+                            HR_R_ID,
                             path,
                             clearText,
                             -1,
@@ -599,6 +667,7 @@ public sealed class mmrds_exporter
                         WriteQualitativeData
                         (
                         mmria_case_id,
+                        HR_R_ID,
                         path,
                         val?.ToString(),
                         -1,
@@ -678,6 +747,7 @@ public sealed class mmrds_exporter
                     }
 
                     System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+                    grid_row["hr_r_id"] = HR_R_ID;
                     grid_row["_id"] = mmria_case_id;
                     grid_row["_record_index"] = i;
                     foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
@@ -703,6 +773,46 @@ public sealed class mmrds_exporter
                                 {
                                     switch (path_to_node_map[node].type.ToLower())
                                     {
+                                        case "group":
+
+                                        int? month = null;
+                                        int? day = null;
+                                        int? year = null;
+
+                                        var month_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                                        var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                                        var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                                        
+                                        
+
+                                        val = "";
+
+                                        month = ConvertToInt(month_result);
+                                        day = ConvertToInt(day_result);
+                                        year = ConvertToInt(year_result);
+
+                                        if
+                                        (
+                                            month.HasValue && 
+                                            day.HasValue &&
+                                            year.HasValue
+                                        )
+                                        {
+                                            //string file_field_name = path_to_field_name_map[path];
+                                            val = $"{month}/{day}/{year}";  
+                                            grid_row[file_field_name] = val;
+
+                                        }
+                                        
+                                    break;
+
+
+
+
+
+
+
+
                                     case "number":
                                         if (!string.IsNullOrWhiteSpace(val.ToString()))
                                         {
@@ -883,6 +993,7 @@ public sealed class mmrds_exporter
                                         WriteQualitativeData
                                         (
                                             mmria_case_id,
+                                            HR_R_ID,
                                             node,
                                             val?.ToString(),
                                             i,
@@ -986,6 +1097,7 @@ public sealed class mmrds_exporter
                 {
                 
                 System.Data.DataRow form_row = path_to_csv_writer[kvp.Value].Table.NewRow();
+                form_row["hr_r_id"] = HR_R_ID;
                 form_row["_id"] = mmria_case_id;
                 form_row["_record_index"] = i;
 
@@ -994,7 +1106,15 @@ public sealed class mmrds_exporter
                     if (
                     path_to_node_map[path].type.ToLower() == "app" ||
                     path_to_node_map[path].type.ToLower() == "form" ||
-                    path_to_node_map[path].type.ToLower() == "group" ||
+                    ( 
+                        path_to_node_map[path].type.ToLower() == "group" &&
+                        (
+                            path_to_node_map[path].tags == null ||
+                            path_to_node_map[path].tags.Length < 1 ||
+                            !path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                        )
+                    
+                    ) ||
                     path_to_node_map[path].type.ToLower() == "grid" ||
                     path_to_node_map[path].type.ToLower() == "always_enabled_button" ||
                     path_to_node_map[path].type.ToLower() == "button" ||
@@ -1023,7 +1143,44 @@ public sealed class mmrds_exporter
 
                     switch (path_to_node_map[path].type.ToLower())
                     {
+                    case "group":
 
+                        int? month = null;
+                        int? day = null;
+                        int? year = null;
+
+
+                        var dictionary = val as IDictionary<string,object>;
+
+                        //var month_result =  dictionary["month"]get_value(case_doc as IDictionary<string, object>, $"{path}/month");
+                        //var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
+                        //var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
+                        
+                        var month_result =  dictionary["month"];
+                        var day_result =  dictionary["day"];
+                        var year_result =  dictionary["year"];
+                        
+
+                        var new_val = "";
+
+                        month = ConvertToInt(month_result);
+                        day = ConvertToInt(day_result);
+                        year = ConvertToInt(year_result);
+
+                        if
+                        (
+                            month.HasValue && 
+                            day.HasValue &&
+                            year.HasValue
+                        )
+                        {
+                            string file_field_name = path_to_field_name_map[path];
+                            new_val = $"{month}/{day}/{year}";  
+                            form_row[file_field_name] = new_val;
+
+                        }
+                        
+                    break;
                     case "number":
                         if (val != null)
                         {
@@ -1203,6 +1360,7 @@ public sealed class mmrds_exporter
                                 WriteQualitativeData
                                 (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     path,
                                     clearText,
                                     i,
@@ -1222,6 +1380,7 @@ public sealed class mmrds_exporter
                             WriteQualitativeData
                             (
                             mmria_case_id,
+                            HR_R_ID,
                             path,
                             val?.ToString(),
                             i,
@@ -1242,6 +1401,7 @@ public sealed class mmrds_exporter
                                 WriteQualitativeData
                                 (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     path,
                                     val?.ToString(),
                                     i,
@@ -1280,6 +1440,7 @@ public sealed class mmrds_exporter
                 (
                     case_doc,
                     mmria_case_id,
+                    HR_R_ID,
                     i,
                     path_to_int_map,
                     path_to_node_map,
@@ -1593,7 +1754,7 @@ public sealed class mmrds_exporter
         );
 
 
-        var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+        var get_item_curl = new cURL("GET", null, db_config.url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
         string responseFromServer = get_item_curl.execute();
         export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -1603,7 +1764,7 @@ public sealed class mmrds_exporter
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-        var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+        var set_item_curl = new cURL("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
         responseFromServer = set_item_curl.execute();
 
 
@@ -1617,7 +1778,7 @@ public sealed class mmrds_exporter
         catch (Exception ex)
         {
 
-        var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+        var get_item_curl = new cURL("GET", null, db_config.url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
         string responseFromServer = get_item_curl.execute();
         export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -1626,7 +1787,7 @@ public sealed class mmrds_exporter
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-        var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+        var set_item_curl = new cURL("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
         responseFromServer = set_item_curl.execute();
 
 
@@ -1731,6 +1892,7 @@ public sealed class mmrds_exporter
     (
         IDictionary<string, object> case_doc,
         string mmria_case_id,
+        string HR_R_ID,
         int parent_record_index,
         Dictionary<string, int> path_to_int_map,
         Dictionary<string, mmria.common.metadata.node> path_to_node_map,
@@ -1790,6 +1952,7 @@ public sealed class mmrds_exporter
                 }
 
                 System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
+                grid_row["hr_r_id"] = HR_R_ID;
                 grid_row["_id"] = mmria_case_id;
                 grid_row["_record_index"] = i;
                 grid_row["_parent_record_index"] = parent_record_index;
@@ -1997,6 +2160,7 @@ public sealed class mmrds_exporter
                                     WriteQualitativeData
                                     (
                                     mmria_case_id,
+                                    HR_R_ID,
                                     field_node,
                                     grid_item_value?.ToString(),
                                     i,
@@ -2054,7 +2218,15 @@ public sealed class mmrds_exporter
                         }
                     }
                 }
-                path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+
+                if(is_excel_file_type)
+                {
+                    path_to_csv_writer[grid_name].Table.Rows.Add(grid_row);
+                }
+                else
+                {
+                    path_to_csv_writer[grid_name].WriteToStream(grid_row);
+                }
             }
         }
         }
@@ -2082,8 +2254,11 @@ public sealed class mmrds_exporter
         // create header row
         if (p_add_id)
         {
-        column = new System.Data.DataColumn("_id", typeof(string));
-        p_Table.Columns.Add(column);
+            column = new System.Data.DataColumn("hr_r_id", typeof(string));
+            p_Table.Columns.Add(column);
+
+            column = new System.Data.DataColumn("_id", typeof(string));
+            p_Table.Columns.Add(column);
         }
 
         if (p_add_record_index)
@@ -2101,19 +2276,35 @@ public sealed class mmrds_exporter
 
         foreach (string path in p_path_to_csv_set)
         {
+
+            if(path == "home_record/record_id") continue;
         string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
 
         switch (p_path_to_node_map[path].type.ToLower())
         {
             case "app":
             case "form":
-            case "group":
             case "grid":
             case "always_enabled_button":
             case "button":
             case "chart":
             case "label":
             continue;
+            case "group":
+                if
+                (
+                    p_path_to_node_map[path].tags ==null ||
+                    p_path_to_node_map[path].tags.Length == 0 ||
+                    !p_path_to_node_map[path].tags[0].Equals("CALC_DATE", StringComparison.OrdinalIgnoreCase)
+                )
+                {
+                    continue;
+                }
+                else
+                {
+                    column = new System.Data.DataColumn(file_field_name, typeof(string));
+                }
+                break;
             case "number":
 
             if (p_path_to_node_map[path].mirror_reference == null)
@@ -2299,7 +2490,16 @@ public sealed class mmrds_exporter
         case "form":
         case "group":
         case "grid":
-            for (var i = 0; i < p_metadata.children.Length; i++)
+            if
+            (
+                p_metadata.sass_export_name != null &&
+                p_metadata.sass_export_name != "" &&
+                p_search_path == p_path
+            )
+            {
+                result = p_metadata.sass_export_name;
+            }
+            else for (var i = 0; i < p_metadata.children.Length; i++)
             {
             var child = p_metadata.children[i];
             result = get_sass_name(child, p_search_path, p_path + "/" + child.name);
@@ -2646,6 +2846,7 @@ public sealed class mmrds_exporter
 
     private void WriteQualitativeData
     (
+        string p_id, 
         string p_record_id, 
         string p_mmria_path, 
         string p_data, 
@@ -2675,13 +2876,32 @@ public sealed class mmrds_exporter
 
         if (this.qualitativeStreamCount[index] == 0)
         {
-            this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+            this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
         }
         else
         {
-            this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nid={p_record_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+            this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
         }
         this.qualitativeStreamCount[index] += 1;
     }
+    int? ConvertToInt(object value)
+    {
+        int? result = null;
+        int try_int = -1;
+        if
+        (
+            value != null
+        )
+        {
+            if(int.TryParse(value.ToString(), out try_int))
+            {
+                if(try_int != 9999)
+                {
+                    result = try_int;
+                }
+            }
+        }
 
+        return result;
+    }
 }
