@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.pmss.server.extension; 
-namespace mmria.pmss.server.Controllers;
+using  mmria.server.extension; 
+namespace mmria.server.Controllers;
 
 [Authorize(Roles  = "installation_admin,cdc_admin")]
 [Route("recover-deleted-case/{action=Index}")]
@@ -70,9 +70,9 @@ public sealed class recover_deleted_caseController : Controller
     }
 
 
-    public async Task<IActionResult> FindRecord(mmria.pmss.server.model.recover_deleted.Request Model)
+    public async Task<IActionResult> FindRecord(mmria.server.model.recover_deleted.Request Model)
     {
-        var model = new mmria.pmss.server.model.recover_deleted.RequestResponse();
+        var model = new mmria.server.model.recover_deleted.RequestResponse();
         model.SearchText = Model.RecordId;
         try
         {
@@ -141,10 +141,21 @@ public sealed class recover_deleted_caseController : Controller
         return View(model);
     }
 
-    
+    public sealed class UpdateDeletedCaseResult
+    {
+        public UpdateDeletedCaseResult(){}
+        public mmria.common.model.couchdb.audit.audit_detail_view detail { get; set; }
+        public bool is_problem_deleting { get; set; }
+        public string problem_description { get; set; }
+    }
+
     public async Task<IActionResult> UpdateDeletedCase(mmria.common.model.couchdb.audit.audit_detail_view Model)
     {
-        var model = Model;
+        var result = new UpdateDeletedCaseResult()
+        {
+            detail = Model,
+            is_problem_deleting = false
+        };
 
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -219,6 +230,7 @@ public sealed class recover_deleted_caseController : Controller
             catch(Exception ex)
             {
                 Console.Write("problem restoring deleted case\n{0}", ex);
+                result.problem_description = ex.Message;
 
             }
 
@@ -227,9 +239,10 @@ public sealed class recover_deleted_caseController : Controller
         catch(Exception ex)
         {
             Console.WriteLine(ex);
+            result.problem_description = ex.Message;
         }
 
-        return View(model);
+        return View(result);
     }
 
 }
