@@ -13,6 +13,7 @@ public sealed class authorization_case
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         System.Dynamic.ExpandoObject p_case_expando_object
@@ -21,7 +22,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -71,6 +72,7 @@ public sealed class authorization_case
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         string jurisdiction_id
@@ -79,7 +81,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
 
         
         foreach(var jurisdiction_item in jurisdiction_hashset)

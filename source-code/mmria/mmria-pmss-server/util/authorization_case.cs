@@ -6,13 +6,14 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 
 
-namespace mmria.pmss.server.utils;
+namespace mmria.server.utils;
 
 public sealed class authorization_case
 {
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         System.Dynamic.ExpandoObject p_case_expando_object
@@ -21,7 +22,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -29,24 +30,24 @@ public sealed class authorization_case
         {
             if
             (
-                !byName.ContainsKey("tracking") || 
-                byName["tracking"] == null
+                !byName.ContainsKey("home_record") || 
+                byName["home_record"] == null
             )
             {
-                byName["tracking"] = new Dictionary<string,object>();
+                byName["home_record"] = new Dictionary<string,object>();
             }
 
-            var tracking = byName["tracking"] as IDictionary<string,object>;
+            var home_record = byName["home_record"] as IDictionary<string,object>;
 
-            if(tracking != null)
+            if(home_record != null)
             {
                 if
                 (
-                    !tracking.ContainsKey("jurisdiction_id") || 
-                    tracking["jurisdiction_id"] == null
+                    !home_record.ContainsKey("jurisdiction_id") || 
+                    home_record["jurisdiction_id"] == null
                 )
                 {
-                    tracking["jurisdiction_id"] = "/";
+                    home_record["jurisdiction_id"] = "/";
                 }
                 
                 foreach(var jurisdiction_item in  jurisdiction_hashset)
@@ -54,7 +55,7 @@ public sealed class authorization_case
                     var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                     if
                     (
-                        regex.IsMatch(tracking["jurisdiction_id"].ToString()) && 
+                        regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
                         p_resoure_right_enum ==  jurisdiction_item.ResourceRight
                     )
                     {
@@ -71,6 +72,7 @@ public sealed class authorization_case
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         string jurisdiction_id
@@ -79,7 +81,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
 
         
         foreach(var jurisdiction_item in jurisdiction_hashset)
