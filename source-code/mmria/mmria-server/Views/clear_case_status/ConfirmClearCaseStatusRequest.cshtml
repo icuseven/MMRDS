@@ -5,6 +5,9 @@
     ViewBag.BreadCrumbs = true;
     var userName = "";
 
+    string is_cdc_admin_string = Model.is_cdc_admin == true ? "true": "false";
+
+
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -14,8 +17,14 @@
 }
 
 <h1 class="h2" tabindex="-1">Unlock and Clear Case Status</h1>
-<a class="btn btn-secondary" href="/clear_case_status">Search Again</a>
-
+@if(Model.is_cdc_admin)
+{
+    <a class="btn btn-secondary mb-3" href="/clear_case_status?role=cdc_admin">Search Again</a>
+}
+else
+{
+    <a class="btn btn-secondary mb-3" href="/clear_case_status">Search Again</a>
+}
 <h3 class="h4">Clear case status for: <strong>@Model.FirstName @Model.MiddleName @Model.LastName (@Model.RecordId)</strong>?</h3>
 <p><strong>Case Status:</strong> @Model.CaseStatusDisplay</p>
 <p><strong>MMRIA Record ID:</strong> @Model.RecordId</p>
@@ -49,7 +58,16 @@
     <input type="hidden" name="CaseStatusDisplay" value="@Model.CaseStatusDisplay" />
     <input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
     <input type="hidden" name="Role" value="@Model.Role" />
+    <input type="hidden" name="is_cdc_admin" value="@is_cdc_admin_string" />
 
     <button class="btn btn-primary mb-3" type="Submit">Unlock</button>
-    <a class="btn btn-link mb-3" href="/clear_case_status">Cancel</a>
+    @if(Model.is_cdc_admin)
+    {
+        <a class="btn btn-secondary mb-3" href="/clear_case_status?role=cdc_admin">Search Again</a>
+    }
+    else
+    {
+        <a class="btn btn-secondary mb-3" href="/clear_case_status">Search Again</a>
+    }
+
 </form>

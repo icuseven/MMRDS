@@ -7,6 +7,8 @@
 
     int test_status;
 
+    string is_cdc_admin_string = Model.is_cdc_admin == true ? "true": "false";
+
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -85,7 +87,8 @@ else
                             <input type="hidden" name="CaseStatus" value="@item.CaseStatus" />
                             <input type="hidden" name="CaseStatusDisplay" value="@item.CaseStatusDisplay" />
                             <input type="hidden" name="StateDatabase" value="@item.StateDatabase" />
-                            <input type="hidden" name="Role" value="@item.Role" />   
+                            <input type="hidden" name="Role" value="@item.Role" />  
+                            <input type="hidden" name="is_cdc_admin" value="@is_cdc_admin_string" />  
                             <input class="btn btn-primary" type="submit" value="Unlock" />
                         </form>
                     </td>

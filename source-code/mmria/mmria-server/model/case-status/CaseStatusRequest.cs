@@ -30,6 +30,8 @@ public sealed class CaseStatusDetail
 
     public string StateDatabase {get; set; }
 
+    public bool is_cdc_admin { get; set; }
+
     public string Role { get; set; }  = "jurisdiction_admin";
 }
 
