@@ -202,7 +202,8 @@ public sealed class export_queueController: ControllerBase
                     db_config.user_value,
                     configuration.GetString("export_directory", host_prefix),
                     juris_user_name,
-                    configuration.GetString("metadata_version", host_prefix)
+                    configuration.GetString("metadata_version", host_prefix),
+                    configuration.GetString("cdc_instance_pull_list", host_prefix)
 
                 );
 

@@ -45,7 +45,7 @@ public sealed partial class Program
     public static string config_timer_value;
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
-
+/*
     public static string config_cdc_instance_pull_list;
     public static string config_cdc_instance_pull_db_url;
 
@@ -62,7 +62,7 @@ public sealed partial class Program
     public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
     public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
     public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
-    
+    */
     public static Akka.Actor.ActorSystem actorSystem;
     
     public static Quartz.IScheduler sched;
@@ -139,8 +139,8 @@ public sealed partial class Program
             Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
 
 
-            
-
+           
+ /*
             configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
             
             
@@ -148,7 +148,7 @@ public sealed partial class Program
             configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
             configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
             configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
-            
+            */
 
 
             string couchdb_url =  configuration["mmria_settings:couchdb_url"];
@@ -240,7 +240,7 @@ public sealed partial class Program
             Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             
-
+/*
             configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
 
             Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, configuration["password_settings:minimum_length"], 8);
@@ -251,7 +251,7 @@ public sealed partial class Program
             Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
             Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
             Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
-
+*/
             if(string.IsNullOrWhiteSpace(overridable_config.GetString("config_id",host_prefix)))
             {
                 if(string.IsNullOrWhiteSpace(config_id))

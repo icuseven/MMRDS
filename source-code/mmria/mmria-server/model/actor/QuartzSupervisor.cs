@@ -20,15 +20,16 @@ public sealed class ScheduleInfoMessage
         string p_user_name,
         string p_user_value,
         string p_export_directory,
-        string p_jurisdiction_user_name = null,
-        string p_version_number = null,
-        string p_cdc_instance_pull_list = null
+        string p_jurisdiction_user_name,
+        string p_version_number,
+        string p_cdc_instance_pull_list
         )
     {
         cron_schedule = p_cron_schedule;
         couch_db_url = p_couch_db_url;
         user_name = p_user_name;
         user_value = p_user_value;
+        db_prefix = p_db_prefix;
         export_directory = p_export_directory;
         jurisdiction_user_name = p_jurisdiction_user_name;
         version_number = p_version_number;
@@ -99,8 +100,9 @@ public sealed class QuartzSupervisor : UntypedActor
                         db_config.user_name,
                         db_config.user_value,
                         configuration.GetSharedString("export_directory"),
-                        null, //Program.app_instance_name,
-                        configuration.GetSharedString("metadata_version")
+                        null, //jurisdiction_user_name,
+                        configuration.GetSharedString("metadata_version"),
+                        configuration.GetSharedString("cdc_instance_pull_list")
                     );
             
 

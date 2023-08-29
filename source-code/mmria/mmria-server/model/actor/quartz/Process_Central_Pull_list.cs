@@ -45,7 +45,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                     }
                 }
             
-                if (!string.IsNullOrWhiteSpace(Program.config_cdc_instance_pull_list))
+                if (!string.IsNullOrWhiteSpace(scheduleInfo.cdc_instance_pull_list))
                 {
                 
                     try
@@ -174,7 +174,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                     }
 
                 
-                    var config_cdc_instance_pull_list = Program.config_cdc_instance_pull_list;
+                    var config_cdc_instance_pull_list = scheduleInfo.cdc_instance_pull_list;
                     var cdc_instance_pull = config_cdc_instance_pull_list.Split(",");
                     var config_db = Program.configuration_set;
                                 

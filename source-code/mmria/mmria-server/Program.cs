@@ -44,11 +44,11 @@ public sealed partial class Program
     public static string config_timer_value;
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
-
+/*
     public static string config_cdc_instance_pull_list;
     public static string config_cdc_instance_pull_db_url;
 
-    /*
+    
     public static int config_session_idle_timeout_minutes;
 
     public static bool is_db_check_enabled = false;
