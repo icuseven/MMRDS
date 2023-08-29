@@ -23,7 +23,7 @@ public sealed class export_queueController: ControllerBase
 { 
     ActorSystem _actorSystem;
     mmria.common.couchdb.OverridableConfiguration configuration;
-    common.couchdb.DBConfigurationDetail db_config;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
 
     public export_queueController

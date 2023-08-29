@@ -12,23 +12,36 @@ public sealed class c_cdc_de_identifier
 
     string metadata_version;
     HashSet<string> de_identified_set = new HashSet<string>();
+
+    mmria.pmss.server.model.actor.ScheduleInfoMessage scheduleInfo;
+
+    mmria.common.couchdb.DBConfigurationDetail db_config;
     
     public c_cdc_de_identifier 
     (
         string p_case_item_json, 
         string p_prefix,
-        string p_metadata_version
+        mmria.pmss.server.model.actor.ScheduleInfoMessage p_scheduleInfo
     )
     {
         this.case_item_json = p_case_item_json;
-        this.prefix = p_prefix.ToLower();
-        metadata_version = p_metadata_version;
+        this.prefix = p_prefix;
+        metadata_version = p_scheduleInfo.version_number;
+
+        db_config = new()
+        {
+            url = p_scheduleInfo.couch_db_url,
+            prefix = p_scheduleInfo.db_prefix,
+            user_name = p_scheduleInfo.user_name,
+            user_value = p_scheduleInfo.user_value
+        };
+
     }
     public async Task<string> executeAsync()
     {
         string result = null;
 
-        cURL de_identified_list_curl = new cURL("GET", null, Program.config_couchdb_url + "/metadata/de-identified-export-list", null, Program.config_timer_user_name, Program.config_timer_value);
+        cURL de_identified_list_curl = new cURL("GET", null, db_config.url + "/metadata/de-identified-export-list", null, db_config.user_name, db_config.user_value);
         System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
         IDictionary<string, object> idictionary = de_identified_ExpandoObject as IDictionary<string, object>;
         if(idictionary != null)
