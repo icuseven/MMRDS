@@ -59,6 +59,26 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     
     p_result.push("</div>");
 
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_jurisdiction" class="mr-2">Jurisdiction:</label>
+            <select id="search_jurisdiction" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                ${renderSortCaseStatus(p_ui.case_view_request)}
+            </select>
+        </div>`
+    );
+
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_yod" class="mr-2">YOD:</label>
+            <select id="search_yod" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                ${renderSortCaseStatus(p_ui.case_view_request)}
+            </select>
+        </div>`
+    );
+
+
+
     /* Case Status */
     p_result.push(
         `<div class="form-inline mb-2">
@@ -739,7 +759,7 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${pmssno}, ${status} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td"><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item, pmss_state_code)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
         <td class="td">${reviewDates}</td>
@@ -825,6 +845,7 @@ function render_app_pinned_summary_result(item, i)
     const jurisdictionID = item.value.jurisdiction_id;
     const firstName = item.value.first_name;
     const lastName = item.value.last_name;
+    const pmss_state_code = item.value.pmss_state_code;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;
@@ -851,7 +872,7 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, pmss_state_code)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
         <td class="td" ${border_bottom_color}>${reviewDates}</td>
@@ -908,4 +929,30 @@ async function unpin_case_clicked(p_id)
     {
         await mmria_un_pin_case_click(p_id, false)
     }
+}
+
+
+function get_header_listing_name
+(
+    p_track_year, 
+    p_death_certificate_number,
+    p_value
+)
+{
+	const metadata_value_list = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+	let display_name = p_value;
+	for(const element of metadata_value_list)
+	{
+		if( element.value == p_value)
+		{
+			const start_index = element.display.indexOf("(");
+			const last_index = element.display.indexOf(")");
+
+			display_name = element.display.substring(start_index + 1, last_index);
+
+			break;
+		}
+	}	
+	
+	return `${display_name} - ${p_track_year} - ${p_death_certificate_number}`;
 }

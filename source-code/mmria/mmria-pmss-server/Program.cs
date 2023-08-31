@@ -39,7 +39,7 @@ public sealed partial class Program
     public static string config_couchdb_url = "http://localhost:5984";
 
     public static string db_prefix = "";
-    public static string config_web_site_url;
+    //public static string config_web_site_url;
     //public static string config_file_root_folder;
     public static string config_timer_user_name;
     public static string config_timer_value;
@@ -96,17 +96,6 @@ public sealed partial class Program
             .AddUserSecrets<Startup>()
             .Build();
             */
-
-            if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
-            {
-                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                
-            }
-            else 
-            {
-                Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                
-            }
 
 
             if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
@@ -170,7 +159,7 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
             System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref config_id);
             System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
-            System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            //System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
             
 
 
@@ -237,7 +226,7 @@ public sealed partial class Program
 
            
 
-            Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
+            //Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
             
 /*
@@ -548,7 +537,7 @@ public sealed partial class Program
 
             //app.MapFallbackToPage("/_Host");
 
-            app.Run(config_web_site_url);
+            app.Run(overridable_config.GetString("web_site_url", host_prefix));
 
         }
         catch (System.Exception ex)

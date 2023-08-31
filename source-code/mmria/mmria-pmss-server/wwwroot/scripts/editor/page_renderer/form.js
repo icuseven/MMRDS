@@ -113,9 +113,7 @@ function form_render(
                 (
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push(g_data.tracking.pmssno);
-				p_result.push(", ");
-				p_result.push(g_data.tracking.death_certificate_number);
+				p_result.push(get_header_name(g_data.tracking.pmss_state_code));
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
@@ -657,9 +655,7 @@ function form_render(
 			if (g_data) 
             {
 				p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-				p_result.push(g_data.tracking.pmssno);
-				p_result.push(" DC#:");
-				p_result.push(g_data.tracking.death_certificate_number);
+				p_result.push(get_header_name(g_data.tracking.pmss_state_code));
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
@@ -882,9 +878,7 @@ function form_render(
 		if (g_data) 
         {
 			p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-			p_result.push(g_data.tracking.pmssno);
-			p_result.push(" DC#:");
-			p_result.push(g_data.tracking.death_certificate_number);
+			p_result.push(get_header_name(g_data.tracking.pmss_state_code));
 			p_result.push(`</p>`);
 		}
 
@@ -1658,9 +1652,7 @@ function quick_edit_header_render(
 		p_result.push(
 			"<h1 class='construct__title text-primary h1' tabindex='-1'>"
 		);
-		p_result.push(g_data.tracking.pmssno);
-		p_result.push(" DC#:");
-		p_result.push(g_data.tracking.death_certificate_number);
+		p_result.push(get_header_name(g_data.tracking.pmss_state_code));
 		p_result.push("</h1>"); 
 
         
@@ -1772,11 +1764,13 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 	}
 }
 
-function get_metadata_value_node_by_mmria_path(
+function get_metadata_value_node_by_mmria_path
+(
 	p_metadata,
 	p_search_path,
 	p_path
-) {
+) 
+{
 	let result = null;
 	switch (p_metadata.type.toLowerCase()) {
 		case "app":
@@ -1809,4 +1803,24 @@ function show_audit_click(p_id)
 {
     window.open('./_audit/' + p_id + '/1', '_audit');
    //window.open('./_audit/' + p_id, '_audit');
+}
+
+function get_header_name(p_value)
+{
+	const metadata_value_list = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+	let display_name = p_value;
+	for(const element of metadata_value_list)
+	{
+		if( element.value == p_value)
+		{
+			const start_index = element.display.indexOf("(");
+			const last_index = element.display.indexOf(")");
+
+			display_name = element.display.substring(start_index + 1, last_index);
+
+			break;
+		}
+	}	
+	
+	return `${display_name} - ${g_data.tracking.track_year} - ${g_data.tracking.death_certificate_number}`;
 }
