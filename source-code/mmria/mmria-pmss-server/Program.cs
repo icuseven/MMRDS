@@ -63,8 +63,7 @@ public sealed partial class Program
     public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
     public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
     */
-    public static Akka.Actor.ActorSystem actorSystem;
-    
+
     public static Quartz.IScheduler sched;
     public static ITrigger check_for_changes_job_trigger;
     public static ITrigger rebuild_queue_job_trigger;
@@ -336,8 +335,8 @@ public sealed partial class Program
 
 
 
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
-            builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
+            var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
+            builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
             Quartz.IScheduler sched = schedFact.GetScheduler().Result;
@@ -367,7 +366,7 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
+            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
             actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(provider), "steve-api-supervisor");
         
 
@@ -461,7 +460,7 @@ public sealed partial class Program
                     {
                         await new mmria.pmss.server.utils.c_db_setup
                         (
-                            Program.actorSystem,
+                            actorSystem,
                             overridable_config,
                             host_prefix
                         ).Setup();

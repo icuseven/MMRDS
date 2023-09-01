@@ -11,11 +11,17 @@ namespace mmria.server.model;
 public sealed class Pulse_job : IJob
 {
 
+    Akka.Actor.ActorSystem actor_system;
+    public Pulse_job(Akka.Actor.ActorSystem p_system)
+    {
+        actor_system = p_system;
+    }
+
     public Task Execute(IJobExecutionContext context)
     {
         //System.Console.WriteLine($"Quartz_Pulse - {DateTime.Now:r}");
 
-        var quartzSupervisor = Program.actorSystem.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
+        var quartzSupervisor = actor_system.ActorSelection("akka://mmria-actor-system/user/QuartzSupervisor");
         quartzSupervisor.Tell("pulse");
 
         return Task.CompletedTask;
