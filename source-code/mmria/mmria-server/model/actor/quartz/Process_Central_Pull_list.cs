@@ -13,12 +13,15 @@ public sealed class Process_Central_Pull_list : UntypedActor
     //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
 	mmria.common.couchdb.DBConfigurationDetail db_config = null;
+    mmria.common.couchdb.ConfigurationSet config_db;
 
     public Process_Central_Pull_list
     (
+        mmria.common.couchdb.ConfigurationSet _configuration_set,
         mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
+        config_db = _configuration_set;
         db_config = _db_config;
     }
     protected override void OnReceive(object message)
@@ -184,7 +187,6 @@ public sealed class Process_Central_Pull_list : UntypedActor
                 
                     var config_cdc_instance_pull_list = scheduleInfo.cdc_instance_pull_list;
                     var cdc_instance_pull = config_cdc_instance_pull_list.Split(",");
-                    var config_db = Program.configuration_set;
                                 
                     for (var i = 0; i < cdc_instance_pull.Length; i++)
                     {

@@ -45,8 +45,8 @@ public sealed partial class Program
     public static string config_timer_value;
     */
 
-    public static mmria.common.couchdb.ConfigurationSet configuration_set;
-/*
+   /* public static mmria.common.couchdb.ConfigurationSet configuration_set;
+
     public static string config_cdc_instance_pull_list;
     public static string config_cdc_instance_pull_db_url;
 
@@ -307,9 +307,6 @@ public sealed partial class Program
                 timer_value
             );
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
-
-            Program.configuration_set = DbConfigSet;
-
 
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
