@@ -81,9 +81,9 @@ public sealed class Synchronize_Case : UntypedActor
 
                 mmria.pmss.server.utils.c_document_sync_all sync_all = new mmria.pmss.server.utils.c_document_sync_all 
                 (
-                    Program.config_couchdb_url,
-                    Program.config_timer_user_name,
-                    Program.config_timer_value,
+                    db_config.url,
+                    db_config.user_name,
+                    db_config.user_value,
                     sync_all_documents_message.metadata_version
                 );
 

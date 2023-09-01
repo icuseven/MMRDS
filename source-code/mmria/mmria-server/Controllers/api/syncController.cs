@@ -45,7 +45,8 @@ public sealed class syncController: ControllerBase
                         db_config.url,
                         db_config.user_name,
                         db_config.user_value,
-                        configuration.GetString("metadata_version", host_prefix)
+                        configuration.GetString("metadata_version", host_prefix),
+                        db_config
                     );
 
                     sync_all.executeAsync (); 

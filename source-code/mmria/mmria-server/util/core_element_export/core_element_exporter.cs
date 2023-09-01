@@ -224,7 +224,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     try
     {
-        string request_string = $"{Program.config_couchdb_url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+        string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
         var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
         string case_view_responseFromServer = case_view_curl.execute();
@@ -781,7 +781,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
 
 
-    var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+    var get_item_curl = new cURL("GET", null, db_config.url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
     string responseFromServer = get_item_curl.execute();
     export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -790,7 +790,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
     string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-    var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+    var set_item_curl = new cURL("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
     responseFromServer = set_item_curl.execute();
 
 

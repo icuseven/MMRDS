@@ -46,6 +46,16 @@ public sealed class Record_Session_Event : UntypedActor
     //protected override void PreStart() => Console.WriteLine("Session_Event_Message started");
     //protected override void PostStop() => Console.WriteLine("Session_Event_Message stopped");
 
+	mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+    public Record_Session_Event
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
+
     protected override void OnReceive(object message)
     {
         
@@ -86,8 +96,8 @@ public sealed class Record_Session_Event : UntypedActor
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 var session_event_json = Newtonsoft.Json.JsonConvert.SerializeObject(se, settings);
 
-                var request_url = $"{Program.config_couchdb_url}/{Program.db_prefix}session/{se._id}";
-                var curl = new cURL("PUT", null, request_url, session_event_json, Program.config_timer_user_name, Program.config_timer_value);
+                var request_url = $"{db_config.url}/{db_config.prefix}session/{se._id}";
+                var curl = new cURL("PUT", null, request_url, session_event_json, db_config.user_name, db_config.user_value);
                 curl.executeAsync ();
 
                 //var session_event_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_object_key_header<mmria.common.model.couchdb.session_event>>(response_from_server);

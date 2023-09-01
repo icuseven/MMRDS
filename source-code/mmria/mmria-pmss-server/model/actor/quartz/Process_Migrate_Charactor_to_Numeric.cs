@@ -44,14 +44,14 @@ public sealed class Process_Migrate_Charactor_to_Numeric : UntypedActor
             Console.WriteLine($"Process_Migrate_Charactor_to_Numeric Begin {begin_time}");
 
 
-            string metadata_url = Program.config_couchdb_url + "/metadata/2016-06-12T13:49:24.759Z";
-            cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
+            string metadata_url = db_config.url + "/metadata/2016-06-12T13:49:24.759Z";
+            cURL metadata_curl = new cURL("GET", null, metadata_url, null, db_config.user_name, db_config.user_value);
             mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
             this.lookup = get_look_up(metadata);
 
-            string url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
-            var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
+            string url = db_config.url + $"/{db_config.prefix}mmrds/_all_docs?include_docs=true";
+            var case_curl = new cURL("GET", null, url, null, db_config.user_name, db_config.user_value);
             string responseFromServer = case_curl.execute();
             
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
@@ -82,8 +82,8 @@ public sealed class Process_Migrate_Charactor_to_Numeric : UntypedActor
                         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                         var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
 
-                        string put_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/"  + case_item.id;
-                        cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                        string put_url = db_config.url + $"/{db_config.prefix}mmrds/"  + case_item.id;
+                        cURL document_curl = new cURL ("PUT", null, put_url, object_string, db_config.user_name, db_config.user_value);
 
                         try
                         {

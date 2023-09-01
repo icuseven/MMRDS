@@ -35,6 +35,7 @@ namespace mmria.server;
 
 public sealed partial class Program
 {
+    /*
     public static string config_couchdb_url = "http://localhost:5984";
 
     public static string db_prefix = "";
@@ -42,6 +43,7 @@ public sealed partial class Program
     //public static string config_file_root_folder;
     public static string config_timer_user_name;
     public static string config_timer_value;
+    */
 
     public static mmria.common.couchdb.ConfigurationSet configuration_set;
 /*
@@ -134,7 +136,7 @@ public sealed partial class Program
             //configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
             
             
-            configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrWhiteSpace(ref Program.db_prefix);
+            
             //configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
             //configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
             //configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
@@ -220,12 +222,12 @@ public sealed partial class Program
 
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
-            
-            Program.config_couchdb_url = overridable_config.GetString("couchdb_url", host_prefix);
-            Program.config_timer_user_name = overridable_config.GetString("timer_user_name", host_prefix);
-            Program.config_timer_value = overridable_config.GetString("timer_value", host_prefix);
+            /*
+            db_config.url = overridable_config.GetString("couchdb_url", host_prefix);
+            db_config.user_name = overridable_config.GetString("timer_user_name", host_prefix);
+            db_config.user_value = overridable_config.GetString("timer_value", host_prefix);
 
-           
+           */
 
             //Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
             //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
@@ -277,9 +279,9 @@ public sealed partial class Program
             Log.Information($"host_prefix = {host_prefix}");
             Log.Information("metadata_version: {0}", overridable_config.GetString("metadata_version", host_prefix));
           
-            Log.Information($"Program.config_timer_user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
-            Log.Information($"Program.config_couchdb_url = {overridable_config.GetString("couchdb_url", host_prefix)}");
-            Log.Information($"Program.db_prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
+            Log.Information($"db_config.user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
+            Log.Information($"db_config.url = {overridable_config.GetString("couchdb_url", host_prefix)}");
+            Log.Information($"db_config.prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
             
             Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
@@ -332,6 +334,8 @@ public sealed partial class Program
             configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
             configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
             configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
+            configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
+
 
             // ******* To Be removed end
 

@@ -28,8 +28,8 @@ public sealed class HasJurisdictionAuthorizationHandler : AuthorizationHandler<J
 
 
 
-        string jurisdicion_view_url = $"{Program.config_couchdb_url}/{Program.db_prefix}jurisdiction/_design/sortable/_view/by_user_id?";
-        var jurisdicion_curl = new cURL("POST", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        string jurisdicion_view_url = $"{db_config.url}/{db_config.prefix}jurisdiction/_design/sortable/_view/by_user_id?";
+        var jurisdicion_curl = new cURL("POST", null, jurisdicion_view_url, null, db_config.user_name, db_config.user_value);
         string jurisdicion_result_string = null;
         try
         {

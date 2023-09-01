@@ -99,8 +99,8 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                         }
                         else
                         {
-                            string document_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + kvp.Key;
-                            var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                            string document_url = db_config.url + $"/{db_config.prefix}mmrds/" + kvp.Key;
+                            var document_curl = new cURL ("GET", null, document_url, null, db_config.user_name, db_config.user_value);
                             string document_json = null;
     
                             try
@@ -137,7 +137,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 cURL curl = null;
 
                 // get all non deleted cases in mmrds
-                curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
+                curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}mmrds/_all_docs", null, db_config.user_name, db_config.user_value);
                 json = curl.execute ();
                 all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
                 foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
@@ -147,7 +147,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
             
             
                 // get all non deleted cases in de_id
-                curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
+                curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}de_id/_all_docs", null, db_config.user_name, db_config.user_value);
                 json = curl.execute ();
                 all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
                 foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
@@ -160,12 +160,12 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 foreach (string id in deleted_id_set)
                 {
                     string rev = all_docs.rows.Where (r => r.id == id).FirstOrDefault ().rev.rev;
-                    curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_value);
+                    curl = new cURL ("DELETE", null, db_config.url + $"/{db_config.prefix}de_id/" + id + "?rev=" + rev, null, db_config.user_name, db_config.user_value);
                     json = curl.execute ();
                 }
 
                 // get all non deleted cases in report
-                curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/_all_docs", null, Program.config_timer_user_name, Program.config_timer_value);
+                curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}report/_all_docs", null, db_config.user_name, db_config.user_value);
                 json = curl.execute ();
                 all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.server.model.couchdb.c_all_docs> (json);
                 foreach (mmria.pmss.server.model.couchdb.c_all_docs_row all_doc_row in all_docs.rows)
@@ -177,7 +177,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                 foreach (string id in deleted_id_set)
                 {
                     string rev = all_docs.rows.Where (r => r.id == id).FirstOrDefault ().rev.rev;
-                    curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}report/" + id + "?rev=" + rev, null, Program.config_timer_user_name, Program.config_timer_value);
+                    curl = new cURL ("DELETE", null, db_config.url + $"/{db_config.prefix}report/" + id + "?rev=" + rev, null, db_config.user_name, db_config.user_value);
                     json = curl.execute ();
                 }
             }
@@ -200,11 +200,11 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
 
         if (string.IsNullOrWhiteSpace(p_last_sequence))
         {
-            url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes";
+            url = db_config.url + $"/{db_config.prefix}mmrds/_changes";
         }
         else
         {
-            url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes?since=" + p_last_sequence;
+            url = db_config.url + $"/{db_config.prefix}mmrds/_changes?since=" + p_last_sequence;
         }
         var curl = new cURL ("GET", null, url, null, p_scheduleInfo.user_name, p_scheduleInfo.user_value);
         string res = curl.execute();

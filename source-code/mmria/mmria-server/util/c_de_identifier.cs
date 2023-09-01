@@ -8,22 +8,25 @@ public sealed class c_de_identifier
 {
     string case_item_json;
     string metadata_version;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
     HashSet<string> de_identified_set = new HashSet<string>();
     
     public c_de_identifier 
     (
         string p_case_item_json,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
         this.case_item_json = p_case_item_json;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
     public async Task<string> executeAsync()
     {
         string result = null;
 
-        cURL de_identified_list_curl = new cURL("GET", null, Program.config_couchdb_url + "/metadata/de-identified-list", null, Program.config_timer_user_name, Program.config_timer_value);
+        cURL de_identified_list_curl = new cURL("GET", null, db_config.url + "/metadata/de-identified-list", null, db_config.user_name, db_config.user_value);
         System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
         de_identified_set = new HashSet<string>();
         foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))

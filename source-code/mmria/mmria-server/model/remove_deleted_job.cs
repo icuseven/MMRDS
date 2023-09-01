@@ -20,9 +20,9 @@ public sealed class remove_deleted_job : IJob
 
     public remove_deleted_job(IConfiguration configuration)
     {
-            this.couch_db_url = Program.config_couchdb_url;
-            this.user_name = Program.config_timer_user_name;
-            this.user_value = Program.config_timer_value;
+            this.couch_db_url = db_config.url;
+            this.user_name = db_config.user_name;
+            this.user_value = db_config.user_value;
             Configuration = configuration;
     }
 
@@ -113,8 +113,8 @@ public sealed class remove_deleted_job : IJob
                     else
                     {
     
-                        string document_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/" + kvp.Key;
-                        var document_curl = new cURL ("GET", null, document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                        string document_url = db_config.url + $"/{db_config.prefix}mmrds/" + kvp.Key;
+                        var document_curl = new cURL ("GET", null, document_url, null, db_config.user_name, db_config.user_value);
                         string document_json = null;
     
                         try
@@ -150,11 +150,11 @@ public sealed class remove_deleted_job : IJob
 
         if (string.IsNullOrWhiteSpace(p_last_sequence))
         {
-            url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes";
+            url = db_config.url + $"/{db_config.prefix}mmrds/_changes";
         }
         else
         {
-            url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_changes?since=" + p_last_sequence;
+            url = db_config.url + $"/{db_config.prefix}mmrds/_changes?since=" + p_last_sequence;
         }
         var curl = new cURL ("GET", null, url, null, this.user_name, this.user_value);
         string res = curl.execute();

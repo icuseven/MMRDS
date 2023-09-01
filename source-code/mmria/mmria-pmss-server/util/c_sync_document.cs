@@ -65,7 +65,7 @@ public sealed class c_sync_document
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try
@@ -94,12 +94,12 @@ public sealed class c_sync_document
     public async System.Threading.Tasks.Task executeAsync()
     {
 
-        string de_identified_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}de_id/" + this.document_id);
+        string de_identified_revision = await get_revision (db_config.url + $"/{db_config.prefix}de_id/" + this.document_id);
         System.Text.StringBuilder de_identfied_url = new System.Text.StringBuilder();
         string de_identified_json = null;
 
-        de_identfied_url.Append(Program.config_couchdb_url);
-        de_identfied_url.Append($"/{Program.db_prefix}de_id/");
+        de_identfied_url.Append(db_config.url);
+        de_identfied_url.Append($"/{db_config.prefix}de_id/");
         de_identfied_url.Append(this.document_id);
 
         if(this.method == "DELETE")
@@ -165,7 +165,7 @@ public sealed class c_sync_document
             }
         }
 
-        var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, Program.config_timer_user_name, Program.config_timer_value);
+        var de_identfied_curl = new cURL(this.method, null, de_identfied_url.ToString(), de_identified_json, db_config.user_name, db_config.user_value);
         try
         {
             string de_id_result = await de_identfied_curl.executeAsync();
@@ -186,7 +186,7 @@ public sealed class c_sync_document
         {
             string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json, metadata_version).execute();
 
-            string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + this.document_id);
+            string aggregate_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + this.document_id);
 
             System.Text.StringBuilder aggregate_url = new System.Text.StringBuilder();
 
@@ -196,8 +196,8 @@ public sealed class c_sync_document
             }
 
 
-            aggregate_url.Append(Program.config_couchdb_url);
-            aggregate_url.Append($"/{Program.db_prefix}report/");
+            aggregate_url.Append(db_config.url);
+            aggregate_url.Append($"/{db_config.prefix}report/");
             aggregate_url.Append(this.document_id);
 
             if(this.method == "DELETE")
@@ -206,7 +206,7 @@ public sealed class c_sync_document
                 aggregate_url.Append(aggregate_revision);	
             }
 
-            var aggregate_curl = new cURL(this.method, null, aggregate_url.ToString(), aggregate_json,  Program.config_timer_user_name, Program.config_timer_value);
+            var aggregate_curl = new cURL(this.method, null, aggregate_url.ToString(), aggregate_json,  db_config.user_name, db_config.user_value);
 
             string aggregate_result = await aggregate_curl.executeAsync();
             System.Console.WriteLine("c_sync_document aggregate_id");
@@ -228,7 +228,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
                 var opioid_id = "opioid-" + this.document_id;
-                string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + opioid_id);
+                string aggregate_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + opioid_id);
 
 
                 var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
@@ -244,8 +244,8 @@ public sealed class c_sync_document
                 }
 
 
-                opioid_aggregate_url.Append(Program.config_couchdb_url);
-                opioid_aggregate_url.Append($"/{Program.db_prefix}report/");
+                opioid_aggregate_url.Append(db_config.url);
+                opioid_aggregate_url.Append($"/{db_config.prefix}report/");
                 opioid_aggregate_url.Append(opioid_id);
     
                 if(this.method == "DELETE")
@@ -254,7 +254,7 @@ public sealed class c_sync_document
                     opioid_aggregate_url.Append(aggregate_revision);	
                 }
 
-                var aggregate_curl = new cURL(this.method, null, opioid_aggregate_url.ToString(), opioid_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+                var aggregate_curl = new cURL(this.method, null, opioid_aggregate_url.ToString(), opioid_report_json,  db_config.user_name, db_config.user_value);
 
                 string aggregate_result = await aggregate_curl.executeAsync();
                 System.Console.WriteLine("c_sync_document aggregate_id");
@@ -275,7 +275,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
                 var opioid_id = "powerbi-" + this.document_id;
-                string aggregate_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + opioid_id);
+                string aggregate_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + opioid_id);
 
 
                 var opioid_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (opioid_report_json);
@@ -291,8 +291,8 @@ public sealed class c_sync_document
                 }
 
 
-                opioid_aggregate_url.Append(Program.config_couchdb_url);
-                opioid_aggregate_url.Append($"/{Program.db_prefix}report/");
+                opioid_aggregate_url.Append(db_config.url);
+                opioid_aggregate_url.Append($"/{db_config.prefix}report/");
                 opioid_aggregate_url.Append(opioid_id);
     
                 if(this.method == "DELETE")
@@ -301,7 +301,7 @@ public sealed class c_sync_document
                     opioid_aggregate_url.Append(aggregate_revision);	
                 }
 
-                var aggregate_curl = new cURL(this.method, null, opioid_aggregate_url.ToString(), opioid_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+                var aggregate_curl = new cURL(this.method, null, opioid_aggregate_url.ToString(), opioid_report_json,  db_config.user_name, db_config.user_value);
 
                 string aggregate_result = await aggregate_curl.executeAsync();
                 System.Console.WriteLine("c_sync_document aggregate_id");
@@ -323,7 +323,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
                 var dqr_id = "dqr-" + this.document_id;
-                string current_detail_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + dqr_id);
+                string current_detail_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + dqr_id);
 
 
                 var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (dqr_detail_report_json);
@@ -344,8 +344,8 @@ public sealed class c_sync_document
                 }
 
 
-                dqr_detail_url.Append(Program.config_couchdb_url);
-                dqr_detail_url.Append($"/{Program.db_prefix}report/");
+                dqr_detail_url.Append(db_config.url);
+                dqr_detail_url.Append($"/{db_config.prefix}report/");
                 dqr_detail_url.Append(dqr_id);
     
                 if(this.method == "DELETE")
@@ -354,7 +354,7 @@ public sealed class c_sync_document
                     dqr_detail_url.Append(current_detail_revision);	
                 }
 
-                var dqr_detail_curl = new cURL(this.method, null, dqr_detail_url.ToString(), dqr_detail_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+                var dqr_detail_curl = new cURL(this.method, null, dqr_detail_url.ToString(), dqr_detail_report_json,  db_config.user_name, db_config.user_value);
 
                 string dqr_detail_result = await dqr_detail_curl.executeAsync();
                 System.Console.WriteLine("c_sync_document dqr detail");
@@ -379,7 +379,7 @@ public sealed class c_sync_document
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {
                 var freq_id = "freq-" + this.document_id;
-                string current_detail_revision = await get_revision (Program.config_couchdb_url + $"/{Program.db_prefix}report/" + freq_id);
+                string current_detail_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + freq_id);
 
 
                 var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (freq_detail_report_json);
@@ -400,8 +400,8 @@ public sealed class c_sync_document
                 }
 
 
-                freq_detail_url.Append(Program.config_couchdb_url);
-                freq_detail_url.Append($"/{Program.db_prefix}report/");
+                freq_detail_url.Append(db_config.url);
+                freq_detail_url.Append($"/{db_config.prefix}report/");
                 freq_detail_url.Append(freq_id);
     
                 if(this.method == "DELETE")
@@ -410,7 +410,7 @@ public sealed class c_sync_document
                     freq_detail_url.Append(current_detail_revision);	
                 }
 
-                var freq_detail_curl = new cURL(this.method, null, freq_detail_url.ToString(), freq_detail_report_json,  Program.config_timer_user_name, Program.config_timer_value);
+                var freq_detail_curl = new cURL(this.method, null, freq_detail_url.ToString(), freq_detail_report_json,  db_config.user_name, db_config.user_value);
 
                 string freq_detail_result = await freq_detail_curl.executeAsync();
                 System.Console.WriteLine("c_sync_document freq detail");

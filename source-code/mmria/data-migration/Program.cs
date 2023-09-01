@@ -840,8 +840,8 @@ class Program
         var result = new mmria.common.couchdb.ConfigurationSet();
         try
         {
-            string request_string = $"{Program.config_couchdb_url}/configuration/{config_id}";
-            var case_curl = new cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+            string request_string = $"{db_config.url}/configuration/{config_id}";
+            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 

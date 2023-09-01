@@ -113,7 +113,7 @@ public sealed class QuartzSupervisor : UntypedActor
                     is_db_check_enabled.Value
                 )
                 {
-                    Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Check_DB_Install>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
                 }
                 
@@ -128,15 +128,15 @@ public sealed class QuartzSupervisor : UntypedActor
 
                 if(is_rebuild_queue)
                 {
-                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
                 }
                 else
                 {
-                    Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
 

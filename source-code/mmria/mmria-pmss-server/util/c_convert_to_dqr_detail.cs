@@ -36,8 +36,8 @@ public sealed class c_convert_to_dqr_detail
 
         var gs = new migrate.C_Get_Set_Value(new ());
         
-        string metadata_url = Program.config_couchdb_url + $"/metadata/version_specification-{metadata_version}/metadata";
-        cURL metadata_curl = new cURL("GET", null, metadata_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        string metadata_url = db_config.url + $"/metadata/version_specification-{metadata_version}/metadata";
+        cURL metadata_curl = new cURL("GET", null, metadata_url, null, db_config.user_name, db_config.user_value);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
 
 
