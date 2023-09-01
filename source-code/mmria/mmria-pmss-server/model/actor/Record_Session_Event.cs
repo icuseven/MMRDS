@@ -45,7 +45,15 @@ public sealed class Record_Session_Event : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Session_Event_Message started");
     //protected override void PostStop() => Console.WriteLine("Session_Event_Message stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Record_Session_Event
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         

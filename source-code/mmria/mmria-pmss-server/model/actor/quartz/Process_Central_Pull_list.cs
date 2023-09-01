@@ -12,7 +12,15 @@ public sealed class Process_Central_Pull_list : UntypedActor
     private const int SkipCount = 0;
     //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Process_Central_Pull_list
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
             

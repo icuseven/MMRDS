@@ -123,6 +123,8 @@ prenatal/routine_monitoring/date_and_time
 
     string source_json;
     string metadata_version;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
 
     string data_type = "frequency_summary";
 
@@ -150,13 +152,15 @@ prenatal/routine_monitoring/date_and_time
     (
         string p_source_json, 
         string p_type,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
 
         source_json = p_source_json;
         this.data_type = p_type;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
 
     public string execute ()

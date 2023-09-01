@@ -20,9 +20,9 @@ public sealed class ScheduleInfoMessage
         string p_user_name,
         string p_user_value,
         string p_export_directory,
-        string p_jurisdiction_user_name = null,
-        string p_version_number = null,
-        string p_cdc_instance_pull_list = null
+        string p_jurisdiction_user_name,
+        string p_version_number,
+        string p_cdc_instance_pull_list
         )
     {
         cron_schedule = p_cron_schedule;
@@ -95,11 +95,13 @@ public sealed class QuartzSupervisor : UntypedActor
                     (
                         configuration.GetSharedString("cron_schedule"),
                         db_config.url,
+                        db_config.prefix,
                         db_config.user_name,
                         db_config.user_value,
                         configuration.GetSharedString("export_directory"),
                         null, //Program.app_instance_name,
-                        configuration.GetSharedString("metadata_version")
+                        configuration.GetSharedString("metadata_version"),
+                        configuration.GetSharedString("cdc_instance_pull_list")
                     );
             
 
@@ -125,15 +127,15 @@ public sealed class QuartzSupervisor : UntypedActor
 
                 if(is_rebuild_queue)
                 {
-                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
                 }
                 else
                 {
-                    Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
 

@@ -10,6 +10,15 @@ public sealed class Process_Migrate_Charactor_to_Numeric : UntypedActor
     //protected override void PreStart() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric started");
     //protected override void PostStop() => Console.WriteLine("Process_Migrate_Charactor_to_Numeric stopped");
 
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+    public Process_Migrate_Charactor_to_Numeric
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         switch (message)

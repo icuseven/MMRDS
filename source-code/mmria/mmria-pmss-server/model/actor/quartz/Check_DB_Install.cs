@@ -9,7 +9,15 @@ public sealed class Check_DB_Install : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Check_DB_Install started");
     //protected override void PostStop() => Console.WriteLine("Check_DB_Install stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Check_DB_Install
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         switch(message)

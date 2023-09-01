@@ -9,7 +9,15 @@ public sealed class Remove_Deleted : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Remove_Deleted started");
     //protected override void PostStop() => Console.WriteLine("Remove_Deleted stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Remove_Deleted
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
             Console.WriteLine($"Remove_Deleted Baby {System.DateTime.Now}");

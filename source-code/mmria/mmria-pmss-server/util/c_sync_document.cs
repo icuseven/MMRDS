@@ -13,17 +13,21 @@ public sealed class c_sync_document
 
     string metadata_version;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
     public c_sync_document 
     (
         string p_document_id, 
         string p_document_json, 
         string p_method,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
         this.document_json = p_document_json;
         this.document_id = p_document_id;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
 
         switch (p_method.ToUpperInvariant ())
         {
@@ -110,7 +114,7 @@ public sealed class c_sync_document
         }
         else
         {
-            de_identified_json = await new mmria.pmss.server.utils.c_de_identifier(document_json, metadata_version).executeAsync();
+            de_identified_json = await new mmria.pmss.server.utils.c_de_identifier(document_json, metadata_version, db_config).executeAsync();
 
             if(string.IsNullOrEmpty(de_identified_json))
             {
@@ -184,7 +188,7 @@ public sealed class c_sync_document
 
         try
         {
-            string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json, metadata_version).execute();
+            string aggregate_json = new mmria.pmss.server.utils.c_convert_to_report_object(document_json, metadata_version, db_config).execute();
 
             string aggregate_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + this.document_id);
 
@@ -223,7 +227,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "overdose", metadata_version).execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "overdose", metadata_version, db_config).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -270,7 +274,7 @@ public sealed class c_sync_document
 
         try
         {
-            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi", metadata_version).execute();
+            string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "powerbi", metadata_version, db_config).execute();
 
             if(!string.IsNullOrWhiteSpace(opioid_report_json))
             {
@@ -318,7 +322,7 @@ public sealed class c_sync_document
 
         try
         {
-            string dqr_detail_report_json = new mmria.pmss.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail", metadata_version).execute();
+            string dqr_detail_report_json = new mmria.pmss.server.utils.c_convert_to_dqr_detail(document_json, "dqr-detail", metadata_version, db_config).execute();
 
             if(!string.IsNullOrWhiteSpace(dqr_detail_report_json))
             {
@@ -374,7 +378,7 @@ public sealed class c_sync_document
 
         try
         {
-            string freq_detail_report_json = new mmria.pmss.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version).execute();
+            string freq_detail_report_json = new mmria.pmss.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version, db_config).execute();
 
             if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
             {

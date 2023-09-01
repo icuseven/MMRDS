@@ -9,7 +9,15 @@ public sealed class Process_Export_Queue : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Process_Export_Queue
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         switch(message)

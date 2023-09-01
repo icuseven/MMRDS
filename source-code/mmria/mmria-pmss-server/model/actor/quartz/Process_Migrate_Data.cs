@@ -17,7 +17,15 @@ public sealed class Process_Migrate_Data : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Process_Migrate_Data started");
     //protected override void PostStop() => Console.WriteLine("Process_Migrate_Data stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Process_Migrate_Data
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         try

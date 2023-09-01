@@ -13,6 +13,8 @@ public sealed class c_convert_to_dqr_detail
     string data_type = "overdose";
     string metadata_version;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
     private int blank_value = 9999;
@@ -21,13 +23,15 @@ public sealed class c_convert_to_dqr_detail
     (
         string p_source_json, 
         string p_type,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
 
         source_json = p_source_json;
         this.data_type = p_type;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
 
     public string execute ()

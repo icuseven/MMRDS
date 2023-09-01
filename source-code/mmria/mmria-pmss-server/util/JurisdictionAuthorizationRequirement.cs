@@ -13,6 +13,16 @@ public sealed class JurisdictionAuthorizationRequirement : IAuthorizationRequire
 
 public sealed class HasJurisdictionAuthorizationHandler : AuthorizationHandler<JurisdictionAuthorizationRequirement, System.Dynamic.ExpandoObject>
 {
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+    public HasJurisdictionAuthorizationHandler
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
+
     protected override Task HandleRequirementAsync
     (
         AuthorizationHandlerContext context, 

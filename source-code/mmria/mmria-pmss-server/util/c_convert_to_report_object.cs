@@ -10,6 +10,8 @@ public sealed partial class c_convert_to_report_object
 
     string metadata_version;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
     private System.Collections.Generic.Dictionary<string, System.Collections.Generic.Dictionary<string, string>> List_Look_Up;
 
 
@@ -103,12 +105,14 @@ public sealed partial class c_convert_to_report_object
     public c_convert_to_report_object 
     (
         string p_source_json,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
 
         source_json = p_source_json;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
 
 

@@ -36,6 +36,7 @@ namespace mmria.pmss.server;
 
 public sealed partial class Program
 {
+    /*
     public static string config_couchdb_url = "http://localhost:5984";
 
     public static string db_prefix = "";
@@ -43,8 +44,9 @@ public sealed partial class Program
     //public static string config_file_root_folder;
     public static string config_timer_user_name;
     public static string config_timer_value;
+    */
 
-    public static mmria.common.couchdb.ConfigurationSet configuration_set;
+    //public static mmria.common.couchdb.ConfigurationSet configuration_set;
 /*
     public static string config_cdc_instance_pull_list;
     public static string config_cdc_instance_pull_db_url;
@@ -218,11 +220,11 @@ public sealed partial class Program
 
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
-            
+            /*
             db_config.url = overridable_config.GetString("couchdb_url", host_prefix);
             db_config.user_name = overridable_config.GetString("timer_user_name", host_prefix);
             db_config.user_value = overridable_config.GetString("timer_value", host_prefix);
-
+*/
            
 
             //Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
@@ -303,9 +305,6 @@ public sealed partial class Program
                 timer_value
             );
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
-
-            Program.configuration_set = DbConfigSet;
-
 
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];

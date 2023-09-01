@@ -78,13 +78,15 @@ public sealed class c_document_sync_all
     string user_value;
 
     string metadata_version;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
     public c_document_sync_all 
     (
         string p_couchdb_url, 
         string p_user_name, 
         string p_value,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
         this.couchdb_url = p_couchdb_url;
@@ -92,6 +94,7 @@ public sealed class c_document_sync_all
         this.user_value = p_value;
 
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
 
 
@@ -276,7 +279,7 @@ public sealed class c_document_sync_all
                             if (document_id.IndexOf ("_design/") < 0)
                             {
                                 string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-                                mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version);
+                                mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
                                 await sync_document.executeAsync ();
                             }
                         }

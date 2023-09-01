@@ -8,16 +8,19 @@ public sealed class c_de_identifier
 {
     string case_item_json;
     string metadata_version;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
     HashSet<string> de_identified_set = new HashSet<string>();
     
     public c_de_identifier 
     (
         string p_case_item_json,
-        string p_metadata_version
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
     )
     {
         this.case_item_json = p_case_item_json;
         metadata_version = p_metadata_version;
+        db_config = _db_config;
     }
     public async Task<string> executeAsync()
     {

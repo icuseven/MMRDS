@@ -104,7 +104,15 @@ public sealed class Post_Session : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Post_Session started");
     //protected override void PostStop() => Console.WriteLine("Post_Session stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Post_Session
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         

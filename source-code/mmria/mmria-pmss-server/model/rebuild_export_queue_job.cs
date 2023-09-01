@@ -12,18 +12,24 @@ namespace mmria.pmss.server.model;
 
 public sealed class rebuild_queue_job : IJob
 {
-    string couch_db_url = null;
-    string user_name = null;
-    string user_value = null;
-    private IConfiguration Configuration = null;
-    
 
-    public rebuild_queue_job(IConfiguration configuration)
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+    string host_prefix;
+
+    public rebuild_queue_job
+    (
+        mmria.common.couchdb.OverridableConfiguration  _configuration,
+        string _host_prefix
+    )
     {
-            this.couch_db_url = db_config.url;
-            this.user_name = db_config.user_name;
-            this.user_value = db_config.user_value;
-            Configuration = configuration;
+        configuration = _configuration;
+        host_prefix = _host_prefix;
+        db_config = configuration.GetDBConfig(host_prefix);
+
+
+        
     }
 
     public Task Execute(IJobExecutionContext context)
@@ -45,7 +51,7 @@ public sealed class rebuild_queue_job : IJob
 */
         try 
         {
-            string export_directory = Configuration["mmria_settings:export_directory"];
+            string export_directory = configuration.GetString("export_directory", host_prefix);
 
             if (System.IO.Directory.Exists (export_directory))
             {
@@ -62,9 +68,9 @@ public sealed class rebuild_queue_job : IJob
         }
 
 
-        if (url_endpoint_exists (db_config.url + $"/{db_config.prefix}export_queue", this.user_name, this.user_value)) 
+        if (url_endpoint_exists (db_config.url + $"/{db_config.prefix}export_queue", db_config.user_name, db_config.user_value)) 
         {
-            var delete_queue_curl = new cURL ("DELETE", null, db_config.url + $"/{db_config.prefix}export_queue", null, this.user_name, this.user_value);
+            var delete_queue_curl = new cURL ("DELETE", null, db_config.url + $"/{db_config.prefix}export_queue", null, db_config.user_name, db_config.user_value);
             System.Console.WriteLine (delete_queue_curl.execute ());
         }
 
@@ -72,9 +78,9 @@ public sealed class rebuild_queue_job : IJob
         try 
         {
             System.Console.WriteLine ("Creating export_queue db.");
-            var export_queue_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue", null, this.user_name, this.user_value);
+            var export_queue_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue", null, db_config.user_name, db_config.user_value);
             System.Console.WriteLine (export_queue_curl.execute ());
-            new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", this.user_name, this.user_value).execute ();
+            new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", db_config.user_name, db_config.user_value).execute ();
 
         }
         catch (Exception ex) 

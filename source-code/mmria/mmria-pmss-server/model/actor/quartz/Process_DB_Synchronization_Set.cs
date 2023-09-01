@@ -9,7 +9,15 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Process_DB_Synchronization_Set started");
     //protected override void PostStop() => Console.WriteLine("Process_DB_Synchronization_Set stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Process_DB_Synchronization_Set
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
             
@@ -86,7 +94,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                         {
                             try
                             {
-                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number);
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number, db_config);
                                 await sync_document.executeAsync ();
                             
         
@@ -108,7 +116,7 @@ public sealed class Process_DB_Synchronization_Set : UntypedActor
                                 document_json = await document_curl.executeAsync ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number);
+                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number, db_config);
                                     await sync_document.executeAsync ();
                                 }
         

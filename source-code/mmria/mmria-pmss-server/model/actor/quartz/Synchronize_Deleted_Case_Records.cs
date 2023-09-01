@@ -10,7 +10,15 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Synchronize_Deleted_Case_Records started");
     //protected override void PostStop() => Console.WriteLine("Synchronize_Deleted_Case_Records stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Synchronize_Deleted_Case_Records
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         Console.WriteLine($"Synchronize_Deleted_Case_Records Baby {System.DateTime.Now}");
@@ -85,7 +93,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                         {
                             try
                             {
-                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number);
+                                mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, null, "DELETE", scheduleInfo.version_number, db_config);
                                 await sync_document.executeAsync ();
                                 
             
@@ -108,7 +116,7 @@ public sealed class Synchronize_Deleted_Case_Records : UntypedActor
                                 document_json = document_curl.execute ();
                                 if (!string.IsNullOrEmpty (document_json) && document_json.IndexOf ("\"_id\":\"_design/") < 0)
                                 {
-                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number);
+                                    mmria.pmss.server.utils.c_sync_document sync_document = new mmria.pmss.server.utils.c_sync_document (kvp.Key, document_json, "PUT", scheduleInfo.version_number, db_config);
                                     await sync_document.executeAsync ();
                                 }
             
