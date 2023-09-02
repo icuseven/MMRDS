@@ -12,13 +12,13 @@ namespace mmria.pmss.server;
 
 public sealed class SteveAPISupervisor : ReceiveActor
 {
-    IConfiguration configuration;
     ILogger logger;
 
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public SteveAPISupervisor()
     {
+
         Receive<DownloadRequest>(message =>
         {
             //var processor = Context.ActorSelection("akka://mmria-actor-system/user/populate-cdc-instance-supervisor/child*");
