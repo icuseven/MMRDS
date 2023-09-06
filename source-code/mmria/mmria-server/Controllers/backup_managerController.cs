@@ -249,10 +249,14 @@ public sealed class backupManagerController : Controller
                             
                     if(System.IO.File.Exists(file_path))
                     {
-                        byte[] fileBytes = await ReadFile(file_path);
-
-                        System.IO.File.Delete(file_path);
-                        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+                        return new PhysicalFileResult
+                        (
+                            file_path, 
+                            "application/octet-stream"
+                        ) 
+                        { 
+                            FileDownloadName = file_name 
+                        };
                     }
                     else
                     {
