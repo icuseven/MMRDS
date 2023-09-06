@@ -240,12 +240,6 @@ public sealed class backupManagerController : Controller
                     var file_path = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), folder, file_name);
 
                     System.IO.Directory.CreateDirectory(directory_path);
-/*
-                    using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
-                    {
-                        await response.Content.CopyToAsync(fs);
-                        //await fs.FlushAsync();
-                    }*/
 
                     using (System.IO.Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(file_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
                     {
