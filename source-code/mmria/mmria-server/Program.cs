@@ -34,39 +34,7 @@ using mmria.common.metadata;
 namespace mmria.server;
 
 public sealed partial class Program
-{
-    /*
-    public static string config_couchdb_url = "http://localhost:5984";
-
-    public static string db_prefix = "";
-    //public static string config_web_site_url;
-    //public static string config_file_root_folder;
-    public static string config_timer_user_name;
-    public static string config_timer_value;
-    */
-
-   /* public static mmria.common.couchdb.ConfigurationSet configuration_set;
-
-    public static string config_cdc_instance_pull_list;
-    public static string config_cdc_instance_pull_db_url;
-
-    
-    public static int config_session_idle_timeout_minutes;
-
-    public static bool is_db_check_enabled = false;
-
-    public static string config_vitals_url;
-    
-    public static int config_pass_word_minimum_length = 8;
-    public static int config_pass_word_days_before_expires = 0;
-    public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;
-    public static int config_default_days_in_effective_date_interval = 90;
-    public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
-    public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
-    public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
-    */
-
-    
+{    
     public static Quartz.IScheduler sched;
     public static ITrigger check_for_changes_job_trigger;
     public static ITrigger rebuild_queue_job_trigger;
@@ -175,7 +143,7 @@ public sealed partial class Program
             Log.Information("Pre Overridable Config:");
             Log.Information($"couchdb_url: {couchdb_url}");
             Log.Information($"timer_user_name: {timer_user_name}");
-            Log.Information($"host_prefix: {host_prefix}");
+            Log.Information($"host_prefix({host_prefix.Length}): {host_prefix}");
             Log.Information($"config_id: {config_id}");
             Log.Information($"shared_config_id: {shared_config_id}");
             Log.Information($"sams:is_enabled: {sams_is_enabled}");
@@ -223,28 +191,6 @@ public sealed partial class Program
 
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
-            /*
-            db_config.url = overridable_config.GetString("couchdb_url", host_prefix);
-            db_config.user_name = overridable_config.GetString("timer_user_name", host_prefix);
-            db_config.user_value = overridable_config.GetString("timer_value", host_prefix);
-
-           */
-
-            //Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
-            //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
-            
-/*
-            configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
-
-            Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, configuration["password_settings:minimum_length"], 8);
-            Program.config_pass_word_days_before_expires = SetFromIfHasValue(Program.config_pass_word_days_before_expires, configuration["password_settings:days_before_expires"], 0);
-            Program.config_pass_word_days_before_user_is_notified_of_expiration = SetFromIfHasValue(Program.config_pass_word_days_before_user_is_notified_of_expiration, configuration["password_settings:days_before_user_is_notified_of_expiration"], 0);
-
-            Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, configuration["authentication_settings:default_days_in_effective_date_interval"], 0);
-            Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
-            Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
-            Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
-*/
             if(string.IsNullOrWhiteSpace(overridable_config.GetString("config_id",host_prefix)))
             {
                 if(string.IsNullOrWhiteSpace(config_id))
