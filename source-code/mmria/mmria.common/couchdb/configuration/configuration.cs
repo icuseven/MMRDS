@@ -129,17 +129,24 @@ public sealed class OverridableConfiguration
     public Dictionary<string, Dictionary<string, int>> integer_keys { get;set; }
     public bool? GetBoolean(string key, string prefix)
     {
-        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedBoolean(key);
+        bool? result = null;
+        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase))
+        { 
+            result = GetSharedBoolean(key);
+            return result;
+        }
 
         if(boolean_keys.ContainsKey(prefix))
         {
             if(boolean_keys[prefix].ContainsKey(key))
             {
-                return boolean_keys[prefix][key];
+                result = boolean_keys[prefix][key];
+                return result;
             }
         }
         
-        return GetSharedBoolean(key);
+        result = GetSharedBoolean(key);
+        return result;
     }
 
     public void SetBoolean(string prefix, string key, bool value)
