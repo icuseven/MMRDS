@@ -215,8 +215,9 @@ public sealed partial class Program
 
             foreach(var key in key_set)
             {
-                Log.Information(key);
+                Log.Information("\t" + key);
             }
+            Log.Information("\n");
 
 
             overridable_config.SetString(host_prefix, "shared_config_id", shared_config_id);
@@ -286,7 +287,7 @@ public sealed partial class Program
             {
                 
                 overridable_config.SetBoolean(host_prefix, "*sams:is_enabled", sams_is_enabled);
-                Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("*sams:is_enabled", host_prefix));
+                Log.Information("*sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
             }
             else
             {
