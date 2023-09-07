@@ -260,9 +260,13 @@ public sealed class OverridableConfiguration
     }
 
 
-    public bool? GetOverridedBoolean(string prefix, string key)
+    public bool? GetOverridedBoolean(string key, string prefix)
     {
-        if(boolean_keys[prefix].ContainsKey(key))
+        if
+        (
+            boolean_keys.ContainsKey(prefix) &&
+            boolean_keys[prefix].ContainsKey(key)
+        )
         {
             return boolean_keys[prefix][key];
         }
@@ -270,9 +274,13 @@ public sealed class OverridableConfiguration
         return null;
     }
 
-    public string GetOverridedString(string prefix, string key)
+    public string GetOverridedString(string key, string prefix)
     {
-        if(string_keys[prefix].ContainsKey(key))
+        if
+        (
+            string_keys.ContainsKey(prefix) && 
+            string_keys[prefix].ContainsKey(key)
+        )
         {
             return string_keys[prefix][key];
         }
@@ -280,9 +288,13 @@ public sealed class OverridableConfiguration
         return null;
     }
     
-    public int? GetOverridedInteger(string prefix,string key)
+    public int? GetOverridedInteger(string key, string prefix)
     {
-        if(integer_keys[prefix].ContainsKey(key))
+        if
+        (
+            integer_keys.ContainsKey(prefix) &&
+            integer_keys[prefix].ContainsKey(key)
+        )
         {
             return integer_keys[prefix][key];
         }
