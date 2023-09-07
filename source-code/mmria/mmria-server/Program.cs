@@ -135,6 +135,11 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
             System.Environment.GetEnvironmentVariable("sams_is_enabled").SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
 
+            if(host_prefix == "shared")
+            {
+                System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            }
+
             //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
             //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
             
