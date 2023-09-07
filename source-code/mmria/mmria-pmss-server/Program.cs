@@ -215,10 +215,10 @@ public sealed partial class Program
             }
 
 
-            if(string.IsNullOrWhiteSpace(overridable_config.GetString("app_instance_name",host_prefix)))
+            if(string.IsNullOrWhiteSpace(overridable_config.GetOverridedString("app_instance_name",host_prefix)))
             {
                 
-                overridable_config.SetString(host_prefix, "app_instance_name", host_prefix);
+                overridable_config.SetString(host_prefix, "app_instance_name", app_instance_name);
                 Log.Information("*app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
             }
             else
