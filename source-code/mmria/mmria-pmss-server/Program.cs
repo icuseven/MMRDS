@@ -148,11 +148,13 @@ public sealed partial class Program
             string host_prefix = "shared";
             string config_id = null;
             string app_instance_name = null;
+            bool sams_is_enabled = false;
 
 
             configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref host_prefix);
             configuration["mmria_settings:shared_config_id"].SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
             configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
+            configuration["sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
 
             System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
@@ -160,7 +162,7 @@ public sealed partial class Program
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
             System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref config_id);
             System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
-            //System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            System.Environment.GetEnvironmentVariable("sams_is_enabled").SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
             
 
 
@@ -177,6 +179,7 @@ public sealed partial class Program
             Log.Information($"host_prefix: {host_prefix}");
             Log.Information($"config_id: {config_id}");
             Log.Information($"shared_config_id: {shared_config_id}");
+            Log.Information($"sams:is_enabled: {sams_is_enabled}");
             Log.Information("***********************\n");
 
 
@@ -271,6 +274,14 @@ public sealed partial class Program
             else
             {
                 Log.Information("app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
+            }
+
+            var sams_exists = overridable_config.GetBoolean("sams:is_enabled",host_prefix);
+
+            if(!sams_exists.HasValue)
+            {
+                
+                overridable_config.SetBoolean(host_prefix, "sams:is_enabled", sams_is_enabled);
             }
 
 
