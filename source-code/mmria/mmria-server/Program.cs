@@ -286,7 +286,12 @@ public sealed partial class Program
             )
             {
                 
-                overridable_config.SetBoolean(host_prefix, "sams:is_enabled", sams_is_enabled);
+                overridable_config.SetBoolean(host_prefix, "*sams:is_enabled", sams_is_enabled);
+                Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("*sams:is_enabled", host_prefix));
+            }
+            else
+            {
+                Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
             }
 
             Log.Information($"host_prefix = {host_prefix}");
@@ -299,7 +304,7 @@ public sealed partial class Program
             Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {configuration["Console:LogLevel:Default"]}");
-            Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
+            
             Log.Information("sams:callback_url: {0}", overridable_config.GetString("sams:callback_url",host_prefix));
             Log.Information("sams:activity_name: {0}", overridable_config.GetString("sams:activity_name",host_prefix));
             Log.Information("is_schedule_enabled: {0}", overridable_config.GetBoolean("is_schedule_enabled", host_prefix));
