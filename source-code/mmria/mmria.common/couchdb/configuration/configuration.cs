@@ -129,24 +129,17 @@ public sealed class OverridableConfiguration
     public Dictionary<string, Dictionary<string, int>> integer_keys { get;set; }
     public bool? GetBoolean(string key, string prefix)
     {
-        bool? result = null;
-        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase))
-        { 
-            result = GetSharedBoolean(key);
-            return result;
-        }
+        if(prefix.Equals("shared", StringComparison.OrdinalIgnoreCase)) return GetSharedBoolean(key);
 
         if(boolean_keys.ContainsKey(prefix))
         {
             if(boolean_keys[prefix].ContainsKey(key))
             {
-                result = boolean_keys[prefix][key];
-                return result;
+                return boolean_keys[prefix][key];
             }
         }
         
-        result = GetSharedBoolean(key);
-        return result;
+        return GetSharedBoolean(key);
     }
 
     public void SetBoolean(string prefix, string key, bool value)
@@ -164,9 +157,6 @@ public sealed class OverridableConfiguration
         {
             boolean_keys[prefix][key] = value;
         }
-
-        
-        
     }
 
 
@@ -270,61 +260,61 @@ public sealed class OverridableConfiguration
     }
 
 
-    public bool? GetOverridedBoolean(string context, string key)
+    public bool? GetOverridedBoolean(string prefix, string key)
     {
-        if(boolean_keys[context].ContainsKey(key))
+        if(boolean_keys[prefix].ContainsKey(key))
         {
-            return boolean_keys[context][key];
+            return boolean_keys[prefix][key];
         }
 
         return null;
     }
 
-    public string GetOverridedString(string context, string key)
+    public string GetOverridedString(string prefix, string key)
     {
-        if(string_keys[context].ContainsKey(key))
+        if(string_keys[prefix].ContainsKey(key))
         {
-            return string_keys[context][key];
+            return string_keys[prefix][key];
         }
 
         return null;
     }
     
-    public int? GetOverridedInteger(string context,string key)
+    public int? GetOverridedInteger(string prefix,string key)
     {
-        if(integer_keys[context].ContainsKey(key))
+        if(integer_keys[prefix].ContainsKey(key))
         {
-            return integer_keys[context][key];
+            return integer_keys[prefix][key];
         }
     
         return null;
     }
 
-    public DBConfigurationDetail GetDBConfig(string context)
+    public DBConfigurationDetail GetDBConfig(string prefix)
     {
         DBConfigurationDetail result = null;
 
-        if(string_keys.ContainsKey(context))
+        if(string_keys.ContainsKey(prefix))
         {
             result = new();
 
-            result.url = string_keys[context]["couchdb_url"];
-            result.prefix = string_keys[context]["db_prefix"];
-            result.user_name = string_keys[context]["timer_user_name"];
-            result.user_value = string_keys[context]["timer_value"];
+            result.url = string_keys[prefix]["couchdb_url"];
+            result.prefix = string_keys[prefix]["db_prefix"];
+            result.user_name = string_keys[prefix]["timer_user_name"];
+            result.user_value = string_keys[prefix]["timer_value"];
         }
         return result;
     
     }
 
-    public SAMSConfigurationDetail GetSAMSConfigurationDetail(string context)
+    public SAMSConfigurationDetail GetSAMSConfigurationDetail(string prefix)
     {
         SAMSConfigurationDetail result = new();
 
-        result.client_id = string_keys[context]["sams:client_id"];
-        result.client_secret = string_keys[context]["sams:client_secret"];
-        result.callback_url = string_keys[context]["sams:callback_url"];
-        result.activity_name = string_keys[context]["sams:activity_name"];
+        result.client_id = string_keys[prefix]["sams:client_id"];
+        result.client_secret = string_keys[prefix]["sams:client_secret"];
+        result.callback_url = string_keys[prefix]["sams:callback_url"];
+        result.activity_name = string_keys[prefix]["sams:activity_name"];
 
         return result;
     }

@@ -673,7 +673,7 @@ public sealed partial class Program
             string request_string = $"{configuration.url}/configuration/{shared_config_id}";
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = case_curl.execute();
-            System.Console.WriteLine(responseFromServer);
+            //System.Console.WriteLine(responseFromServer);
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)
