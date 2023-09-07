@@ -287,10 +287,15 @@ public sealed partial class Program
             )
             {
                 
+                if(sams_exists.HasValue)
+                {
+                    Log.Information("sams_exists: {0}", sams_exists.Value);
+                }
                 overridable_config.SetBoolean(host_prefix, "*sams:is_enabled", sams_is_enabled);
                 var val = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
                 if(val.HasValue)
                 {
+                   
                     Log.Information("*sams:is_enabled: {0}", val.Value);
                 }
                 else
@@ -717,6 +722,7 @@ public sealed partial class Program
             string request_string = $"{configuration.url}/configuration/{shared_config_id}";
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = case_curl.execute();
+            System.Console.WriteLine(responseFromServer);
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)
