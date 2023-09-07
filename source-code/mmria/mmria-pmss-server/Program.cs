@@ -278,7 +278,11 @@ public sealed partial class Program
 
             var sams_exists = overridable_config.GetBoolean("sams:is_enabled",host_prefix);
 
-            if(!sams_exists.HasValue)
+            if
+            (
+                !sams_exists.HasValue ||
+                sams_exists.Value != sams_is_enabled
+            )
             {
                 
                 overridable_config.SetBoolean(host_prefix, "sams:is_enabled", sams_is_enabled);
