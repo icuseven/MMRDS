@@ -292,7 +292,6 @@ public sealed partial class Program
                 if(val.HasValue)
                 {
                     Log.Information("*sams:is_enabled: {0}", val.Value);
-
                 }
                 else
                 {

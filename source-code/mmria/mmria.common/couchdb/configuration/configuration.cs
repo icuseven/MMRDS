@@ -149,7 +149,16 @@ public sealed class OverridableConfiguration
             boolean_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        boolean_keys[prefix][key] = value;
+        if(!boolean_keys[prefix].ContainsKey(key))
+        {
+            boolean_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            boolean_keys[prefix][key] = value;
+        }
+
+        
         
     }
 
@@ -176,7 +185,15 @@ public sealed class OverridableConfiguration
             string_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        string_keys[prefix][key] = value;
+        if(!string_keys[prefix].ContainsKey(key))
+        {
+            string_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            string_keys[prefix][key] = value;
+        }
+        
     }
     
     public int? GetInteger(string key, string prefix)
@@ -202,7 +219,15 @@ public sealed class OverridableConfiguration
             integer_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        integer_keys[prefix][key] = value;
+        if(!integer_keys[prefix].ContainsKey(key))
+        {
+            integer_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            integer_keys[prefix][key] = value;
+        }
+        
         
     }
 
