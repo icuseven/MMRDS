@@ -284,6 +284,7 @@ public sealed partial class Program
             Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {configuration["Console:LogLevel:Default"]}");
+            Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
             Log.Information("sams:callback_url: {0}", overridable_config.GetString("sams:callback_url",host_prefix));
             Log.Information("sams:activity_name: {0}", overridable_config.GetString("sams:activity_name",host_prefix));
             Log.Information("is_schedule_enabled: {0}", overridable_config.GetBoolean("is_schedule_enabled", host_prefix));
@@ -371,11 +372,14 @@ public sealed partial class Program
 
             quartzSupervisor.Tell("init");
 
-            bool use_sams = false;
+            bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
 
-            configuration["sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref use_sams);
-
-            if (use_sams)
+            
+            if 
+            (
+                use_sams.HasValue && 
+                use_sams.Value
+            )
             {
                 Log.Information("using sams");
 
