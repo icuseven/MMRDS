@@ -279,7 +279,7 @@ public sealed partial class Program
 
             var sams_exists = overridable_config.GetBoolean("sams:is_enabled",host_prefix);
 
-            if
+                        if
             (
                 !sams_exists.HasValue ||
                 sams_exists.Value != sams_is_enabled
@@ -287,7 +287,17 @@ public sealed partial class Program
             {
                 
                 overridable_config.SetBoolean(host_prefix, "*sams:is_enabled", sams_is_enabled);
-                Log.Information("*sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
+                var val = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
+                if(val.HasValue)
+                {
+                    Log.Information("*sams:is_enabled: {0}", val.Value);
+
+                }
+                else
+                {
+                    Log.Information("*sams:is_enabled: problem with overridable_config");
+                }
+                
             }
             else
             {
