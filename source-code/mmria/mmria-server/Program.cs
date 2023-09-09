@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
+using Akka.Configuration;
 
 
 using Microsoft.AspNetCore.Components;
@@ -321,7 +322,8 @@ public sealed partial class Program
 
             // ******* To Be removed end
 
-
+            //var port = 12345;
+            //var config = ConfigurationFactory.ParseString("akka.remote.dot-netty.tcp.port=" + port);
 
             var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
