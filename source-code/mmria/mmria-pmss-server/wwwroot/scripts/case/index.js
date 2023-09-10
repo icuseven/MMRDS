@@ -1119,7 +1119,7 @@ var g_ui = {
 
     if (g_jurisdiction_list.length > 0) 
     {
-      result.tracking.admin_info.case_folder = g_jurisdiction_list[0];
+      result.tracking.admin_info.case_folder = "/" + p_state_of_death;
     } 
     else 
     {
