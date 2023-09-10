@@ -1127,7 +1127,7 @@ var g_ui = {
     }
 
     result.tracking.pmss_state_code = p_state_of_death;
-    result.tracking.track_year = p_year_of_death;
+    result.tracking.admin_info.track_year = p_year_of_death;
     result.host_state = window.location.host.split('-')[0];
 /*    result.tracking.date_of_death.year = p_year_of_death;
     result.tracking.date_of_death.month = p_month_of_death;

@@ -314,15 +314,16 @@ public sealed class vital_importController: ControllerBase
 
 
 
-            var home_record = (IDictionary<string,object>)byName["home_record"];
-            if(!home_record.ContainsKey("jurisdiction_id"))
+            var tracking = (IDictionary<string,object>)byName["tracking"];
+            var admin_info = (IDictionary<string,object>)tracking["admin_info"];
+            if(!admin_info.ContainsKey("case_folder"))
             {
-                home_record.Add("jurisdiction_id", "/");
+                admin_info.Add("case_folder", "/");
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, admin_info["case_folder"].ToString()))
             {
-                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
+                Console.Write($"unauthorized PUT {admin_info["case_folder"]}: {byName["_id"]}");
                 return result;
             }
 
@@ -341,7 +342,7 @@ public sealed class vital_importController: ControllerBase
                     !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
-                    Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized PUT {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
                     return result;
                 }
 
@@ -444,7 +445,7 @@ public sealed class vital_importController: ControllerBase
                     !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
-                    Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized DELETE {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
                     return null;
                 }
                 

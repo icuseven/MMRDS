@@ -24,30 +24,33 @@ public sealed class authorization_case
 
         var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
         
-        IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
-        if(byName != null)
+        IDictionary<string,object> pre_tracking = (IDictionary<string,object>)p_case_expando_object;
+        IDictionary<string,object> tracking = (IDictionary<string,object>)pre_tracking["tracking"];
+        
+
+        if(tracking != null)
         {
             if
             (
-                !byName.ContainsKey("home_record") || 
-                byName["home_record"] == null
+                !tracking.ContainsKey("admin_info") || 
+                tracking["admin_info"] == null
             )
             {
-                byName["home_record"] = new Dictionary<string,object>();
+                tracking["admin_info"] = new Dictionary<string,object>();
             }
 
-            var home_record = byName["home_record"] as IDictionary<string,object>;
+            var admin_info = tracking["admin_info"] as IDictionary<string,object>;
 
-            if(home_record != null)
+            if(admin_info != null)
             {
                 if
                 (
-                    !home_record.ContainsKey("jurisdiction_id") || 
-                    home_record["jurisdiction_id"] == null
+                    !admin_info.ContainsKey("case_folder") || 
+                    admin_info["case_folder"] == null
                 )
                 {
-                    home_record["jurisdiction_id"] = "/";
+                    admin_info["case_folder"] = "/";
                 }
                 
                 foreach(var jurisdiction_item in  jurisdiction_hashset)
@@ -55,7 +58,7 @@ public sealed class authorization_case
                     var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                     if
                     (
-                        regex.IsMatch(home_record["jurisdiction_id"].ToString()) && 
+                        regex.IsMatch(admin_info["case_folder"].ToString()) && 
                         p_resoure_right_enum ==  jurisdiction_item.ResourceRight
                     )
                     {

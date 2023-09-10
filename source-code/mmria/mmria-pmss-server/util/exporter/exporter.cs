@@ -440,13 +440,15 @@ if(multiform_field_list.Count > 0)
 
         var is_jurisdiction_ok = false;
 
-        var home_record = case_doc["home_record"] as IDictionary<string, object>;
+        var tracking = case_doc["tracking"] as IDictionary<string, object>;
 
-        if (home_record != null)
+        if (tracking != null)
         {
-        if (!home_record.ContainsKey("jurisdiction_id"))
+            var admin_info = tracking["admin_info"] as IDictionary<string, object>;
+
+        if (!admin_info.ContainsKey("case_folder"))
         {
-            home_record.Add("jurisdiction_id", "/");
+            admin_info.Add("case_folder", "/");
         }
 
         foreach (var jurisdiction_item in jurisdiction_hashset)
@@ -454,7 +456,7 @@ if(multiform_field_list.Count > 0)
             var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+            if (regex.IsMatch(admin_info["case_folder"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
             {
             is_jurisdiction_ok = true;
             break;

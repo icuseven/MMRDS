@@ -126,6 +126,7 @@ public sealed class case_viewController: ControllerBase
     {
         var result = new List<string>();
 
+        var prefix_array = prefix.Split("-");
 
         try
         {
@@ -150,7 +151,7 @@ public sealed class case_viewController: ControllerBase
             Console.WriteLine(ex);
         }
 
-        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
+        return $"{prefix_array[0]}-{prefix_array[1].Substring(2)}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 } 

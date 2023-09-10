@@ -102,7 +102,7 @@ public sealed class caseController: ControllerBase
 
         try
         {
-            var mmria_record_id = "";
+            var pmssno = "";
 
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
@@ -158,24 +158,25 @@ public sealed class caseController: ControllerBase
                 }
             }
 
-            var home_record = (IDictionary<string,object>)byName["home_record"];
-            if(!home_record.ContainsKey("jurisdiction_id"))
+            var tracking = (IDictionary<string,object>)byName["tracking"];
+            var admin_info = (IDictionary<string,object>)tracking["admin_info"];
+            if(!admin_info.ContainsKey("case_folder"))
             {
-                home_record.Add("jurisdiction_id", "/");
+                admin_info.Add("case_folder", "/");
             }
 
             if 
             (
-                home_record.ContainsKey("record_id")
+                admin_info.ContainsKey("pmssno")
             ) 
             {
-                mmria_record_id = home_record["record_id"].ToString();
+                pmssno = admin_info["pmssno"].ToString();
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, admin_info["case_folder"].ToString()))
             {
-                result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
-                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
+                result.error_description = $"unauthorized PUT {admin_info["case_folder"]}: {byName["_id"]}";
+                Console.Write($"unauthorized PUT {admin_info["case_folder"]}: {byName["_id"]}");
                 return result;
             }
 
@@ -194,8 +195,8 @@ public sealed class caseController: ControllerBase
                     !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
-                    result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
-                    Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    result.error_description = $"unauthorized PUT: {result_dictionary["_id"]}";
+                    Console.Write($"unauthorized PUT: {result_dictionary["_id"]}");
                     return result;
                 }
 
@@ -235,7 +236,7 @@ public sealed class caseController: ControllerBase
 
 
             var audit_data = save_case_request.Change_Stack;
-            audit_data.record_id = mmria_record_id;
+            audit_data.record_id = pmssno;
             audit_data.metadata_version = configuration.GetString("metadata_version", host_prefix);
 
             var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
@@ -288,7 +289,7 @@ public sealed class caseController: ControllerBase
         try
         {
 
-            var mmria_record_id = "";
+            var pmssno = "";
             var first_name = "";
             var last_name = "";
 
@@ -330,7 +331,7 @@ public sealed class caseController: ControllerBase
                     !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
-                    Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized DELETE {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
                     return null;
                 }
                 
@@ -342,19 +343,22 @@ public sealed class caseController: ControllerBase
 
                 if 
                 (
-                    result_dictionary.ContainsKey ("home_record") &&
-                    result_dictionary["home_record"] is IDictionary<string,object> home_record
+                    result_dictionary.ContainsKey ("tracking") &&
+                    result_dictionary["tracking"] is IDictionary<string,object> tracking &&
+                    tracking.ContainsKey("admin_info") &&
+                    result_dictionary["admin_info"] is IDictionary<string,object> admin_info
                     
                 ) 
                 {
-                    if(home_record.ContainsKey("record_id"))
-                    mmria_record_id = home_record["record_id"].ToString();
+                    if(admin_info.ContainsKey("pmssno"))
+                    pmssno = admin_info["pmssno"].ToString();
+/*
+                    if(admin_info.ContainsKey("first_name"))
+                    first_name = tracking["first_name"].ToString();
 
-                    if(home_record.ContainsKey("first_name"))
-                    first_name = home_record["first_name"].ToString();
-
-                    if(home_record.ContainsKey("last_name"))
-                    last_name = home_record["last_name"].ToString();
+                    if(admin_info.ContainsKey("last_name"))
+                    last_name = admin_info["last_name"].ToString();
+                    */
                 }
             } 
             catch (Exception ex) 
@@ -372,7 +376,7 @@ public sealed class caseController: ControllerBase
                 case_id = case_id,
                 case_rev = rev,
 
-                record_id = mmria_record_id,
+                record_id = pmssno,
                 is_delete = true,
                 delete_rev = rev,
 
