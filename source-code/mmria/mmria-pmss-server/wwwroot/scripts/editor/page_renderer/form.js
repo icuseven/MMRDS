@@ -128,11 +128,11 @@ function form_render(
                 p_result.push(g_data.tracking.jurisdiction_id);
         
             }
-            if (g_data.tracking.pmssno) 
+            if (g_data.tracking.admin_info.pmssno) 
             {
                 p_result.push
                 (
-                    " <strong>Record ID:</strong> " + g_data.tracking.pmssno
+                    " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
                 );
                 
             }
@@ -670,11 +670,11 @@ function form_render(
                 p_result.push(g_data.tracking.jurisdiction_id);
         
             }
-            if (g_data.tracking.pmssno) 
+            if (g_data.tracking.admin_info.pmssno) 
             {
                 p_result.push
                 (
-                    " <strong>Record ID:</strong> " + g_data.tracking.pmssno
+                    " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
                 );
                 
             }
@@ -894,11 +894,11 @@ function form_render(
             p_result.push(g_data.tracking.jurisdiction_id);
     
         }
-        if (g_data.tracking.pmssno) 
+        if (g_data.tracking.admin_info.pmssno) 
         {
             p_result.push
             (
-                " <strong>Record ID:</strong> " + g_data.tracking.pmssno
+                " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
             );
             
         }
@@ -1669,11 +1669,11 @@ function quick_edit_header_render(
         p_result.push(g_data.tracking.jurisdiction_id);
 
     }
-	if (g_data.tracking.pmssno) 
+	if (g_data.tracking.admin_info.pmssno) 
     {
 		p_result.push
         (
-			" <strong>Record ID:</strong> " + g_data.tracking.pmssno
+			" <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
 		);
 		
 	}

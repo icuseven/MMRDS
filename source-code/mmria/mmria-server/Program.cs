@@ -22,6 +22,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
 using Akka.Configuration;
+using Akka.HealthCheck.Hosting;
+using Akka.HealthCheck.Hosting.Web;
+using WebApiTemplate.App.Configuration;
 
 
 using Microsoft.AspNetCore.Components;

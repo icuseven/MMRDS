@@ -1138,8 +1138,8 @@ var g_ui = {
     if 
     (
         (
-            !result.tracking.pmssno || 
-            result.tracking.pmssno == ''
+            !result.tracking.admin_info.pmssno || 
+            result.tracking.admin_info.pmssno == ''
         ) && 
         result.tracking.pmss_state_code && 
         result.tracking.pmss_state_code != '' /*&& 
@@ -1157,7 +1157,7 @@ var g_ui = {
             new_record_id = reporting_state.trim() + '-' + result.tracking.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
-        result.tracking.pmssno = new_record_id.toUpperCase();
+        result.tracking.admin_info.pmssno = new_record_id.toUpperCase();
         */
     }
 
@@ -1172,7 +1172,7 @@ var g_ui = {
 		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death}`
 	});
 
-    result.tracking.pmssno = new_pmss_number_response;
+    result.tracking.admin_info.pmssno = new_pmss_number_response;
 
     new_data.push({
       id: result._id,

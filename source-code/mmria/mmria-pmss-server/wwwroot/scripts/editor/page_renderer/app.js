@@ -934,16 +934,15 @@ async function unpin_case_clicked(p_id)
 
 function get_header_listing_name
 (
-    p_track_year, 
-    p_death_certificate_number,
-    p_value
+    p_item, 
+    p_pmss_state_code
 )
 {
 	const metadata_value_list = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
-	let display_name = p_value;
+	let display_name = p_pmss_state_code;
 	for(const element of metadata_value_list)
 	{
-		if( element.value == p_value)
+		if( element.value == p_pmss_state_code)
 		{
 			const start_index = element.display.indexOf("(");
 			const last_index = element.display.indexOf(")");
@@ -954,5 +953,5 @@ function get_header_listing_name
 		}
 	}	
 	
-	return `${display_name} - ${p_track_year} - ${p_death_certificate_number}`;
+	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number}`;
 }
