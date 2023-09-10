@@ -17,13 +17,13 @@ public sealed class pmss_case_view_sortable_item
     public DateTime? date_last_checked_out{ get; set; }
     public string last_checked_out_by{ get; set; }
 
-    public string jurisdiction_id {get; set;}
+    public string case_folder {get; set;}
 
     public DateTime? case_locked_date { get; set; }
 
     public string host_state{ get; set; }
   
-    public string pmss_state_code{ get; set; }
+    public string jurisdiction{ get; set; }
     public int? track_year{ get; set; }
     public string pmssno{ get; set; }
     public string med_coder_check{ get; set; }

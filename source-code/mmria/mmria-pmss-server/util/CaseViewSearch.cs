@@ -420,8 +420,8 @@ public sealed class CaseViewSearch
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
-                if(! string.IsNullOrWhiteSpace(item.value.pmss_state_code))
-                if(is_matching_search_text(item.value.pmss_state_code, search_key))
+                if(! string.IsNullOrWhiteSpace(item.value.jurisdiction))
+                if(is_matching_search_text(item.value.jurisdiction, search_key))
                 {
                     result = true;
                 }
@@ -833,9 +833,9 @@ public sealed class CaseViewSearch
     {
         is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
-            if(cvi.value.jurisdiction_id == null)
+            if(cvi.value.case_folder == null)
             {
-                cvi.value.jurisdiction_id = "/";
+                cvi.value.case_folder = "/";
             }
 
             foreach(var jurisdiction_item in ctx)
@@ -843,7 +843,7 @@ public sealed class CaseViewSearch
                 var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
 
 
-                if(regex.IsMatch(cvi.value.jurisdiction_id) && jurisdiction_item.ResourceRight == ResourceRight)
+                if(regex.IsMatch(cvi.value.case_folder) && jurisdiction_item.ResourceRight == ResourceRight)
                 {
                     result = true;
                     break;

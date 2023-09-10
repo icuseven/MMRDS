@@ -1119,14 +1119,14 @@ var g_ui = {
 
     if (g_jurisdiction_list.length > 0) 
     {
-      result.tracking.jurisdiction_id = g_jurisdiction_list[0];
+      result.tracking.admin_info.case_folder = g_jurisdiction_list[0];
     } 
     else 
     {
-      result.tracking.jurisdiction_id = '/';
+      result.tracking.admin_info.case_folder = '/';
     }
 
-    result.tracking.pmss_state_code = p_state_of_death;
+    result.tracking.admin_info.jurisdiction = p_state_of_death;
     result.tracking.admin_info.track_year = p_year_of_death;
     result.host_state = window.location.host.split('-')[0];
 /*    result.tracking.date_of_death.year = p_year_of_death;
@@ -1141,8 +1141,8 @@ var g_ui = {
             !result.tracking.admin_info.pmssno || 
             result.tracking.admin_info.pmssno == ''
         ) && 
-        result.tracking.pmss_state_code && 
-        result.tracking.pmss_state_code != '' /*&& 
+        result.tracking.admin_info.jurisdiction && 
+        result.tracking.admin_info.jurisdiction != '' /*&& 
         
         result.tracking.date_of_death.year && 
         parseInt(result.tracking.date_of_death.year) > 999 && 
@@ -1193,7 +1193,7 @@ var g_ui = {
 
         pmssno: new_pmss_number_response,
         track_year: p_year_of_death,
-        pmss_state_code: p_state_of_death
+        jurisdiction: p_state_of_death
         //agency_case_id: result.agency_case_id,
         //date_of_committee_review: result.committee_review.date_of_review,
       },

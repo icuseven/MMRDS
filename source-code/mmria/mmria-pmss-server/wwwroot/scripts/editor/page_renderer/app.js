@@ -477,7 +477,7 @@ function renderSortCaseStatus(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join('');
@@ -540,7 +540,7 @@ function clear_case_search()
 {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
-    g_ui.case_view_request.case_status = 'all'
+    g_ui.case_view_requeststatus = 'all'
     g_ui.case_view_request.pregnancy_relatedness = 'all';
     g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
@@ -554,9 +554,9 @@ function clear_case_search()
 
 function search_case_status_onchange(p_value)
 {
-    if(g_ui.case_view_request.case_status != p_value)
+    if(g_ui.case_view_requeststatus != p_value)
     {
-        g_ui.case_view_request.case_status = p_value;
+        g_ui.case_view_requeststatus = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
     }
@@ -724,7 +724,7 @@ function render_app_summary_result_item(item, i)
     }; 
     const caseID = item.id;
     const hostState = item.value.host_state;
-    const jurisdictionID = item.value.jurisdiction_id;
+    const jurisdictionID = item.value.case_folder;
     const firstName = item.value.first_name;
     const lastName = item.value.last_name;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
@@ -732,13 +732,13 @@ function render_app_summary_result_item(item, i)
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
+    const currentCaseStatus = item.value.status == null ? '(blank)' : caseStatuses[item.value.status.toString()];
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
     const track_year = item.value.track_year;
     const pmssno = item.value.pmssno
-    const pmss_state_code = item.value.pmss_state_code
+    const jurisdiction = item.value.jurisdiction
     const med_coder_check = item.value.med_coder_check
     const med_dir_check = item.value.med_dir_check
     const death_certificate_number = item.value.death_certificate_number
@@ -759,7 +759,7 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item, pmss_state_code)}</a>
+        <td class="td"><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
         <td class="td">${reviewDates}</td>
@@ -842,16 +842,16 @@ function render_app_pinned_summary_result(item, i)
     }; 
     const caseID = item.id;
     const hostState = item.value.host_state;
-    const jurisdictionID = item.value.jurisdiction_id;
+    const jurisdictionID = item.value.case_folder;
     const firstName = item.value.first_name;
     const lastName = item.value.last_name;
-    const pmss_state_code = item.value.pmss_state_code;
+    const jurisdiction = item.value.jurisdiction;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
+    const currentCaseStatus = item.value.status == null ? '(blank)' : caseStatuses[item.value.status.toString()];
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
@@ -863,7 +863,6 @@ function render_app_pinned_summary_result(item, i)
 
     g_pinned_case_count += 1;
 
-
     let border_bottom_color = ""
     if(g_pinned_case_count == mmria_count_number_pinned())
     {
@@ -872,7 +871,7 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, pmss_state_code)}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
         <td class="td" ${border_bottom_color}>${reviewDates}</td>
@@ -935,14 +934,14 @@ async function unpin_case_clicked(p_id)
 function get_header_listing_name
 (
     p_item, 
-    p_pmss_state_code
+    p_jurisdiction
 )
 {
 	const metadata_value_list = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
-	let display_name = p_pmss_state_code;
+	let display_name = p_jurisdiction;
 	for(const element of metadata_value_list)
 	{
-		if( element.value == p_pmss_state_code)
+		if( element.value == p_jurisdiction)
 		{
 			const start_index = element.display.indexOf("(");
 			const last_index = element.display.indexOf(")");
