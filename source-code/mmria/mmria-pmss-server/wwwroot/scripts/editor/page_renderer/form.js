@@ -113,19 +113,19 @@ function form_render(
                 (
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push(get_header_name(g_data.tracking.pmss_state_code));
+				p_result.push(get_header_name(g_data.tracking.admin_info.jurisdiction));
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-            if(g_data.tracking.jurisdiction_id == "/")
+            if(g_data.tracking.admin_info.case_folder == "/")
             {
                 p_result.push("Top Folder");
             }
             else
             {
-                p_result.push(g_data.tracking.jurisdiction_id);
+                p_result.push(g_data.tracking.admin_info.case_folder);
         
             }
             if (g_data.tracking.admin_info.pmssno) 
@@ -655,19 +655,19 @@ function form_render(
 			if (g_data) 
             {
 				p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-				p_result.push(get_header_name(g_data.tracking.pmss_state_code));
+				p_result.push(get_header_name(g_data.tracking.admin_info.jurisdiction));
 				p_result.push(`</p>`);
 			}
             p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 			
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-            if(g_data.tracking.jurisdiction_id == "/")
+            if(g_data.tracking.admin_info.case_folder == "/")
             {
                 p_result.push("Top Folder");
             }
             else
             {
-                p_result.push(g_data.tracking.jurisdiction_id);
+                p_result.push(g_data.tracking.admin_info.case_folder);
         
             }
             if (g_data.tracking.admin_info.pmssno) 
@@ -878,20 +878,20 @@ function form_render(
 		if (g_data) 
         {
 			p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-			p_result.push(get_header_name(g_data.tracking.pmss_state_code));
+			p_result.push(get_header_name(g_data.tracking.admin_info.jurisdiction));
 			p_result.push(`</p>`);
 		}
 
         p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
 
         p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-        if(g_data.tracking.jurisdiction_id == "/")
+        if(g_data.tracking.admin_info.case_folder == "/")
         {
             p_result.push("Top Folder");
         }
         else
         {
-            p_result.push(g_data.tracking.jurisdiction_id);
+            p_result.push(g_data.tracking.admin_info.case_folder);
     
         }
         if (g_data.tracking.admin_info.pmssno) 
@@ -1652,7 +1652,7 @@ function quick_edit_header_render(
 		p_result.push(
 			"<h1 class='construct__title text-primary h1' tabindex='-1'>"
 		);
-		p_result.push(get_header_name(g_data.tracking.pmss_state_code));
+		p_result.push(get_header_name(g_data.tracking.admin_info.jurisdiction));
 		p_result.push("</h1>"); 
 
         
@@ -1660,13 +1660,13 @@ function quick_edit_header_render(
     p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
     
     p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
-    if(g_data.tracking.jurisdiction_id == "/")
+    if(g_data.tracking.admin_info.case_folder == "/")
     {
         p_result.push("Top Folder");
     }
     else
     {
-        p_result.push(g_data.tracking.jurisdiction_id);
+        p_result.push(g_data.tracking.admin_info.case_folder);
 
     }
 	if (g_data.tracking.admin_info.pmssno) 
@@ -1822,5 +1822,5 @@ function get_header_name(p_value)
 		}
 	}	
 	
-	return `${display_name} - ${g_data.tracking.track_year} - ${g_data.tracking.death_certificate_number}`;
+	return `${display_name} - ${g_data.tracking.admin_info.track_year} - ${g_data.tracking.death_certificate_number}`;
 }

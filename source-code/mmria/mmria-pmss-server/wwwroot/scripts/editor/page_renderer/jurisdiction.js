@@ -34,7 +34,14 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
     let disabled_html = " disabled='true' ";
     
-    if(g_data_is_checked_out)
+    if
+    (
+        g_data_is_checked_out || 
+        (
+            p_metadata.is_read_only != null &&
+            p_metadata.is_read_only == true
+        )
+    )
     {
       disabled_html = " ";
     }
