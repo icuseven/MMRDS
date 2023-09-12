@@ -239,6 +239,7 @@ public sealed class recover_deleted_caseController : Controller
         catch(Exception ex)
         {
             Console.WriteLine(ex);
+            result.is_problem_deleting = true;
             result.problem_description = ex.Message;
         }
 
