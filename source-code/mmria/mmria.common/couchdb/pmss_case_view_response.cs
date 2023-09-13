@@ -43,6 +43,32 @@ public sealed class pmss_case_view_sortable_item
 
     public string residence_zip {get;set;}
 
+    /*
+
+app/tracking/admin_info/pmssno           PMSS#
+app/tracking/death_certificate_number       Death certificate number
+app/tracking/date_of_death/dod           Date of Death (calculated)
+app/demographic/date_of_birth/dob       Date of Birth (calculated)
+app/tracking/q9/reszip               Zip code of residence
+app/demographic/mage               Maternal age at Death
+app/ije_dc/cause_details/manner_dc       Manner
+app/ije_dc/cause_details/cod1a_dc       Cause of Death Part I Line A
+app/ije_dc/cause_details/cod1b_dc       Cause of Death Part I Line B
+app/ije_dc/cause_details/cod1c_dc       Cause of Death Part I Line C
+app/ije_dc/cause_details/cod1d_dc       Cause of Death Part I Line D
+app/ije_dc/cause_details/othercondition_dc Cause of Death Part II    
+
+ 
+9
+CURRENT Picklists on Line-Listing Summary Page
+-----------------------------------------------------------------------------------
+app/tracking/admin_info/jurisdiction          Jurisdiction    
+app/tracking/admin_info/track_year          Year of Death
+app/tracking/admin_info/status         Status    
+app/cause_of_death/class           Classification
+
+*/
+
 }
 
 
