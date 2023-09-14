@@ -913,9 +913,10 @@ public sealed class CaseViewSearch
     {
         "by_date_created",
         "by_date_last_updated",
-        "by_last_name",
-        "by_first_name",
-        "by_middle_name",
+        "by_pmssno",
+        "by_jurisdiction",
+        "by_case_folder",
+        "by_case_status",
         "by_year_of_death",
         "by_month_of_death",
         "by_committee_review_date",
@@ -924,8 +925,7 @@ public sealed class CaseViewSearch
         "by_state_of_death",
         "by_date_last_checked_out",
         "by_last_checked_out_by",
-        "by_case_status",
-        "by_agency_case_id",
+        "by_death_classification",
         "by_pregnancy_relatedness",
         "by_host_state"
     };
