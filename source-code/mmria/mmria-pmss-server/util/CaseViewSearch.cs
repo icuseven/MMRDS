@@ -83,6 +83,43 @@ public sealed class CaseViewSearch
         string field_selection,
         string pregnancy_relatedness
     );
+
+/*
+host_state
+pmssno
+death_certificate_number
+dod
+dob
+residence_zip
+mage
+manner
+cod1a
+cod1b
+cod1c
+cod1d
+cod_other_condition
+classification
+jurisdiction
+case_folder
+track_year
+med_coder_check
+med_dir_check
+status
+month_of_death
+day_of_death
+year_of_death
+month_of_birth
+day_of_birth
+year_of_birth
+agreement_status
+version
+date_created
+created_by
+date_last_updated
+last_updated_by
+date_last_checked_out
+last_checked_out_by
+*/
     
     is_valid_predicate create_predicate_by_date_created
     (
