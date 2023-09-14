@@ -950,28 +950,28 @@ last_checked_out_by
     {
         "by_date_created",
         "by_date_last_updated",
-        "by_pmssno",
-        "by_jurisdiction",
-        "by_case_folder",
-        "by_case_status",
-        "by_year_of_death",
-        "by_month_of_death",
-        "by_committee_review_date",
         "by_created_by",
         "by_last_updated_by",
-        "by_state_of_death",
         "by_date_last_checked_out",
         "by_last_checked_out_by",
+        "conflicts",
+        "by_pmss_number",
+        "by_jurisdiction",
+        "by_case_status",
+        "by_case_folder",
         "by_death_classification",
-        "by_pregnancy_relatedness",
-        "by_host_state"
+        "by_cause_of_death",
+        "by_med_coder_check",
+        "by_med_dir_check",
+        "by_track_year"
+
     };
     public async Task<mmria.common.model.couchdb.pmss_case_view_response> execute
     (
         System.Threading.CancellationToken cancellationToken,
         int skip = 0,
         int take = 25,
-        string sort = "by_date_created",
+        string sort = "by_date_last_updated",
         string search_key = null,
         bool descending = false,
         string case_status = "all",
@@ -988,7 +988,7 @@ last_checked_out_by
 
         if (! sort_list.Contains(sort_view))
         {
-            sort_view = "by_date_created";
+            sort_view = "by_date_last_updated";
         }
 
         try
