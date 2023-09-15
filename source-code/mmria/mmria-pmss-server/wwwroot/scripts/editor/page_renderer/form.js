@@ -132,7 +132,7 @@ function form_render(
             {
                 p_result.push
                 (
-                    " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
+                    "&nbsp;&nbsp;&nbsp;<strong>PMSS#:</strong> " + g_data.tracking.admin_info.pmssno
                 );
                 
             }
@@ -674,7 +674,7 @@ function form_render(
             {
                 p_result.push
                 (
-                    " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
+                    "&nbsp;&nbsp;&nbsp;<strong>PMSS#:</strong> " + g_data.tracking.admin_info.pmssno
                 );
                 
             }
@@ -898,7 +898,7 @@ function form_render(
         {
             p_result.push
             (
-                " <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
+                "&nbsp;&nbsp;&nbsp;<strong>PMSS#:</strong> " + g_data.tracking.admin_info.pmssno
             );
             
         }
@@ -1673,7 +1673,7 @@ function quick_edit_header_render(
     {
 		p_result.push
         (
-			" <strong>PMSSNO:</strong> " + g_data.tracking.admin_info.pmssno
+			"&nbsp;&nbsp;&nbsp;<strong>PMSS#:</strong> " + g_data.tracking.admin_info.pmssno
 		);
 		
 	}
