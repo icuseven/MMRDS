@@ -1743,7 +1743,7 @@ last_checked_out_by
     }
     
 
-    is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction_id, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
+    is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
         is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
@@ -1754,7 +1754,7 @@ last_checked_out_by
 
             foreach(var jurisdiction_item in ctx)
             {
-                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction);
 
 
                 if(regex.IsMatch(cvi.value.case_folder) && jurisdiction_item.ResourceRight == ResourceRight)
@@ -1780,20 +1780,11 @@ last_checked_out_by
     is_valid_predicate is_valid_state_of_death;
     is_valid_predicate is_valid_date_last_checked_out;
     is_valid_predicate is_valid_last_checked_out_by;
-
     is_valid_predicate is_valid_host_state;
-
     is_valid_predicate is_valid_year_of_death;
     is_valid_predicate is_valid_month_of_death;
-
     is_valid_predicate is_valid_jurisdition;
-
-    is_valid_predicate is_valid_record_id;
-
-    is_valid_predicate is_valid_date_of_review;
-
     is_valid_predicate is_valid_date_of_death;
-
     is_valid_predicate is_valid_pmssno;
     is_valid_predicate is_valid_death_certificate_number;
     is_valid_predicate is_valid_dod;

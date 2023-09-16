@@ -61,39 +61,39 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     p_result.push(
         `<div class="form-inline mb-2">
+            <table>
+            <tr><td>
             <label for="search_jurisdiction" class="mr-2">Jurisdiction:</label>
             <select id="search_jurisdiction" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                ${renderSortCaseStatus(p_ui.case_view_request)}
+                ${render_jurisdiction(p_ui.case_view_request)}
             </select>
-        </div>`
-    );
-
-    p_result.push(
-        `<div class="form-inline mb-2">
+            </td><td>
             <label for="search_yod" class="mr-2">YOD:</label>
             <select id="search_yod" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                ${renderSortCaseStatus(p_ui.case_view_request)}
+                ${render_year_of_death(p_ui.case_view_request)}
             </select>
+            </td></tr>
+            </table>
         </div>`
     );
-
 
 
     /* Case Status */
     p_result.push(
         `<div class="form-inline mb-2">
-            <label for="search_case_status" class="mr-2">Case Status:</label>
+            <table>
+            <tr><td>
+            <label for="search_case_status" class="mr-2">Status:</label>
             <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                ${renderSortCaseStatus(p_ui.case_view_request)}
+                ${render_case_status(p_ui.case_view_request)}
             </select>
-        </div>`
-    );
-    p_result.push(
-        `<div class="form-inline mb-2">
-            <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
+            </td><td>
+            <label for="search_pregnancy_relatedness" class="mr-2">Classification:</label>
             <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
-                ${renderPregnancyRelatedness(p_ui.case_view_request)}
+                ${render_classification(p_ui.case_view_request)}
             </select>
+            </td></tr>
+            </table>
         </div>`
     );
     /* Sort By: */
@@ -304,52 +304,72 @@ function render_sort_by_include_in_export(p_sort)
             display : 'By date last updated'
         },
         {
-            value : 'by_last_name',
-            display : 'By last name'
+            value : 'by_pmssno',
+            display : 'PMSS#'
         },
         {
-            value : 'by_first_name',
-            display : 'By first name'
+            value : 'by_death_certificate_number',
+            display : 'Death certificate number'
         },
         {
-            value : 'by_middle_name',
-            display : 'By middle name'
+            value : 'by_dod',
+            display : 'Date of Death (calculated)'
         },
         {
-            value : 'by_year_of_death',
-            display : 'By year of death'
+            value : 'by_dob',
+            display : 'Date of Birth (calculated)'
         },
         {
-            value : 'by_month_of_death',
-            display : 'By month of death'
+            value : 'by_reszip',
+            display : 'Zip code of residence'
         },
         {
-            value : 'by_committee_review_date',
-            display : 'By committee review date'
+            value : 'by_mage',
+            display : 'Maternal age at Death'
+        },
+        {
+            value : 'by_manner',
+            display : 'Manner'
+        },
+        {
+            value : 'by_cod',
+            display : 'Cause of Death'
+        },
+        {
+            value : 'by_cod_other_condition',
+            display : 'Cause of Death Part II'
+        },
+        {
+            value : 'by_jurisdiction',
+            display : 'Jurisdiction'
+        },
+        {
+            value : 'by_track_year',
+            display : 'Year of Death'
+        },
+        {
+            value : 'by_case_status',
+            display : 'Status'
+        },
+        {
+            value : 'by_classification',
+            display : 'Classification'
+        },
+        {
+            value : 'by_date_created',
+            display : 'Date Created'
+        },
+        {
+            value : 'by_date_last_updated',
+            display : 'Date Last Updated'
         },
         {
             value : 'by_created_by',
-            display : 'By created by'
+            display : 'Created By'
         },
         {
             value : 'by_last_updated_by',
-            display : 'By last updated by'
-        },
-        {
-            value : 'by_state_of_death',
-            display : 'By state of death'
-        },
-        {
-            value : 'by_agency_case_id',
-            display : 'By agency-based case identifier'
-        },
-        {
-            value : 'by_record_id',
-            display : 'By Record id'
-        },
-        {
-            value : 'by_pregnancy_relatedness',
-            display : 'By pregnancy relatedness'
+            display : 'Last Updated By'
         }
 	];
 
@@ -370,40 +390,56 @@ function render_field_selection(p_sort)
             display : '-- All --'
         },
         {
-            value : 'by_agency_case_id',
-            display : 'Agency-Based Case Identifier'
+            value : 'by_pmssno',
+            display : 'PMSS#'
         },
         {
-            value : 'by_record_id',
-            display : 'Record Id'
+            value : 'by_death_certificate_number',
+            display : 'Death certificate number'
         },
         {
-            value : 'by_last_name',
-            display : 'Last Name'
+            value : 'by_dod',
+            display : 'Date of Death (calculated)'
         },
         {
-            value : 'by_first_name',
-            display : 'First Name'
+            value : 'by_dob',
+            display : 'Date of Birth (calculated)'
         },
         {
-            value : 'by_middle_name',
-            display : 'Middle Name'
+            value : 'by_reszip',
+            display : 'Zip code of residence'
         },
         {
-            value : 'by_state_of_death',
-            display : 'State of Death'
+            value : 'by_mage',
+            display : 'Maternal age at Death'
         },
         {
-            value : 'by_year_of_death',
+            value : 'by_manner',
+            display : 'Manner'
+        },
+        {
+            value : 'by_cod',
+            display : 'Cause of Death'
+        },
+        {
+            value : 'by_cod_other_condition',
+            display : 'Cause of Death Part II'
+        },
+        {
+            value : 'by_jurisdiction',
+            display : 'Jurisdiction'
+        },
+        {
+            value : 'by_track_year',
             display : 'Year of Death'
         },
         {
-            value : 'by_month_of_death',
-            display : 'Month of Death'
+            value : 'by_case_status',
+            display : 'Status'
         },
         {
-            value : 'by_committee_review_date',
-            display : 'Committee Review Date'
+            value : 'by_classification',
+            display : 'Classification'
         },
         {
             value : 'by_date_created',
@@ -432,7 +468,109 @@ function render_field_selection(p_sort)
 	return f_result.join('');
 }
 
-function renderSortCaseStatus(p_case_view)
+function render_jurisdiction(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '2',
+            display : 'Abstraction Complete'
+        },
+        {
+            value : '3',
+            display : 'Ready For Review'
+        },
+        {
+            value : '4',
+            display : 'Review complete and decision entered'
+        },
+        {
+            value : '5',
+            display : 'Out of Scope and death certificate entered'
+        },
+        {
+            value : '6',
+            display : 'False Positive and death certificate entered'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
+        },
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join('');
+}
+
+function render_year_of_death(p_case_view)
+{
+	const sortCaseStatuses = [
+        {
+            value : 'all',
+            display : '-- All --'
+        },
+        {
+            value : '9999',
+            display : '(blank)'
+        },
+        ,
+        {
+            value : '1',
+            display : 'Abstracting (incomplete)'
+        },
+        {
+            value : '2',
+            display : 'Abstraction Complete'
+        },
+        {
+            value : '3',
+            display : 'Ready For Review'
+        },
+        {
+            value : '4',
+            display : 'Review complete and decision entered'
+        },
+        {
+            value : '5',
+            display : 'Out of Scope and death certificate entered'
+        },
+        {
+            value : '6',
+            display : 'False Positive and death certificate entered'
+        },
+        {
+            value : '0',
+            display : 'Vitals Import'
+        },
+    ];
+    const sortCaseStatusList = [];
+
+	sortCaseStatuses.map((status, i) => {
+
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return sortCaseStatusList.join('');
+}
+
+function render_case_status(p_case_view)
 {
 	const sortCaseStatuses = [
         {
@@ -484,7 +622,7 @@ function renderSortCaseStatus(p_case_view)
 }
 
 
-function renderPregnancyRelatedness(p_case_view)
+function render_classification(p_case_view)
 {
 	const sortCaseStatuses = [
         {
