@@ -72,6 +72,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             <select id="search_yod" class="custom-select" onchange="search_case_status_onchange(this.value)">
                 ${render_year_of_death(p_ui.case_view_request)}
             </select>
+            </td>
+            <td>
+            <label for="search_case_status" class="mr-2">Status:</label>
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                ${render_case_status(p_ui.case_view_request)}
+            </select>
             </td></tr>
             </table>
         </div>`
@@ -81,19 +87,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     /* Case Status */
     p_result.push(
         `<div class="form-inline mb-2">
-            <table>
-            <tr><td>
-            <label for="search_case_status" class="mr-2">Status:</label>
-            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                ${render_case_status(p_ui.case_view_request)}
-            </select>
-            </td><td>
+
             <label for="search_pregnancy_relatedness" class="mr-2">Classification:</label>
             <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
                 ${render_classification(p_ui.case_view_request)}
             </select>
-            </td></tr>
-            </table>
+
         </div>`
     );
     /* Sort By: */
@@ -356,14 +355,6 @@ function render_sort_by_include_in_export(p_sort)
             display : 'Classification'
         },
         {
-            value : 'by_date_created',
-            display : 'Date Created'
-        },
-        {
-            value : 'by_date_last_updated',
-            display : 'Date Last Updated'
-        },
-        {
             value : 'by_created_by',
             display : 'Created By'
         },
@@ -470,104 +461,30 @@ function render_field_selection(p_sort)
 
 function render_jurisdiction(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : '1',
-            display : 'Abstracting (incomplete)'
-        },
-        {
-            value : '2',
-            display : 'Abstraction Complete'
-        },
-        {
-            value : '3',
-            display : 'Ready For Review'
-        },
-        {
-            value : '4',
-            display : 'Review complete and decision entered'
-        },
-        {
-            value : '5',
-            display : 'Out of Scope and death certificate entered'
-        },
-        {
-            value : '6',
-            display : 'False Positive and death certificate entered'
-        },
-        {
-            value : '0',
-            display : 'Vitals Import'
-        },
-    ];
-    const sortCaseStatusList = [];
+    const values = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+    
+    const list = [];
 
-	sortCaseStatuses.map((status, i) => {
+    values.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
     });
 
-	return sortCaseStatusList.join('');
+    return list.join(''); 
 }
 
 function render_year_of_death(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : '1',
-            display : 'Abstracting (incomplete)'
-        },
-        {
-            value : '2',
-            display : 'Abstraction Complete'
-        },
-        {
-            value : '3',
-            display : 'Ready For Review'
-        },
-        {
-            value : '4',
-            display : 'Review complete and decision entered'
-        },
-        {
-            value : '5',
-            display : 'Out of Scope and death certificate entered'
-        },
-        {
-            value : '6',
-            display : 'False Positive and death certificate entered'
-        },
-        {
-            value : '0',
-            display : 'Vitals Import'
-        },
-    ];
-    const sortCaseStatusList = [];
-
-	sortCaseStatuses.map((status, i) => {
-
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
-    });
-
-	return sortCaseStatusList.join('');
+		const values = eval(convert_dictionary_path_to_lookup_object("lookup/year"));
+    
+        const list = [];
+    
+        values.map((status, i) => {
+    
+            return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
+        });
+    
+        return list.join(''); 
 }
 
 function render_case_status(p_case_view)
@@ -583,33 +500,21 @@ function render_case_status(p_case_view)
         },
         ,
         {
-            value : '1',
-            display : 'Abstracting (incomplete)'
+            value : 'Incomplete',
+            display : 'Incomplete'
         },
         {
-            value : '2',
-            display : 'Abstraction Complete'
+            value : 'Complete',
+            display : 'Complete'
         },
         {
-            value : '3',
-            display : 'Ready For Review'
+            value : 'Locked',
+            display : 'Locked'
         },
         {
-            value : '4',
-            display : 'Review complete and decision entered'
-        },
-        {
-            value : '5',
-            display : 'Out of Scope and death certificate entered'
-        },
-        {
-            value : '6',
-            display : 'False Positive and death certificate entered'
-        },
-        {
-            value : '0',
-            display : 'Vitals Import'
-        },
+            value : 'STEVE-Transfer',
+            display : 'STEVE-Transfer'
+        }
     ];
     const sortCaseStatusList = [];
 
@@ -624,41 +529,37 @@ function render_case_status(p_case_view)
 
 function render_classification(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : '1',
-            display : 'Pregnancy-related'
-        },
-        {
-            value : '0',
-            display : 'Pregnancy-Associated, but NOT-Related'
-        },
-        {
-            value : '2',
-            display : 'Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness'
-        },
-        {
-            value : '99',
-            display : 'Not Pregnancy-Related or -Associated (i.e. False Positive)'
-        }
-    ];
-    const sortCaseStatusList = [];
+    
+	//const values = eval(convert_dictionary_path_to_lookup_object("cause_of_death/class"));
+    const index_list = [];
+    
+    function find_form(item, i)
+    { 
+        if(item.name== "cause_of_death")
+            index_list.push(i);
+    }
 
-	sortCaseStatuses.map((status, i) => {
+    function find_field(item, i)
+    { 
+        if(item.name== "class")
+            index_list.push(i);
+    }
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
+    g_metadata.children.map(find_form);
+
+    g_metadata.children[index_list[0]].children.map(find_field);
+
+    const values = g_metadata.children[index_list[0]].children[index_list[1]].values
+
+
+    const list = [];
+
+	values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
     });
 
-	return sortCaseStatusList.join(''); 
+	return list.join(''); 
 }
 
 
