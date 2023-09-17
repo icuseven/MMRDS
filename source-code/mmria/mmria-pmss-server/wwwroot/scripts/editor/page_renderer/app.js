@@ -463,6 +463,10 @@ function render_jurisdiction(p_case_view)
 {
     const values = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
     
+    values.unshift(       {
+        value : 'all',
+        display : '-- All --'
+    });
     const list = [];
 
     values.map((status, i) => {
@@ -477,6 +481,10 @@ function render_year_of_death(p_case_view)
 {
 		const values = eval(convert_dictionary_path_to_lookup_object("lookup/year"));
     
+        values.unshift(       {
+            value : 'all',
+            display : '-- All --'
+        });
         const list = [];
     
         values.map((status, i) => {
@@ -551,6 +559,10 @@ function render_classification(p_case_view)
 
     const values = g_metadata.children[index_list[0]].children[index_list[1]].values
 
+    values.unshift(       {
+        value : 'all',
+        display : '-- All --'
+    });
 
     const list = [];
 
