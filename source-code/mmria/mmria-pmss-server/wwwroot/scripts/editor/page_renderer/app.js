@@ -461,17 +461,23 @@ function render_field_selection(p_sort)
 
 function render_jurisdiction(p_case_view)
 {
-    const values = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+    const values = [];
     
-    values.unshift(       {
+    values.push(       {
         value : 'all',
         display : '-- All --'
     });
+
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
     const list = [];
 
     values.map((status, i) => {
 
-        return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.jurisdiction ? ' selected ' : ''}>${status.display}</option>`);
     });
 
     return list.join(''); 
@@ -479,17 +485,25 @@ function render_jurisdiction(p_case_view)
 
 function render_year_of_death(p_case_view)
 {
-		const values = eval(convert_dictionary_path_to_lookup_object("lookup/year"));
+		const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/year"));
     
-        values.unshift(       {
+        const values = [];
+        
+        values.push(       {
             value : 'all',
             display : '-- All --'
         });
+    
+        lookup_value.map((item)=> values.push({
+            value : item.value,
+            display : item.display
+        }));
+
         const list = [];
     
         values.map((status, i) => {
     
-            return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
+            return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
         });
     
         return list.join(''); 
@@ -497,48 +511,33 @@ function render_year_of_death(p_case_view)
 
 function render_case_status(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : 'Incomplete',
-            display : 'Incomplete'
-        },
-        {
-            value : 'Complete',
-            display : 'Complete'
-        },
-        {
-            value : 'Locked',
-            display : 'Locked'
-        },
-        {
-            value : 'STEVE-Transfer',
-            display : 'STEVE-Transfer'
-        }
-    ];
-    const sortCaseStatusList = [];
-
-	sortCaseStatuses.map((status, i) => {
-
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
+    
+    const values = [];
+    
+    values.push(       {
+        value : 'all',
+        display : '-- All --'
     });
 
-	return sortCaseStatusList.join('');
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
+
+    const list = [];
+
+    values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+    return list.join(''); 
 }
 
 
 function render_classification(p_case_view)
 {
-    
-	//const values = eval(convert_dictionary_path_to_lookup_object("cause_of_death/class"));
     const index_list = [];
     
     function find_form(item, i)
@@ -557,12 +556,18 @@ function render_classification(p_case_view)
 
     g_metadata.children[index_list[0]].children.map(find_field);
 
-    const values = g_metadata.children[index_list[0]].children[index_list[1]].values
-
-    values.unshift(       {
+    const lookup_value = g_metadata.children[index_list[0]].children[index_list[1]].values
+    const values = [];
+        
+    values.push(       {
         value : 'all',
         display : '-- All --'
     });
+
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
 
     const list = [];
 
