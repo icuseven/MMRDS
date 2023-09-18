@@ -329,7 +329,15 @@ public sealed partial class Program
             // ******* To Be removed end
 
             const string mmria_actor_system_name = "mmria-actor-system";
-            var akka_port = "8081";
+            var akka_port = overridable_config.GetString("akka:port", host_prefix);
+            var akka_seed_node = overridable_config.GetString("akka:seed_node", host_prefix);
+
+            if(string.IsNullOrWhiteSpace(akka_port))
+                akka_port = "8081";
+
+            if(string.IsNullOrWhiteSpace(akka_seed_node))
+                akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
+
             var config = ConfigurationFactory.ParseString($$"""
             akka {
                     actor.provider = cluster
@@ -340,7 +348,7 @@ public sealed partial class Program
                         }
                     }
                     cluster {
-                        seed-nodes = ["akka.tcp://{{mmria_actor_system_name}}@localhost:{{akka_port}}"]
+                        seed-nodes = ["{{akka_seed_node}}"]
                     }
                 }
             """);
@@ -348,6 +356,7 @@ public sealed partial class Program
             var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
             
             Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
+            Log.Information($"Akka seed node:: {akka_seed_node}");
             
             
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
