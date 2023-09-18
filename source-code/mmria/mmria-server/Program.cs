@@ -35,6 +35,8 @@ using Microsoft.AspNetCore.Components.Web;
 using mmria.server.extension;
 using mmria.server.authentication;
 using mmria.common.metadata;
+using Akka.Http;
+using System.Net;
 
 namespace mmria.server;
 
@@ -60,7 +62,7 @@ public sealed partial class Program
 
         configuration = builder.Configuration;
 
-        string config_export_directory = "/workspace/export";
+        //string config_export_directory = "/workspace/export";
 
         try
         {
@@ -326,10 +328,14 @@ public sealed partial class Program
 
             // ******* To Be removed end
 
-            //var port = 12345;
-            //var config = ConfigurationFactory.ParseString("akka.remote.dot-netty.tcp.port=" + port);
+            var port = overridable_config.GetString("web_site_url", host_prefix).Split(":")[2];
+            var config = ConfigurationFactory.ParseString("akka.remote.dot-netty.tcp.port=" + port);
 
-            var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create("mmria-actor-system", config).UseServiceProvider(provider);
+            
+            Log.Information($"ActorSystem: akka.tcp://{actorSystem.Name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{port}");
+            
+            
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
