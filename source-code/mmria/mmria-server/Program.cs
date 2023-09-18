@@ -328,12 +328,26 @@ public sealed partial class Program
 
             // ******* To Be removed end
 
-            var port = overridable_config.GetString("web_site_url", host_prefix).Split(":")[2];
-            var config = ConfigurationFactory.ParseString("akka.remote.dot-netty.tcp.port=" + port);
+            const string mmria_actor_system_name = "mmria-actor-system";
+            var akka_port = "8081";
+            var config = ConfigurationFactory.ParseString($$"""
+            akka {
+                    actor.provider = cluster
+                    remote {
+                        dot-netty.tcp {
+                            port = {{akka_port}} #let os pick random port
+                            hostname = localhost
+                        }
+                    }
+                    cluster {
+                        seed-nodes = ["akka.tcp://{{mmria_actor_system_name}}@localhost:{{akka_port}}"]
+                    }
+                }
+            """);
 
-            var actorSystem = ActorSystem.Create("mmria-actor-system", config).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
             
-            Log.Information($"ActorSystem: akka.tcp://{actorSystem.Name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{port}");
+            Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
             
             
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
