@@ -431,6 +431,7 @@ public sealed partial class Program
                 options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
                 options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
                 options.AddPolicy("vital_importer", policy => policy.RequireRole("vital_importer"));
+                options.AddPolicy("vital_importer_state", policy => policy.RequireRole("vital_importer_state"));
                 options.AddPolicy("cdc_admin", policy => policy.RequireRole("cdc_admin"));
                 options.AddPolicy("cdc_analyst", policy => policy.RequireRole("cdc_analyst"));
                 options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
