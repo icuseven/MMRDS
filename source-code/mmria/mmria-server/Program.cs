@@ -338,25 +338,29 @@ public sealed partial class Program
             if(string.IsNullOrWhiteSpace(akka_seed_node))
                 akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
 
-            var config = ConfigurationFactory.ParseString($$"""
+            var akka_config_string = $$"""
             akka {
                     actor.provider = cluster
                     remote {
                         dot-netty.tcp {
                             port = {{akka_port}} #let os pick random port
-                            hostname = localhost
+                            hostname = {{Dns.GetHostAddresses(Dns.GetHostName())[0]}}
                         }
                     }
                     cluster {
                         seed-nodes = ["{{akka_seed_node}}"]
                     }
                 }
-            """);
+            """;
+
+            System.Console.WriteLine(akka_config_string);
+
+            var config = ConfigurationFactory.ParseString(akka_config_string);
 
             var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
             
             Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
-            Log.Information($"Akka seed node:: {akka_seed_node}");
+            Log.Information($"Akka seed node: {akka_seed_node}");
             
             
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
