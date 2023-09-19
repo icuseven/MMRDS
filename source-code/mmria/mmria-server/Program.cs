@@ -359,7 +359,8 @@ public sealed partial class Program
 
             var config = ConfigurationFactory.ParseString(akka_config_string);
 
-            var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
+            //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
             
             Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
             Log.Information($"Akka seed node: {akka_seed_node}");
