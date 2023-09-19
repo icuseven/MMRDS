@@ -419,6 +419,29 @@ public sealed class mmrds_exporter
                 continue;
             }
 
+            if 
+            (
+                path_to_node_map[path].tags != null &&
+                path_to_node_map[path].tags.Length > 0
+
+            )
+            {
+                var is_do_not_export = false;
+                foreach(var tag in path_to_node_map[path].tags)
+                {
+                    if(tag.Equals("DO_NOT_EXPORT", StringComparison.OrdinalIgnoreCase))
+                    {
+                        is_do_not_export = true;
+                        break;
+                    }
+                }
+
+                if(is_do_not_export)
+                {
+                    continue;
+                }
+            }
+
             
             object val = get_value(case_doc as IDictionary<string, object>, path);
             try

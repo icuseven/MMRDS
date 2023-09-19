@@ -172,7 +172,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 <tr class='tr'>
                     <th class='th' scope='col'>Case Information</th>
                     <th class='th' scope='col'>Case Status</th>
-                    <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
+                    <!--th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th-->
                     <th class='th' scope='col'>Created</th>
                     <th class='th' scope='col'>Last Updated</th>
                     <th class='th' scope='col'>Currently Edited By</th>
@@ -815,10 +815,10 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item, jurisdiction)}</a>
+        <td class="td"><a href="#/${i}/tracking">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
-        <td class="td">${reviewDates}</td>
+        <!--td class="td">${reviewDates}</td-->
         <td class="td">${createdBy} - ${dateCreated}</td>
         <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
         <td class="td">
@@ -927,10 +927,10 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, jurisdiction)}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
-        <td class="td" ${border_bottom_color}>${reviewDates}</td>
+        <!--td class="td" ${border_bottom_color}>${reviewDates}</td-->
         <td class="td" ${border_bottom_color}>${createdBy} - ${dateCreated}</td>
         <td class="td" ${border_bottom_color}>${lastUpdatedBy} - ${lastUpdatedDate}</td>
         <td class="td" ${border_bottom_color}>
@@ -1008,5 +1008,5 @@ function get_header_listing_name
 		}
 	}	
 	
-	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number}`;
+	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number} (${p_item.value.pmssno})`;
 }
