@@ -338,17 +338,19 @@ public sealed partial class Program
             if(string.IsNullOrWhiteSpace(akka_seed_node))
                 akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
 
+
+            var akka_ip_address = Dns.GetHostAddresses(Dns.GetHostName())[0];
             var akka_config_string = $$"""
             akka {
                     actor.provider = cluster
                     remote {
                         dot-netty.tcp {
                             port = {{akka_port}} #let os pick random port
-                            hostname = {{Dns.GetHostAddresses(Dns.GetHostName())[0]}}
+                            hostname = {{akka_ip_address}}
                         }
                     }
                     cluster {
-                        seed-nodes = ["{{akka_seed_node}}"]
+                        seed-nodes = ["{{akka_seed_node.Replace("{ip_address}", akka_ip_address.ToString())}}"]
                     }
                 }
             """;
