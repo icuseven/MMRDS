@@ -4,6 +4,8 @@ var g_validation_errors = [];
 var g_host_state = null;
 var g_cdc_identifier_set = {};
 
+var host_prefix = null;
+
 
 const mor_max_length = 5001;
 const nat_max_length = 4001;
@@ -73,6 +75,11 @@ window.onload = function ()
     let process_button = document.getElementById("process");
     process_button.onclick = process_button_click;
     process_button.disabled = true;
+
+    host_prefix = window.location.host.split("-")[0].toUpperCase();
+
+    const header = document.getElementById('upload-header-id');
+    header.innerText = `Upload ${host_prefix} IJE Files`;
 }
 
 
@@ -116,11 +123,11 @@ function setup_file_list()
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
 
-                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
+                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_" + host_prefix + ".[mM][oO][rR]");
 
                 if (!patt.test(item.name.toLowerCase())) 
                 {
-                    g_validation_errors.push("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
+                    g_validation_errors.push(`mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_${host_prefix}.mor`);
                 }
 
                 if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
