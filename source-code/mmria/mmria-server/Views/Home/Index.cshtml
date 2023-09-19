@@ -6,6 +6,7 @@
   var is_authenticated = false;
   var is_cdc_analyst = false;
   var is_vital_importer = false;
+  var is_vital_importer_state = false;
   var is_cdc_admin = false;
   var is_committee_member = false;
   var is_form_designer = false;
@@ -67,7 +68,12 @@
           is_vital_importer = true;
           is_authenticated = true;
           is_guest = false;
-          break;          
+          break;
+        case "vital_importer_state":
+          is_vital_importer_state = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;  
         case "cdc_admin":
             is_cdc_admin = true;
             is_authenticated = true;
@@ -264,6 +270,18 @@ else
             <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
             <li><a href="/vitals">View Vitals Import History</a></li>
 
+          </ul>
+        </div>
+      </li>
+    }
+
+    @if(is_vital_importer_state)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h2 class="h5">Vitals Import - State</h2></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/vitals-state/FileUpload">Upload IJE Files</a></li>
           </ul>
         </div>
       </li>
