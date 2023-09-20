@@ -20,9 +20,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
+using Akka.Configuration;
 
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net;
 
 
 using Microsoft.AspNetCore.Components;
@@ -315,7 +317,44 @@ public sealed partial class Program
 
 
 
-            var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
+                        const string mmria_actor_system_name = "mmria-actor-system";
+            var akka_port = overridable_config.GetString("akka:port", host_prefix);
+            var akka_seed_node = overridable_config.GetString("akka:seed_node", host_prefix);
+
+            if(string.IsNullOrWhiteSpace(akka_port))
+                akka_port = "8081";
+
+            if(string.IsNullOrWhiteSpace(akka_seed_node))
+                akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
+
+
+            var akka_ip_address = Dns.GetHostAddresses(Dns.GetHostName())[0];
+            var akka_config_string = $$"""
+            akka {
+                    actor.provider = cluster
+                    remote {
+                        dot-netty.tcp {
+                            port = {{akka_port}} #let os pick random port
+                            hostname = {{akka_ip_address}}
+                        }
+                    }
+                    cluster {
+                        seed-nodes = ["{{akka_seed_node.Replace("{ip_address}", akka_ip_address.ToString())}}"]
+                    }
+                }
+            """;
+
+            System.Console.WriteLine(akka_config_string);
+
+            var config = ConfigurationFactory.ParseString(akka_config_string);
+
+            //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
+            
+            Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
+            Log.Information($"Akka seed node: {akka_seed_node}");
+            
+            
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
@@ -347,7 +386,7 @@ public sealed partial class Program
             }
 
             var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
-            actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(provider), "steve-api-supervisor");
+            actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
 
             quartzSupervisor.Tell("init");

@@ -768,16 +768,7 @@ function render_app_summary_result_item(item, i)
     }
 
     
-    const caseStatuses = {
-        "9999":"(blank)",	
-        "1":"Abstracting (Incomplete)",
-        "2":"Abstraction Complete",
-        "3":"Ready for Review",
-        "4":"Review Complete and Decision Entered",
-        "5":"Out of Scope and Death Certificate Entered",
-        "6":"False Positive and Death Certificate Entered",
-        "0":"Vitals Import"
-    }; 
+    const caseStatuses = app_get_case_status_value_to_display(); 
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.case_folder;
@@ -886,23 +877,12 @@ function render_app_pinned_summary_result(item, i)
     }
 
     
-    const caseStatuses = {
-        "9999":"(blank)",	
-        "1":"Abstracting (Incomplete)",
-        "2":"Abstraction Complete",
-        "3":"Ready for Review",
-        "4":"Review Complete and Decision Entered",
-        "5":"Out of Scope and Death Certificate Entered",
-        "6":"False Positive and Death Certificate Entered",
-        "0":"Vitals Import"
-    }; 
+    const caseStatuses = app_get_case_status_value_to_display(); 
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.case_folder;
-    const firstName = item.value.first_name;
-    const lastName = item.value.last_name;
     const jurisdiction = item.value.jurisdiction;
-    const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
+    const pmssno = item.value.pmssno ? `- (${item.value.pmssno})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
@@ -927,7 +907,7 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${get_header_listing_name(item.value.track_year, item.value.death_certificate_number, jurisdiction)}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
         <!--td class="td" ${border_bottom_color}>${reviewDates}</td-->
@@ -1009,4 +989,14 @@ function get_header_listing_name
 	}	
 	
 	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number} (${p_item.value.pmssno})`;
+}
+
+
+function app_get_case_status_value_to_display()
+{
+    const result = {};
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
+    lookup_value.map((item)=> { result[item.value] = item.display} );
+
+    return result; 
 }

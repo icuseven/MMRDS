@@ -79,7 +79,7 @@ window.onload = function ()
     host_prefix = window.location.host.split("-")[0].toUpperCase();
 
     const header = document.getElementById('upload-header-id');
-    header.innerText = `Upload ${host_prefix} IJE Files`;
+    header.innerText = `Upload IJE Files for ${host_prefix} jurisdiction`;
 }
 
 
