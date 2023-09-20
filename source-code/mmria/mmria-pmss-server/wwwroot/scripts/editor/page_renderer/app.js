@@ -767,7 +767,6 @@ function render_app_summary_result_item(item, i)
         delete_enabled_html = ' disabled = "disabled" ';
     }
 
-    
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.case_folder;
@@ -778,7 +777,7 @@ function render_app_summary_result_item(item, i)
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.status;
+    const currentCaseStatus = app_get_case_status_value_to_display(item.value.status)
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
@@ -884,7 +883,7 @@ function render_app_pinned_summary_result(item, i)
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.status;
+    const currentCaseStatus = app_get_case_status_value_to_display(item.value.status);
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
@@ -988,10 +987,10 @@ function get_header_listing_name
 	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number} (${p_item.value.pmssno})`;
 }
 
-/*
+
 function app_get_case_status_value_to_display(p_value)
 {
-    const result = p_value;
+    let result = p_value;
     const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
     lookup_value.map((item)=> {
         if(item.value == p_value)
@@ -1003,4 +1002,3 @@ function app_get_case_status_value_to_display(p_value)
 
     return result; 
 }
-*/
