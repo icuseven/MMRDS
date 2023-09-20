@@ -10,6 +10,8 @@ public sealed class c_de_identifier
     string metadata_version;
     mmria.common.couchdb.DBConfigurationDetail db_config = null;
     HashSet<string> de_identified_set = new HashSet<string>();
+    HashSet<string> date_offset_set = new HashSet<string>();
+    int dateoffset;
     
     public c_de_identifier 
     (
@@ -21,6 +23,7 @@ public sealed class c_de_identifier
         this.case_item_json = p_case_item_json;
         metadata_version = p_metadata_version;
         db_config = _db_config;
+        dateoffset = new Random().Next(20000, 20100);
     }
     public async Task<string> executeAsync()
     {
@@ -34,6 +37,13 @@ public sealed class c_de_identifier
             de_identified_set.Add(path);
         }
 
+        // cURL date_offset_list_curl = new cURL("GET", null, db_config.url + "/metadata/date-offset-list", null, db_config.user_name, db_config.user_value);
+        // System.Dynamic.ExpandoObject date_offset_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await date_offset_list_curl.executeAsync());
+        // date_offset_set = new HashSet<string>();
+        // foreach(string path in (IList<object>)(((IDictionary<string, object>)date_offset_ExpandoObject) ["paths"]))
+        // {
+        //     date_offset_set.Add(path);
+        // }
 
         if(this.case_item_json == null || de_identified_set.Count == 0)
         {
@@ -67,6 +77,11 @@ public sealed class c_de_identifier
                     set_de_identified_value (case_item_object, path);
                 }*/
             }
+
+            // foreach (string path in date_offset_set)
+            // {
+            //   is_fully_de_identified = is_fully_de_identified && set_de_identified_value(case_item_object, path);
+            // }
 
             if(!is_fully_de_identified)
             {
@@ -134,13 +149,11 @@ public sealed class c_de_identifier
 
     public bool set_de_identified_value (dynamic p_object, string p_path)
     {
-
         bool result = false;
-        /*
         if (p_path == "geocode_quality_indicator")
         {
             System.Console.Write("break");
-        }*/
+        }
 
         try
         {
@@ -191,8 +204,12 @@ public sealed class c_de_identifier
                             }
                             else if (val is System.DateTime)
                             {
+                                System.Console.WriteLine("found a date: {0}", p_path);
                                 //dictionary_object [path_list [0]] = DateTime.MinValue;
-                                dictionary_object [path_list [0]] = null;
+                                // if (dictionary_object.ContainsKey(p_path[0]))
+                                //   dictionary_object [path_list [0]] = dictionary_object.TryGetValue() + (-dateoffset);
+                                // else
+                                  dictionary_object [path_list [0]] = null;
                                 result = true;
                             }
                             else
