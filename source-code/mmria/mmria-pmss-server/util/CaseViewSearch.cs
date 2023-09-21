@@ -1407,16 +1407,16 @@ last_checked_out_by
     )
     {
 
-        if(status != "all")
+        if(jurisdiction != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(!string.IsNullOrWhiteSpace(item.value.jurisdiction))
                 {
                     if
                     (
-                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
+                        item.value.jurisdiction.Equals(jurisdiction, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1435,6 +1435,8 @@ last_checked_out_by
 
         return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
+
+    /*
     is_valid_predicate create_predicate_by_case_folder
     (
         string search_key,
@@ -1473,7 +1475,7 @@ last_checked_out_by
             
 
         return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
-    }
+    }*/
     is_valid_predicate create_predicate_by_track_year
     (
         string search_key,
@@ -1485,16 +1487,16 @@ last_checked_out_by
     )
     {
 
-        if(status != "all")
+        if(year_of_death != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(item.value.track_year.HasValue)
                 {
                     if
                     (
-                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
+                        item.value.track_year.Value.ToString().Equals(year_of_death, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1789,7 +1791,7 @@ last_checked_out_by
     }
     
 
-    is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
+    is_valid_predicate create_predicate_by_case_folder(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
         is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
@@ -1829,7 +1831,7 @@ last_checked_out_by
     is_valid_predicate is_valid_host_state;
     is_valid_predicate is_valid_year_of_death;
     is_valid_predicate is_valid_month_of_death;
-    is_valid_predicate is_valid_jurisdition;
+    is_valid_predicate is_valid_case_folder;
     is_valid_predicate is_valid_date_of_death;
     is_valid_predicate is_valid_pmssno;
     is_valid_predicate is_valid_death_certificate_number;
@@ -1845,7 +1847,7 @@ last_checked_out_by
     is_valid_predicate is_valid_cod_other_condition;
     is_valid_predicate is_valid_classification;
     is_valid_predicate is_valid_jurisdiction;
-    is_valid_predicate is_valid_case_folder;
+
     is_valid_predicate is_valid_track_year;
     is_valid_predicate is_valid_med_coder_check;
     is_valid_predicate is_valid_med_dir_check;
@@ -2004,7 +2006,7 @@ last_checked_out_by
                     .Where
                     (
                         cvi => pinned_id_set.Contains(cvi.id) && 
-                        is_valid_jurisdition(cvi)
+                        is_valid_case_folder(cvi)
                         
                     );
 
@@ -2095,7 +2097,7 @@ last_checked_out_by
         string date_of_death_range
     )
     {
-        is_valid_jurisdition = create_predicate_by_jurisdiction(ctx);
+        is_valid_case_folder = create_predicate_by_case_folder(ctx);
         is_valid_date_created = create_predicate_by_date_created(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         is_valid_date_last_updated = create_predicate_by_date_last_updated(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         /*
@@ -2190,11 +2192,7 @@ last_checked_out_by
         field_selection,
         jurisdiction, year_of_death, status, classification
     );
-    is_valid_case_folder = create_predicate_by_case_folder(
-        search_key,
-        field_selection,
-        jurisdiction, year_of_death, status, classification
-    );
+
     is_valid_track_year = create_predicate_by_track_year(
         search_key,
         field_selection,

@@ -64,12 +64,12 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             <table>
             <tr><td>
             <label for="search_jurisdiction" class="mr-2">Jurisdiction:</label>
-            <select id="search_jurisdiction" class="custom-select" onchange="search_case_status_onchange(this.value)">
+            <select id="search_jurisdiction" class="custom-select" onchange="search_jurisdiction_onchange(this.value)">
                 ${render_jurisdiction(p_ui.case_view_request)}
             </select>
             </td><td>
             <label for="search_yod" class="mr-2">YOD:</label>
-            <select id="search_yod" class="custom-select" onchange="search_case_status_onchange(this.value)">
+            <select id="search_yod" class="custom-select" onchange="search_year_of_death_onchange(this.value)">
                 ${render_year_of_death(p_ui.case_view_request)}
             </select>
             </td>
@@ -88,8 +88,8 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     p_result.push(
         `<div class="form-inline mb-2">
 
-            <label for="search_pregnancy_relatedness" class="mr-2">Classification:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+            <label for="search_classification" class="mr-2">Classification:</label>
+            <select id="search_classification" class="custom-select" onchange="search_classification_onchange(this.value)">
                 ${render_classification(p_ui.case_view_request)}
             </select>
 
@@ -596,8 +596,10 @@ function clear_case_search()
 {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
-    g_ui.case_view_requeststatus = 'all'
-    g_ui.case_view_request.pregnancy_relatedness = 'all';
+    g_ui.case_view_request.jurisdiction = 'all'
+    g_ui.case_view_request.year_of_death = 'all';
+    g_ui.case_view_request.status = 'all';
+    g_ui.case_view_request.classification = 'all';
     g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
     g_ui.case_view_request.take = 100;
@@ -608,26 +610,49 @@ function clear_case_search()
     get_case_set();
 }
 
-function search_case_status_onchange(p_value)
+function search_year_of_death_onchange(p_value)
 {
-    if(g_ui.case_view_requeststatus != p_value)
+    if(g_ui.case_view_request.year_of_death != p_value)
     {
-        g_ui.case_view_requeststatus = p_value;
+        g_ui.case_view_request.year_of_death = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
     }
 }
 
-function search_pregnancy_relatedness_onchange(p_value)
+
+function search_case_status_onchange(p_value)
 {
-    if(g_ui.case_view_request.pregnancy_relatedness != p_value)
+    if(g_ui.case_view_request.status != p_value)
     {
-        g_ui.case_view_request.pregnancy_relatedness = p_value;
+        g_ui.case_view_request.status = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+}
+
+function search_jurisdiction_onchange(p_value)
+{
+    if(g_ui.case_view_request.jurisdiction != p_value)
+    {
+        g_ui.case_view_request.jurisdiction = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
     }
     
 }
+
+function search_classification_onchange(p_value)
+{
+    if(g_ui.case_view_request.classification != p_value)
+    {
+        g_ui.case_view_request.classification = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+    
+}
+
 
 function search_field_selection_onchange(p_value)
 {
