@@ -1368,16 +1368,16 @@ last_checked_out_by
     )
     {
 
-        if(status != "all")
+        if(classification != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(!string.IsNullOrWhiteSpace(item.value.classification))
                 {
                     if
                     (
-                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
+                        item.value.classification.Equals(classification, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
