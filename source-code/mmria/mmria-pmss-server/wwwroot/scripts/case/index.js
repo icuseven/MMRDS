@@ -1239,7 +1239,10 @@ var g_ui = {
     sort: 'by_date_last_updated',
     search_key: null,
     descending: true,
-    case_status: "all",
+    jurisdiction: "all",
+    year_of_death: "all",
+    status: "all",
+    classification: "all",
     field_selection: "all",
     pregnancy_relatedness:"all",
     get_query_string: function () {
@@ -1248,9 +1251,13 @@ var g_ui = {
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
       result.push('descending=' + this.descending);
-      result.push('case_status=' + this.case_status);
+      result.push('jurisdiction=' + this.jurisdiction);
+      result.push('year_of_death=' + this.year_of_death);
+      result.push('status=' + this.status);
+      result.push('classification=' + this.classification);
+      
       result.push('field_selection=' + this.field_selection);
-      result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+
 
       if(g_is_data_analyst_mode == null || g_is_data_analyst_mode !="da")
       {
