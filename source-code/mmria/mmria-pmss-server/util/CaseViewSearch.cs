@@ -665,7 +665,7 @@ last_checked_out_by
             if (field_selection == "all")
                 any_predicate_list.Add(f);
 
-            if (field_selection == "by_agency_case_id")
+            if (field_selection == "by_pmssno")
                 all_predicate_list.Add(f);
 
         }
@@ -939,29 +939,26 @@ last_checked_out_by
     )
     {
 
-        if(status != "all")
+        if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(is_matching_search_text(item.value.death_certificate_number, search_key))
                 {
-                    if
-                    (
-                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
-                    )
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
 
                 return result;
             };
 
-            all_predicate_list.Add(f);
+            if(field_selection == "all")
+                any_predicate_list.Add(f);
 
-            
-            return f;
+
+
+            if(field_selection == "by_death_certificate_number")
+                all_predicate_list.Add(f);
         }
             
 
