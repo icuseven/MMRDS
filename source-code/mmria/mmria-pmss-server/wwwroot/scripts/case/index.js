@@ -1169,7 +1169,7 @@ var g_ui = {
     }
 
 	const new_pmss_number_response = await $.ajax({
-		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death}`
+		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death.substr(2)}`
 	});
 
     result.tracking.admin_info.pmssno = new_pmss_number_response;
