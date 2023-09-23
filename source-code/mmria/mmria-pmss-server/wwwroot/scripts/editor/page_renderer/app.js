@@ -1027,3 +1027,19 @@ function app_get_case_status_value_to_display(p_value)
 
     return result; 
 }
+
+
+function app_get_lookup_value_to_display(p_field_name, p_value)
+{
+    let result = p_value;
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object(`lookup/${p_field_name}`));
+    lookup_value.map((item)=> {
+        if(item.value == p_value)
+        { 
+            result = item.display
+        }
+    
+    } );
+
+    return result; 
+}

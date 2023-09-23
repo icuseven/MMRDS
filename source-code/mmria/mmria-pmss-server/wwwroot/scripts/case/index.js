@@ -3702,7 +3702,7 @@ async function add_new_case_button_click(p_input)
             </div>
             <div id="mmria_dialog8" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                 <div class="modal-body">
-                    <p><strong>Reporting Jurisdiction:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p><strong>Reporting Jurisdiction:</strong> ${app_get_lookup_value_to_display("state", new_state_of_death.value)}</p>
                     <p><strong>Reporting Year:</strong> ${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
                     
                     <p class="d-flex align-items-start mb-0">
