@@ -1114,8 +1114,8 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
-    //result.tracking.case_status.overall_case_status = 1;
-    //result.tracking.case_status.abstraction_begin_date = convert_date_to_storage_format(new Date());
+    result.tracking.admin_info.status = "Incomplete";
+    result.tracking.admin_info.steve_transfer = 2;
 
     if (g_jurisdiction_list.length > 0) 
     {
