@@ -10,7 +10,11 @@ public sealed class c_de_identifier
     string metadata_version;
     mmria.common.couchdb.DBConfigurationDetail db_config = null;
     HashSet<string> de_identified_set = new HashSet<string>();
-    HashSet<string> date_offset_set = new HashSet<string>();
+    HashSet<string> date_offset_set = new HashSet<string>()
+    {
+        "prenatal/routine_monitoring/date_and_time",
+        "er_visit_and_hospital_medical_records/vital_signs/date_and_time"
+    };
     int dateoffset;
     
     public c_de_identifier 
