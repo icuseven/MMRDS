@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace mmria.server.utils;
@@ -15,7 +16,7 @@ public sealed class c_de_identifier
         "prenatal/routine_monitoring/date_and_time",
         "er_visit_and_hospital_medical_records/vital_signs/date_and_time"
     };
-    int dateoffset;
+    int date_offset_days;
     
     public c_de_identifier 
     (
@@ -27,7 +28,7 @@ public sealed class c_de_identifier
         this.case_item_json = p_case_item_json;
         metadata_version = p_metadata_version;
         db_config = _db_config;
-        dateoffset = new Random().Next(20000, 20100);
+        date_offset_days = -1 * new Random().Next(20000, 20100);
     }
     public async Task<string> executeAsync()
     {
@@ -74,7 +75,9 @@ public sealed class c_de_identifier
 
             foreach (string path in de_identified_set) 
             {
-                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
+
+                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path, path.AsSpan());
+                
                 /*
                 if(!is_fully_de_identified)
                 {
@@ -151,7 +154,7 @@ public sealed class c_de_identifier
     }
 
 
-    public bool set_de_identified_value (dynamic p_object, string p_path)
+    public bool set_de_identified_value (dynamic p_object, string p_path, ReadOnlySpan<char> full_path)
     {
         bool result = false;
         if (p_path == "geocode_quality_indicator")
@@ -206,15 +209,24 @@ public sealed class c_de_identifier
                                     result = true;
                                 }
                             }
-                            else if (val is System.DateTime)
+                            else if (val is System.DateTime date_time_val)
                             {
                                 System.Console.WriteLine("found a date: {0}", p_path);
-                                //dictionary_object [path_list [0]] = DateTime.MinValue;
-                                // if (dictionary_object.ContainsKey(p_path[0]))
-                                //   dictionary_object [path_list [0]] = dictionary_object.TryGetValue() + (-dateoffset);
-                                // else
-                                  dictionary_object [path_list [0]] = null;
-                                result = true;
+
+                                if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    dictionary_object [path_list [0]] = date_time_val.AddDays(date_offset_days);
+                                    result = true;
+                                }
+                                else
+                                {
+                                    //dictionary_object [path_list [0]] = DateTime.MinValue;
+                                    // if (dictionary_object.ContainsKey(p_path[0]))
+                                    //   dictionary_object [path_list [0]] = dictionary_object.TryGetValue() + (-dateoffset);
+                                    // else
+                                    dictionary_object [path_list [0]] = null;
+                                    result = true;
+                                }
                             }
                             else
                             {
@@ -241,8 +253,7 @@ public sealed class c_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, path_list [0]);
-
+                            result = set_de_identified_value (item, path_list [0], full_path);
                         }
                     }
                     else
@@ -283,7 +294,7 @@ public sealed class c_de_identifier
                     if (val != null)
                     {
 
-                        result = set_de_identified_value (val, string.Join("/", new_path));
+                        result = set_de_identified_value (val, string.Join("/", new_path), full_path);
                     }
                     else
                     {
@@ -300,7 +311,7 @@ public sealed class c_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, string.Join("/", path_list));
+                            result = set_de_identified_value (item, string.Join("/", path_list), full_path);
 
                         }
                     }
