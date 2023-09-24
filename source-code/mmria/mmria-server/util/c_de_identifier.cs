@@ -184,7 +184,7 @@ public sealed class c_de_identifier
                         if (val != null)
                         {
                             // set the de-identified value
-                            if (val is IDictionary<string, object>)
+                         if (val is IDictionary<string, object>)
                             {
                                 //System.Console.WriteLine ("This should not happen. {0}", p_path);
                             }
@@ -203,6 +203,20 @@ public sealed class c_de_identifier
                                     dictionary_object [path_list [0]] = "de-identified";
                                     result = true;
                                 }
+                                else if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    var date_arr = val.ToString().Split("-");
+                                    var date = new DateOnly
+                                    (
+                                        int.Parse(date_arr[0]),
+                                        int.Parse(date_arr[1]),
+                                        int.Parse(date_arr[2])
+                                    );
+
+                                    dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
+                                    result = true;
+                                }
+                                
                                 else
                                 {
                                     dictionary_object [path_list [0]] = null;
