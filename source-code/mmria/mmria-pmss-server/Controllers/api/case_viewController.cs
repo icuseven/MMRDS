@@ -155,7 +155,7 @@ public sealed class case_viewController: ControllerBase
             Console.WriteLine(ex);
         }
 
-        return $"{prefix_array[0]}-{prefix_array}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
+        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 } 
