@@ -12,6 +12,12 @@ public sealed class c_cdc_de_identifier
 
     string metadata_version;
     HashSet<string> de_identified_set = new HashSet<string>();
+     HashSet<string> date_offset_set = new HashSet<string>()
+    {
+        "prenatal/routine_monitoring/date_and_time",
+        "er_visit_and_hospital_medical_records/vital_signs/date_and_time"
+    };
+    int date_offset_days;
 
     mmria.server.model.actor.ScheduleInfoMessage scheduleInfo;
 
@@ -27,7 +33,7 @@ public sealed class c_cdc_de_identifier
         this.case_item_json = p_case_item_json;
         this.prefix = p_prefix;
         metadata_version = p_scheduleInfo.version_number;
-
+        date_offset_days = -1 * new Random().Next(20000, 20100);
         db_config = new()
         {
             url = p_scheduleInfo.couch_db_url,
@@ -210,6 +216,19 @@ public sealed class c_cdc_de_identifier
                                 )
                                 {
                                     dictionary_object [path_list [0]] = "de-identified";
+                                    result = true;
+                                }
+                                else if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    var date_arr = val.ToString().Split("-");
+                                    var date = new DateOnly
+                                    (
+                                        int.Parse(date_arr[0]),
+                                        int.Parse(date_arr[1]),
+                                        int.Parse(date_arr[2])
+                                    );
+
+                                    dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
                                     result = true;
                                 }
                                 else
