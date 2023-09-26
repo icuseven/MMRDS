@@ -11,4 +11,10 @@ public sealed class _usersController : Controller
         return View();
     }
 
+
+    public IActionResult FormManager()
+    {
+        return View();
+    }
+
 }
