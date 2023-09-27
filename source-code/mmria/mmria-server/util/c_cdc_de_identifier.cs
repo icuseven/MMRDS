@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace mmria.server.utils;
@@ -95,7 +96,7 @@ public sealed class c_cdc_de_identifier
 
             foreach (string path in de_identified_set) 
             {
-                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
+                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path, path.AsSpan());
                 /*
                 if(!is_fully_de_identified)
                 {
@@ -167,7 +168,7 @@ public sealed class c_cdc_de_identifier
     }
 
 
-    public bool set_de_identified_value (dynamic p_object, string p_path)
+    public bool set_de_identified_value (dynamic p_object, string p_path, ReadOnlySpan<char> full_path)
     {
 
         bool result = false;
@@ -218,17 +219,45 @@ public sealed class c_cdc_de_identifier
                                     dictionary_object [path_list [0]] = "de-identified";
                                     result = true;
                                 }
+                                else if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    var date_arr = val.ToString().Split("-");
+                                    var date = new DateOnly
+                                    (
+                                        int.Parse(date_arr[0]),
+                                        int.Parse(date_arr[1]),
+                                        int.Parse(date_arr[2])
+                                    );
+
+                                    dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
+                                    result = true;
+                                }
                                 else
                                 {
                                     dictionary_object [path_list [0]] = null;
                                     result = true;
                                 }
                             }
-                            else if (val is System.DateTime)
+                            else if (val is System.DateTime date_time_val)
                             {
-                                //dictionary_object [path_list [0]] = DateTime.MinValue;
-                                dictionary_object [path_list [0]] = null;
-                                result = true;
+                                // //dictionary_object [path_list [0]] = DateTime.MinValue;
+                                // dictionary_object [path_list [0]] = null;
+                                // result = true;
+                                if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    dictionary_object [path_list [0]] = date_time_val.AddDays(date_offset_days);
+                                    result = true;
+                                }
+                                else
+                                {
+                                    //dictionary_object [path_list [0]] = DateTime.MinValue;
+                                    // if (dictionary_object.ContainsKey(p_path[0]))
+                                    //   dictionary_object [path_list [0]] = dictionary_object.TryGetValue() + (-dateoffset);
+                                    // else
+                                    dictionary_object [path_list [0]] = null;
+                                    result = true;
+                                }
+
                             }
                             else
                             {
@@ -255,7 +284,7 @@ public sealed class c_cdc_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, path_list [0]);
+                            result = set_de_identified_value (item, path_list [0], full_path);
 
                         }
                     }
@@ -297,7 +326,7 @@ public sealed class c_cdc_de_identifier
                     if (val != null)
                     {
 
-                        result = set_de_identified_value (val, string.Join("/", new_path));
+                        result = set_de_identified_value (val, string.Join("/", new_path), full_path);
                     }
                     else
                     {
@@ -314,7 +343,7 @@ public sealed class c_cdc_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, string.Join("/", path_list));
+                            result = set_de_identified_value (item, string.Join("/", path_list), full_path);
 
                         }
                     }
