@@ -341,8 +341,9 @@ function form_render(
                         <td class="td">${item.birth_order}</td>
                         <td class="td">${item.record_identification!= null && item.record_identification.time_of_delivery != null ? item.record_identification.time_of_delivery: ""}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="g_duplicate_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -414,8 +415,9 @@ function form_render(
                         </td>
                         <td class="td">${pregStatus}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="g_duplicate_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -487,8 +489,9 @@ function form_render(
                         <td class="td">${providerType}</td>
                         <td class="td">${pregnancyStatus}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="g_duplicate_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -548,8 +551,9 @@ function form_render(
                         </td>
                         <td class="td">${transportReason}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="g_duplicate_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>
                 `);
@@ -614,8 +618,9 @@ function form_render(
                         <td class="td">${interviewType}</td>
                         <td class="td">${relationshipToDeceased}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="g_duplicate_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
