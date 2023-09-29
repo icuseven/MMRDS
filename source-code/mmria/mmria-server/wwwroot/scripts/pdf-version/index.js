@@ -8,6 +8,7 @@ let g_writeText;
 let g_record_number;
 let g_show_hidden = false;
 let g_type_output;
+let g_identified_message = '';
 
 $(function () {//http://www.w3schools.com/html/html_layout.asp
 	'use strict';
@@ -58,7 +59,8 @@ async function create_print_version
     p_type_output,
     p_number,
     p_metadata_summary,
-    p_show_hidden
+    p_show_hidden,
+    p_is_de_identified = false
 ) 
 {
 
@@ -78,7 +80,7 @@ async function create_print_version
 	g_section_name = p_section;
 	g_metadata_summary = p_metadata_summary;
 	g_record_number = p_number;
-
+  console.log(p_is_de_identified);
 	if 
     (
         p_show_hidden != null && 
@@ -87,6 +89,10 @@ async function create_print_version
     {
 		g_show_hidden = true;
 	}
+  if(p_is_de_identified)
+  {
+    g_identified_message = '*Graph dates have been altered to preserve decedent confidentiality.';
+  }
 
 	let p_ctx = {
 		metadata: p_metadata,
@@ -99,7 +105,8 @@ async function create_print_version
 		is_grid_item: false,
 		createdBy: p_data.created_by,
 		groupLevel: 0,
-		p_data: p_data
+		p_data: p_data,
+    p_chart_message: g_identified_message
 	};
 
 	// console.log(' let p_ctx = ', p_ctx);
@@ -808,7 +815,7 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
-function doChart2(p_id_prefix, chartData, chartTitle) {
+function doChart2(p_id_prefix, chartData, chartTitle, chartMessage) {
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
 
@@ -856,6 +863,10 @@ function doChart2(p_id_prefix, chartData, chartTitle) {
 					}
 				},
 				x: {
+          title: {
+            display: true,
+            text: chartMessage
+          },
 					ticks: {
 						font: {
 							size: 26,
@@ -2709,7 +2720,7 @@ function print_pdf_render_content(ctx) {
 				let imgName = (typeof ctx.multiFormIndex == 'undefined')
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
-				retImg = doChart2(imgName, optData, ctx.metadata.prompt);
+				retImg = doChart2(imgName, optData, ctx.metadata.prompt, ctx.p_chart_message);
 
 				chartBody.push
                 (

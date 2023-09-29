@@ -1,4 +1,4 @@
-function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
+function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx, p_is_de_identified = false)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 	
@@ -41,10 +41,13 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_post_html_render.push("axis: {");
         p_post_html_render.push("x: {");
         p_post_html_render.push("type: 'timeseries',");
-		p_post_html_render.push("localtime: true,");
-		p_post_html_render.push("label: {");
-		p_post_html_render.push(" position: 'outer-right',");
-		p_post_html_render.push("},");
+        p_post_html_render.push("localtime: true,");
+        p_post_html_render.push("label: {");
+        if(p_is_de_identified) {
+          p_post_html_render.push("text: '*Graph dates have been altered to preserve decedent confidentiality.',");
+        }
+        p_post_html_render.push(" position: 'outer-center',");
+        p_post_html_render.push("},");
         p_post_html_render.push("tick: {");
         if
         (
