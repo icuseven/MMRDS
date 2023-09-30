@@ -1,59 +1,27 @@
-
-var g_policy_values = null;
-var g_jurisdiction_tree = null;
-var g_user_role_jurisdiction = null;
-var g_current_u_id = null;
-var g_jurisdiction_list = [];
-
-let g_managed_jurisdiction_set = {}
-
-var g_ui = { 
-	user_summary_list:[],
-	user_list:[],
-	data:null,
-	url_state: {
-    selected_form_name: null,
-    selected_id: null,
-    selected_child_id: null,
-    path_array : []
-
-  }
-};
-
-var $$ = {
- is_id: function(value){
-   // 2016-06-12T13:49:24.759Z
-    if(value)
-    {
-      let test = value.match(/^\d+-\d+-\d+T\d+:\d+:\d+.\d+Z$/);
-      return (test)? true : false;
-    }
-    else
-    {
-        return false;
-    }
-  },
-  add_new_user: function(p_name, p_password)
-  {
-	  return {
-		"_id": "org.couchdb.user:" + p_name,
-		"password": p_password,
-		"iterations": 10,
-		"name": p_name,
-		"roles": [  ],
-		"type": "user",
-		"derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
-		"salt": "510427706d0deb511649021277b2c05d"
-		};
-  }
-};
+var g_form_access_list = null;
 
 window.onload = main;
 
 async function main()
 {
 
+	await get_form_access_list();
+
 	render();
+}
+
+
+
+async function get_form_access_list()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/_users/GetFormAccess';
+
+	const response = await $.ajax
+	({
+			url: metadata_url
+	});
+
+	g_form_access_list = response;
 }
 
 
@@ -62,7 +30,9 @@ function render()
 	const el = document.getElementById("form_content_id");
 
 
-	el.innerHTML = `
+	result = [];
+	
+	result.push(`
 	
 	<table border=1>
 	<tr style="background-color: #CCCCCC;" align=center>
@@ -75,153 +45,46 @@ function render()
 		<th>Committee Member</th>
 		<th>Vital Records Office</th>
 	</tr>
-	<tr>
-		<td valign=top>Tracking(q1-9)</td>
-		<td> 
-			<div>View + Edit</div>
-		</td>
-		<td>
-			<div>View</div>
-		</td>
-		<td>
-			<div>View</div>
-		</td>
-		<td>
-			<div>Not Visible</div>
-		</td>
-	</tr>
-	<tr>
-		<td valign=top>Demog (q10-22)</td>
-		<td> 
-			<div>View + Edit</div>
-		</td>
-		<td>
-			<div>View</div>
-		</td>
-		<td>
-			<div>View</div>
-		</td>
-		<td>
-			<div>Not Visible</div>
-		</td>
-	</tr>
-	<tr>
-	<td valign=top>TA - Case Confirmation</td>
-	<td> 
-		<div>View</div>
-	</td>
-	<td>
-		<div>View</div>
-	</td>
-	<td>
-		<div>View</div>
-	</td>
-	<td>
-		<div>Not Visible</div>
-	</td>
-</tr>
-	</table>
-
-	<br/>
-
-	<table border=1>
-		<tr style="background-color: #CCCCCC;" align=center>
-			<th colspan=5>Edit Role Access</th>
-		</tr>
-		<tr style="background-color: #CCCCCC;">
-			<th>Form / Role Panel</th>
-			<th>Abstractor</th>
-			<th>Analyst</th>
-			<th>Committee Member</th>
-			<th>Vital Records Office</th>
-		</tr>
-		<tr>
-			<td valign=top>Tracking(q1-9)</td>
-			<td> 
-				<div>View + Edit</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>View</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>View</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>Not Visible</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-		</tr>
-		<tr>
-			<td valign=top>Demog (q10-22)</td>
-			<td> 
-				<div>View + Edit</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>View</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>View</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-			<td>
-				<div>Not Visible</div>
-				<input type=checkbox /> View <br/>
-				<input type=checkbox /> Edit <br/>
-				<input type=checkbox /> Not Visible <br/>
-			</td>
-		</tr>
-		<tr>
-		<td valign=top>TA - Case Confirmation</td>
-		<td> 
-			<div>View</div>
-			<input type=checkbox /> View <br/>
-			<input type=checkbox /> Edit <br/>
-			<input type=checkbox /> Not Visible <br/>
-		</td>
-		<td>
-			<div>View</div>
-			<input type=checkbox /> View <br/>
-			<input type=checkbox /> Edit <br/>
-			<input type=checkbox /> Not Visible <br/>
-		</td>
-		<td>
-			<div>View</div>
-			<input type=checkbox /> View <br/>
-			<input type=checkbox /> Edit <br/>
-			<input type=checkbox /> Not Visible <br/>
-		</td>
-		<td>
-			<div>Not Visible</div>
-			<input type=checkbox /> View + Edit <br/>
-			<input type=checkbox /> Edit <br/>
-			<input type=checkbox /> Not Visible <br/>
-		</td>
-	</tr>
-		</table>
+`);
 	
+	for(const i in g_form_access_list.access_list)
+	{
+		result.push(render_item(g_form_access_list.access_list[i]))
+	}
+
+	result.push(`
 	
-	`;
+</table>
+
+<br/>
+
+
+`);
+
+	el.innerHTML = result.join("");
 }
 
+
+function render_item(p_item)
+{
+	return `
+	<tr>
+		<td valign=top>${p_item.form_path}</td>
+		<td align=center> 
+			<div>${p_item.abstractor}</div>
+		</td>
+		<td align=center>
+			<div>${p_item.analyst}</div>
+		</td>
+		<td align=center>
+			<div>${p_item.committee_member}</div>
+		</td>
+		<td align=center>
+			<div>${p_item.vital_records_office}</div>
+		</td>
+	</tr>
+	`;
+}
 
 function load_values()
 {
@@ -235,113 +98,8 @@ function load_values()
 
 }
 
-function load_curent_user_role_jurisdiction()
-{
-
-  /*            
-  int skip = 0,
-  int take = 25,
-  string sort = "by_date_created",
-  string search_key = null,
-  bool descending = false
-  */
-
-	$.ajax
-    ({
-    url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
-    headers: {          
-      Accept: "text/plain; charset=utf-8",         
-      "Content-Type": "text/plain; charset=utf-8"   
-    } 
-	})
-    .done(function(response) 
-    {
-        g_jurisdiction_list = []
-
-        if(response)
-        {
-          for(var i in response.rows)
-          {
-
-            var current_date = new Date();
-            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
-            var value = response.rows[i].value;
-
-            var diffDays = 0;
-            var effective_start_date = "";
-            var effective_end_date = "never";
-
-            if(value.effective_start_date && value.effective_start_date != "")
-            {
-                effective_start_date = value.effective_start_date.split('T')[0];
-            }
-
-            if(value.effective_end_date && value.effective_end_date != "")
-            {
-                effective_end_date = value.effective_end_date.split('T')[0];
-                diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
-            }
 
 
-            if(diffDays < 0)
-            {
-                role_list_html.push("<td class='td'>false</td>");
-            }
-            else
-            {
-                g_jurisdiction_list.push(value);
-                if
-                (
-                    value.role_name == "jurisdiction_admin" 
-                )
-                {
-                    g_managed_jurisdiction_set[value.jurisdiction_id] = true;
-                }
-                else if
-                (
-                    value.role_name == "installation_admin"
-                )
-                {
-                    if(value.jurisdiction_id == null)
-                    {
-                        g_managed_jurisdiction_set["/"] = true;
-                    }
-                    else
-                    {
-                        g_managed_jurisdiction_set[value.jurisdiction_id] = true;
-                    }
-                }
-            }
-
-
-          }
-            
-        }
-      
-
-        load_jurisdictions()
-	});
-}
-
-
-function load_jurisdictions()
-{
-	var metadata_url = location.protocol + '//' + location.host + '/api/jurisdiction_tree';
-
-	$.ajax
-	({
-			url: metadata_url
-	}).done(function(response) 
-	{
-
-			g_jurisdiction_tree = response;
-
-			load_user_jurisdictions();
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_uid).join("");
-
-	});
-}
 
 
 function load_user_jurisdictions()

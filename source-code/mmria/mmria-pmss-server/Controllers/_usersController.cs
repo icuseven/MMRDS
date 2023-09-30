@@ -62,6 +62,19 @@ public sealed class _usersController : Controller
 
                 result.last_updated_by = "system";
                 result.date_last_updated = DateTime.UtcNow;
+
+                result.access_list.Add(new FormAccess() { form_path = "/tracking", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/demographic", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/outcome", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/cause_of_death", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/preparer_remarks", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/committee_review", abstractor="view", analyst="view", committee_member="view, edit", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/vro_case_determination", abstractor="view", analyst="view", committee_member="view", vital_records_office="view, edit" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_dc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_bc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_fetaldc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/amss_tracking", abstractor="no_access", analyst="no_access", committee_member="no_access", vital_records_office="view, edit" });
+
             }
             else
             {
