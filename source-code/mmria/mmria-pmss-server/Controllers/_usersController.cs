@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
@@ -51,6 +52,22 @@ public sealed class _usersController : Controller
             save_response_from_server = await document_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<FormAccessSpecification>(save_response_from_server);
         }
+        catch(System.Net.WebException ex)
+        {
+            if(ex.Message.IndexOf("404") > -1)
+            {
+                result._id = "form-access-list";
+                result.created_by = "system";
+                result.date_created = DateTime.UtcNow;
+
+                result.last_updated_by = "system";
+                result.date_last_updated = DateTime.UtcNow;
+            }
+            else
+            {
+              Console.WriteLine(ex);
+            }
+        }
         catch(Exception ex)
         {
             //result.error_description = ex.ToString();
@@ -69,6 +86,27 @@ public sealed class _usersController : Controller
     {
 
         mmria.common.model.couchdb.document_put_response result = null;
+
+        if(request._id != "form-access-list")
+        {
+            result = new mmria.common.model.couchdb.document_put_response()
+            {
+                error_description = $"invalid request._id: found {request._id}"
+            };
+            return Json(result);
+        }
+
+        var userName = "";
+        if (User.Identities.Any(u => u.IsAuthenticated))
+        {
+            userName = User.Identities.First(
+                u => u.IsAuthenticated && 
+                u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+        }
+
+        request.last_updated_by = userName;
+        request.date_last_updated = DateTime.UtcNow;
+
 
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
