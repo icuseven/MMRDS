@@ -73,7 +73,7 @@ public sealed class _usersController : Controller
                 result.access_list.Add(new FormAccess() { form_path = "/ije_dc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
                 result.access_list.Add(new FormAccess() { form_path = "/ije_bc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
                 result.access_list.Add(new FormAccess() { form_path = "/ije_fetaldc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/amss_tracking", abstractor="no_access", analyst="no_access", committee_member="no_access", vital_records_office="view, edit" });
+                result.access_list.Add(new FormAccess() { form_path = "/amss_tracking", abstractor="view, edit", analyst="view", committee_member="view, edit", vital_records_office="no_access" });
 
             }
             else
