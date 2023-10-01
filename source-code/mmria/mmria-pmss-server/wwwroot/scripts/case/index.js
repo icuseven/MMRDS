@@ -36,6 +36,10 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
 var g_record_id_list = {};
+var g_form_access_list = new Map();
+var role_set = new Set();
+
+
 const g_charts = new Map();
 const g_chart_data = new Map();
 var g_case_narrative_is_updated = false;
@@ -1517,6 +1521,13 @@ async function load_and_set_data()
         url: metadata_url,
     });
 
+    const form_access_response = await get_form_access_list();
+
+    for(const item of form_access_response.access_list)
+    {
+        
+        g_form_access_list.set(item.form_path.substr(1), item);
+    }
 
     g_jurisdiction_tree = jurisdiction_tree;
 
@@ -1537,7 +1548,9 @@ async function load_and_set_data()
     g_user_role_jurisdiction_list = [];
     for (let i in my_role_list_response.rows) 
     {
+        
         let value = my_role_list_response.rows[i].value;
+        role_set.add(value.role_name);
         if(value.role_name=="abstractor")
         {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
@@ -7232,8 +7245,14 @@ function arc_prenatal_care_dlnm_gestation()
 }
 
 
-//mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+async function get_form_access_list()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/_users/GetFormAccess';
 
-//mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+	const response = await $.ajax
+	({
+			url: metadata_url
+	});
 
-//mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+	return response;
+}

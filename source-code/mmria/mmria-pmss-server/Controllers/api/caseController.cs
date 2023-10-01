@@ -45,7 +45,7 @@ public sealed class caseController: ControllerBase
         db_config = configuration.GetDBConfig(host_prefix);
     }
     
-    [Authorize(Roles  = "abstractor, data_analyst")]
+    [Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
     [HttpGet]
     public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
     { 
@@ -85,7 +85,7 @@ public sealed class caseController: ControllerBase
 
 
 
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor, committee_member, vro")]
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (

@@ -19,7 +19,7 @@ using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server;
 
-[Authorize(Roles  = "abstractor, data_analyst")]
+[Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
 [Route("api/[controller]")]
 public sealed class case_viewController: ControllerBase 
 {  

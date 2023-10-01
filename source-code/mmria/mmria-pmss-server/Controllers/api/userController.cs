@@ -35,7 +35,7 @@ public sealed class userController: ControllerBase
         db_config = configuration.GetDBConfig(host_prefix);
     }
     
-    [Authorize(Roles  = "abstractor,data_analyst")]
+    [Authorize(Roles  = "abstractor,data_analyst,committee_member,vro")]
     [Route("my-user")]
     [HttpGet]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> GetMyUser() 

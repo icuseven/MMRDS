@@ -9,7 +9,7 @@ using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server.Controllers;
     
-[Authorize(Roles = "installation_admin,jurisdiction_admin")]
+
 public sealed class _usersController : Controller
 {
     mmria.common.couchdb.OverridableConfiguration configuration;
@@ -28,17 +28,21 @@ public sealed class _usersController : Controller
 
         db_config = configuration.GetDBConfig(host_prefix);
     }
+
+    [Authorize(Roles = "installation_admin,jurisdiction_admin")]
     public IActionResult Index()
     {
         return View();
     }
 
 
+    [Authorize(Roles = "installation_admin,jurisdiction_admin")]
     public IActionResult FormManager()
     {
         return View();
     }
 
+    [Authorize(Roles = "installation_admin,jurisdiction_admin, abstractor, data_analyst, committee_member, vro")]
     public async Task<JsonResult> GetFormAccess()
     {
         var result = new FormAccessSpecification();
@@ -63,17 +67,17 @@ public sealed class _usersController : Controller
                 result.last_updated_by = "system";
                 result.date_last_updated = DateTime.UtcNow;
 
-                result.access_list.Add(new FormAccess() { form_path = "/tracking", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/demographic", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/outcome", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/cause_of_death", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/preparer_remarks", abstractor="view, edit", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/committee_review", abstractor="view", analyst="view", committee_member="view, edit", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/vro_case_determination", abstractor="view", analyst="view", committee_member="view", vital_records_office="view, edit" });
-                result.access_list.Add(new FormAccess() { form_path = "/ije_dc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/ije_bc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/ije_fetaldc", abstractor="view", analyst="view", committee_member="view", vital_records_office="no_access" });
-                result.access_list.Add(new FormAccess() { form_path = "/amss_tracking", abstractor="view, edit", analyst="view", committee_member="view, edit", vital_records_office="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/tracking", abstractor="view, edit", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/demographic", abstractor="view, edit", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/outcome", abstractor="view, edit", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/cause_of_death", abstractor="view, edit", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/preparer_remarks", abstractor="view, edit", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/committee_review", abstractor="view", data_analyst="view", committee_member="view, edit", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/vro_case_determination", abstractor="view", data_analyst="view", committee_member="view", vro="view, edit" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_dc", abstractor="view", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_bc", abstractor="view", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/ije_fetaldc", abstractor="view", data_analyst="view", committee_member="view", vro="no_access" });
+                result.access_list.Add(new FormAccess() { form_path = "/amss_tracking", abstractor="view, edit", data_analyst="view", committee_member="view, edit", vro="no_access" });
 
             }
             else
@@ -150,9 +154,9 @@ public sealed class _usersController : Controller
 
         public string form_path { get; set; }
         public string abstractor { get; set; }
-        public string analyst { get; set; }
+        public string data_analyst { get; set; }
         public string committee_member { get; set; }
-        public string vital_records_office { get; set; }
+        public string vro { get; set; }
     }
 
     public sealed class FormAccessSpecification

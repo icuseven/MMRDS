@@ -74,13 +74,13 @@ function render_item(p_item)
 			<div>${p_item.abstractor}</div>
 		</td>
 		<td align=center>
-			<div>${p_item.analyst}</div>
+			<div>${p_item.data_analyst}</div>
 		</td>
 		<td align=center>
 			<div>${p_item.committee_member}</div>
 		</td>
 		<td align=center>
-			<div>${p_item.vital_records_office}</div>
+			<div>${p_item.vro}</div>
 		</td>
 	</tr>
 	`;
