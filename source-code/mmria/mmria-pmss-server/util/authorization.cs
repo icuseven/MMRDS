@@ -144,6 +144,11 @@ public sealed class authorization
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadJurisdiction));
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteJurisdiction));
                         break;
+                    case "vro":
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
+                        break;
                     
                 }
                 

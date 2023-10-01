@@ -829,7 +829,7 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/tracking">${get_header_listing_name(item, jurisdiction)}</a>
+        <td class="td"><a href="#/${i}/${case_listing_get_start_form()}">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
         <!--td class="td">${reviewDates}</td-->
@@ -928,7 +928,7 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${get_header_listing_name(item, jurisdiction)}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/${case_listing_get_start_form()}">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
         <!--td class="td" ${border_bottom_color}>${reviewDates}</td-->
@@ -1042,4 +1042,18 @@ function app_get_lookup_value_to_display(p_field_name, p_value)
     } );
 
     return result; 
+}
+
+function case_listing_get_start_form()
+{
+    if
+    (
+        role_set.size == 1 &&
+        role_set.has("vro")
+    )
+    {
+        return "amss_tracking"
+    }
+
+    return  "tracking";
 }

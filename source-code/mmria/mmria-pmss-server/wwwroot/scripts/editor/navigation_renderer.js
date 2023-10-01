@@ -105,7 +105,6 @@ function navigation_render(p_metadata, p_level, p_ui)
                     
                     if 
                     (
-                      child.type == 'form' &&
                       g_form_access_list.has(child.name)
                     )
                     {
@@ -116,7 +115,11 @@ function navigation_render(p_metadata, p_level, p_ui)
 
                       for(const key of Object.keys(form_access))
                       {
-                        if(form_access[key]!= "no_access")
+                        if
+                        (
+                          role_set.has(key) &&
+                          form_access[key]!= "no_access"
+                        )
                         {
                           show_form = true;
                           break;
