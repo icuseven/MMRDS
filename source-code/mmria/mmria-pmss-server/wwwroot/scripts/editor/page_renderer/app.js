@@ -1052,7 +1052,7 @@ function case_listing_get_start_form()
         role_set.has("vro")
     )
     {
-        return "amss_tracking"
+        return "vro_case_determination"
     }
 
     return  "tracking";
