@@ -91,7 +91,7 @@ async function create_print_version
 	}
   if(p_is_de_identified)
   {
-    g_identified_message = '*Graph dates have been altered to preserve decedent confidentiality.';
+    g_identified_message = '*Graph dates have been altered to preserve confidentiality.';
   }
 
 	let p_ctx = {

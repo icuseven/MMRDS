@@ -44,7 +44,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_post_html_render.push("localtime: true,");
         p_post_html_render.push("label: {");
         if(p_is_de_identified) {
-          p_post_html_render.push("text: '*Graph dates have been altered to preserve decedent confidentiality.',");
+          p_post_html_render.push("text: '*Graph dates have been altered to preserve confidentiality.',");
         }
         p_post_html_render.push(" position: 'outer-center',");
         p_post_html_render.push("},");
