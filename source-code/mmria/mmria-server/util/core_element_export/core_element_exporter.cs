@@ -222,6 +222,7 @@ public void Execute(mmria.server.export_queue_item queue_item)
 
     var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
 
+    if(Custom_Case_Id_List.Count == 0)
     try
     {
         string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
