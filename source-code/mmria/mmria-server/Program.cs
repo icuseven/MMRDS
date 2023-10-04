@@ -345,7 +345,7 @@ public sealed partial class Program
                     actor.provider = cluster
                     remote {
                         dot-netty.tcp {
-                            port = {{akka_port}} #let os pick random port
+                            port = {{akka_port}}
                             hostname = {{akka_ip_address}}
                         }
                     }
