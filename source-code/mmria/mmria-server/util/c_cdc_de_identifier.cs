@@ -221,16 +221,19 @@ public sealed class c_cdc_de_identifier
                                 }
                                 else if(date_offset_set.Contains(full_path.ToString()))
                                 {
-                                    var date_arr = val.ToString().Split("-");
-                                    var date = new DateOnly
-                                    (
-                                        int.Parse(date_arr[0]),
-                                        int.Parse(date_arr[1]),
-                                        int.Parse(date_arr[2])
-                                    );
+                                    if(!string.IsNullOrWhiteSpace(val.ToString()))
+                                    {
+                                        var date_arr = val.ToString().Split("-");
+                                        var date = new DateOnly
+                                        (
+                                            int.Parse(date_arr[0]),
+                                            int.Parse(date_arr[1]),
+                                            int.Parse(date_arr[2])
+                                        );
 
-                                    dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
-                                    result = true;
+                                        dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
+                                        result = true;
+                                    }
                                 }
                                 else
                                 {
