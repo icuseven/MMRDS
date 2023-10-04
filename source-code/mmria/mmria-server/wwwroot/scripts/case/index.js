@@ -1020,6 +1020,58 @@ function g_delete_grid_item_action
 
 }
 
+function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
+{
+    function clone(obj) 
+    {
+        if (null == obj || "object" != typeof obj) return obj;
+        let copy = obj.constructor();
+        for (var attr in obj) 
+        {
+            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
+        }
+        return copy;
+    }
+
+		const metadata = eval(p_metadata_path);
+		var index = p_object_path
+			.match(new RegExp("\\[\\d+\\]$"))[0]
+			.replace("[", "")
+			.replace("]", "");
+		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+
+		const original = eval(object_string)[p_index];
+
+        console.log("g_duplicate_record_item");
+        console.log(metadata);
+        console.log(original);
+        console.log(p_index);
+
+        const clo = clone(original);
+
+        console.log(clo);
+
+        /*
+		set_local_case(g_data, function () {
+			var post_html_call_back = [];
+			document.getElementById(metadata.name + "_id").innerHTML = page_render(
+				metadata,
+				eval(object_string),
+				g_ui,
+				p_metadata_path,
+				object_string,
+				"",
+				false,
+				post_html_call_back
+			).join("");
+			if (post_html_call_back.length > 0) {
+				eval(post_html_call_back.join(""));
+			}
+		});
+        */
+}
+
+
 function g_delete_record_item(p_object_path, p_metadata_path, p_index) 
 {
 		var metadata = eval(p_metadata_path);
