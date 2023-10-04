@@ -229,7 +229,7 @@ public sealed class c_de_identifier
                             }
                             else if (val is System.DateTime date_time_val)
                             {
-                                System.Console.WriteLine("found a date: {0}", p_path);
+                                //System.Console.WriteLine("found a date: {0}", p_path);
 
                                 if(date_offset_set.Contains(full_path.ToString()))
                                 {
