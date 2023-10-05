@@ -38,6 +38,7 @@ var g_other_specify_lookup = {};
 var g_record_id_list = {};
 const g_charts = new Map();
 const g_chart_data = new Map();
+const g_duplicate_path_set = new Set();
 var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
@@ -1051,6 +1052,15 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
 
         console.log(clo);
 
+        clone_multiform_object
+        (
+            metadata, 
+            {}, 
+            false,
+            original,
+            metadata.name
+        )
+
         /*
 		set_local_case(g_data, function () {
 			var post_html_call_back = [];
@@ -1559,6 +1569,12 @@ async function load_and_set_data()
         url: location.protocol + '//' + location.host + '/api/user/my-user',
     });
 
+    const duplicate_path_set_response = await $.ajax
+    ({
+        url: location.protocol + '//' + location.host + '/api/user/my-user',
+    });
+
+    g_duplicate_path_set
     
     g_user_name = my_user_response.name;
 
