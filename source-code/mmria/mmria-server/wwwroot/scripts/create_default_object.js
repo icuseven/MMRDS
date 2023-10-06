@@ -211,37 +211,16 @@ function clone_multiform_object
         clone_multiform_object
         (
             child, 
-            temp_object
+            temp_object,
+            p_create_grid,
+            p_from[child.name],
+            `${p_path}/${child.name}`
         );
       }
 
-      if(p_metadata.cardinality)
-      {
-        switch(p_metadata.cardinality)
-        {
-          case "+":
-          case "*":
-              if(p_create_grid)
-              {
-                p_parent[p_metadata.name] = [];
-                p_parent[p_metadata.name].push(temp_object);
-              }
-              else
-              {
-                p_parent[p_metadata.name] = [];
-              }
-              break;
-          case "?":
-          case "1":
-          default:
-              p_parent[p_metadata.name] = temp_object;
-            break;
-        }
-      }
-      else
-      {
+
         p_parent[p_metadata.name] = temp_object;
-      }
+      
 
       break;
 
@@ -253,7 +232,10 @@ function clone_multiform_object
         clone_multiform_object
         (
             child, 
-            p_parent[p_metadata.name]
+            p_parent[p_metadata.name],
+            p_create_grid,
+            p_from[child.name],
+            `${p_path}/${child.name}`
         );
       }
       break;
@@ -275,7 +257,11 @@ function clone_multiform_object
     case 'textarea':
     case 'html_area':
     case 'address':
-          if(p_metadata.default_value && p_metadata.default_value != "")
+        if(g_duplicate_path_set.has(p_path))
+          {
+            p_parent[p_metadata.name] = p_from;
+          }
+          else if(p_metadata.default_value && p_metadata.default_value != "")
           {
             p_parent[p_metadata.name] = new String(p_metadata.default_value);
           }
@@ -287,9 +273,14 @@ function clone_multiform_object
           {
             p_parent[p_metadata.name] = new String();
           }
+          
            break;
      case 'number':
-            if(p_metadata.default_value && p_metadata.default_value != "")
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+           else if(p_metadata.default_value && p_metadata.default_value != "")
             {
               p_parent[p_metadata.name] = new Number(p_metadata.default_value);
             }
@@ -299,7 +290,11 @@ function clone_multiform_object
             }
            break;
      case 'boolean':
-            if(p_metadata.default_value && p_metadata.default_value != "")
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+            else if(p_metadata.default_value && p_metadata.default_value != "")
             {
               p_parent[p_metadata.name] = new Boolean(p_metadata.default_value);
             }
@@ -310,7 +305,11 @@ function clone_multiform_object
             break;
     case 'list':
     case 'yes_no':
-        if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
+        if(g_duplicate_path_set.has(p_path))
+        {
+            p_parent[p_metadata.name] = p_from;
+        }
+        else if(p_metadata['is_multiselect'] && p_metadata.is_multiselect == true)
         {
           p_parent[p_metadata.name] = [];
         }
@@ -322,7 +321,11 @@ function clone_multiform_object
         break;
      case 'date':
      case 'datetime':
-            if(p_metadata.default_value && p_metadata.default_value != "")
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+            else if(p_metadata.default_value && p_metadata.default_value != "")
             {
               p_parent[p_metadata.name] = new Date(p_metadata.default_value);
             }
@@ -332,14 +335,35 @@ function clone_multiform_object
             }
             break;
     case 'time':
-           //p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
-          p_parent[p_metadata.name] = "";
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+            else
+            {
+                //p_parent[p_metadata.name] = new Date("2016-01-01T00:00:00.000Z");
+                p_parent[p_metadata.name] = "";
+            }
           break;
     case 'hidden':
-          p_parent[p_metadata.name] = "";
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+            else
+            {
+                p_parent[p_metadata.name] = "";
+            }
           break;
     case 'jurisdiction':
-          p_parent[p_metadata.name] = "/";
+            if(g_duplicate_path_set.has(p_path))
+            {
+                p_parent[p_metadata.name] = p_from;
+            }
+            else
+            {
+                p_parent[p_metadata.name] = "/";
+            }
           break;           
     case 'label':
     case 'button':
@@ -347,7 +371,7 @@ function clone_multiform_object
     case 'chart':
             break;
      default:
-          console.log("create_default_object not processed", p_metadata);
+          console.log("clone_multiform_object not processed", p_metadata);
        break;
   }
 

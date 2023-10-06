@@ -1023,6 +1023,7 @@ function g_delete_grid_item_action
 
 function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
 {
+    /*
     function clone(obj) 
     {
         if (null == obj || "object" != typeof obj) return obj;
@@ -1032,7 +1033,7 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
             if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
         }
         return copy;
-    }
+    }*/
 
 		const metadata = eval(p_metadata_path);
 		var index = p_object_path
@@ -1048,37 +1049,50 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
         console.log(original);
         console.log(p_index);
 
-        const clo = clone(original);
-
-        console.log(clo);
+        let clone = {};
 
         clone_multiform_object
         (
             metadata, 
-            {}, 
+            clone, 
             false,
             original,
             metadata.name
         )
 
-        /*
-		set_local_case(g_data, function () {
-			var post_html_call_back = [];
-			document.getElementById(metadata.name + "_id").innerHTML = page_render(
-				metadata,
-				eval(object_string),
-				g_ui,
-				p_metadata_path,
-				object_string,
-				"",
-				false,
-				post_html_call_back
-			).join("");
-			if (post_html_call_back.length > 0) {
-				eval(post_html_call_back.join(""));
-			}
-		});
-        */
+        console.log(clone[metadata.name]);
+
+
+        const multiform_path = p_object_path.substring(0, p_object_path.indexOf("["));
+        var form_array = eval(multiform_path);      
+        form_array.push(clone[metadata.name]);
+      
+        g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, metadata.name);
+      
+          save_case
+          (
+              g_data,
+              function () 
+              {
+                  var post_html_call_back = [];
+                  document.getElementById(metadata.name + '_id').innerHTML = page_render
+                  (
+                      metadata,
+                      form_array,
+                      g_ui,
+                      p_metadata_path,
+                      multiform_path,
+                      metadata.name,
+                      false,
+                      post_html_call_back
+                  ).join('');
+                  if (post_html_call_back.length > 0) 
+                  {
+                      eval(post_html_call_back.join(''));
+                  }
+              }
+          );
+         /* */
 }
 
 
@@ -1571,10 +1585,13 @@ async function load_and_set_data()
 
     const duplicate_path_set_response = await $.ajax
     ({
-        url: location.protocol + '//' + location.host + '/api/user/my-user',
+        url: location.protocol + '//' + location.host + '/Case/GetDuplicateMultiFormList',
     });
 
-    g_duplicate_path_set
+    for(const i of duplicate_path_set_response.field_list)
+    {
+        g_duplicate_path_set.add(i);
+    }
     
     g_user_name = my_user_response.name;
 
