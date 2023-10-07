@@ -123,12 +123,21 @@ function setup_file_list()
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
 
-                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_" + host_prefix + ".[mM][oO][rR]");
+                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2,9}.[mM][oO][rR]");
 
                 if (!patt.test(item.name.toLowerCase())) 
                 {
-                    g_validation_errors.push(`mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_${host_prefix}.mor`);
+                    g_validation_errors.push(`mor file name format incorrect. File name must be in 20##_Year_Month_Day_StateCode[2-9] format. (e.g. 2000_2021_01_01_${host_prefix}.mor`);
                 }
+
+                const underscore_split_arr = item.name.split("_");
+                const dot_split_arr = underscore_split_arr[underscore_split_arr.length -1].split(".");
+                
+                if (dot_split_arr[1] != host_prefix) 
+                {
+                    g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${dot_split_arr[1]} != ${host_prefix}`);
+                }
+
 
                 if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
                 {

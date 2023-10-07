@@ -1023,23 +1023,7 @@ function g_delete_grid_item_action
 
 function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
 {
-    /*
-    function clone(obj) 
-    {
-        if (null == obj || "object" != typeof obj) return obj;
-        let copy = obj.constructor();
-        for (var attr in obj) 
-        {
-            if (obj.hasOwnProperty(attr)) copy[attr] = obj[attr];
-        }
-        return copy;
-    }*/
-
 		const metadata = eval(p_metadata_path);
-		var index = p_object_path
-			.match(new RegExp("\\[\\d+\\]$"))[0]
-			.replace("[", "")
-			.replace("]", "");
 		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
 		const original = eval(object_string)[p_index];
@@ -1092,7 +1076,7 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
                   }
               }
           );
-         /* */
+
 }
 
 
