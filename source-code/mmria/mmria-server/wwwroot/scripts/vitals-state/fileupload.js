@@ -77,6 +77,11 @@ window.onload = function ()
     process_button.disabled = true;
 
     host_prefix = window.location.host.split("-")[0].toUpperCase();
+    if(host_prefix.indexOf(":") > -1)
+    {
+        const colon_split = host_prefix.split(":");
+        host_prefix = colon_split[0];
+    }
 
     const header = document.getElementById('upload-header-id');
     header.innerText = `Upload IJE Files for ${host_prefix} jurisdiction`;
@@ -133,7 +138,7 @@ function setup_file_list()
                 const underscore_split_arr = item.name.split("_");
                 const dot_split_arr = underscore_split_arr[underscore_split_arr.length -1].split(".");
                 
-                if (dot_split_arr[1] != host_prefix) 
+                if (dot_split_arr[0] != host_prefix) 
                 {
                     g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${dot_split_arr[1]} != ${host_prefix}`);
                 }
