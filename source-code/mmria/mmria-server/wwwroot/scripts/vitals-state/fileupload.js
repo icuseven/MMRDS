@@ -135,12 +135,15 @@ function setup_file_list()
                     g_validation_errors.push(`mor file name format incorrect. File name must be in 20##_Year_Month_Day_StateCode[2-9] format. (e.g. 2000_2021_01_01_${host_prefix}.mor`);
                 }
 
-                const underscore_split_arr = item.name.split("_");
-                const dot_split_arr = underscore_split_arr[underscore_split_arr.length -1].split(".");
-                
-                if (dot_split_arr[0] != host_prefix) 
+
+                const remove_extension = item.name.split(".");
+                const split_on_underscore = remove_extension[0].split("_");
+        
+                const state_name = split_on_underscore[split_on_underscore.Length -1];
+
+                if (state_name != host_prefix) 
                 {
-                    g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${dot_split_arr[1]} != ${host_prefix}`);
+                    g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${state_name} != ${host_prefix}`);
                 }
 
 
