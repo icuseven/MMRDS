@@ -17,7 +17,16 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	var chart_size = get_chart_size(style_object.control.style);
 	var chart_gen_name = "chart_" + convert_object_path_to_jquery_id(p_object_path);
 
-   
+   let translate_x = "-30";
+   if
+   (
+       p_metadata.x_type != null &&
+       p_metadata.x_type.toLowerCase() == 'datetime'
+   )
+   {
+        translate_x = "-25";
+   }
+
 
 	p_post_html_render.push(` g_charts['${chart_gen_name}'] = 
 	  c3.generate({
@@ -32,7 +41,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       onrendered: function()
       {
 		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-          .attr('transform', 'rotate(90)translate(0,0)');
+          .attr('transform', 'rotate(325)translate(${translate_x},0)');
       },`);
 
 
