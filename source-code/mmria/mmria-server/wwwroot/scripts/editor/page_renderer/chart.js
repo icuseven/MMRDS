@@ -32,7 +32,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       onrendered: function()
       {
 		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-          .attr('transform', 'rotate(325)translate(-25,0)');
+          .attr('transform', 'rotate(90)translate(0,0)');
       },`);
 
 
