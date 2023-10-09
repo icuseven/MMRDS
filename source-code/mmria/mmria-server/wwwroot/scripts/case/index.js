@@ -1023,59 +1023,62 @@ function g_delete_grid_item_action
 
 function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
 {
-		const metadata = eval(p_metadata_path);
-		var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+    const metadata = eval(p_metadata_path);
+    var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
-		const original = eval(object_string)[p_index];
+    const original = eval(object_string)[p_index];
+/*
+    console.log("g_duplicate_record_item");
+    console.log(metadata);
+    console.log(original);
+    console.log(p_index);
+    */
 
-        console.log("g_duplicate_record_item");
-        console.log(metadata);
-        console.log(original);
-        console.log(p_index);
+    let clone = {};
 
-        let clone = {};
+    clone_multiform_object
+    (
+        metadata, 
+        clone, 
+        false,
+        original,
+        metadata.name
+    )
 
-        clone_multiform_object
+    console.log(clone[metadata.name]);
+
+
+    const multiform_path = p_object_path.substring(0, p_object_path.indexOf("["));
+    var form_array = eval(multiform_path);      
+    form_array.push(clone[metadata.name]);
+    
+    g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, metadata.name);
+    
+        save_case
         (
-            metadata, 
-            clone, 
-            false,
-            original,
-            metadata.name
-        )
+            g_data,
+            function () 
+            {
+                var post_html_call_back = [];
+                document.getElementById(metadata.name + '_id').innerHTML = page_render
+                (
+                    metadata,
+                    form_array,
+                    g_ui,
+                    p_metadata_path,
+                    multiform_path,
+                    metadata.name,
+                    false,
+                    post_html_call_back
+                ).join('');
+                if (post_html_call_back.length > 0) 
+                {
+                    eval(post_html_call_back.join(''));
+                }
+            }
+        );
 
-        console.log(clone[metadata.name]);
-
-
-        const multiform_path = p_object_path.substring(0, p_object_path.indexOf("["));
-        var form_array = eval(multiform_path);      
-        form_array.push(clone[metadata.name]);
-      
-        g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, metadata.name);
-      
-          save_case
-          (
-              g_data,
-              function () 
-              {
-                  var post_html_call_back = [];
-                  document.getElementById(metadata.name + '_id').innerHTML = page_render
-                  (
-                      metadata,
-                      form_array,
-                      g_ui,
-                      p_metadata_path,
-                      multiform_path,
-                      metadata.name,
-                      false,
-                      post_html_call_back
-                  ).join('');
-                  if (post_html_call_back.length > 0) 
-                  {
-                      eval(post_html_call_back.join(''));
-                  }
-              }
-          );
+        $mmria.duplicate_multiform_dialog_click();
 
 }
 
