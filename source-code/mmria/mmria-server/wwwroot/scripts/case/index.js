@@ -1027,12 +1027,6 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
     var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
 
     const original = eval(object_string)[p_index];
-/*
-    console.log("g_duplicate_record_item");
-    console.log(metadata);
-    console.log(original);
-    console.log(p_index);
-    */
 
     let clone = {};
 
@@ -1044,9 +1038,6 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
         original,
         metadata.name
     )
-
-    console.log(clone[metadata.name]);
-
 
     const multiform_path = p_object_path.substring(0, p_object_path.indexOf("["));
     var form_array = eval(multiform_path);      
