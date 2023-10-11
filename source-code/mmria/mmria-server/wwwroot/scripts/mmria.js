@@ -1500,10 +1500,24 @@ var $mmria = function()
             const Button_style = [];
 
     
-            Title_Text.push("Duplicate");
+            Title_Text.push("Confirm Record Duplication");
             //Button_Text.push("Cancel");
-            Button_Text.push("Duplicate");
-            Description_Text.push("Do you wish to duplicate pre-specified data fields from the selected visit: (fill-in date) to a new blank visit?");
+            Button_Text.push("Duplicate Record");
+            Description_Text.push
+            (`
+                
+Confirm Record Duplication
+
+A duplicate of this record will be added:
+<br/>
+<br/>
+<ul>
+<li>Name and location information will be prefilled with the data from the original record.</li>
+<li>Date fields will remain blank.</li>
+</ul>
+<br/>
+Please update the duplicate record as applicable.
+            `);
             
             
             
@@ -1536,7 +1550,7 @@ var $mmria = function()
                     document.firstElementChild.appendChild(element);
                 }
 
-                element.style.width = "500px";
+                element.style.width = "520px";
                 element.style.transform = "translateY(0%)";
 
     
@@ -1546,7 +1560,7 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.duplicate_multiform_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog7" style="width: 300; height: 200px;" class="ui-dialog-content ui-widget-content" role="dialog">
+                    <div id="mmria_dialog7" style="width: 300; height: 260px;" class="ui-dialog-content ui-widget-content" role="dialog">
                         <div class="modal-body">
                                 <div >
                        ${Description_Text[0]}
