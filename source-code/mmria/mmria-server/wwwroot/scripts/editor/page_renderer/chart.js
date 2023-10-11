@@ -8,7 +8,14 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		  mpath='id='${p_metadata_path}' 
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
-			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'></div>
+            <table>
+            <tr align=center><td>${p_metadata.prompt}</td></tr>
+            <tr align=center><td>
+			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
+            
+            </div>
+            </td></tr>
+            </table>
 		</div>
 		`
 		
@@ -27,11 +34,12 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         translate_x = "-25";
    }
 
+   const computed_height = chart_size.height - 23;
 
 	p_post_html_render.push(` g_charts['${chart_gen_name}'] = 
 	  c3.generate({
 		size: {
-		height: ${chart_size.height}
+		height: ${computed_height}
 		, width: ${chart_size.width}
       },
 	  transition: {
@@ -40,8 +48,9 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       bindto: '#${convert_object_path_to_jquery_id(p_object_path)}_chart',
       onrendered: function()
       {
-		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-          .attr('transform', 'rotate(325)translate(${translate_x},0)');
+		const el = d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
+        el.attr('transform', 'rotate(325)translate(${translate_x},0)');
+
       },`);
 
 
@@ -258,8 +267,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_post_html_render.push("     .attr('x', d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').node().getBoundingClientRect().width / 2)");
     p_post_html_render.push("     .attr('y', 16)");
     p_post_html_render.push("     .attr('text-anchor', 'middle')");
-    p_post_html_render.push("     .style('font-size', '1.4em')");
-	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
+    p_post_html_render.push("     .style('font-size', '1.4em');");
+	//p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 	
 }
 
@@ -432,4 +441,12 @@ function update_charts(p_path)
            // console.log("here");
 
     }
+}
+
+function chart_onrendered()
+{
+    const el = d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
+
+    el.attr('transform', 'rotate(325)translate(${translate_x},0)');
+    el.innerText = '';
 }
