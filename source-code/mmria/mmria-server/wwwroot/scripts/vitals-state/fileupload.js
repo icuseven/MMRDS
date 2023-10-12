@@ -141,7 +141,7 @@ function setup_file_list()
         
                 const state_name = split_on_underscore[split_on_underscore.length -1];
 
-                if (state_name != host_prefix) 
+                if (state_name.toUpperCase() != host_prefix) 
                 {
                     g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${state_name} != ${host_prefix}`);
                 }
