@@ -1505,9 +1505,6 @@ var $mmria = function()
             Button_Text.push("Duplicate Record");
             Description_Text.push
             (`
-                
-Confirm Record Duplication
-
 A duplicate of this record will be added:
 <br/>
 <br/>
