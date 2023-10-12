@@ -134,6 +134,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     p_result.push("</div> <!-- end .content-intro -->");
 
+    let pagination_current_page = p_ui.case_view_request.page;
+    const pagination_number_of_pages = Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take);
+    if(pagination_number_of_pages == 0)
+    {
+        pagination_current_page = 0;
+    }
+
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
         p_result.push("<div class='col'>");
             p_result.push("<div class='row no-gutters'>");
@@ -142,9 +149,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 p_result.push("</p>");
                 p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
                 p_result.push("<p class='mb-0'>Viewing Page(s): ");
-                    p_result.push("<strong>" + p_ui.case_view_request.page + "</strong> ");
+                    p_result.push("<strong>" + pagination_current_page + "</strong> ");
                     p_result.push("of ");
-                    p_result.push("<strong>" + Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take) + "</strong>");
+                    p_result.push("<strong>" + pagination_number_of_pages + "</strong>");
                 p_result.push("</p>");
             p_result.push("</div>");
         p_result.push("</div>");
@@ -196,9 +203,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 p_result.push("</p>");
                 p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
                 p_result.push("<p class='mb-0'>Viewing Page(s): ");
-                    p_result.push("<strong>" + p_ui.case_view_request.page + "</strong> ");
+                    p_result.push("<strong>" + pagination_current_page + "</strong> ");
                     p_result.push("of ");
-                    p_result.push("<strong>" + Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take) + "</strong>");
+                    p_result.push("<strong>" + pagination_number_of_pages + "</strong>");
                 p_result.push("</p>");
             p_result.push("</div>");
         p_result.push("</div>");
