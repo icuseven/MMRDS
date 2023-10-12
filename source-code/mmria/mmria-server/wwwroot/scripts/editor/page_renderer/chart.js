@@ -9,7 +9,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
             <table>
-            <tr align=center><td>${p_metadata.prompt}</td></tr>
+            <tr align=center><th>${p_metadata.prompt}</th></tr>
             <tr align=center><td>
 			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
             
