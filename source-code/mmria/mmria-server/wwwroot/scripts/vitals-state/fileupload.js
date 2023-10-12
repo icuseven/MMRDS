@@ -139,7 +139,7 @@ function setup_file_list()
                 const remove_extension = item.name.split(".");
                 const split_on_underscore = remove_extension[0].split("_");
         
-                const state_name = split_on_underscore[split_on_underscore.Length -1];
+                const state_name = split_on_underscore[split_on_underscore.length -1];
 
                 if (state_name != host_prefix) 
                 {
