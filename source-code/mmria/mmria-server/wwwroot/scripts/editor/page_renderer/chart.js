@@ -8,8 +8,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		  mpath='id='${p_metadata_path}' 
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
-            <table>
-            <tr align=center><th>${p_metadata.prompt}</th></tr>
+            <table style='border-color:#e0e0e0;padding:5px;' border=1>
+            <tr align=center style='background-color:#b890bb;'><th>${p_metadata.prompt}</th></tr>
             <tr align=center><td>
 			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
             
