@@ -1,6 +1,6 @@
-var g_file_stat_list = [];
+var g_fileg_validation_errors_stat_list = [];
 var g_content_list = [];
-var g_validation_errors = [];
+var g_validation_errors = new Set();
 var g_host_state = null;
 var g_cdc_identifier_set = {};
 
@@ -111,7 +111,7 @@ function setup_file_list()
 
     if (g_file_stat_list.length < 2) 
     {
-        //g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
+        //g_validation_errors.add("need at least 2 IJE files. MOR and NAT or FET");
     }
 
     // process mor file 1st
@@ -128,11 +128,11 @@ function setup_file_list()
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
 
-                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2,9}.[mM][oO][rR]");
+                var patt = new RegExp("^20[0-9]{2}_20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2,9}.[mM][oO][rR]$");
 
                 if (!patt.test(item.name.toLowerCase())) 
                 {
-                    g_validation_errors.push(`mor file name format incorrect. File name must be in 20##_Year_Month_Day_StateCode[2-9] format. (e.g. 2000_2021_01_01_${host_prefix}.mor`);
+                    g_validation_errors.add(`mor file name format incorrect.\nFile name must be in 20##_Year_Month_Day_StateCode[2-9] format.\n(e.g. 2000_2021_01_01_${host_prefix}.mor)\nfound ${item.name}`);
                 }
 
 
@@ -143,13 +143,13 @@ function setup_file_list()
 
                 if (state_name.toUpperCase() != host_prefix) 
                 {
-                    g_validation_errors.push(`mor file name format incorrect. State Section doesn't match host ${state_name} != ${host_prefix}`);
+                    g_validation_errors.add(`mor file name format incorrect. State Section doesn't match host ${state_name} != ${host_prefix}`);
                 }
 
 
                 if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
                 {
-                    g_validation_errors.push("mor File Length !=" + mor_max_length);
+                    g_validation_errors.add("mor File Length !=" + mor_max_length);
                 }
                 else 
                 {
@@ -182,7 +182,7 @@ function setup_file_list()
                             duplicatesMessage += "\n" + Object.keys(counts)[k] + ', ' + Object.values(counts)[k]
                         }
 
-                        g_validation_errors.push("Duplicate CDC Identifier detected " + duplicatesMessage);
+                        g_validation_errors.add("Duplicate CDC Identifier detected " + duplicatesMessage);
                     }
                 }
             }
@@ -207,7 +207,7 @@ function setup_file_list()
                 g_content_list_array = g_content_list[i].split("\n");
                 if (!validate_length(g_content_list_array, nat_max_length)) 
                 {
-                    g_validation_errors.push("nat File Length !=" + nat_max_length);
+                    g_validation_errors.add("nat File Length !=" + nat_max_length);
                 }
 
                let Nat_Ids = validate_AssociatedNAT(g_content_list_array);
@@ -216,7 +216,7 @@ function setup_file_list()
                     let text = Nat_Ids[_i];
                     if(g_validation_errors.indexOf(text) < 0)
                     {
-                        g_validation_errors.push(Nat_Ids[_i]);
+                        g_validation_errors.add(Nat_Ids[_i]);
                     }
                }
             }
@@ -230,7 +230,7 @@ function setup_file_list()
 
                 if (!validate_length(g_content_list_array, fet_max_length)) 
                 {
-                    g_validation_errors.push("fet File Length !=" + fet_max_length);
+                    g_validation_errors.add("fet File Length !=" + fet_max_length);
                 }
 
                 let Fet_Ids = validate_AssociatedFET(g_content_list_array);
@@ -239,7 +239,7 @@ function setup_file_list()
                     let text = Fet_Ids[_i];
                     if(g_validation_errors.indexOf(text) < 0)
                     {
-                        g_validation_errors.push(Fet_Ids[_i]);
+                        g_validation_errors.add(Fet_Ids[_i]);
                     }
                 }
             }
@@ -258,7 +258,7 @@ function setup_file_list()
 
         ) 
         {
-            g_validation_errors.push("all IJE files must have same state");
+            g_validation_errors.add("all IJE files must have same state");
         }
         else 
         {
@@ -270,22 +270,22 @@ function setup_file_list()
     else
     {
         g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
-        //g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
+        //g_validation_errors.add("need at least 2 IJE files. MOR and NAT or FET");
     }
 
     if (!is_mor) 
     {
-        g_validation_errors.push("missing .MOR IJE file")
+        g_validation_errors.add("missing .MOR IJE file")
     }
 
     //if(!is_nat)
     //{
-    //    g_validation_errors.push("missing .NAT IJE file")
+    //    g_validation_errors.add("missing .NAT IJE file")
     //}
 
     //if(!is_fet)
     //{
-    //    g_validation_errors.push("missing .FET IJE file")
+    //    g_validation_errors.add("missing .FET IJE file")
     //}
 
     g_file_stat_list = temp;
@@ -380,12 +380,15 @@ function render_file_list()
     let out = document.getElementById('output');
     let button = document.getElementById('process');
 
-    if (g_validation_errors.length > 0) 
+    if (g_validation_errors.size > 0) 
     {
-        out.value = g_validation_errors.join("\n");
+        const list = []
+        g_validation_errors.forEach(i => list.push(i));
+        out.value = list.join("\n");
     }
     else 
     {
+        
         out.value = g_host_state + " ready to process";
         button.disabled = false;
     }
