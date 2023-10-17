@@ -38,7 +38,7 @@ public sealed class ije_messageController: ControllerBase
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
 
-        _config_id_configuration =  config_id_configuration;
+        config_id_configuration =  _config_id_configuration;
     }
     
     [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer")]
