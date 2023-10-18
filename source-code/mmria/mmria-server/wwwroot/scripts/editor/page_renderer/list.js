@@ -1201,7 +1201,14 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
 }
 
 
-function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
+function set_list_lookup
+(
+    p_list_lookup, 
+    p_name_to_value_lookup, 
+    p_value_to_index_number_lookup, 
+    p_metadata, 
+    p_path
+)
 {
     switch(p_metadata.type.toLowerCase())
     {
@@ -1212,7 +1219,14 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, child, p_path + "/" + child.name);
+                set_list_lookup
+                (
+                    p_list_lookup, 
+                    p_name_to_value_lookup, 
+                    p_value_to_index_number_lookup, 
+                    child, 
+                    p_path + "/" + child.name
+                );
             }
 
             break;

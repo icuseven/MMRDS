@@ -1043,7 +1043,7 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
     var form_array = eval(multiform_path);      
     form_array.push(clone[metadata.name]);
     
-    g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, metadata.name);
+    g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, "/" + metadata.name);
     
         save_case
         (
@@ -1845,7 +1845,8 @@ function get_metadata()
 
     build_other_specify_lookup(g_other_specify_lookup, g_metadata);
 
-    set_list_lookup(
+    set_list_lookup
+    (
       g_display_to_value_lookup,
       g_value_to_display_lookup,
       g_value_to_index_number_lookup,
