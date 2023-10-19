@@ -34,7 +34,7 @@ public sealed class c_cdc_de_identifier
         this.case_item_json = p_case_item_json;
         this.prefix = p_prefix;
         metadata_version = p_scheduleInfo.version_number;
-        date_offset_days = -1 * new Random().Next(20000, 20100);
+
         db_config = new()
         {
             url = p_scheduleInfo.couch_db_url,
@@ -42,6 +42,23 @@ public sealed class c_cdc_de_identifier
             user_name = p_scheduleInfo.user_name,
             user_value = p_scheduleInfo.user_value
         };
+
+        var CprytoRNG = new System.Security.Cryptography.RNGCryptoServiceProvider();
+
+
+        int RandomIntFromRNG(int min, int max)
+        {
+
+            byte[] four_bytes = new byte[4];
+            CprytoRNG.GetBytes(four_bytes);
+
+
+            UInt32 scale = BitConverter.ToUInt32(four_bytes, 0);
+
+            return (int)(min + (max - min) * (scale / (uint.MaxValue + 1.0)));
+        }
+
+        date_offset_days = -1 * RandomIntFromRNG(20000, 20101);
 
     }
     public async Task<string> executeAsync()

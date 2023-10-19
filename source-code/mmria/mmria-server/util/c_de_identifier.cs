@@ -28,8 +28,30 @@ public sealed class c_de_identifier
         this.case_item_json = p_case_item_json;
         metadata_version = p_metadata_version;
         db_config = _db_config;
-        date_offset_days = -1 * new Random().Next(20000, 20100);
+
+        var CprytoRNG = new System.Security.Cryptography.RNGCryptoServiceProvider();
+
+
+        int RandomIntFromRNG(int min, int max)
+        {
+
+            byte[] four_bytes = new byte[4];
+            CprytoRNG.GetBytes(four_bytes);
+
+
+            UInt32 scale = BitConverter.ToUInt32(four_bytes, 0);
+
+            return (int)(min + (max - min) * (scale / (uint.MaxValue + 1.0)));
+        }
+
+        date_offset_days = -1 * RandomIntFromRNG(20000, 20101);
+
+
+
     }
+
+
+
     public async Task<string> executeAsync()
     {
         string result = null;
