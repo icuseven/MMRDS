@@ -229,17 +229,27 @@ public sealed class c_de_identifier
                                 {
                                     if(!string.IsNullOrWhiteSpace(val.ToString()))
                                     {
-                                        var date_arr = val.ToString().Split("-");
-                                        var date = new DateOnly
-                                        (
-                                            int.Parse(date_arr[0]),
-                                            int.Parse(date_arr[1]),
-                                            int.Parse(date_arr[2])
-                                        );
-                                    
+                                        var val_string = val.ToString();
 
-                                        dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
-                                        result = true;
+                                        if(val_string.Contains("-"))
+                                        {
+                                            var space_split = val_string.Split(" ");
+                                            var date_arr = space_split[0].ToString().Split("-");
+                                            var date = new DateOnly
+                                            (
+                                                int.Parse(date_arr[0]),
+                                                int.Parse(date_arr[1]),
+                                                int.Parse(date_arr[2])
+                                            );
+                                        
+
+                                            dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
+                                            result = true;
+                                        }
+                                        else
+                                        {
+                                            Console.WriteLine("here");
+                                        }
                                     }
                                 }
                                 
