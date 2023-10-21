@@ -355,10 +355,8 @@ public sealed partial class Program
                 }
             """;
 
-            System.Console.WriteLine(akka_config_string);
-
-            var config = ConfigurationFactory.ParseString(akka_config_string);
-
+            //System.Console.WriteLine(akka_config_string);
+            //var config = ConfigurationFactory.ParseString(akka_config_string);
             //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
             var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
             
