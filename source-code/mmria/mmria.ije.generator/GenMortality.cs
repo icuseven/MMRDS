@@ -364,8 +364,34 @@ public class GenMortality
    string gen_BPLACE_CNT()
    {
       //2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
-      // <<to do>>
-      return Context.Get(GenerationContext.country_list);
+      // start:213 length:2
+      List<string> list = new()
+      {
+
+         "NX",
+         "XG",
+         "XF",
+         "XT",
+         "XX",
+         "XI",
+         "XC",
+         "XM",
+         "GX",
+         "XA",
+         "XV",
+         "AX",
+         "XS",
+         "MX",
+         "XO",
+         "EX",
+         "IX",
+         "XW",
+         "FX",
+         "XR",
+         "XP",
+         "KX"
+      };
+      return Context.Get(list);
    }
 
    string gen_BPLACE_ST()
