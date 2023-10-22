@@ -110,8 +110,10 @@ public class GenerationContext
         "WA",
         "WV",
         "WI",
-        "WY"/*,
-
+        "WY",
+        "ZZ", // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+        "XX", // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+      
         "MP", //  NORTHERN MARIANAS
         "AS", //  AMERICAN SAMOA
         "GU", //  GUAM
@@ -131,7 +133,7 @@ public class GenerationContext
         "QC", //  QUEBEC  
         "SK", //  SASKATCHEWAN
         "YT", //  
-        */
+
     };
 
     public static List<string> country_list = new()

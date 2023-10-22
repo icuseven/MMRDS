@@ -370,7 +370,7 @@ public class GenMortality
 
    string gen_BPLACE_ST()
    {
-      return Context.Get(GenerationContext.country_list);
+      return Context.Get(GenerationContext.state_list);
       
 
 /*2		BPLACE_ST	"NCHS Instruction Manual Part 8A
