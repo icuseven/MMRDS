@@ -30,8 +30,8 @@ public class GenMortality
          {"DOB_MO", gen_DOB_MO},
          { "DOB_DY", gen_DOB_DY},
          { "BPLACE_CNT", gen_BPLACE_CNT },
-         /*"BPLACE_ST",
-         "CITYC",
+         { "BPLACE_ST", gen_BPLACE_ST},
+         /*"CITYC",
          "COUNTYC",
          "STATEC",
          "COUNTRYC",
@@ -365,11 +365,18 @@ public class GenMortality
    {
       //2		BPLACE_CNT	NCHS Part 8 (from FIPS table 10-4)
       // <<to do>>
-      return "US";
+      return Context.Get(GenerationContext.country_list);
    }
+
+   string gen_BPLACE_ST()
+   {
+      return Context.Get(GenerationContext.country_list);
+      
+
 /*2		BPLACE_ST	"NCHS Instruction Manual Part 8A
    ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
    XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+   
 For U.S. Territories:
    MP  NORTHERN MARIANAS
    AS  AMERICAN SAMOA
@@ -390,6 +397,9 @@ For Canadian Provinces:
    QC  QUEBEC  
    SK  SASKATCHEWAN
    YT  YUKON"
+ */
+   }
+  /*
 5		CITYC	NCHS Instruction Manual Part 8A 
 3		COUNTYC	NCHS Instruction Manual Part 8A 
 2		STATEC	"NCHS Instruction Manual Part 8A
