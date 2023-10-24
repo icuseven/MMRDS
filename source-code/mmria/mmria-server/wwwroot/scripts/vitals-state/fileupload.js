@@ -214,10 +214,9 @@ function setup_file_list()
                for(let _i = 0;_i < Nat_Ids.length; _i++)
                {
                     let text = Nat_Ids[_i];
-                    if(g_validation_errors.indexOf(text) < 0)
-                    {
-                        g_validation_errors.add(Nat_Ids[_i]);
-                    }
+
+                    g_validation_errors.add(text);
+                    
                }
             }
             else if (item.name.toLowerCase().endsWith(".fet")) 
@@ -237,10 +236,9 @@ function setup_file_list()
                 for(let _i = 0;_i < Fet_Ids.length; _i++)
                 {
                     let text = Fet_Ids[_i];
-                    if(g_validation_errors.indexOf(text) < 0)
-                    {
-                        g_validation_errors.add(Fet_Ids[_i]);
-                    }
+
+                    g_validation_errors.add(text);
+                    
                 }
             }
         }
