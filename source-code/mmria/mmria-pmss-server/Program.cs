@@ -362,8 +362,12 @@ public sealed partial class Program
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
+            var JobDataMap = new Quartz.JobDataMap();
+            JobDataMap.Add("ActorSystem", actorSystem);
+
             IJobDetail job = JobBuilder.Create<mmria.pmss.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
+                .SetJobData(JobDataMap)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
