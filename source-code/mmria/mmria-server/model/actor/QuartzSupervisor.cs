@@ -60,12 +60,14 @@ public sealed class QuartzSupervisor : UntypedActor
     readonly IServiceScope _scope;
 
     mmria.common.couchdb.OverridableConfiguration configuration = null;
+    mmria.common.couchdb.ConfigurationSet configuration_set;
 
     public QuartzSupervisor(IServiceProvider sp)
     {
         _scope = sp.CreateScope();
 
         configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
+        configuration_set = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.ConfigurationSet>();
     }
 
     protected override void PostStop()
@@ -89,7 +91,7 @@ public sealed class QuartzSupervisor : UntypedActor
             case "pulse":
 
                 var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
-
+                
                 if (db_config == null) break;
 
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
@@ -135,7 +137,7 @@ public sealed class QuartzSupervisor : UntypedActor
                 else
                 {
                     Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(configuration_set, db_config)).Tell(new_scheduleInfo);
                     Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
