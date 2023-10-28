@@ -282,7 +282,7 @@ public sealed class c_document_sync_all
                             {
 
                                 var document_curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/{document_id}", null, this.user_name, this.user_value);
-                                string document_json = await curl.executeAsync ();
+                                string document_json = await document_curl.executeAsync ();
 
                                 //string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
                                 mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
