@@ -238,7 +238,7 @@ public sealed class c_document_sync_all
         
         }
 
-        var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
+        var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs", null, this.user_name, this.user_value);
         string res = await curl.executeAsync ();
 /*
 {
@@ -274,17 +274,21 @@ public sealed class c_document_sync_all
                     IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>;
                     if(row_dictionary != null)
                     {
-                        IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
-                        if(row_dictionary != null && doc_dictionary != null)
-                        {
-                            string document_id = doc_dictionary ["_id"].ToString ();
+                        //IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
+                        //if(row_dictionary != null && doc_dictionary != null)
+                        //{
+                            string document_id = row_dictionary ["id"].ToString ();
                             if (document_id.IndexOf ("_design/") < 0)
                             {
-                                string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
+
+                                var document_curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/{document_id}", null, this.user_name, this.user_value);
+                                string document_json = await curl.executeAsync ();
+
+                                //string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
                                 mmria.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
                                 await sync_document.executeAsync ();
                             }
-                        }
+                        //}
                     }
                 }
                 catch (Exception document_ex)
