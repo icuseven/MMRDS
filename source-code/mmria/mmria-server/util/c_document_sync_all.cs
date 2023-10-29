@@ -240,13 +240,13 @@ public sealed class c_document_sync_all
 
 
         var page = 0;
-        const int page_size = 250;
+        const int page_size = 100;
         var result_count = int.MaxValue;
 
         while(result_count >= 1)
         try
         {
-            var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs?skip={page}&limit={page_size}", null, this.user_name, this.user_value);
+            var curl = new mmria.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs?skip={page * page_size}&limit={page_size}", null, this.user_name, this.user_value);
             string res = await curl.executeAsync ();
             
             var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response> (res);
