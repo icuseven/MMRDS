@@ -248,7 +248,8 @@ public sealed class c_de_identifier
                                         }
                                         else
                                         {
-                                            Console.WriteLine("here");
+                                            dictionary_object [path_list [0]] = null;
+                                            result = true;
                                         }
                                     }
                                     else

@@ -20,8 +20,6 @@ public sealed class c_cdc_de_identifier
     };
     int date_offset_days;
 
-    mmria.server.model.actor.ScheduleInfoMessage scheduleInfo;
-
     mmria.common.couchdb.DBConfigurationDetail db_config;
     
     public c_cdc_de_identifier 
@@ -259,8 +257,13 @@ public sealed class c_cdc_de_identifier
                                         }
                                         else
                                         {
-                                            Console.WriteLine("here");
+                                            dictionary_object [path_list [0]] = null;
+                                            result = true;
                                         }
+                                    }
+                                    else
+                                    {
+                                        result = true;
                                     }
                                 }
                                 else
