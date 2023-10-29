@@ -100,17 +100,14 @@ public sealed class c_de_identifier
 
                 is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path, path.AsSpan());
                 
-                /*
+               
                 if(!is_fully_de_identified)
                 {
-                    set_de_identified_value (case_item_object, path);
-                }*/
+                    break;
+                    //System.Console.WriteLine("here");
+                }
+                 /*  */
             }
-
-            // foreach (string path in date_offset_set)
-            // {
-            //   is_fully_de_identified = is_fully_de_identified && set_de_identified_value(case_item_object, path);
-            // }
 
             if(!is_fully_de_identified)
             {
@@ -179,10 +176,6 @@ public sealed class c_de_identifier
     public bool set_de_identified_value (dynamic p_object, string p_path, ReadOnlySpan<char> full_path)
     {
         bool result = false;
-        if (p_path == "geocode_quality_indicator")
-        {
-            System.Console.Write("break");
-        }
 
         try
         {
@@ -205,7 +198,7 @@ public sealed class c_de_identifier
 
                         if (val != null)
                         {
-                            // set the de-identified value
+
                          if (val is IDictionary<string, object>)
                             {
                                 //System.Console.WriteLine ("This should not happen. {0}", p_path);
