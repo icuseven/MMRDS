@@ -240,7 +240,7 @@ public sealed class c_document_sync_all
 
 
         var page = 0;
-        const int page_size = 100;
+        const int page_size = 250;
         var result_count = int.MaxValue;
 
         while(result_count >= 1)
