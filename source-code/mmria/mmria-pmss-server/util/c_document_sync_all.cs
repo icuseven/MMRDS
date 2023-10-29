@@ -236,54 +236,38 @@ public sealed class c_document_sync_all
         
         }
 
-        var curl = new mmria.pmss.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs?include_docs=true", null, this.user_name, this.user_value);
-        string res = await curl.executeAsync ();
-/*
-{
-"total_rows": 3, "offset": 0, "rows": [
-{"id": "doc1", "key": "doc1", "value": {"rev": "4324BB"}},
-{"id": "doc2", "key": "doc2", "value": {"rev":"2441HF"}},
-{"id": "doc3", "key": "doc3", "value": {"rev":"74EC24"}}
-]
-}
-*/			
-        System.Dynamic.ExpandoObject all_docs = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (res);
+        var page = 0;
+        const int page_size = 100;
+        var result_count = int.MaxValue;
+
+        while(result_count >= 1)
         try
         {
-            IDictionary<string,object> all_docs_dictionary = all_docs as IDictionary<string,object>;
-            List<object> row_list = null;
+            var curl = new mmria.pmss.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/_all_docs?skip={page}&limit={page_size}", null, this.user_name, this.user_value);
+            string res = await curl.executeAsync ();
             
-            if
-            (
-                all_docs_dictionary != null &&
-                all_docs_dictionary.ContainsKey("rows")
-            )
-            {
-                row_list = all_docs_dictionary ["rows"] as List<object>;	
-            }
-            
-            
-            if(row_list != null)
-            foreach (object row_item in row_list) 
+            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response> (res);
+
+            result_count = case_view_response.rows.Count;
+
+            foreach (mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
             {
 
                 try
                 {
-                    IDictionary<string, object> row_dictionary = row_item as IDictionary<string, object>;
-                    if(row_dictionary != null)
+                    var document_id = cvi.id;
+
+                    if (document_id.IndexOf ("_design/") < 0)
                     {
-                        IDictionary<string, object> doc_dictionary = row_dictionary ["doc"] as IDictionary<string, object>;
-                        if(row_dictionary != null && doc_dictionary != null)
-                        {
-                            string document_id = doc_dictionary ["_id"].ToString ();
-                            if (document_id.IndexOf ("_design/") < 0)
-                            {
-                                string document_json = Newtonsoft.Json.JsonConvert.SerializeObject (doc_dictionary);
-                                mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
-                                await sync_document.executeAsync ();
-                            }
-                        }
+
+                        var document_curl = new mmria.pmss.server.cURL ("GET", null, this.couchdb_url + $"/{db_config.prefix}mmrds/{document_id}", null, this.user_name, this.user_value);
+                        string document_json = await document_curl.executeAsync ();
+
+                        mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
+                        await sync_document.executeAsync ();
                     }
+
+                    
                 }
                 catch (Exception document_ex)
                 {
@@ -291,10 +275,14 @@ public sealed class c_document_sync_all
                 }
                 
             }
+
+            page += 1;
         }
         catch (Exception ex)
         {
             System.Console.Write($"error running c_docment_sync_all\n{ex}");
+
+            result_count = 0;
         }
 
     }
