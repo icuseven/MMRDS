@@ -347,10 +347,10 @@ public sealed class OverridableConfiguration
     {
         SteveAPIConfigurationDetail result = new();
 
-        result.sea_bucket_kms_key = string_keys["shared"]["steve_api:sea_bucket_kms_key "];
-        result.client_name = string_keys["shared"]["steve_api:client_name "];
-        result.client_secret_key = string_keys["shared"]["steve_api:client_secret_key "];
-        result.base_url = string_keys["shared"]["steve_api:base_url "];
+        result.sea_bucket_kms_key = string_keys["shared"]["steve_api:sea_bucket_kms_key"];
+        result.client_name = string_keys["shared"]["steve_api:client_name"];
+        result.client_secret_key = string_keys["shared"]["steve_api:client_secret_key"];
+        result.base_url = string_keys["shared"]["steve_api:base_url"];
         
 
         return result;
