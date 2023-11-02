@@ -41,7 +41,7 @@ public sealed class policyValuesController : Controller
         var unsuccessful_login_attempts_within_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_within_number_of_minutes", host_prefix);
         var unsuccessful_login_attempts_lockout_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix);
         var sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
-
+/*
         System.Console.WriteLine($"Get Policy Values");
         System.Console.WriteLine($"host_prefix: {host_prefix}");
         System.Console.WriteLine($"minimum_length: {(minimum_length.HasValue ? minimum_length.Value.ToString() : "") }");
@@ -52,7 +52,7 @@ public sealed class policyValuesController : Controller
         System.Console.WriteLine($"unsuccessful_login_attempts_within_number_of_minutes: {(unsuccessful_login_attempts_within_number_of_minutes.HasValue ? unsuccessful_login_attempts_within_number_of_minutes.Value.ToString(): "") }");
         System.Console.WriteLine($"unsuccessful_login_attempts_lockout_number_of_minutes: {(unsuccessful_login_attempts_lockout_number_of_minutes.HasValue ? unsuccessful_login_attempts_lockout_number_of_minutes.Value.ToString(): "") }");
         System.Console.WriteLine($"sams_is_enabled: {(sams_is_enabled.HasValue ? sams_is_enabled.Value: "") }");
-    
+    */
 
         result.Add("minimum_length", minimum_length.HasValue ? minimum_length.Value.ToString() : "");
         result.Add("days_before_expires", days_before_expires.HasValue ? days_before_expires.Value.ToString(): "");
