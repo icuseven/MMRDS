@@ -43,19 +43,19 @@ public sealed class policyValuesController : Controller
         var sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
 
 
-        System.Console.WriteLine($@"
-        Get Policy Values
-        host_prefix: {host_prefix}
-        minimum_length: {(minimum_length.HasValue ? minimum_length.Value.ToString() : "") }
-        days_before_expires: {(days_before_expires.HasValue ? days_before_expires.Value.ToString(): "") }
-        days_before_user_is_notified_of_expiration: {(days_before_user_is_notified_of_expiration.HasValue ? days_before_user_is_notified_of_expiration.Value.ToString(): "") }
-        default_days_in_effective_date_interval: {(default_days_in_effective_date_interval.HasValue ? default_days_in_effective_date_interval.Value.ToString(): "") }
-        unsuccessful_login_attempts_number_before_lockout: {(unsuccessful_login_attempts_number_before_lockout.HasValue ? unsuccessful_login_attempts_number_before_lockout.Value.ToString(): "") }
-        unsuccessful_login_attempts_within_number_of_minutes: {(unsuccessful_login_attempts_within_number_of_minutes.HasValue ? unsuccessful_login_attempts_within_number_of_minutes.Value.ToString(): "") }
-        unsuccessful_login_attempts_lockout_number_of_minutes: {(unsuccessful_login_attempts_lockout_number_of_minutes.HasValue ? unsuccessful_login_attempts_lockout_number_of_minutes.Value.ToString(): "") }
-        sams_is_enabled: {(sams_is_enabled.HasValue ? sams_is_enabled.Value: "") }
         
-        ");
+        System.Console.WriteLine($"Get Policy Values");
+        System.Console.WriteLine($"host_prefix: {host_prefix}");
+        System.Console.WriteLine($"minimum_length: {(minimum_length.HasValue ? minimum_length.Value.ToString() : "") }");
+        System.Console.WriteLine($"days_before_expires: {(days_before_expires.HasValue ? days_before_expires.Value.ToString(): "") }");
+        System.Console.WriteLine($"days_before_user_is_notified_of_expiration: {(days_before_user_is_notified_of_expiration.HasValue ? days_before_user_is_notified_of_expiration.Value.ToString(): "") }");
+        System.Console.WriteLine($"default_days_in_effective_date_interval: {(default_days_in_effective_date_interval.HasValue ? default_days_in_effective_date_interval.Value.ToString(): "") }");
+        System.Console.WriteLine($"unsuccessful_login_attempts_number_before_lockout: {(unsuccessful_login_attempts_number_before_lockout.HasValue ? unsuccessful_login_attempts_number_before_lockout.Value.ToString(): "") }");
+        System.Console.WriteLine($"unsuccessful_login_attempts_within_number_of_minutes: {(unsuccessful_login_attempts_within_number_of_minutes.HasValue ? unsuccessful_login_attempts_within_number_of_minutes.Value.ToString(): "") }");
+        System.Console.WriteLine($"unsuccessful_login_attempts_lockout_number_of_minutes: {(unsuccessful_login_attempts_lockout_number_of_minutes.HasValue ? unsuccessful_login_attempts_lockout_number_of_minutes.Value.ToString(): "") }");
+        System.Console.WriteLine($"sams_is_enabled: {(sams_is_enabled.HasValue ? sams_is_enabled.Value: "") }");
+        
+        
 
 
         result.Add("minimum_length", minimum_length.HasValue ? minimum_length.Value.ToString() : "");
