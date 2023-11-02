@@ -41,7 +41,7 @@ public sealed class ije_messageController: ControllerBase
         config_id_configuration =  _config_id_configuration;
     }
     
-    [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer")]
+    [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer,vital_importer_state")]
     [HttpGet]
     public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
     { 
