@@ -53,7 +53,7 @@ public sealed class interactive_report_viewController: ControllerBase
             var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
             
-            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 
             List<mmria.server.model.c_opioid_report_object> new_list = new();
             var response_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.report_measure_value_struct>>(responseFromServer);

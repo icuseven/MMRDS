@@ -35,6 +35,8 @@ public sealed class mmrds_exporter
 
     mmria.common.metadata.app current_metadata;
 
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+
     private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[5];
     private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0, 0 };
     private const int max_qualitative_length = 31000;
@@ -43,16 +45,27 @@ public sealed class mmrds_exporter
 
     private mmria.server.model.actor.ScheduleInfoMessage Configuration;
 
-    public mmrds_exporter(mmria.server.model.actor.ScheduleInfoMessage configuration)
+    public mmrds_exporter
+    (
+        mmria.server.model.actor.ScheduleInfoMessage configuration
+    )
     {
         this.Configuration = configuration;
+
+        db_config = new()
+        {
+            url = configuration.couch_db_url,
+            prefix = configuration.db_prefix,
+            user_name = configuration.user_name,
+            user_value = configuration.user_value
+        };
     }
     public bool Execute(mmria.server.export_queue_item queue_item)
     {
 
         try
         {
-        this.database_url = this.Configuration.couch_db_url;
+        db_config.url = this.Configuration.couch_db_url;
         this.juris_user_name = this.Configuration.jurisdiction_user_name;
         this.user_name = this.Configuration.user_name;
         this.value_string = this.Configuration.user_value;
@@ -64,11 +77,11 @@ public sealed class mmrds_exporter
         this.is_excel_file_type = queue_item.case_file_type == "xlsx" ? true : false;
 
 
-        if (string.IsNullOrWhiteSpace(this.database_url))
+        if (string.IsNullOrWhiteSpace(db_config.url))
         {
-            this.database_url = Configuration.couch_db_url;
+            db_config.url = Configuration.couch_db_url;
 
-            if (string.IsNullOrWhiteSpace(this.database_url))
+            if (string.IsNullOrWhiteSpace(db_config.url))
             {
                 System.Console.WriteLine("missing database_url");
                 System.Console.WriteLine(" form database:[file path]");
@@ -122,7 +135,7 @@ public sealed class mmrds_exporter
 
 
 
-        string metadata_url = this.database_url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
+        string metadata_url = db_config.url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
         cURL metadata_curl = new cURL("GET", null, metadata_url, null, this.user_name, this.value_string);
         mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
         this.current_metadata = metadata;
@@ -232,7 +245,7 @@ public sealed class mmrds_exporter
         List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(this.juris_user_name);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
 
 
         if (queue_item.case_filter_type == "custom")
@@ -267,9 +280,9 @@ public sealed class mmrds_exporter
 
             try
             {
-                string request_string = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_created?skip=0&take=250000";
 
-                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string case_view_responseFromServer = case_view_curl.execute();
 
                 mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(case_view_responseFromServer);
@@ -298,7 +311,7 @@ public sealed class mmrds_exporter
         //foreach (System.Dynamic.ExpandoObject case_row in all_cases_rows)
         foreach(string case_id in Custom_Case_Id_List)
         {
-            string URL = $"{this.database_url}/{Program.db_prefix}mmrds/{case_id}";
+            string URL = $"{db_config.url}/{db_config.prefix}mmrds/{case_id}";
             cURL document_curl = new cURL("GET", null, URL, null, this.user_name, this.value_string);
             System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(document_curl.execute());
 
@@ -1741,7 +1754,7 @@ public sealed class mmrds_exporter
         );
 
 
-        var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+        var get_item_curl = new cURL("GET", null, db_config.url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
         string responseFromServer = get_item_curl.execute();
         export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -1751,7 +1764,7 @@ public sealed class mmrds_exporter
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-        var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+        var set_item_curl = new cURL("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
         responseFromServer = set_item_curl.execute();
 
 
@@ -1765,7 +1778,7 @@ public sealed class mmrds_exporter
         catch (Exception ex)
         {
 
-        var get_item_curl = new cURL("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
+        var get_item_curl = new cURL("GET", null, db_config.url + $"/{db_config.prefix}export_queue/" + this.item_id, null, this.user_name, this.value_string);
         string responseFromServer = get_item_curl.execute();
         export_queue_item export_queue_item = Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(responseFromServer);
 
@@ -1774,7 +1787,7 @@ public sealed class mmrds_exporter
         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
         settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
         string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(export_queue_item, settings);
-        var set_item_curl = new cURL("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
+        var set_item_curl = new cURL("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + export_queue_item._id, object_string, this.user_name, this.value_string);
         responseFromServer = set_item_curl.execute();
 
 

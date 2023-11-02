@@ -13,6 +13,7 @@ public sealed class authorization_case
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         System.Dynamic.ExpandoObject p_case_expando_object
@@ -21,7 +22,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
         
         IDictionary<string,object> byName = (IDictionary<string,object>)p_case_expando_object;
 
@@ -71,6 +72,7 @@ public sealed class authorization_case
 
     public static bool is_authorized_to_handle_jurisdiction_id
     (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
         string jurisdiction_id
@@ -79,7 +81,7 @@ public sealed class authorization_case
 
         bool result = false;
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(p_claims_principal);
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
 
         
         foreach(var jurisdiction_item in jurisdiction_hashset)
@@ -100,12 +102,12 @@ public sealed class authorization_case
     }
 
 
-    public static HashSet<(string jurisdiction_id, string user_id, string role_name)> get_user_jurisdiction_set()
+    public static HashSet<(string jurisdiction_id, string user_id, string role_name)> get_user_jurisdiction_set(mmria.common.couchdb.DBConfigurationDetail db_config)
     {
         HashSet<(string,string,string)> result = new HashSet<(string,string,string)>();
 
-        string jurisdicion_view_url = $"{Program.config_couchdb_url}/{Program.db_prefix}jurisdiction/_design/sortable/_view/by_user_id";
-        var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        string jurisdicion_view_url = $"{db_config.url}/{db_config.prefix}jurisdiction/_design/sortable/_view/by_user_id";
+        var jurisdicion_curl = new cURL("GET", null, jurisdicion_view_url, null, db_config.user_name, db_config.user_value);
         string jurisdicion_result_string = null;
         try
         {

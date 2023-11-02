@@ -241,18 +241,39 @@ public sealed class backupManagerController : Controller
 
                     System.IO.Directory.CreateDirectory(directory_path);
 
-                    using (var fs = new FileStream(file_path, FileMode.Create, FileAccess.Write, FileShare.None))
+
+                    using (System.IO.Stream contentStream = await response.Content.ReadAsStreamAsync(), fileStream = new System.IO.FileStream(file_path, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None, 8192, true))
                     {
-                        await response.Content.CopyToAsync(fs);
-                        //await fs.FlushAsync();
+                        const int number_of_bytes = 8192;
+
+                        var buffer = new byte[number_of_bytes];
+                        var isMoreToRead = true;
+
+                        do
+                        {
+                            var read = await contentStream.ReadAsync(buffer, 0, buffer.Length);
+                            if (read == 0)
+                            {
+                                isMoreToRead = false;
+                            }
+                            else
+                            {
+                                await fileStream.WriteAsync(buffer, 0, read);
+                            }
+                        }
+                        while (isMoreToRead);
                     }
                             
                     if(System.IO.File.Exists(file_path))
                     {
-                        byte[] fileBytes = await ReadFile(file_path);
-
-                        System.IO.File.Delete(file_path);
-                        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, file_name);
+                        return new PhysicalFileResult
+                        (
+                            file_path, 
+                            "application/octet-stream"
+                        ) 
+                        { 
+                            FileDownloadName = file_name 
+                        };
                     }
                     else
                     {

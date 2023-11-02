@@ -30,7 +30,7 @@ public sealed partial class AccountController : Controller
     ActorSystem _actorSystem;
 
     mmria.common.couchdb.OverridableConfiguration _configuration;
-    common.couchdb.DBConfigurationDetail db_config;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
 
     string host_prefix = null;
     bool? use_sams = null;
@@ -275,7 +275,7 @@ public sealed partial class AccountController : Controller
                 }
 
 
-                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, json_result.name).Select( jr => jr.role_name).Distinct())
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                 }
@@ -302,7 +302,7 @@ public sealed partial class AccountController : Controller
                 System.Threading.Thread.CurrentPrincipal = userPrincipal;
         
 
-                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, user.UserName).Select( jr => jr.role_name).Distinct())
                 {
                     role_list.Add(role);
                 }
@@ -315,7 +315,7 @@ public sealed partial class AccountController : Controller
                     json_result.ok && json_result.name != null? mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login: mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>(db_config)).Tell(Session_Event_Message);
 
 
                 var session_data = new System.Collections.Generic.Dictionary<string,string>(StringComparer.InvariantCultureIgnoreCase);
@@ -356,7 +356,7 @@ public sealed partial class AccountController : Controller
 
                     if(put_session_result.ok)
                     {
-                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                        _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>(db_config)).Tell(Session_Message);
                         Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
                         //Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
@@ -409,7 +409,7 @@ public sealed partial class AccountController : Controller
                 mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.failed_login
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>(db_config)).Tell(Session_Event_Message);
 
         } 
 /*
@@ -485,7 +485,7 @@ public sealed partial class AccountController : Controller
 
             System.Threading.Thread.CurrentPrincipal = null;
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>(db_config)).Tell(Session_Message);
 
         if
         (
@@ -545,11 +545,11 @@ public sealed partial class AccountController : Controller
 
         var days_til_value_expires = -1;
 
-        int password_days_before_expires = 0;
+        int pass_value_days_before_expires = 0;
         
-        _configuration.GetInteger("password_settings:days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref password_days_before_expires);
+        _configuration.GetInteger("password_settings:days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref pass_value_days_before_expires);
 
-        if(password_days_before_expires > 0)
+        if(pass_value_days_before_expires > 0)
         {
             try
             {
@@ -584,11 +584,11 @@ public sealed partial class AccountController : Controller
 
                 if(date_of_last_password_change != DateTime.MinValue)
                 {
-                    days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+                    days_til_value_expires = pass_value_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
                 }
                 else if(session_event_response.rows.Count > 0)
                 {
-                    days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
+                    days_til_value_expires = pass_value_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
                 }
 
                     
@@ -601,7 +601,7 @@ public sealed partial class AccountController : Controller
         }
         
         ViewBag.days_til_password_expires = days_til_value_expires;
-        ViewBag.config_password_days_before_expires = password_days_before_expires;
+        ViewBag.config_password_days_before_expires = pass_value_days_before_expires;
 
 
         if(use_sams.HasValue)
@@ -673,7 +673,7 @@ public sealed partial class AccountController : Controller
         }
 
 
-        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));

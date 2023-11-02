@@ -81,7 +81,7 @@ public sealed class Program
             Program.couchdb_url = configuration["mmria_settings:couchdb_url"];
             Program.db_prefix = configuration["mmria_settings:db_prefix"];
             Program.timer_user_name = configuration["mmria_settings:timer_user_name"];
-            Program.timer_value = configuration["mmria_settings:timer_value"];
+            Program.timer_value = configuration["mmria_settings:timer_password"];
 
             Program.central_couchdb_url = configuration["mmria_settings:central_couchdb_url"];
             Program.central_timer_user_name = configuration["mmria_settings:central_timer_password"];

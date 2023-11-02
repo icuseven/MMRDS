@@ -154,14 +154,14 @@ public sealed class caseRevisionController: ControllerBase
 
 
             var home_record = (IDictionary<string,object>)byName["home_record"];
-            if(!home_record.ContainsKey("jurisdiction_id"))
+            if(!home_record.ContainsKey("case_folder"))
             {
-                home_record.Add("jurisdiction_id", "/");
+                home_record.Add("case_folder", "/");
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["case_folder"].ToString()))
             {
-                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
+                Console.Write($"unauthorized PUT {home_record["case_folder"]}: {byName["_id"]}");
                 return result;
             }
 
@@ -169,7 +169,7 @@ public sealed class caseRevisionController: ControllerBase
             // begin - check if doc exists
             try 
             {
-                var check_document_curl = new cURL ("GET", null, $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}", null, Program.config_timer_user_name, Program.config_timer_value);
+                var check_document_curl = new cURL ("GET", null, $"{db_config.url}/{db_config.prefix}mmrds/{id_val}", null, db_config.user_name, db_config.user_value);
                 string check_document_json = await check_document_curl.executeAsync ();
                 var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
                 IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
@@ -180,7 +180,7 @@ public sealed class caseRevisionController: ControllerBase
                     !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
-                    Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized PUT {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
                     return result;
                 }
 
@@ -195,8 +195,8 @@ public sealed class caseRevisionController: ControllerBase
 
 
 
-            string metadata_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{id_val}";
-            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+            string metadata_url = $"{db_config.url}/{db_config.prefix}mmrds/{id_val}";
+            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, db_config.user_name, db_config.user_value);
 
             try
             {
@@ -214,8 +214,8 @@ public sealed class caseRevisionController: ControllerBase
 
             var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
 
-            string audit_url = $"{Program.config_couchdb_url}/{Program.db_prefix}audit/{audit_data._id}";
-            cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, Program.config_timer_user_name, Program.config_timer_value);
+            string audit_url = $"{db_config.url}/{db_config.prefix}audit/{audit_data._id}";
+            cURL audit_curl = new cURL ("PUT", null, audit_url, audit_string, db_config.user_name, db_config.user_value);
 
             try
             {

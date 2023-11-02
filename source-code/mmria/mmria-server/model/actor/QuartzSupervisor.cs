@@ -16,24 +16,29 @@ public sealed class ScheduleInfoMessage
     (
         string p_cron_schedule, 
         string p_couch_db_url,
+        string p_db_prefix,
         string p_user_name,
         string p_user_value,
         string p_export_directory,
-        string p_jurisdiction_user_name = null,
-        string p_version_number = null
+        string p_jurisdiction_user_name,
+        string p_version_number,
+        string p_cdc_instance_pull_list
         )
     {
         cron_schedule = p_cron_schedule;
         couch_db_url = p_couch_db_url;
         user_name = p_user_name;
         user_value = p_user_value;
+        db_prefix = p_db_prefix;
         export_directory = p_export_directory;
         jurisdiction_user_name = p_jurisdiction_user_name;
         version_number = p_version_number;
+        cdc_instance_pull_list  = p_cdc_instance_pull_list;
     }
 
     public string cron_schedule { get; private set; }
     public string couch_db_url { get; private set; }
+    public string db_prefix { get; private set; }
     public string user_name { get; private set; }
 
     public string jurisdiction_user_name { get; private set; }
@@ -42,6 +47,8 @@ public sealed class ScheduleInfoMessage
 
     public string user_value { get; private set; }
     public string export_directory { get; private set; }
+
+    public string cdc_instance_pull_list { get; private set; }
 }
 
 
@@ -53,12 +60,14 @@ public sealed class QuartzSupervisor : UntypedActor
     readonly IServiceScope _scope;
 
     mmria.common.couchdb.OverridableConfiguration configuration = null;
+    mmria.common.couchdb.ConfigurationSet configuration_set;
 
     public QuartzSupervisor(IServiceProvider sp)
     {
         _scope = sp.CreateScope();
 
         configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
+        configuration_set = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.ConfigurationSet>();
     }
 
     protected override void PostStop()
@@ -82,18 +91,20 @@ public sealed class QuartzSupervisor : UntypedActor
             case "pulse":
 
                 var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
-
+                
                 if (db_config == null) break;
 
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
                         configuration.GetSharedString("cron_schedule"),
                         db_config.url,
+                        db_config.prefix,
                         db_config.user_name,
                         db_config.user_value,
-                        Program.config_export_directory,
-                        null, //Program.app_instance_name,
-                        configuration.GetSharedString("metadata_version")
+                        configuration.GetSharedString("export_directory"),
+                        null, //jurisdiction_user_name,
+                        configuration.GetSharedString("metadata_version"),
+                        configuration.GetSharedString("cdc_instance_pull_list")
                     );
             
 
@@ -104,7 +115,7 @@ public sealed class QuartzSupervisor : UntypedActor
                     is_db_check_enabled.Value
                 )
                 {
-                    Context.ActorOf(Props.Create<Check_DB_Install>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Check_DB_Install>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Check_DB_Install").Tell(new_scheduleInfo);
                 }
                 
@@ -119,15 +130,15 @@ public sealed class QuartzSupervisor : UntypedActor
 
                 if(is_rebuild_queue)
                 {
-                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Rebuild_Export_Queue>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Rebuild_Export_Queue").Tell(new_scheduleInfo);
                 }
                 else
                 {
-                    Context.ActorOf(Props.Create<Process_Export_Queue>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Process_Central_Pull_list>()).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>()).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(configuration_set, db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
 

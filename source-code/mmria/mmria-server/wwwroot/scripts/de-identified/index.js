@@ -1240,7 +1240,9 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number)
         p_section,
 				p_type_output,
         p_number,
-        g_metadata_summary
+        g_metadata_summary,
+        false,
+        true
       );
     });
   } 
@@ -1253,7 +1255,9 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number)
       p_section,
 			p_type_output,
       p_number,
-      g_metadata_summary
+      g_metadata_summary,
+      false,
+      true
     );
   }
 }

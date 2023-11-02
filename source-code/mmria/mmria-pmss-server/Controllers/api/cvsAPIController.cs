@@ -64,7 +64,7 @@ public sealed class cvsAPIController: ControllerBase
     }
 
 
-    [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
+    [Authorize(Roles  = "abstractor,data_analyst,committee_member,vro")]
     [HttpGet("{id}")]
     public async System.Threading.Tasks.Task<ActionResult> Get (string id)
     {
@@ -88,7 +88,7 @@ public sealed class cvsAPIController: ControllerBase
 
 
     
-    [Authorize(Roles  = "abstractor,data_analyst,committee_member")]
+    [Authorize(Roles  = "abstractor,data_analyst,committee_member,vro")]
     [HttpPost]
     public async Task<IActionResult> Post
     (

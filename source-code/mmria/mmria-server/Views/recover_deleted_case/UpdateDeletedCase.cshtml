@@ -1,5 +1,5 @@
 @using System.Security.Claims;
-@model mmria.common.model.couchdb.audit.audit_detail_view;
+@model mmria.server.Controllers.recover_deleted_caseController.UpdateDeletedCaseResult;
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
@@ -14,15 +14,40 @@
 }
 
 
-<h1 class="h2" tabindex="-1">Deleted Case Resotred</h1>
+<h1 class="h2" tabindex="-1">Deleted Case Recovered</h1>
 <a class="btn btn-secondary" href="/recover-deleted-case">Search Again</a>
+<br/><br/>
+@if(Model.is_problem_deleting)
+{
+    <p style="
+            height: 68px;
+            vertical-align: middle;
+            width: 100%; 
+            border-radius: 4px;
+            border: 1px solid #FFC2C2;
+            background-color: #FFE7E7;
+            ">
+    <img src="/img/TransferError.svg" alt="Recover Case error." style="margin:21px"/> <span id="ui-id-1" class="ui-dialog-title">A problem occurred recovering case for MMRIA Record ID: <strong>@Model.detail.record_id</strong></span>
+    <br/><span>@Model.problem_description</span>
+    </p>
+}
+else
+{
+    <p style="
+            height: 68px;
+            vertical-align: middle;
+            width: 100%; 
+            border-radius: 4px;
+            border: 1px solid #DCEDC8;
+            background-color: #F1F8E9;
+            ">
+    <img src="/img/TransferComplete.svg" alt="Recover complete." style="margin:21px;"/> <span id="ui-id-1" class="ui-dialog-title">The case for MMRIA Record ID: <strong>@Model.detail.record_id</strong> has been successfully recovered.</span>
+    </p>
+}
 
-<h3 class="h4">The deleted case has been restored for MMRIA Record ID: <strong>@Model.record_id</strong></h3>
-<p><strong>MMRIA Record ID:</strong> @Model.record_id</p>
-<p><strong>First Name:</strong> @Model.first_name</p>
-<p><strong>Last Name:</strong> @Model.last_name</p>
-<p><strong>Date of Deletion:</strong> @Model.date_created</p>
-<p><strong>Deleted By:</strong> @Model.user_name</p>
 
-<a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a>
+<p><strong>MMRIA Record ID:</strong> @Model.detail.record_id</p>
+<p><strong>First Name:</strong> @Model.detail.first_name</p>
+<p><strong>Last Name:</strong> @Model.detail.last_name</p>
 
+<!--a class="btn btn-primary mb-3" href="/recover-deleted-case">Search Again</a-->

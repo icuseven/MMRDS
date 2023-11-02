@@ -45,7 +45,7 @@ public sealed class caseController: ControllerBase
         db_config = configuration.GetDBConfig(host_prefix);
     }
     
-    [Authorize(Roles  = "abstractor, data_analyst")]
+    [Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
     [HttpGet]
     public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
     { 
@@ -56,12 +56,12 @@ public sealed class caseController: ControllerBase
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
                 request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}");
-                var case_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+                var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
-                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
+                if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
                     return result;
                 }
@@ -85,7 +85,7 @@ public sealed class caseController: ControllerBase
 
 
 
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor, committee_member, vro")]
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (
@@ -100,10 +100,9 @@ public sealed class caseController: ControllerBase
         string object_string = null;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
-
         try
         {
-            var mmria_record_id = "";
+            var pmssno = "";
 
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
@@ -150,8 +149,8 @@ public sealed class caseController: ControllerBase
                 var is_match = System.Text.RegularExpressions.Regex.IsMatch
                 (
                     id_val, 
-                    @"^(\{){0,1}[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}(\}){0,1}$"
-                );
+                    @"^[0-9a-fA-F][0-9a-fA-F/-]+[0-9a-fA-F]$"
+                );	
 
                 if(! is_match)
                 {
@@ -159,24 +158,25 @@ public sealed class caseController: ControllerBase
                 }
             }
 
-            var home_record = (IDictionary<string,object>)byName["tracking"];
-            if(!home_record.ContainsKey("jurisdiction_id"))
+            var tracking = (IDictionary<string,object>)byName["tracking"];
+            var admin_info = (IDictionary<string,object>)tracking["admin_info"];
+            if(!admin_info.ContainsKey("case_folder"))
             {
-                home_record.Add("jurisdiction_id", "/");
+                admin_info.Add("case_folder", "/");
             }
 
             if 
             (
-                home_record.ContainsKey("pmssno")
+                admin_info.ContainsKey("pmssno")
             ) 
             {
-                mmria_record_id = home_record["pmssno"].ToString();
+                pmssno = admin_info["pmssno"].ToString();
             }
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, admin_info["case_folder"].ToString()))
             {
-                result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
-                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
+                result.error_description = $"unauthorized PUT {admin_info["case_folder"]}: {byName["_id"]}";
+                Console.Write($"unauthorized PUT {admin_info["case_folder"]}: {byName["_id"]}");
                 return result;
             }
 
@@ -192,16 +192,13 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
-                    result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
-                    Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    result.error_description = $"unauthorized PUT: {result_dictionary["_id"]}";
+                    Console.Write($"unauthorized PUT: {result_dictionary["_id"]}");
                     return result;
                 }
-
-                
-
 
             } 
             catch (Exception ex) 
@@ -216,7 +213,7 @@ public sealed class caseController: ControllerBase
 
             string metadata_url = db_config.Get_Prefix_DB_Url($"mmrds/{id_val}");
             cURL document_curl = new cURL ("PUT", null, metadata_url, object_string,db_config.user_name, db_config.user_value);
-
+            
             string save_response_from_server = null;
             try
             {
@@ -230,7 +227,7 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-            if (!result.ok && result.error_description  == null)
+            if (!result.ok  && string.IsNullOrWhiteSpace(result.error_description))
             {
                 result.error_description = save_response_from_server;
                 Console.Write($"save failed for: {id_val}");
@@ -239,7 +236,7 @@ public sealed class caseController: ControllerBase
 
 
             var audit_data = save_case_request.Change_Stack;
-            audit_data.record_id = mmria_record_id;
+            audit_data.record_id = pmssno;
             audit_data.metadata_version = configuration.GetString("metadata_version", host_prefix);
 
             var audit_string = Newtonsoft.Json.JsonConvert.SerializeObject(audit_data, settings);
@@ -261,7 +258,9 @@ public sealed class caseController: ControllerBase
             var Sync_Document_Message = new mmria.pmss.server.model.actor.Sync_Document_Message
             (
                 id_val,
-                    object_string
+                object_string,
+                "PUT",
+                configuration.GetString("metadata_version", host_prefix)
             );
 
             _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
@@ -270,6 +269,7 @@ public sealed class caseController: ControllerBase
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
             case_sync_actor.Tell(Sync_Document_Message);
             */
+
 
         }
         catch(Exception ex) 
@@ -289,7 +289,7 @@ public sealed class caseController: ControllerBase
         try
         {
 
-            var mmria_record_id = "";
+            var pmssno = "";
             var first_name = "";
             var last_name = "";
 
@@ -328,10 +328,10 @@ public sealed class caseController: ControllerBase
                 if
                 (
                     result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
                 )
                 {
-                    Console.Write($"unauthorized DELETE {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized DELETE {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
                     return null;
                 }
                 
@@ -343,19 +343,22 @@ public sealed class caseController: ControllerBase
 
                 if 
                 (
-                    result_dictionary.ContainsKey ("home_record") &&
-                    result_dictionary["home_record"] is IDictionary<string,object> home_record
+                    result_dictionary.ContainsKey ("tracking") &&
+                    result_dictionary["tracking"] is IDictionary<string,object> tracking &&
+                    tracking.ContainsKey("admin_info") &&
+                    result_dictionary["admin_info"] is IDictionary<string,object> admin_info
                     
                 ) 
                 {
-                    if(home_record.ContainsKey("record_id"))
-                    mmria_record_id = home_record["record_id"].ToString();
+                    if(admin_info.ContainsKey("pmssno"))
+                    pmssno = admin_info["pmssno"].ToString();
+/*
+                    if(admin_info.ContainsKey("first_name"))
+                    first_name = tracking["first_name"].ToString();
 
-                    if(home_record.ContainsKey("first_name"))
-                    first_name = home_record["first_name"].ToString();
-
-                    if(home_record.ContainsKey("last_name"))
-                    last_name = home_record["last_name"].ToString();
+                    if(admin_info.ContainsKey("last_name"))
+                    last_name = admin_info["last_name"].ToString();
+                    */
                 }
             } 
             catch (Exception ex) 
@@ -373,7 +376,7 @@ public sealed class caseController: ControllerBase
                 case_id = case_id,
                 case_rev = rev,
 
-                record_id = mmria_record_id,
+                record_id = pmssno,
                 is_delete = true,
                 delete_rev = rev,
 
@@ -415,7 +418,8 @@ public sealed class caseController: ControllerBase
                 (
                     case_id,
                     document_json,
-                    "DELETE"
+                    "DELETE",
+                    configuration.GetString("metadata_version", host_prefix)
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);

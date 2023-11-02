@@ -6,9 +6,6 @@ public sealed class pmss_case_view_sortable_item
 {
     public pmss_case_view_sortable_item () { }
 
-    public string first_name{ get; set; }
-    public string middle_name{ get; set; }
-    public string last_name{ get; set; }
     public int? date_of_death_year{ get; set; }
     public int? date_of_death_month{ get; set; }
 
@@ -20,13 +17,13 @@ public sealed class pmss_case_view_sortable_item
     public DateTime? date_last_checked_out{ get; set; }
     public string last_checked_out_by{ get; set; }
 
-    public string jurisdiction_id {get; set;}
+    public string case_folder {get; set;}
 
     public DateTime? case_locked_date { get; set; }
 
     public string host_state{ get; set; }
   
-    public string pmss_state_code{ get; set; }
+    public string jurisdiction{ get; set; }
     public int? track_year{ get; set; }
     public string pmssno{ get; set; }
     public string med_coder_check{ get; set; }
@@ -45,6 +42,17 @@ public sealed class pmss_case_view_sortable_item
     public string version{ get; set; }
 
     public string residence_zip {get;set;}
+
+    public string type {get;set;} = "pmss";
+
+    public string mage {get;set;}
+    public string manner {get;set;}
+    public string cod1a {get;set;}
+    public string cod1b {get;set;}
+    public string cod1c {get;set;}
+    public string cod1d {get;set;}
+    public string cod_other_condition {get;set;}
+    public string classification {get;set;}
 
 }
 

@@ -21,7 +21,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
-
+using Akka.Configuration;
+/*
+using Akka.HealthCheck.Hosting;
+using Akka.HealthCheck.Hosting.Web;
+using WebApiTemplate.App.Configuration;
+*/
 
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -29,46 +34,14 @@ using Microsoft.AspNetCore.Components.Web;
 
 using mmria.server.extension;
 using mmria.server.authentication;
+using mmria.common.metadata;
+using Akka.Http;
+using System.Net;
 
 namespace mmria.server;
 
 public sealed partial class Program
-{
-    public static string config_couchdb_url = "http://localhost:5984";
-
-    public static string db_prefix = "";
-    public static string config_web_site_url;
-    //public static string config_file_root_folder;
-    public static string config_timer_user_name;
-    public static string config_timer_value;
-    public static string config_export_directory;
-
-    public static string metadata_release_version_name;
-
-    public static string vitals_service_key;
-
-    public static mmria.common.couchdb.ConfigurationSet configuration_set;
-
-    public static string config_cdc_instance_pull_list;
-    public static string config_cdc_instance_pull_db_url;
-
-    public static bool is_schedule_enabled = true;
-    public static int config_session_idle_timeout_minutes;
-
-    public static bool is_db_check_enabled = false;
-
-    public static string config_vitals_url;
-    
-    public static int config_pass_word_minimum_length = 8;
-    public static int config_pass_word_days_before_expires = 0;
-    public static int config_pass_word_days_before_user_is_notified_of_expiration = 0;
-    public static int config_default_days_in_effective_date_interval = 90;
-    public static int config_unsuccessful_login_attempts_number_before_lockout = 5;
-    public static int config_unsuccessful_login_attempts_within_number_of_minutes = 120;
-    public static int config_unsuccessful_login_attempts_lockout_number_of_minutes = 15;
-    
-    public static Akka.Actor.ActorSystem actorSystem;
-    
+{    
     public static Quartz.IScheduler sched;
     public static ITrigger check_for_changes_job_trigger;
     public static ITrigger rebuild_queue_job_trigger;
@@ -89,6 +62,8 @@ public sealed partial class Program
 
         configuration = builder.Configuration;
 
+        //string config_export_directory = "/workspace/export";
+
         try
         {
             /*
@@ -99,16 +74,6 @@ public sealed partial class Program
             .Build();
             */
 
-            if (bool.Parse (configuration["mmria_settings:is_environment_based"])) 
-            {
-                Program.config_web_site_url = System.Environment.GetEnvironmentVariable ("web_site_url");
-                Program.config_export_directory = System.Environment.GetEnvironmentVariable ("export_directory") != null ? System.Environment.GetEnvironmentVariable ("export_directory") : "/workspace/export";
-            }
-            else 
-            {
-                Program.config_web_site_url = configuration["mmria_settings:web_site_url"];
-                Program.config_export_directory = configuration["mmria_settings:export_directory"];
-            }
 
 
             if(configuration["mmria_settings:log_directory"]!= null && !string.IsNullOrEmpty(configuration["mmria_settings:log_directory"]))
@@ -141,16 +106,16 @@ public sealed partial class Program
             Program.DateOfLastChange_Sequence_Call.Add(DateTime.Now);
 
 
-            configuration["mmria_settings:is_schedule_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_schedule_enabled);
-
-            configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
             
-            configuration["mmria_settings:metadata_version"].SetIfIsNotNullOrWhiteSpace(ref Program.metadata_release_version_name);
-            configuration["mmria_settings:db_prefix"].SetIfIsNotNullOrWhiteSpace(ref Program.db_prefix);
-            configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
-            configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
-            configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
-            configuration["mmria_settings:vitals_service_key"].SetIfIsNotNullOrWhiteSpace(ref Program.vitals_service_key);
+
+            //configuration["mmria_settings:is_db_check_enabled"].SetIfIsNotNullOrWhiteSpace(ref Program.is_db_check_enabled);
+            
+            
+            
+            //configuration["mmria_settings:cdc_instance_pull_list"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_list);
+            //configuration["mmria_settings:cdc_instance_pull_db_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_cdc_instance_pull_db_url);
+            //configuration["mmria_settings:vitals_url"].SetIfIsNotNullOrWhiteSpace(ref Program.config_vitals_url);
+            
 
 
             string couchdb_url =  configuration["mmria_settings:couchdb_url"];
@@ -158,33 +123,42 @@ public sealed partial class Program
             string timer_value = configuration["mmria_settings:timer_value"];
             string shared_config_id = configuration["mmria_settings:shared_config_id"];
             string host_prefix = "shared";
+            string config_id = null;
             string app_instance_name = null;
+
+            bool sams_is_enabled = false;
 
 
             configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref host_prefix);
             configuration["mmria_settings:shared_config_id"].SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
             configuration["mmria_settings:app_instance_name"].SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
+            configuration["sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
 
             System.Environment.GetEnvironmentVariable("couchdb_url").SetIfIsNotNullOrWhiteSpace(ref couchdb_url);
             System.Environment.GetEnvironmentVariable("timer_user_name").SetIfIsNotNullOrWhiteSpace(ref timer_user_name);
             System.Environment.GetEnvironmentVariable("timer_password").SetIfIsNotNullOrWhiteSpace(ref timer_value);
             System.Environment.GetEnvironmentVariable("shared_config_id").SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
-            System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref config_id);
             System.Environment.GetEnvironmentVariable("app_instance_name").SetIfIsNotNullOrWhiteSpace(ref app_instance_name);
+            System.Environment.GetEnvironmentVariable("sams_is_enabled").SetIfIsNotNullOrWhiteSpace(ref sams_is_enabled);
 
-
-
+            if(host_prefix == "shared")
+            {
+                System.Environment.GetEnvironmentVariable("config_id").SetIfIsNotNullOrWhiteSpace(ref host_prefix);
+            }
 
             //Program.config_geocode_api_key = configuration["mmria_settings:geocode_api_key"];
             //Program.config_geocode_api_url = configuration["mmria_settings:geocode_api_url"];
             
 
 
-            Log.Information("Overriable Config:");
+            Log.Information("Pre Overridable Config:");
             Log.Information($"couchdb_url: {couchdb_url}");
             Log.Information($"timer_user_name: {timer_user_name}");
-            Log.Information($"host_prefix: {host_prefix}");
+            Log.Information($"host_prefix({host_prefix.Length}): {host_prefix}");
+            Log.Information($"config_id: {config_id}");
             Log.Information($"shared_config_id: {shared_config_id}");
+            Log.Information($"sams:is_enabled: {sams_is_enabled}");
             Log.Information("***********************\n");
 
 
@@ -200,38 +174,47 @@ public sealed partial class Program
                 shared_config_id
             );
 
+            Log.Information($"loaded shared_config key list:");
+            var key_set = new HashSet<string>();
+
+            foreach(var kvp in overridable_config.boolean_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var kvp in overridable_config.string_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var kvp in overridable_config.integer_keys)
+            {
+                key_set.Add(kvp.Key);
+            }
+
+            foreach(var key in key_set)
+            {
+                Log.Information("\t" + key);
+            }
+            Log.Information("\n");
+
 
             overridable_config.SetString(host_prefix, "shared_config_id", shared_config_id);
 
             builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
 
-            
-            Program.config_couchdb_url = overridable_config.GetString("couchdb_url", host_prefix);
-            Program.config_timer_user_name = overridable_config.GetString("timer_user_name", host_prefix);
-            Program.config_timer_value = overridable_config.GetString("timer_value", host_prefix);
-
-
-
-            Program.config_web_site_url = overridable_config.GetString("web_site_url", host_prefix);
-            //Program.config_file_root_folder = configuration["mmria_settings:file_root_folder"];
-
-            Program.config_export_directory = overridable_config.GetString("export_directory", host_prefix);
-
-            configuration["mmria_settings:session_idle_timeout_minutes"].SetIfIsNotNullOrWhiteSpace(ref Program.config_session_idle_timeout_minutes,30);
-
-            Program.config_pass_word_minimum_length = SetFromIfHasValue(Program.config_pass_word_minimum_length, configuration["password_settings:minimum_length"], 8);
-            Program.config_pass_word_days_before_expires = SetFromIfHasValue(Program.config_pass_word_days_before_expires, configuration["password_settings:days_before_expires"], 0);
-            Program.config_pass_word_days_before_user_is_notified_of_expiration = SetFromIfHasValue(Program.config_pass_word_days_before_user_is_notified_of_expiration, configuration["password_settings:days_before_user_is_notified_of_expiration"], 0);
-
-            Program.config_default_days_in_effective_date_interval = SetFromIfHasValue(Program.config_default_days_in_effective_date_interval, configuration["authentication_settings:default_days_in_effective_date_interval"], 0);
-            Program.config_unsuccessful_login_attempts_number_before_lockout = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_number_before_lockout, configuration["authentication_settings:unsuccessful_login_attempts_number_before_lockout"], 5);
-            Program.config_unsuccessful_login_attempts_within_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_within_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_within_number_of_minutes"], 120);
-            Program.config_unsuccessful_login_attempts_lockout_number_of_minutes = SetFromIfHasValue(Program.config_unsuccessful_login_attempts_lockout_number_of_minutes, configuration["authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes"], 15);
-
             if(string.IsNullOrWhiteSpace(overridable_config.GetString("config_id",host_prefix)))
             {
-                
-                overridable_config.SetString(host_prefix, "config_id", host_prefix);
+                if(string.IsNullOrWhiteSpace(config_id))
+                {
+
+                    overridable_config.SetString(host_prefix, "config_id", host_prefix);
+                }
+                else
+
+                {
+                    overridable_config.SetString(host_prefix, "config_id", config_id);
+                }
                 Log.Information($"*config_id = {overridable_config.GetString("config_id",host_prefix)}");
             }
             else
@@ -240,10 +223,10 @@ public sealed partial class Program
             }
 
 
-            if(string.IsNullOrWhiteSpace(overridable_config.GetString("app_instance_name",host_prefix)))
+            if(string.IsNullOrWhiteSpace(overridable_config.GetOverridedString("app_instance_name",host_prefix)))
             {
                 
-                overridable_config.SetString(host_prefix, "app_instance_name", host_prefix);
+                overridable_config.SetString(host_prefix, "app_instance_name", app_instance_name);
                 Log.Information("*app_instance_name: {0}", overridable_config.GetString("app_instance_name", host_prefix));
             }
             else
@@ -252,16 +235,49 @@ public sealed partial class Program
             }
 
 
+
+            var sams_exists = overridable_config.GetBoolean("sams:is_enabled",host_prefix);
+
+            if
+            (
+                !sams_exists.HasValue ||
+                sams_exists.Value != sams_is_enabled
+            )
+            {
+                
+                if(sams_exists.HasValue)
+                {
+                    Log.Information("sams_exists: {0}", sams_exists.Value);
+                }
+                overridable_config.SetBoolean(host_prefix, "*sams:is_enabled", sams_is_enabled);
+                var val = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
+                if(val.HasValue)
+                {
+                   
+                    Log.Information("*sams:is_enabled: {0}", val.Value);
+                }
+                else
+                {
+                    Log.Information("*sams:is_enabled: problem with overridable_config");
+                }
+                
+            }
+            else
+            {
+                Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
+            }
+
             Log.Information($"host_prefix = {host_prefix}");
             Log.Information("metadata_version: {0}", overridable_config.GetString("metadata_version", host_prefix));
           
-            Log.Information($"Program.config_timer_user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
-            Log.Information($"Program.config_couchdb_url = {overridable_config.GetString("couchdb_url", host_prefix)}");
-            Log.Information($"Program.db_prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
+            Log.Information($"db_config.user_name = {overridable_config.GetString("timer_user_name",host_prefix)}");
+            Log.Information($"db_config.url = {overridable_config.GetString("couchdb_url", host_prefix)}");
+            Log.Information($"db_config.prefix = {overridable_config.GetString("db_prefix",host_prefix)}");
             
             Log.Information($"shared_config_id = {overridable_config.GetString("shared_config_id",host_prefix)}");
             Log.Information($"Logging = {configuration["Logging:IncludeScopes"]}");
             Log.Information($"Console = {configuration["Console:LogLevel:Default"]}");
+            
             Log.Information("sams:callback_url: {0}", overridable_config.GetString("sams:callback_url",host_prefix));
             Log.Information("sams:activity_name: {0}", overridable_config.GetString("sams:activity_name",host_prefix));
             Log.Information("is_schedule_enabled: {0}", overridable_config.GetBoolean("is_schedule_enabled", host_prefix));
@@ -284,9 +300,6 @@ public sealed partial class Program
             );
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
-            Program.configuration_set = DbConfigSet;
-
-
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
             configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
@@ -305,24 +318,67 @@ public sealed partial class Program
 
 
             // ******* To Be removed start
-            Program.metadata_release_version_name = overridable_config.GetString("metadata_version", host_prefix);
-
+            configuration["mmria_settings:config_id"] = overridable_config.GetString("config_id", host_prefix);
+            configuration["mmria_settings:export_directory"] = overridable_config.GetString("export_directory", host_prefix);
+            configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
+            configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
+            configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
+            configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
 
 
             // ******* To Be removed end
 
+            const string mmria_actor_system_name = "mmria-actor-system";
+            var akka_port = overridable_config.GetString("akka:port", host_prefix);
+            var akka_seed_node = overridable_config.GetString("akka:seed_node", host_prefix);
+
+            if(string.IsNullOrWhiteSpace(akka_port))
+                akka_port = "8081";
+
+            if(string.IsNullOrWhiteSpace(akka_seed_node))
+                akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
 
 
-            Program.actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
-            builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => Program.actorSystem);
+            var akka_ip_address = Dns.GetHostAddresses(Dns.GetHostName())[0];
+            var akka_config_string = $$"""
+            akka {
+                    actor.provider = cluster
+                    remote {
+                        dot-netty.tcp {
+                            port = {{akka_port}}
+                            hostname = {{akka_ip_address}}
+                        }
+                    }
+                    cluster {
+                        seed-nodes = ["{{akka_seed_node.Replace("{ip_address}", akka_ip_address.ToString())}}"]
+                    }
+                }
+            """;
+
+            //System.Console.WriteLine(akka_config_string);
+            //var config = ConfigurationFactory.ParseString(akka_config_string);
+            //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
+            
+            Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
+            Log.Information($"Akka seed node: {akka_seed_node}");
+            
+            
+            builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
             Quartz.IScheduler sched = schedFact.GetScheduler().Result;
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
+            
+            var JobDataMap = new Quartz.JobDataMap();
+
+            JobDataMap.Add("ActorSystem", actorSystem);
+            
             IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
+                .SetJobData(JobDataMap)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
@@ -333,22 +389,31 @@ public sealed partial class Program
 
             sched.ScheduleJob(job, trigger);
 
-            if (Program.is_schedule_enabled)
+
+            var is_schedule_enabled = overridable_config.GetBoolean("is_schedule_enabled", host_prefix);
+            if 
+            (
+                is_schedule_enabled.HasValue && 
+                is_schedule_enabled.Value
+            )
             {
                 sched.Start();
             }
 
-            var quartzSupervisor = Program.actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
-            actorSystem.ActorOf(Props.Create<mmria.server.SteveAPISupervisor>(provider), "steve-api-supervisor");
+            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
+            actorSystem.ActorOf(Props.Create<mmria.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
 
             quartzSupervisor.Tell("init");
 
-            bool use_sams = false;
+            bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
 
-            configuration["sams:is_enabled"].SetIfIsNotNullOrWhiteSpace(ref use_sams);
-
-            if (use_sams)
+            
+            if 
+            (
+                use_sams.HasValue && 
+                use_sams.Value
+            )
             {
                 Log.Information("using sams");
 
@@ -386,6 +451,7 @@ public sealed partial class Program
                 options.AddPolicy("form_designer", policy => policy.RequireRole("form_designer"));
                 options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
                 options.AddPolicy("vital_importer", policy => policy.RequireRole("vital_importer"));
+                options.AddPolicy("vital_importer_state", policy => policy.RequireRole("vital_importer_state"));
                 options.AddPolicy("cdc_admin", policy => policy.RequireRole("cdc_admin"));
                 options.AddPolicy("cdc_analyst", policy => policy.RequireRole("cdc_analyst"));
                 options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
@@ -420,9 +486,6 @@ public sealed partial class Program
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            var is_schedule_enabled = overridable_config.GetBoolean("is_schedule_enabled", host_prefix);
-
-
             if 
             (
                 is_schedule_enabled.HasValue && 
@@ -433,7 +496,12 @@ public sealed partial class Program
                 (
                     new Action(async () =>
                     {
-                        await new mmria.server.utils.c_db_setup(Program.actorSystem).Setup();
+                        await new mmria.server.utils.c_db_setup
+                        (
+                            actorSystem,
+                            overridable_config,
+                            host_prefix
+                        ).Setup();
                     }
                 ));
             }
@@ -506,7 +574,7 @@ public sealed partial class Program
 
             //app.MapFallbackToPage("/_Host");
 
-            app.Run(config_web_site_url);
+            app.Run(overridable_config.GetString("web_site_url", host_prefix));
 
         }
         catch (System.Exception ex)
@@ -652,6 +720,7 @@ public sealed partial class Program
             string request_string = $"{configuration.url}/configuration/{shared_config_id}";
             var case_curl = new mmria.server.cURL("GET", null, request_string, null, configuration.user_name, configuration.user_value);
             string responseFromServer = case_curl.execute();
+            //System.Console.WriteLine(responseFromServer);
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
         }
         catch(Exception ex)

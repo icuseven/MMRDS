@@ -18,6 +18,16 @@ public sealed class Process_Migrate_Data : UntypedActor
     //protected override void PreStart() => Console.WriteLine("Process_Migrate_Data started");
     //protected override void PostStop() => Console.WriteLine("Process_Migrate_Data stopped");
 
+	mmria.common.couchdb.DBConfigurationDetail db_config = null;
+
+    public Process_Migrate_Data
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
+
     protected override void OnReceive(object message)
     {
         try
@@ -74,9 +84,9 @@ public sealed class Process_Migrate_Data : UntypedActor
             Console.WriteLine($"Process_Migrate_Data Begin {System.DateTime.Now}");
 
 
-            string url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_all_docs?include_docs=true";
+            string url = db_config.url + $"/{db_config.prefix}mmrds/_all_docs?include_docs=true";
 
-            var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
+            var case_curl = new cURL("GET", null, url, null, db_config.user_name, db_config.user_value);
             string responseFromServer = case_curl.execute();
             
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
@@ -155,8 +165,8 @@ public sealed class Process_Migrate_Data : UntypedActor
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_item.doc, settings);
 
-                    string put_url = Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/"  + case_item.id;
-                    cURL document_curl = new cURL ("PUT", null, put_url, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                    string put_url = db_config.url + $"/{db_config.prefix}mmrds/"  + case_item.id;
+                    cURL document_curl = new cURL ("PUT", null, put_url, object_string, db_config.user_name, db_config.user_value);
 
                     try
                     {
@@ -182,9 +192,9 @@ public sealed class Process_Migrate_Data : UntypedActor
 
     private mmria.common.model.migration_plan get_migration_plan(string p_id)
     {
-        string url = Program.config_couchdb_url + $"/metadata/{p_id}";
+        string url = db_config.url + $"/metadata/{p_id}";
 
-        var curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var curl = new cURL("GET", null, url, null, db_config.user_name, db_config.user_value);
         string responseFromServer = curl.execute();
             
         var migration_plan = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.migration_plan>(responseFromServer);

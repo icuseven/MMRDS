@@ -9,7 +9,15 @@ public sealed class Process_Export_Queue : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Process_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Process_Export_Queue stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Process_Export_Queue
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         switch(message)
@@ -53,7 +61,7 @@ public sealed class Process_Export_Queue : UntypedActor
 
         List<export_queue_item> result = new List<export_queue_item> ();
         
-        var get_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_all_docs?include_docs=true", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+        var get_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}export_queue/_all_docs?include_docs=true", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
         string responseFromServer = get_curl.execute ();
 
@@ -157,13 +165,13 @@ public sealed class Process_Export_Queue : UntypedActor
             string get_revision(string p_id)
             {
                 var result = new export_queue_item();
-                //var get_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue
+                //var get_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}export_queue
                 try
                 {
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                    var error_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/{p_id}", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                    var error_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}export_queue/{p_id}", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                     var response = error_curl.execute ();
                     result =  Newtonsoft.Json.JsonConvert.DeserializeObject<export_queue_item>(response);
@@ -195,7 +203,7 @@ public sealed class Process_Export_Queue : UntypedActor
                     Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                     settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                     string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                    var error_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + i._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                    var error_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + i._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                     //var response = error_curl.execute ();
                     error_curl.execute ();
@@ -235,7 +243,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                var set_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                 responseFromServer = set_curl.execute ();
 
@@ -267,7 +275,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                var set_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                 responseFromServer = set_curl.execute ();
 
@@ -298,7 +306,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                var set_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                 responseFromServer = set_curl.execute ();
                 args.Add ("is_cdc_de_identified:true");
@@ -331,7 +339,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject (item_to_process, settings);
-                var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                var set_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                 responseFromServer = set_curl.execute ();
                 args.Add ("is_cdc_de_identified:true");
@@ -364,7 +372,7 @@ public sealed class Process_Export_Queue : UntypedActor
 
         List<export_queue_item> result = new List<export_queue_item> ();
 
-        var get_curl = new cURL ("GET", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_all_docs?include_docs=true", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+        var get_curl = new cURL ("GET", null, db_config.url + $"/{db_config.prefix}export_queue/_all_docs?include_docs=true", null, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
         string responseFromServer = get_curl.execute ();
 
@@ -468,7 +476,7 @@ public sealed class Process_Export_Queue : UntypedActor
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 string object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item_to_process, settings); 
-                var set_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
+                var set_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/" + item_to_process._id, object_string, scheduleInfoMessage.user_name, scheduleInfoMessage.user_value);
 
                 responseFromServer = get_curl.execute ();
             }

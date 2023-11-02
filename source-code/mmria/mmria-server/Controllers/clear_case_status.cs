@@ -247,10 +247,6 @@ public sealed class clear_case_statusController : Controller
                         {
                             model.CaseStatusDisplay = "Problem Setting Status to (blank)";
                         }
-
-
-
-
                     }
                     else
                     {

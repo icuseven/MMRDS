@@ -76,6 +76,7 @@ public sealed class node
 
 
     public string other_specify_list { get;set;}
+    public string parent_list { get;set;}
     public string top { get; set; }
     public string left { get; set; }
     public string width { get; set; }

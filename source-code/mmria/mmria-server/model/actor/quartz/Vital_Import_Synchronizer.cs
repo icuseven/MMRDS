@@ -11,7 +11,15 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
     private static int run_count = 0;
     //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
+	mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Vital_Import_Synchronizer
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
             
@@ -34,16 +42,16 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                 {
                     try
                     {
-                        var db_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds";
-                        var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, Program.config_timer_user_name, Program.config_timer_value);
+                        var db_url = $"{db_config.url}/{db_config.prefix}mmrds";
+                        var delete_mmrds_curl = new cURL ("DELETE", null, db_url, null, db_config.user_name, db_config.user_value);
                         delete_mmrds_curl.executeAsync ().GetAwaiter().GetResult();
 
                         string current_directory = AppContext.BaseDirectory;
 
-                        var mmrds_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds", null, Program.config_timer_user_name, Program.config_timer_value);
+                        var mmrds_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}mmrds", null, db_config.user_name, db_config.user_value);
                         System.Console.WriteLine("mmrds_curl\n{0}", mmrds_curl.executeAsync ().GetAwaiter().GetResult());
 
-                        new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", Program.config_timer_user_name, Program.config_timer_value).executeAsync ().GetAwaiter().GetResult();
+                        new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}mmrds/_security", "{\"admins\":{\"names\":[],\"roles\":[\"form_designer\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\",\"data_analyst\",\"timer\"]}}", db_config.user_name, db_config.user_value).executeAsync ().GetAwaiter().GetResult();
                         System.Console.WriteLine("mmrds/_security completed successfully");
 
                         try 
@@ -52,14 +60,14 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                             {
 
                                 string case_design_sortable = sr.ReadToEnd ();
-                                var case_design_sortable_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/sortable", case_design_sortable, Program.config_timer_user_name, Program.config_timer_value);
+                                var case_design_sortable_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}mmrds/_design/sortable", case_design_sortable, db_config.user_name, db_config.user_value);
                                 case_design_sortable_curl.executeAsync ().GetAwaiter().GetResult();
                             }
 
                             using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine (current_directory, "database-scripts/case_store_design_auth.json")))
                             {
                                 string case_store_design_auth = sr.ReadToEndAsync ().GetAwaiter().GetResult();
-                                var case_store_design_auth_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}mmrds/_design/auth", case_store_design_auth, Program.config_timer_user_name, Program.config_timer_value);
+                                var case_store_design_auth_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}mmrds/_design/auth", case_store_design_auth, db_config.user_name, db_config.user_value);
                                 case_store_design_auth_curl.executeAsync ().GetAwaiter().GetResult();    
                             }
                                                             
@@ -92,7 +100,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                             var db_server_url = pre_db_server_url.Replace("{prefix}", instance_name);
 
                             string url = $"{db_server_url}/{db_name}/_all_docs?include_docs=true";
-                            var case_curl = new cURL("GET", null, url, null, Program.config_timer_user_name, Program.config_timer_value);
+                            var case_curl = new cURL("GET", null, url, null, db_config.user_name, db_config.user_value);
                             string responseFromServer = case_curl.execute();
                             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
 
@@ -125,7 +133,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
 
 
 
-                                var  target_url = $"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/{_id}";
+                                var  target_url = $"{db_config.url}/{db_config.prefix}mmrds/{_id}";
 
                                 var document_json = Newtonsoft.Json.JsonConvert.SerializeObject(case_item);
                                 var de_identified_json = new mmria.server.utils.c_cdc_de_identifier(document_json).executeAsync().GetAwaiter().GetResult();
@@ -147,7 +155,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                                 
                                 var save_json = document_json = Newtonsoft.Json.JsonConvert.SerializeObject(de_identified_dictionary);
 
-                                var put_result_string = Put_Document(save_json, _id, target_url, Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                                var put_result_string = Put_Document(save_json, _id, target_url, db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
 
                                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(put_result_string);
 
@@ -167,12 +175,12 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
                     }
                 }
 
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}mmrds/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}de_id/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_compact",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
-                PostCommand($"{Program.config_couchdb_url}/{Program.db_prefix}report/_view_cleanup",Program.config_timer_user_name, Program.config_timer_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}mmrds/_compact",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}mmrds/_view_cleanup",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}de_id/_compact",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}de_id/_view_cleanup",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}report/_compact",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
+                PostCommand($"{db_config.url}/{db_config.prefix}report/_view_cleanup",db_config.user_name, db_config.user_value).GetAwaiter().GetResult();
 
                 */
                 break;
@@ -241,7 +249,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, Program.config_timer_user_name, Program.config_timer_value);
+        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try

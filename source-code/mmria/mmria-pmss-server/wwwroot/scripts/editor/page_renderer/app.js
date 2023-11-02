@@ -59,21 +59,40 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     
     p_result.push("</div>");
 
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <table>
+            <tr><td>
+            <label for="search_jurisdiction" class="mr-2">Jurisdiction:</label>
+            <select id="search_jurisdiction" class="custom-select" onchange="search_jurisdiction_onchange(this.value)">
+                ${render_jurisdiction(p_ui.case_view_request)}
+            </select>
+            </td><td>
+            <label for="search_yod" class="mr-2">YOD:</label>
+            <select id="search_yod" class="custom-select" onchange="search_year_of_death_onchange(this.value)">
+                ${render_year_of_death(p_ui.case_view_request)}
+            </select>
+            </td>
+            <td>
+            <label for="search_case_status" class="mr-2">Status:</label>
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                ${render_case_status(p_ui.case_view_request)}
+            </select>
+            </td></tr>
+            </table>
+        </div>`
+    );
+
+
     /* Case Status */
     p_result.push(
         `<div class="form-inline mb-2">
-            <label for="search_case_status" class="mr-2">Case Status:</label>
-            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                ${renderSortCaseStatus(p_ui.case_view_request)}
+
+            <label for="search_classification" class="mr-2">Classification:</label>
+            <select id="search_classification" class="custom-select" onchange="search_classification_onchange(this.value)">
+                ${render_classification(p_ui.case_view_request)}
             </select>
-        </div>`
-    );
-    p_result.push(
-        `<div class="form-inline mb-2">
-            <label for="search_pregnancy_relatedness" class="mr-2">Pregnancy Relatedness:</label>
-            <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
-                ${renderPregnancyRelatedness(p_ui.case_view_request)}
-            </select>
+
         </div>`
     );
     /* Sort By: */
@@ -115,6 +134,13 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     p_result.push("</div> <!-- end .content-intro -->");
 
+    let pagination_current_page = p_ui.case_view_request.page;
+    const pagination_number_of_pages = Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take);
+    if(pagination_number_of_pages == 0)
+    {
+        pagination_current_page = 0;
+    }
+
     p_result.push("<div class='table-pagination row align-items-center no-gutters'>");
         p_result.push("<div class='col'>");
             p_result.push("<div class='row no-gutters'>");
@@ -123,9 +149,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 p_result.push("</p>");
                 p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
                 p_result.push("<p class='mb-0'>Viewing Page(s): ");
-                    p_result.push("<strong>" + p_ui.case_view_request.page + "</strong> ");
+                    p_result.push("<strong>" + pagination_current_page + "</strong> ");
                     p_result.push("of ");
-                    p_result.push("<strong>" + Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take) + "</strong>");
+                    p_result.push("<strong>" + pagination_number_of_pages + "</strong>");
                 p_result.push("</p>");
             p_result.push("</div>");
         p_result.push("</div>");
@@ -153,7 +179,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 <tr class='tr'>
                     <th class='th' scope='col'>Case Information</th>
                     <th class='th' scope='col'>Case Status</th>
-                    <th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th>
+                    <!--th class='th' scope='col'>Review Date (Projected Date, Actual Date)</th-->
                     <th class='th' scope='col'>Created</th>
                     <th class='th' scope='col'>Last Updated</th>
                     <th class='th' scope='col'>Currently Edited By</th>
@@ -177,9 +203,9 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 p_result.push("</p>");
                 p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
                 p_result.push("<p class='mb-0'>Viewing Page(s): ");
-                    p_result.push("<strong>" + p_ui.case_view_request.page + "</strong> ");
+                    p_result.push("<strong>" + pagination_current_page + "</strong> ");
                     p_result.push("of ");
-                    p_result.push("<strong>" + Math.ceil(p_ui.case_view_request.total_rows / p_ui.case_view_request.take) + "</strong>");
+                    p_result.push("<strong>" + pagination_number_of_pages + "</strong>");
                 p_result.push("</p>");
             p_result.push("</div>");
         p_result.push("</div>");
@@ -284,52 +310,64 @@ function render_sort_by_include_in_export(p_sort)
             display : 'By date last updated'
         },
         {
-            value : 'by_last_name',
-            display : 'By last name'
+            value : 'by_pmssno',
+            display : 'PMSS#'
         },
         {
-            value : 'by_first_name',
-            display : 'By first name'
+            value : 'by_death_certificate_number',
+            display : 'Death certificate number'
         },
         {
-            value : 'by_middle_name',
-            display : 'By middle name'
+            value : 'by_dod',
+            display : 'Date of Death (calculated)'
         },
         {
-            value : 'by_year_of_death',
-            display : 'By year of death'
+            value : 'by_dob',
+            display : 'Date of Birth (calculated)'
         },
         {
-            value : 'by_month_of_death',
-            display : 'By month of death'
+            value : 'by_reszip',
+            display : 'Zip code of residence'
         },
         {
-            value : 'by_committee_review_date',
-            display : 'By committee review date'
+            value : 'by_mage',
+            display : 'Maternal age at Death'
+        },
+        {
+            value : 'by_manner',
+            display : 'Manner'
+        },
+        {
+            value : 'by_cod',
+            display : 'Cause of Death'
+        },
+        {
+            value : 'by_cod_other_condition',
+            display : 'Cause of Death Part II'
+        },
+        {
+            value : 'by_jurisdiction',
+            display : 'Jurisdiction'
+        },
+        {
+            value : 'by_track_year',
+            display : 'Year of Death'
+        },
+        {
+            value : 'by_case_status',
+            display : 'Status'
+        },
+        {
+            value : 'by_classification',
+            display : 'Classification'
         },
         {
             value : 'by_created_by',
-            display : 'By created by'
+            display : 'Created By'
         },
         {
             value : 'by_last_updated_by',
-            display : 'By last updated by'
-        },
-        {
-            value : 'by_state_of_death',
-            display : 'By state of death'
-        },
-        {
-            value : 'by_agency_case_id',
-            display : 'By agency-based case identifier'
-        },
-        {
-            value : 'by_record_id',
-            display : 'By Record id'
-        },
-        {
-            value : 'by_pregnancy_relatedness',
-            display : 'By pregnancy relatedness'
+            display : 'Last Updated By'
         }
 	];
 
@@ -350,40 +388,56 @@ function render_field_selection(p_sort)
             display : '-- All --'
         },
         {
-            value : 'by_agency_case_id',
-            display : 'Agency-Based Case Identifier'
+            value : 'by_pmssno',
+            display : 'PMSS#'
         },
         {
-            value : 'by_record_id',
-            display : 'Record Id'
+            value : 'by_death_certificate_number',
+            display : 'Death certificate number'
         },
         {
-            value : 'by_last_name',
-            display : 'Last Name'
+            value : 'by_dod',
+            display : 'Date of Death (calculated)'
         },
         {
-            value : 'by_first_name',
-            display : 'First Name'
+            value : 'by_dob',
+            display : 'Date of Birth (calculated)'
         },
         {
-            value : 'by_middle_name',
-            display : 'Middle Name'
+            value : 'by_reszip',
+            display : 'Zip code of residence'
         },
         {
-            value : 'by_state_of_death',
-            display : 'State of Death'
+            value : 'by_mage',
+            display : 'Maternal age at Death'
         },
         {
-            value : 'by_year_of_death',
+            value : 'by_manner',
+            display : 'Manner'
+        },
+        {
+            value : 'by_cod',
+            display : 'Cause of Death'
+        },
+        {
+            value : 'by_cod_other_condition',
+            display : 'Cause of Death Part II'
+        },
+        {
+            value : 'by_jurisdiction',
+            display : 'Jurisdiction'
+        },
+        {
+            value : 'by_track_year',
             display : 'Year of Death'
         },
         {
-            value : 'by_month_of_death',
-            display : 'Month of Death'
+            value : 'by_case_status',
+            display : 'Status'
         },
         {
-            value : 'by_committee_review_date',
-            display : 'Committee Review Date'
+            value : 'by_classification',
+            display : 'Classification'
         },
         {
             value : 'by_date_created',
@@ -412,95 +466,124 @@ function render_field_selection(p_sort)
 	return f_result.join('');
 }
 
-function renderSortCaseStatus(p_case_view)
+function render_jurisdiction(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : '1',
-            display : 'Abstracting (incomplete)'
-        },
-        {
-            value : '2',
-            display : 'Abstraction Complete'
-        },
-        {
-            value : '3',
-            display : 'Ready For Review'
-        },
-        {
-            value : '4',
-            display : 'Review complete and decision entered'
-        },
-        {
-            value : '5',
-            display : 'Out of Scope and death certificate entered'
-        },
-        {
-            value : '6',
-            display : 'False Positive and death certificate entered'
-        },
-        {
-            value : '0',
-            display : 'Vitals Import'
-        },
-    ];
-    const sortCaseStatusList = [];
-
-	sortCaseStatuses.map((status, i) => {
-
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+    const values = [];
+    
+    values.push(       {
+        value : 'all',
+        display : '-- All --'
     });
 
-	return sortCaseStatusList.join('');
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
+    const list = [];
+
+    values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.jurisdiction ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+    return list.join(''); 
+}
+
+function render_year_of_death(p_case_view)
+{
+		const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/year"));
+    
+        const values = [];
+        
+        values.push(       {
+            value : 'all',
+            display : '-- All --'
+        });
+    
+        lookup_value.map((item)=> values.push({
+            value : item.value,
+            display : item.display
+        }));
+
+        const list = [];
+    
+        values.map((status, i) => {
+    
+            return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
+        });
+    
+        return list.join(''); 
+}
+
+function render_case_status(p_case_view)
+{
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
+    
+    const values = [];
+    
+    values.push(       {
+        value : 'all',
+        display : '-- All --'
+    });
+
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
+
+    const list = [];
+
+    values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+    return list.join(''); 
 }
 
 
-function renderPregnancyRelatedness(p_case_view)
+function render_classification(p_case_view)
 {
-	const sortCaseStatuses = [
-        {
-            value : 'all',
-            display : '-- All --'
-        },
-        {
-            value : '9999',
-            display : '(blank)'
-        },
-        ,
-        {
-            value : '1',
-            display : 'Pregnancy-related'
-        },
-        {
-            value : '0',
-            display : 'Pregnancy-Associated, but NOT-Related'
-        },
-        {
-            value : '2',
-            display : 'Pregnancy-Associated, but unable to Determine Pregnancy-Relatedness'
-        },
-        {
-            value : '99',
-            display : 'Not Pregnancy-Related or -Associated (i.e. False Positive)'
-        }
-    ];
-    const sortCaseStatusList = [];
+    const index_list = [];
+    
+    function find_form(item, i)
+    { 
+        if(item.name== "cause_of_death")
+            index_list.push(i);
+    }
 
-	sortCaseStatuses.map((status, i) => {
+    function find_field(item, i)
+    { 
+        if(item.name== "class")
+            index_list.push(i);
+    }
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.pregnancy_relatedness ? ' selected ' : ''}>${status.display}</option>`);
+    g_metadata.children.map(find_form);
+
+    g_metadata.children[index_list[0]].children.map(find_field);
+
+    const lookup_value = g_metadata.children[index_list[0]].children[index_list[1]].values
+    const values = [];
+        
+    values.push(       {
+        value : 'all',
+        display : '-- All --'
     });
 
-	return sortCaseStatusList.join(''); 
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
+
+    const list = [];
+
+	values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return list.join(''); 
 }
 
 
@@ -520,8 +603,10 @@ function clear_case_search()
 {
     g_ui.case_view_request.search_key = '';
     g_ui.case_view_request.sort = 'by_date_created';
-    g_ui.case_view_request.case_status = 'all'
-    g_ui.case_view_request.pregnancy_relatedness = 'all';
+    g_ui.case_view_request.jurisdiction = 'all'
+    g_ui.case_view_request.year_of_death = 'all';
+    g_ui.case_view_request.status = 'all';
+    g_ui.case_view_request.classification = 'all';
     g_ui.case_view_request.field_selection = 'all';
     g_ui.case_view_request.descending = true;
     g_ui.case_view_request.take = 100;
@@ -532,26 +617,49 @@ function clear_case_search()
     get_case_set();
 }
 
-function search_case_status_onchange(p_value)
+function search_year_of_death_onchange(p_value)
 {
-    if(g_ui.case_view_request.case_status != p_value)
+    if(g_ui.case_view_request.year_of_death != p_value)
     {
-        g_ui.case_view_request.case_status = p_value;
+        g_ui.case_view_request.year_of_death = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
     }
 }
 
-function search_pregnancy_relatedness_onchange(p_value)
+
+function search_case_status_onchange(p_value)
 {
-    if(g_ui.case_view_request.pregnancy_relatedness != p_value)
+    if(g_ui.case_view_request.status != p_value)
     {
-        g_ui.case_view_request.pregnancy_relatedness = p_value;
+        g_ui.case_view_request.status = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+}
+
+function search_jurisdiction_onchange(p_value)
+{
+    if(g_ui.case_view_request.jurisdiction != p_value)
+    {
+        g_ui.case_view_request.jurisdiction = p_value;
         g_ui.case_view_request.page = 1;
         g_ui.case_view_request.skip = 0;
     }
     
 }
+
+function search_classification_onchange(p_value)
+{
+    if(g_ui.case_view_request.classification != p_value)
+    {
+        g_ui.case_view_request.classification = p_value;
+        g_ui.case_view_request.page = 1;
+        g_ui.case_view_request.skip = 0;
+    }
+    
+}
+
 
 function search_field_selection_onchange(p_value)
 {
@@ -691,20 +799,9 @@ function render_app_summary_result_item(item, i)
         delete_enabled_html = ' disabled = "disabled" ';
     }
 
-    
-    const caseStatuses = {
-        "9999":"(blank)",	
-        "1":"Abstracting (Incomplete)",
-        "2":"Abstraction Complete",
-        "3":"Ready for Review",
-        "4":"Review Complete and Decision Entered",
-        "5":"Out of Scope and Death Certificate Entered",
-        "6":"False Positive and Death Certificate Entered",
-        "0":"Vitals Import"
-    }; 
     const caseID = item.id;
     const hostState = item.value.host_state;
-    const jurisdictionID = item.value.jurisdiction_id;
+    const jurisdictionID = item.value.case_folder;
     const firstName = item.value.first_name;
     const lastName = item.value.last_name;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
@@ -712,13 +809,13 @@ function render_app_summary_result_item(item, i)
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
+    const currentCaseStatus = app_get_case_status_value_to_display(item.value.status)
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
     const track_year = item.value.track_year;
     const pmssno = item.value.pmssno
-    const pmss_state_code = item.value.pmss_state_code
+    const jurisdiction = item.value.jurisdiction
     const med_coder_check = item.value.med_coder_check
     const med_dir_check = item.value.med_dir_check
     const death_certificate_number = item.value.death_certificate_number
@@ -739,10 +836,10 @@ function render_app_summary_result_item(item, i)
 
     return (
     `<tr class="tr" path="${caseID}">
-        <td class="td"><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${pmssno}, ${status} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td"><a href="#/${i}/${case_listing_get_start_form()}">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col">${currentCaseStatus}</td>
-        <td class="td">${reviewDates}</td>
+        <!--td class="td">${reviewDates}</td-->
         <td class="td">${createdBy} - ${dateCreated}</td>
         <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
         <td class="td">
@@ -808,29 +905,17 @@ function render_app_pinned_summary_result(item, i)
         checked_out_html = '';
         delete_enabled_html = ' disabled = "disabled" ';
     }
-
-    
-    const caseStatuses = {
-        "9999":"(blank)",	
-        "1":"Abstracting (Incomplete)",
-        "2":"Abstraction Complete",
-        "3":"Ready for Review",
-        "4":"Review Complete and Decision Entered",
-        "5":"Out of Scope and Death Certificate Entered",
-        "6":"False Positive and Death Certificate Entered",
-        "0":"Vitals Import"
-    }; 
+ 
     const caseID = item.id;
     const hostState = item.value.host_state;
-    const jurisdictionID = item.value.jurisdiction_id;
-    const firstName = item.value.first_name;
-    const lastName = item.value.last_name;
-    const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
+    const jurisdictionID = item.value.case_folder;
+    const jurisdiction = item.value.jurisdiction;
+    const pmssno = item.value.pmssno ? `- (${item.value.pmssno})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;
     const lastUpdatedBy = item.value.last_updated_by;
     const lockedBy = item.value.last_checked_out_by;
-    const currentCaseStatus = item.value.case_status == null ? '(blank)' : caseStatuses[item.value.case_status.toString()];
+    const currentCaseStatus = app_get_case_status_value_to_display(item.value.status);
     const dateCreated = item.value.date_created ? new Date(item.value.date_created).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     const lastUpdatedDate = item.value.date_last_updated ? new Date(item.value.date_last_updated).toLocaleDateString('en-US') : ''; //convert ISO format to MM/DD/YYYY
     
@@ -842,7 +927,6 @@ function render_app_pinned_summary_result(item, i)
 
     g_pinned_case_count += 1;
 
-
     let border_bottom_color = ""
     if(g_pinned_case_count == mmria_count_number_pinned())
     {
@@ -851,10 +935,10 @@ function render_app_pinned_summary_result(item, i)
 
     return (
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
-        <td class="td" ${border_bottom_color}><a href="#/${i}/tracking">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+        <td class="td" ${border_bottom_color}><a href="#/${i}/${case_listing_get_start_form()}">${get_header_listing_name(item, jurisdiction)}</a>
             ${checked_out_html}</td>
         <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
-        <td class="td" ${border_bottom_color}>${reviewDates}</td>
+        <!--td class="td" ${border_bottom_color}>${reviewDates}</td-->
         <td class="td" ${border_bottom_color}>${createdBy} - ${dateCreated}</td>
         <td class="td" ${border_bottom_color}>${lastUpdatedBy} - ${lastUpdatedDate}</td>
         <td class="td" ${border_bottom_color}>
@@ -908,4 +992,75 @@ async function unpin_case_clicked(p_id)
     {
         await mmria_un_pin_case_click(p_id, false)
     }
+}
+
+
+function get_header_listing_name
+(
+    p_item, 
+    p_jurisdiction
+)
+{
+	const metadata_value_list = eval(convert_dictionary_path_to_lookup_object("lookup/state"));
+	let display_name = p_jurisdiction;
+	for(const element of metadata_value_list)
+	{
+		if( element.value == p_jurisdiction)
+		{
+			const start_index = element.display.indexOf("(");
+			const last_index = element.display.indexOf(")");
+
+			display_name = element.display.substring(start_index + 1, last_index);
+
+			break;
+		}
+	}	
+	
+	return `${display_name} - ${p_item.value.track_year} - ${p_item.value.death_certificate_number} (${p_item.value.pmssno})`;
+}
+
+
+function app_get_case_status_value_to_display(p_value)
+{
+    let result = p_value;
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
+    lookup_value.map((item)=> {
+        if(item.value == p_value)
+        { 
+            result = item.display
+        }
+    
+    } );
+
+    return result; 
+}
+
+
+function app_get_lookup_value_to_display(p_field_name, p_value)
+{
+    let result = p_value;
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object(`lookup/${p_field_name}`));
+    lookup_value.map((item)=> {
+        if(item.value == p_value)
+        { 
+            result = item.display
+        }
+    
+    } );
+
+    return result; 
+}
+
+function case_listing_get_start_form()
+{
+    if
+    (
+        role_set.size == 1 &&
+        role_set.has("vro")
+    )
+    {
+        return "vro_case_determination"
+    }
+
+    return  "tracking";
 }

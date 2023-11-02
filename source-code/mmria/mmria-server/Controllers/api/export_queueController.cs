@@ -23,7 +23,7 @@ public sealed class export_queueController: ControllerBase
 { 
     ActorSystem _actorSystem;
     mmria.common.couchdb.OverridableConfiguration configuration;
-    common.couchdb.DBConfigurationDetail db_config;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
 
     public export_queueController
@@ -197,15 +197,17 @@ public sealed class export_queueController: ControllerBase
                 (
                     configuration.GetString("cron_schedule", host_prefix),
                     db_config.url,
+                    db_config.prefix,
                     db_config.user_name,
                     db_config.user_value,
                     configuration.GetString("export_directory", host_prefix),
                     juris_user_name,
-                    Program.metadata_release_version_name
+                    configuration.GetString("metadata_version", host_prefix),
+                    configuration.GetString("cdc_instance_pull_list", host_prefix)
 
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
+                _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.quartz.Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
             }
             else // if (!result.ok) 
             {

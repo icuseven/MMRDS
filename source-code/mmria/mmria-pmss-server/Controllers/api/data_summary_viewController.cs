@@ -70,7 +70,7 @@ public sealed class data_summary_viewControllerController: ControllerBase
             var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
             
-            var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(User);
+            var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 
 
             List<mmria.pmss.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();

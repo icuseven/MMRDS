@@ -813,7 +813,8 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 				break;
 			case "validation_description":
 			case "description":
-            case "other_specify_list":     
+            case "other_specify_list":
+            case "parent_list":     
 			case "grid_template_areas":
 			case "pre_fill":
             case "sort_order":
@@ -1099,6 +1100,7 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('<option></option>');
     result.push('<option>description</option>');
     result.push('<option>other_specify_list</option>');
+    result.push('<option>parent_list</option>');
     result.push('<option>is_hidden</option>');
 
 	if(node_type.toLowerCase()== "chart")
@@ -1757,6 +1759,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "default_value":
 			case "description":
             case "other_specify_list":
+            case "parent_list":
             case "sort_order":
 			case "regex_pattern":
 			case "validation":

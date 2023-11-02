@@ -104,7 +104,15 @@ public sealed class Post_Session : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Post_Session started");
     //protected override void PostStop() => Console.WriteLine("Post_Session stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Post_Session
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
     protected override void OnReceive(object message)
     {
         
@@ -115,11 +123,11 @@ public sealed class Post_Session : UntypedActor
             try
             {
                 mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
-                string request_string = Program.config_couchdb_url + $"/{Program.db_prefix}session/{session_message._id}";
+                string request_string = db_config.url + $"/{db_config.prefix}session/{session_message._id}";
 
                 try 
                 {
-                    var check_document_curl = new cURL ("GET", null, request_string, null, Program.config_timer_user_name, Program.config_timer_value);
+                    var check_document_curl = new cURL ("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                     string check_document_json = check_document_curl.execute();
                     var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.session> (check_document_json);
 
@@ -139,7 +147,7 @@ public sealed class Post_Session : UntypedActor
                 settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
                 var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(session_message, settings);
 
-                cURL document_curl = new cURL ("PUT", null, request_string, object_string, Program.config_timer_user_name, Program.config_timer_value);
+                cURL document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
 
                 try
                 {

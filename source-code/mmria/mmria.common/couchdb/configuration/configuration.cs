@@ -149,8 +149,14 @@ public sealed class OverridableConfiguration
             boolean_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        boolean_keys[prefix][key] = value;
-        
+        if(!boolean_keys[prefix].ContainsKey(key))
+        {
+            boolean_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            boolean_keys[prefix][key] = value;
+        }
     }
 
 
@@ -176,7 +182,15 @@ public sealed class OverridableConfiguration
             string_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        string_keys[prefix][key] = value;
+        if(!string_keys[prefix].ContainsKey(key))
+        {
+            string_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            string_keys[prefix][key] = value;
+        }
+        
     }
     
     public int? GetInteger(string key, string prefix)
@@ -202,7 +216,15 @@ public sealed class OverridableConfiguration
             integer_keys.Add(prefix, new(StringComparer.OrdinalIgnoreCase));
         }
 
-        integer_keys[prefix][key] = value;
+        if(!integer_keys[prefix].ContainsKey(key))
+        {
+            integer_keys[prefix].Add(key, value);
+        }
+        else
+        {
+            integer_keys[prefix][key] = value;
+        }
+        
         
     }
 
@@ -238,61 +260,73 @@ public sealed class OverridableConfiguration
     }
 
 
-    public bool? GetOverridedBoolean(string context, string key)
+    public bool? GetOverridedBoolean(string key, string prefix)
     {
-        if(boolean_keys[context].ContainsKey(key))
+        if
+        (
+            boolean_keys.ContainsKey(prefix) &&
+            boolean_keys[prefix].ContainsKey(key)
+        )
         {
-            return boolean_keys[context][key];
+            return boolean_keys[prefix][key];
         }
 
         return null;
     }
 
-    public string GetOverridedString(string context, string key)
+    public string GetOverridedString(string key, string prefix)
     {
-        if(string_keys[context].ContainsKey(key))
+        if
+        (
+            string_keys.ContainsKey(prefix) && 
+            string_keys[prefix].ContainsKey(key)
+        )
         {
-            return string_keys[context][key];
+            return string_keys[prefix][key];
         }
 
         return null;
     }
     
-    public int? GetOverridedInteger(string context,string key)
+    public int? GetOverridedInteger(string key, string prefix)
     {
-        if(integer_keys[context].ContainsKey(key))
+        if
+        (
+            integer_keys.ContainsKey(prefix) &&
+            integer_keys[prefix].ContainsKey(key)
+        )
         {
-            return integer_keys[context][key];
+            return integer_keys[prefix][key];
         }
     
         return null;
     }
 
-    public DBConfigurationDetail GetDBConfig(string context)
+    public DBConfigurationDetail GetDBConfig(string prefix)
     {
         DBConfigurationDetail result = null;
 
-        if(string_keys.ContainsKey(context))
+        if(string_keys.ContainsKey(prefix))
         {
             result = new();
 
-            result.url = string_keys[context]["couchdb_url"];
-            result.prefix = string_keys[context]["db_prefix"];
-            result.user_name = string_keys[context]["timer_user_name"];
-            result.user_value = string_keys[context]["timer_value"];
+            result.url = string_keys[prefix]["couchdb_url"];
+            result.prefix = string_keys[prefix]["db_prefix"];
+            result.user_name = string_keys[prefix]["timer_user_name"];
+            result.user_value = string_keys[prefix]["timer_value"];
         }
         return result;
     
     }
 
-    public SAMSConfigurationDetail GetSAMSConfigurationDetail(string context)
+    public SAMSConfigurationDetail GetSAMSConfigurationDetail(string prefix)
     {
         SAMSConfigurationDetail result = new();
 
-        result.client_id = string_keys[context]["sams:client_id"];
-        result.client_secret = string_keys[context]["sams:client_secret"];
-        result.callback_url = string_keys[context]["sams:callback_url"];
-        result.activity_name = string_keys[context]["sams:activity_name"];
+        result.client_id = string_keys[prefix]["sams:client_id"];
+        result.client_secret = string_keys[prefix]["sams:client_secret"];
+        result.callback_url = string_keys[prefix]["sams:callback_url"];
+        result.activity_name = string_keys[prefix]["sams:activity_name"];
 
         return result;
     }
@@ -313,10 +347,10 @@ public sealed class OverridableConfiguration
     {
         SteveAPIConfigurationDetail result = new();
 
-        result.sea_bucket_kms_key = string_keys["shared"]["steve_api:sea_bucket_kms_key "];
-        result.client_name = string_keys["shared"]["steve_api:client_name "];
-        result.client_secret_key = string_keys["shared"]["steve_api:client_secret_key "];
-        result.base_url = string_keys["shared"]["steve_api:base_url "];
+        result.sea_bucket_kms_key = string_keys["shared"]["steve_api:sea_bucket_kms_key"];
+        result.client_name = string_keys["shared"]["steve_api:client_name"];
+        result.client_secret_key = string_keys["shared"]["steve_api:client_secret_key"];
+        result.base_url = string_keys["shared"]["steve_api:base_url"];
         
 
         return result;

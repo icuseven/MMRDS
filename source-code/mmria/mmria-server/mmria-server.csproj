@@ -31,7 +31,9 @@
     <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0"/>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0"/>
     <PackageReference Include="FastExcel" Version="3.0.13"/>
-    <!--PackageReference Include="Microsoft.Extensions.Features" Version="7.0.7" /-->
+    <PackageReference Include="Akka.Cluster" Version="1.5.12" />
+    <PackageReference Include="Akka.Hosting" Version="1.5.12.1" />
+    <PackageReference Include="Akka.Management" Version="1.5.7" />
 
   </ItemGroup>
   <ItemGroup>
@@ -40,5 +42,6 @@
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj"/>
     <ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/>
+    <ProjectReference Include="..\mmria.getset\mmria.roslyn.extension.csproj"/>
   </ItemGroup>
 </Project>

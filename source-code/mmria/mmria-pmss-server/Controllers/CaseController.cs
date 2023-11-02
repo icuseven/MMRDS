@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using  mmria.pmss.server.extension; 
 namespace mmria.pmss.server.Controllers;
 
-[Authorize(Roles  = "abstractor")]
+[Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
 public sealed class CaseController : Controller
 {
     mmria.common.couchdb.OverridableConfiguration configuration;

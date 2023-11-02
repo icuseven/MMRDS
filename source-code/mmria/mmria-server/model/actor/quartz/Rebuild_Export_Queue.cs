@@ -10,12 +10,20 @@ public sealed class Rebuild_Export_Queue : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Rebuild_Export_Queue started");
     //protected override void PostStop() => Console.WriteLine("Rebuild_Export_Queue stopped");
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
+    public Rebuild_Export_Queue
+    (
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
+    {
+        db_config = _db_config;
+    }
+           
     protected override void OnReceive(object message)
     {
         //Console.WriteLine($"Rebuild_Export_Queue Baby {System.DateTime.Now}");
-
-        
+ 
         switch (message)
         {
             case ScheduleInfoMessage scheduleInfo:
@@ -57,9 +65,9 @@ public sealed class Rebuild_Export_Queue : UntypedActor
                 }
 
 
-                if (url_endpoint_exists (Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", scheduleInfo.user_name, scheduleInfo.user_value)) 
+                if (url_endpoint_exists (db_config.url + $"/{db_config.prefix}export_queue", scheduleInfo.user_name, scheduleInfo.user_value)) 
                 {
-                    var delete_queue_curl = new cURL ("DELETE", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
+                    var delete_queue_curl = new cURL ("DELETE", null, db_config.url + $"/{db_config.prefix}export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
                     System.Console.WriteLine (delete_queue_curl.execute ());
                 }
 
@@ -67,9 +75,9 @@ public sealed class Rebuild_Export_Queue : UntypedActor
                 try 
                 {
                     System.Console.WriteLine ("Creating export_queue db.");
-                    var export_queue_curl = new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
+                    var export_queue_curl = new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue", null, scheduleInfo.user_name, scheduleInfo.user_value);
                     System.Console.WriteLine (export_queue_curl.execute ());
-                    new cURL ("PUT", null, Program.config_couchdb_url + $"/{Program.db_prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", scheduleInfo.user_name, scheduleInfo.user_value).execute ();
+                    new cURL ("PUT", null, db_config.url + $"/{db_config.prefix}export_queue/_security", "{\"admins\":{\"names\":[],\"roles\":[\"abstractor\"]},\"members\":{\"names\":[],\"roles\":[\"abstractor\"]}}", scheduleInfo.user_name, scheduleInfo.user_value).execute ();
 
                 }
                 catch (Exception ex) 

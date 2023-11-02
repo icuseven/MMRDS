@@ -277,7 +277,7 @@ public sealed partial class AccountController : Controller
                 }
 
 
-                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(json_result.name).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, json_result.name).Select( jr => jr.role_name).Distinct())
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                 }
@@ -304,7 +304,7 @@ public sealed partial class AccountController : Controller
                 System.Threading.Thread.CurrentPrincipal = userPrincipal;
         
 
-                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.UserName).Select( jr => jr.role_name).Distinct())
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, user.UserName).Select( jr => jr.role_name).Distinct())
                 {
                     role_list.Add(role);
                 }
@@ -675,7 +675,7 @@ public sealed partial class AccountController : Controller
         }
 
 
-        foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+        foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));

@@ -38,6 +38,7 @@ var g_other_specify_lookup = {};
 var g_record_id_list = {};
 const g_charts = new Map();
 const g_chart_data = new Map();
+const g_duplicate_path_set = new Set();
 var g_case_narrative_is_updated = false;
 var g_case_narrative_is_updated_date = null;
 var g_case_narrative_original_value = null;
@@ -1020,6 +1021,59 @@ function g_delete_grid_item_action
 
 }
 
+function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
+{
+    const metadata = eval(p_metadata_path);
+    var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
+
+    const original = eval(object_string)[p_index];
+
+    let clone = {};
+
+    clone_multiform_object
+    (
+        metadata, 
+        clone, 
+        false,
+        original,
+        metadata.name
+    )
+
+    const multiform_path = p_object_path.substring(0, p_object_path.indexOf("["));
+    var form_array = eval(multiform_path);      
+    form_array.push(clone[metadata.name]);
+    
+    g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, "/" + metadata.name);
+    
+        save_case
+        (
+            g_data,
+            function () 
+            {
+                var post_html_call_back = [];
+                document.getElementById(metadata.name + '_id').innerHTML = page_render
+                (
+                    metadata,
+                    form_array,
+                    g_ui,
+                    p_metadata_path,
+                    multiform_path,
+                    metadata.name,
+                    false,
+                    post_html_call_back
+                ).join('');
+                if (post_html_call_back.length > 0) 
+                {
+                    eval(post_html_call_back.join(''));
+                }
+            }
+        );
+
+        $mmria.duplicate_multiform_dialog_click();
+
+}
+
+
 function g_delete_record_item(p_object_path, p_metadata_path, p_index) 
 {
 		var metadata = eval(p_metadata_path);
@@ -1507,6 +1561,15 @@ async function load_and_set_data()
         url: location.protocol + '//' + location.host + '/api/user/my-user',
     });
 
+    const duplicate_path_set_response = await $.ajax
+    ({
+        url: location.protocol + '//' + location.host + '/Case/GetDuplicateMultiFormList',
+    });
+
+    for(const i of duplicate_path_set_response.field_list)
+    {
+        g_duplicate_path_set.add(i);
+    }
     
     g_user_name = my_user_response.name;
 
@@ -1782,7 +1845,8 @@ function get_metadata()
 
     build_other_specify_lookup(g_other_specify_lookup, g_metadata);
 
-    set_list_lookup(
+    set_list_lookup
+    (
       g_display_to_value_lookup,
       g_value_to_display_lookup,
       g_value_to_index_number_lookup,
@@ -2068,18 +2132,32 @@ function save_case(p_data, p_call_back, p_note)
 
         if (g_data) 
         {
-
-            if(case_response.ok == null || case_response.ok == false) 
+            if
+            (
+                case_response.ok == null ||
+                case_response.ok == false ||
+                case_response.rev == null
+            ) 
             {
+                if
+                (
+                    case_response != null &&
+                    case_response.error_description != null &&
+                    case_response.error_description.indexOf("(409) Conflict") > -1
+                ) return;
+
                 const err = {
                     status: 500,
                     responseText : case_response.error_description
                 };
                 $mmria.unstable_network_dialog_show(err, p_note);
                 return;
-            }
-
-            if(g_data._id == case_response.id)
+            } 
+            else if
+            (
+                case_response.ok == true && 
+                g_data._id == case_response.id
+            )
             {
                 g_data._rev = case_response.rev;
                 g_data_is_checked_out = is_case_checked_out(g_data);

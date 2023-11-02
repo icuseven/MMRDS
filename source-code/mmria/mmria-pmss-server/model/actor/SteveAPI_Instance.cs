@@ -25,9 +25,6 @@ public sealed class SteveAPI_Instance : ReceiveActor
     };
 
 
-    IConfiguration configuration;
-    ILogger logger;
-
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     public SteveAPI_Instance()

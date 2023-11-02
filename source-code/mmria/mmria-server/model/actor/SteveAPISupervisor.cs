@@ -13,22 +13,16 @@ namespace mmria.server;
 
 public sealed class SteveAPISupervisor : ReceiveActor
 {
-    readonly IServiceScope _scope;
-
-    mmria.common.couchdb.OverridableConfiguration configuration = null;
     ILogger logger;
 
     protected override void PreStart() => Console.WriteLine("SteveAPISupervisor started");
     protected override void PostStop()
     {
-        _scope.Dispose();
+        //_scope.Dispose();
     }
 
-    public SteveAPISupervisor(IServiceProvider sp)
+    public SteveAPISupervisor()
     {  
-        _scope = sp.CreateScope();
-
-        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
 
         Receive<DownloadRequest>(message =>
         {

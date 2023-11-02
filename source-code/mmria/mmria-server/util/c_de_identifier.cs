@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 
 namespace mmria.server.utils;
@@ -7,17 +8,55 @@ namespace mmria.server.utils;
 public sealed class c_de_identifier
 {
     string case_item_json;
+    string metadata_version;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
     HashSet<string> de_identified_set = new HashSet<string>();
+    HashSet<string> date_offset_set = new HashSet<string>()
+    {
+        "prenatal/routine_monitoring/date_and_time",
+        "er_visit_and_hospital_medical_records/vital_signs/date_and_time"
+    };
+    int date_offset_days;
     
-    public c_de_identifier (string p_case_item_json)
+    public c_de_identifier 
+    (
+        string p_case_item_json,
+        string p_metadata_version,
+        mmria.common.couchdb.DBConfigurationDetail _db_config
+    )
     {
         this.case_item_json = p_case_item_json;
+        metadata_version = p_metadata_version;
+        db_config = _db_config;
+
+        var CprytoRNG = new System.Security.Cryptography.RNGCryptoServiceProvider();
+
+
+        int RandomIntFromRNG(int min, int max)
+        {
+
+            byte[] four_bytes = new byte[4];
+            CprytoRNG.GetBytes(four_bytes);
+
+
+            UInt32 scale = BitConverter.ToUInt32(four_bytes, 0);
+
+            return (int)(min + (max - min) * (scale / (uint.MaxValue + 1.0)));
+        }
+
+        date_offset_days = -1 * RandomIntFromRNG(20000, 20101);
+
+
+
     }
+
+
+
     public async Task<string> executeAsync()
     {
         string result = null;
 
-        cURL de_identified_list_curl = new cURL("GET", null, Program.config_couchdb_url + "/metadata/de-identified-list", null, Program.config_timer_user_name, Program.config_timer_value);
+        cURL de_identified_list_curl = new cURL("GET", null, db_config.url + "/metadata/de-identified-list", null, db_config.user_name, db_config.user_value);
         System.Dynamic.ExpandoObject de_identified_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await de_identified_list_curl.executeAsync());
         de_identified_set = new HashSet<string>();
         foreach(string path in (IList<object>)(((IDictionary<string, object>)de_identified_ExpandoObject) ["paths"]))
@@ -25,6 +64,13 @@ public sealed class c_de_identifier
             de_identified_set.Add(path);
         }
 
+        // cURL date_offset_list_curl = new cURL("GET", null, db_config.url + "/metadata/date-offset-list", null, db_config.user_name, db_config.user_value);
+        // System.Dynamic.ExpandoObject date_offset_ExpandoObject = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await date_offset_list_curl.executeAsync());
+        // date_offset_set = new HashSet<string>();
+        // foreach(string path in (IList<object>)(((IDictionary<string, object>)date_offset_ExpandoObject) ["paths"]))
+        // {
+        //     date_offset_set.Add(path);
+        // }
 
         if(this.case_item_json == null || de_identified_set.Count == 0)
         {
@@ -51,12 +97,16 @@ public sealed class c_de_identifier
 
             foreach (string path in de_identified_set) 
             {
-                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path);
-                /*
+
+                is_fully_de_identified  = is_fully_de_identified && set_de_identified_value (case_item_object, path, path.AsSpan());
+                
+               
                 if(!is_fully_de_identified)
                 {
-                    set_de_identified_value (case_item_object, path);
-                }*/
+                    break;
+                    //System.Console.WriteLine("here");
+                }
+                 /*  */
             }
 
             if(!is_fully_de_identified)
@@ -72,7 +122,7 @@ public sealed class c_de_identifier
                     current_directory = System.IO.Directory.GetCurrentDirectory();
                 }
 
-                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{Program.metadata_release_version_name}.json")))
+                using (var  sr = new System.IO.StreamReader(System.IO.Path.Combine( current_directory,  $"database-scripts/case-version-{metadata_version}.json")))
                 {
                     de_identified_json = sr.ReadToEnd();
                 }
@@ -123,15 +173,9 @@ public sealed class c_de_identifier
     }
 
 
-    public bool set_de_identified_value (dynamic p_object, string p_path)
+    public bool set_de_identified_value (dynamic p_object, string p_path, ReadOnlySpan<char> full_path)
     {
-
         bool result = false;
-        /*
-        if (p_path == "geocode_quality_indicator")
-        {
-            System.Console.Write("break");
-        }*/
 
         try
         {
@@ -154,8 +198,8 @@ public sealed class c_de_identifier
 
                         if (val != null)
                         {
-                            // set the de-identified value
-                            if (val is IDictionary<string, object>)
+
+                         if (val is IDictionary<string, object>)
                             {
                                 //System.Console.WriteLine ("This should not happen. {0}", p_path);
                             }
@@ -174,17 +218,63 @@ public sealed class c_de_identifier
                                     dictionary_object [path_list [0]] = "de-identified";
                                     result = true;
                                 }
+                                else if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    if(!string.IsNullOrWhiteSpace(val.ToString()))
+                                    {
+                                        var val_string = val.ToString();
+
+                                        if(val_string.Contains("-"))
+                                        {
+                                            var space_split = val_string.Split(" ");
+                                            var date_arr = space_split[0].ToString().Split("-");
+                                            var date = new DateOnly
+                                            (
+                                                int.Parse(date_arr[0]),
+                                                int.Parse(date_arr[1]),
+                                                int.Parse(date_arr[2])
+                                            );
+                                        
+
+                                            dictionary_object [path_list [0]] = date.AddDays(date_offset_days);
+                                            result = true;
+                                        }
+                                        else
+                                        {
+                                            dictionary_object [path_list [0]] = null;
+                                            result = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        result = true;
+                                    }
+                                }
+                                
                                 else
                                 {
                                     dictionary_object [path_list [0]] = null;
                                     result = true;
                                 }
                             }
-                            else if (val is System.DateTime)
+                            else if (val is System.DateTime date_time_val)
                             {
-                                //dictionary_object [path_list [0]] = DateTime.MinValue;
-                                dictionary_object [path_list [0]] = null;
-                                result = true;
+                                //System.Console.WriteLine("found a date: {0}", p_path);
+
+                                if(date_offset_set.Contains(full_path.ToString()))
+                                {
+                                    dictionary_object [path_list [0]] = date_time_val.AddDays(date_offset_days);
+                                    result = true;
+                                }
+                                else
+                                {
+                                    //dictionary_object [path_list [0]] = DateTime.MinValue;
+                                    // if (dictionary_object.ContainsKey(p_path[0]))
+                                    //   dictionary_object [path_list [0]] = dictionary_object.TryGetValue() + (-dateoffset);
+                                    // else
+                                    dictionary_object [path_list [0]] = null;
+                                    result = true;
+                                }
                             }
                             else
                             {
@@ -211,8 +301,7 @@ public sealed class c_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, path_list [0]);
-
+                            result = set_de_identified_value (item, path_list [0], full_path);
                         }
                     }
                     else
@@ -253,7 +342,7 @@ public sealed class c_de_identifier
                     if (val != null)
                     {
 
-                        result = set_de_identified_value (val, string.Join("/", new_path));
+                        result = set_de_identified_value (val, string.Join("/", new_path), full_path);
                     }
                     else
                     {
@@ -270,7 +359,7 @@ public sealed class c_de_identifier
                     {
                         foreach(object item in Items)
                         {
-                            result = set_de_identified_value (item, string.Join("/", path_list));
+                            result = set_de_identified_value (item, string.Join("/", path_list), full_path);
 
                         }
                     }

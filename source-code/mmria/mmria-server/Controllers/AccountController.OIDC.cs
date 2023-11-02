@@ -333,7 +333,7 @@ public sealed partial class AccountController : Controller
                 mmria.server.model.actor.Session_Event_Message.Session_Event_Message_Action_Enum.successful_login
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>()).Tell(Session_Event_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Record_Session_Event>(db_config)).Tell(Session_Event_Message);
 
 
             List<string> role_list = new List<string>();
@@ -345,7 +345,7 @@ public sealed partial class AccountController : Controller
                 }
             }
 
-            foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(user.name).Select( jr => jr.role_name).Distinct())
+            foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, user.name).Select( jr => jr.role_name).Distinct())
             {
                 role_list.Add(role);
             }
@@ -385,7 +385,7 @@ public sealed partial class AccountController : Controller
 
                 if(result.ok)
                 {
-                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>()).Tell(Session_Message);
+                    _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>(db_config)).Tell(Session_Message);
                     Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
                     Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
@@ -475,7 +475,7 @@ public sealed partial class AccountController : Controller
         }
 
 
-        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(p_user_name).Select( jr => jr.role_name).Distinct())
+        foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
