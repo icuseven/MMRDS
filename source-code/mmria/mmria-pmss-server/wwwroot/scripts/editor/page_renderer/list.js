@@ -1220,6 +1220,15 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
         default:
             if(p_metadata.type.toLowerCase() == "list")
             {
+                if
+                (
+                    p_metadata.parent_list != null &&
+                    p_metadata.parent_list.toString().trim().length != 0
+                )
+                {
+                    g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
+                }
+
                 let data_value_list = p_metadata.values;
 
                 if(p_metadata.path_reference && p_metadata.path_reference != "")
