@@ -60,6 +60,7 @@ const g_is_version_based = false;
 const g_cvs_api_request_data = new Map();
 
 const g_dependent_parent_to_child = new Map();
+const g_dependent_child_to_parent = new Map();
 
 
 

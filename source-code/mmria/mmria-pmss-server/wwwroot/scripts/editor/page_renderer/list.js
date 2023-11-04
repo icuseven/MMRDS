@@ -1,5 +1,17 @@
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+
+    let parent_list_path = null;
+    let parent_list_value = null;
+
+    if(g_dependent_child_to_parent.has(p_dictionary_path.substr(1)))
+    {
+        const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
+
+        parent_list_path = `g_data.${parent_path.replace(/\//g,".")}`;
+        parent_list_value = eval(parent_list_path);
+    }
+
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
@@ -179,6 +191,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     p_result.push(">");
 
 
+    
    
 
 
@@ -186,6 +199,19 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     for(let i = 0; i < metadata_value_list.length; i++)
     {
         let item = metadata_value_list[i];
+
+        if(parent_list_value != null)
+        {
+            if(parent_list_value == "9999")
+            {
+                continue;
+            }
+            else if(item.parent_value != parent_list_value)
+            {
+                continue;
+            }
+        }
+        
 
         if(p_data == item.value)
         {
@@ -1227,6 +1253,7 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
                 )
                 {
                     g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
+                    g_dependent_child_to_parent.set(p_path.substring(1), p_metadata.parent_list);
                 }
 
                 let data_value_list = p_metadata.values;
