@@ -1778,7 +1778,11 @@ function list_check_for_dependent_change(p_control, p_parent_path)
         p_control.value != child_data
     )
     {
-        console.log("need to verify change");
+        $mmria.confirm_dependent_change_show
+        (
+            ()=> list_apply_dependent_change(p_parent_path),
+            $mmria.confirm_dependent_change_close
+        )
     }
     else
     {
