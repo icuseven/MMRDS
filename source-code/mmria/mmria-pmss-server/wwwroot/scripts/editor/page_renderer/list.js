@@ -4,6 +4,13 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     let parent_list_path = null;
     let parent_list_value = null;
 
+    let is_parent_depended_upon = false;
+
+    if(g_dependent_parent_to_child.has(p_dictionary_path.substr(1)))
+    {
+        is_parent_depended_upon = true;
+    }
+
     if(g_dependent_child_to_parent.has(p_dictionary_path.substr(1)))
     {
         const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
@@ -179,6 +186,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     if(path_to_onchange_map[p_metadata_path])
                     {
                         page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                    }
+                    else if(is_parent_depended_upon)
+                    {
+                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_dictionary_path.substr(1)}")';`);
+
                     }
                 }
 
@@ -1745,4 +1757,49 @@ function list_checkbox_contains_value(p_list, p_value)
     }
     
     return result;
+}
+
+function list_check_for_dependent_change(p_control, p_parent_path)
+{
+    if(!g_data_is_checked_out) return;
+    if(! g_dependent_parent_to_child.has(p_parent_path))
+    return;
+
+    console.log(`${p_parent_path} check for change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+
+    //console.log(g_look_up['lookup/cod_ddl_cdccod']);
+
+    const child_data = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+
+    if
+    (
+        child_data == null ||
+        child_data == "" ||
+        p_control.value != child_data
+    )
+    {
+        console.log("need to verify change");
+    }
+    else
+    {
+        list_apply_dependent_change(p_parent_path);
+    }
+
+
+}
+
+
+function list_apply_dependent_change(p_parent_path)
+{
+    if(!g_data_is_checked_out) return;
+    if(! g_dependent_parent_to_child.has(p_parent_path))
+    return;
+
+    console.log(`${p_parent_path} apply change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+
+    console.log(g_look_up['lookup/cod_ddl_cdccod']);
+
+    const child_element = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+
+    
 }
