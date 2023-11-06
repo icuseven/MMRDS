@@ -65,7 +65,7 @@ public sealed class policyValuesController : Controller
         result.Add("unsuccessful_login_attempts_number_before_lockout", unsuccessful_login_attempts_number_before_lockout.HasValue ? unsuccessful_login_attempts_number_before_lockout.Value.ToString(): "");
         result.Add("unsuccessful_login_attempts_within_number_of_minutes", unsuccessful_login_attempts_within_number_of_minutes.HasValue ? unsuccessful_login_attempts_within_number_of_minutes.Value.ToString(): "");
         result.Add("unsuccessful_login_attempts_lockout_number_of_minutes", unsuccessful_login_attempts_lockout_number_of_minutes.HasValue ? unsuccessful_login_attempts_lockout_number_of_minutes.Value.ToString(): "");
-        result.Add("sams_is_enabled", sams_is_enabled.HasValue ? sams_is_enabled.Value: "");
+        result.Add("sams_is_enabled", sams_is_enabled.HasValue ? sams_is_enabled.Value.ToString(): "");
 
         return result;
     }
