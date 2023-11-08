@@ -1680,7 +1680,7 @@ function render_pagination(p_result, p_case_view_request)
 {
   
     let pagination_current_page = p_case_view_request.page;
-    const pagination_number_of_pages = Math.ceil(p_case_view_request.total_rows / p_ui.case_view_request.take);
+    const pagination_number_of_pages = Math.ceil(p_case_view_request.total_rows / g_case_view_request.take);
     if(pagination_number_of_pages == 0)
     {
         pagination_current_page = 0;
