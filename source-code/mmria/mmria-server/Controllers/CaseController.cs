@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using  mmria.server.extension; 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "abstractor")]
+[Authorize(Roles  = "abstractor,data_analyst")]
 public sealed class CaseController : Controller
 {
     public class DuplicateMultiformResult
