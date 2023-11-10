@@ -51,21 +51,12 @@ public sealed class caseController: ControllerBase
     { 
         try
         {
-<<<<<<< HEAD
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/_all_docs?include_docs=true";
-
-            if (!string.IsNullOrWhiteSpace (case_id)) 
-            {
-                request_string = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{case_id}";
-                var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
-=======
             string request_string = db_config.Get_Prefix_DB_Url("mmrds/_all_docs?include_docs=true");
 
             if (!string.IsNullOrWhiteSpace (case_id)) 
             {
                 request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}");
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
->>>>>>> master
                 string responseFromServer = await case_curl.executeAsync();
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
@@ -219,16 +210,9 @@ public sealed class caseController: ControllerBase
 
 
 
-<<<<<<< HEAD
-            string metadata_url = $"{configuration["mmria_settings:couchdb_url"]}/{configuration["mmria_settings:db_prefix"]}mmrds/{id_val}";
-            cURL document_curl = new cURL ("PUT", null, metadata_url, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
-
-
-=======
             string metadata_url = db_config.Get_Prefix_DB_Url($"mmrds/{id_val}");
             cURL document_curl = new cURL ("PUT", null, metadata_url, object_string,db_config.user_name, db_config.user_value);
             
->>>>>>> master
             string save_response_from_server = null;
             try
             {
@@ -242,14 +226,9 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-<<<<<<< HEAD
-            if (!result.ok && string.IsNullOrWhiteSpace(result.error_description))
-            {
-=======
             if (!result.ok  && string.IsNullOrWhiteSpace(result.error_description))
             {
                 result.error_description = save_response_from_server;
->>>>>>> master
                 Console.Write($"save failed for: {id_val}");
                 Console.Write($"save_response:\n{save_response_from_server}");
             }
