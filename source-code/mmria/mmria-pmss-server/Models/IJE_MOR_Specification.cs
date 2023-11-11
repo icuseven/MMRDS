@@ -477,312 +477,413 @@ public sealed class MOR_Specification
     public string dcdi_waufd_codin;
     */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("TOBAC", new Layout(977, 1)),
+        /*
     [Layout(977, 1)]
     [MMRIA_Path("death_certificate/death_information/did_tobacco_contribute_to_death", "dcdi_dtct_death")]
     [IJE_Name("TOBAC")]
     public string dcdi_dtct_death;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("PREG", new Layout(978, 1)),
+        /*
     [Layout(978, 1)]
     [MMRIA_Path("death_certificate/death_information/pregnancy_status", "dcdi_p_statu")]
     [IJE_Name("PREG")]
     public string dcdi_p_statu;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("DOI_MO", new Layout(980, 2)),
+        /*
     [Layout(980, 2)]
     [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/month", "dciaidoi_month")]
     [IJE_Name("DOI_MO")]
     public string dciaidoi_month;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("DOI_DY", new Layout(982, 2)),
+        /*
     [Layout(982, 2)]
     [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/day", "dciaidoi_day")]
     [IJE_Name("DOI_DY")]
-    public string dciaidoi_day;
+    public string dciaidoi_day;*/
 
-        KeyValuePair.Create(, new ),
+
+        KeyValuePair.Create("DOI_YR", new Layout(984, 4)),
+        /*
     [Layout(984, 4)]
     [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/year", "dciaidoi_year")]
     [IJE_Name("DOI_YR")]
     public string dciaidoi_year;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("TOI_HR", new Layout(988, 4)),
+        /*
     [Layout(988, 4)]
     [MMRIA_Path("death_certificate/injury_associated_information/time_of_injury", "dciai_to_injur")]
     [IJE_Name("TOI_HR")]
     public string dciai_to_injur;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("WORKINJ", new Layout(992, 1)),
+        /*
     [Layout(992, 1)]
     [MMRIA_Path("death_certificate/injury_associated_information/was_injury_at_work", "dciai_wia_work")]
     [IJE_Name("WORKINJ")]
     public string dciai_wia_work;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("ARMEDF", new Layout(1080, 1)),
+        /*
     [Layout(1080, 1)]
     [MMRIA_Path("death_certificate/demographics/ever_in_us_armed_forces", "dcd_eiua_force")]
     [IJE_Name("ARMEDF")]
     public string dcd_eiua_force;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("DINSTI", new Layout(1081, 30)),
+        /*
     [Layout(1081, 30)]
     [MMRIA_Path("death_certificate/address_of_death/place_of_death", "dcaod_po_death")]
     [IJE_Name("DINSTI")]
     public string dcaod_po_death;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STNUM_D", new Layout(1161, 10)),
+        /*
     [Layout(1161, 10)]
     [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
     [IJE_Name("STNUM_D")]
     public string dcaod_stree_0;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("PREDIR_D", new Layout(1171, 10)),
+        /*
     [Layout(1171, 10)]
     [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
     [IJE_Name("PREDIR_D")]
     public string dcaod_stree_1;
+    */
 
-        KeyValuePair.Create(, new ),
-    [Layout(1181, 50)]
+        KeyValuePair.Create("STNAME_D", new Layout(1181, 50)),
+    /*[Layout(1181, 50)]
     [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
     [IJE_Name("STNAME_D")]
     public string dcaod_stree_2;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STDESIG_D", new Layout(1231, 10)),
+        /*
     [Layout(1231, 10)]
     [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
     [IJE_Name("STDESIG_D")]
     public string dcaod_stree_3;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("POSTDIR_D", new Layout(1241, 10)),
+        /*
     [Layout(1241, 10)]
     [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
     [IJE_Name("POSTDIR_D")]
     public string dcaod_stree_4;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("CITYTEXT_D", new Layout(1251, 28)),
+        /*
     [Layout(1251, 28)]
     [MMRIA_Path("death_certificate/address_of_death/city", "dcaod_city")]
     [IJE_Name("CITYTEXT_D")]
     public string dcaod_city;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STATETEXT_D", new Layout(1279, 28)),
+        /*
     [Layout(1279, 28)]
     [MMRIA_Path("death_certificate/address_of_death/state", "dcaod_state")]
     [IJE_Name("STATETEXT_D")]
     public string dcaod_state;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("ZIP9_D", new Layout(1307, 9)),
+        /*
     [Layout(1307, 9)]
     [MMRIA_Path("death_certificate/address_of_death/zip_code", "dcaod_z_code")]
     [IJE_Name("ZIP9_D")]
     public string dcaod_z_code;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COUNTYTEXT_D", new Layout(1316, 28)),
+        /*
     [Layout(1316, 28)]
     [MMRIA_Path("death_certificate/address_of_death/county", "dcaod_count")]
     [IJE_Name("COUNTYTEXT_D")]
     public string dcaod_count;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STNUM_R", new Layout(1484, 10)),
+        /*
     [Layout(1484, 10)]
     [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
     [IJE_Name("STNUM_R")]
     public string dcpolr_stree_0;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("PREDIR_R", new Layout(1494, 10)),
+        /*
     [Layout(1494, 10)]
     [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
     [IJE_Name("PREDIR_R")]
     public string dcpolr_stree_1;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STNAME_R", new Layout(1504, 28)),
+        /*
     [Layout(1504, 28)]
     [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
     [IJE_Name("STNAME_R")]
     public string dcpolr_stree_2;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STDESIG_R", new Layout(1532, 10)),
+        /*
     [Layout(1532, 10)]
     [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
     [IJE_Name("STDESIG_R")]
     public string dcpolr_stree_3;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("POSTDIR_R", new Layout(1542, 10)),
+        /*
     [Layout(1542, 10)]
     [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
     [IJE_Name("POSTDIR_R")]
     public string dcpolr_stree_4;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("UNITNUM_R", new Layout(1552, 7)),
+        /*
     [Layout(1552, 7)]
     [MMRIA_Path("death_certificate/place_of_last_residence/apartment", "dcpolr_apart")]
     [IJE_Name("UNITNUM_R")]
     public string dcpolr_apart;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("CITYTEXT_R", new Layout(1559, 28)),
+        /*
     [Layout(1559, 28)]
     [MMRIA_Path("death_certificate/place_of_last_residence/city", "dcpolr_city")]
     [IJE_Name("CITYTEXT_R")]
     public string dcpolr_city;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("ZIP9_R", new Layout(1587, 9)),
+        /*
     [Layout(1587, 9)]
     [MMRIA_Path("death_certificate/place_of_last_residence/zip_code", "dcpolr_z_code")]
     [IJE_Name("ZIP9_R")]
     public string dcpolr_z_code;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COUNTYTEXT_R", new Layout(1596, 28)),
+        /*
     [Layout(1596, 28)]
     [MMRIA_Path("death_certificate/place_of_last_residence/county", "dcpolr_count")]
     [IJE_Name("COUNTYTEXT_R")]
     public string dcpolr_count;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("DMIDDLE", new Layout(1807, 50)),
+        /*
     [Layout(1807, 50)]
     [MMRIA_Path("home_record/middle_name", "hr_m_name")]
     [IJE_Name("DMIDDLE")]
     public string hr_m_name;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("POILITRL", new Layout(2108, 50)),
+        /*
     [Layout(2108, 50)]
     [MMRIA_Path("death_certificate/injury_associated_information/place_of_injury", "dciai_po_injur")]
     [IJE_Name("POILITRL")]
     public string dciai_po_injur;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("TRANSPRT", new Layout(2408, 30)),
+        /*
     [Layout(2408, 30)]
     [MMRIA_Path("death_certificate/injury_associated_information/transportation_related_injury", "dciai_tr_injur ")]
     [MMRIA_Path("death_certificate/injury_associated_information transport_related_other_specify", " dciai_tro_speci")]
     [IJE_Name("TRANSPRT")]
     public string dciai_tro_speci;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COUNTYTEXT_I", new Layout(2438, 28)),
+        /*
     [Layout(2438, 28)]
     [MMRIA_Path("death_certificate/address_of_injury/county", "dcaoi_count")]
     [IJE_Name("COUNTYTEXT_I")]
     public string dcaoi_count;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("CITYTEXT_I", new Layout(2469, 28)),
+        /*
     [Layout(2469, 28)]
     [MMRIA_Path("death_certificate/address_of_injury/city", "dcaoi_city")]
     [IJE_Name("CITYTEXT_I")]
     public string dcaoi_city;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COD1A", new Layout(2541, 120)),
+        /*
     [Layout(2541, 120)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1a")]
     [IJE_Name("COD1A")]
     public string dcdi_cod1a;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("INTERVAL1A", new Layout(2661, 20)),
+        /*
     [Layout(2661, 20)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1a")]
     [IJE_Name("INTERVAL1A")]
     public string dcdi_interval1a;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COD1B", new Layout(2681, 120)),
+        /*
     [Layout(2681, 120)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1b")]
     [IJE_Name("COD1B")]
     public string dcdi_cod1b;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("INTERVAL1B", new Layout(2801, 20)),
+        /*
     [Layout(2801, 20)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1b")]
     [IJE_Name("INTERVAL1B")]
     public string dcdi_interval1b;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COD1C", new Layout(2821, 120)),
+        /*
     [Layout(2821, 120)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1c")]
     [IJE_Name("COD1C")]
     public string dcdi_cod1c;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("INTERVAL1C", new Layout(2941, 20)),
+        /*
     [Layout(2941, 20)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1c")]
     [IJE_Name("INTERVAL1C")]
     public string dcdi_interval1c;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("COD1D", new Layout(2961, 120)),
+        /*
     [Layout(2961, 120)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1d")]
     [IJE_Name("COD1D")]
     public string dcdi_cod1d;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("INTERVAL1D", new Layout(3081, 20)),
+        /*
     [Layout(3081, 20)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1d")]
     [IJE_Name("INTERVAL1D")]
     public string dcdi_interval1d;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("OTHERCONDITION", new Layout(3101, 240)),
+        /*
     [Layout(3101, 240)]
     [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_othercondition")]
     [IJE_Name("OTHERCONDITION")]
     public string dcdi_othercondition;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("DBPLACECITY", new Layout(3396, 28)),
+        /*
     [Layout(3396, 28)]
     [MMRIA_Path("death_certificate/demographics/city_of_birth", "dcd_co_birth")]
     [IJE_Name("DBPLACECITY")]
     public string dcd_co_birth;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("STINJURY", new Layout(4269, 28)),
+        /*
     [Layout(4269, 28)]
     [MMRIA_Path("death_certificate/address_of_injury/state", "dcaoi_state")]
     [IJE_Name("STINJURY")]
     public string dcaoi_state;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("VRO_STATUS", new Layout(4992, 1)),
+        /*
     [Layout(4992, 1)]
     [MMRIA_Path("TBD", "hr_vro_status")]
     [IJE_Name("VRO_STATUS")]
     public string hr_vro_status;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("BC_DET_MATCH", new Layout(4993, 1)),
+        /*
     [Layout(4993, 1)]
     [MMRIA_Path("TBD", "CDC_DET_BC")]
     [IJE_Name("BC_DET_MATCH")]
     public string CDC_DET_BC;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("FDC_DET_MATCH", new Layout(4994, 1)),
+        /*
     [Layout(4994, 1)]
     [MMRIA_Path("TBD", "CDC_DET_FDC")]
     [IJE_Name("FDC_DET_MATCH")]
     public string CDC_DET_FDC;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("BC_PROB_MATCH", new Layout(4995, 1)),
+        /*
     [Layout(4995, 1)]
     [MMRIA_Path("TBD", "CDC_PROB_BC")]
     [IJE_Name("BC_PROB_MATCH")]
     public string CDC_PROB_BC;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("FDC_PROB_MATCH", new Layout(4996, 1)),
+        /*
     [Layout(4996, 1)]
     [MMRIA_Path("TBD", "CDC_PROB_FDC")]
     [IJE_Name("FDC_PROB_MATCH")]
     public string CDC_PROB_FDC;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("ICD10_MATCH", new Layout(4997, 1)),
+        /*
     [Layout(4997, 1)]
     [MMRIA_Path("TBD", "CDC_ICD")]
     [IJE_Name("ICD10_MATCH")]
     public string CDC_ICD;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("PREGCB_MATCH", new Layout(4998, 1)),
+        /*
     [Layout(4998, 1)]
     [MMRIA_Path("TBD", "CDC_CHECKBOX")]
     [IJE_Name("PREGCB_MATCH")]
     public string CDC_CHECKBOX;
+    */
 
-        KeyValuePair.Create(, new ),
+        KeyValuePair.Create("LITERALCOD_MATCH", new Layout(4999, 1)),
+        /*
     [Layout(4999, 1)]
     [MMRIA_Path("TBD", "CDC_LITERALCOD")]
     [IJE_Name("LITERALCOD_MATCH")]
     public string CDC_LITERALCOD;
+    */
 
 
     });
