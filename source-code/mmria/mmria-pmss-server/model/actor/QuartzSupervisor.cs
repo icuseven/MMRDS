@@ -135,7 +135,9 @@ public sealed class QuartzSupervisor : UntypedActor
                 {
                     Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
                     Context.ActorOf(Props.Create<Process_Central_Pull_list>(db_config)).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
+                    //Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
+                    
+                    
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
 

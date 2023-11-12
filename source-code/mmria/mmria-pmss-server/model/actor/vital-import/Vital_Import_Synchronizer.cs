@@ -4,7 +4,7 @@ using System.Linq;
 using Akka.Actor;
 using mmria.pmss.server.model.actor;
 
-namespace mmria.pmss.server.model.actor.quartz;
+namespace mmria.pmss.services.vitalsimport;
 
 public sealed class Vital_Import_Synchronizer : UntypedActor
 {
@@ -193,7 +193,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
     {
         bool result = false;
 
-        var curl = new cURL (p_method, null, p_target_server, null, p_user_name, p_value);
+        var curl = new mmria.pmss.server.cURL (p_method, null, p_target_server, null, p_user_name, p_value);
         try 
         {
             curl.execute ();
@@ -217,7 +217,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
     private async System.Threading.Tasks.Task<string> PostCommand (string p_database_url, string p_user_name, string p_user_value)
     {
         string result = null;
-        cURL document_curl = new cURL ("POST", null, p_database_url, null, p_user_name, p_user_value);
+        var document_curl = new mmria.pmss.server.cURL ("POST", null, p_database_url, null, p_user_name, p_user_value);
         try
         {
             result = await document_curl.executeAsync();
@@ -232,7 +232,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
     private async System.Threading.Tasks.Task<string> Put_Document (string p_document_json, string p_id, string p_database_url, string p_user_name, string p_user_value)
     {
         string result = null;
-        cURL document_curl = new cURL ("PUT", null, p_database_url, p_document_json, p_user_name, p_user_value);
+        var document_curl = new mmria.pmss.server.cURL ("PUT", null, p_database_url, p_document_json, p_user_name, p_user_value);
         try
         {
             result = await document_curl.executeAsync();
@@ -249,7 +249,7 @@ public sealed class Vital_Import_Synchronizer : UntypedActor
 
         string result = null;
 
-        var document_curl = new cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
+        var document_curl = new mmria.pmss.server.cURL("GET", null, p_document_url, null, db_config.user_name, db_config.user_value);
         string temp_document_json = null;
 
         try
