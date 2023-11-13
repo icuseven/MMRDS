@@ -207,7 +207,7 @@ public sealed class export_queueController: ControllerBase
 
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>()).Tell(new_scheduleInfo);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.quartz.Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
             }
             else // if (!result.ok) 
             {
