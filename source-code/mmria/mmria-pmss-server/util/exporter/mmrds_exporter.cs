@@ -1903,7 +1903,8 @@ public sealed class mmrds_exporter
 
             foreach (var value in value_node_list)
             {
-            p_result[p_path].Add(value.value, value.display);
+                if(!p_result[p_path].ContainsKey(value.value))
+                p_result[p_path].Add(value.value, value.display);
             }
 
             break;
