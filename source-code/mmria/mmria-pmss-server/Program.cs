@@ -395,7 +395,7 @@ public sealed partial class Program
                 (
                     overridable_config,
                     host_prefix,
-                    configuration
+                    DbConfigSet
                 ), 
                 "QuartzSupervisor"
             );
