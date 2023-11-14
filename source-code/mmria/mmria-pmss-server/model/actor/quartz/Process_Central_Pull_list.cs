@@ -273,7 +273,7 @@ public sealed class Process_Central_Pull_list : UntypedActor
                                             scheduleInfo.version_number
                                         );
 
-                                        Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                                        Context.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_Document_Message);
                                     }
 
                                 }
