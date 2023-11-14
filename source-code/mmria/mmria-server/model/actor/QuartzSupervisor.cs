@@ -62,17 +62,25 @@ public sealed class QuartzSupervisor : UntypedActor
     mmria.common.couchdb.OverridableConfiguration configuration = null;
     mmria.common.couchdb.ConfigurationSet configuration_set;
 
-    public QuartzSupervisor(IServiceProvider sp)
-    {
-        _scope = sp.CreateScope();
+    string host_prefix;
 
-        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
-        configuration_set = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.ConfigurationSet>();
+    public QuartzSupervisor
+    (
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        string _host_prefix,
+        mmria.common.couchdb.ConfigurationSet _configuration_set
+    )
+    {
+ 
+
+        configuration = _configuration;
+        host_prefix = _host_prefix;
+        configuration_set = _configuration_set;
     }
 
     protected override void PostStop()
     {
-        _scope.Dispose();
+        //_scope.Dispose();
     }
 /*
     public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
@@ -90,25 +98,25 @@ public sealed class QuartzSupervisor : UntypedActor
 
             case "pulse":
 
-                var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
+                var db_config = configuration.GetDBConfig(configuration.GetString("app_instance_name", host_prefix));
                 
                 if (db_config == null) break;
 
                 mmria.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
-                        configuration.GetSharedString("cron_schedule"),
+                        configuration.GetString("cron_schedule", host_prefix),
                         db_config.url,
                         db_config.prefix,
                         db_config.user_name,
                         db_config.user_value,
-                        configuration.GetSharedString("export_directory"),
+                        configuration.GetString("export_directory", host_prefix),
                         null, //jurisdiction_user_name,
-                        configuration.GetSharedString("metadata_version"),
-                        configuration.GetSharedString("cdc_instance_pull_list")
+                        configuration.GetString("metadata_version", host_prefix),
+                        configuration.GetString("cdc_instance_pull_list", host_prefix)
                     );
             
 
-                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetSharedString("app_instance_name"));
+                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetString("app_instance_name", host_prefix));
                 if
                 (
                     is_db_check_enabled.HasValue && 

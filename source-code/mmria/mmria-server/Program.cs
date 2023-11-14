@@ -400,7 +400,16 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
+            var quartzSupervisor = actorSystem.ActorOf
+            (
+                Props.Create<mmria.server.model.actor.QuartzSupervisor>
+                (
+                    overridable_config,
+                    host_prefix,
+                    DbConfigSet
+                ), 
+                "QuartzSupervisor"
+            );
             actorSystem.ActorOf(Props.Create<mmria.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
 
