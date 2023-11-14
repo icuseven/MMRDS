@@ -264,7 +264,7 @@ public sealed class c_document_sync_all
                         string document_json = await document_curl.executeAsync ();
 
                         mmria.pmss.server.utils.c_sync_document sync_document = new c_sync_document (document_id, document_json, "PUT", metadata_version, db_config);
-                        await sync_document.executeAsync ();
+                        //await sync_document.executeAsync ();
                     }
 
                     
