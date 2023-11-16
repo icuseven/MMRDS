@@ -30,3 +30,63 @@ h1:focus {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+
+.color-background-purple1 { background-color: #351147; }
+.color-background-purple2 { background-color: #722378; }
+.color-background-purple3 { background-color: #E3D3E4; }
+.color-background-purple4 { background-color: #F7F2F7; }
+.color-background-purple5 { background-color: #FFFFFF; }
+
+.color-background-black1 { background-color: #000000; }
+.color-background-black2 { background-color: #333333; }
+.color-background-black3 { background-color: #555555; }
+.color-background-black4 { background-color: #797979; }
+.color-background-black5 { background-color: #E0E0E0; }
+.color-background-black6 { background-color: #F5F5F5; }
+.color-background-black7 { background-color: #FFFFFF; }
+
+.color-background-rose1 { background-color: #842547; }
+.color-background-rose2 { background-color: #AF4448; }
+.color-background-rose3 { background-color: #FFC2C2; }
+.color-background-rose4 { background-color: #AF4448; }
+
+.color-background-yellow1 { background-color: #FBAB18; }
+.color-background-yellow2 { background-color: #FFECB3; }
+.color-background-yellow3 { background-color: #FFF7E1; }
+
+.color-background-green1 { background-color: #497D0C; }
+.color-background-green2 { background-color: #DCEDC8; }
+.color-background-green3 { background-color: #F1F8E9; }
+
+.color-background-blue1 { background-color: #165D97; }
+
+
+.color-purple1 { color: #351147; }
+.color-purple2 { color: #722378; }
+.color-purple3 { color: #E3D3E4; }
+.color-purple4 { color: #F7F2F7; }
+.color-purple5 { color: #FFFFFF; }
+
+.color-black1 { color: #000000; }
+.color-black2 { color: #333333; }
+.color-black3 { color: #555555; }
+.color-black4 { color: #797979; }
+.color-black5 { color: #E0E0E0; }
+.color-black6 { color: #F5F5F5; }
+.color-black7 { color: #FFFFFF; }
+
+.color-rose1 { color: #842547; }
+.color-rose2 { color: #AF4448; }
+.color-rose3 { color: #FFC2C2; }
+.color-rose4 { color: #AF4448; }
+
+.color-yellow1 { color: #FBAB18; }
+.color-yellow2 { color: #FFECB3; }
+.color-yellow3 { color: #FFF7E1; }
+
+.color-green1 { color: #497D0C; }
+.color-green2 { color: #DCEDC8; }
+.color-green3 { color: #F1F8E9; }
+
+.color-blue1 { color: #165D97; }
