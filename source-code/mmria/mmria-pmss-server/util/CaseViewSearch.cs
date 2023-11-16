@@ -79,9 +79,11 @@ public sealed class CaseViewSearch
     delegate is_valid_predicate create_predicate_delegate
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     );
 
 /*
@@ -124,9 +126,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_date_created
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -157,9 +161,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_date_last_updated
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -191,9 +197,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_last_name
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -227,9 +235,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_first_name
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
@@ -263,9 +273,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_middle_name
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -298,9 +310,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_year_of_death
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -336,9 +350,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_month_of_death
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -370,9 +386,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_committee_review_date
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -404,9 +422,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_created_by
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -438,9 +458,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_last_updated_by
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -472,9 +494,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_state_of_death
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -506,9 +530,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_date_last_checked_out
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -539,9 +565,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_last_checked_out_by
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -570,16 +598,18 @@ last_checked_out_by
         
         return (mmria.common.model.couchdb.pmss_case_view_item item) => true;
     }
-    is_valid_predicate create_predicate_by_case_status
+    is_valid_predicate create_predicate_by_status
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -588,7 +618,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -610,9 +640,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_pmssno
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
@@ -633,7 +665,7 @@ last_checked_out_by
             if (field_selection == "all")
                 any_predicate_list.Add(f);
 
-            if (field_selection == "by_agency_case_id")
+            if (field_selection == "by_pmssno")
                 all_predicate_list.Add(f);
 
         }
@@ -644,9 +676,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_pregnancy_relatedness
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
@@ -674,9 +708,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_host_state
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -714,9 +750,11 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_record_id
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
         if(search_key != null)
@@ -893,35 +931,34 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_death_certificate_number
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(search_key != null)
         {
-            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
+            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) => 
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(is_matching_search_text(item.value.death_certificate_number, search_key))
                 {
-                    if
-                    (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
-                    )
-                    {
-                        result = true;
-                    }
+                    result = true;
                 }
 
                 return result;
             };
 
-            all_predicate_list.Add(f);
+            if(field_selection == "all")
+                any_predicate_list.Add(f);
 
-            
-            return f;
+
+
+            if(field_selection == "by_death_certificate_number")
+                all_predicate_list.Add(f);
         }
             
 
@@ -930,13 +967,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_dod
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -945,7 +984,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -967,13 +1006,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_dob
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -982,7 +1023,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1004,13 +1045,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_residence_zip
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1019,7 +1062,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1041,13 +1084,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_mage
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1056,7 +1101,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1078,13 +1123,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_manner
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1093,7 +1140,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1115,13 +1162,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_cod1a
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1130,7 +1179,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1152,13 +1201,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_cod1b
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1167,7 +1218,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1189,13 +1240,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_cod1c
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1204,7 +1257,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1226,13 +1279,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_cod1d
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1241,7 +1296,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1263,13 +1318,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_cod_other_condition
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1278,7 +1335,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1300,22 +1357,24 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_classification
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(classification != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(!string.IsNullOrWhiteSpace(item.value.classification))
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.classification.Equals(classification, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1337,22 +1396,24 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_jurisdiction
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(jurisdiction != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(!string.IsNullOrWhiteSpace(item.value.jurisdiction))
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.jurisdiction.Equals(jurisdiction, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1371,16 +1432,20 @@ last_checked_out_by
 
         return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
+
+    /*
     is_valid_predicate create_predicate_by_case_folder
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1389,7 +1454,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1407,26 +1472,28 @@ last_checked_out_by
             
 
         return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
-    }
+    }*/
     is_valid_predicate create_predicate_by_track_year
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(year_of_death != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
                 bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
+                if(item.value.track_year.HasValue)
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.track_year.Value.ToString().Equals(year_of_death, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1448,13 +1515,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_med_coder_check
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1463,7 +1532,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1485,13 +1554,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_med_dir_check
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1500,7 +1571,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1519,53 +1590,19 @@ last_checked_out_by
 
         return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
     }
-    is_valid_predicate create_predicate_by_status
-    (
-        string search_key,
-        string case_status,
-        string field_selection,
-        string pregnancy_relatedness
-    )
-    {
 
-        if(case_status != "all")
-        {
-            is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
-            {
-                bool result = false;
-                if(!string.IsNullOrWhiteSpace(item.value.status))
-                {
-                    if
-                    (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
-                    )
-                    {
-                        result = true;
-                    }
-                }
-
-                return result;
-            };
-
-            all_predicate_list.Add(f);
-
-            
-            return f;
-        }
-            
-
-        return (mmria.common.model.couchdb.pmss_case_view_item item) => false;
-    }
     is_valid_predicate create_predicate_by_month_of_birth
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1574,7 +1611,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1596,13 +1633,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_day_of_birth
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1611,7 +1650,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1633,13 +1672,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_year_of_birth
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1648,7 +1689,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1670,13 +1711,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_agreement_status
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1685,7 +1728,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1707,13 +1750,15 @@ last_checked_out_by
     is_valid_predicate create_predicate_by_version
     (
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification
     )
     {
 
-        if(case_status != "all")
+        if(status != "all")
         {
             is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item item) =>
             {
@@ -1722,7 +1767,7 @@ last_checked_out_by
                 {
                     if
                     (
-                        item.value.status.Equals(case_status, StringComparison.OrdinalIgnoreCase)
+                        item.value.status.Equals(status, StringComparison.OrdinalIgnoreCase)
                     )
                     {
                         result = true;
@@ -1743,7 +1788,7 @@ last_checked_out_by
     }
     
 
-    is_valid_predicate create_predicate_by_jurisdiction(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
+    is_valid_predicate create_predicate_by_case_folder(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
         is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
@@ -1783,7 +1828,7 @@ last_checked_out_by
     is_valid_predicate is_valid_host_state;
     is_valid_predicate is_valid_year_of_death;
     is_valid_predicate is_valid_month_of_death;
-    is_valid_predicate is_valid_jurisdition;
+    is_valid_predicate is_valid_case_folder;
     is_valid_predicate is_valid_date_of_death;
     is_valid_predicate is_valid_pmssno;
     is_valid_predicate is_valid_death_certificate_number;
@@ -1799,11 +1844,11 @@ last_checked_out_by
     is_valid_predicate is_valid_cod_other_condition;
     is_valid_predicate is_valid_classification;
     is_valid_predicate is_valid_jurisdiction;
-    is_valid_predicate is_valid_case_folder;
+
     is_valid_predicate is_valid_track_year;
     is_valid_predicate is_valid_med_coder_check;
     is_valid_predicate is_valid_med_dir_check;
-    is_valid_predicate is_valid_case_status;
+    is_valid_predicate is_valid_status;
 
     is_valid_predicate is_valid_month_of_birth;
     is_valid_predicate is_valid_day_of_birth;
@@ -1823,7 +1868,7 @@ last_checked_out_by
         "conflicts",
         "by_pmss_number",
         "by_jurisdiction",
-        "by_case_status",
+        "by_status",
         "by_case_folder",
         "by_death_classification",
         "by_cause_of_death",
@@ -1840,9 +1885,11 @@ last_checked_out_by
         string sort = "by_date_last_updated",
         string search_key = null,
         bool descending = false,
-        string case_status = "all",
         string field_selection = "all",
-        string pregnancy_relatedness ="all",
+        string jurisdiction = "all",
+        string year_of_death = "all",
+        string status = "all",
+        string classification = "all",
         string date_of_death_range = "all",
         string date_of_review_range = "all"
     ) 
@@ -1912,9 +1959,11 @@ last_checked_out_by
             (
                 jurisdiction_hashset,
                 search_key?.ToLower ().Trim (new char [] { '"' }),
-                case_status,
                 field_selection,
-                pregnancy_relatedness,
+                jurisdiction,
+                year_of_death,
+                status,
+                classification,
                 date_of_review_range,
                 date_of_death_range
             );
@@ -1954,7 +2003,7 @@ last_checked_out_by
                     .Where
                     (
                         cvi => pinned_id_set.Contains(cvi.id) && 
-                        is_valid_jurisdition(cvi)
+                        is_valid_case_folder(cvi)
                         
                     );
 
@@ -2036,181 +2085,155 @@ last_checked_out_by
     (
         HashSet<(string jurisdiction_id, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx,
         string search_key,
-        string case_status,
         string field_selection,
-        string pregnancy_relatedness,
+        string jurisdiction,
+        string year_of_death,
+        string status,
+        string classification,
         string date_of_review_range,
         string date_of_death_range
     )
     {
-        is_valid_jurisdition = create_predicate_by_jurisdiction(ctx);
-        is_valid_date_created = create_predicate_by_date_created(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_date_last_updated = create_predicate_by_date_last_updated(search_key, case_status, field_selection, pregnancy_relatedness);
+        is_valid_case_folder = create_predicate_by_case_folder(ctx);
+        is_valid_date_created = create_predicate_by_date_created(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_date_last_updated = create_predicate_by_date_last_updated(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         /*
-        is_valid_last_name = create_predicate_by_last_name(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_first_name = create_predicate_by_first_name(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_middle_name = create_predicate_by_middle_name(search_key, case_status, field_selection, pregnancy_relatedness);
+        is_valid_last_name = create_predicate_by_last_name(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_first_name = create_predicate_by_first_name(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_middle_name = create_predicate_by_middle_name(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         */
-        is_valid_year_of_death = create_predicate_by_year_of_death(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_month_of_death = create_predicate_by_month_of_death(search_key, case_status, field_selection, pregnancy_relatedness);
-        //is_valid_committee_review_date = create_predicate_by_committee_review_date(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_created_by = create_predicate_by_created_by(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_last_updated_by = create_predicate_by_last_updated_by(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_state_of_death = create_predicate_by_state_of_death(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_date_last_checked_out = create_predicate_by_date_last_checked_out(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_last_checked_out_by = create_predicate_by_last_checked_out_by(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_case_status = create_predicate_by_case_status(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_pmssno = create_predicate_by_pmssno(search_key, case_status, field_selection, pregnancy_relatedness);
-        //is_valid_pregnancy_relatedness = create_predicate_by_pregnancy_relatedness(search_key, case_status, field_selection, pregnancy_relatedness);
-        is_valid_host_state = create_predicate_by_host_state(search_key, case_status, field_selection, pregnancy_relatedness);
-        //is_valid_record_id = create_predicate_by_record_id(search_key, case_status, field_selection, pregnancy_relatedness);
+        is_valid_year_of_death = create_predicate_by_year_of_death(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_month_of_death = create_predicate_by_month_of_death(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        //is_valid_committee_review_date = create_predicate_by_committee_review_date(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_created_by = create_predicate_by_created_by(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_last_updated_by = create_predicate_by_last_updated_by(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_state_of_death = create_predicate_by_state_of_death(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_date_last_checked_out = create_predicate_by_date_last_checked_out(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_last_checked_out_by = create_predicate_by_last_checked_out_by(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_status = create_predicate_by_status(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_pmssno = create_predicate_by_pmssno(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        //is_valid_pregnancy_relatedness = create_predicate_by_pregnancy_relatedness(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        is_valid_host_state = create_predicate_by_host_state(search_key, field_selection, jurisdiction, year_of_death, status, classification);
+        //is_valid_record_id = create_predicate_by_record_id(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         //is_valid_date_of_review = create_predicate_by_date_of_review(field_selection, date_of_review_range);
         is_valid_date_of_death = create_predicate_by_date_of_death(field_selection, date_of_death_range);
     is_valid_pmssno = create_predicate_by_pmssno
     (
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_death_certificate_number = create_predicate_by_death_certificate_number(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_dod = create_predicate_by_dod(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_dob = create_predicate_by_dob(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
 
     is_valid_residence_zip = create_predicate_by_residence_zip(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_mage = create_predicate_by_mage(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_manner = create_predicate_by_manner(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_cod1a = create_predicate_by_cod1a(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_cod1b = create_predicate_by_cod1b(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_cod1c = create_predicate_by_cod1c(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_cod1d = create_predicate_by_cod1d(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_cod_other_condition = create_predicate_by_cod_other_condition(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_classification = create_predicate_by_classification(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_jurisdiction = create_predicate_by_jurisdiction(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
-    is_valid_case_folder = create_predicate_by_case_folder(
-        search_key,
-        case_status,
-        field_selection,
-        pregnancy_relatedness
-    );
+
     is_valid_track_year = create_predicate_by_track_year(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_med_coder_check = create_predicate_by_med_coder_check(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_med_dir_check = create_predicate_by_med_dir_check(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
-    is_valid_case_status = create_predicate_by_status(
+    is_valid_status = create_predicate_by_status(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_month_of_birth = create_predicate_by_month_of_birth(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_day_of_birth = create_predicate_by_day_of_birth(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_year_of_birth = create_predicate_by_year_of_birth(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_agreement_status = create_predicate_by_agreement_status(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     is_valid_version = create_predicate_by_version(
         search_key,
-        case_status,
         field_selection,
-        pregnancy_relatedness
+        jurisdiction, year_of_death, status, classification
     );
     }
 

@@ -597,6 +597,7 @@ async function build_report()
                     if(n == "(-)")
                     {
                         const el2 = document.getElementById(`${k}-9999`);
+                        if(el2 != null)
                         el2.innerHTML = parseInt(el2.innerHTML) + v2;
                     }
                     else
@@ -605,6 +606,7 @@ async function build_report()
                         {
                             n.forEach(element => {
                                 const el2 = document.getElementById(`${k}-${element}`);
+                                if(el2 != null)
                                 el2.innerHTML = v2;
                                 
                             });
@@ -612,10 +614,11 @@ async function build_report()
                         else
                         {
                             const el2 = document.getElementById(`${k}-${n}`);
-                            el2.innerHTML = v2;
+                            if(el2 != null)
+                                el2.innerHTML = v2;
                         }
-                        const el2 = document.getElementById(`${k}-${n}`);
-                        el2.innerHTML = v2;
+                        //const el2 = document.getElementById(`${k}-${n}`);
+                        //el2.innerHTML = v2;
                     }
                 }
             }

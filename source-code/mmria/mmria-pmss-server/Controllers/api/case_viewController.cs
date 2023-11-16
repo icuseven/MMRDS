@@ -19,7 +19,7 @@ using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server;
 
-[Authorize(Roles  = "abstractor, data_analyst")]
+[Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
 [Route("api/[controller]")]
 public sealed class case_viewController: ControllerBase 
 {  
@@ -48,11 +48,13 @@ public sealed class case_viewController: ControllerBase
         int skip = 0,
         int take = 25,
         string sort = "by_date_created",
-        string search_key = null,
-        bool descending = false,
-        string case_status = "all",
+        string search_key = null,     
         string field_selection = "all",
-        string pregnancy_relatedness ="all",
+        bool descending = false,
+        string jurisdiction = "all",
+        string year_of_death = "all",
+        string status = "all",
+        string classification = "all",
         string date_of_death_range = "all",
         string date_of_review_range = "all",
         bool include_pinned_cases = false
@@ -77,9 +79,11 @@ public sealed class case_viewController: ControllerBase
             sort,
             search_key,
             descending,
-            case_status,
             field_selection,
-            pregnancy_relatedness,
+            jurisdiction,
+            year_of_death,
+            status,
+            classification,
             date_of_death_range,
             date_of_review_range
         );
@@ -151,7 +155,7 @@ public sealed class case_viewController: ControllerBase
             Console.WriteLine(ex);
         }
 
-        return $"{prefix_array[0]}-{prefix_array[1].Substring(2)}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
+        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 } 

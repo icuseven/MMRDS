@@ -153,7 +153,7 @@ public sealed class mmrds_exporter
         System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
         generate_path_map
-        (metadata, "", "mmria_case_export.csv", "",
+        (metadata, "", "pmss_case_export.csv", "",
             path_to_int_map,
             path_to_file_name_map,
             path_to_node_map,
@@ -207,7 +207,7 @@ public sealed class mmrds_exporter
             path_to_int_map,
             path_to_flat_map,
             path_to_node_map,
-            path_to_csv_writer["mmria_case_export.csv"].Table,
+            path_to_csv_writer["pmss_case_export.csv"].Table,
             true,
             false,
             false
@@ -216,12 +216,12 @@ public sealed class mmrds_exporter
         var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
 
         grantee_column.DefaultValue = queue_item.grantee_name;
-        path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
+        path_to_csv_writer["pmss_case_export.csv"].Table.Columns.Add(grantee_column);
 
-        if(! is_header_written.ContainsKey("mmria_case_export.csv"))
+        if(! is_header_written.ContainsKey("pmss_case_export.csv"))
         {
-            is_header_written.Add("mmria_case_export.csv", true);
-            path_to_csv_writer["mmria_case_export.csv"].WriteHeadersToStream();
+            is_header_written.Add("pmss_case_export.csv", true);
+            path_to_csv_writer["pmss_case_export.csv"].WriteHeadersToStream();
         }
 
 
@@ -367,9 +367,9 @@ public sealed class mmrds_exporter
             }
 
 
-            System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
+            System.Data.DataRow row = path_to_csv_writer["pmss_case_export.csv"].Table.NewRow();
             string mmria_case_id = case_doc["_id"].ToString();
-            row["hr_r_id"] = HR_R_ID;
+            row["caseno"] = HR_R_ID;
             row["_id"] = mmria_case_id;
             
             foreach (string path in path_to_flat_map)
@@ -414,7 +414,7 @@ public sealed class mmrds_exporter
                 //System.Console.WriteLine("break");
             }
 
-            if(path == "home_record/record_id")
+            if(path == "tracking/admin_info/pmssno")
             {
                 continue;
             }
@@ -718,11 +718,11 @@ public sealed class mmrds_exporter
             }
             if(is_excel_file_type)
             {
-                path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
+                path_to_csv_writer["pmss_case_export.csv"].Table.Rows.Add(row);
             }
             else
             {
-                path_to_csv_writer["mmria_case_export.csv"].WriteToStream(row);
+                path_to_csv_writer["pmss_case_export.csv"].WriteToStream(row);
             }
 
         //System.Console.WriteLine("flat grid-star 621");
@@ -772,7 +772,7 @@ public sealed class mmrds_exporter
                     }
 
                     System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-                    grid_row["hr_r_id"] = HR_R_ID;
+                    grid_row["caseno"] = HR_R_ID;
                     grid_row["_id"] = mmria_case_id;
                     grid_row["_record_index"] = i;
                     foreach (KeyValuePair<string, string> kvp in path_to_grid_map.Where(k => k.Value == grid_name))
@@ -1122,7 +1122,7 @@ public sealed class mmrds_exporter
                 {
                 
                 System.Data.DataRow form_row = path_to_csv_writer[kvp.Value].Table.NewRow();
-                form_row["hr_r_id"] = HR_R_ID;
+                form_row["caseno"] = HR_R_ID;
                 form_row["_id"] = mmria_case_id;
                 form_row["_record_index"] = i;
 
@@ -1903,7 +1903,8 @@ public sealed class mmrds_exporter
 
             foreach (var value in value_node_list)
             {
-            p_result[p_path].Add(value.value, value.display);
+                if(!p_result[p_path].ContainsKey(value.value))
+                p_result[p_path].Add(value.value, value.display);
             }
 
             break;
@@ -1977,7 +1978,7 @@ public sealed class mmrds_exporter
                 }
 
                 System.Data.DataRow grid_row = path_to_csv_writer[grid_name].Table.NewRow();
-                grid_row["hr_r_id"] = HR_R_ID;
+                grid_row["caseno"] = HR_R_ID;
                 grid_row["_id"] = mmria_case_id;
                 grid_row["_record_index"] = i;
                 grid_row["_parent_record_index"] = parent_record_index;
@@ -2279,7 +2280,7 @@ public sealed class mmrds_exporter
         // create header row
         if (p_add_id)
         {
-            column = new System.Data.DataColumn("hr_r_id", typeof(string));
+            column = new System.Data.DataColumn("caseno", typeof(string));
             p_Table.Columns.Add(column);
 
             column = new System.Data.DataColumn("_id", typeof(string));
@@ -2302,7 +2303,32 @@ public sealed class mmrds_exporter
         foreach (string path in p_path_to_csv_set)
         {
 
-            if(path == "home_record/record_id") continue;
+            if(path == "tracking/admin_info/pmssno") continue;
+
+
+            if 
+            (
+                p_path_to_node_map[path].tags != null &&
+                p_path_to_node_map[path].tags.Length > 0
+
+            )
+            {
+                var is_do_not_export = false;
+                foreach(var tag in p_path_to_node_map[path].tags)
+                {
+                    if(tag.Equals("DO_NOT_EXPORT", StringComparison.OrdinalIgnoreCase))
+                    {
+                        is_do_not_export = true;
+                        break;
+                    }
+                }
+
+                if(is_do_not_export)
+                {
+                    continue;
+                }
+            }
+
         string file_field_name = convert_path_to_field_name(path, p_path_to_int_map);
 
         switch (p_path_to_node_map[path].type.ToLower())

@@ -111,7 +111,9 @@ public class GenerationContext
         "WV",
         "WI",
         "WY",
-
+        "ZZ", // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+        "XX", // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+      
         "MP", //  NORTHERN MARIANAS
         "AS", //  AMERICAN SAMOA
         "GU", //  GUAM
@@ -131,6 +133,33 @@ public class GenerationContext
         "QC", //  QUEBEC  
         "SK", //  SASKATCHEWAN
         "YT", //  
+
+    };
+
+    public static List<string> country_list = new()
+    {
+        "US",
+        "ZZ", // UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
+        "XX", // UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
+        "MP", //  NORTHERN MARIANAS
+        "AS", //  AMERICAN SAMOA
+        "GU", //  GUAM
+        "VI", //   VIRGIN ISLANDS
+        "PR", //  PUERTO RICO
+        "Fo", //r Canadian Provinces:
+        "AB", //  ALBERTA  
+        "BC", //  BRITISH COLUMBIA 
+        "MB", //  MANITOBA 
+        "NB", //  NEW BRUNSWICK  
+        "NF", // NEWFOUNDLAND  
+        "NS", //  NOVA SCOTIA 
+        "NT", //  NORTHWEST TERRITORIES
+        "NU", //  NUNAVUT
+        "ON", //  ONTARIO
+        "PE", //  PRINCE EDWARD ISLAND 
+        "QC", //  QUEBEC  
+        "SK", //  SASKATCHEWAN
+        "YT" //  
     };
 
     public static List<string> first_name = new()

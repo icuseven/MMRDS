@@ -1676,8 +1676,19 @@ function filter_serach_text_change(p_value) {
   g_case_view_request.search_key = p_value;
 }
 
-function render_pagination(p_result, p_case_view_request) {
-  //p_result.push("<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>");
+function render_pagination(p_result, p_case_view_request) 
+{
+  
+    let pagination_current_page = p_case_view_request.page;
+    const pagination_number_of_pages = Math.ceil(p_case_view_request.total_rows / g_case_view_request.take);
+    if(pagination_number_of_pages == 0)
+    {
+        pagination_current_page = 0;
+    }  
+  
+  
+  
+    //p_result.push("<div id='case_result_pagination' class='table-pagination row align-items-center no-gutters'>");
   p_result.push("<div class='col'>");
   p_result.push("<div class='row no-gutters'>");
   p_result.push("<p class='mb-0'>Total Records: ");
@@ -1685,11 +1696,11 @@ function render_pagination(p_result, p_case_view_request) {
   p_result.push('</p>');
   p_result.push("<p class='mb-0 ml-2 mr-2'>|</p>");
   p_result.push("<p class='mb-0'>Viewing Page(s): ");
-  p_result.push('<strong>' + p_case_view_request.page + '</strong> ');
+  p_result.push('<strong>' + pagination_current_page + '</strong> ');
   p_result.push('of ');
   p_result.push(
     '<strong>' +
-      Math.ceil(p_case_view_request.total_rows / p_case_view_request.take) +
+    pagination_number_of_pages +
       '</strong>'
   );
   p_result.push('</p>');

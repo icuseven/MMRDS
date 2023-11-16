@@ -22,21 +22,26 @@ namespace mmria.server;
 public sealed class ije_messageController: ControllerBase 
 { 
     mmria.common.couchdb.OverridableConfiguration configuration;
-    common.couchdb.DBConfigurationDetail db_config;
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+
+    mmria.common.couchdb.ConfigurationSet config_id_configuration;
     string host_prefix = null;
 
     public ije_messageController
     (
         IHttpContextAccessor httpContextAccessor, 
-        mmria.common.couchdb.OverridableConfiguration _configuration
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        mmria.common.couchdb.ConfigurationSet _config_id_configuration
     )
     {
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
+
+        config_id_configuration =  _config_id_configuration;
     }
     
-    [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer")]
+    [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer,vital_importer_state")]
     [HttpGet]
     public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
     { 
@@ -44,7 +49,9 @@ public sealed class ije_messageController: ControllerBase
 
         try
         {
-            common.couchdb.DBConfigurationDetail config = configuration.GetDBConfig("vital_import");
+            //mmria.common.couchdb.DBConfigurationDetail config = configuration.GetDBConfig("vital_import");
+
+            mmria.common.couchdb.DBConfigurationDetail config =  config_id_configuration.detail_list["vital_import"];
             
             string url = $"{config.url}/vital_import/_all_docs?include_docs=true";
 

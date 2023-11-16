@@ -45,7 +45,7 @@ public sealed class caseController: ControllerBase
         db_config = configuration.GetDBConfig(host_prefix);
     }
     
-    [Authorize(Roles  = "abstractor, data_analyst")]
+    [Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
     [HttpGet]
     public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
     { 
@@ -85,7 +85,7 @@ public sealed class caseController: ControllerBase
 
 
 
-    [Authorize(Roles  = "abstractor")]
+    [Authorize(Roles  = "abstractor, committee_member, vro")]
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (
@@ -263,7 +263,7 @@ public sealed class caseController: ControllerBase
                 configuration.GetString("metadata_version", host_prefix)
             );
 
-            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+            _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_Document_Message);
     
             /*
             var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
@@ -422,7 +422,7 @@ public sealed class caseController: ControllerBase
                     configuration.GetString("metadata_version", host_prefix)
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_Document_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_Document_Message);
                 /*
                 var case_sync_actor = _actorSystem.ActorSelection("akka://mmria-actor-system/user/case_sync_actor");
                 case_sync_actor.Tell(Sync_Document_Message);

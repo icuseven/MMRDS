@@ -1482,6 +1482,128 @@ var $mmria = function()
             if(el != null)
                 el.close();
         },
+        duplicate_multiform_dialog_show: async function 
+        (
+            p_object_path, 
+            p_metadata_path, 
+            p_index
+        )
+        {
+
+            const dialog_id = "multiform-dialog-id";
+            //g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
+
+            const Title_Text = [];
+            const Button_Text = [];
+            const Description_Text = [];
+            const Button_Event = [];
+            const Button_style = [];
+
+    
+            Title_Text.push("Confirm Record Duplication");
+            //Button_Text.push("Cancel");
+            Button_Text.push("Duplicate Record");
+            Description_Text.push
+            (`
+A duplicate of this record will be added:
+<br/>
+<br/>
+<ul>
+<li>Name and location information will be prefilled with the data from the original record.</li>
+<li>Date fields will remain blank.</li>
+</ul>
+<br/>
+Please update the duplicate record as applicable.
+            `);
+            
+            
+            
+            Button_Event.push(`g_duplicate_record_item('${p_object_path}', '${p_metadata_path}', ${p_index})`);
+            Button_style.push(`style="height: 38px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 4px;
+            border: 1px solid #712177;
+            background-color: #712177;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
+            line-height: normal;
+            cursor: pointer;"`);
+                
+
+
+            let element = document.getElementById(dialog_id);
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", dialog_id);
+                    element.setAttribute("aria-modal", "true");
+                    element.setAttribute("role","dialog");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.width = "520px";
+                element.style.transform = "translateY(0%)";
+
+    
+                let html = [];
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix" role="dialog">
+                        <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.duplicate_multiform_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog7" style="width: 300; height: 260px;" class="ui-dialog-content ui-widget-content" role="dialog">
+                        <div class="modal-body">
+                                <div >
+                       ${Description_Text[0]}
+                       <br/><br/>
+                                    <div style="text-align:right;padding-right: 8px;">
+                                        <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" onclick="$mmria.duplicate_multiform_dialog_click()">Cancel</button>
+                                        <input id="duplicate_dialog_choice" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" style="height: 38px;
+                                        padding-left: 12px;
+                                        padding-right: 12px;
+                                        border-radius: 4px;
+                                        border: 1px solid #712177;
+                                        background-color: #712177;
+                                        box-sizing: border-box;
+                                        font-family: 'Open Sans', sans-serif;
+                                        color: rgba(255, 255, 255, 1);
+                                        text-align: center;
+                                        line-height: normal;
+                                        cursor: pointer;"/>
+                                        
+            
+                                    </div>
+
+                                </div>
+                        
+                        </div>
+
+                    </div>
+
+                `);
+    
+                element.innerHTML = html.join("");
+
+                mmria_pre_modal(dialog_id);
+
+                window.setTimeout(()=> { const duplicate_dialog_choice = document.getElementById("duplicate_dialog_choice"); duplicate_dialog_choice.focus(); }, 0);
+    
+                element.showModal();
+                
+        },
+        duplicate_multiform_dialog_click: function ()
+        {
+            mmria_post_modal();
+            const el = document.getElementById("multiform-dialog-id");
+            if(el != null)
+                el.close();
+        },
         unstable_network_dialog_show: async function (p_error, p_note)
         {
 

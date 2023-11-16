@@ -49,7 +49,7 @@ public sealed class de_id_viewController: ControllerBase
     ) 
     {
 
-        var is_identefied_case = false;
+        const bool is_identefied_case = false;
         var cvs = new mmria.server.utils.CaseViewSearch
         (
             db_config, 

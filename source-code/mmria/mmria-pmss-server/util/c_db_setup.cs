@@ -290,7 +290,7 @@ public sealed class c_db_setup
                     metadata_version
                 );
 
-                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>()).Tell(Sync_All_Documents_Message);
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_All_Documents_Message);
 
 
                 //new System.Threading.Thread(() => 

@@ -316,7 +316,7 @@ function form_render(
                         <th class="th" scope="col">Record Type</th>
                         <th class="th" scope="col">Birth Order</th>
                         <th class="th" scope="col">Time of Delivery</th>
-                        <th class="th" width="120" scope="col">Actions</th>
+                        <th class="th" width="210" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">`
@@ -341,8 +341,9 @@ function form_render(
                         <td class="td">${item.birth_order}</td>
                         <td class="td">${item.record_identification!= null && item.record_identification.time_of_delivery != null ? item.record_identification.time_of_delivery: ""}</td>
                         <td class="td">
+                            <!--button class="btn btn-primary" onclick="$mmria.duplicate_multiform_dialog_show('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button-->
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -358,7 +359,7 @@ function form_render(
                         <th class="th" scope="col">Record #</th>
                         <th class="th" scope="col">Date of Arrival</th>
                         <th class="th" scope="col">Discharge Pregnancy Status</th>
-                        <th class="th" width="120" scope="col">Actions</th>
+                        <th class="th" width="210" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">`
@@ -414,8 +415,9 @@ function form_render(
                         </td>
                         <td class="td">${pregStatus}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="$mmria.duplicate_multiform_dialog_show('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -432,7 +434,7 @@ function form_render(
                         <th class="th" scope="col">Visit Type</th>
                         <th class="th" scope="col">Provider Type</th>
                         <th class="th" scope="col">Pregnancy Status</th>
-                        <th class="th" width="120" scope="col">Actions</th>
+                        <th class="th" width="210" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">`
@@ -487,8 +489,9 @@ function form_render(
                         <td class="td">${providerType}</td>
                         <td class="td">${pregnancyStatus}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="$mmria.duplicate_multiform_dialog_show('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );
@@ -503,7 +506,7 @@ function form_render(
                         <th class="th" scope="col">Record #</th>
                         <th class="th" scope="col">Date of Transport</th>
                         <th class="th" scope="col" width="360">Reason for Transport</th>
-                        <th class="th" width="120" scope="col">Actions</th>
+                        <th class="th" width="210" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">`
@@ -548,8 +551,9 @@ function form_render(
                         </td>
                         <td class="td">${transportReason}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="$mmria.duplicate_multiform_dialog_show('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>
                 `);
@@ -566,7 +570,7 @@ function form_render(
                         <th class="th" scope="col">Date of Interview</th>
                         <th class="th" scope="col">Interview Type</th>
                         <th class="th" scope="col">Relationship to Deceased</th>
-                        <th class="th" width="120" scope="col">Actions</th>
+                        <th class="th" width="210" scope="col">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="tbody">`
@@ -614,8 +618,9 @@ function form_render(
                         <td class="td">${interviewType}</td>
                         <td class="td">${relationshipToDeceased}</td>
                         <td class="td">
+                            <button class="btn btn-primary" onclick="$mmria.duplicate_multiform_dialog_show('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Duplicate</button>&nbsp;
                             <button class="btn btn-primary" onclick="init_multirecord_delete_dialog('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete</button>
-                            <!--<button class="btn btn-primary" onclick="g_delete_record_item('${p_object_path}[${i}]', '${p_metadata_path}', '${i}')" ${delete_disable_attribute}>Delete Record</button>-->
+                            
                         </td>
                     </tr>`
                 );

@@ -617,9 +617,27 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 	}
 }
 
-function page_render_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+function page_render_create_event
+(
+	p_result, 
+	p_event_name, 
+	p_code_json, 
+	p_metadata_path, 
+	p_object_path, 
+	p_dictionary_path, 
+	p_ctx
+)
 {
 	var post_fix = null;
+
+
+
+	let is_parent_depended_upon = false;
+	
+	if(g_dependent_parent_to_child.has(p_dictionary_path.substr(1)))
+	{
+		is_parent_depended_upon = true;
+	}
 
   /*
   var path_to_int_map = [];
@@ -670,13 +688,21 @@ function page_render_create_event(p_result, p_event_name, p_code_json, p_metadat
 		}
 	}
 	
+	if(is_parent_depended_upon)
+	{
+		p_result.push
+	}
+
 	code_array.push(");")
+	code_array.push(`list_check_for_dependent_change(this, "${p_dictionary_path.substr(1)}");`)
 
 	p_result.push(" ");
 	p_result.push(p_event_name);
 	p_result.push("='");
 	p_result.push(code_array.join('').replace(/'/g,"\""));
 	p_result.push("'");
+
+
 }
 
 function page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)

@@ -334,6 +334,17 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			break;
 
 		case "group":
+                if(p_metadata.tags.includes("CALC_DATE"))
+                {
+                   
+                }
+
+                for(let i = 0; i < p_metadata.children.length; i++)
+                {
+                    let item = p_metadata.children[i];
+                    render_search_result_item(p_result, item, p_path + "/" + item.name, p_selected_form, p_search_text);
+                }
+            break;
 		case "grid":
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
@@ -368,7 +379,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             (
                 !p_metadata.tags.includes("FREQ") &&
                 !p_metadata.tags.includes("STAT_N") &&
-                !p_metadata.tags.includes("STAT_D")
+                !p_metadata.tags.includes("STAT_D") &&
+                !p_metadata.tags.includes("CALC_DATE")
             )
             {
                 break;

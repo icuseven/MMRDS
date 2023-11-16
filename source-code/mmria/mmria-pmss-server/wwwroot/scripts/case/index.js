@@ -36,6 +36,10 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
 var g_record_id_list = {};
+var g_form_access_list = new Map();
+var role_set = new Set();
+
+
 const g_charts = new Map();
 const g_chart_data = new Map();
 var g_case_narrative_is_updated = false;
@@ -54,6 +58,9 @@ let save_start_time, save_end_time;
 const g_is_version_based = false;
 
 const g_cvs_api_request_data = new Map();
+
+const g_dependent_parent_to_child = new Map();
+const g_dependent_child_to_parent = new Map();
 
 
 
@@ -1114,8 +1121,8 @@ var g_ui = {
     result.date_last_checked_out = new Date();
     result.last_checked_out_by = g_user_name;
     result.version = g_release_version;
-    //result.tracking.case_status.overall_case_status = 1;
-    //result.tracking.case_status.abstraction_begin_date = convert_date_to_storage_format(new Date());
+    result.tracking.admin_info.status = "Incomplete";
+    result.tracking.admin_info.steve_transfer = 2;
 
     if (g_jurisdiction_list.length > 0) 
     {
@@ -1169,7 +1176,7 @@ var g_ui = {
     }
 
 	const new_pmss_number_response = await $.ajax({
-		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death}`
+		url: `${location.protocol}//${location.host}/api/case_view/next-pmss-number/${p_state_of_death}-${p_year_of_death.substr(2)}`
 	});
 
     result.tracking.admin_info.pmssno = new_pmss_number_response;
@@ -1239,7 +1246,10 @@ var g_ui = {
     sort: 'by_date_last_updated',
     search_key: null,
     descending: true,
-    case_status: "all",
+    jurisdiction: "all",
+    year_of_death: "all",
+    status: "all",
+    classification: "all",
     field_selection: "all",
     pregnancy_relatedness:"all",
     get_query_string: function () {
@@ -1248,9 +1258,13 @@ var g_ui = {
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
       result.push('descending=' + this.descending);
-      result.push('case_status=' + this.case_status);
+      result.push('jurisdiction=' + this.jurisdiction);
+      result.push('year_of_death=' + this.year_of_death);
+      result.push('status=' + this.status);
+      result.push('classification=' + this.classification);
+      
       result.push('field_selection=' + this.field_selection);
-      result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+
 
       if(g_is_data_analyst_mode == null || g_is_data_analyst_mode !="da")
       {
@@ -1510,6 +1524,13 @@ async function load_and_set_data()
         url: metadata_url,
     });
 
+    const form_access_response = await get_form_access_list();
+
+    for(const item of form_access_response.access_list)
+    {
+        
+        g_form_access_list.set(item.form_path.substr(1), item);
+    }
 
     g_jurisdiction_tree = jurisdiction_tree;
 
@@ -1530,7 +1551,9 @@ async function load_and_set_data()
     g_user_role_jurisdiction_list = [];
     for (let i in my_role_list_response.rows) 
     {
+        
         let value = my_role_list_response.rows[i].value;
+        role_set.add(value.role_name);
         if(value.role_name=="abstractor")
         {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
@@ -3695,7 +3718,7 @@ async function add_new_case_button_click(p_input)
             </div>
             <div id="mmria_dialog8" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                 <div class="modal-body">
-                    <p><strong>Reporting Jurisdiction:</strong> ${new_state_of_death.value==9999? "(blank)": new_state_of_death.value}</p>
+                    <p><strong>Reporting Jurisdiction:</strong> ${app_get_lookup_value_to_display("state", new_state_of_death.value)}</p>
                     <p><strong>Reporting Year:</strong> ${new_year_of_death.value == 9999? "(blank)": new_year_of_death.value}</p>
                     
                     <p class="d-flex align-items-start mb-0">
@@ -7225,8 +7248,14 @@ function arc_prenatal_care_dlnm_gestation()
 }
 
 
-//mental_health_profile/were_there_documented_mental_health_conditions/gestational_weeks
+async function get_form_access_list()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/_users/GetFormAccess';
 
-//mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
+	const response = await $.ajax
+	({
+			url: metadata_url
+	});
 
-//mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+	return response;
+}

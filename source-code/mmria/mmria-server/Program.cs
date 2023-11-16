@@ -345,7 +345,7 @@ public sealed partial class Program
                     actor.provider = cluster
                     remote {
                         dot-netty.tcp {
-                            port = {{akka_port}} #let os pick random port
+                            port = {{akka_port}}
                             hostname = {{akka_ip_address}}
                         }
                     }
@@ -355,10 +355,8 @@ public sealed partial class Program
                 }
             """;
 
-            System.Console.WriteLine(akka_config_string);
-
-            var config = ConfigurationFactory.ParseString(akka_config_string);
-
+            //System.Console.WriteLine(akka_config_string);
+            //var config = ConfigurationFactory.ParseString(akka_config_string);
             //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
             var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
             
@@ -373,8 +371,14 @@ public sealed partial class Program
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
+            
+            var JobDataMap = new Quartz.JobDataMap();
+
+            JobDataMap.Add("ActorSystem", actorSystem);
+            
             IJobDetail job = JobBuilder.Create<mmria.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
+                .SetJobData(JobDataMap)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
@@ -396,7 +400,16 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
+            var quartzSupervisor = actorSystem.ActorOf
+            (
+                Props.Create<mmria.server.model.actor.QuartzSupervisor>
+                (
+                    overridable_config,
+                    host_prefix,
+                    DbConfigSet
+                ), 
+                "QuartzSupervisor"
+            );
             actorSystem.ActorOf(Props.Create<mmria.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
 

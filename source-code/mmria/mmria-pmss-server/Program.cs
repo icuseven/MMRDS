@@ -20,9 +20,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
+using Akka.Configuration;
 
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Net;
 
 
 using Microsoft.AspNetCore.Components;
@@ -315,7 +317,44 @@ public sealed partial class Program
 
 
 
-            var actorSystem = ActorSystem.Create("mmria-actor-system").UseServiceProvider(provider);
+                        const string mmria_actor_system_name = "mmria-actor-system";
+            var akka_port = overridable_config.GetString("akka:port", host_prefix);
+            var akka_seed_node = overridable_config.GetString("akka:seed_node", host_prefix);
+
+            if(string.IsNullOrWhiteSpace(akka_port))
+                akka_port = "8081";
+
+            if(string.IsNullOrWhiteSpace(akka_seed_node))
+                akka_seed_node = $"akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}";
+
+
+            var akka_ip_address = Dns.GetHostAddresses(Dns.GetHostName())[0];
+            var akka_config_string = $$"""
+            akka {
+                    actor.provider = cluster
+                    remote {
+                        dot-netty.tcp {
+                            port = {{akka_port}} #let os pick random port
+                            hostname = {{akka_ip_address}}
+                        }
+                    }
+                    cluster {
+                        seed-nodes = ["{{akka_seed_node.Replace("{ip_address}", akka_ip_address.ToString())}}"]
+                    }
+                }
+            """;
+
+            System.Console.WriteLine(akka_config_string);
+
+            var config = ConfigurationFactory.ParseString(akka_config_string);
+
+            //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
+            
+            Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
+            Log.Information($"Akka seed node: {akka_seed_node}");
+            
+            
             builder.Services.AddSingleton(typeof(ActorSystem), (serviceProvider) => actorSystem);
 
             ISchedulerFactory schedFact = new StdSchedulerFactory();
@@ -323,8 +362,12 @@ public sealed partial class Program
 
             DateTimeOffset runTime = DateBuilder.EvenMinuteDate(DateTimeOffset.UtcNow);
 
+            var JobDataMap = new Quartz.JobDataMap();
+            JobDataMap.Add("ActorSystem", actorSystem);
+
             IJobDetail job = JobBuilder.Create<mmria.pmss.server.model.Pulse_job>()
                 .WithIdentity("job1", "group1")
+                .SetJobData(JobDataMap)
                 .Build();
 
             ITrigger trigger = TriggerBuilder.Create()
@@ -346,8 +389,17 @@ public sealed partial class Program
                 sched.Start();
             }
 
-            var quartzSupervisor = actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>(provider), "QuartzSupervisor");
-            actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(provider), "steve-api-supervisor");
+            var quartzSupervisor = actorSystem.ActorOf
+            (
+                Props.Create<mmria.pmss.server.model.actor.QuartzSupervisor>
+                (
+                    overridable_config,
+                    host_prefix,
+                    DbConfigSet
+                ), 
+                "QuartzSupervisor"
+            );
+            actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
 
             quartzSupervisor.Tell("init");
@@ -398,6 +450,7 @@ public sealed partial class Program
                 options.AddPolicy("committee_member", policy => policy.RequireRole("committee_member"));
                 options.AddPolicy("vital_importer", policy => policy.RequireRole("vital_importer"));
                 options.AddPolicy("cdc_admin", policy => policy.RequireRole("cdc_admin"));
+                options.AddPolicy("vro", policy => policy.RequireRole("vro"));
                 options.AddPolicy("cdc_analyst", policy => policy.RequireRole("cdc_analyst"));
                 options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
                 options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));

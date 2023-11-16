@@ -1,4 +1,4 @@
-function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
+function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx, p_is_de_identified = false)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 	
@@ -8,7 +8,14 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		  mpath='id='${p_metadata_path}' 
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
-			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'></div>
+            <table style='border-color:#e0e0e0;padding:5px;' border=1>
+            <tr align=center style='background-color:#b890bb;'><th>${p_metadata.prompt}</th></tr>
+            <tr align=center><td>
+			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
+            
+            </div>
+            </td></tr>
+            </table>
 		</div>
 		`
 		
@@ -17,12 +24,22 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	var chart_size = get_chart_size(style_object.control.style);
 	var chart_gen_name = "chart_" + convert_object_path_to_jquery_id(p_object_path);
 
-   
+   let translate_x = "-30";
+   if
+   (
+       p_metadata.x_type != null &&
+       p_metadata.x_type.toLowerCase() == 'datetime'
+   )
+   {
+        translate_x = "-25";
+   }
+
+   const computed_height = chart_size.height - 23;
 
 	p_post_html_render.push(` g_charts['${chart_gen_name}'] = 
 	  c3.generate({
 		size: {
-		height: ${chart_size.height}
+		height: ${computed_height}
 		, width: ${chart_size.width}
       },
 	  transition: {
@@ -31,8 +48,9 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       bindto: '#${convert_object_path_to_jquery_id(p_object_path)}_chart',
       onrendered: function()
       {
-		d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text')
-          .attr('transform', 'rotate(325)translate(-25,0)');
+		const el = d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
+        el.attr('transform', 'rotate(325)translate(${translate_x},0)');
+
       },`);
 
 
@@ -41,10 +59,11 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
         p_post_html_render.push("axis: {");
         p_post_html_render.push("x: {");
         p_post_html_render.push("type: 'timeseries',");
-		p_post_html_render.push("localtime: true,");
-		p_post_html_render.push("label: {");
-		p_post_html_render.push(" position: 'outer-right',");
-		p_post_html_render.push("},");
+        p_post_html_render.push("localtime: true,");
+        //p_post_html_render.push("label: {");
+
+        //p_post_html_render.push(" position: 'outer-center',");
+        //p_post_html_render.push("},");
         p_post_html_render.push("tick: {");
         if
         (
@@ -248,8 +267,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     p_post_html_render.push("     .attr('x', d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').node().getBoundingClientRect().width / 2)");
     p_post_html_render.push("     .attr('y', 16)");
     p_post_html_render.push("     .attr('text-anchor', 'middle')");
-    p_post_html_render.push("     .style('font-size', '1.4em')");
-	p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
+    p_post_html_render.push("     .style('font-size', '1.4em');");
+	//p_post_html_render.push("     .text('" + p_metadata.prompt.replace(/'/g, "\\'") + "');");
 	
 }
 
@@ -422,4 +441,12 @@ function update_charts(p_path)
            // console.log("here");
 
     }
+}
+
+function chart_onrendered()
+{
+    const el = d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
+
+    el.attr('transform', 'rotate(325)translate(${translate_x},0)');
+    el.innerText = '';
 }

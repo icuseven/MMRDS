@@ -12,7 +12,7 @@ var g_standard_export_report_set  = {};
 const g_de_identified_search_result = new Map();
 const g_path_to_node = new Map();
 
-var g_ui = { is_collapsed: [] };
+
 var g_filter = {
   date_of_death: {
     year: ['all'],
@@ -33,8 +33,8 @@ var g_filter = {
   search_text: '',
   include_blank_date_of_reviews :true,
   include_blank_date_of_deaths: true,
-    date_of_review: { begin: new Date(1900,00,01), end: new Date() },
-    date_of_death: { begin: new Date(1900,00,01), end: new Date() }
+    date_of_review: { begin: new Date(1900,0,1), end: new Date() },
+    date_of_death: { begin: new Date(1900,0,1), end: new Date() }
 };
 
 var selected_dictionary = {};

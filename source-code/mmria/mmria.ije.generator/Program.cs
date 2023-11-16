@@ -19,6 +19,23 @@ public class Program
     public static async Task Main(string[] args)
     {
         const int seed = 1337;
+        if(args.Length == 3)
+        {
+            int start;
+            int length;
+            if
+            (
+                int.TryParse(args[1], out start) &&
+                int.TryParse(args[2], out length)
+            )
+            get_field_freq
+            (
+                args[0], //string file_path, 
+                start, //int start,
+                length //int length
+            );
+            return;
+        }
 
         GenerationContext Context = new (seed);
 
@@ -27,6 +44,38 @@ public class Program
         System.IO.File.WriteAllText("output/fet.FET", new GenFetality(Context).ToString());
 
         Console.WriteLine("IJE Generation Complete.");
+    }
+
+    public static void get_field_freq
+    (
+        string file_path, 
+        int start,
+        int length
+    )
+    {
+        var dictionary = new System.Collections.Generic.Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+
+
+        var file_contents = System.IO.File.ReadAllText(file_path);
+        foreach(var line in file_contents.Split("\n"))
+        {
+            if(string.IsNullOrWhiteSpace(line)) continue;
+
+            var item = line.Substring(start, length);
+            if(!dictionary.ContainsKey(item))
+            {
+                dictionary.Add(item, 0);
+            }
+            dictionary[item]+=1;
+        }
+
+
+        
+        foreach(var kvp in dictionary.OrderByDescending( kvp=> kvp.Value))
+        {
+            
+            System.Console.WriteLine($"{kvp.Key}:{kvp.Value}");
+        }
     }
 
 

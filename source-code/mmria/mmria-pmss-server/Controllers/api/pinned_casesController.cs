@@ -29,7 +29,7 @@ public sealed class pinned_casesController : ControllerBase
         db_config = configuration.GetDBConfig(host_prefix);
     }
 
-    [Authorize(Roles = "abstractor")]
+    [Authorize(Roles = "abstractor,data_analyst,committee_member,vro")]
     [HttpGet]
     public async Task<mmria.common.model.couchdb.pinned_case_set> Get()
     {

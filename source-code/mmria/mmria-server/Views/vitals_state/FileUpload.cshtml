@@ -14,6 +14,58 @@
 
 <h1 class="h2 mb-4" tabindex="-1" id="upload-header-id">Upload STATE IJE Files</h1>
 
+<div>
+
+<h2>Upload Requirements</h2>
+
+<h3>Contents</h3>
+
+<p>All files must share the same filename to be considered a batch upload:
+<ul>
+    <li>One .MOR file</li>
+    <li>One .NAT file (optional)</li>
+    <li>One .FET file (optional)</li>
+</ul>
+</p>
+
+<h3>Formatting</h3>
+
+<p>All filenames must use the following filename structure:</p>
+
+<p>
+YOD_YEAR_MONTH_DAY_ABBREV.EXTENSION
+
+<ul>
+
+    <li>YOD - 4 digit Year of Death (records in the batch include all individuals who died in specified year)</li>
+    <li>YEAR - 4 digit year when file is uploaded</li>
+    <li>MONTH - 2 digit month when file is uploaded</li>
+    <li>DAY - 2 digit day when file is uploaded</li>
+    <li>ABBREV - 2 character jurisdiction abbreviation displayed in browser (ex. for "GA-MMRIA.cdc.gov", ABBREV is "GA")</li>
+    <li>EXTENSION - filename extension
+        <ul>
+        <li>.MOR - mortality file</li>
+        <li>.NAT - natality file</li>
+        <li>.FET - fetal death file</li>
+        </ul>
+    </li>
+</ul>
+</p>
+
+
+<h3>Example</h3>
+
+<p>2022 death data uploaded on 7/21/23 for Georgia jurisdiction. This vitals import batch has all 3 file types:
+<ul>
+<li>2022_2023_07_21_GA.MOR</li>
+<li>2022_2023_07_21_GA.NAT</li>
+<li>2022_2023_07_21_GA.FET</li>
+</ul>
+</p>
+</div>
+
+
+
 <div class="form-group w-33" style="position:relative">
     <label for="files" class="sr-only">Upload files</label>
     <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
@@ -51,4 +103,4 @@
 
 
 <button id="process" class="btn btn-primary">Begin Vital Import</button>
-<a id="process_next" class="btn btn-primary" href="/vitals" style="display: none;">View Vitals Notification Report</a>
+<a id="process_next" class="btn btn-primary" href="/vital-import-history" style="display: none;">View Vitals Notification Report</a>

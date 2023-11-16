@@ -545,11 +545,11 @@ public sealed partial class AccountController : Controller
 
         var days_til_value_expires = -1;
 
-        int password_days_before_expires = 0;
+        int pass_value_days_before_expires = 0;
         
-        _configuration.GetInteger("password_settings:days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref password_days_before_expires);
+        _configuration.GetInteger("password_settings:days_before_expires", host_prefix).SetIfIsNotNullOrWhiteSpace(ref pass_value_days_before_expires);
 
-        if(password_days_before_expires > 0)
+        if(pass_value_days_before_expires > 0)
         {
             try
             {
@@ -584,11 +584,11 @@ public sealed partial class AccountController : Controller
 
                 if(date_of_last_password_change != DateTime.MinValue)
                 {
-                    days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
+                    days_til_value_expires = pass_value_days_before_expires - (int)(DateTime.Now - date_of_last_password_change).TotalDays;
                 }
                 else if(session_event_response.rows.Count > 0)
                 {
-                    days_til_value_expires = password_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
+                    days_til_value_expires = pass_value_days_before_expires - (int)(DateTime.Now - session_event_response.rows[session_event_response.rows.Count-1].value.date_created).TotalDays;
                 }
 
                     
@@ -601,7 +601,7 @@ public sealed partial class AccountController : Controller
         }
         
         ViewBag.days_til_password_expires = days_til_value_expires;
-        ViewBag.config_password_days_before_expires = password_days_before_expires;
+        ViewBag.config_password_days_before_expires = pass_value_days_before_expires;
 
 
         if(use_sams.HasValue)

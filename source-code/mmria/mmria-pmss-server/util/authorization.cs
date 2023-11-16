@@ -123,7 +123,9 @@ public sealed class authorization
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                         break;
                     case "committee_member":
-                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadDeidentifiedCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteCase));
+                        //result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadDeidentifiedCase));
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                         break;
                     case "form_designer":
@@ -143,6 +145,11 @@ public sealed class authorization
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadJurisdiction));
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteJurisdiction));
+                        break;
+                    case "vro":
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteCase));
+                        result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                         break;
                     
                 }

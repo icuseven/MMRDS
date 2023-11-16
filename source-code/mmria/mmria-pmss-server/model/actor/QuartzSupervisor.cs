@@ -59,17 +59,27 @@ public sealed class QuartzSupervisor : UntypedActor
     readonly IServiceScope _scope;
 
     mmria.common.couchdb.OverridableConfiguration configuration = null;
+    mmria.common.couchdb.ConfigurationSet configuration_set;
+    string host_prefix;
 
-    public QuartzSupervisor(IServiceProvider sp)
+    public QuartzSupervisor
+    (
+      mmria.common.couchdb.OverridableConfiguration _configuration,
+      string _host_prefix,
+      mmria.common.couchdb.ConfigurationSet _configuration_set
+
+    )
     {
-        _scope = sp.CreateScope();
 
-        configuration = _scope.ServiceProvider.GetRequiredService<mmria.common.couchdb.OverridableConfiguration>();
+
+        configuration = _configuration;
+        host_prefix = _host_prefix;
+        configuration_set = _configuration_set;
     }
 
     protected override void PostStop()
     {
-        _scope.Dispose();
+  
     }
 /*
     public static Props Props(ScheduleInfoMessage p_scheduleInfo) => Akka.Actor.Props.Create(() => new QuartzSupervisor(p_scheduleInfo));
@@ -87,25 +97,25 @@ public sealed class QuartzSupervisor : UntypedActor
 
             case "pulse":
 
-                var db_config = configuration.GetDBConfig(configuration.GetSharedString("app_instance_name"));
+                var db_config = configuration.GetDBConfig(configuration.GetString("app_instance_name", host_prefix));
 
                 if (db_config == null) break;
 
                 mmria.pmss.server.model.actor.ScheduleInfoMessage new_scheduleInfo = new actor.ScheduleInfoMessage
                     (
-                        configuration.GetSharedString("cron_schedule"),
+                        configuration.GetString("cron_schedule", host_prefix),
                         db_config.url,
                         db_config.prefix,
                         db_config.user_name,
                         db_config.user_value,
-                        configuration.GetSharedString("export_directory"),
+                        configuration.GetString("export_directory", host_prefix),
                         null, //Program.app_instance_name,
-                        configuration.GetSharedString("metadata_version"),
-                        configuration.GetSharedString("cdc_instance_pull_list")
+                        configuration.GetString("metadata_version", host_prefix),
+                        configuration.GetString("cdc_instance_pull_list", host_prefix)
                     );
             
 
-                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetSharedString("app_instance_name"));
+                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", host_prefix);
                 if
                 (
                     is_db_check_enabled.HasValue && 
@@ -134,8 +144,14 @@ public sealed class QuartzSupervisor : UntypedActor
                 else
                 {
                     Context.ActorOf(Props.Create<Process_Export_Queue>(db_config)).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Process_Central_Pull_list>(db_config)).Tell(new_scheduleInfo);
-                    Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
+                    Context.ActorOf(Props.Create<Process_Central_Pull_list>
+                    (
+                        configuration_set, //mmria.common.couchdb.ConfigurationSet _configuration_set,
+                        db_config //mmria.common.couchdb.DBConfigurationDetail _db_config
+                    )).Tell(new_scheduleInfo);
+                    //Context.ActorOf(Props.Create<Vital_Import_Synchronizer>(db_config)).Tell(new_scheduleInfo);
+                    
+                    
                     //Context.ActorSelection("akka://mmria-actor-system/user/Process_Export_Queue").Tell(new_scheduleInfo);
 
 
