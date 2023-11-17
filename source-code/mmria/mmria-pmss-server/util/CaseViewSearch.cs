@@ -1816,6 +1816,39 @@ last_checked_out_by
         return f;
     }
 
+
+    is_valid_predicate create_predicate_by_vro_role(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
+    {
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, User.Identity.Name);
+
+        var status_set = new HashSet<string>()
+        {
+            "STEVE: Pending VRO Investigation",
+            "STEVE: Pending VRO Investigation, Re-review Requested by CDC",
+            "STEVE: Pending VRO Investigation, Linkage Review Requested by CDC"
+        };
+
+        /*
+app/tracking/admin_info/status
+STEVE: Pending VRO Investigation
+STEVE: Pending VRO Investigation, Re-review Requested by CDC
+STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
+        */
+        is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => 
+        {
+            if(jurisdiction_hashset.Count > 1) return true;
+            else if(jurisdiction_hashset.Single().role_name != "vro") return true;
+
+            bool result = status_set.Contains(cvi.value.status);
+
+            return result;
+        };
+
+        all_predicate_list.Add(f);
+
+        return f;
+    }
+
     is_valid_predicate is_valid_date_created;
     
     is_valid_predicate is_valid_date_last_updated;
@@ -1829,6 +1862,8 @@ last_checked_out_by
     is_valid_predicate is_valid_year_of_death;
     is_valid_predicate is_valid_month_of_death;
     is_valid_predicate is_valid_case_folder;
+
+    is_valid_predicate is_valid_vro_search;
     is_valid_predicate is_valid_date_of_death;
     is_valid_predicate is_valid_pmssno;
     is_valid_predicate is_valid_death_certificate_number;
@@ -2003,7 +2038,8 @@ last_checked_out_by
                     .Where
                     (
                         cvi => pinned_id_set.Contains(cvi.id) && 
-                        is_valid_case_folder(cvi)
+                        is_valid_case_folder(cvi) &&
+                        is_valid_vro_search(cvi)
                         
                     );
 
@@ -2020,7 +2056,8 @@ last_checked_out_by
                                 any_predicate_list.Count == 0 ||
                                 any_predicate_list.Any( f => f(cvi)) 
                             ) && 
-                            ! pinned_id_set.Contains(cvi.id)
+                            ! pinned_id_set.Contains(cvi.id) &&
+                            is_valid_vro_search(cvi)
                         
                     );
 
@@ -2041,7 +2078,8 @@ last_checked_out_by
                             (
                                 any_predicate_list.Count == 0 ||
                                 any_predicate_list.Any( f => f(cvi)) 
-                            )
+                            ) &&
+                            is_valid_vro_search(cvi)
                         
                     );
 
@@ -2095,6 +2133,8 @@ last_checked_out_by
     )
     {
         is_valid_case_folder = create_predicate_by_case_folder(ctx);
+
+        is_valid_vro_search = create_predicate_by_vro_role(ctx);
         is_valid_date_created = create_predicate_by_date_created(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         is_valid_date_last_updated = create_predicate_by_date_last_updated(search_key, field_selection, jurisdiction, year_of_death, status, classification);
         /*
