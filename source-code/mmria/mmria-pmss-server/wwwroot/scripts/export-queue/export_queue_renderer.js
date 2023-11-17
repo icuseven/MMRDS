@@ -92,7 +92,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                        }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" /> 
 						<label for="de-identify-none" class="mb-0 font-weight-normal mr-2">None</label>
-						<input name="de-identify"
+						<!--input name="de-identify"
 											 id="de-identify-standard"
 											 type="radio"
 											 value="standard"
@@ -104,7 +104,7 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                            : ''
                        }
 											 onchange="de_identify_filter_type_click(this).then(renderSummarySection(this))" />
-						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label>
+						<label for="de-identify-standard" class="mb-0 font-weight-normal mr-2">Standard</label-->
 						<input name="de-identify"
 											 id="de-identify-custom"
 											 type="radio"
