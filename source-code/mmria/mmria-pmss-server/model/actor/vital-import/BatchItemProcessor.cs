@@ -11,6 +11,8 @@ namespace mmria.pmss.services.vitalsimport;
 public sealed class BatchItemProcessor : ReceiveActor
 {
 
+    Dictionary<string, mmria.common.metadata.value_node[]> lookup;
+
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
     private string config_timer_user_name = null;
@@ -40,8 +42,10 @@ public sealed class BatchItemProcessor : ReceiveActor
     private string death_certificate_address_of_death_latitude = null;
     private string death_certificate_address_of_death_longitude = null;
 
-
+    
     mmria.common.couchdb.OverridableConfiguration configuration;
+
+    mmria.common.couchdb.DBConfigurationDetail db_config;
     string host_name;
     public BatchItemProcessor
     (
@@ -51,6 +55,8 @@ public sealed class BatchItemProcessor : ReceiveActor
     {
         configuration = _configuration;
         host_name = _host_name;
+
+        db_config = configuration.GetDBConfig(host_name);
 
         Receive<mmria.common.ije.StartBatchItemMessage>(message =>
         {    
@@ -64,6 +70,15 @@ public sealed class BatchItemProcessor : ReceiveActor
     private void Process_Message(mmria.common.ije.StartBatchItemMessage message)
     {
 
+        var mor = new mmria_pmss_client.Models.IJE.MOR_Specification();
+        var fet = new mmria_pmss_client.Models.IJE.FET_Specification();
+        var nat = new mmria_pmss_client.Models.IJE.NAT_Specification();
+
+        string metadata_url = $"{db_config.url}/metadata/version_specification-{configuration.GetString("metadata_version", host_name)}/metadata";
+        var metadata_curl = new mmria.getset.cURL("GET", null, metadata_url, null, config_timer_user_name, config_timer_value);
+        mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(metadata_curl.execute());
+
+        lookup = get_look_up(metadata);
 
 
     }
