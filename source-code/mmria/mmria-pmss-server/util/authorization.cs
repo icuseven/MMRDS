@@ -89,8 +89,6 @@ public sealed class authorization
                     continue;
                 }
 
-                
-                    
                 var now_date = DateTime.Now;
 
                 if
@@ -152,11 +150,8 @@ public sealed class authorization
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.WriteCase));
                         result.Add((jvi.value.jurisdiction_id, ResourceRightEnum.ReadMetadata));
                         break;
-                    
                 }
-                
             }
-            
         }
 
         return result;

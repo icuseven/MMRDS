@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 
 using mmria.common.model;
+using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 
 using  mmria.pmss.server.extension;  
@@ -21,16 +22,19 @@ namespace mmria.pmss.server;
 [Route("api/[controller]")]
 public sealed class ije_messageController: ControllerBase 
 { 
+    ActorSystem actorSystem;
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
 
     public ije_messageController
     (
+        ActorSystem _actorSystem, 
         IHttpContextAccessor httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
+        actorSystem = _actorSystem;
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
@@ -89,8 +93,33 @@ public sealed class ije_messageController: ControllerBase
 
     [Authorize(Roles  = "vital_importer")]
     [HttpPost]
-    public async System.Threading.Tasks.Task<mmria.pmss.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.pmss.server.model.NewIJESet_Message ijeset) 
+    public async System.Threading.Tasks.Task<mmria.common.ije.NewIJESet_MessageResponse> Post([FromBody] mmria.common.ije.NewIJESet_MessageDTO ijeset) 
     { 
+        var processor = actorSystem.ActorSelection("user/batch-supervisor");
+
+        var NewIJESet_Message = new mmria.common.ije.NewIJESet_Message()
+        {
+            batch_id = System.Guid.NewGuid().ToString(),
+            mor = ijeset.mor,
+            nat = ijeset.nat,
+            fet = ijeset.fet,
+            mor_file_name = ijeset.mor_file_name,
+            nat_file_name = ijeset.nat_file_name,
+            fet_file_name = ijeset.fet_file_name
+        };
+
+        var result = new mmria.common.ije.NewIJESet_MessageResponse()
+        {
+            batch_id = NewIJESet_Message.batch_id,
+            ok = true
+        };
+
+        processor.Tell(NewIJESet_Message);
+
+        return result;
+
+
+/*        
         string object_string = null;
         mmria.pmss.server.model.NewIJESet_MessageResponse result = new ();
 
@@ -125,6 +154,7 @@ public sealed class ije_messageController: ControllerBase
         }
 
         return result;
+        */
     } 
 
 } 

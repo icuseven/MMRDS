@@ -40,12 +40,18 @@ public sealed class BatchItemProcessor : ReceiveActor
     private string death_certificate_address_of_death_latitude = null;
     private string death_certificate_address_of_death_longitude = null;
 
+
+    mmria.common.couchdb.OverridableConfiguration configuration;
+    string host_name;
     public BatchItemProcessor
     (
-        mmria.common.couchdb.OverridableConfiguration configuration,
-        string host_name
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        string _host_name
     )
     {
+        configuration = _configuration;
+        host_name = _host_name;
+
         Receive<mmria.common.ije.StartBatchItemMessage>(message =>
         {    
             Console.WriteLine("Message Recieved");

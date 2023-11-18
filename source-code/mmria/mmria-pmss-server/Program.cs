@@ -401,6 +401,15 @@ public sealed partial class Program
             );
             actorSystem.ActorOf(Props.Create<mmria.pmss.server.SteveAPISupervisor>(), "steve-api-supervisor");
         
+            actorSystem.ActorOf
+            (
+                Props.Create<mmria.pmss.services.vitalsimport.BatchSupervisor>
+                (
+                    overridable_config,
+                    host_prefix
+                ),
+                "batch-supervisor"
+            );
 
             quartzSupervisor.Tell("init");
 

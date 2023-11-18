@@ -42,41 +42,20 @@ public sealed class BatchSupervisor : ReceiveActor
         Receive<mmria.common.ije.NewIJESet_Message>(message =>
         {
 
-                string ping_result = PingCVSServer(configuration);
-                int ping_count = 1;
-                
-                while
-                (
-                    (
-                        ping_result == null ||
-                        ping_result.ToLower() != "Server is up!".ToLower()
-                    ) && 
-                    ping_count < 2
-                )   
-                {
-
-                    Console.WriteLine($"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}");
-
-					const int Milliseconds_In_Second = 1000;
-					var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
-                    while(DateTime.Now < next_date)
-					{
-						// do nothing
-					}
-                    
-                    ping_result = PingCVSServer(configuration);
-                    ping_count +=1;
-
-                    
-
-                }
-
 
             batch_id_list.Add(message.batch_id, mmria.common.ije.Batch.StatusEnum.InProcess);
-            //var batch_processor = Context.ActorOf<mmria.pmss.services.vitalsimport.BatchProcessor>(message.batch_id);
-            //batch_processor.Tell(message);
-            //Console.WriteLine(JsonConvert.SerializeObject(message));
-            //Sender.Tell("Message Recieved");
+            var batch_processor = Context.ActorOf
+            (
+                Props.Create<mmria.pmss.services.vitalsimport.BatchProcessor>
+                (
+                    configuration,
+                    host_name,
+                    message.batch_id
+                )
+            );
+            batch_processor.Tell(message);
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(message));
+            Sender.Tell("Message Recieved");
             
         });
 
@@ -131,45 +110,5 @@ public sealed class BatchSupervisor : ReceiveActor
     }
 
 
-    public string PingCVSServer
-    (
-       mmria.common.couchdb.OverridableConfiguration configuration
-    ) 
-    { 
-        var response_string = "";
-        try
-        {
-            var base_url = configuration.GetSharedString("cvs_api_url");
 
-            var sever_status_body = new mmria.common.cvs.server_status_post_body()
-            {
-                id = configuration.GetSharedString("cvs_api_id"),
-                secret = configuration.GetSharedString("cvs_api_key"),
-
-            };
-
-            var body_text =  System.Text.Json.JsonSerializer.Serialize(sever_status_body);
-            var server_statu_curl = new mmria.getset.cURL("POST", null, base_url, body_text);
-
-            response_string = server_statu_curl.execute();
-            System.Console.WriteLine(response_string);
-
-        }
-        catch(System.Net.WebException ex)
-        {
-            System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
-            
-            /*return Problem(
-                type: "/docs/errors/forbidden",
-                title: "CVS API Error",
-                detail: ex.Message,
-                statusCode: (int) ex.Status,
-                instance: HttpContext.Request.Path
-            );*/
-        }
-//"Server is up!"
-
-
-        return response_string.Trim('"');
-    }
 }

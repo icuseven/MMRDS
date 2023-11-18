@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.Text;
 using Akka.Actor;
+using Microsoft.AspNetCore.SignalR.Protocol;
 
 namespace mmria.pmss.services.vitalsimport;
 
@@ -25,6 +26,9 @@ public sealed class BatchProcessor : ReceiveActor
 
     mmria.common.couchdb.DBConfigurationDetail db_config;
 
+    mmria.common.couchdb.OverridableConfiguration overridable_configuration;
+    string host_name;
+
     protected override void PreStart() => Console.WriteLine("Process_Message started");
     protected override void PostStop() => Console.WriteLine("Process_Message stopped");
 
@@ -33,11 +37,17 @@ public sealed class BatchProcessor : ReceiveActor
     private mmria.common.ije.Batch batch;
     public BatchProcessor
     (
-        mmria.common.couchdb.OverridableConfiguration configuration,
-        string host_name
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        string _host_name,
+        string p_id
     )
     {
-        db_config = configuration.GetDBConfig(host_name);
+        _id = p_id;
+
+        overridable_configuration = _configuration;
+        host_name = _host_name;
+
+        db_config = overridable_configuration.GetDBConfig(host_name);
 
         Receive<mmria.common.ije.NewIJESet_Message>(message =>
         {
@@ -57,18 +67,7 @@ public sealed class BatchProcessor : ReceiveActor
             Process_Message(message);
         });
     }
-    public BatchProcessor(string p_id):base()
-    {
-        _id = p_id;
-        //IConfiguration p_configuration
-        //configuration = p_configuration;
-        //logger = p_logger;
 
-
-        
-
-        
-    }
     private void Process_Message(mmria.common.ije.NewIJESet_Message message)
     {
         Console.WriteLine($"Processing Message : {message}");
@@ -205,8 +204,17 @@ public sealed class BatchProcessor : ReceiveActor
                         fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID?.Trim())
                     };
 
-                    //var batch_item_processor = Context.ActorOf<BatchItemProcessor>(batch_tuple.Item2.CDCUniqueID?.Trim());
-                    //batch_item_processor.Tell(StartBatchItemMessage);
+                    var batch_item_processor = Context.ActorOf
+                    (
+                        Props.Create<BatchItemProcessor>
+                        (
+                            overridable_configuration,
+                            host_name
+                        ),
+                        batch_tuple.Item2.CDCUniqueID?.Trim()
+                    );
+
+                    batch_item_processor.Tell(StartBatchItemMessage);
                 }
                 catch(Exception ex)
                 {
