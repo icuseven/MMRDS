@@ -72,23 +72,44 @@ public sealed class ije_messageController: ControllerBase
     [HttpDelete]
     public async Task<bool> Delete() 
     { 
-        bool result = false;
-        try
-        {
-
-            string user_db_url = configuration.GetString("vitals_url",host_prefix).Replace("Message/IJESet", "VitalNotification");
-
-            var user_curl = new cURL("DELETE", null, user_db_url, null);
-            user_curl.AddHeader("vital-service-key", configuration.GetString("vital_service_key",host_prefix));
-            var responseFromServer = await user_curl.executeAsync();
-
-        }
-        catch(Exception ex) 
-        {
-            Console.WriteLine (ex);
-        }
+        var  result = true;
 
         return result;
+        /*
+        var  batch_list = new List<mmria.common.ije.Batch>();
+
+        string url = $"{db_config.url}/vital_import/_all_docs?include_docs=true";
+        var document_curl = new mmria.getset.cURL ("GET", null, url, null, db_config.user_name, db_config.user_value);
+        try
+        {
+            var responseFromServer = await document_curl.executeAsync();
+            var alldocs = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>>(responseFromServer);
+
+            foreach(var item in alldocs.rows)
+            {
+                batch_list.Add(item.doc);
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            //Console.Write("auth_session_token: {0}", auth_session_token);
+            Console.WriteLine(ex);
+        }
+
+        foreach(var item in batch_list)
+        {
+            var message = new mmria.common.ije.BatchRemoveDataMessage()
+            {
+                id = item.id,
+                date_of_removal = DateTime.Now
+            };
+
+            var bsr = actorSystem.ActorSelection("user/batch-supervisor");
+            bsr.Tell(message);
+        }
+        return result;
+        */
     }
 
     [Authorize(Roles  = "vital_importer")]
