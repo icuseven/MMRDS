@@ -71,7 +71,7 @@ public sealed class ije_messageController: ControllerBase
         return result;
     }
 
-    [Authorize(Roles  = "vital_importer")]
+    [Authorize(Roles  = "vital_importer,vital_importer_state")]
     [HttpDelete]
     public async Task<bool> Delete() 
     { 

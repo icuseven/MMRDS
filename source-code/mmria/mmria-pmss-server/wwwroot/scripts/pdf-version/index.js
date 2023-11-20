@@ -677,7 +677,8 @@ function getReportTabName(section) {
 	return nm;
 }
 // Get the array for record selected
-function getArrayMap() {
+function getArrayMap() 
+{
 	let arr = [];
 
 	for (let i = 0; i < g_md.children.length; i++) {
@@ -688,7 +689,8 @@ function getArrayMap() {
 }
 
 // Generic Find from global lookup array
-function lookupGlobalArr(lookup, val, pathReference) {
+function lookupGlobalArr(lookup, val, pathReference) 
+{
 	// See if val is null
 	if (val == undefined || val == null) return '';
 	// Make sure val is a string
@@ -711,7 +713,8 @@ function lookupGlobalArr(lookup, val, pathReference) {
 }
 
 // Generic Look up display by value
-function lookupFieldArr(val, arr) {
+function lookupFieldArr(val, arr) 
+{
 	// See if val is null
 	if (val == undefined || val == null) return '';
 	// Make sure val is a string
@@ -726,7 +729,8 @@ function lookupFieldArr(val, arr) {
 }
 
 // Return all global choices
-function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
+function lookupGlobalMultiChoiceArr(lookup, val, pathReference) 
+{
 	// See if val is null
 	if (val == undefined || val == null) return '';
 
@@ -754,7 +758,8 @@ function lookupGlobalMultiChoiceArr(lookup, val, pathReference) {
 }
 
 // Return all field choices
-function lookupFieldMultiChoiceArr(val, arr) {
+function lookupFieldMultiChoiceArr(val, arr) 
+{
 	// See if val is null
 	if (val == undefined || val == null) return '';
 
