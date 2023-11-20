@@ -12,6 +12,18 @@ function $case_document_begin_edit()
     //console.log("begin edit");
 }
 
+//CALCLATE BMI FROM HEIGHT (IN INCHES)AND WEIGHT (IN POUNDS)
+function $calc_bmi(p_height, p_weight) 
+{
+    var bmi = null;
+    var height = parseInt(p_height);
+    var weight = parseInt(p_weight);
+    height /= 39.3700787;
+    weight /= 2.20462;
+    bmi = Math.round(weight / Math.pow(height, 2) * 10) / 10;
+    return bmi;
+}
+
 //CALCULATE NUMBER OF DAYS BETWEEN 2 DATES
 function $calc_days
 (
@@ -627,4 +639,186 @@ function outcome_dterm_grp_dterm_yr_onchange(p_control)
         end_day,
         end_year
     );
+}
+
+
+//CALCULATE BMI
+function $update_bmi
+(
+    height,
+    weight 
+)
+{
+    let my_height = null
+    let my_weight = null
+
+    if
+    (
+        height != null &&
+        height != 9999 
+    )
+    {
+        my_height = height;
+    }
+    else
+    {
+        // ;
+    }
+
+    if
+    (
+        weight != null &&
+        weight != 9999 
+    )
+    {
+        my_weight = weight;
+    }
+    else
+    {
+        // ;
+    }
+
+    if 
+    (
+        my_height != null && 
+        my_weight != null
+    )
+    {
+        let my_bmi = $global.calc_bmi
+        (
+            my_height,
+            my_weight
+        );
+        
+        g_data.demographic.bmi = my_bmi;
+        $mmria.set_control_value('demographic/bmi', my_bmi);
+    }
+    else
+    {
+        g_data.demographic.bmi = '';
+        $mmria.set_control_value('demographic/bmi', '');
+    }
+}
+
+/*
+path=demographic/height
+event=onchange
+*/
+function  demographic_height_onchange(p_control) 
+{
+    const height = p_control.value;
+    const weight = g_data.demographic.wtpreprg;
+    $global.update_bmi
+    (
+        height,
+        weight
+    );
+}
+
+
+/*
+path=demographic/wtpreprg
+event=onchange
+*/
+function  demographic_wtpreprg_onchange(p_control) 
+{
+    const height = g_data.demographic.height;
+    const weight = p_control.value;
+    $global.update_bmi
+    (
+        height,
+        weight
+    );
+}
+
+
+/*
+path=tracking/q1/amssno
+event=onchange
+*/
+function  tracking_q1_amsssno_onchange(p_control) 
+{
+    // tracking/q1/amssrel
+    let controlId = 'g_data_tracking_q1_amssrel_control';
+
+    const my_value = p_control.value;
+    if 
+    (
+        my_value != null && 
+        my_value != "00000"
+    )
+    {
+        // Show field: tracking/q1/amssrel
+        // $('label[for=' + controlId + '], #' + controlId).show();
+    }
+    else
+    {
+        g_data.tracking.q1.rel = 9999;
+        $mmria.set_control_value('tracking/q1/amssrel', 9999);
+
+        // Hide field: tracking/death_certificate_number
+        // $('label[for=' + controlId + '], #' + controlId).hide();    
+    }
+
+    /*
+    let controlId = 'g_data_home_record_overall_assessment_of_timing_of_death_number_of_days_after_end_of_pregnancey_control';
+    let value = parseInt($('#g_data_home_record_overall_assessment_of_timing_of_death_abstrator_assigned_status_control').find(':selected').val());
+    if (value === 9999
+        || value === 0
+        || value === 1
+        || value === 4
+        || value === 88
+    ) {
+        $('label[for=' + controlId + '], #' + controlId).hide();    
+    }
+    else {
+        $('label[for=' + controlId + '], #' + controlId).show();
+    }
+    */
+}
+
+
+/* 
+path=vro_case_determnation/vro_update/vro_resolution_status
+event=onchange
+*/
+function  vro_case_determnation_vro_update_vro_resolution_status_onchange(p_control) 
+{
+    const my_value = p_control.value;
+    if 
+    (
+        my_value != null && 
+        my_value != "9999" && 
+        my_value != "STEVE: Pending VRO Investigation"
+    )
+    {
+        g_data.tracking.admin_info.status = "STEVE: Updated by VRO";
+        // $mmria.set_control_value('tracking/admin_info/status', "STEVE-Transfer: Updated by VRO");
+    }
+    else
+    {
+
+    }
+}
+
+
+/* 
+path=tracking/admin_info/status
+event=onchange
+*/
+function  tracking_admin_info_status_onchange(p_control) 
+{
+    const my_value = p_control.value;
+    if 
+    (
+        my_value = "STEVE: Pending VRO Investigation, Re-review Requested by CDC"
+    )
+    {
+        g_data.vro_case_determnation.vro_update.vro_resolution_status = "Pending VRO Investigation";
+        // $mmria.set_control_value('tracking/admin_info/vro_resolution_status_mirror', "Pending VRO Investigation");
+    }
+    else
+    {
+
+    }
 }
