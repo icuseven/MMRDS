@@ -71,7 +71,7 @@ public sealed class ije_messageController: ControllerBase
         return result;
     }
 
-    [Authorize(Roles  = "vital_importer,vital_importer_state")]
+    [Authorize(Roles  = "vital_importer")]
     [HttpDelete]
     public async Task<bool> Delete() 
     { 
@@ -94,7 +94,7 @@ public sealed class ije_messageController: ControllerBase
         return result;
     }
 
-    [Authorize(Roles  = "vital_importer")]
+    [Authorize(Roles  = "vital_importer,vital_importer_state")]
     [HttpPost]
     public async System.Threading.Tasks.Task<mmria.server.model.NewIJESet_MessageResponse> Post([FromBody] mmria.server.model.NewIJESet_Message ijeset) 
     { 
