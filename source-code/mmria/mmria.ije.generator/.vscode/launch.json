@@ -10,7 +10,12 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceFolder}/bin/Debug/net7.0/mmria.iej.generator.dll",
-            "args": [],
+            "args": [
+                "C:/Users/isu7/Downloads/vital-ga-test/more/2023_04_05_GA.MOR",
+                "213",
+                "2"
+
+            ],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
             "stopAtEntry": false
