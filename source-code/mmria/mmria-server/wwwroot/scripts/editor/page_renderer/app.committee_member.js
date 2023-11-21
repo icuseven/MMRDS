@@ -176,7 +176,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 const jurisdictionID = item.value.jurisdiction_id;
                 const firstName = item.value.first_name;
                 const lastName = item.value.last_name;
-                const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
+                const recordID = item.value.record_id ? `${item.value.record_id}` : '';
                 const agencyCaseID = item.value.agency_case_id;
                 const createdBy = item.value.created_by;
                 const lastUpdatedBy = item.value.last_updated_by;
@@ -193,7 +193,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
                 return (
                   `<tr class="tr" path="${caseID}">
-                      <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${lastName}, ${firstName} ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
+                      <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
                         ${checked_out_html}</td>
                       <td class="td" scope="col">${currentCaseStatus}</td>
                       <td class="td">${reviewDates}</td>
