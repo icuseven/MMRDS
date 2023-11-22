@@ -37,8 +37,8 @@ public sealed class mmrds_exporter
 
     mmria.common.couchdb.DBConfigurationDetail db_config;
 
-    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[5];
-    private int[] qualitativeStreamCount = new int[] { 0, 0, 0, 0, 0 };
+    private System.IO.StreamWriter[] qualitativeStreamWriter = new System.IO.StreamWriter[1];
+    private int[] qualitativeStreamCount = new int[] { 0 };
     private const int max_qualitative_length = 31000;
 
     private const string over_limit_message = "Over the qualitative limit. Check the over-the-limit folder for details.";
@@ -128,10 +128,7 @@ public sealed class mmrds_exporter
         }
 
         this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
-        this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
-        this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
-        this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
-        this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
+
 
 
 
@@ -2911,6 +2908,8 @@ public sealed class mmrds_exporter
 
         int index = 0;
 
+        this.qualitativeStreamWriter[index].WriteLine($"{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
+/*
         switch (p_mmria_path.Trim().ToLower())
         {
             case "case_narrative/case_opening_overview":
@@ -2933,6 +2932,7 @@ public sealed class mmrds_exporter
         {
             this.qualitativeStreamWriter[index].WriteLine($"\n{record_split}\nhr_r_id={p_record_id}\nid={p_id}\npath={p_mmria_path}\nrecord_index={p_index}\nparent_index={p_parent_index}{header_split}\n{p_data}");
         }
+        */
         this.qualitativeStreamCount[index] += 1;
     }
     int? ConvertToInt(object value)
