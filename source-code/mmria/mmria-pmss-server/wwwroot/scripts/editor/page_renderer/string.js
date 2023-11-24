@@ -125,10 +125,13 @@ let selected_dictionary_info = {};
 function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
 
+	/*
     if(p_metadata.mirror_reference != null && p_metadata.mirror_reference != "")
     {
         return;
     }
+	*/
+	
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":			
