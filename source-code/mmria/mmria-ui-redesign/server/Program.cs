@@ -1,9 +1,11 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+//using Microsoft.AspNetCore.Components;
+//using Microsoft.AspNetCore.Components.Web;
+
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+//builder.Services.AddRazorPages();
+//builder.Services.AddServerSideBlazor();
+
 
 var app = builder.Build();
 
@@ -15,7 +17,19 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+var provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
+
+provider.Mappings[".pdb"] = "application/octet-stream";
+provider.Mappings[".dat"] = "application/octet-stream";
+
+app.UseStaticFiles
+(
+    new StaticFileOptions 
+    {
+        ContentTypeProvider = provider
+    }
+);
+
 
 app.UseRouting();
 
