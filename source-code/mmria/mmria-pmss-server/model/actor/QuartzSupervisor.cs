@@ -97,7 +97,7 @@ public sealed class QuartzSupervisor : UntypedActor
 
             case "pulse":
 
-                var db_config = configuration.GetDBConfig(configuration.GetString("app_instance_name", host_prefix));
+                var db_config = configuration.GetDBConfig(host_prefix);
 
                 if (db_config == null) break;
 
