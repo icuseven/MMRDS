@@ -116,7 +116,7 @@ public sealed class QuartzSupervisor : UntypedActor
                     );
             
 
-                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", configuration.GetString("app_instance_name", host_prefix));
+                var is_db_check_enabled = configuration.GetBoolean("is_db_check_enabled", host_prefix);
                 if
                 (
                     is_db_check_enabled.HasValue && 
