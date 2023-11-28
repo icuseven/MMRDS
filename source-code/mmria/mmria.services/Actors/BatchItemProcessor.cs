@@ -787,9 +787,9 @@ public sealed class BatchItemProcessor : ReceiveActor
 
                 if
                 (
-                    kvp.value.host_state.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
-                    kvp.value.last_name.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
-                    kvp.value.first_name.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
+                    kvp.value.host_state.Trim().Equals(message.host_state.Trim(), StringComparison.OrdinalIgnoreCase) &&
+                    kvp.value.last_name.Trim().Equals(mor_field_set["LNAME"].Trim(), StringComparison.OrdinalIgnoreCase) &&
+                    kvp.value.first_name.Trim().Equals(mor_field_set["GNAME"].Trim(), StringComparison.OrdinalIgnoreCase) &&
                     kvp.value.date_of_death_year == dod_yr &&
                     kvp.value.date_of_death_month == dod_mo
 
@@ -827,15 +827,15 @@ public sealed class BatchItemProcessor : ReceiveActor
                             GNAME_result.is_error == false
                         )
                         {
-                            var host_state_string = host_state_result.result?.ToString() ?? "";
-                            var LNAME_string = LNAME_result.result?.ToString() ?? "";
-                            var GNAME_string = GNAME_result.result?.ToString() ?? "";
+                            var host_state_string = host_state_result.result?.ToString().Trim() ?? "";
+                            var LNAME_string = LNAME_result.result?.ToString().Trim() ?? "";
+                            var GNAME_string = GNAME_result.result?.ToString().Trim() ?? "";
 
                             if
                             (
                                 host_state_string.Equals(message.host_state, StringComparison.OrdinalIgnoreCase) &&
-                                LNAME_string.Equals(mor_field_set["LNAME"], StringComparison.OrdinalIgnoreCase) &&
-                                GNAME_string.Equals(mor_field_set["GNAME"], StringComparison.OrdinalIgnoreCase) &&
+                                LNAME_string.Equals(mor_field_set["LNAME"].Trim(), StringComparison.OrdinalIgnoreCase) &&
+                                GNAME_string.Equals(mor_field_set["GNAME"].Trim(), StringComparison.OrdinalIgnoreCase) &&
                                 DOD_YR_result.result!= null &&
                                 DOD_MO_result.result!= null &&
                                 DOD_DY_result.result!= null &&
