@@ -7,6 +7,8 @@ using Akka.Actor;
 using System.Globalization;
 
 using mmria.pmss.server.Controllers;
+using mmria_pmss_client.Models.IJE;
+using TinyCsvParser;
 
 namespace mmria.pmss.services.vitalsimport;
 
@@ -129,9 +131,21 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         var rows = message.mor.Split("\n");
 
-        foreach(var row in rows)
+        var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
+        var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
+        var csvMapper = new PMSS_All_CSV_Mapping();
+        var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
+
+        var result = csvParser
+            .ReadFromString(reader_options, message.mor)
+            .ToList();
+
+
+
+        for(int i = 1; i < result.Count(); i++)
         {
-            var data  = row.SplitCsv();
+        
+            //var data  = row.SplitCsv();
 
         }
 
