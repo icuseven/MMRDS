@@ -5,885 +5,571 @@ using System.Collections.Immutable;
 namespace mmria_pmss_client.Models.IJE;
 public sealed class PMSS_All_Specification
 {
-    public const int Size = 5000; 
-    public Layout this[string i]
+    public int Size => data.Count; 
+    public string this[string i]
     {
         get { return data[i]; }
     }
-    ImmutableDictionary<string, Layout> data = ImmutableDictionary.CreateRange
+    ImmutableDictionary<string, string> data = ImmutableDictionary.CreateRange
     (
-        new KeyValuePair<string,Layout>[] 
+        new KeyValuePair<string,string>[] 
         {
-            KeyValuePair.Create("DOD_YR", new Layout(0, 4)),
-/*
-    [Layout(0, 4)]
-    [MMRIA_Path("home_record/date_of_death/Year", "hrdod_year")]
-    [IJE_Name("DOD_YR")]
-    public string hrdod_year;
-*/
-
-            KeyValuePair.Create("DSTATE", new Layout(4, 2)),
-            /*
-    [Layout(4, 2)]
-    [MMRIA_Path("/home_record/state_of_death_record", "hr_sod_recor")]
-    [IJE_Name("DSTATE")]
-    public string hr_sod_recor;
-    */
-
-            KeyValuePair.Create("FILENO", new Layout(6, 6)),
-            /*
-    [Layout(6, 6)]
-    [MMRIA_Path("death_certificate/certificate_identification/state_file_number", "dcci_sf_numbe")]
-    [IJE_Name("FILENO")]
-    public string dcci_sf_numbe;
-    */
-
-        KeyValuePair.Create("AUXNO", new Layout(13, 12)),
-        /*
-    [Layout(13, 12)]
-    [MMRIA_Path("death_certificate/certificate_identification/local_file_number", "dcci_lf_numbe")]
-    [IJE_Name("AUXNO")]
-    public string dcci_lf_numbe;
-    */
-
-        KeyValuePair.Create("GNAME", new Layout(26, 50)),
-/*
-    [Layout(26, 50)]
-    [MMRIA_Path("home_record/first_name", "hr_f_name")]
-    [IJE_Name("GNAME")]
-    public string hr_f_name;
-*/
-
-        KeyValuePair.Create("LNAME", new Layout(77, 50)),
-    /*
-    [Layout(77, 50)]
-    [MMRIA_Path("home_record/last_name", "hr_l_name")]
-    [IJE_Name("LNAME")]
-    public string hr_l_name;
-    */
-
-        KeyValuePair.Create("AGE", new Layout(200, 3)),
-    /*
-    [Layout(200, 3)]
-    [MMRIA_Path("death_certificate/demographics/age", "dcd_age")]
-    [IJE_Name("AGE")]
-    public string dcd_age;
-    */
-
-        KeyValuePair.Create("DOB_YR", new Layout(204, 4)),
-        /*
-    [Layout(204, 4)]
-    [MMRIA_Path("death_certificate/demographics/date_of_birth/year", "dcddob_year")]
-    [IJE_Name("DOB_YR")]
-    public string dcddob_year;
-    */
-
-        KeyValuePair.Create("DOB_MO", new Layout(208, 2)),
-        /*
-    [Layout(208, 2)]
-    [MMRIA_Path("death_certificate/demographics/date_of_birth/month", "dcddob_month")]
-    [IJE_Name("DOB_MO")]
-    public string dcddob_month;
-    */
-
-        KeyValuePair.Create("DOB_DY", new Layout(210, 2)),
-        /*
-    [Layout(210, 2)]
-    [MMRIA_Path("death_certificate/demographics/date_of_birth/day", "dcddob_day")]
-    [IJE_Name("DOB_DY")]
-    public string dcddob_day;
-    */
-
-        KeyValuePair.Create("BPLACE_CNT", new Layout(212, 2)),
-        /*
-    [Layout(212, 2)]
-    [MMRIA_Path("death_certificate/demographics/country_of_birth", "dcd_co_birth_83")]
-    [IJE_Name("BPLACE_CNT")]
-    public string dcd_co_birth_83;
-    */
-
-        KeyValuePair.Create("BPLACE_ST", new Layout(214, 2)),
-        /*
-    [Layout(214, 2)]
-    [MMRIA_Path("death_certificate/demographics/state_of_birth", "dcd_so_birth")]
-    [IJE_Name("BPLACE_ST")]
-    public string dcd_so_birth;
-    */
-
-        KeyValuePair.Create("STATEC", new Layout(224, 2)),
-        /*
-    [Layout(224, 2)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/state", "dcpolr_state")]
-    [IJE_Name("STATEC")]
-    public string dcpolr_state;
-    */
-
-        KeyValuePair.Create("COUNTRYC", new Layout(226, 2)),
-        /*
-    [Layout(226, 2)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/country_of_last_residence", "dcpolr_col_resid")]
-    [IJE_Name("COUNTRYC")]
-    public string dcpolr_col_resid;
-    */
-
-        KeyValuePair.Create("MARITAL", new Layout(229, 1)),
-        /*
-    [Layout(229, 1)]
-    [MMRIA_Path("death_certificate/demographics/marital_status", "dcd_m_statu")]
-    [IJE_Name("MARITAL")]
-    public string dcd_m_statu;
-    */
-
-        KeyValuePair.Create("DPLACE", new Layout(231, 1)),
-        /*
-    [Layout(231, 1)]
-    [MMRIA_Path("/death_certificate /death_information /death_outside_of_hospital", "dcdi_doo_hospi")]
-    [MMRIA_Path("death_certificate/death_information/death_occured_in_hospital", "dcdi_doi_hospi")]
-    [IJE_Name("DPLACE")]
-    public string dcdi_doi_hospi;
-    */
-
-        KeyValuePair.Create("DOD_MO", new Layout(236, 2)),
-        /*
-    [Layout(236, 2)]
-    [MMRIA_Path("home_record/date_of_death/month", "hrdod_month")]
-    [IJE_Name("DOD_MO")]
-    public string hrdod_month;
-    */
-
-        KeyValuePair.Create("DOD_DY", new Layout(238, 2)),
-        /*
-    [Layout(238, 2)]
-    [MMRIA_Path("home_record/date_of_death/day", "hrdod_day")]
-    [IJE_Name("DOD_DY")]
-    public string hrdod_day;
-    */
-
-        KeyValuePair.Create("TOD", new Layout(240, 4)),
-        /*
-    [Layout(240, 4)]
-    [MMRIA_Path("death_certificate/certificate_identification/time_of_death", "dcci_to_death")]
-    [IJE_Name("TOD")]
-    public string dcci_to_death;
-    */
-
-        KeyValuePair.Create("DEDUC", new Layout(244, 1)),
-        /*
-    [Layout(244, 1)]
-    [MMRIA_Path("death_certificate/demographics/education_level", "dcd_e_level")]
-    [IJE_Name("DEDUC")]
-    public string dcd_e_level;
-    */
-
-        KeyValuePair.Create("DETHNIC1", new Layout(246, 1)),
-        /*
-    [Layout(246, 1)]
-    [MMRIA_Path("/death_certificate/demographics/is_of_hispanic_origin", "dcd_ioh_origi")]
-    [IJE_Name("DETHNIC1")]
-    public string dcd_ioh_origi;
-    */
-
-        KeyValuePair.Create("DETHNIC2", new Layout(247, 1)),
-/*
-    [Layout(247, 1)]
-    [MMRIA_Path("/death_certificate/demographics/is_of_hispanic_origin", "dcd_ioh_origi")]
-    [IJE_Name("DETHNIC2")]
-    public string DETHNIC2;
-    */
-
-        KeyValuePair.Create("DETHNIC3", new Layout(248, 1)),
-        /*
-    [Layout(248, 1)]
-    [MMRIA_Path("/death_certificate/demographics/is_of_hispanic_origin", "dcd_ioh_origi")]
-    [IJE_Name("DETHNIC3")]
-    public string DETHNIC3;
-    */
-
-        KeyValuePair.Create("DETHNIC4", new Layout(249, 1)),
-        /*
-    [Layout(249, 1)]
-    [MMRIA_Path("/death_certificate/demographics/is_of_hispanic_origin", "dcd_ioh_origi")]
-    [IJE_Name("DETHNIC4")]
-    public string DETHNIC4;
-    */
-
-        KeyValuePair.Create("DETHNIC5", new Layout(250, 20)),
-        /*
-    [Layout(250, 20)]
-    [MMRIA_Path("Map to new MMRIA field for Other Hispanic, Specify. Add MMRIA path when available", "dcd_ioh_origi_othsp")]
-    [IJE_Name("DETHNIC5")]
-    public string dcd_ioh_origi_othsp;
-    */
-
-        KeyValuePair.Create("RACE1", new Layout(270, 1)),
-        /*
-    [Layout(270, 1)]
-    [MMRIA_Path("death_certificate/race/race ", "dcr_race")]
-    [IJE_Name("RACE1")]
-    public string RACE1;
-    */
-
-        KeyValuePair.Create("RACE2", new Layout(271, 1)),
-        /*
-    [Layout(271, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE2")]
-    public string RACE2;
-    */
-
-        KeyValuePair.Create("RACE3", new Layout(272, 1)),
-        /*
-    [Layout(272, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE3")]
-    public string RACE3;
-    */
-
-        KeyValuePair.Create("RACE4", new Layout(273, 1)),
-        /*
-    [Layout(273, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE4")]
-    public string RACE4;
-    */
-
-        KeyValuePair.Create("RACE5", new Layout(274, 1)),
-        /*
-    [Layout(274, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE5")]
-    public string RACE5;
-    */
-
-        KeyValuePair.Create("RACE6", new Layout(275, 1)),
-        /*
-    [Layout(275, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE6")]
-    public string RACE6;
-    */
-
-        KeyValuePair.Create("RACE7", new Layout(276, 1)),
-        /*
-    [Layout(276, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE7")]
-    public string RACE7;
-    */
-
-        KeyValuePair.Create("RACE8", new Layout(277, 1)),
-        /*
-    [Layout(277, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE8")]
-    public string RACE8;
-    */
-
-        KeyValuePair.Create("RACE9", new Layout(278, 1)),
-        /*
-    [Layout(278, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE9")]
-    public string RACE9;
-    */
-
-        KeyValuePair.Create("RACE10", new Layout(279, 1)),
-        /*
-    [Layout(279, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE10")]
-    public string RACE10;
-    */
-
-        KeyValuePair.Create("RACE11", new Layout(280, 1)),
-        /*
-    [Layout(280, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE11")]
-    public string RACE11;
-    */
-
-        KeyValuePair.Create("RACE12", new Layout(281, 1)),
-        /*
-    [Layout(281, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE12")]
-    public string RACE12;
-    */
-
-        KeyValuePair.Create("RACE13", new Layout(282, 1)),
-        /*
-    [Layout(282, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE13")]
-    public string RACE13;
-    */
-
-        KeyValuePair.Create("RACE14", new Layout(283, 1)),
-        /*
-    [Layout(283, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE14")]
-    public string RACE14;
-    */
-
-        KeyValuePair.Create("RACE15", new Layout(284, 1)),
-        /*
-    [Layout(284, 1)]
-    [MMRIA_Path("death_certificate/race/race", "dcr_race")]
-    [IJE_Name("RACE15")]
-    public string RACE15;
-    */
-
-        KeyValuePair.Create("RACE16", new Layout(285, 30)),
-        /*
-    [Layout(285, 30)]
-    [MMRIA_Path("/death_certificate/race/principle_tribe", "dcr_p_tribe")]
-    [IJE_Name("RACE16")]
-    public string dcr_p_tribe;
-    */
-
-        KeyValuePair.Create("RACE17", new Layout(315, 30)),
-        /*
-    [Layout(315, 30)]
-    [MMRIA_Path("/death_certificate/race/principle_tribe", "dcr_p_tribe")]
-    [IJE_Name("RACE17")]
-    public string dcr_p_tribe_17;
-    */
-
-        KeyValuePair.Create("RACE18", new Layout(345, 30)),
-        /*
-    [Layout(345, 30)]
-    [MMRIA_Path("/death_certificate/race/other_asian", "dcr_o_asian")]
-    [IJE_Name("RACE18")]
-    public string dcr_o_asian;
-    */
-
-
-        KeyValuePair.Create("RACE19", new Layout(375, 30)),
-        /*
-    [Layout(375, 30)]
-    [MMRIA_Path("/death_certificate/race/other_asian", "dcr_o_asian")]
-    [IJE_Name("RACE19")]
-    public string dcr_o_asian_19;
-    */
-
-
-        KeyValuePair.Create("RACE20", new Layout(405, 30)),
-        /*
-    [Layout(405, 30)]
-    [MMRIA_Path("/death_certificate/race/other_pacific_islander", "dcr_op_islan")]
-    [IJE_Name("RACE20")]
-    public string dcr_op_islan;
-    */
-
-        KeyValuePair.Create("RACE21", new Layout(435, 30)),
-        /*
-    [Layout(435, 30)]
-    [MMRIA_Path("/death_certificate/race/other_pacific_islander", "dcr_op_islan")]
-    [IJE_Name("RACE21")]
-    public string dcr_op_islan_21;
-    */
-
-
-        KeyValuePair.Create("RACE22", new Layout(465, 30)),
-        /*
-    [Layout(465, 30)]
-    [MMRIA_Path("/death_certificate/race/other_race", "dcr_o_race")]
-    [IJE_Name("RACE22")]
-    public string dcr_o_race;
-    */
-
-        KeyValuePair.Create("RACE23", new Layout(495, 30)),
-        /*
-    [Layout(495, 30)]
-    [MMRIA_Path("/death_certificate/race/other_race", "dcr_o_race")]
-    [IJE_Name("RACE23")]
-    public string dcr_o_race_23;
-    */
-
-
-        KeyValuePair.Create("OCCUP", new Layout(574, 40)),
-        /*
-    [Layout(574, 40)]
-    [MMRIA_Path("/death_certificate/demographics/primary_occupation", "dcd_p_occup")]
-    [IJE_Name("OCCUP")]
-    public string dcd_p_occup;
-    */
-
-
-        KeyValuePair.Create("INDUST", new Layout(617, 40)),
-        /*
-    [Layout(617, 40)]
-    [MMRIA_Path("/death_certificate/demographics/occupation_business_industry", "dcd_ob_indus")]
-    [IJE_Name("INDUST")]
-    public string dcd_ob_indus;
-    */
-
-
-        KeyValuePair.Create("MANNER", new Layout(700, 1)),
-        /*
-    [Layout(700, 1)]
-    [MMRIA_Path("death_certificate/death_information/manner_of_death", "dcdi_mo_death")]
-    [IJE_Name("MANNER")]
-    public string dcdi_mo_death;
-    */
-
-        KeyValuePair.Create("MAN_UC", new Layout(704, 5)),
-        /*
-    [Layout(704, 5)]
-    [MMRIA_Path("Map to new MMRIA read-only field for  Underlying Cause. Add MMRIA path when available", "dcdi_man_uc")]
-    [IJE_Name("MAN_UC")]
-    public string dcdi_man_uc;
-    */
-
-        KeyValuePair.Create("ACME_UC", new Layout(709, 5)),
-        /*
-    [Layout(709, 5)]
-    [MMRIA_Path("Map to new MMRIA read-only field for ACME Underlying Cause. Add MMRIA path when available", "dcdi_acme_uc")]
-    [IJE_Name("ACME_UC")]
-    public string dcdi_acme_uc;
-    */
-
-        KeyValuePair.Create("EAC", new Layout(714, 160)),
-        /*
-    [Layout(714, 160)]
-    [MMRIA_Path("Map to new MMRIA read-only field for Entity - axis Codes. Add MMRIA path when available", "dcdi_eac")]
-    [IJE_Name("EAC")]
-    public string dcdi_eac;
-    */
-
-        KeyValuePair.Create("RAC", new Layout(875, 100)),
-        /*
-    [Layout(875, 100)]
-    [MMRIA_Path("Map to new MMRIA read-only field for Record - axis Codes Add MMRIA path when available", "dcdi_rac")]
-    [IJE_Name("RAC")]
-    public string dcdi_rac;
-    */
-
-        KeyValuePair.Create("AUTOP", new Layout(975, 1)),
-        /*
-    [Layout(975, 1)]
-    [MMRIA_Path("death_certificate/death_information/was_autopsy_performed", "dcdi_wa_perfo")]
-    [IJE_Name("AUTOP")]
-    public string dcdi_wa_perfo;
-    */
-
-        KeyValuePair.Create("AUTOPF", new Layout(976, 1)),
-        /*
-    [Layout(976, 1)]
-    [MMRIA_Path("/death_certificate/death_information/was_autopsy_used_for_death_coding", "dcdi_waufd_codin")]
-    [IJE_Name("AUTOPF")]
-    public string dcdi_waufd_codin;
-    */
-
-        KeyValuePair.Create("TOBAC", new Layout(977, 1)),
-        /*
-    [Layout(977, 1)]
-    [MMRIA_Path("death_certificate/death_information/did_tobacco_contribute_to_death", "dcdi_dtct_death")]
-    [IJE_Name("TOBAC")]
-    public string dcdi_dtct_death;
-    */
-
-        KeyValuePair.Create("PREG", new Layout(978, 1)),
-        /*
-    [Layout(978, 1)]
-    [MMRIA_Path("death_certificate/death_information/pregnancy_status", "dcdi_p_statu")]
-    [IJE_Name("PREG")]
-    public string dcdi_p_statu;
-    */
-
-        KeyValuePair.Create("DOI_MO", new Layout(980, 2)),
-        /*
-    [Layout(980, 2)]
-    [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/month", "dciaidoi_month")]
-    [IJE_Name("DOI_MO")]
-    public string dciaidoi_month;
-    */
-
-        KeyValuePair.Create("DOI_DY", new Layout(982, 2)),
-        /*
-    [Layout(982, 2)]
-    [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/day", "dciaidoi_day")]
-    [IJE_Name("DOI_DY")]
-    public string dciaidoi_day;*/
-
-
-        KeyValuePair.Create("DOI_YR", new Layout(984, 4)),
-        /*
-    [Layout(984, 4)]
-    [MMRIA_Path("death_certificate/injury_associated_information/date_of_injury/year", "dciaidoi_year")]
-    [IJE_Name("DOI_YR")]
-    public string dciaidoi_year;
-    */
-
-        KeyValuePair.Create("TOI_HR", new Layout(988, 4)),
-        /*
-    [Layout(988, 4)]
-    [MMRIA_Path("death_certificate/injury_associated_information/time_of_injury", "dciai_to_injur")]
-    [IJE_Name("TOI_HR")]
-    public string dciai_to_injur;
-    */
-
-        KeyValuePair.Create("WORKINJ", new Layout(992, 1)),
-        /*
-    [Layout(992, 1)]
-    [MMRIA_Path("death_certificate/injury_associated_information/was_injury_at_work", "dciai_wia_work")]
-    [IJE_Name("WORKINJ")]
-    public string dciai_wia_work;
-    */
-
-        KeyValuePair.Create("ARMEDF", new Layout(1080, 1)),
-        /*
-    [Layout(1080, 1)]
-    [MMRIA_Path("death_certificate/demographics/ever_in_us_armed_forces", "dcd_eiua_force")]
-    [IJE_Name("ARMEDF")]
-    public string dcd_eiua_force;
-    */
-
-        KeyValuePair.Create("DINSTI", new Layout(1081, 30)),
-        /*
-    [Layout(1081, 30)]
-    [MMRIA_Path("death_certificate/address_of_death/place_of_death", "dcaod_po_death")]
-    [IJE_Name("DINSTI")]
-    public string dcaod_po_death;
-    */
-
-        KeyValuePair.Create("STNUM_D", new Layout(1161, 10)),
-        /*
-    [Layout(1161, 10)]
-    [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
-    [IJE_Name("STNUM_D")]
-    public string dcaod_stree_0;
-    */
-
-        KeyValuePair.Create("PREDIR_D", new Layout(1171, 10)),
-        /*
-    [Layout(1171, 10)]
-    [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
-    [IJE_Name("PREDIR_D")]
-    public string dcaod_stree_1;
-    */
-
-        KeyValuePair.Create("STNAME_D", new Layout(1181, 50)),
-    /*[Layout(1181, 50)]
-    [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
-    [IJE_Name("STNAME_D")]
-    public string dcaod_stree_2;
-    */
-
-        KeyValuePair.Create("STDESIG_D", new Layout(1231, 10)),
-        /*
-    [Layout(1231, 10)]
-    [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
-    [IJE_Name("STDESIG_D")]
-    public string dcaod_stree_3;
-    */
-
-        KeyValuePair.Create("POSTDIR_D", new Layout(1241, 10)),
-        /*
-    [Layout(1241, 10)]
-    [MMRIA_Path("death_certificate/address_of_death/street", "dcaod_stree")]
-    [IJE_Name("POSTDIR_D")]
-    public string dcaod_stree_4;
-    */
-
-        KeyValuePair.Create("CITYTEXT_D", new Layout(1251, 28)),
-        /*
-    [Layout(1251, 28)]
-    [MMRIA_Path("death_certificate/address_of_death/city", "dcaod_city")]
-    [IJE_Name("CITYTEXT_D")]
-    public string dcaod_city;
-    */
-
-        KeyValuePair.Create("STATETEXT_D", new Layout(1279, 28)),
-        /*
-    [Layout(1279, 28)]
-    [MMRIA_Path("death_certificate/address_of_death/state", "dcaod_state")]
-    [IJE_Name("STATETEXT_D")]
-    public string dcaod_state;
-    */
-
-        KeyValuePair.Create("ZIP9_D", new Layout(1307, 9)),
-        /*
-    [Layout(1307, 9)]
-    [MMRIA_Path("death_certificate/address_of_death/zip_code", "dcaod_z_code")]
-    [IJE_Name("ZIP9_D")]
-    public string dcaod_z_code;
-    */
-
-        KeyValuePair.Create("COUNTYTEXT_D", new Layout(1316, 28)),
-        /*
-    [Layout(1316, 28)]
-    [MMRIA_Path("death_certificate/address_of_death/county", "dcaod_count")]
-    [IJE_Name("COUNTYTEXT_D")]
-    public string dcaod_count;
-    */
-
-        KeyValuePair.Create("STNUM_R", new Layout(1484, 10)),
-        /*
-    [Layout(1484, 10)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
-    [IJE_Name("STNUM_R")]
-    public string dcpolr_stree_0;
-    */
-
-        KeyValuePair.Create("PREDIR_R", new Layout(1494, 10)),
-        /*
-    [Layout(1494, 10)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
-    [IJE_Name("PREDIR_R")]
-    public string dcpolr_stree_1;
-    */
-
-        KeyValuePair.Create("STNAME_R", new Layout(1504, 28)),
-        /*
-    [Layout(1504, 28)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
-    [IJE_Name("STNAME_R")]
-    public string dcpolr_stree_2;
-    */
-
-        KeyValuePair.Create("STDESIG_R", new Layout(1532, 10)),
-        /*
-    [Layout(1532, 10)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
-    [IJE_Name("STDESIG_R")]
-    public string dcpolr_stree_3;
-    */
-
-        KeyValuePair.Create("POSTDIR_R", new Layout(1542, 10)),
-        /*
-    [Layout(1542, 10)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/street", "dcpolr_stree")]
-    [IJE_Name("POSTDIR_R")]
-    public string dcpolr_stree_4;
-    */
-
-        KeyValuePair.Create("UNITNUM_R", new Layout(1552, 7)),
-        /*
-    [Layout(1552, 7)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/apartment", "dcpolr_apart")]
-    [IJE_Name("UNITNUM_R")]
-    public string dcpolr_apart;
-    */
-
-        KeyValuePair.Create("CITYTEXT_R", new Layout(1559, 28)),
-        /*
-    [Layout(1559, 28)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/city", "dcpolr_city")]
-    [IJE_Name("CITYTEXT_R")]
-    public string dcpolr_city;
-    */
-
-        KeyValuePair.Create("ZIP9_R", new Layout(1587, 9)),
-        /*
-    [Layout(1587, 9)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/zip_code", "dcpolr_z_code")]
-    [IJE_Name("ZIP9_R")]
-    public string dcpolr_z_code;
-    */
-
-        KeyValuePair.Create("COUNTYTEXT_R", new Layout(1596, 28)),
-        /*
-    [Layout(1596, 28)]
-    [MMRIA_Path("death_certificate/place_of_last_residence/county", "dcpolr_count")]
-    [IJE_Name("COUNTYTEXT_R")]
-    public string dcpolr_count;
-    */
-
-        KeyValuePair.Create("DMIDDLE", new Layout(1807, 50)),
-        /*
-    [Layout(1807, 50)]
-    [MMRIA_Path("home_record/middle_name", "hr_m_name")]
-    [IJE_Name("DMIDDLE")]
-    public string hr_m_name;
-    */
-
-        KeyValuePair.Create("POILITRL", new Layout(2108, 50)),
-        /*
-    [Layout(2108, 50)]
-    [MMRIA_Path("death_certificate/injury_associated_information/place_of_injury", "dciai_po_injur")]
-    [IJE_Name("POILITRL")]
-    public string dciai_po_injur;
-    */
-
-        KeyValuePair.Create("TRANSPRT", new Layout(2408, 30)),
-        /*
-    [Layout(2408, 30)]
-    [MMRIA_Path("death_certificate/injury_associated_information/transportation_related_injury", "dciai_tr_injur ")]
-    [MMRIA_Path("death_certificate/injury_associated_information transport_related_other_specify", " dciai_tro_speci")]
-    [IJE_Name("TRANSPRT")]
-    public string dciai_tro_speci;
-    */
-
-        KeyValuePair.Create("COUNTYTEXT_I", new Layout(2438, 28)),
-        /*
-    [Layout(2438, 28)]
-    [MMRIA_Path("death_certificate/address_of_injury/county", "dcaoi_count")]
-    [IJE_Name("COUNTYTEXT_I")]
-    public string dcaoi_count;
-    */
-
-        KeyValuePair.Create("CITYTEXT_I", new Layout(2469, 28)),
-        /*
-    [Layout(2469, 28)]
-    [MMRIA_Path("death_certificate/address_of_injury/city", "dcaoi_city")]
-    [IJE_Name("CITYTEXT_I")]
-    public string dcaoi_city;
-    */
-
-        KeyValuePair.Create("COD1A", new Layout(2541, 120)),
-        /*
-    [Layout(2541, 120)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1a")]
-    [IJE_Name("COD1A")]
-    public string dcdi_cod1a;
-    */
-
-        KeyValuePair.Create("INTERVAL1A", new Layout(2661, 20)),
-        /*
-    [Layout(2661, 20)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1a")]
-    [IJE_Name("INTERVAL1A")]
-    public string dcdi_interval1a;
-    */
-
-        KeyValuePair.Create("COD1B", new Layout(2681, 120)),
-        /*
-    [Layout(2681, 120)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1b")]
-    [IJE_Name("COD1B")]
-    public string dcdi_cod1b;
-    */
-
-        KeyValuePair.Create("INTERVAL1B", new Layout(2801, 20)),
-        /*
-    [Layout(2801, 20)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1b")]
-    [IJE_Name("INTERVAL1B")]
-    public string dcdi_interval1b;
-    */
-
-        KeyValuePair.Create("COD1C", new Layout(2821, 120)),
-        /*
-    [Layout(2821, 120)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1c")]
-    [IJE_Name("COD1C")]
-    public string dcdi_cod1c;
-    */
-
-        KeyValuePair.Create("INTERVAL1C", new Layout(2941, 20)),
-        /*
-    [Layout(2941, 20)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1c")]
-    [IJE_Name("INTERVAL1C")]
-    public string dcdi_interval1c;
-    */
-
-        KeyValuePair.Create("COD1D", new Layout(2961, 120)),
-        /*
-    [Layout(2961, 120)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_cod1d")]
-    [IJE_Name("COD1D")]
-    public string dcdi_cod1d;
-    */
-
-        KeyValuePair.Create("INTERVAL1D", new Layout(3081, 20)),
-        /*
-    [Layout(3081, 20)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_interval1d")]
-    [IJE_Name("INTERVAL1D")]
-    public string dcdi_interval1d;
-    */
-
-        KeyValuePair.Create("OTHERCONDITION", new Layout(3101, 240)),
-        /*
-    [Layout(3101, 240)]
-    [MMRIA_Path("New MMRIA fields; add paths when available", "dcdi_othercondition")]
-    [IJE_Name("OTHERCONDITION")]
-    public string dcdi_othercondition;
-    */
-
-        KeyValuePair.Create("DBPLACECITY", new Layout(3396, 28)),
-        /*
-    [Layout(3396, 28)]
-    [MMRIA_Path("death_certificate/demographics/city_of_birth", "dcd_co_birth")]
-    [IJE_Name("DBPLACECITY")]
-    public string dcd_co_birth;
-    */
-
-        KeyValuePair.Create("STINJURY", new Layout(4269, 28)),
-        /*
-    [Layout(4269, 28)]
-    [MMRIA_Path("death_certificate/address_of_injury/state", "dcaoi_state")]
-    [IJE_Name("STINJURY")]
-    public string dcaoi_state;
-    */
-
-        KeyValuePair.Create("VRO_STATUS", new Layout(4992, 1)),
-        /*
-    [Layout(4992, 1)]
-    [MMRIA_Path("TBD", "hr_vro_status")]
-    [IJE_Name("VRO_STATUS")]
-    public string hr_vro_status;
-    */
-
-        KeyValuePair.Create("BC_DET_MATCH", new Layout(4993, 1)),
-        /*
-    [Layout(4993, 1)]
-    [MMRIA_Path("TBD", "CDC_DET_BC")]
-    [IJE_Name("BC_DET_MATCH")]
-    public string CDC_DET_BC;
-    */
-
-        KeyValuePair.Create("FDC_DET_MATCH", new Layout(4994, 1)),
-        /*
-    [Layout(4994, 1)]
-    [MMRIA_Path("TBD", "CDC_DET_FDC")]
-    [IJE_Name("FDC_DET_MATCH")]
-    public string CDC_DET_FDC;
-    */
-
-        KeyValuePair.Create("BC_PROB_MATCH", new Layout(4995, 1)),
-        /*
-    [Layout(4995, 1)]
-    [MMRIA_Path("TBD", "CDC_PROB_BC")]
-    [IJE_Name("BC_PROB_MATCH")]
-    public string CDC_PROB_BC;
-    */
-
-        KeyValuePair.Create("FDC_PROB_MATCH", new Layout(4996, 1)),
-        /*
-    [Layout(4996, 1)]
-    [MMRIA_Path("TBD", "CDC_PROB_FDC")]
-    [IJE_Name("FDC_PROB_MATCH")]
-    public string CDC_PROB_FDC;
-    */
-
-        KeyValuePair.Create("ICD10_MATCH", new Layout(4997, 1)),
-        /*
-    [Layout(4997, 1)]
-    [MMRIA_Path("TBD", "CDC_ICD")]
-    [IJE_Name("ICD10_MATCH")]
-    public string CDC_ICD;
-    */
-
-        KeyValuePair.Create("PREGCB_MATCH", new Layout(4998, 1)),
-        /*
-    [Layout(4998, 1)]
-    [MMRIA_Path("TBD", "CDC_CHECKBOX")]
-    [IJE_Name("PREGCB_MATCH")]
-    public string CDC_CHECKBOX;
-    */
-
-        KeyValuePair.Create("LITERALCOD_MATCH", new Layout(4999, 1)),
-        /*
-    [Layout(4999, 1)]
-    [MMRIA_Path("TBD", "CDC_LITERALCOD")]
-    [IJE_Name("LITERALCOD_MATCH")]
-    public string CDC_LITERALCOD;
-    */
+        
+        KeyValuePair.Create("batch_name", "tracking/admin_info/batch_name"),
+        KeyValuePair.Create("fileno_dc", "tracking/admin_info/fileno_dc"),
+        KeyValuePair.Create("fileno_bc", "tracking/admin_info/fileno_bc"),
+        KeyValuePair.Create("fileno_fdc", "tracking/admin_info/fileno_fdc"),
+        KeyValuePair.Create("year_birthorfetaldeath", "tracking/admin_info/year_birthorfetaldeath"),
+        KeyValuePair.Create("pregcb_match", "vro_case_determnation/cdc_case_matching_results/pregcb_match"),
+        KeyValuePair.Create("literalcod_match", "vro_case_determnation/cdc_case_matching_results/literalcod_match"),
+        KeyValuePair.Create("icd10_match", "vro_case_determnation/cdc_case_matching_results/icd10_match"),
+        KeyValuePair.Create("bc_det_match", "vro_case_determnation/cdc_case_matching_results/bc_det_match"),
+        KeyValuePair.Create("fdc_det_match", "vro_case_determnation/cdc_case_matching_results/fdc_det_match"),
+        KeyValuePair.Create("bc_prob_match", "vro_case_determnation/cdc_case_matching_results/bc_prob_match"),
+        KeyValuePair.Create("fdc_prob_match", "vro_case_determnation/cdc_case_matching_results/fdc_prob_match"),
+        KeyValuePair.Create("vro_resolution_status", "vro_case_determnation/vro_update/vro_resolution_status"),
+        KeyValuePair.Create("vro_resolution_remarks", "vro_case_determnation/vro_update/vro_resolution_remarks"),
+        KeyValuePair.Create("Year", "tracking/admin_info/track_year"),
+        KeyValuePair.Create("CaseNo", "tracking/admin_info/pmssno"),
+        KeyValuePair.Create("PMSS_State_Code", "tracking/admin_info/jurisdiction"),
+        //KeyValuePair.Create("Jurisdiction	NOT MAPPED"),
+        //KeyValuePair.Create("Jurisdiction_Name	NOT MAPPED"),
+        KeyValuePair.Create("Status", "tracking/admin_info/status"),
+        KeyValuePair.Create("AmssNo", "tracking/q1/amssno"),
+        KeyValuePair.Create("AmssRel", "tracking/q1/amssrel"),
+        KeyValuePair.Create("Dc", "tracking/death_certificate_number"),
+        KeyValuePair.Create("Dod", "tracking/date_of_death/dod"),
+        KeyValuePair.Create("SourcNot", "tracking/sourcnot"),
+        KeyValuePair.Create("DcFile", "tracking/dcfile"),
+        KeyValuePair.Create("LbFile", "tracking/lbfile"),
+        KeyValuePair.Create("PregStat", "tracking/q7/pregstat"),
+        KeyValuePair.Create("PcbTime", "tracking/q7/pcbtime"),
+        KeyValuePair.Create("StatDth", "tracking/statdth"),
+        KeyValuePair.Create("StatRes", "tracking/q9/statres"),
+        KeyValuePair.Create("ResZip", "tracking/q9/reszip"),
+        KeyValuePair.Create("ZipSrce", "tracking/q9/zipsrce"),
+        KeyValuePair.Create("County", "tracking/q9/county"),
+        KeyValuePair.Create("CntySrce", "tracking/q9/cntysrce"),
+        KeyValuePair.Create("MAge", "demographic/mage"),
+        KeyValuePair.Create("Dob", "tracking/date_of_death/dob"),
+        KeyValuePair.Create("AgeDif", "tracking/date_of_death/agedif"),
+        KeyValuePair.Create("Race", "demographic/q12/race"),
+        KeyValuePair.Create("Race_Oth", "demographic/q12/group/race_oth"),
+        KeyValuePair.Create("Race_Source", "demographic/q12/group/race_source"),
+        KeyValuePair.Create("Race_OMB", "demographic/q12/group/race_omb"),
+        KeyValuePair.Create("Race_White", "demographic/q12/group/race_white"),
+        KeyValuePair.Create("Race_Black", "demographic/q12/group/race_black"),
+        KeyValuePair.Create("Race_AmIndAlkNat", "demographic/q12/group/race_amindalknat"),
+        KeyValuePair.Create("Race_AsianIndian", "demographic/q12/group/race_asianindian"),
+        KeyValuePair.Create("Race_Chinese", "demographic/q12/group/race_chinese"),
+        KeyValuePair.Create("Race_Filipino", "demographic/q12/group/race_filipino"),
+        KeyValuePair.Create("Race_Japanese", "demographic/q12/group/race_japanese"),
+        KeyValuePair.Create("Race_Korean", "demographic/q12/group/race_korean"),
+        KeyValuePair.Create("Race_Vietnamese", "demographic/q12/group/race_vietnamese"),
+        KeyValuePair.Create("Race_OtherAsian", "demographic/q12/group/race_otherasian"),
+        KeyValuePair.Create("Race_NativeHawaiian", "demographic/q12/group/race_nativehawaiian"),
+        KeyValuePair.Create("Race_GuamCham", "demographic/q12/group/race_guamcham"),
+        KeyValuePair.Create("Race_Samoan", "demographic/q12/group/race_samoan"),
+        KeyValuePair.Create("Race_OtherPacific", "demographic/q12/group/race_otherpacific"),
+        KeyValuePair.Create("Race_Other", "demographic/q12/group/race_other"),
+        KeyValuePair.Create("Race_NotSpecified", "demographic/q12/group/race_notspecified"),
+        KeyValuePair.Create("HispOrg", "demographic/q12/ethnicity/hisporg"),
+        KeyValuePair.Create("Hisp_Oth", "demographic/q12/ethnicity/hisp_oth"),
+        KeyValuePair.Create("MatBplc", "demographic/q12/matbplc"),
+        KeyValuePair.Create("MatBplc_US", "demographic/q12/matbplc_us"),
+        KeyValuePair.Create("MatBplc_Else", "demographic/q12/matbplc_else"),
+        KeyValuePair.Create("MarStat", "demographic/marstat"),
+        KeyValuePair.Create("EducaTn", "demographic/q14/educatn"),
+        KeyValuePair.Create("PlaceDth", "demographic/placedth"),
+        KeyValuePair.Create("Pnc", "demographic/pnc"),
+        KeyValuePair.Create("Autopsy3", "demographic/autopsy3"),
+        KeyValuePair.Create("Height", "demographic/height"),
+        KeyValuePair.Create("WtPrePrg", "demographic/wtpreprg"),
+        KeyValuePair.Create("PrevLb", "demographic/prevlb"),
+        KeyValuePair.Create("PrvOthPg", "demographic/prvothpg"),
+        KeyValuePair.Create("PymtSrc", "demographic/pymtsrc"),
+        KeyValuePair.Create("Wic", "demographic/wic"),
+        KeyValuePair.Create("OutIndx", "outcome/outindx"),
+        KeyValuePair.Create("MultGest", "outcome/multgest"),
+        KeyValuePair.Create("TermProc", "outcome/q25/termproc"),
+        KeyValuePair.Create("TermPro1", "outcome/q25/termpro1"),
+        KeyValuePair.Create("TermPro2", "outcome/q25/termpro2"),
+        KeyValuePair.Create("GestWk", "outcome/gestwk"),
+        KeyValuePair.Create("DTerm", "outcome/dterm_grp/dterm"),
+        KeyValuePair.Create("DayDif", "outcome/dterm_grp/daydif"),
+        KeyValuePair.Create("CdcCod", "cause_of_death/q28/cdccod"),
+        KeyValuePair.Create("Cod", "cause_of_death/q28/cod"),
+        KeyValuePair.Create("AssoC1", "cause_of_death/q29/assoc1"),
+        KeyValuePair.Create("Acon1", "cause_of_death/q29/acon1"),
+        KeyValuePair.Create("AssoC2", "cause_of_death/q30/assoc2"),
+        KeyValuePair.Create("Acon2", "cause_of_death/q30/acon2"),
+        KeyValuePair.Create("AssoC3", "cause_of_death/q31/assoc3"),
+        KeyValuePair.Create("Acon3", "cause_of_death/q31/acon3"),
+        KeyValuePair.Create("Injury", "cause_of_death/injury"),
+        KeyValuePair.Create("Drug_1", "cause_of_death/q33/drug_1"),
+        KeyValuePair.Create("Drug_2", "cause_of_death/q33/drug_2"),
+        KeyValuePair.Create("Drug_3", "cause_of_death/q33/drug_3"),
+        KeyValuePair.Create("Class", "cause_of_death/class"),
+        KeyValuePair.Create("Coder", "cause_of_death/coder"),
+        KeyValuePair.Create("ClsMo", "cause_of_death/clsmo"),
+        KeyValuePair.Create("ClsYr", "cause_of_death/clsyr"),
+        KeyValuePair.Create("Tribe", "demographic/q12/group/tribe"),
+        KeyValuePair.Create("Occup", "demographic/q14/occup"),
+        KeyValuePair.Create("Indust", "demographic/q14/indust"),
+        KeyValuePair.Create("Bmi", "demographic/bmi"),
+        KeyValuePair.Create("Ethnic_Mexican", "demographic/q12/ethnicity/ethnic1_mex"),
+        KeyValuePair.Create("Ethnic_PR", "demographic/q12/ethnicity/ethnic2_pr"),
+        KeyValuePair.Create("Ethnic_Cuban", "demographic/q12/ethnicity/ethnic3_cub"),
+        KeyValuePair.Create("Ethnic_Other", "demographic/q12/ethnicity/ethnic4_other"),
+        KeyValuePair.Create("Drug_IV", "cause_of_death/q33/drug_iv"),
+        KeyValuePair.Create("Dod_MO", "tracking/date_of_death/month"),
+        KeyValuePair.Create("Dod_DY", "tracking/date_of_death/day"),
+        KeyValuePair.Create("Dod_YR", "tracking/date_of_death/year"),
+        KeyValuePair.Create("Dod_TM", "tracking/date_of_death/time_of_death"),
+        KeyValuePair.Create("Dob_MO", "tracking/date_of_birth/month"),
+        KeyValuePair.Create("Dob_DY", "tracking/date_of_birth /day"),
+        KeyValuePair.Create("Dob_YR", "tracking/date_of_birth /year"),
+        KeyValuePair.Create("DTerm_MO", "outcome/dterm_grp/dterm/dterm_mo"),
+        KeyValuePair.Create("DTerm_DY", "outcome/dterm_grp/dterm/dterm_dy"),
+        KeyValuePair.Create("DTerm_YR", "outcome/dterm_grp/dterm/dterm_yr"),
+        KeyValuePair.Create("DTerm_TM", "outcome/dterm_grp/dterm/dterm_tm"),
+        KeyValuePair.Create("Review_1_By", "preparer_remarks/preparer_grp/review_1_by"),
+        KeyValuePair.Create("Review_1_On", "preparer_remarks/preparer_grp/review_1_on"),
+        KeyValuePair.Create("Review_1_Remarks", "preparer_remarks/preparer_grp/review_1_remarks"),
+        KeyValuePair.Create("Remarks", "preparer_remarks/remarks_grp/remarks"),
+        KeyValuePair.Create("Update_Remarks", "preparer_remarks/remarks_grp/update_remarks"),
+        KeyValuePair.Create("Pdf_Link", "preparer_remarks/pdf_grp/pdf_link"),
+        KeyValuePair.Create("Pdf_Steve_Link", "preparer_remarks/pdf_grp/pdf_steve_link"),
+        KeyValuePair.Create("Review_2_By", "committee_review/reviewer_grp/review_2_by"),
+        KeyValuePair.Create("Review_2_On", "committee_review/reviewer_grp/review_2_on"),
+        KeyValuePair.Create("Review_2_Remarks", "committee_review/reviewer_grp/review_2_remarks"),
+        KeyValuePair.Create("dc_info_complete", "committee_review/rev_assessment_grp/dc_info_complete"),
+        KeyValuePair.Create("dc_info_remarks", "committee_review/rev_assessment_grp/dc_info_remarks"),
+        KeyValuePair.Create("mmria_used", "committee_review/rev_assessment_grp/mmria_used"),
+        KeyValuePair.Create("mmria_used_remarks", "committee_review/rev_assessment_grp/mmria_used_remarks"),
+        KeyValuePair.Create("agreement_status", "committee_review/agreement_grp/agreement_status"),
+        KeyValuePair.Create("agreement_remarks", "committee_review/agreement_grp/agreement_remarks"),
+        KeyValuePair.Create("fileno_dc", "ije_dc/file_info/fileno_dc"),
+        KeyValuePair.Create("auxno_dc", "ije_dc/file_info/auxno_dc"),
+        KeyValuePair.Create("replace_dc", "ije_dc/file_info/replace_dc"),
+        KeyValuePair.Create("void_dc", "ije_dc/file_info/void_dc"),
+        KeyValuePair.Create("dod_mo_dc", "ije_dc/death_info/dod_mo_dc"),
+        KeyValuePair.Create("dod_dy_dc", "ije_dc/death_info/dod_dy_dc"),
+        KeyValuePair.Create("dod_yr_dc", "ije_dc/death_info/dod_yr_dc"),
+        KeyValuePair.Create("tod_dc", "ije_dc/death_info/tod_dc"),
+        KeyValuePair.Create("dplace_dc", "ije_dc/death_info/dplace_dc"),
+        KeyValuePair.Create("citytext_d_dc", "ije_dc/death_info/citytext_d_dc"),
+        KeyValuePair.Create("countytext_d_dc", "ije_dc/death_info/countytext_d_dc"),
+        KeyValuePair.Create("statetext_d_dc", "ije_dc/death_info/statetext_d_dc"),
+        KeyValuePair.Create("zip9_d_dc", "ije_dc/death_info/zip9_d_dc"),
+        KeyValuePair.Create("preg_dc", "ije_dc/death_info/preg_dc"),
+        KeyValuePair.Create("inact_dc", "ije_dc/death_info/inact_dc"),
+        KeyValuePair.Create("autop_dc", "ije_dc/death_info/autop_dc"),
+        KeyValuePair.Create("autopf_dc", "ije_dc/death_info/autopf_dc"),
+        KeyValuePair.Create("transprt_dc", "ije_dc/death_info/transprt_dc"),
+        KeyValuePair.Create("tobac_dc", "ije_dc/death_info/tobac_dc"),
+        KeyValuePair.Create("manner_dc", "ije_dc/cause_details/manner_dc"),
+        KeyValuePair.Create("cod1a_dc", "ije_dc/cause_details/cod1a_dc"),
+        KeyValuePair.Create("interval1a_dc", "ije_dc/cause_details/interval1a_dc"),
+        KeyValuePair.Create("cod1b_dc", "ije_dc/cause_details/cod1b_dc"),
+        KeyValuePair.Create("interval1b_dc", "ije_dc/cause_details/interval1b_dc"),
+        KeyValuePair.Create("cod1c_dc", "ije_dc/cause_details/cod1c_dc"),
+        KeyValuePair.Create("interval1c_dc", "ije_dc/cause_details/interval1c_dc"),
+        KeyValuePair.Create("cod1d_dc", "ije_dc/cause_details/cod1d_dc"),
+        KeyValuePair.Create("interval1d_dc", "ije_dc/cause_details/interval1d_dc"),
+        KeyValuePair.Create("othercondition_dc", "ije_dc/cause_details/othercondition_dc"),
+        KeyValuePair.Create("man_uc_dc", "ije_dc/cause_details/man_uc_dc"),
+        KeyValuePair.Create("acme_uc_dc", "ije_dc/cause_details/acme_uc_dc"),
+        KeyValuePair.Create("eac_dc", "ije_dc/cause_details/eac_dc"),
+        KeyValuePair.Create("rac_dc", "ije_dc/cause_details/rac_dc"),
+        KeyValuePair.Create("doi_mo_dc", "ije_dc/injury_details/doi_mo_dc"),
+        KeyValuePair.Create("doi_dy_dc", "ije_dc/injury_details/doi_dy_dc"),
+        KeyValuePair.Create("doi_yr_dc", "ije_dc/injury_details/doi_yr_dc"),
+        KeyValuePair.Create("toi_hr_dc", "ije_dc/injury_details/toi_hr_dc"),
+        KeyValuePair.Create("howinj_dc", "ije_dc/injury_details/howinj_dc"),
+        KeyValuePair.Create("workinj_dc", "ije_dc/injury_details/workinj_dc"),
+        KeyValuePair.Create("bplace_cnt_dc", "ije_dc/birthplace_mother/bplace_cnt_dc"),
+        KeyValuePair.Create("bplace_st_dc", "ije_dc/birthplace_mother/bplace_st_dc"),
+        KeyValuePair.Create("cityc_dc", "ije_dc/birthplace_mother/cityc_dc"),
+        KeyValuePair.Create("citytext_r_dc", "ije_dc/residence_mother/citytext_r_dc"),
+        KeyValuePair.Create("countyc_dc", "ije_dc/residence_mother/countyc_dc"),
+        KeyValuePair.Create("countrytext_r_dc", "ije_dc/residence_mother/countrytext_r_dc"),
+        KeyValuePair.Create("statec_dc", "ije_dc/residence_mother/statec_dc"),
+        KeyValuePair.Create("statetext_r_dc", "ije_dc/residence_mother/statetext_r_dc"),
+        KeyValuePair.Create("zip9_r_dc", "ije_dc/residence_mother/zip9_r_dc"),
+        KeyValuePair.Create("dob_mo_dc", "ije_dc/demog_details/dob_mo_dc"),
+        KeyValuePair.Create("dob_dy_dc", "ije_dc/demog_details/dob_dy_dc"),
+        KeyValuePair.Create("dob_yr_dc", "ije_dc/demog_details/dob_yr_dc"),
+        KeyValuePair.Create("agetype_dc", "ije_dc/demog_details/agetype_dc"),
+        KeyValuePair.Create("age_dc", "ije_dc/demog_details/age_dc"),
+        KeyValuePair.Create("sex_dc", "ije_dc/demog_details/sex_dc"),
+        KeyValuePair.Create("marital_dc", "ije_dc/demog_details/marital_dc"),
+        KeyValuePair.Create("deduc_dc", "ije_dc/demog_details/deduc_dc"),
+        KeyValuePair.Create("indust_dc", "ije_dc/demog_details/indust_dc"),
+        KeyValuePair.Create("occup_dc", "ije_dc/demog_details/occup_dc"),
+        KeyValuePair.Create("armedf_dc", "ije_dc/demog_details/armedf_dc"),
+        KeyValuePair.Create("dethnic1_dc", "ije_dc/demog_details/dethnic1_dc"),
+        KeyValuePair.Create("dethnic2_dc", "ije_dc/demog_details/dethnic2_dc"),
+        KeyValuePair.Create("dethnic3_dc", "ije_dc/demog_details/dethnic3_dc"),
+        KeyValuePair.Create("dethnic4_dc", "ije_dc/demog_details/dethnic4_dc"),
+        KeyValuePair.Create("dethnic5_dc", "ije_dc/demog_details/dethnic5_dc"),
+        KeyValuePair.Create("race1_dc", "ije_dc/demog_details/race1_dc"),
+        KeyValuePair.Create("race2_dc", "ije_dc/demog_details/race2_dc"),
+        KeyValuePair.Create("race3_dc", "ije_dc/demog_details/race3_dc"),
+        KeyValuePair.Create("race4_dc", "ije_dc/demog_details/race4_dc"),
+        KeyValuePair.Create("race5_dc", "ije_dc/demog_details/race5_dc"),
+        KeyValuePair.Create("race6_dc", "ije_dc/demog_details/race6_dc"),
+        KeyValuePair.Create("race7_dc", "ije_dc/demog_details/race7_dc"),
+        KeyValuePair.Create("race8_dc", "ije_dc/demog_details/race8_dc"),
+        KeyValuePair.Create("race9_dc", "ije_dc/demog_details/race9_dc"),
+        KeyValuePair.Create("race10_dc", "ije_dc/demog_details/race10_dc"),
+        KeyValuePair.Create("race11_dc", "ije_dc/demog_details/race11_dc"),
+        KeyValuePair.Create("race12_dc", "ije_dc/demog_details/race12_dc"),
+        KeyValuePair.Create("race13_dc", "ije_dc/demog_details/race13_dc"),
+        KeyValuePair.Create("race14_dc", "ije_dc/demog_details/race14_dc"),
+        KeyValuePair.Create("race15_dc", "ije_dc/demog_details/race15_dc"),
+        KeyValuePair.Create("race16_dc", "ije_dc/demog_details/race16_dc"),
+        KeyValuePair.Create("race17_dc", "ije_dc/demog_details/race17_dc"),
+        KeyValuePair.Create("race18_dc", "ije_dc/demog_details/race18_dc"),
+        KeyValuePair.Create("race19_dc", "ije_dc/demog_details/race19_dc"),
+        KeyValuePair.Create("race20_dc", "ije_dc/demog_details/race20_dc"),
+        KeyValuePair.Create("race21_dc", "ije_dc/demog_details/race21_dc"),
+        KeyValuePair.Create("race22_dc", "ije_dc/demog_details/race22_dc"),
+        KeyValuePair.Create("race23_dc", "ije_dc/demog_details/race23_dc"),
+        KeyValuePair.Create("bstate_bc", "ije_bc/file_info/bstate_bc"),
+        KeyValuePair.Create("fileno_bc", "ije_bc/file_info/fileno_bc"),
+        KeyValuePair.Create("auxno_bc", "ije_bc/file_info/auxno_bc"),
+        KeyValuePair.Create("void_bc", "ije_bc/file_info/void_bc"),
+        KeyValuePair.Create("replace_bc", "ije_bc/file_info/replace_bc"),
+        KeyValuePair.Create("dwgt_bc", "ije_bc/delivery_info/dwgt_bc"),
+        KeyValuePair.Create("pwgt_bc", "ije_bc/delivery_info/pwgt_bc"),
+        KeyValuePair.Create("hft_bc", "ije_bc/delivery_info/hft_bc"),
+        KeyValuePair.Create("hin_bc", "ije_bc/delivery_info/hin_bc"),
+        KeyValuePair.Create("idob_mo_bc", "ije_bc/delivery_info/idob_mo_bc"),
+        KeyValuePair.Create("idob_dy_bc", "ije_bc/delivery_info/idob_dy_bc"),
+        KeyValuePair.Create("idob_yr_bc", "ije_bc/delivery_info/idob_yr_bc"),
+        KeyValuePair.Create("tb_bc", "ije_bc/delivery_info/tb_bc"),
+        KeyValuePair.Create("isex_bc", "ije_bc/delivery_info/isex_bc"),
+        KeyValuePair.Create("bwg_bc", "ije_bc/delivery_info/bwg_bc"),
+        KeyValuePair.Create("owgest_bc", "ije_bc/delivery_info/owgest_bc"),
+        KeyValuePair.Create("apgar5_bc", "ije_bc/delivery_info/apgar5_bc"),
+        KeyValuePair.Create("apgar10_bc", "ije_bc/delivery_info/apgar10_bc"),
+        KeyValuePair.Create("plur_bc", "ije_bc/delivery_info/plur_bc"),
+        KeyValuePair.Create("sord_bc", "ije_bc/delivery_info/sord_bc"),
+        KeyValuePair.Create("hosp_bc", "ije_bc/delivery_info/hosp_bc"),
+        KeyValuePair.Create("birth_co_bc", "ije_bc/delivery_info/birth_co_bc"),
+        KeyValuePair.Create("bplace_bc", "ije_bc/delivery_info/bplace_bc"),
+        KeyValuePair.Create("attend_bc", "ije_bc/delivery_info/attend_bc"),
+        KeyValuePair.Create("tran_bc", "ije_bc/delivery_info/tran_bc"),
+        KeyValuePair.Create("itran_bc", "ije_bc/delivery_info/itran_bc"),
+        KeyValuePair.Create("bfed_bc", "ije_bc/delivery_info/bfed_bc"),
+        KeyValuePair.Create("wic_bc", "ije_bc/delivery_info/wic_bc"),
+        KeyValuePair.Create("pay_bc", "ije_bc/delivery_info/pay_bc"),
+        KeyValuePair.Create("pres_bc", "ije_bc/delivery_info/pres_bc"),
+        KeyValuePair.Create("rout_bc", "ije_bc/delivery_info/rout_bc"),
+        KeyValuePair.Create("iliv_bc", "ije_bc/delivery_info/iliv_bc"),
+        KeyValuePair.Create("gon_bc", "ije_bc/delivery_info/gon_bc"),
+        KeyValuePair.Create("syph_bc", "ije_bc/delivery_info/syph_bc"),
+        KeyValuePair.Create("hsv_bc", "ije_bc/delivery_info/hsv_bc"),
+        KeyValuePair.Create("cham_bc", "ije_bc/delivery_info/cham_bc"),
+        KeyValuePair.Create("hepb_bc", "ije_bc/delivery_info/hepb_bc"),
+        KeyValuePair.Create("hepc_bc", "ije_bc/delivery_info/hepc_bc"),
+        KeyValuePair.Create("cerv_bc", "ije_bc/delivery_info/cerv_bc"),
+        KeyValuePair.Create("toc_bc", "ije_bc/delivery_info/toc_bc"),
+        KeyValuePair.Create("ecvs_bc", "ije_bc/delivery_info/ecvs_bc"),
+        KeyValuePair.Create("ecvf_bc", "ije_bc/delivery_info/ecvf_bc"),
+        KeyValuePair.Create("prom_bc", "ije_bc/delivery_info/prom_bc"),
+        KeyValuePair.Create("pric_bc", "ije_bc/delivery_info/pric_bc"),
+        KeyValuePair.Create("prol_bc", "ije_bc/delivery_info/prol_bc"),
+        KeyValuePair.Create("indl_bc", "ije_bc/delivery_info/indl_bc"),
+        KeyValuePair.Create("augl_bc", "ije_bc/delivery_info/augl_bc"),
+        KeyValuePair.Create("nvpr_bc", "ije_bc/delivery_info/nvpr_bc"),
+        KeyValuePair.Create("ster_bc", "ije_bc/delivery_info/ster_bc"),
+        KeyValuePair.Create("antb_bc", "ije_bc/delivery_info/antb_bc"),
+        KeyValuePair.Create("chor_bc", "ije_bc/delivery_info/chor_bc"),
+        KeyValuePair.Create("mecs_bc", "ije_bc/delivery_info/mecs_bc"),
+        KeyValuePair.Create("fint_bc", "ije_bc/delivery_info/fint_bc"),
+        KeyValuePair.Create("esan_bc", "ije_bc/delivery_info/esan_bc"),
+        KeyValuePair.Create("tlab_bc", "ije_bc/delivery_info/tlab_bc"),
+        KeyValuePair.Create("mtr_bc", "ije_bc/delivery_info/mtr_bc"),
+        KeyValuePair.Create("plac_bc", "ije_bc/delivery_info/plac_bc"),
+        KeyValuePair.Create("rut_bc", "ije_bc/delivery_info/rut_bc"),
+        KeyValuePair.Create("uhys_bc", "ije_bc/delivery_info/uhys_bc"),
+        KeyValuePair.Create("aint_bc", "ije_bc/delivery_info/aint_bc"),
+        KeyValuePair.Create("uopr_bc", "ije_bc/delivery_info/uopr_bc"),
+        KeyValuePair.Create("aven1_bc", "ije_bc/delivery_info/aven1_bc"),
+        KeyValuePair.Create("aven6_bc", "ije_bc/delivery_info/aven6_bc"),
+        KeyValuePair.Create("nicu_bc", "ije_bc/delivery_info/nicu_bc"),
+        KeyValuePair.Create("surf_bc", "ije_bc/delivery_info/surf_bc"),
+        KeyValuePair.Create("anti_bc", "ije_bc/delivery_info/anti_bc"),
+        KeyValuePair.Create("seiz_bc", "ije_bc/delivery_info/seiz_bc"),
+        KeyValuePair.Create("binj_bc", "ije_bc/delivery_info/binj_bc"),
+        KeyValuePair.Create("anen_bc", "ije_bc/delivery_info/anen_bc"),
+        KeyValuePair.Create("minsb_bc", "ije_bc/delivery_info/minsb_bc"),
+        KeyValuePair.Create("cchd_bc", "ije_bc/delivery_info/cchd_bc"),
+        KeyValuePair.Create("cdh_bc", "ije_bc/delivery_info/cdh_bc"),
+        KeyValuePair.Create("omph_bc", "ije_bc/delivery_info/omph_bc"),
+        KeyValuePair.Create("gast_bc", "ije_bc/delivery_info/gast_bc"),
+        KeyValuePair.Create("limb_bc", "ije_bc/delivery_info/limb_bc"),
+        KeyValuePair.Create("cl_bc", "ije_bc/delivery_info/cl_bc"),
+        KeyValuePair.Create("cp_bc", "ije_bc/delivery_info/cp_bc"),
+        KeyValuePair.Create("dowt_bc", "ije_bc/delivery_info/dowt_bc"),
+        KeyValuePair.Create("cdit_bc", "ije_bc/delivery_info/cdit_bc"),
+        KeyValuePair.Create("hypo_bc", "ije_bc/delivery_info/hypo_bc"),
+        KeyValuePair.Create("dlmp_mo_bc", "ije_bc/previous_info/dlmp_mo_bc"),
+        KeyValuePair.Create("dlmp_dy_bc", "ije_bc/previous_info/dlmp_dy_bc"),
+        KeyValuePair.Create("dlmp_yr_bc", "ije_bc/previous_info/dlmp_yr_bc"),
+        KeyValuePair.Create("dofp_mo_bc", "ije_bc/previous_info/dofp_mo_bc"),
+        KeyValuePair.Create("dofp_dy_bc", "ije_bc/previous_info/dofp_dy_bc"),
+        KeyValuePair.Create("dofp_yr_bc", "ije_bc/previous_info/dofp_yr_bc"),
+        KeyValuePair.Create("dolp_mo_bc", "ije_bc/previous_info/dolp_mo_bc"),
+        KeyValuePair.Create("dolp_dy_bc", "ije_bc/previous_info/dolp_dy_bc"),
+        KeyValuePair.Create("dolp_yr_bc", "ije_bc/previous_info/dolp_yr_bc"),
+        KeyValuePair.Create("nprev_bc", "ije_bc/previous_info/nprev_bc"),
+        KeyValuePair.Create("plbl_bc", "ije_bc/previous_info/plbl_bc"),
+        KeyValuePair.Create("plbd_bc", "ije_bc/previous_info/plbd_bc"),
+        KeyValuePair.Create("popo_bc", "ije_bc/previous_info/popo_bc"),
+        KeyValuePair.Create("mllb_bc", "ije_bc/previous_info/mllb_bc"),
+        KeyValuePair.Create("yllb_bc", "ije_bc/previous_info/yllb_bc"),
+        KeyValuePair.Create("mopo_bc", "ije_bc/previous_info/mopo_bc"),
+        KeyValuePair.Create("yopo_bc", "ije_bc/previous_info/yopo_bc"),
+        KeyValuePair.Create("cigpn_bc", "ije_bc/previous_info/cigpn_bc"),
+        KeyValuePair.Create("cigfn_bc", "ije_bc/previous_info/cigfn_bc"),
+        KeyValuePair.Create("cigsn_bc", "ije_bc/previous_info/cigsn_bc"),
+        KeyValuePair.Create("cigln_bc", "ije_bc/previous_info/cigln_bc"),
+        KeyValuePair.Create("pdiab_bc", "ije_bc/previous_info/pdiab_bc"),
+        KeyValuePair.Create("gdiab_bc", "ije_bc/previous_info/gdiab_bc"),
+        KeyValuePair.Create("phype_bc", "ije_bc/previous_info/phype_bc"),
+        KeyValuePair.Create("ghype_bc", "ije_bc/previous_info/ghype_bc"),
+        KeyValuePair.Create("ppb_bc", "ije_bc/previous_info/ppb_bc"),
+        KeyValuePair.Create("ppo_bc", "ije_bc/previous_info/ppo_bc"),
+        KeyValuePair.Create("inft_bc", "ije_bc/previous_info/inft_bc"),
+        KeyValuePair.Create("pces_bc", "ije_bc/previous_info/pces_bc"),
+        KeyValuePair.Create("npces_bc", "ije_bc/previous_info/npces_bc"),
+        KeyValuePair.Create("ehype_bc", "ije_bc/previous_info/ehype_bc"),
+        KeyValuePair.Create("inft_drg_bc", "ije_bc/previous_info/inft_drg_bc"),
+        KeyValuePair.Create("inft_art_bc", "ije_bc/previous_info/inft_art_bc"),
+        KeyValuePair.Create("citytext_bc", "ije_bc/residence_mother/citytext_bc"),
+        KeyValuePair.Create("countytxt_bc", "ije_bc/residence_mother/countytxt_bc"),
+        KeyValuePair.Create("statetxt_bc", "ije_bc/residence_mother/statetxt_bc"),
+        KeyValuePair.Create("zipcode_bc", "ije_bc/residence_mother/zipcode_bc"),
+        KeyValuePair.Create("mbplace_st_ter_tx_bc", "ije_bc/demog_details/mbplace_st_ter_tx_bc"),
+        KeyValuePair.Create("mbplace_cntry_tx_bc", "ije_bc/demog_details/mbplace_cntry_tx_bc"),
+        KeyValuePair.Create("mager_bc", "ije_bc/demog_details/mager_bc"),
+        KeyValuePair.Create("mdob_mo_bc", "ije_bc/demog_details/mdob_mo_bc"),
+        KeyValuePair.Create("mdob_dy_bc", "ije_bc/demog_details/mdob_dy_bc"),
+        KeyValuePair.Create("mdob_yr_bc", "ije_bc/demog_details/mdob_yr_bc"),
+        KeyValuePair.Create("marn_bc", "ije_bc/demog_details/marn_bc"),
+        KeyValuePair.Create("ackn_bc", "ije_bc/demog_details/ackn_bc"),
+        KeyValuePair.Create("meduc_bc", "ije_bc/demog_details/meduc_bc"),
+        KeyValuePair.Create("mom_in_t_bc", "ije_bc/demog_details/mom_in_t_bc"),
+        KeyValuePair.Create("mom_oc_t_bc", "ije_bc/demog_details/mom_oc_t_bc"),
+        KeyValuePair.Create("methnic1_bc", "ije_bc/demog_details/methnic1_bc"),
+        KeyValuePair.Create("methnic2_bc", "ije_bc/demog_details/methnic2_bc"),
+        KeyValuePair.Create("methnic3_bc", "ije_bc/demog_details/methnic3_bc"),
+        KeyValuePair.Create("methnic4_bc", "ije_bc/demog_details/methnic4_bc"),
+        KeyValuePair.Create("methnic5_bc", "ije_bc/demog_details/methnic5_bc"),
+        KeyValuePair.Create("mrace1_bc", "ije_bc/demog_details/mrace1_bc"),
+        KeyValuePair.Create("mrace2_bc", "ije_bc/demog_details/mrace2_bc"),
+        KeyValuePair.Create("mrace3_bc", "ije_bc/demog_details/mrace3_bc"),
+        KeyValuePair.Create("mrace4_bc", "ije_bc/demog_details/mrace4_bc"),
+        KeyValuePair.Create("mrace5_bc", "ije_bc/demog_details/mrace5_bc"),
+        KeyValuePair.Create("mrace6_bc", "ije_bc/demog_details/mrace6_bc"),
+        KeyValuePair.Create("mrace7_bc", "ije_bc/demog_details/mrace7_bc"),
+        KeyValuePair.Create("mrace8_bc", "ije_bc/demog_details/mrace8_bc"),
+        KeyValuePair.Create("mrace9_bc", "ije_bc/demog_details/mrace9_bc"),
+        KeyValuePair.Create("mrace10_bc", "ije_bc/demog_details/mrace10_bc"),
+        KeyValuePair.Create("mrace11_bc", "ije_bc/demog_details/mrace11_bc"),
+        KeyValuePair.Create("mrace12_bc", "ije_bc/demog_details/mrace12_bc"),
+        KeyValuePair.Create("mrace13_bc", "ije_bc/demog_details/mrace13_bc"),
+        KeyValuePair.Create("mrace14_bc", "ije_bc/demog_details/mrace14_bc"),
+        KeyValuePair.Create("mrace15_bc", "ije_bc/demog_details/mrace15_bc"),
+        KeyValuePair.Create("mrace16_bc", "ije_bc/demog_details/mrace16_bc"),
+        KeyValuePair.Create("mrace17_bc", "ije_bc/demog_details/mrace17_bc"),
+        KeyValuePair.Create("mrace18_bc", "ije_bc/demog_details/mrace18_bc"),
+        KeyValuePair.Create("mrace19_bc", "ije_bc/demog_details/mrace19_bc"),
+        KeyValuePair.Create("mrace20_bc", "ije_bc/demog_details/mrace20_bc"),
+        KeyValuePair.Create("mrace21_bc", "ije_bc/demog_details/mrace21_bc"),
+        KeyValuePair.Create("mrace22_bc", "ije_bc/demog_details/mrace22_bc"),
+        KeyValuePair.Create("mrace23_bc", "ije_bc/demog_details/mrace23_bc"),
+        KeyValuePair.Create("fager_bc", "ije_bc/demog_details/fager_bc"),
+        KeyValuePair.Create("dad_in_t_ bc", "ije_bc/demog_details/dad_in_t_bc"),
+        KeyValuePair.Create("dad_oc_t_bc", "ije_bc/demog_details/dad_oc_t_bc"),
+        KeyValuePair.Create("fbplacd_st_ter_c_bc", "ije_bc/demog_details/fbplacd_st_ter_c_bc"),
+        KeyValuePair.Create("fbplace_cnt_c_bc", "ije_bc/demog_details/fbplace_cnt_c_bc"),
+        KeyValuePair.Create("dstate_fdc", "ije_fetaldc/file_info/dstate_fdc"),
+        KeyValuePair.Create("fileno_fdc", "ije_fetaldc/file_info/fileno_fdc"),
+        KeyValuePair.Create("auxno_fdc", "ije_fetaldc/file_info/auxno_fdc"),
+        KeyValuePair.Create("void_fdc", "ije_fetaldc/file_info/void_fdc"),
+        KeyValuePair.Create("replace_fdc", "ije_fetaldc/file_info/replace_fdc"),
+        KeyValuePair.Create("fdod_mo_fdc", "ije_fetaldc/delivery_info/fdod_mo_fdc"),
+        KeyValuePair.Create("fdod_dy_fdc", "ije_fetaldc/delivery_info/fdod_dy_fdc"),
+        KeyValuePair.Create("fdod_yr_fdc", "ije_fetaldc/delivery_info/fdod_yr_fdc"),
+        KeyValuePair.Create("td_fdc", "ije_fetaldc/delivery_info/td_fdc"),
+        KeyValuePair.Create("dwgt_fdc", "ije_fetaldc/delivery_info/dwgt_fdc"),
+        KeyValuePair.Create("pwgt_fdc", "ije_fetaldc/delivery_info/pwgt_fdc"),
+        KeyValuePair.Create("hft_fdc", "ije_fetaldc/delivery_info/hft_fdc"),
+        KeyValuePair.Create("hin_fdc", "ije_fetaldc/delivery_info/hin_fdc"),
+        KeyValuePair.Create("fsex_fdc", "ije_fetaldc/delivery_info/fsex_fdc"),
+        KeyValuePair.Create("fwg_fdc", "ije_fetaldc/delivery_info/fwg_fdc"),
+        KeyValuePair.Create("owgest_fdc", "ije_fetaldc/delivery_info/owgest_fdc"),
+        KeyValuePair.Create("plur_fdc", "ije_fetaldc/delivery_info/plur_fdc"),
+        KeyValuePair.Create("sord_fdc", "ije_fetaldc/delivery_info/sord_fdc"),
+        KeyValuePair.Create("hosp_d_fdc", "ije_fetaldc/delivery_info/hosp_d_fdc"),
+        KeyValuePair.Create("cnty_d_fdc", "ije_fetaldc/delivery_info/cnty_d_fdc"),
+        KeyValuePair.Create("city_d_fdc", "ije_fetaldc/delivery_info/city_d_fdc"),
+        KeyValuePair.Create("attend_fdc", "ije_fetaldc/delivery_info/attend_fdc"),
+        KeyValuePair.Create("tran_fdc", "ije_fetaldc/delivery_info/tran_fdc"),
+        KeyValuePair.Create("wic_fdc", "ije_fetaldc/delivery_info/wic_fdc"),
+        KeyValuePair.Create("pres_fdc", "ije_fetaldc/delivery_info/pres_fdc"),
+        KeyValuePair.Create("rout_fdc", "ije_fetaldc/delivery_info/rout_fdc"),
+        KeyValuePair.Create("gon_fdc", "ije_fetaldc/delivery_info/gon_fdc"),
+        KeyValuePair.Create("syph_fdc", "ije_fetaldc/delivery_info/syph_fdc"),
+        KeyValuePair.Create("hsv_fdc", "ije_fetaldc/delivery_info/hsv_fdc"),
+        KeyValuePair.Create("cham_fdc", "ije_fetaldc/delivery_info/cham_fdc"),
+        KeyValuePair.Create("lm_fdc", "ije_fetaldc/delivery_info/lm_fdc"),
+        KeyValuePair.Create("gbs_fdc", "ije_fetaldc/delivery_info/gbs_fdc"),
+        KeyValuePair.Create("cmv_fdc", "ije_fetaldc/delivery_info/cmv_fdc"),
+        KeyValuePair.Create("b19_fdc", "ije_fetaldc/delivery_info/b19_fdc"),
+        KeyValuePair.Create("toxo_fdc", "ije_fetaldc/delivery_info/toxo_fdc"),
+        KeyValuePair.Create("hsv1_fdc", "ije_fetaldc/delivery_info/hsv1_fdc"),
+        KeyValuePair.Create("hiv_fdc", "ije_fetaldc/delivery_info/hiv_fdc"),
+        KeyValuePair.Create("tlab_fdc", "ije_fetaldc/delivery_info/tlab_fdc"),
+        KeyValuePair.Create("otheri_fdc", "ije_fetaldc/delivery_info/otheri_fdc"),
+        KeyValuePair.Create("mtr_fdc", "ije_fetaldc/delivery_info/mtr_fdc"),
+        KeyValuePair.Create("plac_fdc", "ije_fetaldc/delivery_info/plac_fdc"),
+        KeyValuePair.Create("rut_fdc", "ije_fetaldc/delivery_info/rut_fdc"),
+        KeyValuePair.Create("uhys_fdc", "ije_fetaldc/delivery_info/uhys_fdc"),
+        KeyValuePair.Create("aint_fdc", "ije_fetaldc/delivery_info/aint_fdc"),
+        KeyValuePair.Create("uopr_fdc", "ije_fetaldc/delivery_info/uopr_fdc"),
+        KeyValuePair.Create("anen_fdc", "ije_fetaldc/delivery_info/anen_fdc"),
+        KeyValuePair.Create("mnsb_fdc", "ije_fetaldc/delivery_info/mnsb_fdc"),
+        KeyValuePair.Create("cchd_fdc", "ije_fetaldc/delivery_info/cchd_fdc"),
+        KeyValuePair.Create("cdh_fdc", "ije_fetaldc/delivery_info/cdh_fdc"),
+        KeyValuePair.Create("omph_fdc", "ije_fetaldc/delivery_info/omph_fdc"),
+        KeyValuePair.Create("gast_fdc", "ije_fetaldc/delivery_info/gast_fdc"),
+        KeyValuePair.Create("limb_fdc", "ije_fetaldc/delivery_info/limb_fdc"),
+        KeyValuePair.Create("cl_fdc", "ije_fetaldc/delivery_info/cl_fdc"),
+        KeyValuePair.Create("caf_fdc", "ije_fetaldc/delivery_info/caf_fdc"),
+        KeyValuePair.Create("dowt_fdc", "ije_fetaldc/delivery_info/dowt_fdc"),
+        KeyValuePair.Create("cdit_fdc", "ije_fetaldc/delivery_info/cdit_fdc"),
+        KeyValuePair.Create("hypo_fdc", "ije_fetaldc/delivery_info/hypo_fdc"),
+        KeyValuePair.Create("cod18a1_fdc", "ije_fetaldc/condition_cause/cod18a1_fdc"),
+        KeyValuePair.Create("cod18a2_fdc", "ije_fetaldc/condition_cause/cod18a2_fdc"),
+        KeyValuePair.Create("cod18a3_fdc", "ije_fetaldc/condition_cause/cod18a3_fdc"),
+        KeyValuePair.Create("cod18a4_fdc", "ije_fetaldc/condition_cause/cod18a4_fdc"),
+        KeyValuePair.Create("cod18a5_fdc", "ije_fetaldc/condition_cause/cod18a5_fdc"),
+        KeyValuePair.Create("cod18a6_fdc", "ije_fetaldc/condition_cause/cod18a6_fdc"),
+        KeyValuePair.Create("cod18a7_fdc", "ije_fetaldc/condition_cause/cod18a7_fdc"),
+        KeyValuePair.Create("cod18a8_fdc", "ije_fetaldc/condition_cause/cod18a8_fdc"),
+        KeyValuePair.Create("cod18a9_fdc", "ije_fetaldc/condition_cause/cod18a9_fdc"),
+        KeyValuePair.Create("cod18a10_fdc", "ije_fetaldc/condition_cause/cod18a10_fdc"),
+        KeyValuePair.Create("cod18a11_fdc", "ije_fetaldc/condition_cause/cod18a11_fdc"),
+        KeyValuePair.Create("cod18a12_fdc", "ije_fetaldc/condition_cause/cod18a12_fdc"),
+        KeyValuePair.Create("cod18a13_fdc", "ije_fetaldc/condition_cause/cod18a13_fdc"),
+        KeyValuePair.Create("cod18a14_fdc", "ije_fetaldc/condition_cause/cod18a14_fdc"),
+        KeyValuePair.Create("cod18b1_fdc", "ije_fetaldc/condition_cause/cod18b1_fdc"),
+        KeyValuePair.Create("cod18b2_fdc", "ije_fetaldc/condition_cause/cod18b2_fdc"),
+        KeyValuePair.Create("cod18b3_fdc", "ije_fetaldc/condition_cause/cod18b3_fdc"),
+        KeyValuePair.Create("cod18b4_fdc", "ije_fetaldc/condition_cause/cod18b4_fdc"),
+        KeyValuePair.Create("cod18b5_fdc", "ije_fetaldc/condition_cause/cod18b5_fdc"),
+        KeyValuePair.Create("cod18b6_fdc", "ije_fetaldc/condition_cause/cod18b6_fdc"),
+        KeyValuePair.Create("cod18b7_fdc", "ije_fetaldc/condition_cause/cod18b7_fdc"),
+        KeyValuePair.Create("cod18b8_fdc", "ije_fetaldc/condition_cause/cod18b8_fdc"),
+        KeyValuePair.Create("cod18b9_fdc", "ije_fetaldc/condition_cause/cod18b9_fdc"),
+        KeyValuePair.Create("cod18b10_fdc", "ije_fetaldc/condition_cause/cod18b10_fdc"),
+        KeyValuePair.Create("cod18b11_fdc", "ije_fetaldc/condition_cause/cod18b11_fdc"),
+        KeyValuePair.Create("cod18b12_fdc", "ije_fetaldc/condition_cause/cod18b12_fdc"),
+        KeyValuePair.Create("cod18b13_fdc", "ije_fetaldc/condition_cause/cod18b13_fdc"),
+        KeyValuePair.Create("cod18b14_fdc", "ije_fetaldc/condition_cause/cod18b14_fdc"),
+        KeyValuePair.Create("icod_fdc", "ije_fetaldc/condition_cause/icod_fdc"),
+        KeyValuePair.Create("ocod1_fdc", "ije_fetaldc/condition_cause/ocod1_fdc"),
+        KeyValuePair.Create("ocod1_fdc", "ije_fetaldc/condition_cause/ocod2_fdc"),
+        KeyValuePair.Create("ocod3_fdc", "ije_fetaldc/condition_cause/ocod3_fdc"),
+        KeyValuePair.Create("ocod4_fdc", "ije_fetaldc/condition_cause/ocod4_fdc"),
+        KeyValuePair.Create("ocod5_fdc", "ije_fetaldc/condition_cause/ocod5_fdc"),
+        KeyValuePair.Create("ocod6_fdc", "ije_fetaldc/condition_cause/ocod6_fdc"),
+        KeyValuePair.Create("ocod7_fdc", "ije_fetaldc/condition_cause/ocod7_fdc"),
+        KeyValuePair.Create("dlmp_mo_fdc", "ije_fetaldc/previous_info/dlmp_mo_fdc"),
+        KeyValuePair.Create("dlmp_dy_fdc", "ije_fetaldc/previous_info/dlmp_dy_fdc"),
+        KeyValuePair.Create("dlmp_yr_fdc", "ije_fetaldc/previous_info/dlmp_yr_fdc"),
+        KeyValuePair.Create("dofp_mo_fdc", "ije_fetaldc/previous_info/dofp_mo_fdc"),
+        KeyValuePair.Create("dofp_dy_fdc", "ije_fetaldc/previous_info/dofp_dy_fdc"),
+        KeyValuePair.Create("dofp_yr_fdc", "ije_fetaldc/previous_info/dofp_yr_fdc"),
+        KeyValuePair.Create("dolp_mo_fdc", "ije_fetaldc/previous_info/dolp_mo_fdc"),
+        KeyValuePair.Create("dolp_dy_fdc", "ije_fetaldc/previous_info/dolp_dy_fdc"),
+        KeyValuePair.Create("dolp_yr_fdc", "ije_fetaldc/previous_info/dolp_yr_fdc"),
+        KeyValuePair.Create("nprev_fdc", "ije_fetaldc/previous_info/nprev_fdc"),
+        KeyValuePair.Create("plbl_fdc", "ije_fetaldc/previous_info/plbl_fdc"),
+        KeyValuePair.Create("plbd_fdc", "ije_fetaldc/previous_info/plbd_fdc"),
+        KeyValuePair.Create("popo_fdc", "ije_fetaldc/previous_info/popo_fdc"),
+        KeyValuePair.Create("mllb_fdc", "ije_fetaldc/previous_info/mllb_fdc"),
+        KeyValuePair.Create("yllb_fdc", "ije_fetaldc/previous_info/yllb_fdc"),
+        KeyValuePair.Create("mopo_fdc", "ije_fetaldc/previous_info/mopo_fdc"),
+        KeyValuePair.Create("yopo_fdc", "ije_fetaldc/previous_info/yopo_fdc"),
+        KeyValuePair.Create("cigpn_fdc", "ije_fetaldc/previous_info/cigpn_fdc"),
+        KeyValuePair.Create("cigfn_fdc", "ije_fetaldc/previous_info/cigfn_fdc"),
+        KeyValuePair.Create("cigsn_fdc", "ije_fetaldc/previous_info/cigsn_fdc"),
+        KeyValuePair.Create("cigln_fdc", "ije_fetaldc/previous_info/cigln_fdc"),
+        KeyValuePair.Create("pdiab_fdc", "ije_fetaldc/previous_info/pdiab_fdc"),
+        KeyValuePair.Create("gdiab_fdc", "ije_fetaldc/previous_info/gdiab_fdc"),
+        KeyValuePair.Create("phype_fdc", "ije_fetaldc/previous_info/phype_fdc"),
+        KeyValuePair.Create("ghype_fdc", "ije_fetaldc/previous_info/ghype_fdc"),
+        KeyValuePair.Create("ppb_fdc", "ije_fetaldc/previous_info/ppb_fdc"),
+        KeyValuePair.Create("ppo_fdc", "ije_fetaldc/previous_info/ppo_fdc"),
+        KeyValuePair.Create("inft_fdc", "ije_fetaldc/previous_info/inft_fdc"),
+        KeyValuePair.Create("pces_fdc", "ije_fetaldc/previous_info/pces_fdc"),
+        KeyValuePair.Create("npces_fdc", "ije_fetaldc/previous_info/npces_fdc"),
+        KeyValuePair.Create("ehype_fdc", "ije_fetaldc/previous_info/ehype_fdc"),
+        KeyValuePair.Create("inft_drg_fdc", "ije_fetaldc/previous_info/inft_drg_fdc"),
+        KeyValuePair.Create("inft_art_fdc", "ije_fetaldc/previous_info/inft_art_fdc"),
+        KeyValuePair.Create("citytxt_fdc", "ije_fetaldc/residence_mother/citytxt_fdc"),
+        KeyValuePair.Create("countytxt_fdc", "ije_fetaldc/residence_mother/countytxt_fdc"),
+        KeyValuePair.Create("statetxt_fdc", "ije_fetaldc/residence_mother/statetxt_fdc"),
+        KeyValuePair.Create("zipcode_fdc", "ije_fetaldc/residence_mother/zipcode_fdc"),
+        KeyValuePair.Create("mbplace_st_ter_txt_fdc", "ije_fetaldc/demog_details/mbplace_st_ter_txt_fdc"),
+        KeyValuePair.Create("mbplace_cntry_txt_fdc", "ije_fetaldc/demog_details/mbplace_cntry_txt_fdc"),
+        KeyValuePair.Create("mager_fdc", "ije_fetaldc/demog_details/mager_fdc"),
+        KeyValuePair.Create("mdob_mo_fdc", "ije_fetaldc/demog_details/mdob_mo_fdc"),
+        KeyValuePair.Create("mdob_dy_fdc", "ije_fetaldc/demog_details/mdob_dy_fdc"),
+        KeyValuePair.Create("mdob_yr_fdc", "ije_fetaldc/demog_details/mdob_yr_fdc"),
+        KeyValuePair.Create("marn_fdc", "ije_fetaldc/demog_details/marn_fdc"),
+        KeyValuePair.Create("meduc_fdc", "ije_fetaldc/demog_details/meduc_fdc"),
+        KeyValuePair.Create("mom_in_t_fdc", "ije_fetaldc/demog_details/mom_in_t_fdc"),
+        KeyValuePair.Create("mom_oc_t_fdc", "ije_fetaldc/demog_details/mom_oc_t_fdc"),
+        KeyValuePair.Create("methnic1_fdc", "ije_fdc/demog_details/methnic1_fdc"),
+        KeyValuePair.Create("methnic2_fdc", "ije_fdc/demog_details/methnic2_fdc"),
+        KeyValuePair.Create("methnic3_fdc", "ije_fdc/demog_details/methnic3_fdc"),
+        KeyValuePair.Create("methnic4_fdc", "ije_fdc/demog_details/methnic4_fdc"),
+        KeyValuePair.Create("methnic5_fdc", "ije_fdc/demog_details/methnic5_fdc"),
+        KeyValuePair.Create("mrace1_fdc", "ije_fdc/demog_details/mrace1_fdc"),
+        KeyValuePair.Create("mrace2_fdc", "ije_fdc/demog_details/mrace2_fdc"),
+        KeyValuePair.Create("mrace3_fdc", "ije_fdc/demog_details/mrace3_fdc"),
+        KeyValuePair.Create("mrace4_fdc", "ije_fdc/demog_details/mrace4_fdc"),
+        KeyValuePair.Create("mrace5_fdc", "ije_fdc/demog_details/mrace5_fdc"),
+        KeyValuePair.Create("mrace6_fdc", "ije_fdc/demog_details/mrace6_fdc"),
+        KeyValuePair.Create("mrace7_fdc", "ije_fdc/demog_details/mrace7_fdc"),
+        KeyValuePair.Create("mrace8_fdc", "ije_fdc/demog_details/mrace8_fdc"),
+        KeyValuePair.Create("mrace9_fdc", "ije_fdc/demog_details/mrace9_fdc"),
+        KeyValuePair.Create("mrace10_fdc", "ije_fdc/demog_details/mrace10_fdc"),
+        KeyValuePair.Create("mrace11_fdc", "ije_fdc/demog_details/mrace11_fdc"),
+        KeyValuePair.Create("mrace12_fdc", "ije_fdc/demog_details/mrace12_fdc"),
+        KeyValuePair.Create("mrace13_fdc", "ije_fdc/demog_details/mrace13_fdc"),
+        KeyValuePair.Create("mrace14_fdc", "ije_fdc/demog_details/mrace14_fdc"),
+        KeyValuePair.Create("mrace15_fdc", "ije_fdc/demog_details/mrace15_fdc"),
+        KeyValuePair.Create("mrace16_fdc", "ije_fdc/demog_details/mrace16_fdc"),
+        KeyValuePair.Create("mrace17_fdc", "ije_fdc/demog_details/mrace17_fdc"),
+        KeyValuePair.Create("mrace18_fdc", "ije_fdc/demog_details/mrace18_fdc"),
+        KeyValuePair.Create("mrace19_fdc", "ije_fdc/demog_details/mrace19_fdc"),
+        KeyValuePair.Create("mrace20_fdc", "ije_fdc/demog_details/mrace20_fdc"),
+        KeyValuePair.Create("mrace21_fdc", "ije_fdc/demog_details/mrace21_fdc"),
+        KeyValuePair.Create("mrace22_fdc", "ije_fdc/demog_details/mrace22_fdc"),
+        KeyValuePair.Create("mrace23_fdc", "ije_fdc/demog_details/mrace23_fdc"),
+        KeyValuePair.Create("fager_fdc", "ije_fdc/demog_details/fager_fdc"),
+        KeyValuePair.Create("dad_in_t_fdc", "ije_fdc/demog_details/dad_in_t_fdc"),
+        KeyValuePair.Create("dad_oc_t_fdc", "ije_fdc/demog_details/dad_oc_t_fdc"),
+        KeyValuePair.Create("fbplacd_st_ter_c_fdc", "ije_fdc/demog_details/fbplacd_st_ter_c_fdc"),
+        KeyValuePair.Create("fbplace_cnt_c_fdc", "ije_fdc/demog_details/fbplace_cnt_c_fdc"),
 
 
     });
