@@ -80,6 +80,74 @@ public sealed class BatchProcessor : ReceiveActor
 
         var is_valid_file_name = false;
 
+        if(message.mor_file_name.EndsWith(".csv"))
+        {
+
+            var reportingState = get_state_from_file_name(message.mor_file_name);
+            var importDate = DateTime.Now;
+
+            batch = new mmria.common.ije.Batch()
+            {
+                id = message.batch_id,
+                date_created  = DateTime.UtcNow,
+                created_by = "vital-import",
+                date_last_updated   = DateTime.UtcNow,
+                last_updated_by = "vital-import", 
+                Status = mmria.common.ije.Batch.StatusEnum.Validating,
+                reporting_state = reportingState,
+                ImportDate = importDate,
+                mor_file_name = message.mor_file_name,
+                nat_file_name = message.nat_file_name,
+                fet_file_name = message.fet_file_name,
+                StatusInfo = status_builder.ToString(),
+                record_result = Convert(batch_item_set)
+
+            };
+
+            var BatchStatusMessage = new mmria.common.ije.BatchStatusMessage()
+            {
+                id = batch.id,
+                status = batch.Status
+            };
+            Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
+
+
+            var batch_id = System.Guid.NewGuid().ToString();
+            try
+            {
+                var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
+                {
+                    cdc_unique_id = batch_id,
+                    record_id = "", //batch_tuple.Item2.mmria_record_id,
+                    ImportDate = importDate,
+                    ImportFileName = message.mor_file_name,
+                    host_state = "",
+                    mor = message.mor,
+                    //nat = GetAssociatedNat(nat_list, batch_tuple.Item2.CDCUniqueID?.Trim()),
+                    //fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID?.Trim())
+                };
+
+                var batch_item_processor = Context.ActorOf
+                (
+                    Props.Create<PMSS_ItemProcessor>
+                    (
+                        overridable_configuration,
+                        host_name
+                    ),
+                    batch_id
+                );
+
+                batch_item_processor.Tell(StartBatchItemMessage);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+            Context.Stop(this.Self);
+            return;
+        }
+
         var mor_length_is_valid = validate_length(message?.mor?.Split("\n"), mor_max_length);
         var nat_length_is_valid = validate_length(message?.nat?.Split("\n"), nat_max_length);
         var fet_length_is_valid = validate_length(message?.fet?.Split("\n"), fet_max_length);

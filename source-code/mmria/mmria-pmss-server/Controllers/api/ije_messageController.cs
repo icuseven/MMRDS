@@ -135,7 +135,10 @@ public sealed class ije_messageController: ControllerBase
             ok = true
         };
 
-        processor.Tell(NewIJESet_Message);
+        //processor.Tell(NewIJESet_Message);
+
+        var response = await processor.Ask(NewIJESet_Message) as string;
+
 
         return result;
 

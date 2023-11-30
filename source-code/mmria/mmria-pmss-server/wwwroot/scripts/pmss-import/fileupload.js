@@ -283,7 +283,7 @@ function render_file_list() {
             ul_list.push(item.name);
             ul_list.push(" number of records ");
             ul_list.push(" (");
-            ul_list.push(data.length);
+            ul_list.push(data.length -1);
             ul_list.push(")</li>");
         }
     }

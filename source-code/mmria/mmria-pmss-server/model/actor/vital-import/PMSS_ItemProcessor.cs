@@ -10,7 +10,7 @@ using mmria.pmss.server.Controllers;
 
 namespace mmria.pmss.services.vitalsimport;
 
-public sealed class BatchItemProcessor : ReceiveActor
+public sealed class PMSS_ItemProcessor : ReceiveActor
 {
 
     Dictionary<string, mmria.common.metadata.value_node[]> lookup;
@@ -49,7 +49,7 @@ public sealed class BatchItemProcessor : ReceiveActor
 
     mmria.common.couchdb.DBConfigurationDetail db_config;
     string host_name;
-    public BatchItemProcessor
+    public PMSS_ItemProcessor
     (
         mmria.common.couchdb.OverridableConfiguration _configuration,
         string _host_name
@@ -82,13 +82,61 @@ public sealed class BatchItemProcessor : ReceiveActor
 
         lookup = get_look_up(metadata);
 
-        var data  = message.mor.SplitCsv();
+        var rows = message.mor.Split("\n");
+
+        foreach(var row in rows)
+        {
+            var data  = row.SplitCsv();
+
+        }
 
 
     }
+/*
 
-    
+    private void ExtractFileAndConvert<T>(FileStream fs, int recordLength, string extractResultsMessageText, string filename, string now) where T : class
+    {
+        var lengthOfFile = fs.Length;
+        var totalRecordLength = recordLength;
+        var totalCompleteRecords = lengthOfFile / totalRecordLength;
+        var records = new List<T>();
 
+        for (int i = 0; i < totalCompleteRecords; i++)
+        {
+            var segment = new MemoryStream();
+
+            //Set the postition of the file to the next record in the case of an incomplete read
+            fs.Position = i * totalRecordLength;
+
+            //Work only with the file segment where the stream is at.
+            fs.CopyTo(segment);
+
+            var record = (T)Activator.CreateInstance(typeof(T));
+
+            //Put the file segment into the reader
+            var flr = new FixedLengthReader(segment);
+
+            //Read teh segment into an object
+            flr.read(record);
+
+            //Add the object to our list 
+            records.Add(record);
+        }
+
+
+        //Debugging only on ECPaaS, can probably remove
+        Console.WriteLine(extractResultsMessageText);
+        //Debugging only on ECPaaS, can probably remove
+        Console.WriteLine(JsonConvert.SerializeObject(records));
+
+        //For each Record create a CSV for it
+        for (int i = 0; i < records.Count; i++)
+        {
+            string desitanationFileName = Path.Combine(Environment.GetEnvironmentVariable("CSV_DESTINATION"), $"{Path.GetFileName(filename)}_{now}_{i+1}_of_{records.Count}.csv");
+            File.WriteAllText(desitanationFileName, CsvConverter.ToCSV(records[i]));
+        }
+    }    
+*/
     private void omb_mrace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
     {
         string race_recode = null;
