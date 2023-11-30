@@ -1,13 +1,14 @@
 var g_file_stat_list = [];
 var g_content_list = [];
 var g_validation_errors = [];
-var g_host_state = null;
 var g_cdc_identifier_set = {};
-
+var g_is_other_file = false;
 
 const mor_max_length = 5001;
 const nat_max_length = 4001;
 const fet_max_length = 6001;
+
+let data = null;
 
 /*
 
@@ -87,8 +88,6 @@ function setup_file_list()
     var el = document.getElementById("files");
     el.disabled = "disabled";
 
-    g_host_state = null;
-
     let result = false;
 
     let is_mor = false;
@@ -117,26 +116,35 @@ function setup_file_list()
                 temp[0] = item;
                 temp_contents[0] = g_content_list[i];
 
-                const data = parseCSV(temp_contents[0]);
+                data = parseCSV(temp_contents[0]);
 
                 // other 150 columns
 
                 // all 555 columns
 
 
-                var patt = new RegExp("20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2}.[mM][oO][rR]");
 
-                if (!patt.test(item.name.toLowerCase())) 
+
+                if 
+                (
+                    data.length < 2
+                ) 
                 {
-                    g_validation_errors.push("mor file name format incorrect. File name must be in Year_Month_Day_StateCode format. (e.g. 2021_01_01_KS.mor");
+                    g_validation_errors.push("csv file is empty" + data.length);
                 }
-
-                if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
+                else if 
+                (
+                    data[0].length != 150 &&
+                    data[0].length != 555   
+                ) 
                 {
-                    g_validation_errors.push("mor File Length !=" + mor_max_length);
+                    g_validation_errors.push("csv columns != 150 or 555" + data.length);
                 }
                 else 
                 {
+
+                    if(data[0].length == 150) g_is_other_file = true;
+                    /*
                     var copy = g_content_list[i];
                     var morRows = copy.split("\n");
                     var listOfCdcIdentifier = [];
@@ -168,116 +176,12 @@ function setup_file_list()
 
                         g_validation_errors.push("Duplicate CDC Identifier detected " + duplicatesMessage);
                     }
+                    */
                 }
             }
         }
     }
 
-    for (let i = 0; i < g_file_stat_list.length; i++) 
-    {
-        let item = g_file_stat_list[i];
-        if (typeof item !== "undefined") 
-        {
-            if (item.name.toLowerCase().endsWith(".mor")) 
-            {
-                continue;
-            }
-            else if (item.name.toLowerCase().endsWith(".nat")) 
-            {
-                is_nat = true;
-                temp[1] = item;
-                temp_contents[1] = g_content_list[i];
-
-                g_content_list_array = g_content_list[i].split("\n");
-                if (!validate_length(g_content_list_array, nat_max_length)) 
-                {
-                    g_validation_errors.push("nat File Length !=" + nat_max_length);
-                }
-
-               let Nat_Ids = validate_AssociatedNAT(g_content_list_array);
-               for(let _i = 0;_i < Nat_Ids.length; _i++)
-               {
-                    let text = Nat_Ids[_i];
-                    if(g_validation_errors.indexOf(text) < 0)
-                    {
-                        g_validation_errors.push(Nat_Ids[_i]);
-                    }
-               }
-            }
-            else if (item.name.toLowerCase().endsWith(".fet")) 
-            {
-                is_fet = true;
-                temp[2] = item;
-                temp_contents[2] = g_content_list[i];
-
-                g_content_list_array = g_content_list[i].split("\n");
-
-                if (!validate_length(g_content_list_array, fet_max_length)) 
-                {
-                    g_validation_errors.push("fet File Length !=" + fet_max_length);
-                }
-
-                let Fet_Ids = validate_AssociatedFET(g_content_list_array);
-                for(let _i = 0;_i < Fet_Ids.length; _i++)
-                {
-                    let text = Fet_Ids[_i];
-                    if(g_validation_errors.indexOf(text) < 0)
-                    {
-                        g_validation_errors.push(Fet_Ids[_i]);
-                    }
-                }
-            }
-        }
-    }
-
-
-
-    if (is_mor && (is_nat || is_fet)) 
-    {
-        if
-            (!(
-
-                get_state_from_file_name(g_file_stat_list[0].name) &&
-                (typeof g_file_stat_list[1] === "undefined" || get_state_from_file_name(g_file_stat_list[1].name)) &&
-                (typeof g_file_stat_list[2] === "undefined" || get_state_from_file_name(g_file_stat_list[2].name))
-            )
-
-        ) 
-        {
-            g_validation_errors.push("all IJE files must have same state");
-        }
-        else 
-        {
-            g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
-        }
-
-
-    }
-    else
-    {
-        g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
-        //g_validation_errors.push("need at least 2 IJE files. MOR and NAT or FET");
-    }
-
-    if (!is_mor) 
-    {
-        g_validation_errors.push("missing .MOR IJE file")
-    }
-
-    //if(!is_nat)
-    //{
-    //    g_validation_errors.push("missing .NAT IJE file")
-    //}
-
-    //if(!is_fet)
-    //{
-    //    g_validation_errors.push("missing .FET IJE file")
-    //}
-
-
-
-    g_file_stat_list = temp;
-    g_content_list = temp_contents;
 
     render_file_list()
 
@@ -340,10 +244,29 @@ function render_file_list() {
 
             }
 
-            if (item.name.toLowerCase().endsWith(".mor")) 
+            if (item.name.toLowerCase().endsWith(".csv")) 
             {
-                let out = document.getElementById('mor_output')
-                out.value = g_content_list[i];
+                let out = document.getElementById('mor_output');
+
+                const label_element = document.getElementById('csv-label');
+                if(g_is_other_file)
+                {
+                    label_element.innerText = `CSV File Content: Other Version`;
+                }
+                else
+                {
+                    label_element.innerText = `CSV File Content: All Version`;
+                }
+                
+
+                const csv = [];
+
+                for(const item of data)
+                {
+                    csv.push(`${item[0]}, ${item[1]}, ${item[2]}, ${item[3]}, ${item[4]}, ${item[5]}, ${item[6]}, ${item[7]}, ${item[8]}, ${item[9]}`)
+                }
+
+                out.value = csv.join("\n");
             }
             else if (item.name.toLowerCase().endsWith(".nat")) 
             {
@@ -360,7 +283,7 @@ function render_file_list() {
             ul_list.push(item.name);
             ul_list.push(" number of records ");
             ul_list.push(" (");
-            ul_list.push(number_of_lines);
+            ul_list.push(data.length);
             ul_list.push(")</li>");
         }
     }
@@ -377,7 +300,7 @@ function render_file_list() {
     }
     else 
     {
-        out.value = g_host_state + " ready to process";
+        out.value = " ready to process";
         button.disabled = false;
     }
 
@@ -422,14 +345,14 @@ function send_ije_set()
 
         if (response_obj.ok) 
         {
-            out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
+            out.value = `CSV File successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
 
             let button = document.getElementById('process_next');
             buttonNext.style.display = 'inline-block';
         }
         else 
         {
-            out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
+            out.value = `CSV File error while sending\nError Detail\n = ${response.detail}`;
             buttonNext.style.display = 'none';
         }
 
