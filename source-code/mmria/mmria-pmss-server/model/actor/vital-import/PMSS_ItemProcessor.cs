@@ -141,6 +141,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
             if(!string.IsNullOrWhiteSpace(trimmed_name))
                 column_list.Add(trimmed_name);
+            else
+                System.Console.WriteLine("empty column name");
         }
 
         if(column_list.Count == 150)

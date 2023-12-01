@@ -26,8 +26,9 @@ public sealed class PMSS_Other
     public string Year{ get; set; }
     public string CaseNo{ get; set; }
     public string PMSS_State_Code{ get; set; }
-    //public string Jurisdiction	NOT MAPPED"),
-    //public string Jurisdiction_Name	NOT MAPPED"),
+    
+    public string Jurisdiction{ get; set; }
+    public string Jurisdiction_Name{ get; set; }
     public string Status{ get; set; }
     public string AmssNo{ get; set; }
     public string AmssRel{ get; set; }
