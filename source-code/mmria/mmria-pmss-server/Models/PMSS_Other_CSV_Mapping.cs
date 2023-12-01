@@ -131,7 +131,7 @@ public sealed class PMSS_Other_CSV_Mapping: TinyCsvParser.Mapping.CsvMapping<PMS
             MapProperty(117, x => x.Review_1_On);
             MapProperty(118, x => x.Review_1_Remarks);
             MapProperty(119, x => x.Remarks);
-            MapProperty(110, x => x.Update_Remarks);
+            MapProperty(120, x => x.Update_Remarks);
             MapProperty(121, x => x.Pdf_Link);
             MapProperty(122, x => x.Pdf_Steve_Link);
             MapProperty(123, x => x.Review_2_By);

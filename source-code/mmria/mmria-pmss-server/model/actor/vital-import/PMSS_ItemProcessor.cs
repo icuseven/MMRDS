@@ -9,6 +9,7 @@ using System.Globalization;
 using mmria.pmss.server.Controllers;
 using mmria_pmss_client.Models.IJE;
 using TinyCsvParser;
+using mmria.common.model.couchdb;
 
 namespace mmria.pmss.services.vitalsimport;
 
@@ -131,23 +132,76 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         var rows = message.mor.Split("\n");
 
-        var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
-        var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
-        var csvMapper = new PMSS_All_CSV_Mapping();
-        var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
+        var cols = rows[0].Split(",");
+        var column_list = new List<string>();
 
-        var result = csvParser
-            .ReadFromString(reader_options, message.mor)
-            .ToList();
-
-
-
-        for(int i = 1; i < result.Count(); i++)
+        foreach(var item in cols)
         {
-        
-            //var data  = row.SplitCsv();
+            var trimmed_name = item.Trim();
 
+            if(!string.IsNullOrWhiteSpace(trimmed_name))
+                column_list.Add(trimmed_name);
         }
+
+        if(column_list.Count == 150)
+        {
+            var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
+            var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
+            var csvMapper = new PMSS_Other_CSV_Mapping();
+            var csvParser = new TinyCsvParser.CsvParser<PMSS_Other>(csvParserOptions, csvMapper);
+
+            var result = csvParser
+                .ReadFromString(reader_options, message.mor)
+                .ToList();
+
+
+
+            foreach(var cvs_result in result)
+            {
+            
+                if(cvs_result.IsValid)
+                {
+                    var csv_item = cvs_result.Result;
+                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+                }
+                else
+                {
+                    System.Console.WriteLine($"Err: {cvs_result.Error}");
+                }
+
+            }
+        }
+        else
+        {
+            var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
+            var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
+            var csvMapper = new PMSS_All_CSV_Mapping();
+            var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
+
+            var result = csvParser
+                .ReadFromString(reader_options, message.mor)
+                .ToList();
+
+
+
+            foreach(var cvs_result in result)
+            {
+            
+                if(cvs_result.IsValid)
+                {
+                    var csv_item = cvs_result.Result;
+                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+                }
+                else
+                {
+                    System.Console.WriteLine($"Err: {cvs_result.Error}");
+                }
+
+
+            }
+        }
+
+
 
 
     }
