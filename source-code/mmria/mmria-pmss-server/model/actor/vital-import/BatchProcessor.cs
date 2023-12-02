@@ -83,6 +83,66 @@ public sealed class BatchProcessor : ReceiveActor
         if(message.mor_file_name.EndsWith(".csv"))
         {
 
+
+            var data = ParseCsv(message.mor.AsSpan());
+
+            var column_list = new List<string>();
+
+            foreach(var item in data[0])
+            {
+                var trimmed_name = item.Trim();
+
+                if(!string.IsNullOrWhiteSpace(trimmed_name))
+                    column_list.Add(trimmed_name);
+                else
+                    System.Console.WriteLine("empty column name");
+            }
+
+            if(column_list.Count == 150)
+            {
+
+                for(var i = 1; i < data.Count; i++)
+                {
+                
+                    var csv_item = mmria_pmss_client.Models.IJE.PMSS_Other.FromList(data[i]);
+
+                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+    
+
+                }
+            }
+            else
+            {
+
+                /*
+                var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
+                var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
+                var csvMapper = new PMSS_All_CSV_Mapping();
+                var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
+
+                var result = csvParser
+                    .ReadFromString(reader_options, message.mor)
+                    .ToList();
+
+
+
+                foreach(var cvs_result in result)
+                {
+                
+                    if(cvs_result.IsValid)
+                    {
+                        var csv_item = cvs_result.Result;
+                        System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+                    }
+                    else
+                    {
+                        System.Console.WriteLine($"Err: {cvs_result.Error}");
+                    }
+
+
+                }*/
+            }
+
             var reportingState = get_state_from_file_name(message.mor_file_name);
             var importDate = DateTime.Now;
 
@@ -863,6 +923,78 @@ result.Add("SSN",row.Substring(191-1, 9)?.Trim());
         
     }
 
+
+
+ static List<List<string>> ParseCsv(ReadOnlySpan<char> csv) 
+ {
+    var result = new List<List<string>>();
+    var row = new List<string>();
+    string field = "";
+    bool inQuotedField = false;
+
+    for (int i = 0; i < csv.Length; i++) 
+    {
+        char current = csv[i];
+        char next = i == csv.Length - 1 ? ' ' : csv[i + 1];
+
+        if 
+        (
+            (
+                current != '"' && 
+                current != ',' && 
+                current != '\r' && 
+                current != '\n'
+            ) || 
+            (
+                current != '"' && 
+                inQuotedField
+            )
+        ) 
+        {
+            field += current;
+        } 
+        else if (current == ' ' || current == '\t') 
+        {
+            continue;
+        } 
+        else if (current == '"') 
+        {
+            if (inQuotedField && next == '"') 
+            {
+                i++;
+                field += current;
+            } 
+            else if (inQuotedField) 
+            {
+                row.Add(field);
+                if (next == ',') 
+                {
+                    i++;
+                }
+                field = "";
+                inQuotedField = false;
+            } 
+            else 
+            {
+                inQuotedField = true; 
+            }
+        } 
+        else if (current == ',') 
+        {
+            row.Add(field);
+            field = "";
+        } 
+        else if (current == '\n') 
+        {
+            row.Add(field);
+            result.Add(new List<string>(row));
+            field = "";
+            row.Clear();
+        }
+    }
+
+    return result;
+}
 
 
 }
