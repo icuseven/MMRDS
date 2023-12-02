@@ -16,45 +16,18 @@ namespace mmria.pmss.services.vitalsimport;
 
 
 
-public class SAMS_App
+public sealed class StartPMSSBatchItemMessage
 {
-    public SAMS_App() {}
-    public string environment { get; set; }
+    public StartPMSSBatchItemMessage(){}
+    public mmria_pmss_client.Models.IJE.PMSS_Other pmss_other { get; set; }
 
-    public string jurisdiction_abbreviation {get;set; }
-    public string activity_name { get; set; }
-    public string client_id { get; set; }
-    public string client_secret { get; set; }
-    public string callback_url { get; set; }
-
-    public string couchdb_url { get; set; }
-    public string db_url { get; set; }
-    public string user_name { get; set; }
-    public string password { get; set; }
-}
+    public string record_id { get; init; }
 
 
+    public DateTime ImportDate { get; init; }
+    public string ImportFileName { get; init; }
+    public List<string> headers { get; init; }
 
-
-
-
-
-public class CsvSAMS_AppMapping : TinyCsvParser.Mapping.CsvMapping<SAMS_App>
-{
-    public CsvSAMS_AppMapping()
-        : base()
-    {
-        MapProperty(0, x => x.environment);
-        MapProperty(1, x => x.jurisdiction_abbreviation);
-        MapProperty(2, x => x.activity_name);
-        MapProperty(3, x => x.client_id);
-        MapProperty(4, x => x.client_secret);
-        MapProperty(5, x => x.callback_url);
-        MapProperty(6, x => x.couchdb_url);
-        MapProperty(7, x => x.db_url);
-        MapProperty(8, x => x.user_name);
-        MapProperty(9, x => x.password);
-    }
 }
 
 
@@ -108,7 +81,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         db_config = configuration.GetDBConfig(host_name);
 
-        Receive<mmria.common.ije.StartBatchItemMessage>(message =>
+        Receive<StartPMSSBatchItemMessage>(message =>
         {    
             Console.WriteLine("Message Recieved");
             //Console.WriteLine(JsonConvert.SerializeObject(message));
@@ -117,7 +90,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         });
     }
 
-    private void Process_Message(mmria.common.ije.StartBatchItemMessage message)
+    private void Process_Message(StartPMSSBatchItemMessage message)
     {
 
         var mor = new mmria_pmss_client.Models.IJE.MOR_Specification();
@@ -130,112 +103,15 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         lookup = get_look_up(metadata);
 
-        var data = ParseCsv(message.mor.AsSpan());
 
-        var column_list = new List<string>();
+        System.Console.WriteLine($"fileno_bc: {message.pmss_other.fileno_bc}");
 
-        foreach(var item in data[0])
-        {
-            var trimmed_name = item.Trim();
-
-            if(!string.IsNullOrWhiteSpace(trimmed_name))
-                column_list.Add(trimmed_name);
-            else
-                System.Console.WriteLine("empty column name");
-        }
-
-        if(column_list.Count == 150)
-        {
-
-            for(var i = 1; i < data.Count; i++)
-            {
-            
-                var csv_item = PMSS_Other.FromList(data[i]);
-
-                System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-  
-
-            }
-        }
-        else
-        {
-            var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
-            var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
-            var csvMapper = new PMSS_All_CSV_Mapping();
-            var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
-
-            var result = csvParser
-                .ReadFromString(reader_options, message.mor)
-                .ToList();
-
-
-
-            foreach(var cvs_result in result)
-            {
-            
-                if(cvs_result.IsValid)
-                {
-                    var csv_item = cvs_result.Result;
-                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-                }
-                else
-                {
-                    System.Console.WriteLine($"Err: {cvs_result.Error}");
-                }
-
-
-            }
-        }
 
 
 
 
     }
-/*
-
-    private void ExtractFileAndConvert<T>(FileStream fs, int recordLength, string extractResultsMessageText, string filename, string now) where T : class
-    {
-        var lengthOfFile = fs.Length;
-        var totalRecordLength = recordLength;
-        var totalCompleteRecords = lengthOfFile / totalRecordLength;
-        var records = new List<T>();
-
-        for (int i = 0; i < totalCompleteRecords; i++)
-        {
-            var segment = new MemoryStream();
-
-            //Set the postition of the file to the next record in the case of an incomplete read
-            fs.Position = i * totalRecordLength;
-
-            //Work only with the file segment where the stream is at.
-            fs.CopyTo(segment);
-
-            var record = (T)Activator.CreateInstance(typeof(T));
-
-            //Put the file segment into the reader
-            var flr = new FixedLengthReader(segment);
-
-            //Read teh segment into an object
-            flr.read(record);
-
-            //Add the object to our list 
-            records.Add(record);
-        }
-
-
-        //Debugging only on ECPaaS, can probably remove
-        Console.WriteLine(extractResultsMessageText);
-        //Debugging only on ECPaaS, can probably remove
-        Console.WriteLine(JsonConvert.SerializeObject(records));
-
-        //For each Record create a CSV for it
-        for (int i = 0; i < records.Count; i++)
-        {
-            string desitanationFileName = Path.Combine(Environment.GetEnvironmentVariable("CSV_DESTINATION"), $"{Path.GetFileName(filename)}_{now}_{i+1}_of_{records.Count}.csv");
-            File.WriteAllText(desitanationFileName, CsvConverter.ToCSV(records[i]));
-        }
-    }    
-*/
+    
     private void omb_mrace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
     {
         string race_recode = null;

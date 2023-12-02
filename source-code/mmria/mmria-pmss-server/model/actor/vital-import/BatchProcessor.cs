@@ -84,6 +84,9 @@ public sealed class BatchProcessor : ReceiveActor
         {
 
 
+            var reportingState = get_state_from_file_name(message.mor_file_name);
+            var importDate = DateTime.Now;
+
             var data = ParseCsv(message.mor.AsSpan());
 
             var column_list = new List<string>();
@@ -107,44 +110,46 @@ public sealed class BatchProcessor : ReceiveActor
                     var csv_item = mmria_pmss_client.Models.IJE.PMSS_Other.FromList(data[i]);
 
                     System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-    
+
+                    var batch_id = System.Guid.NewGuid().ToString();
+                    try
+                    {
+                        var StartBatchItemMessage = new pmss.services.vitalsimport.StartPMSSBatchItemMessage()
+                        {
+                            ImportDate = importDate,
+                            ImportFileName = message.mor_file_name,
+                            pmss_other = csv_item,
+                            headers = column_list
+                        };
+
+                        var batch_item_processor = Context.ActorOf
+                        (
+                            Props.Create<PMSS_ItemProcessor>
+                            (
+                                overridable_configuration,
+                                host_name
+                            ),
+                            batch_id
+                        );
+
+                        batch_item_processor.Tell(StartBatchItemMessage);
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+
+
 
                 }
             }
             else
             {
 
-                /*
-                var csvParserOptions = new TinyCsvParser.CsvParserOptions(false, ',');
-                var reader_options = new TinyCsvParser.CsvReaderOptions(new string[]{ "\n"});
-                var csvMapper = new PMSS_All_CSV_Mapping();
-                var csvParser = new TinyCsvParser.CsvParser<PMSS_All>(csvParserOptions, csvMapper);
 
-                var result = csvParser
-                    .ReadFromString(reader_options, message.mor)
-                    .ToList();
-
-
-
-                foreach(var cvs_result in result)
-                {
-                
-                    if(cvs_result.IsValid)
-                    {
-                        var csv_item = cvs_result.Result;
-                        System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-                    }
-                    else
-                    {
-                        System.Console.WriteLine($"Err: {cvs_result.Error}");
-                    }
-
-
-                }*/
             }
 
-            var reportingState = get_state_from_file_name(message.mor_file_name);
-            var importDate = DateTime.Now;
+
 
             batch = new mmria.common.ije.Batch()
             {
@@ -172,37 +177,6 @@ public sealed class BatchProcessor : ReceiveActor
             Context.ActorSelection("akka://mmria-actor-system/user/batch-supervisor").Tell(BatchStatusMessage);
 
 
-            var batch_id = System.Guid.NewGuid().ToString();
-            try
-            {
-                var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
-                {
-                    cdc_unique_id = batch_id,
-                    record_id = "", //batch_tuple.Item2.mmria_record_id,
-                    ImportDate = importDate,
-                    ImportFileName = message.mor_file_name,
-                    host_state = "",
-                    mor = message.mor,
-                    //nat = GetAssociatedNat(nat_list, batch_tuple.Item2.CDCUniqueID?.Trim()),
-                    //fet = GetAssociatedFet(fet_list, batch_tuple.Item2.CDCUniqueID?.Trim())
-                };
-
-                var batch_item_processor = Context.ActorOf
-                (
-                    Props.Create<PMSS_ItemProcessor>
-                    (
-                        overridable_configuration,
-                        host_name
-                    ),
-                    batch_id
-                );
-
-                batch_item_processor.Tell(StartBatchItemMessage);
-            }
-            catch(Exception ex)
-            {
-
-            }
 
             Context.Stop(this.Self);
             return;

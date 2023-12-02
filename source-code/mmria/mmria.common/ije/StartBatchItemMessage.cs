@@ -20,3 +20,5 @@ public sealed class StartBatchItemMessage
     public List<string> fet { get; init; }
 
 }
+
+
