@@ -70,7 +70,7 @@ public sealed class BatchProcessor : ReceiveActor
 
     private void Process_Message(mmria.common.ije.NewIJESet_Message message)
     {
-        Console.WriteLine($"Processing Message : {message}");
+        //Console.WriteLine($"Processing Message : {message}");
 
         
 
