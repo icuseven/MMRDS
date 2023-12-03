@@ -107,8 +107,114 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         System.Console.WriteLine($"fileno_bc: {message.pmss_other.fileno_bc}");
 
 
+        var new_case = new System.Dynamic.ExpandoObject();
 
+        mmria.pmss.services.vitalsimport.default_case.create(metadata, new_case);
 
+        var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
+
+        var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
+
+        var mmria_id = System.Guid.NewGuid().ToString();
+
+        gs.set_value("_id", mmria_id, new_case);
+        gs.set_value("date_created", current_date_iso_string, new_case);
+        gs.set_value("created_by", "vitals-import", new_case);
+        gs.set_value("date_last_updated", current_date_iso_string, new_case);
+        gs.set_value("last_updated_by", "pmss-import", new_case);
+        gs.set_value("version", metadata.version, new_case);
+
+/*
+        //gs.set_value("host_state", message.host_state, new_case);
+        gs.set_value("home_record/state_of_death_record", message.host_state, new_case);
+            
+
+        var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
+        var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
+        var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_MO"]), new_case);
+        var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_DY"]), new_case);
+        var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
+        var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_MO"]), new_case);
+        var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_DY"]), new_case);
+        var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);           
+        var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
+
+        gs.set_value(IJE_to_MMRIA_Path["FILENO"], mor_field_set["FILENO"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["AUXNO"], mor_field_set["AUXNO"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["AGE"], mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
+        gs.set_value("death_certificate/demographics/age_on_death_certificate", mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
+        gs.set_value(IJE_to_MMRIA_Path["BPLACE_CNT"], mor_field_set["BPLACE_CNT"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["BPLACE_ST"], mor_field_set["BPLACE_ST"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["STATEC"], mor_field_set["STATEC"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["COUNTRYC"], mor_field_set["COUNTRYC"], new_case);
+        gs.set_value(IJE_to_MMRIA_Path["MARITAL"], mor_field_set["MARITAL"], new_case);
+
+*/
+
+        var case_dictionary = new_case as IDictionary<string, object>;
+/*
+        var finished = new mmria.common.ije.BatchItem()
+        {
+            Status = mmria.common.ije.BatchItem.StatusEnum.NewCaseAdded,
+            CDCUniqueID = mor_field_set["SSN"],
+            ImportDate = message.ImportDate,
+            ImportFileName = message.ImportFileName,
+            ReportingState = message.host_state,
+
+            StateOfDeathRecord = mor_field_set["DSTATE"],
+            DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+            DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+            LastName = mor_field_set["LNAME"],
+            FirstName = mor_field_set["GNAME"],
+            
+            mmria_record_id = message.record_id,
+            mmria_id = mmria_id,
+            StatusDetail = "Added new case"
+        };
+        */
+
+        string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{mmria_id}";
+
+        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
+        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(new_case, settings);
+
+        var document_curl = new mmria.getset.cURL("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
+
+        var document_put_response = new mmria.common.model.couchdb.document_put_response();
+        try
+        {
+            //var responseFromServer = document_curl.execute();
+            //document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+        }
+        catch (Exception ex)
+        {
+
+            System.Console.WriteLine(ex);
+/*
+            finished = new mmria.common.ije.BatchItem()
+            {
+                Status = mmria.common.ije.BatchItem.StatusEnum.ImportFailed,
+                CDCUniqueID = mor_field_set["SSN"],
+                ImportDate = message.ImportDate,
+                ImportFileName = message.ImportFileName,
+                ReportingState = message.host_state,
+
+                StateOfDeathRecord = mor_field_set["DSTATE"],
+                DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
+                DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
+                LastName = mor_field_set["LNAME"],
+                FirstName = mor_field_set["GNAME"],
+                mmria_record_id = message.record_id,
+                mmria_id = mmria_id,
+                StatusDetail = "Error\n" + ex.ToString()
+            };
+            */
+        }
+
+        //Sender.Tell(finished);
+
+        Context.Stop(this.Self);
 
     }
     
