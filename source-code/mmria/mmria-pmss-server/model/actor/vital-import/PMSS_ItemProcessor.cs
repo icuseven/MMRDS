@@ -119,7 +119,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         gs.set_value("_id", mmria_id, new_case);
         gs.set_value("date_created", current_date_iso_string, new_case);
-        gs.set_value("created_by", "vitals-import", new_case);
+        gs.set_value("created_by", "pmss-import", new_case);
         gs.set_value("date_last_updated", current_date_iso_string, new_case);
         gs.set_value("last_updated_by", "pmss-import", new_case);
         gs.set_value("version", metadata.version, new_case);
