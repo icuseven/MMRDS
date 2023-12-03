@@ -19,7 +19,7 @@ namespace mmria.pmss.services.vitalsimport;
 public sealed class StartPMSSBatchItemMessage
 {
     public StartPMSSBatchItemMessage(){}
-    public mmria_pmss_client.Models.IJE.PMSS_Other pmss_other { get; set; }
+    //public mmria_pmss_client.Models.IJE.PMSS_Other pmss_other { get; set; }
 
     public string record_id { get; init; }
 
@@ -27,6 +27,7 @@ public sealed class StartPMSSBatchItemMessage
     public DateTime ImportDate { get; init; }
     public string ImportFileName { get; init; }
     public List<string> headers { get; init; }
+    public List<string> data { get; init; }
 
 }
 
@@ -104,7 +105,6 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         lookup = get_look_up(metadata);
 
 
-        System.Console.WriteLine($"fileno_bc: {message.pmss_other.fileno_bc}");
 
 
         var new_case = new System.Dynamic.ExpandoObject();
@@ -123,6 +123,56 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         gs.set_value("date_last_updated", current_date_iso_string, new_case);
         gs.set_value("last_updated_by", "pmss-import", new_case);
         gs.set_value("version", metadata.version, new_case);
+
+
+        var header_to_index = new System.Collections.Generic.Dictionary<string, int>();
+        for(var i = 0; i < message.headers.Count; i++)
+            header_to_index.Add(message.headers[i], i);
+        
+        
+
+        var name_to_path = new PMSS_Other_Specification();
+
+        foreach(var kvp in header_to_index)
+        {
+
+            if(name_to_path.Contains(kvp.Key))
+            {
+                var mmria_path = name_to_path[kvp.Key];
+                var data = message.data[kvp.Value];
+
+                if(mmria_path == "tracking/admin_info/jurisdiction")
+                {
+                    var state_node = lookup["lookup/state"];
+
+                    //var jurisdiction_values = state_node.
+
+                    var item = state_node.Where (x => int.Parse(x.value) == int.Parse(data)).SingleOrDefault();
+                    if(item != null)
+                    {
+                        System.Console.WriteLine($"{item.value}");
+                        data = item.value;
+                    }
+
+                }
+
+                var set_result = gs.set_value
+                (
+                    mmria_path, 
+                    data, 
+                    new_case
+                );
+
+                if(set_result)
+                {
+                    //System.Console.WriteLine($"Updated {kvp.Key}:{data} {mmria_path}");
+                }
+                else
+                {
+                    System.Console.WriteLine($"Error updating {kvp.Key}:{data} {mmria_path}");
+                }
+            }
+        }
 
 /*
         //gs.set_value("host_state", message.host_state, new_case);
@@ -184,8 +234,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         var document_put_response = new mmria.common.model.couchdb.document_put_response();
         try
         {
-            //var responseFromServer = document_curl.execute();
-            //document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+            var responseFromServer = document_curl.execute();
+            document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
         }
         catch (Exception ex)
         {

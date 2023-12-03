@@ -118,7 +118,8 @@ public sealed class BatchProcessor : ReceiveActor
                         {
                             ImportDate = importDate,
                             ImportFileName = message.mor_file_name,
-                            pmss_other = csv_item,
+                            //pmss_other = csv_item,
+                            data = data[i],
                             headers = column_list
                         };
 
@@ -139,7 +140,7 @@ public sealed class BatchProcessor : ReceiveActor
 
                     }
 
-
+                    break;
 
                 }
             }
