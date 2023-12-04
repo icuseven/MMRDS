@@ -145,12 +145,10 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                 {
                     var state_node = lookup["lookup/state"];
 
-                    //var jurisdiction_values = state_node.
-
                     var item = state_node.Where (x => int.Parse(x.value) == int.Parse(data)).SingleOrDefault();
                     if(item != null)
                     {
-                        System.Console.WriteLine($"{item.value}");
+                        //System.Console.WriteLine($"{item.value}");
                         data = item.value;
                     }
 
@@ -174,32 +172,6 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             }
         }
 
-/*
-        //gs.set_value("host_state", message.host_state, new_case);
-        gs.set_value("home_record/state_of_death_record", message.host_state, new_case);
-            
-
-        var DSTATE_result = gs.set_value(IJE_to_MMRIA_Path["DState"], mor_field_set["DState"], new_case);
-        var DOD_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOD_YR"], mor_field_set["DOD_YR"], new_case);
-        var DOD_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOD_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_MO"]), new_case);
-        var DOD_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOD_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOD_DY"]), new_case);
-        var DOB_YR_result = gs.set_value(IJE_to_MMRIA_Path["DOB_YR"], mor_field_set["DOB_YR"], new_case);
-        var DOB_MO_result = gs.set_value(IJE_to_MMRIA_Path["DOB_MO"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_MO"]), new_case);
-        var DOB_DY_result = gs.set_value(IJE_to_MMRIA_Path["DOB_DY"], TryPaseToIntOr_DefaultBlank(mor_field_set["DOB_DY"]), new_case);
-        var LNAME_result = gs.set_value(IJE_to_MMRIA_Path["LNAME"], mor_field_set["LNAME"], new_case);           
-        var GNAME_result = gs.set_value(IJE_to_MMRIA_Path["GNAME"], mor_field_set["GNAME"], new_case);
-
-        gs.set_value(IJE_to_MMRIA_Path["FILENO"], mor_field_set["FILENO"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["AUXNO"], mor_field_set["AUXNO"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["AGE"], mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
-        gs.set_value("death_certificate/demographics/age_on_death_certificate", mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
-        gs.set_value(IJE_to_MMRIA_Path["BPLACE_CNT"], mor_field_set["BPLACE_CNT"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["BPLACE_ST"], mor_field_set["BPLACE_ST"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["STATEC"], mor_field_set["STATEC"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["COUNTRYC"], mor_field_set["COUNTRYC"], new_case);
-        gs.set_value(IJE_to_MMRIA_Path["MARITAL"], mor_field_set["MARITAL"], new_case);
-
-*/
 
         var case_dictionary = new_case as IDictionary<string, object>;
 /*
