@@ -17,6 +17,19 @@ public sealed class PMSS_Other_Specification
     }
     ImmutableDictionary<string, string> data = ImmutableDictionary.CreateRange
     (
+/*
+
+Dob_MO:6           tracking/date_of_birth/month ----> app/demographic/date_of_birth/month   
+Dob_DY:6            tracking/date_of_birth /day ----> app/demographic/date_of_birth/day
+Dob_YR:1985       tracking/date_of_birth /year ----> app/demographic/date_of_birth/year
+DTerm_MO:1       outcome/dterm_grp/dterm/dterm_mo ----> app/outcome/dterm_grp/dterm_mo
+DTerm_DY:24       outcome/dterm_grp/dterm/dterm_dy ----> app/outcome/dterm_grp/dterm_dy
+DTerm_YR:2020   outcome/dterm_grp/dterm/dterm_yr ----> app/outcome/dterm_grp/dterm_yr
+DTerm_TM:2110  outcome/dterm_grp/dterm/dterm_tm ----> app/outcome/dterm_grp/dterm_tm
+
+*/
+
+
         new KeyValuePair<string,string>[] 
         {
             KeyValuePair.Create("batch_name","tracking/admin_info/batch_name"),
@@ -130,13 +143,13 @@ public sealed class PMSS_Other_Specification
             KeyValuePair.Create("Dod_DY", "tracking/date_of_death/day"),
             KeyValuePair.Create("Dod_YR", "tracking/date_of_death/year"),
             KeyValuePair.Create("Dod_TM", "tracking/date_of_death/time_of_death"),
-            KeyValuePair.Create("Dob_MO", "tracking/date_of_birth/month"),
-            KeyValuePair.Create("Dob_DY", "tracking/date_of_birth /day"),
-            KeyValuePair.Create("Dob_YR", "tracking/date_of_birth /year"),
-            KeyValuePair.Create("DTerm_MO", "outcome/dterm_grp/dterm/dterm_mo"),
-            KeyValuePair.Create("DTerm_DY", "outcome/dterm_grp/dterm/dterm_dy"),
-            KeyValuePair.Create("DTerm_YR", "outcome/dterm_grp/dterm/dterm_yr"),
-            KeyValuePair.Create("DTerm_TM", "outcome/dterm_grp/dterm/dterm_tm"),
+            KeyValuePair.Create("Dob_MO", "demographic/date_of_birth/month"),
+            KeyValuePair.Create("Dob_DY", "demographic/date_of_birth/day"),
+            KeyValuePair.Create("Dob_YR", "demographic/date_of_birth/year"),
+            KeyValuePair.Create("DTerm_MO", "outcome/dterm_grp/dterm_mo"),
+            KeyValuePair.Create("DTerm_DY", "outcome/dterm_grp/dterm_dy"),
+            KeyValuePair.Create("DTerm_YR", "outcome/dterm_grp/dterm_yr"),
+            KeyValuePair.Create("DTerm_TM", "outcome/dterm_grp/dterm_tm"),
             KeyValuePair.Create("Review_1_By", "preparer_remarks/preparer_grp/review_1_by"),
             KeyValuePair.Create("Review_1_On", "preparer_remarks/preparer_grp/review_1_on"),
             KeyValuePair.Create("Review_1_Remarks", "preparer_remarks/preparer_grp/review_1_remarks"),
