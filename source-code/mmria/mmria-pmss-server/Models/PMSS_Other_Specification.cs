@@ -17,19 +17,7 @@ public sealed class PMSS_Other_Specification
     }
     ImmutableDictionary<string, string> data = ImmutableDictionary.CreateRange
     (
-/*
-
-Dob_MO:6           tracking/date_of_birth/month ----> app/demographic/date_of_birth/month   
-Dob_DY:6            tracking/date_of_birth /day ----> app/demographic/date_of_birth/day
-Dob_YR:1985       tracking/date_of_birth /year ----> app/demographic/date_of_birth/year
-DTerm_MO:1       outcome/dterm_grp/dterm/dterm_mo ----> app/outcome/dterm_grp/dterm_mo
-DTerm_DY:24       outcome/dterm_grp/dterm/dterm_dy ----> app/outcome/dterm_grp/dterm_dy
-DTerm_YR:2020   outcome/dterm_grp/dterm/dterm_yr ----> app/outcome/dterm_grp/dterm_yr
-DTerm_TM:2110  outcome/dterm_grp/dterm/dterm_tm ----> app/outcome/dterm_grp/dterm_tm
-
-*/
-
-
+        StringComparer.OrdinalIgnoreCase,
         new KeyValuePair<string,string>[] 
         {
             KeyValuePair.Create("batch_name","tracking/admin_info/batch_name"),

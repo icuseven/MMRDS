@@ -140,7 +140,7 @@ public sealed class BatchProcessor : ReceiveActor
 
                     }
 
-                    break;
+                
 
                 }
             }

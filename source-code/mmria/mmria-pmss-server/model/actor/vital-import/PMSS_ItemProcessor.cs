@@ -31,6 +31,81 @@ public sealed class StartPMSSBatchItemMessage
 
 }
 
+public sealed class pmss_item_data
+{
+    public string mmria_path { get; set; }
+    public string name {get; set;}
+
+    public string data { get; set; }
+}
+
+
+public sealed class TAMUGeoCode
+{
+
+	public mmria.common.texas_am.geocode_response execute
+	(
+		string geocode_api_key,
+		string street_address,
+		string city,
+		string state,
+		string zip
+	) 
+	{ 
+
+		var result = new common.texas_am.geocode_response();
+
+		string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
+
+		var curl = new mmria.getset.cURL("GET", null, request_string, null);
+		try
+		{
+			string responseFromServer = curl.execute();
+
+			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
+		
+		}
+		catch(Exception ex)
+		{
+			// do nothing for now
+		}
+
+		return result;
+
+	} 
+
+
+	public async Task<IEnumerable<mmria.common.texas_am.geocode_response>> executeAsync
+	(
+		string geocode_api_key,
+		string street_address,
+		string city,
+		string state,
+		string zip
+	) 
+	{ 
+		
+		string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
+
+		var curl = new mmria.getset.cURL("GET", null, request_string, null);
+					// Read the content.
+		string responseFromServer = await curl.executeAsync();
+
+		var json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
+
+
+
+		var result =  new mmria.common.texas_am.geocode_response[] 
+		{ 
+			json_result
+
+		}; 
+
+		return result;
+	} 
+}
+
+
 
 public sealed class PMSS_ItemProcessor : ReceiveActor
 {
@@ -49,8 +124,6 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
     static HashSet<string> ExistingRecordIds = null;
 
     mmria.common.couchdb.DBConfigurationDetail item_db_info;
-
-    string geocode_api_key =  "";
 
     private System.Dynamic.ExpandoObject case_expando_object = null;
 
@@ -91,7 +164,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         });
     }
 
-    private void Process_Message(StartPMSSBatchItemMessage message)
+    private async void Process_Message(StartPMSSBatchItemMessage message)
     {
 
         var mor = new mmria_pmss_client.Models.IJE.MOR_Specification();
@@ -125,7 +198,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         gs.set_value("version", metadata.version, new_case);
 
 
-        var header_to_index = new System.Collections.Generic.Dictionary<string, int>();
+        var header_to_index = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         for(var i = 0; i < message.headers.Count; i++)
             header_to_index.Add(message.headers[i], i);
         
@@ -172,8 +245,181 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             }
         }
 
+/*
 
-        var case_dictionary = new_case as IDictionary<string, object>;
+            14a. Decedent's usual occupation         occup    /demographic/q14/occup            
+
+    14b. Kind of business/industry              indust   /demographic/q14/indust
+Destination:
+
+    01) industry_code_1 demographic/q14/
+
+    02) industry_code_2
+
+    03) industry_code_3
+
+    04) occupation_code_1
+
+    05) occupation_code_2
+
+    06) occupation_code_3
+*/
+
+        pmss_item_data? get_data_item(string name)
+        {
+            pmss_item_data? result = null;
+
+            if(header_to_index.ContainsKey(name))
+            {
+                result = new pmss_item_data()
+                {
+                    name = name,
+                    mmria_path = name_to_path[name],
+                    data = message.data[header_to_index[name]]
+                };
+
+
+                if(result.mmria_path == "tracking/q9/statres")
+                {
+                    var state_node = lookup["lookup/state"];
+
+                    var item = state_node.Where (x => int.Parse(x.value) == int.Parse(result.data)).SingleOrDefault();
+                    if(item != null)
+                    {
+                        //System.Console.WriteLine($"{item.value}");
+                        //result.data = item.value;
+                        result.data = item.display.Substring(item.display.IndexOf("(")+1, 2);
+                    }
+
+                }
+            }
+
+
+            return result;
+        }
+
+        var occup = get_data_item("occup");
+        var occup_string = "";
+        var indust = get_data_item("indust");
+        var indust_string = "";
+
+        if(occup != null)
+        {
+
+            occup_string = occup.data;
+
+        }
+
+        
+        if(indust != null)
+        {
+
+            indust_string = indust.data;
+
+        }
+
+        
+        if(occup != null || indust != null)
+        {
+
+            var niosh_result = get_niosh_codes(occup_string, indust_string);
+            if(niosh_result.Industry.Count > 0)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/industry_code_1", 
+                    niosh_result.Industry[0].Code, 
+                    new_case
+                );
+            }
+
+            if(niosh_result.Industry.Count > 1)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/industry_code_2", 
+                    niosh_result.Industry[1].Code, 
+                    new_case
+                );
+            }
+
+            if(niosh_result.Industry.Count > 2)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/industry_code_3", 
+                    niosh_result.Industry[2].Code, 
+                    new_case
+                );
+            }
+
+            if(niosh_result.Occupation.Count > 0)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/occupation_code_1", 
+                    niosh_result.Occupation[0].Code, 
+                    new_case
+                );
+            }
+
+            if(niosh_result.Occupation.Count > 1)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/occupation_code_2", 
+                    niosh_result.Occupation[1].Code, 
+                    new_case
+                );
+            }
+
+            if(niosh_result.Occupation.Count > 2)
+            {
+                gs.set_value
+                (
+                    "demographic/q14/occupation_code_3", 
+                    niosh_result.Occupation[2].Code, 
+                    new_case
+                );
+            }
+
+        }
+
+
+/*
+  Q9. State of residence               statres                  /tracking/q9/statres   CODED (00 à NYC,  01 à AL, … 63 à VI)
+
+     9a. Zip code of residence        reszip                    /tracking/q9/reszip    
+
+     9c. County of residence           county                  /tracking/q9/county
+Destination:
+*/
+
+        var statres = get_data_item("statres");
+        var reszip = get_data_item("reszip");
+        var county = get_data_item("county");
+
+
+        if(statres != null && reszip != null)
+        {
+            var geocode_data = get_geocode_info
+            (
+                "", // address
+                "", // city
+                statres.data,
+                reszip.data
+            );
+
+
+            Set_Residence_Gecocode
+            (
+                gs, 
+                geocode_data, 
+                new_case
+            );
+        }
+
+
 /*
         var finished = new mmria.common.ije.BatchItem()
         {
@@ -238,6 +484,39 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         Context.Stop(this.Self);
 
+    }
+
+
+    GeocodeTuple get_geocode_info(string street, string city, string state, string zip)
+    {
+
+        var result = new GeocodeTuple();
+
+        if (!string.IsNullOrEmpty(state))
+        {
+            var check_state = state.Split("-");
+            state = check_state[0];
+        }
+
+        var TAMUGeocoder = new TAMUGeoCode();
+
+        var response = TAMUGeocoder.execute(configuration.GetSharedString("geocode_api_key"), street, city, state, zip);
+        
+        if(response!= null && response.OutputGeocodes?.Length > 0)
+        {
+            result.OutputGeocode = response.OutputGeocodes[0].OutputGeocode;
+
+            if(response.OutputGeocodes[0].CensusValues.Count > 0)
+            {
+                if(response.OutputGeocodes[0].CensusValues[0].ContainsKey("CensusValue1"))
+                {
+                    result.Census_Value = response.OutputGeocodes[0].CensusValues[0]["CensusValue1"];
+                }
+                
+            }
+        }
+
+        return result;
     }
     
     private void omb_mrace_recode(migrate.C_Get_Set_Value gs, System.Dynamic.ExpandoObject new_case, string[] race)
@@ -493,7 +772,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             gs.set_value("birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother", length_between_child_birth_and_death_of_mother?.ToString(), new_case);
     }
 
-    private void Set_facility_of_delivery_location_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
+    private void Set_Residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
     {
         string urban_status = null;
         string state_county_fips = null;
@@ -585,377 +864,24 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             facility_of_delivery_location_longitude = longitude;
         }
 
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude", latitude, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude", longitude, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips", census_state_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips", census_county_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips", census_tract_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips", census_cbsa_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro", census_cbsa_micro, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips", census_met_div_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status", urban_status, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips", state_county_fips, new_case);
+        gs.set_value("tracking/q9/feature_matching_geography_type", feature_matching_geography_type, new_case);
+        gs.set_value("tracking/q9/latitude", latitude, new_case);
+        gs.set_value("tracking/q9/longitude", longitude, new_case);
+        gs.set_value("tracking/q9/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
+        gs.set_value("tracking/q9/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
+        gs.set_value("tracking/q9/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
+        gs.set_value("tracking/q9/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
+        gs.set_value("tracking/q9/census_state_fips", census_state_fips, new_case);
+        gs.set_value("tracking/q9/census_county_fips", census_county_fips, new_case);
+        gs.set_value("tracking/q9/census_tract_fips", census_tract_fips, new_case);
+        gs.set_value("tracking/q9/census_cbsa_fips", census_cbsa_fips, new_case);
+        gs.set_value("tracking/q9/census_cbsa_micro", census_cbsa_micro, new_case);
+        gs.set_value("tracking/q9/census_met_div_fips", census_met_div_fips, new_case);
+        gs.set_value("tracking/q9/urban_status", urban_status, new_case);
+        gs.set_value("tracking/q9/state_county_fips", state_county_fips, new_case);
         
     }
 
-    private void Set_location_of_residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
-    {
-        
-        string urban_status = null;
-        string state_county_fips = null;
-
-        string feature_matching_geography_type = "Unmatchable";
-        string latitude = "";
-        string longitude = "";
-        string naaccr_gis_coordinate_quality_code = "";
-        string naaccr_gis_coordinate_quality_type = "";
-        string naaccr_census_tract_certainty_code = "";
-        string naaccr_census_tract_certainty_type = "";
-        string census_state_fips = "";
-        string census_county_fips = "";
-        string census_tract_fips = "";
-        string census_cbsa_fips = "";
-        string census_cbsa_micro = "";
-        string census_met_div_fips = "";
-
-
-        var outputGeocode_data = geocode_data.OutputGeocode;
-        var censusValues_data = geocode_data.Census_Value;
-
-        if 
-        (
-            outputGeocode_data != null && 
-            outputGeocode_data.FeatureMatchingResultType != null &&
-            !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
-        )
-        {
-            latitude = outputGeocode_data.Latitude;
-            longitude = outputGeocode_data.Longitude;
-            feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
-            naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
-            naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
-            naaccr_census_tract_certainty_code = censusValues_data?.NAACCRCensusTractCertaintyCode;
-            naaccr_census_tract_certainty_type = censusValues_data?.NAACCRCensusTractCertaintyType;
-            census_state_fips = censusValues_data?.CensusStateFips;
-            census_county_fips = censusValues_data?.CensusCountyFips;
-            census_tract_fips = censusValues_data?.CensusTract;
-            census_cbsa_fips = censusValues_data?.CensusCbsaFips;
-            census_cbsa_micro = censusValues_data?.CensusCbsaMicro;
-            census_met_div_fips = censusValues_data?.CensusMetDivFips;
-
-            // calculate urban_status
-            if (censusValues_data != null)
-            {
-                if
-                        (
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                            censusValues_data?.CensusCbsaFips == ""
-                        )
-                {
-                    urban_status = "Rural";
-                }
-                else if
-                (
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                    int.Parse(censusValues_data?.CensusCbsaFips) > 0
-                )
-                {
-                    if (!string.IsNullOrEmpty(censusValues_data?.CensusMetDivFips))
-                    {
-                        urban_status = "Metropolitan Division";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 0)
-                    {
-                        urban_status = "Metropolitan";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 1)
-                    {
-                        urban_status = "Micropolitan";
-                    }
-                }
-                else
-                {
-                    urban_status = "Undetermined";
-                } 
-            }
-
-            // calculate state_county_fips
-            if (!String.IsNullOrEmpty(censusValues_data?.CensusStateFips) && !String.IsNullOrEmpty(censusValues_data?.CensusCountyFips))
-            {
-                state_county_fips = censusValues_data?.CensusStateFips + censusValues_data?.CensusCountyFips;
-            }
-
-            location_of_residence_latitude = latitude;
-            location_of_residence_longitude = longitude;
-        }
-        else
-        {
-
-            urban_status = "";
-            state_county_fips = "";
-
-
-        }
-
-
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/latitude", latitude, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/longitude", longitude, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_state_fips", census_state_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_county_fips", census_county_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_tract_fips", census_tract_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_fips", census_cbsa_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_micro", census_cbsa_micro, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/census_met_div_fips", census_met_div_fips, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/urban_status", urban_status, new_case);
-        gs.set_value("birth_fetal_death_certificate_parent/location_of_residence/state_county_fips", state_county_fips, new_case);
-
-    }
-
-    private void Set_place_of_last_residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
-    {
-
-        string urban_status = null;
-        string state_county_fips = null;
-
-        string feature_matching_geography_type = "Unmatchable";
-        string latitude = "";
-        string longitude = "";
-        string naaccr_gis_coordinate_quality_code = "";
-        string naaccr_gis_coordinate_quality_type = "";
-        string naaccr_census_tract_certainty_code = "";
-        string naaccr_census_tract_certainty_type = "";
-        string census_state_fips = "";
-        string census_county_fips = "";
-        string census_tract_fips = "";
-        string census_cbsa_fips = "";
-        string census_cbsa_micro = "";
-        string census_met_div_fips = "";
-        urban_status = "";
-        state_county_fips = "";
-
-        var outputGeocode_data = geocode_data.OutputGeocode;
-        var censusValues_data = geocode_data.Census_Value;
-        
-        if
-        (
-            outputGeocode_data != null && 
-            outputGeocode_data.FeatureMatchingResultType != null &&
-            !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
-        )
-        {
-
-            latitude = outputGeocode_data.Latitude;
-            longitude = outputGeocode_data.Longitude;
-            feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
-            naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
-            naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
-            naaccr_census_tract_certainty_code = censusValues_data?.NAACCRCensusTractCertaintyCode;
-            naaccr_census_tract_certainty_type = censusValues_data?.NAACCRCensusTractCertaintyType;
-            census_state_fips = censusValues_data?.CensusStateFips;
-            census_county_fips = censusValues_data?.CensusCountyFips;
-            census_tract_fips = censusValues_data?.CensusTract;
-            census_cbsa_fips = censusValues_data?.CensusCbsaFips;
-            census_cbsa_micro = censusValues_data?.CensusCbsaMicro;
-            census_met_div_fips = censusValues_data?.CensusMetDivFips;
-
-            // calculate urban_status
-
-            if (censusValues_data != null)
-            {
-                if
-                        (
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                            censusValues_data?.CensusCbsaFips == ""
-                        )
-                {
-                    urban_status = "Rural";
-                }
-                else if
-                (
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                    int.Parse(censusValues_data?.CensusCbsaFips) > 0
-                )
-                {
-                    if (!string.IsNullOrEmpty(censusValues_data?.CensusMetDivFips))
-                    {
-                        urban_status = "Metropolitan Division";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 0)
-                    {
-                        urban_status = "Metropolitan";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 1)
-                    {
-                        urban_status = "Micropolitan";
-                    }
-                }
-                else
-                {
-                    urban_status = "Undetermined";
-                } 
-            }
-
-            // calculate state_county_fips
-            if (!String.IsNullOrEmpty(censusValues_data?.CensusStateFips) && !String.IsNullOrEmpty(censusValues_data?.CensusCountyFips))
-            {
-                state_county_fips = censusValues_data?.CensusStateFips + censusValues_data?.CensusCountyFips;
-            }
-
-
-            death_certificate_place_of_last_residence_latitude = latitude;
-            death_certificate_place_of_last_residence_longitude = longitude;
-        }
-
-        gs.set_value("death_certificate/place_of_last_residence/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/latitude", latitude, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/longitude", longitude, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_state_fips", census_state_fips, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_county_fips", census_county_fips, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_tract_fips", census_tract_fips, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_cbsa_fips", census_cbsa_fips, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_cbsa_micro", census_cbsa_micro, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/census_met_div_fips", census_met_div_fips, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/urban_status", urban_status, new_case);
-        gs.set_value("death_certificate/place_of_last_residence/state_county_fips", state_county_fips, new_case);
-
-        
-    }
-
-    private void Set_address_of_death_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
-    {
-        
-        string urban_status = null;
-        string state_county_fips = null;
-
-        string feature_matching_geography_type = "Unmatchable";
-        string latitude = "";
-        string longitude = "";
-        string naaccr_gis_coordinate_quality_code = "";
-        string naaccr_gis_coordinate_quality_type = "";
-        string naaccr_census_tract_certainty_code = "";
-        string naaccr_census_tract_certainty_type = "";
-        string census_state_fips = "";
-        string census_county_fips = "";
-        string census_tract_fips = "";
-        string census_cbsa_fips = "";
-        string census_cbsa_micro = "";
-        string census_met_div_fips = "";
-
-        var outputGeocode_data = geocode_data.OutputGeocode;
-        var censusValues_data = geocode_data.Census_Value;
-        
-
-        if 
-        (
-            outputGeocode_data != null && 
-            outputGeocode_data.FeatureMatchingResultType != null &&
-            !outputGeocode_data.FeatureMatchingResultType.Equals("Unmatchable", StringComparison.OrdinalIgnoreCase)
-        )
-        {
-            latitude = outputGeocode_data.Latitude;
-            longitude = outputGeocode_data.Longitude;
-            feature_matching_geography_type = outputGeocode_data.FeatureMatchingGeographyType;
-            naaccr_gis_coordinate_quality_code = outputGeocode_data.NAACCRGISCoordinateQualityCode;
-            naaccr_gis_coordinate_quality_type = outputGeocode_data.NAACCRGISCoordinateQualityType;
-            naaccr_census_tract_certainty_code = censusValues_data?.NAACCRCensusTractCertaintyCode;
-            naaccr_census_tract_certainty_type = censusValues_data?.NAACCRCensusTractCertaintyType;
-            census_state_fips = censusValues_data?.CensusStateFips;
-            census_county_fips = censusValues_data?.CensusCountyFips;
-            census_tract_fips = censusValues_data?.CensusTract;
-            census_cbsa_fips = censusValues_data?.CensusCbsaFips;
-            census_cbsa_micro = censusValues_data?.CensusCbsaMicro;
-            census_met_div_fips = censusValues_data?.CensusMetDivFips;
-
-            // calculate urban_status
-            if (censusValues_data != null)
-            {
-                if
-                        (
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                            int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                            censusValues_data?.CensusCbsaFips == ""
-                        )
-                {
-                    urban_status = "Rural";
-                }
-                else if
-                (
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) > 0 &&
-                    int.Parse(censusValues_data?.NAACCRCensusTractCertaintyCode) < 7 &&
-                    int.Parse(censusValues_data?.CensusCbsaFips) > 0
-                )
-                {
-                    if (!string.IsNullOrEmpty(censusValues_data?.CensusMetDivFips))
-                    {
-                        urban_status = "Metropolitan Division";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 0)
-                    {
-                        urban_status = "Metropolitan";
-                    }
-                    else if (int.Parse(censusValues_data?.CensusCbsaMicro) == 1)
-                    {
-                        urban_status = "Micropolitan";
-                    }
-                }
-                else
-                {
-                    urban_status = "Undetermined";
-                } 
-            }
-
-            // calculate state_county_fips
-            if (!String.IsNullOrEmpty(censusValues_data?.CensusStateFips) && !String.IsNullOrEmpty(censusValues_data?.CensusCountyFips))
-            {
-                state_county_fips = censusValues_data?.CensusStateFips + censusValues_data?.CensusCountyFips;
-            }
-
-            death_certificate_address_of_death_latitude = latitude;
-            death_certificate_address_of_death_longitude = longitude;
-        }
-        else
-        {
-
-            urban_status = "";
-            state_county_fips = "";
-
-        }
-
-        gs.set_value("death_certificate/address_of_death/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        gs.set_value("death_certificate/address_of_death/latitude", latitude, new_case);
-        gs.set_value("death_certificate/address_of_death/longitude", longitude, new_case);
-        gs.set_value("death_certificate/address_of_death/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        gs.set_value("death_certificate/address_of_death/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        gs.set_value("death_certificate/address_of_death/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        gs.set_value("death_certificate/address_of_death/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        gs.set_value("death_certificate/address_of_death/census_state_fips", census_state_fips, new_case);
-        gs.set_value("death_certificate/address_of_death/census_county_fips", census_county_fips, new_case);
-        gs.set_value("death_certificate/address_of_death/census_tract_fips", census_tract_fips, new_case);
-        gs.set_value("death_certificate/address_of_death/census_cbsa_fips", census_cbsa_fips, new_case);
-        gs.set_value("death_certificate/address_of_death/census_cbsa_micro", census_cbsa_micro, new_case);
-        gs.set_value("death_certificate/address_of_death/census_met_div_fips", census_met_div_fips, new_case);
-        gs.set_value("death_certificate/address_of_death/urban_status", urban_status, new_case);
-        gs.set_value("death_certificate/address_of_death/state_county_fips", state_county_fips, new_case);
-
-    }
 
     public sealed class GeocodeTuple
     {
@@ -1068,778 +994,6 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             }
         }
         return result;
-    }
-
-    private mmria.common.ije.BatchItem Convert
-    (
-            string LineItem,
-            DateTime ImportDate,
-            string ImportFileName,
-            string ReportingState
-    )
-    {
-
-        var x = mor_get_header(LineItem);
-        var result = new mmria.common.ije.BatchItem()
-        {
-            Status = mmria.common.ije.BatchItem.StatusEnum.InProcess,
-            CDCUniqueID = x["SSN"],
-            ImportDate = ImportDate,
-            ImportFileName = ImportFileName,
-            ReportingState = ReportingState,
-
-            StateOfDeathRecord = x["DSTATE"],
-            DateOfDeath = $"{x["DOD_YR"]}-{x["DOD_MO"]}-{x["DOD_DY"]}",
-            DateOfBirth = $"{x["DOB_YR"]}-{x["DOB_MO"]}-{x["DOB_DY"]}",
-            LastName = x["LNAME"],
-            FirstName = x["GNAME"]//,
-            //MMRIARecordID = x[""],
-            //StatusDetail = x[""]
-        };
-
-        return result;
-    }
-
-    private Dictionary<string, string> mor_get_header(string row)
-    {
-        var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        /*
-DState 5 2
-DOD_YR 1 4, 
-DOD_MO 237 2, 
-DOD_DY 239 2
-DOB_YR 205 4, 
-DOB_MO 209 2, 
-DOD_DY 239 2
-LNAME 78 50
-GNAME 27 50
-*/
-        //result.Add("DState",row.Substring(5-1, 2).Trim());
-        //result.Add("DOD_YR",row.Substring(1-1, 4).Trim());
-        //result.Add("DOD_MO",row.Substring(237-1, 2).Trim());
-        //result.Add("DOD_DY",row.Substring(239-1, 2).Trim());
-        //result.Add("DOB_YR",row.Substring(205-1, 4).Trim());
-        //result.Add("DOB_MO",row.Substring(209-1, 2).Trim());
-        //result.Add("DOB_DY",row.Substring(211-1, 2).Trim());
-        //result.Add("LNAME",row.Substring(78-1, 50).Trim());
-        //result.Add("GNAME",row.Substring(27-1, 50).Trim());
-        //result.Add("SSN",row.Substring(191-1, 9).Trim());
-
-        result.Add("DOD_YR", DOD_YR_Rule(row.Substring(0, 4).Trim()));
-        result.Add("DSTATE", row.Substring(4, 2).Trim());
-        result.Add("FILENO", row.Substring(6, 6).Trim());
-        result.Add("AUXNO", row.Substring(13, 12).Trim());
-        result.Add("GNAME", row.Substring(26, 50).Trim());
-        result.Add("LNAME", row.Substring(77, 50).Trim());
-        result.Add("SSN", row.Substring(190, 9).Trim());
-        result.Add("AGETYPE", row.Substring(199, 1).Trim());
-        result.Add("AGE", AGE_Rule(row.Substring(200, 3).Trim()));
-        result.Add("DOB_YR", row.Substring(204, 4).Trim());
-        result.Add("DOB_MO", DOB_MO_Rule(row.Substring(208, 2).Trim()));
-        result.Add("DOB_DY", DOB_DY_Rule(row.Substring(210, 2).Trim()));
-        result.Add("BPLACE_CNT", row.Substring(212, 2).Trim());
-        result.Add("BPLACE_ST", BPLACE_ST_Rule(row.Substring(214, 2).Trim()));
-        result.Add("CITYC", row.Substring(216, 5).Trim());
-        result.Add("COUNTYC", row.Substring(221, 3).Trim());
-        result.Add("STATEC", STATEC_Rule(row.Substring(224, 2).Trim()));
-        result.Add("COUNTRYC", COUNTRYC_Rule(row.Substring(226, 2).Trim()));
-        result.Add("MARITAL", MARITAL_Rule(row.Substring(229, 1).Trim()));
-        result.Add("DPLACE", row.Substring(231, 1).Trim());
-        result.Add("COD", row.Substring(232, 3).Trim());
-        result.Add("DOD_MO", DOD_MO_Rule(row.Substring(236, 2).Trim()));
-        result.Add("DOD_DY", DOD_DY_Rule(row.Substring(238, 2).Trim()));
-        result.Add("TOD", TOD_Rule(row.Substring(240, 4).Trim()));
-        result.Add("DEDUC", DEDUC_Rule(row.Substring(244, 1).Trim()));
-
-        result.Add("DETHNIC1", row.Substring(246, 1).Trim());
-        result.Add("DETHNIC2", row.Substring(247, 1).Trim());
-        result.Add("DETHNIC3", row.Substring(248, 1).Trim());
-        result.Add("DETHNIC4", row.Substring(249, 1).Trim());
-        result.Add("DETHNIC5", row.Substring(250, 20).Trim());
-
-        result.Add("RACE1", row.Substring(270, 1).Trim());
-        result.Add("RACE2", row.Substring(271, 1).Trim());
-        result.Add("RACE3", row.Substring(272, 1).Trim());
-        result.Add("RACE4", row.Substring(273, 1).Trim());
-        result.Add("RACE5", row.Substring(274, 1).Trim());
-        result.Add("RACE6", row.Substring(275, 1).Trim());
-        result.Add("RACE7", row.Substring(276, 1).Trim());
-        result.Add("RACE8", row.Substring(277, 1).Trim());
-        result.Add("RACE9", row.Substring(278, 1).Trim());
-        result.Add("RACE10", row.Substring(279, 1).Trim());
-        result.Add("RACE11", row.Substring(280, 1).Trim());
-        result.Add("RACE12", row.Substring(281, 1).Trim());
-        result.Add("RACE13", row.Substring(282, 1).Trim());
-        result.Add("RACE14", row.Substring(283, 1).Trim());
-        result.Add("RACE15", row.Substring(284, 1).Trim());
-        result.Add("RACE16", row.Substring(285, 30).Trim());
-        result.Add("RACE17", row.Substring(315, 30).Trim());
-        result.Add("RACE18", row.Substring(345, 30).Trim());
-        result.Add("RACE19", row.Substring(375, 30).Trim());
-        result.Add("RACE20", row.Substring(405, 30).Trim());
-        result.Add("RACE21", row.Substring(435, 30).Trim());
-        result.Add("RACE22", row.Substring(465, 30).Trim());
-        result.Add("RACE23", row.Substring(495, 30).Trim());
-
-        result.Add("OCCUP", row.Substring(574, 40).Trim());
-        result.Add("INDUST", row.Substring(617, 40).Trim());
-        result.Add("MANNER", MANNER_Rule(row.Substring(700, 1).Trim()));
-        result.Add("MAN_UC", row.Substring(704, 5).Trim());
-        result.Add("ACME_UC", row.Substring(709, 5).Trim());
-        result.Add("EAC", row.Substring(714, 160).Trim());
-        result.Add("TRX_FLG", row.Substring(874, 1).Trim());
-        result.Add("RAC", row.Substring(875, 100).Trim());
-        result.Add("AUTOP", AUTOP_Rule(row.Substring(975, 1).Trim()));
-        result.Add("AUTOPF", AUTOPF_Rule(row.Substring(976, 1).Trim()));
-        result.Add("TOBAC", TOBAC_Rule(row.Substring(977, 1).Trim()));
-        result.Add("PREG", PREG_Rule(row.Substring(978, 1).Trim()));
-        result.Add("DOI_MO", DOI_MO_Rule(row.Substring(980, 2).Trim()));
-        result.Add("DOI_DY", DOI_DY_Rule(row.Substring(982, 2).Trim()));
-        result.Add("DOI_YR", DOI_YR_Rule(row.Substring(984, 4).Trim()));
-        result.Add("TOI_HR", TOI_HR_Rule(row.Substring(988, 4).Trim()));
-        result.Add("WORKINJ", WORKINJ_Rule(row.Substring(992, 1).Trim()));
-        result.Add("BLANK", row.Substring(1024, 56).Trim());
-        result.Add("ARMEDF", ARMEDF_Rule(row.Substring(1080, 1).Trim()));
-        result.Add("DINSTI", row.Substring(1081, 30).Trim());
-        result.Add("STNUM_D", row.Substring(1161, 10).Trim());
-        result.Add("PREDIR_D", row.Substring(1171, 10).Trim());
-        result.Add("STNAME_D", row.Substring(1181, 50).Trim());
-        result.Add("STDESIG_D", row.Substring(1231, 10).Trim());
-        result.Add("POSTDIR_D", row.Substring(1241, 10).Trim());
-        result.Add("CITYTEXT_D", row.Substring(1251, 28).Trim());
-        result.Add("STATETEXT_D", row.Substring(1279, 28).Trim());
-        result.Add("ZIP9_D", ZIP9_D_Rule(row.Substring(1307, 9).Trim()));
-        result.Add("COUNTYTEXT_D", row.Substring(1316, 28).Trim());
-        result.Add("CITYCODE_D", row.Substring(1344, 5).Trim());
-        result.Add("STNUM_R", row.Substring(1484, 10).Trim());
-        result.Add("PREDIR_R", row.Substring(1494, 10).Trim());
-        result.Add("STNAME_R", row.Substring(1504, 28).Trim());
-        result.Add("STDESIG_R", row.Substring(1532, 10).Trim());
-        result.Add("POSTDIR_R", row.Substring(1542, 10).Trim());
-        result.Add("UNITNUM_R", row.Substring(1552, 7).Trim());
-        result.Add("CITYTEXT_R", row.Substring(1559, 28).Trim());
-        result.Add("ZIP9_R", row.Substring(1587, 9).Trim());
-        result.Add("COUNTYTEXT_R", row.Substring(1596, 28).Trim());
-        result.Add("COUNTRYTEXT_R", row.Substring(1652, 28).Trim());
-        result.Add("DMIDDLE", row.Substring(1807, 50).Trim());
-        result.Add("POILITRL", row.Substring(2108, 50).Trim());
-        result.Add("TRANSPRT", row.Substring(2408, 30).Trim());
-        result.Add("COUNTYTEXT_I", row.Substring(2438, 28).Trim());
-        result.Add("CITYTEXT_I", row.Substring(2469, 28).Trim());
-        result.Add("COD1A", row.Substring(2541, 120).Trim());
-        result.Add("INTERVAL1A", row.Substring(2661, 20).Trim());
-        result.Add("COD1B", row.Substring(2681, 120).Trim());
-        result.Add("INTERVAL1B", row.Substring(2801, 20).Trim());
-        result.Add("COD1C", row.Substring(2821, 120).Trim());
-        result.Add("INTERVAL1C", row.Substring(2941, 20).Trim());
-        result.Add("COD1D", row.Substring(2961, 120).Trim());
-        result.Add("INTERVAL1D", row.Substring(3081, 20).Trim());
-        result.Add("OTHERCONDITION", row.Substring(3101, 240).Trim());
-        result.Add("DBPLACECITY", row.Substring(3396, 28).Trim());
-        result.Add("STINJURY", row.Substring(4269, 28).Trim());
-        result.Add("VRO_STATUS", VRO_STATUS_Rule(row.Substring(4992, 1).Trim()));
-        result.Add("BC_DET_MATCH", row.Substring(4993, 1).Trim());
-        result.Add("FDC_DET_MATCH", row.Substring(4994, 1).Trim());
-        result.Add("BC_PROB_MATCH", row.Substring(4995, 1).Trim());
-        result.Add("FDC_PROB_MATCH", row.Substring(4996, 1).Trim());
-        result.Add("ICD10_MATCH", row.Substring(4997, 1).Trim());
-        result.Add("PREGCB_MATCH", row.Substring(4998, 1).Trim());
-        result.Add("LITERALCOD_MATCH", row.Substring(4999, 1).Trim());
-
-
-        return result;
-
-        /*
-        2 home_record/state of death - DState
-3 home_record/date_of_death - DOD_YR, DOD_MO, DOD_DY
-4 death_certificate/date_of_birth - DOB_YR, DOB_MO, DOD_DY
-5 home_record/last_name - LNAME  
-6 home_record/first_name - GNAME*/
-    }
-
-    private List<Dictionary<string, string>> nat_get_header(List<string> rows)
-    {
-        var listResults = new List<Dictionary<string, string>>();
-
-        foreach (var row in rows)
-        {
-            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-
-
-            result.Add("IDOB_YR", row.Substring(0, 4).Trim());
-
-            result.Add("BSTATE", row.Substring(4, 2).Trim());
-
-            result.Add("FILENO", row.Substring(6, 6).Trim());
-            result.Add("AUXNO", row.Substring(13, 12).Trim());
-            result.Add("TB", TB_NAT_Rule(row.Substring(25, 4).Trim()));
-
-
-            result.Add("IDOB_MO", row.Substring(30, 2).Trim());
-            result.Add("IDOB_DY", row.Substring(32, 2).Trim());
-
-            result.Add("BPLACE", (row.Substring(37, 1).Trim()));
-
-            result.Add("FNPI", row.Substring(38, 12).Trim());
-            result.Add("MDOB_YR", MDOB_YR_Rule(row.Substring(54, 4).Trim()));
-            result.Add("MDOB_MO", MDOB_MO_Rule(row.Substring(58, 2).Trim()));
-            result.Add("MDOB_DY", MDOB_DY_Rule(row.Substring(60, 2).Trim()));
-
-            result.Add("BPLACEC_ST_TER", BPLACEC_ST_TER_NAT_Rule(row.Substring(63, 2).Trim()));
-            result.Add("BPLACEC_CNT", (row.Substring(65, 2).Trim()));
-
-            result.Add("STATEC", NAT_STATEC_Rule(row.Substring(75, 2).Trim()));
-            result.Add("FDOB_YR", FDOB_YR_Rule(row.Substring(80, 4).Trim()));
-            result.Add("FDOB_MO", FDOB_MO_Rule(row.Substring(84, 2).Trim()));
-            result.Add("MARN", MARN_Rule(row.Substring(90, 1).Trim()));
-            result.Add("ACKN", ACKN_Rule(row.Substring(91, 1).Trim()));
-            result.Add("MEDUC", MEDUC_Rule(row.Substring(92, 1).Trim()));
-
-            result.Add("METHNIC1", row.Substring(94, 1).Trim());
-            result.Add("METHNIC2", row.Substring(95, 1).Trim());
-            result.Add("METHNIC3", row.Substring(96, 1).Trim());
-            result.Add("METHNIC4", row.Substring(97, 1).Trim());
-
-            result.Add("METHNIC5", row.Substring(98, 20).Trim());
-
-            result.Add("MRACE1", (row.Substring(118, 1).Trim()));
-            result.Add("MRACE2", (row.Substring(119, 1).Trim()));
-            result.Add("MRACE3", (row.Substring(120, 1).Trim()));
-            result.Add("MRACE4", (row.Substring(121, 1).Trim()));
-            result.Add("MRACE5", (row.Substring(122, 1).Trim()));
-            result.Add("MRACE6", (row.Substring(123, 1).Trim()));
-            result.Add("MRACE7", (row.Substring(124, 1).Trim()));
-            result.Add("MRACE8", (row.Substring(125, 1).Trim()));
-            result.Add("MRACE9", (row.Substring(126, 1).Trim()));
-            result.Add("MRACE10", (row.Substring(127, 1).Trim()));
-            result.Add("MRACE11", (row.Substring(128, 1).Trim()));
-            result.Add("MRACE12", (row.Substring(129, 1).Trim()));
-            result.Add("MRACE13", (row.Substring(130, 1).Trim()));
-            result.Add("MRACE14", (row.Substring(131, 1).Trim()));
-            result.Add("MRACE15", (row.Substring(132, 1).Trim()));
-            result.Add("MRACE16", (row.Substring(133, 30).Trim()));
-            result.Add("MRACE17", (row.Substring(163, 30).Trim()));
-            result.Add("MRACE18", (row.Substring(193, 30).Trim()));
-            result.Add("MRACE19", (row.Substring(223, 30).Trim()));
-            result.Add("MRACE20", (row.Substring(253, 30).Trim()));
-            result.Add("MRACE21", (row.Substring(283, 30).Trim()));
-            result.Add("MRACE22", (row.Substring(313, 30).Trim()));
-            result.Add("MRACE23", (row.Substring(343, 30).Trim()));
-
-            result.Add("FEDUC", row.Substring(421, 1).Trim());
-
-            result.Add("FETHNIC1", (row.Substring(423, 1).Trim()));
-            result.Add("FETHNIC2", (row.Substring(424, 1).Trim()));
-            result.Add("FETHNIC3", (row.Substring(425, 1).Trim()));
-            result.Add("FETHNIC4", (row.Substring(426, 1).Trim()));
-            result.Add("FETHNIC5", row.Substring(427, 20).Trim());
-
-            result.Add("FRACE1", (row.Substring(447, 1).Trim()));
-            result.Add("FRACE2", (row.Substring(448, 1).Trim()));
-            result.Add("FRACE3", (row.Substring(449, 1).Trim()));
-            result.Add("FRACE4", (row.Substring(450, 1).Trim()));
-            result.Add("FRACE5", (row.Substring(451, 1).Trim()));
-            result.Add("FRACE6", (row.Substring(452, 1).Trim()));
-            result.Add("FRACE7", (row.Substring(453, 1).Trim()));
-            result.Add("FRACE8", (row.Substring(454, 1).Trim()));
-            result.Add("FRACE9", (row.Substring(455, 1).Trim()));
-            result.Add("FRACE10", (row.Substring(456, 1).Trim()));
-            result.Add("FRACE11", (row.Substring(457, 1).Trim()));
-            result.Add("FRACE12", (row.Substring(458, 1).Trim()));
-            result.Add("FRACE13", (row.Substring(459, 1).Trim()));
-            result.Add("FRACE14", (row.Substring(460, 1).Trim()));
-            result.Add("FRACE15", (row.Substring(461, 1).Trim()));
-            result.Add("FRACE16", (row.Substring(462, 30).Trim()));
-            result.Add("FRACE17", (row.Substring(492, 30).Trim()));
-            result.Add("FRACE18", (row.Substring(522, 30).Trim()));
-            result.Add("FRACE19", (row.Substring(552, 30).Trim()));
-            result.Add("FRACE20", (row.Substring(582, 30).Trim()));
-            result.Add("FRACE21", (row.Substring(612, 30).Trim()));
-            result.Add("FRACE22", (row.Substring(642, 30).Trim()));
-            result.Add("FRACE23", (row.Substring(672, 30).Trim()));
-
-            result.Add("ATTEND", ATTEND_Rule(row.Substring(750, 1).Trim()));
-            result.Add("TRAN", TRAN_Rule(row.Substring(751, 1).Trim()));
-
-            result.Add("DOFP_MO", DOFP_MO_NAT_Rule(row.Substring(752, 2).Trim()));
-            result.Add("DOFP_DY", DOFP_DY_NAT_Rule(row.Substring(754, 2).Trim()));
-            result.Add("DOFP_YR", DOFP_YR_NAT_Rule(row.Substring(756, 4).Trim()));
-            result.Add("DOLP_MO", DOLP_MO_NAT_Rule(row.Substring(760, 2).Trim()));
-            result.Add("DOLP_DY", DOLP_DY_NAT_Rule(row.Substring(762, 2).Trim()));
-            result.Add("DOLP_YR", DOLP_YR_NAT_Rule(row.Substring(764, 4).Trim()));
-
-            result.Add("NPREV", NPREV_Rule(row.Substring(768, 2).Trim()));
-            result.Add("HFT", HFT_Rule(row.Substring(771, 1).Trim()));
-            result.Add("HIN", HIN_Rule(row.Substring(772, 2).Trim()));
-            result.Add("PWGT", PWGT_Rule(row.Substring(775, 3).Trim()));
-            result.Add("DWGT", DWGT_Rule(row.Substring(779, 3).Trim()));
-            result.Add("WIC", WIC_Rule(row.Substring(783, 1).Trim()));
-            result.Add("PLBL", PLBL_Rule(row.Substring(784, 2).Trim()));
-            result.Add("PLBD", PLBD_Rule(row.Substring(786, 2).Trim()));
-            result.Add("POPO", POPO_Rule(row.Substring(788, 2).Trim()));
-            result.Add("MLLB", MLLB_Rule(row.Substring(790, 2).Trim()));
-            result.Add("YLLB", YLLB_Rule(row.Substring(792, 4).Trim()));
-            result.Add("MOPO", MOPO_Rule(row.Substring(796, 2).Trim()));
-            result.Add("YOPO", YOPO_Rule(row.Substring(798, 4).Trim()));
-
-            result.Add("CIGPN", (row.Substring(802, 2).Trim()));
-            result.Add("CIGFN", (row.Substring(804, 2).Trim()));
-            result.Add("CIGSN", (row.Substring(806, 2).Trim()));
-            result.Add("CIGLN", (row.Substring(808, 2).Trim()));
-
-            result.Add("PAY", PAY_Rule(row.Substring(810, 1).Trim()));
-            result.Add("DLMP_YR", DLMP_YR_Rule(row.Substring(811, 4).Trim()));
-            result.Add("DLMP_MO", DLMP_MO_Rule(row.Substring(815, 2).Trim()));
-            result.Add("DLMP_DY", DLMP_DY_Rule(row.Substring(817, 2).Trim()));
-
-            result.Add("PDIAB", PDIAB_NAT_Rule(row.Substring(819, 1).Trim()));
-            result.Add("GDIAB", GDIAB_NAT_Rule(row.Substring(820, 1).Trim()));
-            result.Add("PHYPE", PHYPE_NAT_Rule(row.Substring(821, 1).Trim()));
-            result.Add("GHYPE", GHYPE_NAT_Rule(row.Substring(822, 1).Trim()));
-            result.Add("PPB", PPB_NAT_Rule(row.Substring(823, 1).Trim()));
-            result.Add("PPO", PPO_NAT_Rule(row.Substring(824, 1).Trim()));
-            result.Add("INFT", INFT_NAT_Rule(row.Substring(826, 1).Trim()));
-            result.Add("PCES", PCES_NAT_Rule(row.Substring(827, 1).Trim()));
-
-            result.Add("NPCES", NPCES_Rule(row.Substring(828, 2).Trim()));
-
-            result.Add("GON", GON_NAT_Rule(row.Substring(831, 1).Trim()));
-            result.Add("SYPH", SYPH_NAT_Rule(row.Substring(832, 1).Trim()));
-            result.Add("HSV", HSV_NAT_Rule(row.Substring(833, 1).Trim()));
-            result.Add("CHAM", CHAM_NAT_Rule(row.Substring(834, 1).Trim()));
-            result.Add("HEPB", HEPB_NAT_Rule(row.Substring(835, 1).Trim()));
-            result.Add("HEPC", HEPC_NAT_Rule(row.Substring(836, 1).Trim()));
-            result.Add("CERV", CERV_NAT_Rule(row.Substring(837, 1).Trim()));
-            result.Add("TOC", TOC_NAT_Rule(row.Substring(838, 1).Trim()));
-            result.Add("ECVS", ECVS_NAT_Rule(row.Substring(839, 1).Trim()));
-            result.Add("ECVF", ECVF_NAT_Rule(row.Substring(840, 1).Trim()));
-            result.Add("PROM", PROM_NAT_Rule(row.Substring(841, 1).Trim()));
-            result.Add("PRIC", PRIC_NAT_Rule(row.Substring(842, 1).Trim()));
-            result.Add("PROL", PROL_NAT_Rule(row.Substring(843, 1).Trim()));
-            result.Add("INDL", INDL_NAT_Rule(row.Substring(844, 1).Trim()));
-            result.Add("AUGL", AUGL_NAT_Rule(row.Substring(845, 1).Trim()));
-            result.Add("NVPR", NVPR_NAT_Rule(row.Substring(846, 1).Trim()));
-            result.Add("STER", STER_NAT_Rule(row.Substring(847, 1).Trim()));
-            result.Add("ANTB", ANTB_NAT_Rule(row.Substring(848, 1).Trim()));
-            result.Add("CHOR", CHOR_NAT_Rule(row.Substring(849, 1).Trim()));
-            result.Add("MECS", MECS_NAT_Rule(row.Substring(850, 1).Trim()));
-            result.Add("FINT", FINT_NAT_Rule(row.Substring(851, 1).Trim()));
-            result.Add("ESAN", ESAN_NAT_Rule(row.Substring(852, 1).Trim()));
-
-            result.Add("ATTF", ATTF_Rule(row.Substring(853, 1).Trim()));
-            result.Add("ATTV", ATTV_Rule(row.Substring(854, 1).Trim()));
-            result.Add("PRES", PRES_Rule(row.Substring(855, 1).Trim()));
-            result.Add("ROUT", ROUT_Rule(row.Substring(856, 1).Trim()));
-
-            result.Add("MTR", MTR_NAT_Rule(row.Substring(858, 1).Trim()));
-            result.Add("PLAC", PLAC_NAT_Rule(row.Substring(859, 1).Trim()));
-            result.Add("RUT", RUT_NAT_Rule(row.Substring(860, 1).Trim()));
-            result.Add("UHYS", UHYS_NAT_Rule(row.Substring(861, 1).Trim()));
-            result.Add("AINT", AINT_NAT_Rule(row.Substring(862, 1).Trim()));
-            result.Add("UOPR", UOPR_NAT_Rule(row.Substring(863, 1).Trim()));
-            result.Add("BWG", (row.Substring(864, 4).Trim()));
-
-            result.Add("OWGEST", OWGEST_Rule(row.Substring(869, 2).Trim()));
-            result.Add("APGAR5", APGAR5_Rule(row.Substring(872, 2).Trim()));
-            result.Add("APGAR10", APGAR10_Rule(row.Substring(874, 2).Trim()));
-
-            result.Add("PLUR", (row.Substring(876, 2).Trim()));
-
-            result.Add("SORD", SORD_Rule(row.Substring(878, 2).Trim()));
-
-
-
-            result.Add("ITRAN", ITRAN_Rule(row.Substring(908, 1).Trim()));
-            result.Add("ILIV", ILIV_Rule(row.Substring(909, 1).Trim()));
-            result.Add("BFED", BFED_Rule(row.Substring(910, 1).Trim()));
-
-            result.Add("MAGER", (row.Substring(919, 2).Trim()));
-            result.Add("FAGER", (row.Substring(921, 2).Trim()));
-            result.Add("EHYPE", EHYPE_NAT_Rule(row.Substring(923, 1).Trim()));
-            result.Add("INFT_DRG", INFT_DRG_NAT_Rule(row.Substring(924, 1).Trim()));
-            result.Add("INFT_ART", INFT_ART_NAT_Rule(row.Substring(925, 1).Trim()));
-
-            result.Add("BIRTH_CO", row.Substring(1157, 25).Trim());
-            result.Add("BRTHCITY", row.Substring(1182, 50).Trim());
-            result.Add("HOSP", row.Substring(1232, 50).Trim());
-            result.Add("MOMFNAME", row.Substring(1282, 50).Trim());
-            result.Add("MOMMIDDL", row.Substring(1332, 50).Trim());
-            result.Add("MOMLNAME", row.Substring(1382, 50).Trim());
-            result.Add("MOMMAIDN", row.Substring(1539, 50).Trim());
-            result.Add("STNUM", row.Substring(1596, 10).Trim());
-            result.Add("PREDIR", row.Substring(1606, 10).Trim());
-            result.Add("STNAME", row.Substring(1616, 28).Trim());
-            result.Add("STDESIG", row.Substring(1644, 10).Trim());
-            result.Add("POSTDIR", row.Substring(1654, 10).Trim());
-            result.Add("UNUM", row.Substring(1664, 7).Trim());
-            result.Add("ZIPCODE", row.Substring(1721, 9).Trim());
-            result.Add("COUNTYTXT", row.Substring(1730, 28).Trim());
-            result.Add("CITYTEXT", row.Substring(1758, 28).Trim());
-            result.Add("MOM_OC_T", row.Substring(2021, 25).Trim());
-            result.Add("DAD_OC_T", row.Substring(2049, 25).Trim());
-            result.Add("MOM_IN_T", row.Substring(2077, 25).Trim());
-            result.Add("DAD_IN_T", row.Substring(2105, 25).Trim());
-
-            result.Add("FBPLACD_ST_TER_C", FBPLACD_ST_TER_C_NAT_Rule(row.Substring(2133, 2).Trim()));
-            result.Add("FBPLACE_CNT_C", FBPLACE_CNT_C_NAT_Rule(row.Substring(2135, 2).Trim()));
-
-            result.Add("HOSPFROM", row.Substring(2283, 50).Trim());
-            result.Add("HOSPTO", row.Substring(2333, 50).Trim());
-            result.Add("ATTEND_OTH_TXT", row.Substring(2383, 20).Trim());
-            result.Add("ATTEND_NPI", row.Substring(2826, 12).Trim());
-            result.Add("INF_MED_REC_NUM", row.Substring(2921, 15).Trim());
-            result.Add("MOM_MED_REC_NUM", row.Substring(2936, 15).Trim());
-
-
-
-            result.Add("COD18a1", row.Substring(587-1, 1).Trim());
-            result.Add("COD18a2", row.Substring(588-1, 1).Trim());
-            result.Add("COD18a3", row.Substring(589-1, 1).Trim());
-            result.Add("COD18a4", row.Substring(590-1, 1).Trim());
-            result.Add("COD18a5", row.Substring(591-1, 1).Trim());
-            result.Add("COD18a6", row.Substring(592-1, 1).Trim());
-            result.Add("COD18a7", row.Substring(593-1, 1).Trim());
-            result.Add("COD18a8", row.Substring(594-1, 60).Trim());
-            result.Add("COD18a9", row.Substring(654-1, 60).Trim());
-            result.Add("COD18a10", row.Substring(714-1, 60).Trim());
-            result.Add("COD18a11", row.Substring(774-1, 60).Trim());
-            result.Add("COD18a12", row.Substring(834-1, 60).Trim());
-            result.Add("COD18a13", row.Substring(894-1, 60).Trim());
-            result.Add("COD18a14", row.Substring(954-1, 60).Trim());
-            result.Add("COD18b1", row.Substring(1014-1, 1).Trim());
-            result.Add("COD18b2", row.Substring(1015-1, 1).Trim());
-            result.Add("COD18b3", row.Substring(1016-1, 1).Trim());
-            result.Add("COD18b4", row.Substring(1017-1, 1).Trim());
-            result.Add("COD18b5", row.Substring(1018-1, 1).Trim());
-            result.Add("COD18b6", row.Substring(1019-1, 1).Trim());
-            result.Add("COD18b7", row.Substring(1020-1, 1).Trim());
-            result.Add("COD18b8", row.Substring(1021-1, 240).Trim());
-            result.Add("COD18b9", row.Substring(1261-1, 240).Trim());
-            result.Add("COD18b10", row.Substring(1501-1, 240).Trim());
-            result.Add("COD18b11", row.Substring(1741-1, 240).Trim());
-            result.Add("COD18b12", row.Substring(1981-1, 240).Trim());
-            result.Add("COD18b13", row.Substring(2221-1, 240).Trim());
-            result.Add("COD18b14", row.Substring(2461-1, 240).Trim());
-            result.Add("ICOD", row.Substring(2701-1, 5).Trim());
-            result.Add("OCOD1", row.Substring(2706-1, 5).Trim());
-            result.Add("OCOD2", row.Substring(2711-1, 5).Trim());
-            result.Add("OCOD3", row.Substring(2716-1, 5).Trim());
-            result.Add("OCOD4", row.Substring(2721-1, 5).Trim());
-            result.Add("OCOD5", row.Substring(2726-1, 5).Trim());
-            result.Add("OCOD6", row.Substring(2731-1, 5).Trim());
-            result.Add("OCOD7", row.Substring(2736-1, 5).Trim());
-
-            result.Add("AVEN1", AVEN1_NAT_Rule(row.Substring(889, 1).Trim()));
-            result.Add("AVEN6", AVEN6_NAT_Rule(row.Substring(890, 1).Trim()));
-            result.Add("NICU", NICU_NAT_Rule(row.Substring(891, 1).Trim()));
-            result.Add("SURF", SURF_NAT_Rule(row.Substring(892, 1).Trim()));
-            result.Add("ANTI", ANTI_NAT_Rule(row.Substring(893, 1).Trim()));
-            result.Add("SEIZ", SEIZ_NAT_Rule(row.Substring(894, 1).Trim()));
-            result.Add("BINJ", BINJ_NAT_Rule(row.Substring(895, 1).Trim()));
-            result.Add("ANEN", ANEN_NAT_Rule(row.Substring(896, 1).Trim()));
-            result.Add("MNSB", MNSB_NAT_Rule(row.Substring(897, 1).Trim()));
-            result.Add("CCHD", CCHD_NAT_Rule(row.Substring(898, 1).Trim()));
-            result.Add("CDH", CDH_NAT_Rule(row.Substring(899, 1).Trim()));
-            result.Add("OMPH", OMPH_NAT_Rule(row.Substring(900, 1).Trim()));
-            result.Add("GAST", GAST_NAT_Rule(row.Substring(901, 1).Trim()));
-            result.Add("LIMB", LIMB_NAT_Rule(row.Substring(902, 1).Trim()));
-            result.Add("CL", CL_NAT_Rule(row.Substring(903, 1).Trim()));
-            result.Add("CP", CP_NAT_Rule(row.Substring(904, 1).Trim()));
-            result.Add("DOWT", DOWT_NAT_Rule(row.Substring(905, 1).Trim()));
-            result.Add("CDIT", CDIT_NAT_Rule(row.Substring(906, 1).Trim()));
-            result.Add("HYPO", HYPO_NAT_Rule(row.Substring(907, 1).Trim()));
-            result.Add("TLAB", TLAB_NAT_Rule(row.Substring(857, 1).Trim()));
-            result.Add("RECORD_TYPE", (row.Substring(3999, 1).Trim()));
-            result.Add("ISEX", ISEX_NAT_Rule(row.Substring(29, 1).Trim()));
-            listResults.Add(result);
-        }
-
-        return listResults;
-    }
-
-    
-
-    private List<Dictionary<string, string>> fet_get_header(List<string> rows)
-    {
-        var listResults = new List<Dictionary<string, string>>();
-
-        foreach (var row in rows)
-        {
-            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            result.Add("FDOD_YR", row.Substring(0, 4).Trim());
-            result.Add("FILENO", row.Substring(6, 6).Trim());
-            result.Add("AUXNO", row.Substring(13, 12).Trim());
-            result.Add("TD", TD_FET_Rule(row.Substring(25, 4).Trim()));
-            result.Add("FDOD_MO", row.Substring(30, 2).Trim());
-            result.Add("FDOD_DY", row.Substring(32, 2).Trim());
-            result.Add("FNPI", row.Substring(38, 12).Trim());
-            result.Add("MDOB_YR", MDOB_YR_FET_Rule(row.Substring(54, 4).Trim()));
-            result.Add("MDOB_MO", MDOB_MO_FET_Rule(row.Substring(58, 2).Trim()));
-            result.Add("MDOB_DY", MDOB_DY_FET_Rule(row.Substring(60, 2).Trim()));
-            result.Add("STATEC", (row.Substring(75, 2).Trim()));
-            result.Add("FDOB_YR", FDOB_YR_FET_Rule(row.Substring(80, 4).Trim()));
-            result.Add("FDOB_MO", FDOB_MO_FET_Rule(row.Substring(84, 2).Trim()));
-            result.Add("MARN", MARN_FET_Rule(row.Substring(90, 1).Trim()));
-            result.Add("MEDUC", MEDUC_FET_Rule(row.Substring(92, 1).Trim()));
-            result.Add("METHNIC5", row.Substring(98, 20).Trim());
-            result.Add("ATTEND", ATTEND_FET_Rule(row.Substring(421, 1).Trim()));
-            result.Add("TRAN", TRAN_FET_Rule(row.Substring(422, 1).Trim()));
-            result.Add("NPREV", NPREV_FET_Rule(row.Substring(439, 2).Trim()));
-            result.Add("HFT", HFT_FET_Rule(row.Substring(442, 1).Trim()));
-            result.Add("HIN", HIN_FET_Rule(row.Substring(443, 2).Trim()));
-            result.Add("PWGT", PWGT_FET_Rule(row.Substring(446, 3).Trim()));
-            result.Add("DWGT", DWGT_FET_Rule(row.Substring(450, 3).Trim()));
-            result.Add("WIC", WIC_FET_Rule(row.Substring(454, 1).Trim()));
-            result.Add("PLBL", PLBL_FET_Rule(row.Substring(455, 2).Trim()));
-            result.Add("PLBD", PLBD_FET_Rule(row.Substring(457, 2).Trim()));
-            result.Add("POPO", POPO_FET_Rule(row.Substring(459, 2).Trim()));
-            result.Add("MLLB", MLLB_FET_Rule(row.Substring(461, 2).Trim()));
-            result.Add("YLLB", YLLB_FET_Rule(row.Substring(463, 4).Trim()));
-            result.Add("MOPO", MOPO_FET_Rule(row.Substring(467, 2).Trim()));
-            result.Add("YOPO", YOPO_FET_Rule(row.Substring(469, 4).Trim()));
-            result.Add("DLMP_YR", DLMP_YR_FET_Rule(row.Substring(481, 4).Trim()));
-            result.Add("DLMP_MO", DLMP_MO_FET_Rule(row.Substring(485, 2).Trim()));
-            result.Add("DLMP_DY", DLMP_DY_FET_Rule(row.Substring(487, 2).Trim()));
-            result.Add("NPCES", NPCES_FET_Rule(row.Substring(498, 2).Trim()));
-            result.Add("ATTF", ATTF_FET_Rule(row.Substring(511, 1).Trim()));
-            result.Add("ATTV", ATTV_FET_Rule(row.Substring(512, 1).Trim()));
-            result.Add("PRES", PRES_FET_Rule(row.Substring(513, 1).Trim()));
-            result.Add("ROUT", ROUT_FET_Rule(row.Substring(514, 1).Trim()));
-            result.Add("OWGEST", OWGEST_FET_Rule(row.Substring(528, 2).Trim()));
-            result.Add("SORD", SORD_FET_Rule(row.Substring(537, 2).Trim()));
-            result.Add("HOSP_D", row.Substring(2904, 50).Trim());
-            result.Add("ADDRESS_D", row.Substring(3051, 50).Trim());
-            result.Add("ZIPCODE_D", row.Substring(3101, 9).Trim());
-            result.Add("CNTY_D", row.Substring(3110, 28).Trim());
-            result.Add("CITY_D", row.Substring(3138, 28).Trim());
-            result.Add("MOMFNAME", row.Substring(3256, 50).Trim());
-            result.Add("MOMMNAME", row.Substring(3306, 50).Trim());
-            result.Add("MOMLNAME", row.Substring(3356, 50).Trim());
-            result.Add("MOMMAIDN", row.Substring(3516, 50).Trim());
-            result.Add("STNUM", row.Substring(3576, 10).Trim());
-            result.Add("PREDIR", row.Substring(3586, 10).Trim());
-            result.Add("STNAME", row.Substring(3596, 50).Trim());
-            result.Add("STDESIG", row.Substring(3646, 10).Trim());
-            result.Add("POSTDIR", row.Substring(3656, 10).Trim());
-            result.Add("APTNUMB", row.Substring(3666, 7).Trim());
-            result.Add("ZIPCODE", row.Substring(3723, 9).Trim());
-            result.Add("COUNTYTXT", row.Substring(3732, 28).Trim());
-            result.Add("CITYTXT", row.Substring(3760, 28).Trim());
-            result.Add("MOM_OC_T", row.Substring(4060, 25).Trim());
-            result.Add("DAD_OC_T", row.Substring(4088, 25).Trim());
-            result.Add("MOM_IN_T", row.Substring(4116, 25).Trim());
-            result.Add("DAD_IN_T", row.Substring(4144, 25).Trim());
-            result.Add("FEDUC", FEDUC_FET_Rule(row.Substring(4288, 1).Trim()));
-            result.Add("FETHNIC5", row.Substring(4294, 20).Trim());
-            result.Add("HOSPFROM", row.Substring(4763, 50).Trim());
-            result.Add("ATTEND_NPI", row.Substring(4863, 12).Trim());
-            result.Add("ATTEND_OTH_TXT", row.Substring(4875, 20).Trim());
-            
-            result.Add("COD18a1", row.Substring(587-1, 1).Trim());
-            result.Add("COD18a2", row.Substring(588-1, 1).Trim());
-            result.Add("COD18a3", row.Substring(589-1, 1).Trim());
-            result.Add("COD18a4", row.Substring(590-1, 1).Trim());
-            result.Add("COD18a5", row.Substring(591-1, 1).Trim());
-            result.Add("COD18a6", row.Substring(592-1, 1).Trim());
-            result.Add("COD18a7", row.Substring(593-1, 1).Trim());
-            result.Add("COD18a8", row.Substring(594-1, 60).Trim());
-            result.Add("COD18a9", row.Substring(654-1, 60).Trim());
-            result.Add("COD18a10", row.Substring(714-1, 60).Trim());
-            result.Add("COD18a11", row.Substring(774-1, 60).Trim());
-            result.Add("COD18a12", row.Substring(834-1, 60).Trim());
-            result.Add("COD18a13", row.Substring(894-1, 60).Trim());
-            result.Add("COD18a14", row.Substring(954-1, 60).Trim());
-            result.Add("COD18b1", row.Substring(1014-1, 1).Trim());
-            result.Add("COD18b2", row.Substring(1015-1, 1).Trim());
-            result.Add("COD18b3", row.Substring(1016-1, 1).Trim());
-            result.Add("COD18b4", row.Substring(1017-1, 1).Trim());
-            result.Add("COD18b5", row.Substring(1018-1, 1).Trim());
-            result.Add("COD18b6", row.Substring(1019-1, 1).Trim());
-            result.Add("COD18b7", row.Substring(1020-1, 1).Trim());
-            result.Add("COD18b8", row.Substring(1021-1, 240).Trim());
-            result.Add("COD18b9", row.Substring(1261-1, 240).Trim());
-            result.Add("COD18b10", row.Substring(1501-1, 240).Trim());
-            result.Add("COD18b11", row.Substring(1741-1, 240).Trim());
-            result.Add("COD18b12", row.Substring(1981-1, 240).Trim());
-            result.Add("COD18b13", row.Substring(2221-1, 240).Trim());
-            result.Add("COD18b14", row.Substring(2461-1, 240).Trim());
-            result.Add("ICOD", row.Substring(2701-1, 5).Trim());
-            result.Add("OCOD1", row.Substring(2706-1, 5).Trim());
-            result.Add("OCOD2", row.Substring(2711-1, 5).Trim());
-            result.Add("OCOD3", row.Substring(2716-1, 5).Trim());
-            result.Add("OCOD4", row.Substring(2721-1, 5).Trim());
-            result.Add("OCOD5", row.Substring(2726-1, 5).Trim());
-            result.Add("OCOD6", row.Substring(2731-1, 5).Trim());
-            result.Add("OCOD7", row.Substring(2736-1, 5).Trim());
-
-            result.Add("DSTATE", (row.Substring(4, 2).Trim()));
-            result.Add("FSEX", FSEX_FET_Rule(row.Substring(29, 1).Trim()));
-            result.Add("DPLACE", (row.Substring(37, 1).Trim()));
-            result.Add("BPLACEC_ST_TER", BPLACEC_ST_TER_FET_Rule(row.Substring(63, 2).Trim()));
-            result.Add("BPLACEC_CNT", BPLACEC_CNT_FET_Rule(row.Substring(65, 2).Trim()));
-
-            result.Add("METHNIC1", (row.Substring(94, 1).Trim()));
-            result.Add("METHNIC2", (row.Substring(95, 1).Trim()));
-            result.Add("METHNIC3", (row.Substring(96, 1).Trim()));
-            result.Add("METHNIC4", (row.Substring(97, 1).Trim()));
-
-            result.Add("MRACE1", (row.Substring(118, 1).Trim()));
-            result.Add("MRACE2", (row.Substring(119, 1).Trim()));
-            result.Add("MRACE3", (row.Substring(120, 1).Trim()));
-            result.Add("MRACE4", (row.Substring(121, 1).Trim()));
-            result.Add("MRACE5", (row.Substring(122, 1).Trim()));
-            result.Add("MRACE6", (row.Substring(123, 1).Trim()));
-            result.Add("MRACE7", (row.Substring(124, 1).Trim()));
-            result.Add("MRACE8", (row.Substring(125, 1).Trim()));
-            result.Add("MRACE9", (row.Substring(126, 1).Trim()));
-            result.Add("MRACE10", (row.Substring(127, 1).Trim()));
-            result.Add("MRACE11", (row.Substring(128, 1).Trim()));
-            result.Add("MRACE12", (row.Substring(129, 1).Trim()));
-            result.Add("MRACE13", (row.Substring(130, 1).Trim()));
-            result.Add("MRACE14", (row.Substring(131, 1).Trim()));
-            result.Add("MRACE15", (row.Substring(132, 1).Trim()));
-            result.Add("MRACE16", (row.Substring(133, 30).Trim()));
-            result.Add("MRACE17", (row.Substring(163, 30).Trim()));
-            result.Add("MRACE18", (row.Substring(193, 30).Trim()));
-            result.Add("MRACE19", (row.Substring(223, 30).Trim()));
-            result.Add("MRACE20", (row.Substring(253, 30).Trim()));
-            result.Add("MRACE21", (row.Substring(283, 30).Trim()));
-            result.Add("MRACE22", (row.Substring(313, 30).Trim()));
-            result.Add("MRACE23", (row.Substring(343, 30).Trim()));
-
-            result.Add("DOFP_MO", DOFP_MO_FET_Rule(row.Substring(423, 2).Trim()));
-            result.Add("DOFP_DY", DOFP_DY_FET_Rule(row.Substring(425, 2).Trim()));
-            result.Add("DOFP_YR", DOFP_YR_FET_Rule(row.Substring(427, 4).Trim()));
-            result.Add("DOLP_MO", DOLP_MO_FET_Rule(row.Substring(431, 2).Trim()));
-            result.Add("DOLP_DY", DOLP_DY_FET_Rule(row.Substring(433, 2).Trim()));
-            result.Add("DOLP_YR", DOLP_YR_FET_Rule(row.Substring(435, 4).Trim()));
-
-            result.Add("CIGPN", (row.Substring(473, 2).Trim()));
-            result.Add("CIGFN", (row.Substring(475, 2).Trim()));
-            result.Add("CIGSN", (row.Substring(477, 2).Trim()));
-            result.Add("CIGLN", (row.Substring(479, 2).Trim()));
-            result.Add("PDIAB", PDIAB_FET_Rule(row.Substring(489, 1).Trim()));
-            result.Add("GDIAB", GDIAB_FET_Rule(row.Substring(490, 1).Trim()));
-            result.Add("PHYPE", PHYPE_FET_Rule(row.Substring(491, 1).Trim()));
-            result.Add("GHYPE", GHYPE_FET_Rule(row.Substring(492, 1).Trim()));
-            result.Add("PPB", PPB_FET_Rule(row.Substring(493, 1).Trim()));
-            result.Add("PPO", PPO_FET_Rule(row.Substring(494, 1).Trim()));
-            result.Add("INFT", INFT_FET_Rule(row.Substring(496, 1).Trim()));
-            result.Add("PCES", PCES_FET_Rule(row.Substring(497, 1).Trim()));
-            result.Add("GON", GON_FET_Rule(row.Substring(501, 1).Trim()));
-            result.Add("SYPH", SYPH_FET_Rule(row.Substring(502, 1).Trim()));
-            result.Add("HSV", HSV_FET_Rule(row.Substring(503, 1).Trim()));
-            result.Add("CHAM", CHAM_FET_Rule(row.Substring(504, 1).Trim()));
-            result.Add("LM", LM_FET_Rule(row.Substring(505, 1).Trim()));
-            result.Add("GBS", GBS_FET_Rule(row.Substring(506, 1).Trim()));
-            result.Add("CMV", CMV_FET_Rule(row.Substring(507, 1).Trim()));
-            result.Add("B19", B19_FET_Rule(row.Substring(508, 1).Trim()));
-            result.Add("TOXO", TOXO_FET_Rule(row.Substring(509, 1).Trim()));
-            result.Add("OTHERI", OTHERI_FET_Rule(row.Substring(510, 1).Trim()));
-            result.Add("TLAB", TLAB_FET_Rule(row.Substring(515, 1).Trim()));
-            result.Add("MTR", MTR_FET_Rule(row.Substring(517, 1).Trim()));
-            result.Add("PLAC", PLAC_FET_Rule(row.Substring(518, 1).Trim()));
-            result.Add("RUT", RUT_FET_Rule(row.Substring(519, 1).Trim()));
-            result.Add("UHYS", UHYS_FET_Rule(row.Substring(520, 1).Trim()));
-            result.Add("AINT", AINT_FET_Rule(row.Substring(521, 1).Trim()));
-            result.Add("UOPR", UOPR_FET_Rule(row.Substring(522, 1).Trim()));
-            result.Add("FWG", (row.Substring(523, 4).Trim()));
-            result.Add("PLUR", (row.Substring(535, 2).Trim()));
-            result.Add("ANEN", ANEN_FET_Rule(row.Substring(548, 1).Trim()));
-            result.Add("MNSB", MNSB_FET_Rule(row.Substring(549, 1).Trim()));
-            result.Add("CCHD", CCHD_FET_Rule(row.Substring(550, 1).Trim()));
-            result.Add("CDH", CDH_FET_Rule(row.Substring(551, 1).Trim()));
-            result.Add("OMPH", OMPH_FET_Rule(row.Substring(552, 1).Trim()));
-            result.Add("GAST", GAST_FET_Rule(row.Substring(553, 1).Trim()));
-            result.Add("LIMB", LIMB_FET_Rule(row.Substring(554, 1).Trim()));
-            result.Add("CL", CL_FET_Rule(row.Substring(555, 1).Trim()));
-            result.Add("CP", CP_FET_Rule(row.Substring(556, 1).Trim()));
-            result.Add("DOWT", DOWT_FET_Rule(row.Substring(557, 1).Trim()));
-            result.Add("CDIT", CDIT_FET_Rule(row.Substring(558, 1).Trim()));
-            result.Add("HYPO", HYPO_FET_Rule(row.Substring(559, 1).Trim()));
-            result.Add("MAGER", (row.Substring(568, 2).Trim()));
-            result.Add("FAGER", (row.Substring(570, 2).Trim()));
-            result.Add("EHYPE", EHYPE_FET_Rule(row.Substring(572, 1).Trim()));
-            result.Add("INFT_DRG", INFT_DRG_FET_Rule(row.Substring(573, 1).Trim()));
-            result.Add("INFT_ART", INFT_ART_FET_Rule(row.Substring(574, 1).Trim()));
-            result.Add("HSV1", HSV1_FET_Rule(row.Substring(2740, 1).Trim()));
-            result.Add("HIV", HIV_FET_Rule(row.Substring(2741, 1).Trim()));
-            result.Add("FBPLACD_ST_TER_C", FBPLACD_ST_TER_C_FET_Rule(row.Substring(4172, 2).Trim()));
-            result.Add("FBPLACE_CNT_C", FBPLACE_CNT_C_FET_Rule(row.Substring(4174, 2).Trim()));
-
-            result.Add("FETHNIC1", (row.Substring(4290, 1).Trim()));
-            result.Add("FETHNIC2", (row.Substring(4291, 1).Trim()));
-            result.Add("FETHNIC3", (row.Substring(4292, 1).Trim()));
-            result.Add("FETHNIC4", (row.Substring(4293, 1).Trim()));
-
-            result.Add("FRACE1", (row.Substring(4314, 1).Trim()));
-            result.Add("FRACE2", (row.Substring(4315, 1).Trim()));
-            result.Add("FRACE3", (row.Substring(4316, 1).Trim()));
-            result.Add("FRACE4", (row.Substring(4317, 1).Trim()));
-            result.Add("FRACE5", (row.Substring(4318, 1).Trim()));
-            result.Add("FRACE6", (row.Substring(4319, 1).Trim()));
-            result.Add("FRACE7", (row.Substring(4320, 1).Trim()));
-            result.Add("FRACE8", (row.Substring(4321, 1).Trim()));
-            result.Add("FRACE9", (row.Substring(4322, 1).Trim()));
-            result.Add("FRACE10",(row.Substring(4323, 1).Trim()));
-            result.Add("FRACE11",(row.Substring(4324, 1).Trim()));
-            result.Add("FRACE12",(row.Substring(4325, 1).Trim()));
-            result.Add("FRACE13",(row.Substring(4326, 1).Trim()));
-            result.Add("FRACE14",(row.Substring(4327, 1).Trim()));
-            result.Add("FRACE15",(row.Substring(4328, 1).Trim()));
-            result.Add("FRACE16",(row.Substring(4329, 30).Trim()));
-            result.Add("FRACE17",(row.Substring(4359, 30).Trim()));
-            result.Add("FRACE18",(row.Substring(4389, 30).Trim()));
-            result.Add("FRACE19",(row.Substring(4419, 30).Trim()));
-            result.Add("FRACE20",(row.Substring(4449, 30).Trim()));
-            result.Add("FRACE21",(row.Substring(4479, 30).Trim()));
-            result.Add("FRACE22",(row.Substring(4509, 30).Trim()));
-            result.Add("FRACE23",(row.Substring(4539, 30).Trim()));
-
-            result.Add("RECORD_TYPE", (row.Substring(5999, 1).Trim()));
-
-
-
-            listResults.Add(result);
-        }
-
-        return listResults;
-    }
-
-    private string TB_NAT_Rule(string value)
-    {
-        string parsedValue = "";
-
-        if (!string.IsNullOrWhiteSpace(value))
-        {
-            if (value == "9999")
-                parsedValue = "";
-            else
-            {
-                parsedValue = ConvertHHmm_To_MMRIATime(value);
-            }
-        }
-
-        return parsedValue;
-    }
-
-    private string TD_FET_Rule(string value)
-    {
-        string parsedValue = "";
-
-        if(!string.IsNullOrWhiteSpace(value))
-        {
-            if (value == "9999")
-                parsedValue = "";
-            else
-            {
-                parsedValue = parseHHmm_To_MMRIATime(value);
-            }
-        }
-
-        return parsedValue;
     }
 
     private static string ConvertHHmm_To_MMRIATime(string value)
