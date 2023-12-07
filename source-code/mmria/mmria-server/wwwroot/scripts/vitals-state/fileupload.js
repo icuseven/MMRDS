@@ -84,7 +84,7 @@ window.onload = function ()
     }
 
     const header = document.getElementById('upload-header-id');
-    header.innerText = `Upload IJE Files for jurisdiction: ${host_prefix}`;
+    header.innerText = `Upload IJE Files for Jurisdiction: ${host_prefix}`;
 }
 
 
