@@ -551,6 +551,7 @@ public sealed partial class Program
             file_type_provider.Mappings[".dll"] = "application/octet-stream";
             file_type_provider.Mappings[".blat"] = "application/octet-stream";
             file_type_provider.Mappings[".dat"] = "application/octet-stream";
+            file_type_provider.Mappings[".pck"] = "application/octet-stream";
             file_type_provider.Mappings[".css"] = "text/css";
 
             app.UseStaticFiles(
@@ -662,6 +663,9 @@ public sealed partial class Program
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
                 context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+
+                context.Response.Headers.Add("Cross-Origin-Embedder-Policy", "require-corp");
+                context.Response.Headers.Add("Cross-Origin-Opener-Policy", "same-origin");
 
                 await next();
             }
