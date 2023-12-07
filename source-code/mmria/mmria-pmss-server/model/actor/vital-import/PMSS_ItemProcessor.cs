@@ -214,6 +214,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                 var mmria_path = name_to_path[kvp.Key];
                 var data = message.data[kvp.Value];
 
+                if(mmria_path.ToUpper() == "NOT MAPPED") continue;
+
                 if(mmria_path == "tracking/admin_info/jurisdiction")
                 {
                     var state_node = lookup["lookup/state"];
@@ -225,6 +227,18 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                         data = item.value;
                     }
 
+                }
+
+                
+                var metdata_node = get_metadata_node(metadata, mmria_path);
+
+                if(metdata_node.type.ToLower() == "date")
+                {
+                    var arr = data.Split("/");
+                    if(arr.Length > 2)
+                    {
+                        data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                    }
                 }
 
                 var set_result = gs.set_value
@@ -279,6 +293,7 @@ Destination:
                 };
 
 
+
                 if(result.mmria_path == "tracking/q9/statres")
                 {
                     var state_node = lookup["lookup/state"];
@@ -292,6 +307,7 @@ Destination:
                     }
 
                 }
+
             }
 
 
@@ -639,8 +655,179 @@ Destination:
 
     }
 
+    public sealed class Metadata_Node
+    {
+        public Metadata_Node(){}
+        public bool is_multiform { get; set; }
+        public bool is_grid { get; set; }
 
+        public string path {get;set;}
 
+        public string sass_export_name {get;set;}
+        public mmria.common.metadata.node Node { get; set; }
+
+        public Dictionary<string,string> display_to_value { get; set; }
+        public Dictionary<string,string> value_to_display { get; set; }
+    }
+
+    private List<Metadata_Node> get_metadata_node_by_type(mmria.common.metadata.app p_metadata, string p_type)
+    {
+        var result = new List<Metadata_Node>();
+        foreach(var node in p_metadata.children)
+        {
+            var current_type = node.type.ToLowerInvariant();
+            if(current_type == p_type)
+            {
+                result.Add(new Metadata_Node()
+                {
+                    is_multiform = false,
+                    is_grid = false,
+                    path = node.name,
+                    Node = node,
+                    sass_export_name = node.sass_export_name
+                });
+            }
+            else if(current_type == "form")
+            {
+                if
+                (
+                    node.cardinality == "+" ||
+                    node.cardinality == "*"
+                )
+                {
+                    get_metadata_node_by_type(ref result, node, p_type, true, false, node.name);
+                }
+                else
+                {
+                    get_metadata_node_by_type(ref result, node, p_type, false, false, node.name);
+                }
+            }
+        }
+        return result;
+    }
+
+private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.common.metadata.node p_node, string p_type, bool p_is_multiform, bool p_is_grid, string p_path)
+    {
+        var current_type = p_node.type.ToLowerInvariant();
+        if(current_type == p_type)
+        {
+            var value_to_display = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var display_to_value = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+            if
+            (
+                current_type == "list"
+            )
+            {
+
+                if(!string.IsNullOrWhiteSpace(p_node.path_reference))
+                {
+                    //var key = "lookup/" + p_node.name;
+                    var key = p_node.path_reference;
+                    if(this.lookup.ContainsKey(key))
+                    {
+                        var values = this.lookup[key];
+
+                        p_node.values = values;
+                    }
+                }
+
+                foreach(var value_item in p_node.values)
+                {
+                    var value = value_item.value;
+                    var display = value_item.display;
+
+                    if(!value_to_display.ContainsKey(value))
+                    {
+                        value_to_display.Add(value, display);
+                    }
+
+                    if(!display_to_value.ContainsKey(display))
+                    {
+                        display_to_value.Add(display, value);
+                    }
+                }
+            }
+
+            p_result.Add(new Metadata_Node()
+            {
+                is_multiform = p_is_multiform,
+                is_grid = p_is_grid,
+                path = p_path,
+                Node = p_node,
+                value_to_display = value_to_display,
+                display_to_value = display_to_value,
+                sass_export_name = p_node.sass_export_name
+            });
+        }
+        else if(p_node.children != null)
+        {
+            foreach(var node in p_node.children)
+            {
+                if(current_type == "grid")
+                {
+                    get_metadata_node_by_type(ref p_result, node, p_type, p_is_multiform, true, p_path + "/" + node.name);
+                }
+                else
+                {
+                    get_metadata_node_by_type(ref p_result, node, p_type, p_is_multiform, p_is_grid, p_path + "/" + node.name);
+                }
+            }
+        }
+    }
+
+    private mmria.common.metadata.node get_metadata_node(mmria.common.metadata.app p_metadata, string p_path)
+    {
+        mmria.common.metadata.node result = null;
+
+        mmria.common.metadata.node current = null;
+        
+        string[] path = p_path.Split("/");
+
+        for(int i = 0; i < path.Length; i++)
+        {
+            string current_name = path[i];
+            if(i == 0)
+            {
+                foreach(var child in p_metadata.children)
+                {
+                    if(child.name.Equals(current_name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        current = child;
+                        break;
+                    }
+                }
+            }
+
+            else
+            {
+
+                if(current.children != null)
+                {
+                    foreach(var child2 in current.children)
+                    {
+                        if(child2.name.Equals(current_name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            current = child2;
+                            break;
+                        }
+                    }	
+                }
+                else
+                {
+                    return result;
+                }
+
+                if(i == path.Length -1)
+                {
+                    result = current;
+                }
+            }
+
+        }
+
+        return result;
+    }
     struct Result_Struct
     {
         public System.Dynamic.ExpandoObject[] docs;
