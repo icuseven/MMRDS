@@ -147,7 +147,45 @@ public sealed class BatchProcessor : ReceiveActor
             else
             {
 
+                for(var i = 1; i < data.Count; i++)
+                {
+                
+                    var csv_item = mmria_pmss_client.Models.IJE.PMSS_All.FromList(data[i]);
 
+                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+
+                    var batch_id = System.Guid.NewGuid().ToString();
+                    try
+                    {
+                        var StartBatchItemMessage = new pmss.services.vitalsimport.StartPMSSBatchItemMessage()
+                        {
+                            ImportDate = importDate,
+                            ImportFileName = message.mor_file_name,
+                            //pmss_other = csv_item,
+                            data = data[i],
+                            headers = column_list
+                        };
+
+                        var batch_item_processor = Context.ActorOf
+                        (
+                            Props.Create<PMSS_ItemProcessor>
+                            (
+                                overridable_configuration,
+                                host_name
+                            ),
+                            batch_id
+                        );
+
+                        batch_item_processor.Tell(StartBatchItemMessage);
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+
+                    break; /// take me out
+
+                }
             }
 
 
