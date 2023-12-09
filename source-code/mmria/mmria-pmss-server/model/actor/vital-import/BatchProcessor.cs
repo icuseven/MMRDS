@@ -101,95 +101,51 @@ public sealed class BatchProcessor : ReceiveActor
                     System.Console.WriteLine("empty column name");
             }
 
-            if(column_list.Count == 150)
+            if
+            (
+                column_list.Count == 150 ||
+                column_list.Count == 552
+            )
+            for(var i = 1; i < data.Count; i++)
             {
+            
+                //var csv_item = mmria_pmss_client.Models.IJE.PMSS_All.FromList(data[i]);
 
-                for(var i = 1; i < data.Count; i++)
+                //System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
+
+                var batch_id = System.Guid.NewGuid().ToString();
+                try
                 {
-                
-                    var csv_item = mmria_pmss_client.Models.IJE.PMSS_Other.FromList(data[i]);
-
-                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-
-                    var batch_id = System.Guid.NewGuid().ToString();
-                    try
+                    var StartBatchItemMessage = new pmss.services.vitalsimport.StartPMSSBatchItemMessage()
                     {
-                        var StartBatchItemMessage = new pmss.services.vitalsimport.StartPMSSBatchItemMessage()
-                        {
-                            ImportDate = importDate,
-                            ImportFileName = message.mor_file_name,
-                            //pmss_other = csv_item,
-                            data = data[i],
-                            headers = column_list
-                        };
+                        ImportDate = importDate,
+                        ImportFileName = message.mor_file_name,
+                        //pmss_other = csv_item,
+                        data = data[i],
+                        headers = column_list
+                    };
 
-                        var batch_item_processor = Context.ActorOf
+                    var batch_item_processor = Context.ActorOf
+                    (
+                        Props.Create<PMSS_ItemProcessor>
                         (
-                            Props.Create<PMSS_ItemProcessor>
-                            (
-                                overridable_configuration,
-                                host_name
-                            ),
-                            batch_id
-                        );
+                            overridable_configuration,
+                            host_name
+                        ),
+                        batch_id
+                    );
 
-                        batch_item_processor.Tell(StartBatchItemMessage);
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
-
-                    break; /// take me out
+                    batch_item_processor.Tell(StartBatchItemMessage);
+                }
+                catch(Exception ex)
+                {
 
                 }
+
+                break; /// take me out
+
             }
-            else
-            {
-
-                for(var i = 1; i < data.Count; i++)
-                {
-                
-                    var csv_item = mmria_pmss_client.Models.IJE.PMSS_All.FromList(data[i]);
-
-                    System.Console.WriteLine($"fileno_bc: {csv_item.fileno_bc}");
-
-                    var batch_id = System.Guid.NewGuid().ToString();
-                    try
-                    {
-                        var StartBatchItemMessage = new pmss.services.vitalsimport.StartPMSSBatchItemMessage()
-                        {
-                            ImportDate = importDate,
-                            ImportFileName = message.mor_file_name,
-                            //pmss_other = csv_item,
-                            data = data[i],
-                            headers = column_list
-                        };
-
-                        var batch_item_processor = Context.ActorOf
-                        (
-                            Props.Create<PMSS_ItemProcessor>
-                            (
-                                overridable_configuration,
-                                host_name
-                            ),
-                            batch_id
-                        );
-
-                        batch_item_processor.Tell(StartBatchItemMessage);
-                    }
-                    catch(Exception ex)
-                    {
-
-                    }
-
-                    break; /// take me out
-
-                }
-            }
-
-
-
+            
             batch = new mmria.common.ije.Batch()
             {
                 id = message.batch_id,

@@ -197,12 +197,34 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         gs.set_value("last_updated_by", "pmss-import", new_case);
         gs.set_value("version", metadata.version, new_case);
 
+    
+        var is_valid_file = true;
 
         var header_to_index = new System.Collections.Generic.Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         for(var i = 0; i < message.headers.Count; i++)
-            header_to_index.Add(message.headers[i], i);
+        {
+            var key = message.headers[i];
+            if(header_to_index.ContainsKey(key))
+            {
+                System.Console.WriteLine($"duplicate header: {key} column: {i+1}");
+                is_valid_file = false;
+            }
+            else
+            {
+                header_to_index.Add(message.headers[i], i);
+            }
+        }
+            
         
         
+
+        if (! is_valid_file)
+        {
+            Context.Stop(this.Self);
+            return;
+        }
+
+
 
         var name_to_path = new PMSS_Other_Specification();
 

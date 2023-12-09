@@ -701,7 +701,7 @@ public sealed class PMSS_All
         x.mmria_used_remarks = row[129];
         x.agreement_status = row[130];
         x.agreement_remarks = row[131];
-        x.fileno_dc = row[132];
+        //x.fileno_dc = row[132];
         x.auxno_dc = row[133];
         x.replace_dc = row[134];
         x.void_dc = row[135];
@@ -950,7 +950,7 @@ public sealed class PMSS_All
         x.fbplacd_st_ter_c_bc = row[378];
         x.fbplace_cnt_c_bc = row[379];
         x.dstate_fdc = row[380];
-        x.fileno_fdc = row[381];
+        //x.fileno_fdc = row[381];
         x.auxno_fdc = row[382];
         x.void_fdc = row[383];
         x.replace_fdc = row[384];
