@@ -3,15 +3,22 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace mmria_pmss_client.Models.IJE;
-public sealed class PMSS_All_Specification
+public sealed class PMSS_All_Specification : I_PMSS_File_Specification
 {
     public int Size => data.Count; 
     public string this[string i]
     {
         get { return data[i]; }
     }
+
+    public bool Contains(string value)
+    {
+        return data.ContainsKey(value);
+    }
+
     ImmutableDictionary<string, string> data = ImmutableDictionary.CreateRange
     (
+        StringComparer.OrdinalIgnoreCase,
         new KeyValuePair<string,string>[] 
         {
         
@@ -129,10 +136,10 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("Dob_MO", "tracking/date_of_birth/month"),
         KeyValuePair.Create("Dob_DY", "tracking/date_of_birth /day"),
         KeyValuePair.Create("Dob_YR", "tracking/date_of_birth /year"),
-        KeyValuePair.Create("DTerm_MO", "outcome/dterm_grp/dterm/dterm_mo"),
-        KeyValuePair.Create("DTerm_DY", "outcome/dterm_grp/dterm/dterm_dy"),
-        KeyValuePair.Create("DTerm_YR", "outcome/dterm_grp/dterm/dterm_yr"),
-        KeyValuePair.Create("DTerm_TM", "outcome/dterm_grp/dterm/dterm_tm"),
+        KeyValuePair.Create("DTerm_MO", "outcome/dterm_grp/dterm_mo"),
+        KeyValuePair.Create("DTerm_DY", "outcome/dterm_grp/dterm_dy"),
+        KeyValuePair.Create("DTerm_YR", "outcome/dterm_grp/dterm_yr"),
+        KeyValuePair.Create("DTerm_TM", "outcome/dterm_grp/dterm_tm"),
         KeyValuePair.Create("Review_1_By", "preparer_remarks/preparer_grp/review_1_by"),
         KeyValuePair.Create("Review_1_On", "preparer_remarks/preparer_grp/review_1_on"),
         KeyValuePair.Create("Review_1_Remarks", "preparer_remarks/preparer_grp/review_1_remarks"),
@@ -149,7 +156,7 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("mmria_used_remarks", "committee_review/rev_assessment_grp/mmria_used_remarks"),
         KeyValuePair.Create("agreement_status", "committee_review/agreement_grp/agreement_status"),
         KeyValuePair.Create("agreement_remarks", "committee_review/agreement_grp/agreement_remarks"),
-        KeyValuePair.Create("fileno_dc", "ije_dc/file_info/fileno_dc"),
+        //KeyValuePair.Create("fileno_dc", "ije_dc/file_info/fileno_dc"),
         KeyValuePair.Create("auxno_dc", "ije_dc/file_info/auxno_dc"),
         KeyValuePair.Create("replace_dc", "ije_dc/file_info/replace_dc"),
         KeyValuePair.Create("void_dc", "ije_dc/file_info/void_dc"),
@@ -237,7 +244,7 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("race22_dc", "ije_dc/demog_details/race22_dc"),
         KeyValuePair.Create("race23_dc", "ije_dc/demog_details/race23_dc"),
         KeyValuePair.Create("bstate_bc", "ije_bc/file_info/bstate_bc"),
-        KeyValuePair.Create("fileno_bc", "ije_bc/file_info/fileno_bc"),
+        //KeyValuePair.Create("fileno_bc", "ije_bc/file_info/fileno_bc"),
         KeyValuePair.Create("auxno_bc", "ije_bc/file_info/auxno_bc"),
         KeyValuePair.Create("void_bc", "ije_bc/file_info/void_bc"),
         KeyValuePair.Create("replace_bc", "ije_bc/file_info/replace_bc"),
@@ -398,7 +405,7 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("fbplacd_st_ter_c_bc", "ije_bc/demog_details/fbplacd_st_ter_c_bc"),
         KeyValuePair.Create("fbplace_cnt_c_bc", "ije_bc/demog_details/fbplace_cnt_c_bc"),
         KeyValuePair.Create("dstate_fdc", "ije_fetaldc/file_info/dstate_fdc"),
-        KeyValuePair.Create("fileno_fdc", "ije_fetaldc/file_info/fileno_fdc"),
+        //KeyValuePair.Create("fileno_fdc", "ije_fetaldc/file_info/fileno_fdc"),
         KeyValuePair.Create("auxno_fdc", "ije_fetaldc/file_info/auxno_fdc"),
         KeyValuePair.Create("void_fdc", "ije_fetaldc/file_info/void_fdc"),
         KeyValuePair.Create("replace_fdc", "ije_fetaldc/file_info/replace_fdc"),
@@ -484,7 +491,7 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("cod18b14_fdc", "ije_fetaldc/condition_cause/cod18b14_fdc"),
         KeyValuePair.Create("icod_fdc", "ije_fetaldc/condition_cause/icod_fdc"),
         KeyValuePair.Create("ocod1_fdc", "ije_fetaldc/condition_cause/ocod1_fdc"),
-        KeyValuePair.Create("ocod1_fdc", "ije_fetaldc/condition_cause/ocod2_fdc"),
+        KeyValuePair.Create("ocod2_fdc", "ije_fetaldc/condition_cause/ocod2_fdc"),
         KeyValuePair.Create("ocod3_fdc", "ije_fetaldc/condition_cause/ocod3_fdc"),
         KeyValuePair.Create("ocod4_fdc", "ije_fetaldc/condition_cause/ocod4_fdc"),
         KeyValuePair.Create("ocod5_fdc", "ije_fetaldc/condition_cause/ocod5_fdc"),
@@ -537,39 +544,39 @@ public sealed class PMSS_All_Specification
         KeyValuePair.Create("meduc_fdc", "ije_fetaldc/demog_details/meduc_fdc"),
         KeyValuePair.Create("mom_in_t_fdc", "ije_fetaldc/demog_details/mom_in_t_fdc"),
         KeyValuePair.Create("mom_oc_t_fdc", "ije_fetaldc/demog_details/mom_oc_t_fdc"),
-        KeyValuePair.Create("methnic1_fdc", "ije_fdc/demog_details/methnic1_fdc"),
-        KeyValuePair.Create("methnic2_fdc", "ije_fdc/demog_details/methnic2_fdc"),
-        KeyValuePair.Create("methnic3_fdc", "ije_fdc/demog_details/methnic3_fdc"),
-        KeyValuePair.Create("methnic4_fdc", "ije_fdc/demog_details/methnic4_fdc"),
-        KeyValuePair.Create("methnic5_fdc", "ije_fdc/demog_details/methnic5_fdc"),
-        KeyValuePair.Create("mrace1_fdc", "ije_fdc/demog_details/mrace1_fdc"),
-        KeyValuePair.Create("mrace2_fdc", "ije_fdc/demog_details/mrace2_fdc"),
-        KeyValuePair.Create("mrace3_fdc", "ije_fdc/demog_details/mrace3_fdc"),
-        KeyValuePair.Create("mrace4_fdc", "ije_fdc/demog_details/mrace4_fdc"),
-        KeyValuePair.Create("mrace5_fdc", "ije_fdc/demog_details/mrace5_fdc"),
-        KeyValuePair.Create("mrace6_fdc", "ije_fdc/demog_details/mrace6_fdc"),
-        KeyValuePair.Create("mrace7_fdc", "ije_fdc/demog_details/mrace7_fdc"),
-        KeyValuePair.Create("mrace8_fdc", "ije_fdc/demog_details/mrace8_fdc"),
-        KeyValuePair.Create("mrace9_fdc", "ije_fdc/demog_details/mrace9_fdc"),
-        KeyValuePair.Create("mrace10_fdc", "ije_fdc/demog_details/mrace10_fdc"),
-        KeyValuePair.Create("mrace11_fdc", "ije_fdc/demog_details/mrace11_fdc"),
-        KeyValuePair.Create("mrace12_fdc", "ije_fdc/demog_details/mrace12_fdc"),
-        KeyValuePair.Create("mrace13_fdc", "ije_fdc/demog_details/mrace13_fdc"),
-        KeyValuePair.Create("mrace14_fdc", "ije_fdc/demog_details/mrace14_fdc"),
-        KeyValuePair.Create("mrace15_fdc", "ije_fdc/demog_details/mrace15_fdc"),
-        KeyValuePair.Create("mrace16_fdc", "ije_fdc/demog_details/mrace16_fdc"),
-        KeyValuePair.Create("mrace17_fdc", "ije_fdc/demog_details/mrace17_fdc"),
-        KeyValuePair.Create("mrace18_fdc", "ije_fdc/demog_details/mrace18_fdc"),
-        KeyValuePair.Create("mrace19_fdc", "ije_fdc/demog_details/mrace19_fdc"),
-        KeyValuePair.Create("mrace20_fdc", "ije_fdc/demog_details/mrace20_fdc"),
-        KeyValuePair.Create("mrace21_fdc", "ije_fdc/demog_details/mrace21_fdc"),
-        KeyValuePair.Create("mrace22_fdc", "ije_fdc/demog_details/mrace22_fdc"),
-        KeyValuePair.Create("mrace23_fdc", "ije_fdc/demog_details/mrace23_fdc"),
-        KeyValuePair.Create("fager_fdc", "ije_fdc/demog_details/fager_fdc"),
-        KeyValuePair.Create("dad_in_t_fdc", "ije_fdc/demog_details/dad_in_t_fdc"),
-        KeyValuePair.Create("dad_oc_t_fdc", "ije_fdc/demog_details/dad_oc_t_fdc"),
-        KeyValuePair.Create("fbplacd_st_ter_c_fdc", "ije_fdc/demog_details/fbplacd_st_ter_c_fdc"),
-        KeyValuePair.Create("fbplace_cnt_c_fdc", "ije_fdc/demog_details/fbplace_cnt_c_fdc"),
+        KeyValuePair.Create("methnic1_fdc", "ije_fetaldc/demog_details/methnic1_fdc"),
+        KeyValuePair.Create("methnic2_fdc", "ije_fetaldc/demog_details/methnic2_fdc"),
+        KeyValuePair.Create("methnic3_fdc", "ije_fetaldc/demog_details/methnic3_fdc"),
+        KeyValuePair.Create("methnic4_fdc", "ije_fetaldc/demog_details/methnic4_fdc"),
+        KeyValuePair.Create("methnic5_fdc", "ije_fetaldc/demog_details/methnic5_fdc"),
+        KeyValuePair.Create("mrace1_fdc", "ije_fetaldc/demog_details/mrace1_fdc"),
+        KeyValuePair.Create("mrace2_fdc", "ije_fetaldc/demog_details/mrace2_fdc"),
+        KeyValuePair.Create("mrace3_fdc", "ije_fetaldc/demog_details/mrace3_fdc"),
+        KeyValuePair.Create("mrace4_fdc", "ije_fetaldc/demog_details/mrace4_fdc"),
+        KeyValuePair.Create("mrace5_fdc", "ije_fetaldc/demog_details/mrace5_fdc"),
+        KeyValuePair.Create("mrace6_fdc", "ije_fetaldc/demog_details/mrace6_fdc"),
+        KeyValuePair.Create("mrace7_fdc", "ije_fetaldc/demog_details/mrace7_fdc"),
+        KeyValuePair.Create("mrace8_fdc", "ije_fetaldc/demog_details/mrace8_fdc"),
+        KeyValuePair.Create("mrace9_fdc", "ije_fetaldc/demog_details/mrace9_fdc"),
+        KeyValuePair.Create("mrace10_fdc", "ije_fetaldc/demog_details/mrace10_fdc"),
+        KeyValuePair.Create("mrace11_fdc", "ije_fetaldc/demog_details/mrace11_fdc"),
+        KeyValuePair.Create("mrace12_fdc", "ije_fetaldc/demog_details/mrace12_fdc"),
+        KeyValuePair.Create("mrace13_fdc", "ije_fetaldc/demog_details/mrace13_fdc"),
+        KeyValuePair.Create("mrace14_fdc", "ije_fetaldc/demog_details/mrace14_fdc"),
+        KeyValuePair.Create("mrace15_fdc", "ije_fetaldc/demog_details/mrace15_fdc"),
+        KeyValuePair.Create("mrace16_fdc", "ije_fetaldc/demog_details/mrace16_fdc"),
+        KeyValuePair.Create("mrace17_fdc", "ije_fetaldc/demog_details/mrace17_fdc"),
+        KeyValuePair.Create("mrace18_fdc", "ije_fetaldc/demog_details/mrace18_fdc"),
+        KeyValuePair.Create("mrace19_fdc", "ije_fetaldc/demog_details/mrace19_fdc"),
+        KeyValuePair.Create("mrace20_fdc", "ije_fetaldc/demog_details/mrace20_fdc"),
+        KeyValuePair.Create("mrace21_fdc", "ije_fetaldc/demog_details/mrace21_fdc"),
+        KeyValuePair.Create("mrace22_fdc", "ije_fetaldc/demog_details/mrace22_fdc"),
+        KeyValuePair.Create("mrace23_fdc", "ije_fetaldc/demog_details/mrace23_fdc"),
+        KeyValuePair.Create("fager_fdc", "ije_fetaldc/demog_details/fager_fdc"),
+        KeyValuePair.Create("dad_in_t_fdc", "ije_fetaldc/demog_details/dad_in_t_fdc"),
+        KeyValuePair.Create("dad_oc_t_fdc", "ije_fetaldc/demog_details/dad_oc_t_fdc"),
+        KeyValuePair.Create("fbplacd_st_ter_c_fdc", "ije_fetaldc/demog_details/fbplacd_st_ter_c_fdc"),
+        KeyValuePair.Create("fbplace_cnt_c_fdc", "ije_fetaldc/demog_details/fbplace_cnt_c_fdc"),
 
 
     });

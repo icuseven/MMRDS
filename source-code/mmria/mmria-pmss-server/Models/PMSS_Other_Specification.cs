@@ -3,7 +3,15 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 
 namespace mmria_pmss_client.Models.IJE;
-public sealed class PMSS_Other_Specification
+
+public interface I_PMSS_File_Specification
+{
+
+    public string this[string i] {get; }
+    public bool Contains(string Value);
+}
+
+public sealed class PMSS_Other_Specification : I_PMSS_File_Specification
 {
     public int Size => data.Count; 
     public string this[string i]

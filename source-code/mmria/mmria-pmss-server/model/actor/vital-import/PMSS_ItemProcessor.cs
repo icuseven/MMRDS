@@ -224,9 +224,16 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
             return;
         }
 
+        I_PMSS_File_Specification name_to_path;
 
-
-        var name_to_path = new PMSS_Other_Specification();
+        if( header_to_index.Count == 155)
+        {
+            name_to_path = new PMSS_Other_Specification();
+        }
+        else
+        {
+            name_to_path = new PMSS_All_Specification();
+        }
 
         foreach(var kvp in header_to_index)
         {
