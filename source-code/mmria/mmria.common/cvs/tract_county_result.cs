@@ -22,6 +22,18 @@ public sealed class tract
     public double pctPOV { get;set;}
     public double ICE_INCOME_all { get;set;}
     public double MEDHHINC { get;set;}
+
+    public double MIDWIVESrate { get;set;}
+    public double segregation { get;set;}
+    public double PCPrate { get;set;}
+    public double rtVIOLENTCR { get;set;}
+
+    public double pctRural  { get;set;}
+
+    public double MHPROVIDERrate  { get;set;}
+
+    public double Racialized_pov { get; set; }
+
 }
 public sealed class county
 {
@@ -57,6 +69,16 @@ public sealed class county
     public double pctHOUSE_DISTRESS { get;set;}
     public double rtVIOLENTCR_ICPSR { get;set;}
     public double isolation { get;set;}
+    
+    public double MIDWIVESrate { get;set;}
+    public double segregation { get;set;}
+    public double PCPrate { get;set;}
+    public double rtVIOLENTCR { get;set;}
+
+    public double pctRural  { get;set;}
+    public double MHPROVIDERrate  { get;set;}
+
+    public double Racialized_pov { get; set; }
 }
 
 public sealed class tract_county_result

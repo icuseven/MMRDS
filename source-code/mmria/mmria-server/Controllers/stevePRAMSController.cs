@@ -204,7 +204,12 @@ public sealed class stevePRAMSController : Controller
 
         using
         (
-            FileStream fs = new FileStream (s, FileMode.Open, FileAccess.Read)
+            FileStream fs = new FileStream 
+            (
+                s, 
+                FileMode.Open, 
+                FileAccess.Read
+            )
         )
         {
             fs_length = (int) fs.Length;

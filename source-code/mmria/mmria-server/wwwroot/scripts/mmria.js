@@ -230,7 +230,7 @@ var $mmria = function()
                     cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
                     cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
                     cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    cvs_mdrate_county: p_result.county.mDrate,
+                    
                     cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
                     cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
                     cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
@@ -255,7 +255,7 @@ var $mmria = function()
                     cvs_medhhinc_tract: p_result.tract.medhhinc,
                     cvs_pctobese_county: p_result.county.pctOBESE,
                     cvs_fi_county: p_result.county.fi,
-                    cvs_cnmrate_county: p_result.county.cnMrate,
+                    
                     cvs_obgynrate_county: p_result.county.obgyNrate,
                     cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
                     cvs_rtstd_county: p_result.county.rtSTD,
@@ -265,8 +265,26 @@ var $mmria = function()
                     cvs_soccap_county: p_result.county.socCap,
                     cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
                     cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
-                    cvs_isolation_county: p_result.county.isolation
+                    
+                    
+
+                    //cvs_cnmrate_county: p_result.county.cnMrate,
+                    cvs_cnmrate_county: p_result.county.midwiveSrate,
+                    //cvs_segregation: p_result.county.segregation,
+                    cvs_isolation_county: p_result.county.segregation,
+
+                    //cvs_pcprate: p_result.county.PCPrate,
+                    cvs_mdrate_county: p_result.county.pcPrate,
+
+                    //cvs_rtviolentcr: p_result.county.rtVIOLENTCR,
+                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR,
+
+                    cvs_pctrural : p_result.county.pctRural,
+                    
+                    cvs_mhproviderrate :p_result.county.mhprovideRrate,
+
+                    cvs_racialized_pov : p_result.county.racialized_pov
+
                     }
 
                     g_data.cvs.cvs_grid = [ new_grid_item ];
