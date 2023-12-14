@@ -212,7 +212,10 @@ var $mmria = function()
                         cvs_rtsocassoc_county: "",
                         cvs_pcthouse_distress_county: "",
                         cvs_rtviolentcr_icpsr_county: "",
-                        cvs_isolation_county: ""
+                        cvs_isolation_county: "",
+                        cvs_pctrural : "",
+                        cvs_mhproviderrate : "",
+                        cvs_racialized_pov : ""
                         
                         };
     
@@ -266,23 +269,14 @@ var $mmria = function()
                     cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
                     cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
                     
-                    
-
-                    //cvs_cnmrate_county: p_result.county.cnMrate,
+                
                     cvs_cnmrate_county: p_result.county.midwiveSrate,
-                    //cvs_segregation: p_result.county.segregation,
                     cvs_isolation_county: p_result.county.segregation,
-
-                    //cvs_pcprate: p_result.county.PCPrate,
                     cvs_mdrate_county: p_result.county.pcPrate,
-
-                    //cvs_rtviolentcr: p_result.county.rtVIOLENTCR,
                     cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR,
 
                     cvs_pctrural : p_result.county.pctRural,
-                    
                     cvs_mhproviderrate :p_result.county.mhprovideRrate,
-
                     cvs_racialized_pov : p_result.county.racialized_pov
 
                     }
@@ -353,7 +347,10 @@ var $mmria = function()
                     cvs_rtsocassoc_county: "",
                     cvs_pcthouse_distress_county: "",
                     cvs_rtviolentcr_icpsr_county: "",
-                    cvs_isolation_county: ""
+                    cvs_isolation_county: "",
+                    cvs_pctrural : "",
+                    cvs_mhproviderrate : "",
+                    cvs_racialized_pov : ""
                 };
 
                 g_data.cvs.cvs_grid = [ new_grid_item ];
