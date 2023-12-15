@@ -32,7 +32,7 @@ public sealed class TAMUGeoCode
 			result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
 		
 		}
-		catch(Exception ex)
+		catch(Exception)
 		{
 			// do nothing for now
 		}
@@ -55,7 +55,7 @@ public sealed class TAMUGeoCode
 		string request_string = string.Format ("https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress={0}&city={1}&state={2}&zip={3}&apikey={4}&format=json&allowTies=false&tieBreakingStrategy=flipACoin&includeHeader=true&census=true&censusYear=2000|2010&notStore=false&version=4.01", street_address, city, state, zip, geocode_api_key);
 
 		var curl = new mmria.getset.cURL("GET", null, request_string, null);
-					// Read the content.
+
 		string responseFromServer = await curl.executeAsync();
 
 		var json_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.texas_am.geocode_response>(responseFromServer);
