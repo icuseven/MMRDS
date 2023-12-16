@@ -1324,15 +1324,15 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 	}
 	else
 	{
-		
+		const grid_index = p_ctx == null ? null : p_ctx.grid_index == null ? null : p_ctx.grid_index;
 		if(p_metadata.type=="boolean")
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx.grid_index}",this.checked)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${grid_index}",this.checked)'`);
 			
 		}
 		else
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx.grid_index}",this.value)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${grid_index}",this.value)'`);
 		}
 		
 	}
@@ -1381,13 +1381,24 @@ async function list_other_specify_onchange(p_object_path,p_metadata_path, p_dict
     for(let i = 0; i < other_specify_list_key.length; i++)
     {
         let item = other_specify_list_key[i];
-        let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+        const target_index = other_specify_list_path[i].lastIndexOf("/");
+        const target_name = other_specify_list_path[i].substr(target_index).replace("/",".");
+        const proper_index = p_object_path.lastIndexOf(".");
+
+        let object_path = p_object_path.substring(0,proper_index) + target_name;
+
         let other_specify_value = eval(object_path);
         if(p_control_value == item)
         {
             //other_specify_list_key_show.push(true);
             //"g_data.death_certificate.demographics.is_of_hispanic_origin"
-            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'block');
+            $mmria.set_control_visibility
+            (
+                convert_object_path_to_jquery_id(object_path),
+                'block',
+                null,
+                p_is_grid_context
+            );
 
         }
         else
