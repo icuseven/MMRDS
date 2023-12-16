@@ -5,8 +5,8 @@ var $mmria = function()
         {
             const lat = g_data.death_certificate.place_of_last_residence.latitude;
             const lon = g_data.death_certificate.place_of_last_residence.longitude;
-            const year = g_data.tracking.date_of_death.year;
-            const record_id = g_data.tracking.pmssno;
+            const year = g_data.home_record.date_of_death.year;
+            const record_id = g_data.home_record.record_id;
 
             if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {
@@ -86,8 +86,8 @@ var $mmria = function()
 
             const lat = g_data.death_certificate.place_of_last_residence.latitude;
             const lon = g_data.death_certificate.place_of_last_residence.longitude;
-            const year = g_data.tracking.date_of_death.year;
-            const record_id = g_data.tracking.pmssno;
+            const year = g_data.home_record.date_of_death.year;
+            const record_id = g_data.home_record.record_id;
 
             if(g_is_committee_member_view != null && g_is_committee_member_view == true)
             {
@@ -212,7 +212,10 @@ var $mmria = function()
                         cvs_rtsocassoc_county: "",
                         cvs_pcthouse_distress_county: "",
                         cvs_rtviolentcr_icpsr_county: "",
-                        cvs_isolation_county: ""
+                        cvs_isolation_county: "",
+                        cvs_pctrural : "",
+                        cvs_mhproviderrate : "",
+                        cvs_racialized_pov : ""
                         
                         };
     
@@ -230,7 +233,7 @@ var $mmria = function()
                     cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
                     cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
                     cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    cvs_mdrate_county: p_result.county.mDrate,
+                    
                     cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
                     cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
                     cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
@@ -255,7 +258,7 @@ var $mmria = function()
                     cvs_medhhinc_tract: p_result.tract.medhhinc,
                     cvs_pctobese_county: p_result.county.pctOBESE,
                     cvs_fi_county: p_result.county.fi,
-                    cvs_cnmrate_county: p_result.county.cnMrate,
+                    
                     cvs_obgynrate_county: p_result.county.obgyNrate,
                     cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
                     cvs_rtstd_county: p_result.county.rtSTD,
@@ -265,8 +268,17 @@ var $mmria = function()
                     cvs_soccap_county: p_result.county.socCap,
                     cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
                     cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR_ICPSR,
-                    cvs_isolation_county: p_result.county.isolation
+                    
+                
+                    cvs_cnmrate_county: p_result.county.midwiveSrate,
+                    cvs_isolation_county: p_result.county.segregation,
+                    cvs_mdrate_county: p_result.county.pcPrate,
+                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR,
+
+                    cvs_pctrural : p_result.county.pctRural,
+                    cvs_mhproviderrate :p_result.county.mhprovideRrate,
+                    cvs_racialized_pov : p_result.county.racialized_pov
+
                     }
 
                     g_data.cvs.cvs_grid = [ new_grid_item ];
@@ -335,7 +347,10 @@ var $mmria = function()
                     cvs_rtsocassoc_county: "",
                     cvs_pcthouse_distress_county: "",
                     cvs_rtviolentcr_icpsr_county: "",
-                    cvs_isolation_county: ""
+                    cvs_isolation_county: "",
+                    cvs_pctrural : "",
+                    cvs_mhproviderrate : "",
+                    cvs_racialized_pov : ""
                 };
 
                 g_data.cvs.cvs_grid = [ new_grid_item ];
@@ -931,7 +946,48 @@ var $mmria = function()
             $("#mmria_dialog").dialog("open");
             // $(".ui-dialog-titlebar")[0].children[0].style="background-color:silver";
         },
-        info_dialog_show: function (p_title, p_header, p_inner_html){
+        info_dialog_show: function (p_title, p_header, p_inner_html, p_message_type = "default")
+        {
+            var publishedAlertTypeStyling= [];
+            
+            if (p_message_type == "information")
+                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-alert_01", "btn-primary"]
+            else if (p_message_type == "warning")
+                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-alert_02", "btn-primary"]
+            else if (p_message_type == "error")
+                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-close-circle", "btn-primary"]
+            else
+                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-close-circle", "btn-primary"]
+            function get_header()
+            {
+                switch(p_message_type.toLowerCase())
+                {
+                    case "information":
+                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                    case "warning":
+                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                    case "error":
+                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                    default:
+                        return `<div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
+                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close " onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>`
+                    break;
+                }
+            }
         let element = document.getElementById("case-progress-info-id");
             if(element == null)
             {
@@ -939,32 +995,26 @@ var $mmria = function()
                 element.classList.add('p-0');
                 element.classList.add('set-radius');
                 element.setAttribute("id", "case-progress-info-id");
-
+                element.setAttribute("aria-modal", "true");
                 document.firstElementChild.appendChild(element);
             }
-
             let html = [];
             html.push(`
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                    <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
-                </div>
+                ${get_header()}
                 <div id="mmria_dialog2" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
                         <p><strong>${p_header}</strong></p>
                         ${p_inner_html}
                     </div>
                     <footer class="modal-footer">
-                        <button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>
+                        <button class="btn ${publishedAlertTypeStyling[2]} mr-1" onclick="$mmria.info_dialog_click()">OK</button>
                     </footer>
                 </div>
             `);
-
             // html.push(`<h3 class="mt-0">${p_title}</h3>`);
             // html.push(`<p><strong>${p_header}</p>`);
             // html.push(`${p_inner_html}`);
             // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
-            
             element.innerHTML = html.join("");
             mmria_pre_modal("case-progress-info-id");
             element.showModal();
@@ -990,9 +1040,9 @@ var $mmria = function()
             
             let html = [];
             html.push(`
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <div class="justify-content-start modal-header bg-primary ui-widget-header ui-helper-clearfix">
                     <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                    <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    <button id="modal_confirm_cancel_icon"="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close info dialog" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
                 <div id="mmria_dialog3" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body">
@@ -1167,7 +1217,7 @@ var $mmria = function()
                         <div class="modal-body">
                             <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
                                 <tr class="tr bg-gray-l1 font-weight-bold">
-                                    <th class="th" width="140" scope="col">PMSS Form</th>
+                                    <th class="th" width="140" scope="col">MMRIA Form</th>
                                     <th class="th" width="140" scope="col">Export File Name</th>
                                     <th class="th" width="120" scope="col">Export Field</th>
                                     <th class="th" width="180" scope="col">Prompt</th>
@@ -1447,6 +1497,128 @@ var $mmria = function()
             if(el != null)
                 el.close();
         },
+        duplicate_multiform_dialog_show: async function 
+        (
+            p_object_path, 
+            p_metadata_path, 
+            p_index
+        )
+        {
+
+            const dialog_id = "multiform-dialog-id";
+            //g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
+
+            const Title_Text = [];
+            const Button_Text = [];
+            const Description_Text = [];
+            const Button_Event = [];
+            const Button_style = [];
+
+    
+            Title_Text.push("Confirm Record Duplication");
+            //Button_Text.push("Cancel");
+            Button_Text.push("Duplicate Record");
+            Description_Text.push
+            (`
+A duplicate of this record will be added:
+<br/>
+<br/>
+<ul>
+<li>Name and location information will be prefilled with the data from the original record.</li>
+<li>Date fields will remain blank.</li>
+</ul>
+<br/>
+Please update the duplicate record as applicable.
+            `);
+            
+            
+            
+            Button_Event.push(`g_duplicate_record_item('${p_object_path}', '${p_metadata_path}', ${p_index})`);
+            Button_style.push(`style="height: 38px;
+            padding-left: 12px;
+            padding-right: 12px;
+            border-radius: 4px;
+            border: 1px solid #712177;
+            background-color: #712177;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
+            line-height: normal;
+            cursor: pointer;"`);
+                
+
+
+            let element = document.getElementById(dialog_id);
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", dialog_id);
+                    element.setAttribute("aria-modal", "true");
+                    element.setAttribute("role","dialog");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.width = "520px";
+                element.style.transform = "translateY(0%)";
+
+    
+                let html = [];
+                html.push(`
+                    <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix" role="dialog">
+                        <span id="ui-id-1" class="ui-dialog-title">${Title_Text[0]}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.duplicate_multiform_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog7" style="width: 300; height: 260px;" class="ui-dialog-content ui-widget-content" role="dialog">
+                        <div class="modal-body">
+                                <div >
+                       ${Description_Text[0]}
+                       <br/><br/>
+                                    <div style="text-align:right;padding-right: 8px;">
+                                        <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" onclick="$mmria.duplicate_multiform_dialog_click()">Cancel</button>
+                                        <input id="duplicate_dialog_choice" class="btn-primary" type="button" value="${Button_Text[0]}" onclick="${Button_Event[0]}" style="height: 38px;
+                                        padding-left: 12px;
+                                        padding-right: 12px;
+                                        border-radius: 4px;
+                                        border: 1px solid #712177;
+                                        background-color: #712177;
+                                        box-sizing: border-box;
+                                        font-family: 'Open Sans', sans-serif;
+                                        color: rgba(255, 255, 255, 1);
+                                        text-align: center;
+                                        line-height: normal;
+                                        cursor: pointer;"/>
+                                        
+            
+                                    </div>
+
+                                </div>
+                        
+                        </div>
+
+                    </div>
+
+                `);
+    
+                element.innerHTML = html.join("");
+
+                mmria_pre_modal(dialog_id);
+
+                window.setTimeout(()=> { const duplicate_dialog_choice = document.getElementById("duplicate_dialog_choice"); duplicate_dialog_choice.focus(); }, 0);
+    
+                element.showModal();
+                
+        },
+        duplicate_multiform_dialog_click: function ()
+        {
+            mmria_post_modal();
+            const el = document.getElementById("multiform-dialog-id");
+            if(el != null)
+                el.close();
+        },
         unstable_network_dialog_show: async function (p_error, p_note)
         {
 
@@ -1470,14 +1642,27 @@ var $mmria = function()
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Network Unstable</span>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Unable to Save/Network Unstable</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
-                         <p>To prevent data loss, <b>do NOT close this PMSS form.</b></p>
+                         <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
                          <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
-                         <p>If this error occurs again, please contact <b>PMSS Support</b> at <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>.</p>
+                         
+                         <p>
+                         <b>If this error occurs again, please do the following:</b> 
+                         <ol>
+                            <li>Select <u>Show Error Detail</u> below</li>
+                            <li>Select <u>Copy Details to Clipboard</u></li>
+                            <li>Send an email to MMRIA Support with the following details:
+                            <ul>
+                            <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
+                            <li>Subject: MMRIA Save Error</li>
+                            <li>Body: Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
+                            </ul>
+                         </li>
+                        </ol>
                          <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>
@@ -1533,69 +1718,6 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
         {
             const el = document.getElementById('server_response_detail_div');
             el.style.display = 'none';
-        },
-        confirm_dependent_change_show: function 
-        (
-            p_confirm_dialog_confirm_callback, 
-            p_confirm_dialog_cancel_callback
-        )
-        {
-            let element = document.getElementById("confirm-dependent-change-dialog-id");
-            if(element == null)
-            {
-                element = document.createElement("dialog");
-                element.classList.add('p-0');
-                element.classList.add('set-radius');
-                element.setAttribute("id", "confirm-dependent-change-dialog-id");
-                element.setAttribute("role", "dialog");
-
-                document.firstElementChild.appendChild(element);
-            }
-
-
-            let html = [];
-            html.push(`
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                    <span id="ui-id-1" class="ui-dialog-title">Parent List Changed Notification</span>
-                    <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dependent_change_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
-                </div>
-                <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
-                    <div class="modal-body">
-                        <p><strong>Dependent List Changed</strong><br/><br/>
-                        If you continue child list values will be cleared.</strong></p>
-                    </div>
-                    <footer class="modal-footer">
-                        <button id="confirm-dependent-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
-                        <button id="confirm-dependent-dialog-id-confirm-button" class="btn btn-primary mr-1" >Continue</button> 
-                    </footer>
-                </div>
-            `);
-            
-            element.innerHTML = html.join("");
-
-            element.style.top = ((window.innerHeight/2) - (element.offsetHeight/2))+'px';
-            //element.style.left = ((window.innerWidth/2) - (element.offsetWidth/2))+'px';
-            
-
-            let confirm_button = document.getElementById("confirm-dependent-dialog-id-confirm-button");
-            let canel_button = document.getElementById("confirm-dependent-dialog-id-cancel-button");
-            let modal_confirm_cancel_icon = document.getElementById("modal_confirm_cancel_icon");
-
-            
-            confirm_button.onclick =  p_confirm_dialog_confirm_callback;
-            canel_button.onclick = p_confirm_dialog_cancel_callback;
-            modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
-
-
-            mmria_pre_modal("confirm-dependent-change-dialog-id");
-
-            element.showModal();
-        },
-        confirm_dependent_change_close: function ()
-        {
-            mmria_post_modal();
-            let el = document.getElementById("confirm-dependent-change-dialog-id");
-            el.close();
         }
 
 

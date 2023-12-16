@@ -1,24 +1,5 @@
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
-
-    let parent_list_path = null;
-    let parent_list_value = null;
-
-    let is_parent_depended_upon = false;
-
-    if(g_dependent_parent_to_child.has(p_dictionary_path.substr(1)))
-    {
-        is_parent_depended_upon = true;
-    }
-
-    if(g_dependent_child_to_parent.has(p_dictionary_path.substr(1)))
-    {
-        const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
-
-        parent_list_path = `g_data.${parent_path.replace(/\//g,".")}`;
-        parent_list_value = eval(parent_list_path);
-    }
-
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
@@ -160,6 +141,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
     else
     {
+
         if (g_data_is_checked_out)
         {
             if(other_specify_list_key.length > 0)
@@ -187,23 +169,16 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     {
                         page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
                     }
-                    else if(is_parent_depended_upon)
-                    {
-                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_dictionary_path.substr(1)}")';`);
-
-                    }
                 }
 
                 page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
             }
         }
-        
     }
 
     p_result.push(">");
 
 
-    
    
 
 
@@ -211,19 +186,6 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     for(let i = 0; i < metadata_value_list.length; i++)
     {
         let item = metadata_value_list[i];
-
-        if(parent_list_value != null)
-        {
-            if(parent_list_value == "9999")
-            {
-                continue;
-            }
-            else if(item.parent_value != parent_list_value)
-            {
-                continue;
-            }
-        }
-        
 
         if(p_data == item.value)
         {
@@ -1239,7 +1201,14 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
 }
 
 
-function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
+function set_list_lookup
+(
+    p_list_lookup, 
+    p_name_to_value_lookup, 
+    p_value_to_index_number_lookup, 
+    p_metadata, 
+    p_path
+)
 {
     switch(p_metadata.type.toLowerCase())
     {
@@ -1250,7 +1219,14 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, child, p_path + "/" + child.name);
+                set_list_lookup
+                (
+                    p_list_lookup, 
+                    p_name_to_value_lookup, 
+                    p_value_to_index_number_lookup, 
+                    child, 
+                    p_path + "/" + child.name
+                );
             }
 
             break;
@@ -1258,16 +1234,6 @@ function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index
         default:
             if(p_metadata.type.toLowerCase() == "list")
             {
-                if
-                (
-                    p_metadata.parent_list != null &&
-                    p_metadata.parent_list.toString().trim().length != 0
-                )
-                {
-                    g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
-                    g_dependent_child_to_parent.set(p_path.substring(1), p_metadata.parent_list);
-                }
-
                 let data_value_list = p_metadata.values;
 
                 if(p_metadata.path_reference && p_metadata.path_reference != "")
@@ -1358,15 +1324,15 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 	}
 	else
 	{
-		
+		const grid_index = p_ctx == null ? null : p_ctx.grid_index == null ? null : p_ctx.grid_index;
 		if(p_metadata.type=="boolean")
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.checked)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${grid_index}",this.checked)'`);
 			
 		}
 		else
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.value)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${grid_index}",this.value)'`);
 		}
 		
 	}
@@ -1415,13 +1381,24 @@ async function list_other_specify_onchange(p_object_path,p_metadata_path, p_dict
     for(let i = 0; i < other_specify_list_key.length; i++)
     {
         let item = other_specify_list_key[i];
-        let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
+        const target_index = other_specify_list_path[i].lastIndexOf("/");
+        const target_name = other_specify_list_path[i].substr(target_index).replace("/",".");
+        const proper_index = p_object_path.lastIndexOf(".");
+
+        let object_path = p_object_path.substring(0,proper_index) + target_name;
+
         let other_specify_value = eval(object_path);
         if(p_control_value == item)
         {
             //other_specify_list_key_show.push(true);
             //"g_data.death_certificate.demographics.is_of_hispanic_origin"
-            $mmria.set_control_visibility(convert_object_path_to_jquery_id(object_path), 'block');
+            $mmria.set_control_visibility
+            (
+                convert_object_path_to_jquery_id(object_path),
+                'block',
+                null,
+                p_is_grid_context
+            );
 
         }
         else
@@ -1757,53 +1734,4 @@ function list_checkbox_contains_value(p_list, p_value)
     }
     
     return result;
-}
-
-function list_check_for_dependent_change(p_control, p_parent_path)
-{
-    if(!g_data_is_checked_out) return;
-    if(! g_dependent_parent_to_child.has(p_parent_path))
-    return;
-
-    console.log(`${p_parent_path} check for change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
-
-    //console.log(g_look_up['lookup/cod_ddl_cdccod']);
-
-    const child_data = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
-
-    if
-    (
-        child_data == null ||
-        child_data == "" ||
-        p_control.value != child_data
-    )
-    {
-        $mmria.confirm_dependent_change_show
-        (
-            ()=> list_apply_dependent_change(p_parent_path),
-            $mmria.confirm_dependent_change_close
-        )
-    }
-    else
-    {
-        list_apply_dependent_change(p_parent_path);
-    }
-
-
-}
-
-
-function list_apply_dependent_change(p_parent_path)
-{
-    if(!g_data_is_checked_out) return;
-    if(! g_dependent_parent_to_child.has(p_parent_path))
-    return;
-
-    console.log(`${p_parent_path} apply change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
-
-    console.log(g_look_up['lookup/cod_ddl_cdccod']);
-
-    const child_element = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
-
-    
 }
