@@ -1327,12 +1327,12 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 		
 		if(p_metadata.type=="boolean")
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.checked)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx.grid_index}",this.checked)'`);
 			
 		}
 		else
 		{
-            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx}",this.value)'`);
+            p_result.push(`" onchange='list_other_specify_onchange("${p_object_path}","${p_metadata_path}","${p_dictionary_path}", "${p_ctx.grid_index}",this.value)'`);
 		}
 		
 	}
