@@ -1,5 +1,23 @@
 function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx)
 {
+    let parent_list_path = null;
+    let parent_list_value = null;
+
+    let is_parent_depended_upon = false;
+
+    if(g_dependent_parent_to_child.has(p_dictionary_path.substr(1)))
+    {
+        is_parent_depended_upon = true;
+    }
+
+    if(g_dependent_child_to_parent.has(p_dictionary_path.substr(1)))
+    {
+        const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
+
+        parent_list_path = `g_data.${parent_path.replace(/\//g,".")}`;
+        parent_list_value = eval(parent_list_path);
+    }
+
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
     {
         Array.prototype.push.apply(p_result, list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx));
@@ -62,6 +80,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
         }
     }
+
 
     p_result.push(`<div class="list" id="${convert_object_path_to_jquery_id(p_object_path)}" mpath="${p_metadata_path}">`);
     
@@ -159,6 +178,21 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                 list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
             }
+            else if(other_specify_list_key.length > 0)
+            {
+                if (path_to_int_map[p_metadata_path])
+                {
+
+                    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+                    if(path_to_onchange_map[p_metadata_path])
+                    {
+                        list_other_specify_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                    }
+                }
+
+                list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+
+            }
             else
             {
                 if (path_to_int_map[p_metadata_path])
@@ -168,6 +202,11 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     if(path_to_onchange_map[p_metadata_path])
                     {
                         page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                    }
+                    else if(is_parent_depended_upon)
+                    {
+                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_dictionary_path.substr(1)}")';`);
+
                     }
                 }
 
@@ -1234,6 +1273,16 @@ function set_list_lookup
         default:
             if(p_metadata.type.toLowerCase() == "list")
             {
+                if
+                (
+                    p_metadata.parent_list != null &&
+                    p_metadata.parent_list.toString().trim().length != 0
+                )
+                {
+                    g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
+                    g_dependent_child_to_parent.set(p_path.substring(1), p_metadata.parent_list);
+                }
+
                 let data_value_list = p_metadata.values;
 
                 if(p_metadata.path_reference && p_metadata.path_reference != "")
@@ -1734,4 +1783,53 @@ function list_checkbox_contains_value(p_list, p_value)
     }
     
     return result;
+}
+
+function list_check_for_dependent_change(p_control, p_parent_path)
+{
+    if(!g_data_is_checked_out) return;
+    if(! g_dependent_parent_to_child.has(p_parent_path))
+    return;
+
+    console.log(`${p_parent_path} check for change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+
+    //console.log(g_look_up['lookup/cod_ddl_cdccod']);
+
+    const child_data = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+
+    if
+    (
+        child_data == null ||
+        child_data == "" ||
+        p_control.value != child_data
+    )
+    {
+        $mmria.confirm_dependent_change_show
+        (
+            ()=> list_apply_dependent_change(p_parent_path),
+            $mmria.confirm_dependent_change_close
+        )
+    }
+    else
+    {
+        list_apply_dependent_change(p_parent_path);
+    }
+
+
+}
+
+
+function list_apply_dependent_change(p_parent_path)
+{
+    if(!g_data_is_checked_out) return;
+    if(! g_dependent_parent_to_child.has(p_parent_path))
+    return;
+
+    console.log(`${p_parent_path} apply change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+
+    console.log(g_look_up['lookup/cod_ddl_cdccod']);
+
+    const child_element = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+
+    
 }

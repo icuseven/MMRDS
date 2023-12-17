@@ -54,6 +54,9 @@ let save_start_time, save_end_time;
 
 const g_cvs_api_request_data = new Map();
 
+const g_dependent_parent_to_child = new Map();
+const g_dependent_child_to_parent = new Map();
+
 
 const peg_parser = peg.generate(`
 start = blank_space html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)* blank_space html_end_tag blank_space
