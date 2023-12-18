@@ -205,7 +205,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     }
                     else if(is_parent_depended_upon)
                     {
-                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_dictionary_path.substr(1)}")';`);
+                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}")';`);
 
                     }
                 }
@@ -225,6 +225,16 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     for(let i = 0; i < metadata_value_list.length; i++)
     {
         let item = metadata_value_list[i];
+
+        if
+        (
+            parent_list_value != null && 
+            item.value != "9999" &&
+            item.parent_value != parent_list_value
+        )
+        {
+            continue;
+        }
 
         if(p_data == item.value)
         {
@@ -1246,7 +1256,8 @@ function set_list_lookup
     p_name_to_value_lookup, 
     p_value_to_index_number_lookup, 
     p_metadata, 
-    p_path
+    p_path,
+    p_metadata_path
 )
 {
     switch(p_metadata.type.toLowerCase())
@@ -1264,7 +1275,8 @@ function set_list_lookup
                     p_name_to_value_lookup, 
                     p_value_to_index_number_lookup, 
                     child, 
-                    p_path + "/" + child.name
+                    p_path + "/" + child.name,
+                    p_metadata_path + '.children[' + i + "]"
                 );
             }
 
@@ -1281,6 +1293,7 @@ function set_list_lookup
                 {
                     g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
                     g_dependent_child_to_parent.set(p_path.substring(1), p_metadata.parent_list);
+                    g_dependent_child_metadata.set(p_path.substring(1), p_metadata_path);
                 }
 
                 let data_value_list = p_metadata.values;
@@ -1751,10 +1764,6 @@ async function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_
         onclick_function = click_code[index_of_function];
         window.setTimeout(function() {eval(onclick_function);});
     }
-
-    
-    
-        
 }
 
 function list_clear_other_specify_cancel(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_data)
@@ -1785,7 +1794,13 @@ function list_checkbox_contains_value(p_list, p_value)
     return result;
 }
 
-function list_check_for_dependent_change(p_control, p_parent_path)
+async function list_check_for_dependent_change
+(
+    p_control, 
+    p_metadata_path,
+    p_object_path,
+    p_parent_path
+    )
 {
     if(!g_data_is_checked_out) return;
     if(! g_dependent_parent_to_child.has(p_parent_path))
@@ -1799,37 +1814,78 @@ function list_check_for_dependent_change(p_control, p_parent_path)
 
     if
     (
-        child_data == null ||
-        child_data == "" ||
+        child_data != null &&
+        child_data != "" &&
+        child_data != "9999" &&
         p_control.value != child_data
     )
     {
         $mmria.confirm_dependent_change_show
         (
-            ()=> list_apply_dependent_change(p_parent_path),
+            ()=> list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path),
             $mmria.confirm_dependent_change_close
         )
     }
     else
     {
-        list_apply_dependent_change(p_parent_path);
+        list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path);
     }
 
 
 }
 
 
-function list_apply_dependent_change(p_parent_path)
+function list_apply_dependent_change
+(
+    p_metadata_path,
+    p_object_path,
+    p_parent_path
+    
+)
 {
     if(!g_data_is_checked_out) return;
     if(! g_dependent_parent_to_child.has(p_parent_path))
     return;
 
-    console.log(`${p_parent_path} apply change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+    const p_dictionary_path = g_dependent_parent_to_child.get(p_parent_path);
+    const metadata_path = g_dependent_child_metadata.get(p_dictionary_path);
 
-    console.log(g_look_up['lookup/cod_ddl_cdccod']);
+    console.log(`${p_parent_path} apply change => ${p_dictionary_path}`)
 
-    const child_element = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+    //console.log(g_look_up['lookup/cod_ddl_cdccod']);
+
+    //const child_element = eval("g_data." + p_dictionary_path.replace(/\//g, "."));
+
+    const child_element  = document.getElementById(`${convert_object_path_to_jquery_id("g_data." + p_dictionary_path.replace(/\//g, "."))}`);
+    
+    const object_path = "g_data." + p_dictionary_path.replace(/\//g, ".");
+
+    console.log(child_element);
+
+    let post_html_call_back = [];
+    let render_result = page_render(
+      eval(metadata_path),
+      eval(object_path),
+      g_ui,
+      metadata_path,
+      object_path,
+      "/" + p_dictionary_path,
+      false,
+      post_html_call_back
+    ).join('');
+    child_element.innerHTML = render_result;
 
     
+}
+
+function list_apply_dependent_change_cancel(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_data)
+{
+   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
+   if(checkbox_input!= null && checkbox_input.checked!= null)
+   {
+        checkbox_input.checked = true;
+   }
+    
+    $mmria.confirm_dialog_confirm_close();
+        
 }

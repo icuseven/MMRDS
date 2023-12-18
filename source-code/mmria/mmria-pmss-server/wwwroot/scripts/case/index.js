@@ -61,6 +61,7 @@ const g_cvs_api_request_data = new Map();
 
 const g_dependent_parent_to_child = new Map();
 const g_dependent_child_to_parent = new Map();
+const g_dependent_child_metadata = new Map();
 
 
 
@@ -1642,7 +1643,8 @@ async function load_and_set_data()
       g_value_to_display_lookup,
       g_value_to_index_number_lookup,
       g_metadata,
-      ''
+      '',
+      'g_metadata'
     );
 
     for (let i in g_metadata.lookup) 
@@ -1857,7 +1859,8 @@ function get_metadata()
       g_value_to_display_lookup,
       g_value_to_index_number_lookup,
       g_metadata,
-      ''
+      '',
+      'g_metadata'
     );
 
     for (var i in g_metadata.lookup) 
