@@ -205,7 +205,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                     }
                     else if(is_parent_depended_upon)
                     {
-                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}")';`);
+                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}", "${p_data}")';`);
 
                     }
                 }
@@ -1293,8 +1293,10 @@ function set_list_lookup
                 {
                     g_dependent_parent_to_child.set(p_metadata.parent_list, p_path.substring(1));
                     g_dependent_child_to_parent.set(p_path.substring(1), p_metadata.parent_list);
-                    g_dependent_child_metadata.set(p_path.substring(1), p_metadata_path);
+                    
                 }
+
+                g_dependent_child_metadata.set(p_path.substring(1), p_metadata_path);
 
                 let data_value_list = p_metadata.values;
 
@@ -1799,18 +1801,21 @@ async function list_check_for_dependent_change
     p_control, 
     p_metadata_path,
     p_object_path,
-    p_parent_path
-    )
+    p_parent_path,
+    p_data
+)
 {
     if(!g_data_is_checked_out) return;
     if(! g_dependent_parent_to_child.has(p_parent_path))
     return;
 
-    console.log(`${p_parent_path} check for change => ${g_dependent_parent_to_child.get(p_parent_path)}`)
+    const child_path = g_dependent_parent_to_child.get(p_parent_path);
+
+    //console.log(`${p_parent_path} check for change => ${child_path}`)
 
     //console.log(g_look_up['lookup/cod_ddl_cdccod']);
 
-    const child_data = eval("g_data." + g_dependent_parent_to_child.get(p_parent_path).replace(/\//g, "."));
+    const child_data = eval("g_data." + child_path.replace(/\//g, "."));
 
     if
     (
@@ -1819,27 +1824,36 @@ async function list_check_for_dependent_change
         child_data != "9999" &&
         p_control.value != child_data
     )
-    {
-        $mmria.confirm_dependent_change_show
+    {   
+        const metadata = eval(p_metadata_path);
+        const child_metadata = eval(g_dependent_child_metadata.get(p_parent_path));
+
+        const current_value = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_control`).value;
+        $mmria.confirm_dialog_show
         (
-            ()=> list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path),
-            $mmria.confirm_dependent_change_close
-        )
+            "Confirm Selection", 
+            "",
+            `Are you sure you want to change the <strong>${metadata.prompt}</strong> list box? selection? The text in the <strong>${child_metadata.prompt}</strong> child list will be cleared.`,
+            new Function(`list_apply_dependent_change("${p_metadata_path}","${p_object_path}","${p_parent_path}","${current_value}");`),
+            new Function(`list_apply_dependent_change_cancel("${p_metadata_path}","${p_object_path}","${p_parent_path}","${p_data}");`)
+        
+        );
     }
     else
     {
-        list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path);
+        list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_data);
     }
 
 
 }
 
 
-function list_apply_dependent_change
+async function list_apply_dependent_change
 (
     p_metadata_path,
     p_object_path,
-    p_parent_path
+    p_parent_path,
+    p_data
     
 )
 {
@@ -1850,7 +1864,8 @@ function list_apply_dependent_change
     const p_dictionary_path = g_dependent_parent_to_child.get(p_parent_path);
     const metadata_path = g_dependent_child_metadata.get(p_dictionary_path);
 
-    console.log(`${p_parent_path} apply change => ${p_dictionary_path}`)
+
+    //console.log(`${p_parent_path} apply change => ${p_dictionary_path}`)
 
     //console.log(g_look_up['lookup/cod_ddl_cdccod']);
 
@@ -1860,7 +1875,9 @@ function list_apply_dependent_change
     
     const object_path = "g_data." + p_dictionary_path.replace(/\//g, ".");
 
-    console.log(child_element);
+    eval(`${object_path} = "9999"`)
+
+    //console.log(child_element);
 
     let post_html_call_back = [];
     let render_result = page_render(
@@ -1875,17 +1892,27 @@ function list_apply_dependent_change
     ).join('');
     child_element.innerHTML = render_result;
 
+    //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
+
+
+    $mmria.confirm_dialog_confirm_close();
     
 }
 
-function list_apply_dependent_change_cancel(p_object_path,p_metadata_path,p_dictionary_path, p_other_specify_object_path, p_data)
+function list_apply_dependent_change_cancel
+(
+    p_metadata_path,
+    p_object_path,
+    p_parent_path,
+    p_data
+)
 {
-   let checkbox_input = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_${p_data}`);
-   if(checkbox_input!= null && checkbox_input.checked!= null)
-   {
-        checkbox_input.checked = true;
-   }
-    
+   const el = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_control`);    
+
+   eval(`${p_object_path} = "${p_data}"`);
+
+    $mmria.set_control_value(p_parent_path, p_data);
+
     $mmria.confirm_dialog_confirm_close();
         
 }

@@ -1075,7 +1075,8 @@ var $mmria = function()
         {
             mmria_post_modal();
             let el = document.getElementById("confirm-dialog-id");
-            el.close();
+            if(el != null)
+                el.close();
         },
 
         confirm_external_nav_dialog_show: function 
