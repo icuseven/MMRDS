@@ -10,8 +10,15 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
 
     if(other_specify!= null)
     {
-        let object_path = `g_data.${other_specify.list.replace(/\//g,".")}`;
+        //let object_path = `g_data.${other_specify.list.replace(/\//g,".")}`;
+        
+        const target_index = other_specify.list.lastIndexOf("/");
+        const target_name = other_specify.list.substr(target_index).replace("/",".");
+        const proper_index = p_object_path.lastIndexOf(".");
+
+        let object_path = p_object_path.substring(0,proper_index) + target_name;
         let other_data = eval(object_path);
+
 
         if(Array.isArray(other_data))
         {

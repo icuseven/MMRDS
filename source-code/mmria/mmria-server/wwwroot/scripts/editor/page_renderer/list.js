@@ -1404,7 +1404,14 @@ function list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata
 }
 
 
-async function list_other_specify_onchange(p_object_path,p_metadata_path, p_dictionary_path, p_is_grid_context, p_control_value)
+async function list_other_specify_onchange
+(
+    p_object_path,
+    p_metadata_path, 
+    p_dictionary_path, 
+    p_grid_index, 
+    p_control_value
+)
 {
 
     //p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx
@@ -1461,7 +1468,7 @@ async function list_other_specify_onchange(p_object_path,p_metadata_path, p_dict
                 convert_object_path_to_jquery_id(object_path),
                 'block',
                 null,
-                p_is_grid_context
+                p_grid_index
             );
 
         }
