@@ -15,7 +15,16 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
 
         parent_list_path = `g_data.${parent_path.replace(/\//g,".")}`;
-        parent_list_value = eval(parent_list_path);
+        const el = document.getElementById(convert_object_path_to_jquery_id(parent_list_path) + "_control");
+        if(el != null)
+        {
+            parent_list_value = document.getElementById(convert_object_path_to_jquery_id(parent_list_path) + "_control").value
+        }
+        else
+        {
+            parent_list_value = eval(parent_list_path);
+        }
+        
     }
 
     if(p_metadata.control_style && p_metadata.control_style.toLowerCase().indexOf("editable") > -1)
@@ -195,32 +204,34 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
             }
             else
             {
-                if (path_to_int_map[p_metadata_path])
+
+                if(is_parent_depended_upon)
                 {
+                    p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}", "${p_data}")';`);
 
-                    f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
-                    if(path_to_onchange_map[p_metadata_path])
-                    {
-                        page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
-                    }
-                    else if(is_parent_depended_upon)
-                    {
-                        p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}", "${p_data}")';`);
-
-                    }
                 }
+                else 
+                {
+                    if (path_to_int_map[p_metadata_path])
+                    {
 
-                page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+                        f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+                        if(path_to_onchange_map[p_metadata_path])
+                        {
+                            page_render_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
+                        }
+                        
+                    }
+
+                    page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
+                }
             }
         }
     }
 
     p_result.push(">");
 
-
-   
-
-
+    let how_many_added = 0;
 
     for(let i = 0; i < metadata_value_list.length; i++)
     {
@@ -235,6 +246,8 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             continue;
         }
+
+        how_many_added+=1;
 
         if(p_data == item.value)
         {
@@ -323,6 +336,17 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     
     p_result.push("</div>");
 
+    if
+    (
+        parent_list_value != null && 
+        how_many_added == 1
+    )
+    {
+        p_post_html_render.push(`
+        document.getElementById('${convert_object_path_to_jquery_id(p_object_path)}_control').setAttribute("disabled", "disabled");
+        
+        `);
+    }
 
 }
 
@@ -1848,7 +1872,7 @@ async function list_check_for_dependent_change
     }
     else
     {
-        list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_data);
+        await list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_data);
     }
 
 
@@ -1898,6 +1922,12 @@ async function list_apply_dependent_change
       post_html_call_back
     ).join('');
     child_element.innerHTML = render_result;
+
+    const child_control = document.getElementById(`${convert_object_path_to_jquery_id("g_data." + p_dictionary_path.replace(/\//g, "."))}_control`);
+    if(child_control.options.length == 1)
+    {
+        child_control.setAttribute("disabled","disabled");
+    }
 
     //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
 
