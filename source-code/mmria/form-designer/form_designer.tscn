@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://dk66al0rtosgl"]
+
+[node name="FormDesigner" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+split_offset = 100
+
+[node name="ColorRect" type="ColorRect" parent="HSplitContainer"]
+layout_mode = 2
+color = Color(0.0196078, 0.698039, 0.792157, 1)
+
+[node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer"]
+layout_mode = 2
+split_offset = 100
+
+[node name="ColorRect3" type="ColorRect" parent="HSplitContainer/VSplitContainer"]
+layout_mode = 2
+color = Color(0.247059, 0.721569, 0.521569, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSplitContainer" type="HSplitContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+split_offset = 600
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer/ScrollContainer"]
+custom_minimum_size = Vector2(800, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer/ScrollContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "800 x 800
+"
+
+[node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect3" type="ColorRect" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer/TabContainer"]
+custom_minimum_size = Vector2(100, 500)
+layout_mode = 2
+color = Color(0.160784, 0.160784, 0.160784, 1)
