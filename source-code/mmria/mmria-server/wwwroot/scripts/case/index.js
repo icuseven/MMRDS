@@ -4129,6 +4129,14 @@ dependent_autocalc_list.add("/mental_health_profile/were_there_documented_mental
 /mental_health_profile/were_there_documented_mental_health_conditions/gestational_days"
 */
 
+let autorecalculate_count = 0;
+let autorecalculate_niosh = 0;
+let autorecalculate_independent = 0;
+let autorecalculate_gestation_all = 0;
+let autorecalculate_gestation = 0;
+let autorecalculate_entry = 0;
+
+let is_log_auto_count = true;
 
 async function autorecalculate
 (
@@ -4141,6 +4149,7 @@ async function autorecalculate
     if(independent_autocalc_list.has(p_independent_variable_mmria_path))
     {
         await autorecalculate_all_gestation(p_form_index, p_grid_index);
+        autorecalculate_gestation +=1;
     }
 
     if(autocalc_map.has(p_independent_variable_mmria_path))
@@ -4152,11 +4161,13 @@ async function autorecalculate
             for(let i = 0; i < entry.length; i++)
             {
                 entry[i](p_form_index, p_grid_index);
+                autorecalculate_entry +=1;
             }
         }
         else
         {
             entry(p_form_index, p_grid_index);
+            autorecalculate_entry +=1;
         }
     }
 
@@ -4838,6 +4849,7 @@ async function autorecalculate
 
     if(independent_autocalc_niosh_set.has(p_independent_variable_mmria_path))
     {
+        autorecalculate_niosh += 1;
         let niosh_result = {};
         switch(p_independent_variable_mmria_path)
         {
@@ -5105,6 +5117,17 @@ async function autorecalculate
         }
     }
 
+    if(is_log_auto_count)
+    {
+        console.log(`
+        autorecalculate_count ${autorecalculate_count}
+        autorecalculate_niosh ${autorecalculate_niosh}
+        autorecalculate_independent ${autorecalculate_independent}
+        autorecalculate_gestation_all ${autorecalculate_gestation_all}
+        autorecalculate_gestation ${autorecalculate_gestation}
+        autorecalculate_entry ${autorecalculate_entry}
+        `);
+    }
 }
 
 async function autorecalculate_all_gestation
