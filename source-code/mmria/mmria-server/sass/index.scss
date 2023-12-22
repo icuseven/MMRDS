@@ -1,0 +1,53 @@
+
+$color-purple1: #351147;
+$color-purple2: #722378;
+$color-purple3: #E3D3E4;
+$color-purple4: #F7F2F7;
+$color-purple5: #FFFFFF;
+
+$color-black1: #000000;
+$color-black2: #333333;
+$color-black3: #555555;
+$color-black4: #797979;
+$color-black5: #E0E0E0;
+$color-black6: #F5F5F5;
+$color-black7: #FFFFFF;
+
+$color-rose1: #842547;
+$color-rose2: #AF4448;
+$color-rose3: #FFC2C2;
+$color-rose4: #AF4448;
+
+$color-yellow1: #FBAB18;
+$color-yellow2: #FFECB3;
+$color-yellow3: #FFF7E1;
+
+$color-green1: #497D0C;
+$color-green2: #DCEDC8;
+$color-green3: #F1F8E9;
+
+$color-blue1: #165D97;
+
+$color-white1: #ffffff;
+
+$font-family: "Open Sans", sans-serif;
+
+
+.title 
+{
+    padding: 2px 2px 2px 15px;
+    border-radius: 4px;
+    border: 1px solid $color-purple2;
+    background-color: $color-purple2;
+    box-sizing: border-box;
+    font-family: $font-family;
+    color: $color-white1;
+    text-align: left;
+    line-height: normal;
+  }
+
+  .title-link {
+    width: 303px;
+    height: 130px;
+    background-color:$color-white1;
+  }

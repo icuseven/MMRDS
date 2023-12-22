@@ -1,3 +1,19 @@
+.title {
+  padding: 2px 2px 2px 15px;
+  border-radius: 4px;
+  border: 1px solid #722378;
+  background-color: #722378;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  color: #ffffff;
+  text-align: left;
+  line-height: normal;
+}
 
+.title-link {
+  width: 303px;
+  height: 130px;
+  background-color: #ffffff;
+}
 
 /*# sourceMappingURL=index.css.map */
