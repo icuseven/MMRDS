@@ -1,3 +1,11 @@
+.background-purple {
+  background-color: #722378;
+}
+
+.foreground-white {
+  color: #ffffff;
+}
+
 .title {
   padding: 2px 2px 2px 15px;
   border-radius: 4px;
@@ -9,6 +17,10 @@
   line-height: normal;
 }
 
+th {
+  background-color: #722378;
+}
+
 .title-link {
   width: 303px;
   height: 130px;
@@ -18,6 +30,26 @@
 body {
   font-family: "Open Sans", sans-serif;
   font-size: 12px;
+}
+
+button {
+  width: 527px;
+  height: 38px;
+  padding: 2px 2px 2px 2px;
+  border-radius: 4px;
+  border: 1px solid #ffffff;
+  background-color: #712177;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  line-height: normal;
+}
+
+button:hover {
+  background-color: #450f49;
+  box-sizing: border-box;
+  text-decoration: underline;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -32,6 +32,15 @@ $color-white1: #ffffff;
 
 $font-family: "Open Sans", sans-serif;
 
+.background-purple
+{
+    background-color: $color-purple2;
+}
+
+.foreground-white
+{
+    color: $color-white1;
+}
 
 .title 
 {
@@ -43,6 +52,11 @@ $font-family: "Open Sans", sans-serif;
     color: $color-white1;
     text-align: left;
     line-height: normal;
+}
+
+th
+{
+    background-color: $color-purple2;
 }
 
 .title-link 
@@ -57,3 +71,23 @@ body
     font-family:$font-family;
     font-size: 12px;
 }
+
+button {
+    width: 527px;
+    height: 38px;
+    padding: 2px 2px 2px 2px;
+    border-radius: 4px;
+    border: 1px solid #ffffff;
+    background-color: #712177;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    color: rgba(255, 255, 255, 1);
+    text-align: center;
+    line-height: normal;
+  }
+
+  button:hover {
+    background-color: #450f49;
+    box-sizing: border-box;
+    text-decoration: underline;
+  }
