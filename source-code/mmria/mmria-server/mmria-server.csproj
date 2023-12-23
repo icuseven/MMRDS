@@ -5,6 +5,7 @@
     <OutputType>Exe</OutputType>
     <DefaultItemExcludes>$(DefaultItemExcludes);MMRIA_Window_Service.cs;Program.service.cs;a\**\*.pattern</DefaultItemExcludes>
     <PublishAot>true</PublishAot>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="wwwroot\"/>
@@ -43,6 +44,6 @@
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj"/>
     <ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/>
-    <ProjectReference Include="..\mmria.getset\mmria.roslyn.extension.csproj"/>
+    <ProjectReference Include="..\mmria.roslyn.extension\mmria.roslyn.extension.csproj"/>
   </ItemGroup>
 </Project>
