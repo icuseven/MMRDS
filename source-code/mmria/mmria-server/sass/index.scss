@@ -40,14 +40,20 @@ $font-family: "Open Sans", sans-serif;
     border: 1px solid $color-purple2;
     background-color: $color-purple2;
     box-sizing: border-box;
-    font-family: $font-family;
     color: $color-white1;
     text-align: left;
     line-height: normal;
-  }
+}
 
-  .title-link {
-    width: 303px;
-    height: 130px;
-    background-color:$color-white1;
-  }
+.title-link 
+{
+width: 303px;
+height: 130px;
+background-color:$color-white1;
+}
+
+body 
+{
+    font-family:$font-family;
+    font-size: 12px;
+}
