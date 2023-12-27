@@ -36,7 +36,7 @@ public sealed class vro_exportController : Controller
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
     {
 
-        var result = new mmria.pmss.server.utils.JurisdictionSummary(ConfigDB);
+        var result = new mmria.pmss.server.utils.VROSummary(ConfigDB);
 
         return View(await result.execute(cancellationToken));
     }
@@ -45,11 +45,11 @@ public sealed class vro_exportController : Controller
     public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
     {
 
-        var summary_list = new mmria.pmss.server.utils.JurisdictionSummary(ConfigDB);
+        var summary_list = new mmria.pmss.server.utils.VROSummary(ConfigDB);
 
         var summary_row_list = await summary_list.execute(cancellationToken);
 
-        FastExcel.Row ConvertToDetail(int p_row_number, mmria.pmss.server.utils.JurisdictionSummaryItem item)
+        FastExcel.Row ConvertToDetail(int p_row_number, mmria.pmss.server.utils.VROSummaryItem item)
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -94,7 +94,7 @@ public sealed class vro_exportController : Controller
             var rows = new System.Collections.Generic.List<FastExcel.Row>();
 
             var row_number = 1;
-            var total = new mmria.pmss.server.utils.JurisdictionSummaryItem();
+            var total = new mmria.pmss.server.utils.VROSummaryItem();
 
 /*
             var header1 = new List<FastExcel.Cell>();
