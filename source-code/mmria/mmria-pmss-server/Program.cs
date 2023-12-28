@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Serilog;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,7 +18,7 @@ using Quartz.Impl;
 using System.Diagnostics;
 using Serilog.Configuration;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Akka.Actor;
 using Akka.DI.Extensions.DependencyInjection;
@@ -33,6 +35,8 @@ using Microsoft.AspNetCore.Components.Web;
 
 using mmria.pmss.server.extension;
 using mmria.pmss.server.authentication;
+
+using mmria_pmss_server.Components;
 
 namespace mmria.pmss.server;
 
@@ -57,6 +61,9 @@ public sealed partial class Program
         var builder = WebApplication.CreateBuilder(args);
 
         configuration = builder.Configuration;
+
+        builder.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
 
         string config_export_directory = "/workspace/export";
 
@@ -565,18 +572,23 @@ public sealed partial class Program
                 ContentTypeProvider = file_type_provider
             });
 
+            
+
 
             app.UseRouting();
+            app.UseAntiforgery();
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
             app.MapControllerRoute
             (
                 "default", 
                 "{controller=Home}/{action=Index}"
             );
                 
+            
+          app.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
             //app.MapBlazorHub();
             
 
