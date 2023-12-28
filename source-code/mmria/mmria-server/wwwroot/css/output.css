@@ -50314,30 +50314,12 @@ legend {
   font-weight: 545;
 }
 
-.table thead.header-level-2 {
-  background-color: #E3D3E4 !important;
+table thead th {
+  background-color: #E3D3E4;
 }
-.table tbody tr:nth-child(odd) {
+table tbody tr:nth-child(odd) {
   background-color: #FFFFFF;
-}
-.table tbody tr:nth-child(even) {
-  background-color: #F5F5F5;
+  color: #333333;
 }
 
-td {
-  border: 1px solid #cccccc !important;
-}
-
-th {
-  padding-top: 10px !important;
-  padding-bottom: 10px !important;
-}
-
-input.big-checkbox[type=checkbox] {
-  padding: 5px !important;
-  width: 1.5rem;
-  height: 1.5rem;
-  top: 0.5rem;
-}
-
-/*# sourceMappingURL=index.css.map */
+/*# sourceMappingURL=output.css.map */

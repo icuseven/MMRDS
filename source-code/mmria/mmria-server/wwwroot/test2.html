@@ -1,79 +1,696 @@
 <html>
-<head>
+  <head>
     <link href="./css/index.css" type="text/css" rel="stylesheet" />
-<script type="text/javascript">
-
-window.onload = main;
-
-
-function main()
-{
-    console.log("main");
-}
-
-</script>
-</head>
-<body>
-
-
+    <script type="text/javascript">
+      window.onload = main;
+      function main()
+      {
+          console.log("main");
+      }
+    </script>
+    <script src="js/jquery.easing.min.js"></script>
+    <script src="js/wow.js"></script>
+    <script src="js/jquery.bxslider.min.js"></script>
+    <script src="./scripts/jquery-3.1.1.min.js"></script>
+    <script src="./scripts/jquery-ui.min.js"></script>
+    <script src="./scripts/jquery/moment.js"></script>
+    <script src="./scripts/jquery/jquery.timepicker.js"></script>
+    <script src="./scripts/jquery/jquery.numeric.min.js" type="text/javascript" ></script>
+    <script src="./scripts/jquery/jquery.datetimepicker.js" type="text/javascript"></script>
+    <script src="./scripts/bootstrap/bootstrap.min.js"></script>
+    <script src="./scripts/bootstrap/bootstrap-datetimepicker.min.js"></script>
+    <script src="./scripts/bootstrap/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="./scripts/flatpickr/flatpickr.js"></script>
+    <script src="./scripts/esprima.js"></script>
+    <script src="./scripts/escodegen.browser.js"></script>
+    <script src="./scripts/mmria.js" type="text/javascript"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U"
+      crossorigin="anonymous">
+    </script>
+  <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9"
+      crossorigin="anonymous">
+    </script>
+  </head>
+  <body class="ml-2">
     ToDo: <a target="_axe" href="https://3s3jaq.axshare.com/?code=7f3e8169fa7156dbbd55f8a53bf9c452&id=gma9i6">https://3s3jaq.axshare.com/?code=7f3e8169fa7156dbbd55f8a53bf9c452&id=gma9i6</a>
-<br/>
-<br/>
-
-    <table class="background-purple foreground-white">
-    <tr>
-        <th>Welcome to MMRIA</th>
-
-    </tr>
-    <tr>
-        <th>Please contact your jurisdiction administrator<br/>if you have issues accessing the application.</th>
-    </tr>
-    <tr>
-        <td>
-        <label for="login_name" class="login__label">Username</label>
-        <div>
-          <input autocomplete="off" id="login_name" class="login__field form-control" name="username" type="text" />
-          <i class="login__icon"></i>
-        </div>
-        </td>
-    </tr>
-    
-
-    <tr>
-        <td>
-        <label for="login_value" class="login__label">Password</label>
-        <div>
-          <input autocomplete="off" id="login_value" class="login__field form-control" name="value" type="password" />
-          <i class="login__icon"></i>
-        </div>
-        </td>
-    </tr>
-    <tr>
-        <td align="center">
-        <button class="button" name="submit" type="submit" class="login__btn">Log In</button>
-        </td>
-    </tr>
-
-    </table>
-
-
+    <br/>
+    <br/>
     <h2>Login Input Fields</h2>
-    <h2>Text input (vertical)</h2>
-    <h2>Text input (horizontal)</h2>
-    <h2>Dropdowns (vertical)</h2>
-    <h2>Dropdowns (horizontal)</h2>
-    <h2>Links</h2>
-    <h2>Checkboxes</h2>
-    <h2>Radio buttons</h2>
-    <h2>Navigation</h2>
-    
-    <h2>Headings and Text</h2>
-    <h2>System Alert Banners</h2>
-    <h2>Buttons</h2>
-    <h2>Modals</h2>
-    <h2>Tables</h2>
-    <h2>Cards</h2>
-    <h2>Color Palette</h2>
-
-</body>
+    <hr >
+    <div class="col-md-4 mb-4">
+      <div class="primary-background">
+        <form>
+          <div class="horizontal-control justify-content-center mt-3">
+            <div class="vertical-control col-md-6">
+              <label>Username</label>
+              <input autocomplete="off" class="form-control" type="text" placeholder="Enter username" />
+            </div>
+            <div class="vertical-control col-md-6">
+              <label>Username</label>
+              <input autocomplete="off" class="form-control" type="text" placeholder="Username" />
+            </div>
+          </div>
+          <div class="horizontal-control justify-content-center">
+            <div class="vertical-control col-md-6">
+              <label>Password</label>
+              <div class="input-group">
+                <input autocomplete="off" class="form-control" type="password" placeholder="Enter password" />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary">
+                    <img src="./img/icon_search.svg">
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="vertical-control col-md-6">
+              <label>Password</label>
+              <div class="input-group">
+                <input autocomplete="off" class="form-control" type="password" placeholder="Password" />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary">
+                    <img src="./img/icon_search.svg">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="horizontal-control col-md-12 justify-content-center mb-5">
+            <button class="primary-button col-md-12">Log In</button>
+          </div>
+        </form>
+      </div>      
+    </div>
+    <div>
+      <h2>Text input (vertical)</h2>
+      <hr >
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <input disabled aria-disabled="true" autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <input readonly aria-readonly="true" autocomplete="off" class="form-control" type="text" placeholder="Read only" />
+      </div>
+      <div class="vertical-control required col-md-3">
+        <label>Label</label>
+        <input required autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Date</label>
+        <input autocomplete="off" class="form-control" type="date" placeholder="MM/DD/YYYY" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Time</label>
+        <input autocomplete="off" class="form-control" type="time" placeholder="00:00:00" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Search</label>
+        <div class="input-group">
+          <input autocomplete="off" class="form-control" type="text" placeholder="Search" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary">
+              <img src="./img/icon_search.svg">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <div>Text value</div>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>
+          Label
+          <button
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Info tooltip text"
+          >
+          </button>
+        </label>
+        <div>Text value</div>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>
+          Label
+          <button
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Info tooltip text"
+          >
+          </button>
+        </label>
+        <input autocomplete="off" class="form-control" type="text" placeholder="Input text" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <div class="horizontal-control">
+          <input autocomplete="off" class="form-control col-md-4 mr-2" type="text" placeholder="Input text" />
+          <span>units</span>
+        </div>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <div class="additional-note">Additional note</div>
+        <input autocomplete="off" class="form-control mr-2" type="text" placeholder="Input text" />
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Date Range</label>
+        <div class="horizontal-control">
+          <input autocomplete="off" class="form-control" type="date" placeholder="MM/DD/YYYY" />
+          <span class="m-2"> - </span>
+          <input autocomplete="off" class="form-control" type="date" placeholder="MM/DD/YYYY" />
+        </div>
+      </div>
+      <h2>Text input (horizontal)</h2>
+      <hr >
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Label:</label>
+        <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Label:</label>
+        <input disabled aria-disabled="true" autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Label:</label>
+        <input readonly aria-readonly="true" autocomplete="off" class="form-control" type="text" placeholder="Read only" />
+      </div>
+      <div class="horizontal-control required col-md-3 mb-4">
+        <label>Label:</label>
+        <input required autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Date:</label>
+        <input autocomplete="off" class="form-control" type="date" placeholder="MM/DD/YYYY" />
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Time:</label>
+        <input autocomplete="off" class="form-control" type="time" placeholder="00:00:00" />
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label>Search:</label>
+        <div class="input-group">
+          <input autocomplete="off" class="form-control" type="text" placeholder="Search" />
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary">
+              <img src="./img/icon_search.svg">
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="horizontal-control col-md-10 mb-4">
+        <label>Label:</label>
+        <div>Text value</div>
+      </div>
+      <div class="horizontal-control col-md-10 mb-4">
+        <label>
+          Label
+          <button
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid mr-0 ml-0"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Info tooltip text"
+          >
+          </button>
+          <span style="margin-left: -5px;">:</span>
+        </label>
+        <div>Text value</div>
+      </div>
+      <div class="horizontal-control col-md-6 mb-4">
+        <label class="mr-0">
+          Label
+          <button
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Info tooltip text"
+          >
+          </button>
+          <span style="margin-left: -5px;">:</span>
+        </label>
+        <input autocomplete="off" class="form-control col-md-5" type="text" placeholder="Input text" />
+      </div>
+      <div class="horizontal-control col-md-10 mb-4">
+        <label>Label:</label>
+        <div class="horizontal-control">
+          <input autocomplete="off" class="form-control col-md-7 mr-2" type="text" placeholder="Input text" />
+          <span>units</span>
+        </div>
+      </div>
+      <div class="horizontal-control col-md-3 mb-4">
+        <label class="pb-additional-note">Label:</label>
+        <div class="pl-0 col-md-11">
+          <input autocomplete="off" class="form-control" type="text" placeholder="Input text" />
+          <div class="additional-note mt-2">Additional note</div>
+        </div>
+      </div>
+      <h2>Dropdowns (vertical)</h2>
+      <hr >
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <select class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <select disabled aria-disabled="true" class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <select class="form-select form-control" aria-label="Default select example">
+          <option disabled>Select Item</option>
+          <option selected value="1">Item1 - read only</option>
+          <option disabled value="2">Item2 - read only</option>
+          <option disabled value="3">Item3 - read only</option>
+        </select>
+      </div>
+      <div class="vertical-control required col-md-3">
+        <label>Label</label>
+        <select required aria-required="true" class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <div class="vertical-control col-md-3">
+        <label>Label</label>
+        <div class="additional-note">Additional note</div>
+        <select class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <!-- To-do:
+        * Nested Item Dropdowns
+        * Multiselect list
+        * options formatting? -->
+      <h2>Dropdowns (horizontal)</h2>
+      <hr >
+      <div class="horizontal-control col-md-3 mb-3">
+        <label>Label:</label>
+        <select class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <div class="horizontal-control col-md-3 mb-3">
+        <label>Label:</label>
+        <select disabled aria-disabled="true" class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <div class="horizontal-control col-md-3 mb-3">
+        <label>Label:</label>
+        <select class="form-select form-control" aria-label="Default select example">
+          <option disabled>Select Item</option>
+          <option selected value="1">Item1 - read only</option>
+          <option disabled value="2">Item2 - read only</option>
+          <option disabled value="3">Item3 - read only</option>
+        </select>
+      </div>
+      <div class="horizontal-control required col-md-3 mb-3">
+        <label>Label:</label>
+        <select required aria-required="true" class="form-select form-control" aria-label="Default select example">
+          <option selected>Select Item</option>
+          <option value="1">Item1</option>
+          <option value="2">Item2</option>
+          <option value="3">Item3</option>
+        </select>
+      </div>
+      <!-- To-do:
+        * Nested Item Dropdowns
+        * Multiselect list
+        * options formatting? -->
+      <h2>Links</h2>
+      <hr >
+      <div class="col-md-12">
+        <a href="/test2.html">Link Name</a>
+      </div>
+      <div class="col-md-12">
+        <a href="/test2.html"><- Back to Previous</a>
+      </div>
+      <h2>Checkboxes</h2>
+      <hr >
+      <div class="vertical-control col-md-12">
+        <fieldset>
+          <legend>Checkbox Group Label</legend>
+          <div class="form-check">
+            <input checked aria-checked="true" class="form-check-input" type="checkbox" value="" id="check1">
+            <label class="form-check-label" for="check1">
+              Checkbox option - ON
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="check2">
+            <label class="form-check-label" for="check2">
+              Checkbox option - OFF
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="mt-4">
+          <legend>Checkbox Group Label</legend>
+          <div class="form-check">
+            <input disabled aria-disabled="true" checked aria-checked="true" class="form-check-input" type="checkbox" value="" id="check3">
+            <label class="form-check-label" for="check3">
+              Checkbox option - ON
+            </label>
+          </div>
+          <div class="form-check">
+            <input disabled aria-disabled="true" class="form-check-input" type="checkbox" value="" id="check4">
+            <label class="form-check-label" for="check4">
+              Checkbox option - OFF
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <h2>Radio buttons</h2>
+            <hr >
+      <div class="vertical-control col-md-12">
+        <fieldset>
+          <legend>Radio Group Label</legend>
+          <div class="form-check">
+            <input checked aria-checked="true" class="form-check-input" name="radio1" type="radio" value="" id="radio1">
+            <label class="form-check-label" for="radio1">
+              Radio button - ON
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="" name="radio1" id="radio2">
+            <label class="form-check-label" for="radio2">
+              Radio button - OFF
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="mt-4">
+          <legend>Radio Group Label</legend>
+          <div class="form-check">
+            <input disabled aria-disabled="true" checked aria-checked="true" name="radio2" class="form-check-input" type="radio" value="" id="radio3">
+            <label class="form-check-label" for="radio3">
+              Radio button - ON
+            </label>
+          </div>
+          <div class="form-check">
+            <input disabled aria-disabled="true" class="form-check-input" name="radio2" type="radio" value="" id="radio4">
+            <label class="form-check-label" for="radio4">
+              Radio button - OFF
+            </label>
+          </div>
+        </fieldset>
+        <fieldset class="horizontal-control mt-3">
+          <legend>Radio Group Label</legend>
+          <div class="form-check">
+            <input checked aria-checked="true" class="form-check-input" name="radio3" type="radio" value="" id="radio5">
+            <label class="form-check-label" for="radio5">
+              Radio button - ON
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="" name="radio3" id="radio6">
+            <label class="form-check-label" for="radio6">
+              Radio button - OFF
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="" name="radio3" id="radio7">
+            <label class="form-check-label" for="radio7">
+              Radio button - OFF
+            </label>
+          </div>
+        </fieldset>
+      </div>
+      <h2>Navigation</h2>
+      <hr >
+      
+      <h2>Headings and Text</h2>
+      <hr >
+      <div class="vertical-control col-md-12">
+        <h1>Page Title</h1>
+        <h2>Secondary Title</h2>
+        <p>Page body text</p>
+      </div>
+      <h2>System Alert Banners</h2>
+      <hr >
+      <div class="ml-2 col-md-4">
+        <div class="info-banner">
+          <img class="refresh-icon" src="./img/icon_info.svg">
+          <span>Info Message</span>
+        </div>
+        <div class="info-banner">
+          <img class="refresh-icon" src="./img/icon_refresh.svg">
+          <span>Status Message</span>
+        </div>
+        <div class="success-banner">
+          <img class="success-icon" src="./img/icon_success.svg">
+          <span>Success/Confirmation Message</span>
+        </div>
+        <div class="warning-banner">
+          <img class="warning-icon" src="./img/icon_warning.svg">
+          <span>Warning Message</span>
+        </div>
+        <div class="error-banner">
+          <img class="error-icon" src="./img/icon_error.svg">
+          <span>Failure/error Message</span>
+        </div>
+      </div>
+      <h2>Buttons</h2>
+      <hr >
+      <div class="ml-2 col-md-6">
+        <div>
+          <button class="primary-button">
+            <span>+</span> Icon Button
+          </button>
+          <button disabled class="primary-button">
+            <span>+</span> Icon Button
+          </button>
+        </div>
+        <div>
+          <button class="primary-button">Primary</button>
+          <button disabled class="primary-button">Primary</button>
+        </div>
+        <div>
+          <button class="secondary-button">
+            <span>+</span> Icon Secondary
+          </button>
+        </div>
+        <div>
+          <button disabled class="secondary-button">
+            <span>+</span> Icon Secondary
+          </button>
+        </div>
+        <div>
+          <button class="secondary-button">Secondary</button>
+          <button disabled class="secondary-button">Secondary</button>
+        </div>
+        <div>
+          <button class="cancel-button">Cancel</button>
+          <button disabled class="cancel-button">Cancel</button>
+        </div>
+        <div>
+          <button class="delete-button">Delete</button>
+          <button disabled class="delete-button">Delete</button>
+        </div>
+        <div>
+          <button class="primary-button icon-button">
+            <img class="button-icon" src="./img/pin-case.svg">
+          </button>
+          <button disabled class="primary-icon-button icon-button">
+            <img class="button-icon" src="./img/pin-case-disabled.svg">
+          </button>
+        </div>
+        <div>
+          <button class="secondary-button icon-button">
+            <img src="./img/pin-case-secondary.svg">
+          </button>
+          <button disabled class="secondary-button icon-button">
+            <img class="secondary-pin-icon" src="./img/pin-case-secondary.svg">
+          </button>
+          <button class="delete-icon-button icon-button">
+            <img src="./img/delete-icon.svg">
+          </button>
+          <button disabled class="delete-icon-button icon-button">
+            <img src="./img/delete-icon.svg">
+          </button>
+        </div>
+      </div>
+      <h2>Modals</h2>
+      <h2>Tables</h2>
+      <hr >
+      <div class="vertical-control col-md-8 mb-4">
+        <table class="table">
+          <thead class="header-level-2">
+            <th>Title</th>
+            <th>Title</th>
+            <th>Title</th>
+            <th>Title</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+            </tr>
+            <tr>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+            </tr>
+            <tr>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+              <td>Item</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="vertical-control col-md-8">
+        <table class="table">
+          <thead class="header-level-2">
+            <th></th>
+            <th>Title</th>
+            <th>Title</th>
+            <th>Title</th>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center">
+                <div class="form-check">
+                  <input class="big-checkbox form-check-input" type="checkbox" value="" id="check1">
+                </div>
+              </td>
+              <td>
+                <div class="vertical-control mb-0 col-md-12">
+                  <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+                </div>
+              </td>
+              <td>
+                <div class="horizontal-control mb-0 col-md-12">
+                  <select class="form-select form-control" aria-label="Default select example">
+                    <option selected>Select Item</option>
+                    <option value="1">Item1</option>
+                    <option value="2">Item2</option>
+                    <option value="3">Item3</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <div>
+                  <button class="primary-button col-md-7">Button</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">
+                <div class="form-check">
+                  <input class="big-checkbox form-check-input" type="checkbox" value="" id="check1">
+                </div>
+              </td>
+              <td>
+                <div class="vertical-control mb-0 col-md-12">
+                  <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+                </div>
+              </td>
+              <td>
+                <div class="horizontal-control mb-0 col-md-12">
+                  <select class="form-select form-control" aria-label="Default select example">
+                    <option selected>Select Item</option>
+                    <option value="1">Item1</option>
+                    <option value="2">Item2</option>
+                    <option value="3">Item3</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <div>
+                  <button class="primary-button col-md-7">Button</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">
+                <div class="form-check">
+                  <input class="big-checkbox form-check-input mb-0" type="checkbox" value="" id="check1">
+                </div>
+              </td>
+              <td>
+                <div class="col-md-12">
+                  <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+                </div>
+              </td>
+              <td>
+                <div class="col-md-12">
+                  <select class="form-select form-control" aria-label="Default select example">
+                    <option selected>Select Item</option>
+                    <option value="1">Item1</option>
+                    <option value="2">Item2</option>
+                    <option value="3">Item3</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <div>
+                  <button class="primary-button col-md-7">Button</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-center">
+                <div class="form-check">
+                  <input class="big-checkbox form-check-input mb-0" type="checkbox" value="" id="check1">
+                </div>
+              </td>
+              <td>
+                <div class="col-md-12">
+                  <input autocomplete="off" class="form-control" type="text" placeholder="Filler text" />
+                </div>
+              </td>
+              <td>
+                <div class="col-md-12">
+                  <select class="form-select form-control" aria-label="Default select example">
+                    <option selected>Select Item</option>
+                    <option value="1">Item1</option>
+                    <option value="2">Item2</option>
+                    <option value="3">Item3</option>
+                  </select>
+                </div>
+              </td>
+              <td class="text-center">
+                <div class="vertical-control">
+                  <button class="primary-button col-md-7">Button</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <h2>Cards</h2>
+      <h2>Color Palette</h2>  
+    </div>
+  </body>
 </html>
