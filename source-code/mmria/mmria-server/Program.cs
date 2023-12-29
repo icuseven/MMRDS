@@ -490,7 +490,8 @@ public sealed partial class Program
                 }
             );
 
-            builder.Services.AddRazorPages();
+            builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents();
             //builder.Services.AddServerSideBlazor();
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -568,6 +569,7 @@ public sealed partial class Program
 
 
             app.UseRouting();
+            app.UseAntiforgery();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -578,7 +580,8 @@ public sealed partial class Program
                 "{controller=Home}/{action=Index}"
             );
                 
-            //app.MapBlazorHub();
+            app.MapRazorComponents<mmria_server.Components.App>()
+                .AddInteractiveServerRenderMode();
             
 
             //app.MapFallbackToPage("/_Host");
