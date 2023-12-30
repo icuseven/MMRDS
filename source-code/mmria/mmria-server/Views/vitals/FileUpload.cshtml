@@ -55,6 +55,11 @@
     <label for="files" class="sr-only">Upload files</label>
     <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
     <span class="spinner-container spinner-inline ml-2" style="position: absolute; top: 50%; right: 0; transform: translateX(115%) translateY(-50%);"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+    <label for="case-folder" class="">Case Folder</label>
+    <select id="case-folder">
+        <option value="/">Top Folder</option>
+
+    </select>
 </div>
 <div id="bag">
   <ul></ul>
