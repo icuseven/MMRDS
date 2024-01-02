@@ -160,6 +160,72 @@ public sealed class cvsAPIController: ControllerBase
                             }
                         };
 
+                        if(!string.IsNullOrWhiteSpace(get_all_data_body.payload.year))
+                        {
+
+                            int test_year = -1;
+                            int selected_year = -1;
+                            
+                            if(int.TryParse(get_all_data_body.payload.year, out test_year))
+                            {
+                                selected_year = test_year;
+
+                                var get_year_body = new get_year_post_body()
+                                {
+                                    id = cvs.cvs_api_id,
+                                    secret = cvs.cvs_api_key,
+                                    payload = new()
+                                };
+
+                                body_text = JsonSerializer.Serialize(get_year_body);
+                                var get_year_curl = new cURL("POST", null, base_url, body_text, db_config.user_name, db_config.user_value);
+                                string get_year_response = await get_year_curl.executeAsync();
+                                var valid_year_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<int>> (get_year_response);
+                                if
+                                (
+                                    valid_year_list != null &&
+                                    valid_year_list.Count > 0 &&
+                                    ! valid_year_list.Contains(selected_year)
+                                )
+                                {
+
+                                    var lower_diff = System.Math.Abs(valid_year_list[0] - selected_year);
+                                    var upper_diff = System.Math.Abs(valid_year_list[valid_year_list.Count -1] - selected_year);
+
+                                    if(lower_diff < upper_diff)
+                                    {
+                                        if(lower_diff <= 3)
+                                        {
+                                            get_all_data_body.payload.year = valid_year_list[0].ToString();
+                                        }/*
+                                        else
+                                        {
+                                            file_status_result.is_valid_year = false;
+                                        }*/
+                                    }
+                                    else
+                                    {
+                                        if(upper_diff <= 3)
+                                        {
+                                            get_all_data_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
+                                        }
+                                        /*
+                                        else
+                                        {
+                                            file_status_result.is_valid_year = false;
+                                        }*/
+                                    }
+                                    
+                                }
+                            }
+                            /*
+                            else
+                            {
+                                file_status_result.is_valid_year = false;
+                            }*/
+                        }
+
+
                         body_text = JsonSerializer.Serialize(get_all_data_body);
                         var get_all_data_curl = new mmria.server.cURL("POST", null, base_url, body_text);
 
