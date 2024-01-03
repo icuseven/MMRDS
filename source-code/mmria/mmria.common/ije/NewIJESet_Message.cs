@@ -14,6 +14,8 @@ public sealed class NewIJESet_MessageDTO
     public string nat_file_name { get; init; }
 
     public string fet_file_name { get; init; }
+
+    public string case_folder { get; init; }
 }
 
 public sealed class NewIJESet_Message
@@ -30,6 +32,8 @@ public sealed class NewIJESet_Message
     public string nat_file_name { get; init; }
 
     public string fet_file_name { get; init; }
+
+    public string case_folder { get; init; }
 }
 public sealed class NewIJESet_MessageResponse
 {

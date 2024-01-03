@@ -71,7 +71,8 @@ public sealed class MessageController : ControllerBase
             fet = body.fet,
             mor_file_name = body.mor_file_name,
             nat_file_name = body.nat_file_name,
-            fet_file_name = body.fet_file_name
+            fet_file_name = body.fet_file_name,
+            case_folder = body.case_folder
         };
 
         var result = new mmria.common.ije.NewIJESet_MessageResponse()

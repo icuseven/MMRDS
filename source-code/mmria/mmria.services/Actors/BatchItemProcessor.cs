@@ -1267,6 +1267,8 @@ public sealed class BatchItemProcessor : ReceiveActor
                 var int_year_of_death = -1;
                 int test_int_year = -1;
 
+                const int year_difference_limit = 9;
+
                 if(int.TryParse(year, out test_int_year))
                 {
                     int_year_of_death = test_int_year;
@@ -1287,14 +1289,14 @@ public sealed class BatchItemProcessor : ReceiveActor
 
                     if(lower_diff < upper_diff)
                     {
-                        if(lower_diff <= 3)
+                        if(lower_diff <= year_difference_limit)
                         {
                             calculated_year_of_death = Valid_CVS_Years[0];
                         }
                     }
                     else
                     {
-                        if(upper_diff <= 3)
+                        if(upper_diff <= year_difference_limit)
                         {
                             calculated_year_of_death = Valid_CVS_Years[Valid_CVS_Years.Count -1];
                         }
