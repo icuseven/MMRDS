@@ -109,6 +109,8 @@ public sealed class cvsAPIController: ControllerBase
         }
   
 
+        const int year_difference_limit = 9;
+
         IActionResult result = null;
         var response_string = string.Empty;
         System.Collections.Generic.IDictionary<string,object> responseDictionary = null;
@@ -194,7 +196,7 @@ public sealed class cvsAPIController: ControllerBase
 
                                     if(lower_diff < upper_diff)
                                     {
-                                        if(lower_diff <= 3)
+                                        if(lower_diff <= year_difference_limit)
                                         {
                                             get_all_data_body.payload.year = valid_year_list[0].ToString();
                                         }/*
@@ -205,7 +207,7 @@ public sealed class cvsAPIController: ControllerBase
                                     }
                                     else
                                     {
-                                        if(upper_diff <= 3)
+                                        if(upper_diff <= year_difference_limit)
                                         {
                                             get_all_data_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
                                         }
@@ -415,7 +417,7 @@ public sealed class cvsAPIController: ControllerBase
 
                                 if(lower_diff < upper_diff)
                                 {
-                                    if(lower_diff <= 3)
+                                    if(lower_diff <= year_difference_limit)
                                     {
                                         get_dashboard_body.payload.year = valid_year_list[0].ToString();
                                     }
@@ -426,7 +428,7 @@ public sealed class cvsAPIController: ControllerBase
                                 }
                                 else
                                 {
-                                    if(upper_diff <= 3)
+                                    if(upper_diff <= year_difference_limit)
                                     {
                                         get_dashboard_body.payload.year = valid_year_list[valid_year_list.Count -1].ToString();
                                     }
