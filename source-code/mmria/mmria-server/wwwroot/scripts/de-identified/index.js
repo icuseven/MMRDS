@@ -31,6 +31,11 @@ var g_charts = new Map();
 var g_chart_data = new Map();
 var g_is_data_analyst_mode = false;
 
+const g_dependent_parent_to_child = new Map();
+const g_dependent_child_to_parent = new Map();
+const g_dependent_child_metadata = new Map();
+
+
 function g_set_data_object_from_path(p_object_path, p_metadata_path, p_dictionary_path, value)
 {
     return;
