@@ -3,6 +3,12 @@ var g_content_list = [];
 var g_validation_errors = new Set();
 var g_host_state = null;
 var g_cdc_identifier_set = {};
+var g_jurisdiction_tree = null;
+var g_my_roles = null;
+
+const g_case_folder_list = [];
+
+var g_is_setup_started = false;
 
 
 const mor_max_length = 5001;
@@ -81,8 +87,13 @@ async function process_button_click()
     await send_ije_set();
 }
 
-function setup_file_list() 
+async function setup_file_list() 
 {
+
+    if(g_is_setup_started) return;
+
+    g_is_setup_started = true;
+
     var el = document.getElementById("files");
     el.disabled = "disabled";
 
@@ -261,9 +272,46 @@ function setup_file_list()
     //{
     //    g_validation_errors.add("missing .FET IJE file")
     //}
+	g_my_roles = await $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
+            headers: {          
+            Accept: "text/plain; charset=utf-8",         
+            "Content-Type": "text/plain; charset=utf-8"   
+            } 
+	    }
+    )
 
+
+    g_jurisdiction_tree = await $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + '/api/jurisdiction_tree',
+            type: "GET"
+        }
+    );
+
+
+    const case_folder_el = document.getElementById("case-folder");
+    case_folder_el.remove(0);
+
+
+    g_case_folder_list.push("Top Folder")
+    let newOption = new Option('Top Folder','/');
+    case_folder_el.add(newOption);
+    for (let i = 0; i < g_jurisdiction_tree.children.length; i++) 
+    {
+        const val = g_jurisdiction_tree.children[i].name;
+        g_case_folder_list.push(val);
+        newOption = new Option(val,val);
+        case_folder_el.add(newOption);
+
+    }
+    
     g_file_stat_list = temp;
     g_content_list = temp_contents;
+
 
     render_file_list()
 
