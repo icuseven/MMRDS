@@ -22,6 +22,8 @@ rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.js
 
 echo "---> Remove unneeded files - End ..."
 
+bash -c "$(wget -O - https://apt.llvm.org/llvm.sh)"
+
 #echo "---> changing ChakraCore version from windows to linux"
 #sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
 
