@@ -32,7 +32,36 @@ public sealed class VROSummaryItem
     public int num_users_ja{get; set; }
     public int num_users_abs{get; set; }
     public int num_user_anl{get; set; }
-    public int num_user_cm{get; set; }
+
+    public int num_user_cm { get; set; }
+
+
+    public string Death_Year { get; set; }
+    public string Jurisdiction_Abrev { get; set; }
+    public string Jurisdiction_Name { get; set; }
+    public string DC_AuxNo { get; set; }
+    public string DC_FileNo { get; set; }
+    public string DC_DOD { get; set; }
+    public string DC_TimingOfDeath { get; set; }
+    public string DC_Cod33A { get; set; }
+    public string DC_Cod33B { get; set; }
+    public string DC_Cod33C { get; set; }
+    public string DC_Cod33D { get; set; }
+    public string DC_Other_Factors { get; set; }
+    public string ACME_UC { get; set; }
+    public string MAN_UC { get; set; }
+    public string EAC { get; set; }
+    public string CDC_CheckBox { get; set; }
+    public string CDC_ICD { get; set; }
+    public string CDC_LiteralCOD { get; set; }
+    public string CDC_Match_Det_BC { get; set; }
+    public string CDC_Match_Det_FDC { get; set; }
+    public string CDC_Match_Prob_BC { get; set; }
+    public string CDC_Match_Prob_FDC { get; set; }
+    public string VRO_Resolution_Status { get; set; }
+    public string VRO_Confirmation_Method_and_Additional_Notes { get; set; }
+
+
 }
 
 sealed class VROIComparer : IComparer<VROSummaryItem>
