@@ -123,10 +123,7 @@ $blue: #165d97;
 $title-font-weight: 600;
 $font-family: 'Open Sans', sans-serif, 'cdciconfont';
 
-@use '../wwwroot/TemplatePackage/4.0/assets/vendor/css/bootstrap.css';
-@use '../wwwroot/styles/mmria-custom.css';
 @use '../wwwroot/TemplatePackage/4.0/assets/css/app.min.css';
-@use '../wwwroot/styles/cdc.app.css';
 
 @mixin theme($theme: $purple, $color: $white, $border-color: $purple) {
   background: $theme;
@@ -152,7 +149,6 @@ $font-family: 'Open Sans', sans-serif, 'cdciconfont';
   border-radius: 4px;
   border: 1px solid $color;
   background-color: $theme;
-  font-family: $font-family;
   color: $color;
   font-size: 16px;
   text-align: center;
@@ -323,10 +319,6 @@ label {
   font-family: "Open Sans Semibold", "Open Sans", sans-serif !important;
 }
 
-body {
-  font-family: $font-family;
-}
-
 .horizontal-control {
   @extend .d-flex, .flex-row, .align-items-center, .mb-2;
   label {
@@ -418,4 +410,30 @@ input {
     height: 1.5rem;
     top:0.5rem;
   }
+}
+
+.white-fill {
+  color: $white;
+}
+
+.icon-pin-primary {
+  &:first-child {
+    content: url('../wwwroot/img/pin-case.svg');
+  }
+  &:disabled {
+    &img:first-child {
+      content: url('../wwwroot/img/pin-case-disabled.svg');
+    }
+  }
+}
+
+.test {
+  background-image: url('../wwwroot/img/pin-case.svg');
+}
+
+.search-icon {
+  fill: $white;
+   &:hover {
+     fill: $purple-dark;
+   }
 }
