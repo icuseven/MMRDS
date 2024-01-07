@@ -127,6 +127,37 @@ public sealed class VROSummary
     )
     {
 
+
+        var field_dictionary = new Dictionary<string,string>()
+        {
+            { "Death_Year", "tracking/admin_info/track_year"},
+            { "Jurisdiction_Abrev", "tracking/admin_info/jurisdiction"},
+            { "Jurisdiction_Name", "tracking/admin_info/jurisdiction"},
+            { "DC_AuxNo", "ije_dc/file_info/auxno_dc"},
+            { "DC_FileNo", "ije_dc/file_info/fileno_dc"},
+            { "DC_DOD_month", "ije_dc/death_info/dod_mo_dc"},
+            { "DC_DOD_day", "ije_dc/death_info/dod_dy_dc"},
+            { "DC_DOD_year", "ije_dc/death_info/dod_yr_dc"},
+            { "DC_TimingOfDeath", "ije_dc/death_info/tod_dc"},
+            { "DC_Cod33A", "ije_dc/cause_details/cod1a_dc"},
+            { "DC_Cod33B", "ije_dc/cause_details/cod1b_dc"},
+            { "DC_Cod33C", "ije_dc/cause_details/cod1c_dc"},
+            { "DC_Cod33D", "ije_dc/cause_details/cod1d_dc"},
+            { "DC_Other_Factors", "ije_dc/cause_details/othercondition_dc"},
+            { "ACME_UC", "ije_dc/cause_details/acme_uc_dc"},
+            { "MAN_UC", "ije_dc/cause_details/man_uc_dc"},
+            { "EAC", "ije_dc/cause_details/eac_dc"},
+            { "CDC_CheckBox", "vro_case_determnation/cdc_case_matching_results/pregcb_match"},
+            { "CDC_ICD", "vro_case_determnation/cdc_case_matching_results/icd10_match"},
+            { "CDC_LiteralCOD", "vro_case_determnation/cdc_case_matching_results/literalcod_match"},
+            { "CDC_Match_Det_BC", "vro_case_determnation/cdc_case_matching_results/bc_det_match"},
+            { "CDC_Match_Det_FDC", "vro_case_determnation/cdc_case_matching_results/fdc_det_match"},
+            { "CDC_Match_Prob_BC", "vro_case_determnation/cdc_case_matching_results/bc_prob_match"},
+            { "CDC_Match_Prob_FDC", "vro_case_determnation/cdc_case_matching_results/fdc_prob_match"},
+            { "VRO_Resolution_Status", "vro_case_determnation/vro_update/vro_resolution_status"},
+            { "VRO_Confirmation_Method_and_Additional_Notes", "vro_case_determnation/vro_update/vro_resolution_remarks"},
+        };
+
         var result = new Dictionary<string, VROSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
         var user_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
         var record_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
@@ -136,6 +167,36 @@ public sealed class VROSummary
 
         var current_date = System.DateTime.Now;
     /*
+
+Death_Year	app/tracking/admin_info/track_year	2022
+Jurisdiction_Abrev	app/tracking/admin_info/jurisdiction	WA
+Jurisdiction_Name	app/tracking/admin_info/jurisdiction	Washington
+DC_AuxNo	app/ije_dc/file_info/auxno_dc	2022X
+DC_FileNo	app/ije_dc/file_info/fileno_dc	223109122
+DC_DOD	"app/ije_dc/death_info/dod_mo_dc 
+app/ije_dc/death_info/dod_dy_dc
+app/ije_dc/death_info/dod_yr_dc"	1/11/2022
+DC_TimingOfDeath	app/ije_dc/death_info/tod_dc	Pregnant at death
+DC_Cod33A	app/ije_dc/cause_details/cod1a_dc	SEPSIS DUE TO BILATERAL LOWER EXTREMITY CHRONIC WOUNDS
+DC_Cod33B	app/ije_dc/cause_details/cod1b_dc	HYPOKALEMIA AND HYPOMAGNESEMIA DUE TO NAUSEA AND DIARRHEA
+DC_Cod33C	app/ije_dc/cause_details/cod1c_dc	INSULIN-DEPENDENT DIABETES MELLITUS
+DC_Cod33D	app/ije_dc/cause_details/cod1d_dc	CHRONIC PAIN SYNDROME WITH CONTINUOUS OPIATE DEPENDENCE.
+DC_Other_Factors	app/ije_dc/cause_details/othercondition_dc	HISTORY OF DEEP VEIN THROMBOSIS ON LONG-TERM ANTICOAGULATION
+ACME_UC	app/ije_dc/cause_details/acme_uc_dc	K529
+MAN_UC	app/ije_dc/cause_details/man_uc_dc	L340
+EAC	app/ije_dc/cause_details/eac_dc	11A419  21L97   31E876  32E834  41R11   42K529  51E109  52R522  53F112  61I802
+CDC_CheckBox	app/vro_case_determnation/cdc_case_matching_results/pregcb_match	Yes
+CDC_ICD	app/vro_case_determnation/cdc_case_matching_results/icd10_match	No
+CDC_LiteralCOD	app/vro_case_determnation/cdc_case_matching_results/literalcod_match	No
+CDC_Match_Det_BC	app/vro_case_determnation/cdc_case_matching_results/bc_det_match	No
+CDC_Match_Det_FDC	app/vro_case_determnation/cdc_case_matching_results/fdc_det_match	No
+CDC_Match_Prob_BC	app/vro_case_determnation/cdc_case_matching_results/bc_prob_match	No
+CDC_Match_Prob_FDC	app/vro_case_determnation/cdc_case_matching_results/fdc_prob_match	No
+VRO_Resolution_Status	app/vro_case_determnation/vro_update/vro_resolution_status	Pending VRO Investigation
+VRO_Confirmation_Method_and_Additional_Notes	app/vro_case_determnation/vro_update/vro_resolution_remarks	Not pregnant per clinical nurse. Amendment is still pending.
+
+
+
         foreach(var config in ConfigDB.detail_list)
         {
 
