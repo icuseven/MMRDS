@@ -7,7 +7,10 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
-using  mmria.pmss.server.extension;
+using mmria.getset;
+using migrate;
+using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace mmria.pmss.server.utils;
 
@@ -102,7 +105,6 @@ public sealed class VROSummary
 
     mmria.common.couchdb.DBConfigurationDetail db_config;
 
-    List<string> id_list;
     string host_prefix;
 
 
@@ -128,8 +130,9 @@ public sealed class VROSummary
     {
 
 
-        var field_dictionary = new Dictionary<string,string>()
+        var field_dictionary = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
         {
+            { "_id", "_id"},
             { "Death_Year", "tracking/admin_info/track_year"},
             { "Jurisdiction_Abrev", "tracking/admin_info/jurisdiction"},
             { "Jurisdiction_Name", "tracking/admin_info/jurisdiction"},
@@ -147,201 +150,97 @@ public sealed class VROSummary
             { "ACME_UC", "ije_dc/cause_details/acme_uc_dc"},
             { "MAN_UC", "ije_dc/cause_details/man_uc_dc"},
             { "EAC", "ije_dc/cause_details/eac_dc"},
-            { "CDC_CheckBox", "vro_case_determnation/cdc_case_matching_results/pregcb_match"},
-            { "CDC_ICD", "vro_case_determnation/cdc_case_matching_results/icd10_match"},
-            { "CDC_LiteralCOD", "vro_case_determnation/cdc_case_matching_results/literalcod_match"},
-            { "CDC_Match_Det_BC", "vro_case_determnation/cdc_case_matching_results/bc_det_match"},
-            { "CDC_Match_Det_FDC", "vro_case_determnation/cdc_case_matching_results/fdc_det_match"},
-            { "CDC_Match_Prob_BC", "vro_case_determnation/cdc_case_matching_results/bc_prob_match"},
-            { "CDC_Match_Prob_FDC", "vro_case_determnation/cdc_case_matching_results/fdc_prob_match"},
-            { "VRO_Resolution_Status", "vro_case_determnation/vro_update/vro_resolution_status"},
-            { "VRO_Confirmation_Method_and_Additional_Notes", "vro_case_determnation/vro_update/vro_resolution_remarks"},
+            { "CDC_CheckBox", "vro_case_determination/cdc_case_matching_results/pregcb_match"},
+            { "CDC_ICD", "vro_case_determination/cdc_case_matching_results/icd10_match"},
+            { "CDC_LiteralCOD", "vro_case_determination/cdc_case_matching_results/literalcod_match"},
+            { "CDC_Match_Det_BC", "vro_case_determination/cdc_case_matching_results/bc_det_match"},
+            { "CDC_Match_Det_FDC", "vro_case_determination/cdc_case_matching_results/fdc_det_match"},
+            { "CDC_Match_Prob_BC", "vro_case_determination/cdc_case_matching_results/bc_prob_match"},
+            { "CDC_Match_Prob_FDC", "vro_case_determination/cdc_case_matching_results/fdc_prob_match"},
+            { "VRO_Resolution_Status", "vro_case_determination/vro_update/vro_resolution_status"},
+            { "VRO_Confirmation_Method_and_Additional_Notes", "vro_case_determination/vro_update/vro_resolution_remarks"},
         };
 
-        var result = new Dictionary<string, VROSummaryItem>(System.StringComparer.OrdinalIgnoreCase);
-        var user_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
-        var record_count_result = new Dictionary<string, ItemCount>(System.StringComparer.OrdinalIgnoreCase);
-        var user_count_task_list = new List<Task>();
-        var record_count_task_list = new List<Task>();
-        //var jurisdiction_count_task_list = new List<Task>();
+        var result = new List<VROSummaryItem>();
 
-        var current_date = System.DateTime.Now;
-    /*
-
-Death_Year	app/tracking/admin_info/track_year	2022
-Jurisdiction_Abrev	app/tracking/admin_info/jurisdiction	WA
-Jurisdiction_Name	app/tracking/admin_info/jurisdiction	Washington
-DC_AuxNo	app/ije_dc/file_info/auxno_dc	2022X
-DC_FileNo	app/ije_dc/file_info/fileno_dc	223109122
-DC_DOD	"app/ije_dc/death_info/dod_mo_dc 
-app/ije_dc/death_info/dod_dy_dc
-app/ije_dc/death_info/dod_yr_dc"	1/11/2022
-DC_TimingOfDeath	app/ije_dc/death_info/tod_dc	Pregnant at death
-DC_Cod33A	app/ije_dc/cause_details/cod1a_dc	SEPSIS DUE TO BILATERAL LOWER EXTREMITY CHRONIC WOUNDS
-DC_Cod33B	app/ije_dc/cause_details/cod1b_dc	HYPOKALEMIA AND HYPOMAGNESEMIA DUE TO NAUSEA AND DIARRHEA
-DC_Cod33C	app/ije_dc/cause_details/cod1c_dc	INSULIN-DEPENDENT DIABETES MELLITUS
-DC_Cod33D	app/ije_dc/cause_details/cod1d_dc	CHRONIC PAIN SYNDROME WITH CONTINUOUS OPIATE DEPENDENCE.
-DC_Other_Factors	app/ije_dc/cause_details/othercondition_dc	HISTORY OF DEEP VEIN THROMBOSIS ON LONG-TERM ANTICOAGULATION
-ACME_UC	app/ije_dc/cause_details/acme_uc_dc	K529
-MAN_UC	app/ije_dc/cause_details/man_uc_dc	L340
-EAC	app/ije_dc/cause_details/eac_dc	11A419  21L97   31E876  32E834  41R11   42K529  51E109  52R522  53F112  61I802
-CDC_CheckBox	app/vro_case_determnation/cdc_case_matching_results/pregcb_match	Yes
-CDC_ICD	app/vro_case_determnation/cdc_case_matching_results/icd10_match	No
-CDC_LiteralCOD	app/vro_case_determnation/cdc_case_matching_results/literalcod_match	No
-CDC_Match_Det_BC	app/vro_case_determnation/cdc_case_matching_results/bc_det_match	No
-CDC_Match_Det_FDC	app/vro_case_determnation/cdc_case_matching_results/fdc_det_match	No
-CDC_Match_Prob_BC	app/vro_case_determnation/cdc_case_matching_results/bc_prob_match	No
-CDC_Match_Prob_FDC	app/vro_case_determnation/cdc_case_matching_results/fdc_prob_match	No
-VRO_Resolution_Status	app/vro_case_determnation/vro_update/vro_resolution_status	Pending VRO Investigation
-VRO_Confirmation_Method_and_Additional_Notes	app/vro_case_determnation/vro_update/vro_resolution_remarks	Not pregnant per clinical nurse. Amendment is still pending.
-
-
-
-        foreach(var config in ConfigDB.detail_list)
+        var id_list = GetIdList();
+            
+        var gs = new C_Get_Set_Value(new ());
+        C_Get_Set_Value.get_value_result value_result = null;
+        
+        
+        foreach(var id in id_list)
         {
+            var item = new VROSummaryItem();
+			try
+			{
+				string URL = $"{db_config.url}/{db_config.prefix}mmrds/{id}";
+				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, db_config.user_name, db_config.user_value);
+				var curl_result = document_curl.execute();
 
-            cancellationToken.ThrowIfCancellationRequested();
+				System.Dynamic.ExpandoObject case_row = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(curl_result);
 
-            var prefix = config.Key.ToUpper();
-            string exclude_jurisdiction = "";
+                string get_value(string column_name)
+                {
+                    string result = null;
+
+                    if(field_dictionary.ContainsKey(column_name))
+                    {
+                        var mmria_path = field_dictionary[column_name];
+
+                        value_result = gs.get_value(case_row, mmria_path);
+                        if(!value_result.is_error)
+                        {
+                            if(value_result.result != null)
+                            {
+                                result = value_result.result.ToString();
+                            }
+                        }
+                    }
+
+                    return result;
+                }
+
+                var _id = get_value("_id");
+
+                if(_id.IndexOf("_design") > -1) continue;
+
+                var case_folder = get_value("Jurisdiction_Name");
+
+                item.Jurisdiction_Abrev = get_value("Jurisdiction_Abrev");
+                item.Jurisdiction_Name = get_value("Jurisdiction_Name");
+                item.DC_AuxNo = get_value("DC_AuxNo");
+                item.DC_FileNo = get_value("DC_FileNo");
+                item.DC_DOD = get_value("DC_DOD");
+                item.DC_TimingOfDeath = get_value("DC_TimingOfDeath");
+                item.DC_Cod33A = get_value("DC_Cod33A");
+                item.DC_Cod33B = get_value("DC_Cod33B");
+                item.DC_Cod33C = get_value("DC_Cod33C");
+                item.DC_Cod33D = get_value("DC_Cod33D");
+                item.DC_Other_Factors = get_value("DC_Other_Factors");
+                item.ACME_UC = get_value("ACME_UC");
+                item.MAN_UC = get_value("MAN_UC");
+                item.EAC = get_value("EAC");
+                item.CDC_CheckBox = get_value("CDC_CheckBox");
+                item.CDC_ICD = get_value("CDC_ICD");
+                item.CDC_LiteralCOD = get_value("CDC_LiteralCOD");
+                item.CDC_Match_Det_BC = get_value("CDC_Match_Det_BC");
+                item.CDC_Match_Det_FDC = get_value("CDC_Match_Det_FDC");
+                item.CDC_Match_Prob_BC = get_value("CDC_Match_Prob_BC");
+                item.CDC_Match_Prob_FDC = get_value("CDC_Match_Prob_FDC");
+                item.VRO_Resolution_Status = get_value("VRO_Resolution_Status");
+                item.VRO_Confirmation_Method_and_Additional_Notes = get_value("VRO_Confirmation_Method_and_Additional_Notes");
+
 
         
-
-            if(prefix == "VITAL_IMPORT") continue;
-
-            if(prefix == "NY"|| prefix == "PA")
-            {
-                {
-                    
-                        
-                    if(prefix == "NY")
-                    {
-                        exclude_jurisdiction = "/NYC";
-                        
-                    }
-
-                    if(prefix == "PA")
-                    {
-                        exclude_jurisdiction = "/PHILADELPHIA";
-                        
-                    }
-                    
-                    var jsi = new VROSummaryItem();
-                    jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
-                    jsi.host_name = prefix;
-
-                    result.Add(prefix, jsi);
-
-                    var usr_count = new ItemCount();
-                    usr_count.host_name = prefix;
-                    
-                    user_count_result.Add(prefix, usr_count);
-
-                    var record_count = new ItemCount();
-                    record_count.host_name = prefix;
-                    
-                    record_count_result.Add(prefix, record_count);
-
-                    user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
-                    record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
-                }
-                
-                {
-                    var key_name = prefix;
-                    var folder_name = "/";
-                    if(prefix == "NY")
-                    {
-                            exclude_jurisdiction = "/";
-                            key_name = "NYC";
-                            folder_name = "/NYC";
-                    }
-
-                    if(prefix == "PA")
-                    {
-                            exclude_jurisdiction = "/";
-                            key_name = "PHILADELPHIA";
-                            folder_name = "/PHILADELPHIA";
-                    }
-
-                    var jsi = new VROSummaryItem();
-                    jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
-                    jsi.host_name = prefix;
-
-                    result.Add(key_name, jsi);
-
-                    var usr_count = new ItemCount();
-                    usr_count.host_name = key_name;
-                    usr_count.folder_name = folder_name;
-                    user_count_result.Add(key_name, usr_count);
-
-                    var record_count = new ItemCount();
-                    record_count.host_name = key_name;
-                    record_count.folder_name = folder_name;
-                    record_count_result.Add(key_name, record_count);
-
-                    user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
-                    record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
-                    //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
-                }
-
             }
-            else
+            catch(Exception)
             {
 
-                var jsi = new VROSummaryItem();
-                
-                jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
-                jsi.host_name = prefix;
-
-                result.Add(prefix, jsi);
-
-                var usr_count = new ItemCount();
-                usr_count.host_name = prefix;
-                user_count_result.Add(prefix, usr_count);
-
-                var record_count = new ItemCount();
-                record_count.host_name = prefix;
-                record_count_result.Add(prefix, record_count);
-
-                user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
-                record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
-                //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
-                
             }
         }
-*/
 
-        await Task.WhenAll(user_count_task_list);
-        cancellationToken.ThrowIfCancellationRequested();
-        await Task.WhenAll(record_count_task_list);
-        cancellationToken.ThrowIfCancellationRequested();
-        //var user_count_call_results = user_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
-
-
-        //await Task.WhenAll(jurisdiction_count_task_list);
-        //cancellationToken.ThrowIfCancellationRequested();
-        //var jurisdiction_count_call_results = jurisdiction_count_responses.Where(r => !string.IsNullOrWhiteSpace(r)); //filter out any null values
-        foreach(var kvp in user_count_result)
-        {
-            result[kvp.Key].num_users_unq = kvp.Value.total;
-        }
-
-        foreach(var kvp in record_count_result)
-        {
-            result[kvp.Key].num_recs = kvp.Value.total;
-        }
-
-        List<VROSummaryItem> view_data = new();
-
-        foreach(var item in result)
-        {
-            item.Value.host_name = item.Key;
-            view_data.Add(item.Value);
-        }
-
-        view_data.Sort(new VROIComparer());
-
-        return view_data;
+        return result;
     }
 
     public async System.Threading.Tasks.Task GetUserCount
@@ -653,98 +552,5 @@ VRO_Confirmation_Method_and_Additional_Notes	app/vro_case_determnation/vro_updat
 
 		}
 		return result;
-	}
-
-	
-
-
-	(int SuccessCount, int ErrorCount) GetDocumentList ()
-	{
-		int SuccessCount = 0;
-		int ErrorCount = 0;
-
-		Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-		settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-
-		foreach(var id in id_list)
-		{
-			try
-			{
-				string URL = $"{db_config.url}/{db_config.prefix}mmrds/{id}";
-				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, db_config.user_name, db_config.user_value);
-				var curl_result = document_curl.execute();
-
-				dynamic case_row = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject> (curl_result);
-
-				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
-				case_doc.Remove("_rev");
-
-				var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
-                /*
-
-				var backup_file_path = this.backup_file_path;
-
-				if(this.database_url.EndsWith("/metadata"))
-				{
-					var new_id = id.Replace(":","-").Replace(".","-");
-					var file_path = System.IO.Path.Combine(backup_file_path, new_id);
-					System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
-
-					file_path = System.IO.Path.Combine(file_path, $"{id.Replace(":","-").Replace(".","-")}.json");
-					if (!System.IO.File.Exists (file_path)) 
-					{
-						System.IO.File.WriteAllText (file_path, case_json);
-					}
-				}
-				else
-				{
-
-					var file_path = System.IO.Path.Combine(backup_file_path, $"{id}.json");
-					if (!System.IO.File.Exists (file_path)) 
-					{
-						System.IO.File.WriteAllText(file_path, case_json);
-					}
-				}
-
-				if(this.database_url.EndsWith("/metadata"))
-				{
-					if(case_doc.ContainsKey("_attachments"))
-					{
-						var attachment_set = case_doc["_attachments"] as IDictionary<string,object>;
-						if(attachment_set != null)
-						{
-							var new_id = id.Replace(":","-").Replace(".","-");
-							var attachment_path = System.IO.Path.Combine(backup_file_path, new_id, "_attachments");
-							
-
-							foreach(var kvp in attachment_set)
-							{
-								var attachment_url = $"{URL}/{kvp.Key}";
-								var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
-								var attachment_doc_json = attachment_curl.execute();
-
-								var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
-								if (!System.IO.File.Exists (attachment_file_path)) 
-								{
-									System.IO.File.WriteAllText(attachment_file_path, attachment_doc_json);
-								}
-							}
-						}
-					}
-				}
-                */
-
-				SuccessCount+= 1;
-			}
-			catch(Exception)
-			{
-				ErrorCount += 1;
-			}
-
-
-			
-		}
-
-		return (SuccessCount, ErrorCount);
 	}
 }
