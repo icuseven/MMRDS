@@ -19,25 +19,45 @@
 
 <table border=1>
 <tr>
-    <td colspan=5><b>Download </b><a href="jurisdictionSummary/GenerateReport" target="_report" >Excel</a></td>
-    <td colspan="4" align=center><b>PMSS User Role Assignment</b></td>
+    <td colspan=5><b>Download </b><a href="vro_export/GenerateReport" target="_report" >Excel</a></td>
+    <td colspan="20" align=Left><b>PMSS VRO Export</b></td>
 </tr>
 <tr>
     <th>#</th>
-    <th>Jurisdiction Abbreviation</th>
-    <th>Report Date</th>
-    <th># of Records</th>
-    <th># of Unique PMSS Users</th>
-    <th>Jurisdiction Admin</th>
-    <th>Abstractor</th>
-    <th>Analyst</th>
-    <th>Committee Member</th>
+    <th>Death_Year</th>
+    <th>Jurisdiction_Abrev</th>
+    <th>Jurisdiction_Name</th>
+    <th>DC_AuxNo</th>
+    <th>DC_FileNo</th>
+    <th>DC_DOD</th>
+    <th>DC_TimingOfDeath</th>
+    <th>DC_Cod33A</th>
+    <th>DC_Cod33B</th>
+    <th>DC_Cod33C</th>
+    <th>DC_Cod33D</th>
+    <th>DC_Other_Factors</th>
+    <th>ACME_UC</th>
+    <th>MAN_UC</th>
+    <th>EAC</th>
+    <th>CDC_CheckBox</th>
+    <th>CDC_ICD</th>
+    <th>CDC_LiteralCOD</th>
+    <th>CDC_Match_Det_BC</th>
+    <th>CDC_Match_Det_FDC</th>
+    <th>CDC_Match_Prob_BC</th>
+    <th>CDC_Match_Prob_FDC</th>
+    <th>VRO_Resolution_Status</th>
+    <th>VRO_Confirmation_Method_and_Additional_Notes</th>
+
+
+
 </tr>
 
 @foreach (var item in Model)
 {
     _index+=1;
     
+    /*
     if(total.num_recs > -1)
     total.num_recs += item.num_recs;
 
@@ -55,30 +75,36 @@
     
     if(total.num_user_cm > -1)
     total.num_user_cm += item.num_user_cm;
+    */
 
 <tr>
     <td>@_index</td>
-    <td>@item.host_name</td>
-    <td>@item.rpt_date</td>
-    <td>@item.num_recs</td>
-    <td>@item.num_users_unq</td>
-    <td>@item.num_users_ja</td>
-    <td>@item.num_users_abs</td>
-    <td>@item.num_user_anl</td>
-    <td>@item.num_user_cm</td>
+    <td>@item.Death_Year</td>
+    <td>@item.Jurisdiction_Abrev</td>
+    <td>@item.Jurisdiction_Name</td>
+    <td>@item.DC_AuxNo</td>
+    <td>@item.DC_FileNo</td>
+    <td>@item.DC_DOD</td>
+    <td>@item.DC_TimingOfDeath</td>
+    <td>@item.DC_Cod33A</td>
+    <td>@item.DC_Cod33B</td>
+    <td>@item.DC_Cod33C</td>
+    <td>@item.DC_Cod33D</td>
+    <td>@item.DC_Other_Factors</td>
+    <td>@item.ACME_UC</td>
+    <td>@item.MAN_UC</td>
+    <td>@item.EAC</td>
+    <td>@item.CDC_CheckBox</td>
+    <td>@item.CDC_ICD</td>
+    <td>@item.CDC_LiteralCOD</td>
+    <td>@item.CDC_Match_Det_BC</td>
+    <td>@item.CDC_Match_Det_FDC</td>
+    <td>@item.CDC_Match_Prob_BC</td>
+    <td>@item.CDC_Match_Prob_FDC</td>
+    <td>@item.VRO_Resolution_Status</td>
+    <td>@item.VRO_Confirmation_Method_and_Additional_Notes</td>
 </tr>
 }
-<tr>
-    <td>&nbsp;</td>
-    <td><b>Total</b></td>
-    <td></td>
-    <td>@total.num_recs</td>
-    <td>@total.num_users_unq</td>
-    <td>@total.num_users_ja</td>
-    <td>@total.num_users_abs</td>
-    <td>@total.num_user_anl</td>
-    <td>@total.num_user_cm</td>
-</tr>
 
 
 </table>

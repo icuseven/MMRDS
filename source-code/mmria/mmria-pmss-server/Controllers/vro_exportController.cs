@@ -56,14 +56,30 @@ public sealed class vro_exportController : Controller
             var cells = new List<FastExcel.Cell>();
 
             cells.Add(new FastExcel.Cell(1, p_row_number));
-            cells.Add(new FastExcel.Cell(2, item.host_name));
-            cells.Add(new FastExcel.Cell(3, item.rpt_date));
-            cells.Add(new FastExcel.Cell(4, item.num_recs));
-            cells.Add(new FastExcel.Cell(5, item.num_users_unq));
-            cells.Add(new FastExcel.Cell(6, item.num_users_ja));
-            cells.Add(new FastExcel.Cell(7, item.num_users_abs));
-            cells.Add(new FastExcel.Cell(8, item.num_user_anl));
-            cells.Add(new FastExcel.Cell(9, item.num_user_cm));
+            cells.Add(new FastExcel.Cell( 2,item.Death_Year));
+            cells.Add(new FastExcel.Cell( 3,item.Jurisdiction_Abrev));
+            cells.Add(new FastExcel.Cell( 4,item.Jurisdiction_Name));
+            cells.Add(new FastExcel.Cell( 5,item.DC_AuxNo));
+            cells.Add(new FastExcel.Cell( 6,item.DC_FileNo));
+            cells.Add(new FastExcel.Cell( 7,item.DC_DOD));
+            cells.Add(new FastExcel.Cell( 8,item.DC_TimingOfDeath));
+            cells.Add(new FastExcel.Cell( 9,item.DC_Cod33A));
+            cells.Add(new FastExcel.Cell( 10,item.DC_Cod33B));
+            cells.Add(new FastExcel.Cell( 11,item.DC_Cod33C));
+            cells.Add(new FastExcel.Cell( 12,item.DC_Cod33D));
+            cells.Add(new FastExcel.Cell( 13,item.DC_Other_Factors));
+            cells.Add(new FastExcel.Cell( 14,item.ACME_UC));
+            cells.Add(new FastExcel.Cell( 15,item.MAN_UC));
+            cells.Add(new FastExcel.Cell( 16,item.EAC));
+            cells.Add(new FastExcel.Cell( 17,item.CDC_CheckBox));
+            cells.Add(new FastExcel.Cell( 18,item.CDC_ICD));
+            cells.Add(new FastExcel.Cell( 19,item.CDC_LiteralCOD));
+            cells.Add(new FastExcel.Cell( 20,item.CDC_Match_Det_BC));
+            cells.Add(new FastExcel.Cell( 21,item.CDC_Match_Det_FDC));
+            cells.Add(new FastExcel.Cell( 22,item.CDC_Match_Prob_BC));
+            cells.Add(new FastExcel.Cell( 23,item.CDC_Match_Prob_FDC));
+            cells.Add(new FastExcel.Cell( 24,item.VRO_Resolution_Status));
+            cells.Add(new FastExcel.Cell( 25,item.VRO_Confirmation_Method_and_Additional_Notes));
 
 
             return new FastExcel.Row(p_row_number, cells);
@@ -112,15 +128,32 @@ public sealed class vro_exportController : Controller
 */
 
             var header = new List<FastExcel.Cell>();
-            header.Add(new FastExcel.Cell(1, "#"));
-            header.Add(new FastExcel.Cell(2, "Jurisdiction Abbreviation"));
-            header.Add(new FastExcel.Cell(3, "Report Date"));
-            header.Add(new FastExcel.Cell(4, "# of Records"));
-            header.Add(new FastExcel.Cell(5, "# of Unique MMRIA Users"));
-            header.Add(new FastExcel.Cell(6, "Jurisdiction Admin"));
-            header.Add(new FastExcel.Cell(7, "Abstractor"));
-            header.Add(new FastExcel.Cell(8, "Analyst"));
-            header.Add(new FastExcel.Cell(9, "Committee Member"));
+            header.Add(new FastExcel.Cell(  1, "#"));
+            header.Add(new FastExcel.Cell(  2,"Death_Year"));
+            header.Add(new FastExcel.Cell(  3,"Jurisdiction_Abrev"));
+            header.Add(new FastExcel.Cell(  4,"Jurisdiction_Name"));
+            header.Add(new FastExcel.Cell(  5,"DC_AuxNo"));
+            header.Add(new FastExcel.Cell(  6,"DC_FileNo"));
+            header.Add(new FastExcel.Cell(  7,"DC_DOD"));
+            header.Add(new FastExcel.Cell(  8,"DC_TimingOfDeath"));
+            header.Add(new FastExcel.Cell(  9,"DC_Cod33A"));
+            header.Add(new FastExcel.Cell( 10,"DC_Cod33B"));
+            header.Add(new FastExcel.Cell( 11,"DC_Cod33C"));
+            header.Add(new FastExcel.Cell( 12,"DC_Cod33D"));
+            header.Add(new FastExcel.Cell( 13,"DC_Other_Factors"));
+            header.Add(new FastExcel.Cell( 14,"ACME_UC"));
+            header.Add(new FastExcel.Cell( 15,"MAN_UC"));
+            header.Add(new FastExcel.Cell( 16,"EAC"));
+            header.Add(new FastExcel.Cell( 17,"CDC_CheckBox"));
+            header.Add(new FastExcel.Cell( 18,"CDC_ICD"));
+            header.Add(new FastExcel.Cell( 19,"CDC_LiteralCOD"));
+            header.Add(new FastExcel.Cell( 20,"CDC_Match_Det_BC"));
+            header.Add(new FastExcel.Cell( 21,"CDC_Match_Det_FDC"));
+            header.Add(new FastExcel.Cell( 22,"CDC_Match_Prob_BC"));
+            header.Add(new FastExcel.Cell( 23,"CDC_Match_Prob_FDC"));
+            header.Add(new FastExcel.Cell( 24,"VRO_Resolution_Status"));
+            header.Add(new FastExcel.Cell( 25,"VRO_Confirmation_Method_and_Additional_Notes"));
+
             rows.Add(new FastExcel.Row(row_number, header));
 
     
@@ -172,7 +205,7 @@ public sealed class vro_exportController : Controller
         }
 
         byte[] fileBytes = GetFile(Output_xlsx);
-        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlJurisdictionCounts.xlsx");;
+        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xlVROExport.xlsx");;
     }
     byte[] GetFile(string s)
     {

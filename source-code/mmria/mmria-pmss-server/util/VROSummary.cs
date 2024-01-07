@@ -207,6 +207,7 @@ public sealed class VROSummary
 
                 var case_folder = get_value("Jurisdiction_Name");
 
+                item.Death_Year = get_value("Death_Year");
                 item.Jurisdiction_Abrev = get_value("Jurisdiction_Abrev");
                 item.Jurisdiction_Name = get_value("Jurisdiction_Name");
                 item.DC_AuxNo = get_value("DC_AuxNo");
@@ -231,6 +232,8 @@ public sealed class VROSummary
                 item.VRO_Resolution_Status = get_value("VRO_Resolution_Status");
                 item.VRO_Confirmation_Method_and_Additional_Notes = get_value("VRO_Confirmation_Method_and_Additional_Notes");
 
+
+                result.Add(item);
 
         
             }
