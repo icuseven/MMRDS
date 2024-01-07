@@ -36,7 +36,7 @@ public sealed class vro_exportController : Controller
     public async Task<IActionResult> Index(System.Threading.CancellationToken cancellationToken)
     {
 
-        var result = new mmria.pmss.server.utils.VROSummary(ConfigDB);
+        var result = new mmria.pmss.server.utils.VROSummary(configuration, host_prefix);
 
         return View(await result.execute(cancellationToken));
     }
@@ -45,7 +45,7 @@ public sealed class vro_exportController : Controller
     public async Task<IActionResult> GenerateReport(System.Threading.CancellationToken cancellationToken)
     {
 
-        var summary_list = new mmria.pmss.server.utils.VROSummary(ConfigDB);
+        var summary_list = new mmria.pmss.server.utils.VROSummary(configuration, host_prefix);
 
         var summary_row_list = await summary_list.execute(cancellationToken);
 

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
+using  mmria.pmss.server.extension;
 
 namespace mmria.pmss.server.utils;
 
@@ -96,13 +98,28 @@ sealed class VROIComparer : IComparer<VROSummaryItem>
 public sealed class VROSummary
 {
 
-    mmria.common.couchdb.ConfigurationSet ConfigDB;
+    mmria.common.couchdb.OverridableConfiguration configuration;
 
-    public VROSummary(mmria.common.couchdb.ConfigurationSet p_config_db)
+    mmria.common.couchdb.DBConfigurationDetail db_config;
+
+    List<string> id_list;
+    string host_prefix;
+
+
+    public VROSummary
+    (
+
+        mmria.common.couchdb.OverridableConfiguration _configuration,
+        string _host_prefix 
+    )
     {
+        configuration = _configuration;
+        host_prefix = _host_prefix;
 
-        ConfigDB = p_config_db;
+        db_config = configuration.GetDBConfig(host_prefix);
+
     }
+
 
     public async Task<List<VROSummaryItem>> execute
     (
@@ -118,7 +135,7 @@ public sealed class VROSummary
         //var jurisdiction_count_task_list = new List<Task>();
 
         var current_date = System.DateTime.Now;
-
+    /*
         foreach(var config in ConfigDB.detail_list)
         {
 
@@ -127,7 +144,7 @@ public sealed class VROSummary
             var prefix = config.Key.ToUpper();
             string exclude_jurisdiction = "";
 
-
+        
 
             if(prefix == "VITAL_IMPORT") continue;
 
@@ -211,6 +228,7 @@ public sealed class VROSummary
             {
 
                 var jsi = new VROSummaryItem();
+                
                 jsi.rpt_date = $"{current_date.Month}/{current_date.Day}/{current_date.Year}";
                 jsi.host_name = prefix;
 
@@ -227,9 +245,10 @@ public sealed class VROSummary
                 user_count_task_list.Add(GetUserCount(cancellationToken, prefix, config.Value, usr_count, jsi, exclude_jurisdiction));
                 record_count_task_list.Add(GetCaseCount(cancellationToken, prefix, config.Value, record_count, exclude_jurisdiction));
                 //jurisdiction_count_task_list.Add(GetJurisdictions(cancellationToken, prefix, config.Value, jsi));
+                
             }
         }
-
+*/
 
         await Task.WhenAll(user_count_task_list);
         cancellationToken.ThrowIfCancellationRequested();
@@ -547,4 +566,124 @@ public sealed class VROSummary
 
         } 
     }
+
+
+    HashSet<string> GetIdList ()
+	{
+
+		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+		try
+		{
+			string URL = $"{db_config.url}/{db_config.prefix}mmrds/_all_docs";
+			var document_curl = new mmria.getset.cURL ("GET", null, URL, null, db_config.user_name, db_config.user_value);
+			var curl_result = document_curl.execute();
+
+			var all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			var all_cases_rows = all_cases.rows;
+
+			foreach (var row in all_cases_rows) 
+			{
+				result.Add(row.id);
+			}
+		}
+		catch(Exception)
+		{
+
+		}
+		return result;
+	}
+
+	
+
+
+	(int SuccessCount, int ErrorCount) GetDocumentList ()
+	{
+		int SuccessCount = 0;
+		int ErrorCount = 0;
+
+		Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+		settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+
+		foreach(var id in id_list)
+		{
+			try
+			{
+				string URL = $"{db_config.url}/{db_config.prefix}mmrds/{id}";
+				var document_curl = new mmria.getset.cURL ("GET", null, URL, null, db_config.user_name, db_config.user_value);
+				var curl_result = document_curl.execute();
+
+				dynamic case_row = System.Text.Json.JsonSerializer.Deserialize<System.Dynamic.ExpandoObject> (curl_result);
+
+				IDictionary<string, object> case_doc = case_row as IDictionary<string, object>;
+				case_doc.Remove("_rev");
+
+				var case_json = System.Text.Json.JsonSerializer.Serialize(case_doc);
+                /*
+
+				var backup_file_path = this.backup_file_path;
+
+				if(this.database_url.EndsWith("/metadata"))
+				{
+					var new_id = id.Replace(":","-").Replace(".","-");
+					var file_path = System.IO.Path.Combine(backup_file_path, new_id);
+					System.IO.Directory.CreateDirectory($"{file_path}/_attachments");
+
+					file_path = System.IO.Path.Combine(file_path, $"{id.Replace(":","-").Replace(".","-")}.json");
+					if (!System.IO.File.Exists (file_path)) 
+					{
+						System.IO.File.WriteAllText (file_path, case_json);
+					}
+				}
+				else
+				{
+
+					var file_path = System.IO.Path.Combine(backup_file_path, $"{id}.json");
+					if (!System.IO.File.Exists (file_path)) 
+					{
+						System.IO.File.WriteAllText(file_path, case_json);
+					}
+				}
+
+				if(this.database_url.EndsWith("/metadata"))
+				{
+					if(case_doc.ContainsKey("_attachments"))
+					{
+						var attachment_set = case_doc["_attachments"] as IDictionary<string,object>;
+						if(attachment_set != null)
+						{
+							var new_id = id.Replace(":","-").Replace(".","-");
+							var attachment_path = System.IO.Path.Combine(backup_file_path, new_id, "_attachments");
+							
+
+							foreach(var kvp in attachment_set)
+							{
+								var attachment_url = $"{URL}/{kvp.Key}";
+								var attachment_curl = new mmria.getset.cURL ("GET", null, URL, null, this.user_name, this.password);
+								var attachment_doc_json = attachment_curl.execute();
+
+								var attachment_file_path = System.IO.Path.Combine(attachment_path, kvp.Key);
+								if (!System.IO.File.Exists (attachment_file_path)) 
+								{
+									System.IO.File.WriteAllText(attachment_file_path, attachment_doc_json);
+								}
+							}
+						}
+					}
+				}
+                */
+
+				SuccessCount+= 1;
+			}
+			catch(Exception)
+			{
+				ErrorCount += 1;
+			}
+
+
+			
+		}
+
+		return (SuccessCount, ErrorCount);
+	}
 }
