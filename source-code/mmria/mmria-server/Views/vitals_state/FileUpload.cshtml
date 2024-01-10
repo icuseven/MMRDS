@@ -51,15 +51,26 @@
   </ul>
   </p>
 </div>
-<div class="form-group w-33" style="position:relative">
+<div class="d-flex form-group w-33" style="position:relative">
+  <div class="col-md-12 mr-1 pr-0">
     <label for="files" class="sr-only">Upload files</label>
     <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
-    <span class="spinner-container spinner-inline ml-2" style="position: absolute; top: 50%; right: 0; transform: translateX(115%) translateY(-50%);"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-    <label for="case-folder" class="">Case Folder</label>
-    <select id="case-folder">
-        <option value="/">Top Folder</option>
-
-    </select>
+    <span class="spinner-container spinner-inline ml-2" style="position: absolute; top: 50%; right: 0; transform: translateX(115%) translateY(-50%);">
+      <span class="spinner-body text-primary">
+        <span class="spinner"></span>
+      </span>
+    </span> 
+  </div>
+  <div class="d-flex col-md-12 pl-0 ml-2">
+    <div class="col-md-4 text-center ml-1 mt-2 pr-0">
+      <label style="font-weight: 600;" for="case-folder" class="ml-0 fw-semibold">Case Folder:</label>
+    </div>
+    <div class="col-md-12 pl-0">
+      <select id="case-folder" class="form-control pl-0">
+          <option value="/">Top Folder</option>
+      </select>
+    </div>
+  </div>
 </div>
 <div id="bag">
     <ul></ul>
