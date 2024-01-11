@@ -431,15 +431,19 @@ public sealed class BatchItemProcessor : ReceiveActor
 
         {"CIGFN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st"},
         {"CIGFN_trimester_1st_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st_type"},
-        {"CIGFN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+        //{"CIGFN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
 
         {"CIGSN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd"},
         {"CIGSN_trimester_2nd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd_type"},
-        {"CIGSN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+        //{"CIGSN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
 
         {"CIGLN","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd"},
         {"CIGLN_trimester_3rd_type","birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd_type"},
-        {"CIGLN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+        //{"CIGLN_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
+
+        {"CIG_none_or_not_specified","birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified"},
+
 
 
         {"risk_factors_in_this_pregnancy","birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy"},
@@ -2040,6 +2044,15 @@ public sealed class BatchItemProcessor : ReceiveActor
 
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGLN"], CIGLN_Custom_FET_Rule(field_set["CIGLN"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIGLN_trimester_3rd_type"], CIGLN_Type_FET_Rule(field_set["CIGLN"]), new_case);
+                    
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["CIG_none_or_not_specified"], 
+                        CIG_none_or_not_specified_NAT_Rule(
+                            field_set["CIGPN"],
+                            field_set["CIGFN"],
+                            field_set["CIGSN"],
+                            field_set["CIGLN"]
+                            ), new_case);
+
 
 
                     gs.set_multi_value(Parent_FET_IJE_to_MMRIA_Path["risk_factors_in_this_pregnancy"],
