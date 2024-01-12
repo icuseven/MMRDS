@@ -12,6 +12,8 @@ public sealed class StartBatchItemMessage
 
     public string record_id { get; init; }
 
+    public string case_folder { get; init; }
+
 
     public DateTime ImportDate { get; init; }
     public string ImportFileName { get; init; }

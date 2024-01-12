@@ -952,6 +952,8 @@ public sealed class BatchItemProcessor : ReceiveActor
                 ImportFileName = message.ImportFileName,
                 ReportingState = message.host_state,
 
+                case_folder = message.case_folder,
+
                 StateOfDeathRecord = mor_field_set["DSTATE"],
                 DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                 DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",

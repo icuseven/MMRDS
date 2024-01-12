@@ -30,6 +30,8 @@ public sealed class BatchItem
     public string mmria_record_id { get; init;}
     public string mmria_id { get; init;}
 
+    public string case_folder { get; init;}
+
     
     public string StatusDetail { get; init;}
 
