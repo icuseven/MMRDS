@@ -927,6 +927,8 @@ public sealed class BatchItemProcessor : ReceiveActor
                 ImportFileName = message.ImportFileName,
                 ReportingState = message.host_state,
 
+                case_folder = message.case_folder,
+
                 StateOfDeathRecord = mor_field_set["DSTATE"],
                 DateOfDeath = $"{mor_field_set["DOD_YR"]}-{mor_field_set["DOD_MO"]}-{mor_field_set["DOD_DY"]}",
                 DateOfBirth = $"{mor_field_set["DOB_YR"]}-{mor_field_set["DOB_MO"]}-{mor_field_set["DOB_DY"]}",
@@ -975,6 +977,17 @@ public sealed class BatchItemProcessor : ReceiveActor
 
             #region MOR Assignments
             gs.set_value("_id", mmria_id, new_case);
+
+
+            var case_folder = message.case_folder;
+
+            if(string.IsNullOrWhiteSpace(case_folder))
+            {
+                case_folder = "/";
+            }
+
+            gs.set_value("home_record/jurisdiction_id", case_folder, new_case);
+
             gs.set_value("date_created", current_date_iso_string, new_case);
             gs.set_value("created_by", "vitals-import", new_case);
             gs.set_value("date_last_updated", current_date_iso_string, new_case);
