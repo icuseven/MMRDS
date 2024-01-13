@@ -288,7 +288,7 @@ async function setup_file_list()
     {
         const role = i.value;
         if(role.is_active !== true) continue;
-        if(role.role_name != "vital_importer_state") continue;
+        if(role.role_name != "vital_importer") continue;
         
 
         if(highest_folder == null)
@@ -315,11 +315,13 @@ async function setup_file_list()
 
     const case_folder_el = document.getElementById("case-folder");
     case_folder_el.remove(0);
+    case_folder_el.removeAttribute("disabled");
+    case_folder_el.removeAttribute("aria-disabled");
 
     if(highest_folder == "/")
     {
         g_case_folder_list.push("Top Folder")
-        let newOption = new Option('Top Folder','/');
+        let newOption = new Option('Top Folder','/', true);
         case_folder_el.add(newOption);
     }
 
@@ -445,8 +447,8 @@ function render_file_list()
 
 async function send_ije_set() 
 {
-    var filename1 = "";
-    var filename2 = ""
+    let filename1 = "";
+    let filename2 = ""
 
     if (typeof g_file_stat_list[1] !== "undefined") 
     {
@@ -458,13 +460,22 @@ async function send_ije_set()
         filename2 = g_file_stat_list[2].name;
     }
 
+    const case_folder_el = document.getElementById("case-folder");
+    let selected_case_folder = case_folder_el.value;
+
+    if(selected_case_folder == null || selected_case_folder == "")
+    {
+        selected_case_folder = case_folder_el.options[0].value;
+    }
+
     let data = {
         mor: g_content_list[0],
         nat: g_content_list[1],
         fet: g_content_list[2],
         mor_file_name: g_file_stat_list[0].name,
         nat_file_name: filename1,
-        fet_file_name: filename2
+        fet_file_name: filename2,
+        case_folder: selected_case_folder
     };
 
     const response = await $.ajax({
