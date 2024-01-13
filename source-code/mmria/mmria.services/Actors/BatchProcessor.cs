@@ -212,6 +212,7 @@ public sealed class BatchProcessor : ReceiveActor
                 {
                     var StartBatchItemMessage = new mmria.common.ije.StartBatchItemMessage()
                     {
+                        case_folder = message.case_folder,
                         cdc_unique_id = batch_tuple.Item2.CDCUniqueID,
                         record_id = batch_tuple.Item2.mmria_record_id,
                         ImportDate = ImportDate,
