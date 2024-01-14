@@ -317,17 +317,9 @@ async function setup_file_list()
         if(role.is_active !== true) continue;
         if(role.role_name != "vital_importer_state") continue;
         
-
-        if(highest_folder == null)
-        {
-            highest_folder = role.jurisdiction_id;
-            if(highest_folder == "/") break;
-
-        }
-        else if(role.jurisdiction_id != highest_folder)
-        {
-            console.log(role.jurisdiction_id);
-        }
+        highest_folder = role.jurisdiction_id;
+       
+        break;
     }
 
 
@@ -406,8 +398,14 @@ function render_file_list()
 {
     let bag = document.getElementById('bag');
 
+    let case_folder_name = highest_folder;
+    if(highest_folder == "/")
+    {
+        case_folder_name = "Top Folder";
+    }
+
     let ul_list = [];
-    ul_list.push("<ul>");
+    ul_list.push("<ul id='file-detail-listing'>");
     for (let i = 0; i < g_file_stat_list.length; i++) 
     {
         let item = g_file_stat_list[i];
@@ -443,12 +441,17 @@ function render_file_list()
                 out.value = g_content_list[i];
             }
 
-            ul_list.push("<li>");
-            ul_list.push(item.name);
-            ul_list.push(" number of records ");
-            ul_list.push(" (");
-            ul_list.push(number_of_lines);
-            ul_list.push(")</li>");
+            ul_list.push
+            (
+                `
+                <li>
+                    ${item.name} 
+                    number of records 
+                    (${number_of_lines}).
+                    Case Folder: ${case_folder_name}
+                </li>
+                `
+            );
         }
     }
     ul_list.push("</ul>");

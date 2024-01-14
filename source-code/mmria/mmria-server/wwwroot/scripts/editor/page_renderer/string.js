@@ -44,6 +44,14 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         }
     }
 
+    if(p_dictionary_path == "/death_certificate/certificate_identification/dmaiden")
+    {
+        if(g_data.created_by != "vitals-import")
+        {
+            visibility_html = 'display:none;';
+        }
+    }
+
 
     p_result.push(`<div id="${convert_object_path_to_jquery_id(p_object_path)}" class="form-control-outer" mpath="${p_metadata_path}" style="${visibility_html}">`);
         p_result.push(`
