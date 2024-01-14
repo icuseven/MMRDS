@@ -394,6 +394,12 @@ function get_state_from_file_name(p_val)
 }
 
 
+function case_folder_changed(value)
+{
+    highest_folder = value;
+    render_file_list();
+}
+
 function render_file_list() 
 {
     let bag = document.getElementById('bag');
@@ -470,7 +476,7 @@ function render_file_list()
     else 
     {
         
-        out.value = g_host_state + " ready to process";
+        out.value = g_host_state + " ready to process.   Case Folder: " + case_folder_name;
         button.disabled = false;
     }
 
