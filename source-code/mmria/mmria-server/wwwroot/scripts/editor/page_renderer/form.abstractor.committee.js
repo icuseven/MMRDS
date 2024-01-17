@@ -113,10 +113,10 @@ function form_render(
                 (
 					"<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>"
 				);
-				p_result.push("de-identified, de-identified");
+				p_result.push(g_data.home_record.record_id);
 				p_result.push(`</p>`);
 			}
-            p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
+            p_result.push(`<p><button type="button"   onclick="show_audit_click('${g_data._id}')" disabled aria-disabled="true">View Audit Log</button></p>`);
 
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
             if(g_data.home_record.jurisdiction_id == "/")
@@ -660,10 +660,10 @@ function form_render(
 			if (g_data) 
             {
 				p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-				p_result.push("de-identified, de-identified");
+				p_result.push(g_data.home_record.record_id);
 				p_result.push(`</p>`);
 			}
-            p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
+            p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')" disabled aria-disabled="true">View Audit Log</button></p>`);
 			
             p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
             if(g_data.home_record.jurisdiction_id == "/")
@@ -883,11 +883,11 @@ function form_render(
 		if (g_data) 
         {
 			p_result.push("<p class='construct__title h1 text-primary single-form-title' tabindex='-1'>");
-			p_result.push("de-identified, de-identified");
+			p_result.push(g_data.home_record.record_id);
 			p_result.push(`</p>`);
 		}
 
-        p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
+        p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')" disabled aria-disabled="true">View Audit Log</button></p>`);
 
         p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
         if(g_data.home_record.jurisdiction_id == "/")
@@ -1657,12 +1657,12 @@ function quick_edit_header_render(
 		p_result.push(
 			"<h1 class='construct__title text-primary h1' tabindex='-1'>"
 		);
-		p_result.push("de-identified, de-identified");
+		p_result.push(g_data.home_record.record_id);
 		p_result.push("</h1>"); 
 
         
 	}
-    p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')">View Audit Log</button></p>`);
+    p_result.push(`<p><button type="button"  onclick="show_audit_click('${g_data._id}')" disabled aria-disabled="true">View Audit Log</button></p>`);
     
     p_result.push(" <p class='construct__info mb-0'><strong>Case Folder:</strong> ")
     if(g_data.home_record.jurisdiction_id == "/")
@@ -1732,35 +1732,13 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 		const path_to_check_multi_form = parseInt(p_ui.url_state.path_array[2]);
 		const recordNumber = path_to_check_multi_form + 1;
 
-		if (!isNaN(path_to_check_multi_form)) {
-			// Render options for specific 'Record Number'
-			p_result.push(
-				'<option value="' +
-					p_metadata.name +
-					'" data-record="' +
-					recordNumber +
-					'">'
-			);
-			p_result.push(p_metadata.prompt + " (Record " + recordNumber + ")");
-			p_result.push("</option>");
-		} else if (!isNullOrUndefined(p_data) && isNaN(path_to_check_multi_form)) {
-			// Render options for 'Multi Forms'
-			p_result.push('<option value="' + p_metadata.name + '">');
-			p_result.push("All " + p_metadata.prompt);
-			p_result.push("</option>");
-		} else {
-			// Render print options for 'Single Forms'
-			p_result.push('<option value="' + p_metadata.name + '">');
-			p_result.push(p_metadata.prompt);
-			p_result.push("</option>");
-		}
+        p_result.push('<option value="' + p_metadata.name + '">');
+        p_result.push(p_metadata.prompt);
+        p_result.push("</option>");
+		
 		p_result.push("</optgroup>");
 
-		p_result.push('<optgroup label="Other">');
-		p_result.push('<option value="core-summary">Core Elements Only</option>');
-		p_result.push('<option value="all">All Case Forms</option>');
-        p_result.push('<option value="all_hidden">All Case Forms with Hidden Fields</option>');
-		p_result.push("</optgroup>");
+
 		p_result.push("</select>");
 
 		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="View" onclick="print_case_onclick(event)" disabled="true" />`);

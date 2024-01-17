@@ -1,13 +1,13 @@
+
 function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx) 
 {
-
     g_pinned_case_count = 0;
     
     p_result.push("<section id='app_summary'>");
 
     /* The Intro */
     p_result.push("<div>");
-    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>Line Listing Summary</h1>");
+    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>Abstractor Committee Decisions Form Line Listing Summary</h1>");
     p_result.push("<div class='row no-gutters align-items-center'>");
     
     let is_read_only_html = '';
@@ -18,7 +18,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
         // is_read_only_html = "disabled='disabled'";
     }
 
-    p_result.push(`<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(add_new_case_button_click)' ${is_read_only_html}>Add New Case</button>`);
+    p_result.push(`<button type='button' id='add-new-case' class='btn btn-primary' onclick='init_inline_loader(add_new_case_button_click)' ${is_read_only_html}  disabled aria-disabled="true">Add New Case</button>`);
 
     p_result.push("<span class='spinner-container spinner-inline ml-2'><span class='spinner-body text-primary'><span class='spinner'></span></span>");
     p_result.push("</div>");
@@ -749,20 +749,23 @@ function render_app_summary_result_item(item, i)
             </span>
             `) : ''}
         </td>
-        ${!g_is_data_analyst_mode ? (
-            `<td class="td">       
-                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
+            <td class="td">       
+            <button 
+            type="button" 
+            id="id_for_record_${i}_all" 
+            class="btn btn-primary btn-xs" 
+            style="line-height: 1.15; margin: 3px" 
+            onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
+            </button>
+            <button 
+            type="button" 
+            id="id_for_record_${i}_narrative" 
+            class="btn btn-primary btn-xs" 
+            style="line-height: 1.15; margin: 3px" 
+            onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
+            </button>
+                </td>
 
-                ${render_pin_un_pin_button
-                    (
-                        item, 
-                        is_checked_out, 
-                        is_checked_out_expired(item.value),
-                        delete_enabled_html
-                    )
-                }
-                </td>`
-            ) : ''}
         </tr>`
     );
 
@@ -861,20 +864,23 @@ function render_app_pinned_summary_result(item, i)
             </span>
             `) : ''}
         </td>
-        ${!g_is_data_analyst_mode ? (
-            `<td class="td" ${border_bottom_color}>
-                <button type="button" id="id_for_record_${i}" class="btn btn-primary" onclick="init_delete_dialog(${i})" style="line-height: 1.15" ${delete_enabled_html}>Delete</button>
-                
-                ${render_pin_un_pin_button
-                    (
-                        item, 
-                        is_checked_out, 
-                        is_checked_out_expired(item.value),
-                        delete_enabled_html
-                    )
-                }
-                </td>`
-            ) : ''}
+
+            <td class="td" ${border_bottom_color}>
+            <button 
+            type="button" 
+            id="id_for_record_${i}_all" 
+            class="btn btn-primary btn-xs" 
+            style="line-height: 1.15; margin: 3px" 
+            onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
+        </button>
+        <button 
+            type="button" 
+            id="id_for_record_${i}_narrative" 
+            class="btn btn-primary btn-xs" 
+            style="line-height: 1.15; margin: 3px" 
+            onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
+        </button>
+                </td>
         </tr>`
     );
 }
