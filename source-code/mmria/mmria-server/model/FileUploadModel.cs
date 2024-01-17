@@ -42,6 +42,8 @@ public sealed class NewIJESet_Message
     public string nat_file_name { get; set; }
 
     public string fet_file_name { get; set; }
+
+    public string case_folder { get; set; }
 }
 
 public sealed class NewIJESet_MessageResponse
