@@ -50314,12 +50314,4 @@ legend {
   font-weight: 545;
 }
 
-table thead th {
-  background-color: #E3D3E4;
-}
-table tbody tr:nth-child(odd) {
-  background-color: #FFFFFF;
-  color: #333333;
-}
-
 /*# sourceMappingURL=output.css.map */
