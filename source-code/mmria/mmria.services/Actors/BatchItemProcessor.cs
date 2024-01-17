@@ -41,6 +41,8 @@ public sealed class BatchItemProcessor : ReceiveActor
         //{"GNAME","home_record/first_name"},
         //{"LNAME","home_record/last_name"},
         { "AGE","death_certificate/demographics/age"},
+        { "DMAIDEN","death_certificate/certificate_identification/dmaiden"},
+
         //{"DOB_YR","death_certificate/demographics/date_of_birth/year"},
         //{"DOB_MO","death_certificate/demographics/date_of_birth/month"},
         //{"DOB_DY","death_certificate/demographics/date_of_birth/day"},
@@ -1059,6 +1061,9 @@ public sealed class BatchItemProcessor : ReceiveActor
             gs.set_value(IJE_to_MMRIA_Path["AUXNO"], mor_field_set["AUXNO"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["AGE"], mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
             gs.set_value("death_certificate/demographics/age_on_death_certificate", mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
+            
+            gs.set_value(IJE_to_MMRIA_Path["DMAIDEN"], mor_field_set["DMAIDEN"]?.TrimStart('0') ?? "", new_case);
+            
             gs.set_value(IJE_to_MMRIA_Path["BPLACE_CNT"], mor_field_set["BPLACE_CNT"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["BPLACE_ST"], mor_field_set["BPLACE_ST"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["STATEC"], mor_field_set["STATEC"], new_case);
@@ -3678,6 +3683,7 @@ GNAME 27 50
         result.Add("SSN", row.Substring(190, 9).Trim());
         result.Add("AGETYPE", row.Substring(199, 1).Trim());
         result.Add("AGE", AGE_Rule(row.Substring(200, 3).Trim()));
+        result.Add("DMAIDEN", AGE_Rule(row.Substring(3342, 50).Trim()));
         result.Add("DOB_YR", row.Substring(204, 4).Trim());
         result.Add("DOB_MO", DOB_MO_Rule(row.Substring(208, 2).Trim()));
         result.Add("DOB_DY", DOB_DY_Rule(row.Substring(210, 2).Trim()));
