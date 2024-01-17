@@ -1062,7 +1062,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             gs.set_value(IJE_to_MMRIA_Path["AGE"], mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
             gs.set_value("death_certificate/demographics/age_on_death_certificate", mor_field_set["AGE"]?.TrimStart('0') ?? "", new_case);
             
-            gs.set_value(IJE_to_MMRIA_Path["DMAIDEN"], mor_field_set["DMAIDEN"]?.TrimStart('0') ?? "", new_case);
+            gs.set_value(IJE_to_MMRIA_Path["DMAIDEN"], mor_field_set["DMAIDEN"]?.Trim() ?? "", new_case);
             
             gs.set_value(IJE_to_MMRIA_Path["BPLACE_CNT"], mor_field_set["BPLACE_CNT"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["BPLACE_ST"], mor_field_set["BPLACE_ST"], new_case);
