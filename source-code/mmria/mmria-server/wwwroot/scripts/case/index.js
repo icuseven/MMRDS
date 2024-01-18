@@ -1693,6 +1693,12 @@ function create_jurisdiction_list(p_data)
 
 var update_session_timer_interval_id = null;
 
+async function apply_filter_click() 
+{
+    g_ui.case_view_request.page=1;
+    await get_case_set();
+}
+
 async function get_case_set(p_call_back) 
 {
 

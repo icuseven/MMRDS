@@ -441,6 +441,12 @@ function load_profile()
 }
 
 
+function apply_filter_click() 
+{
+    g_ui.case_view_request.page=1;
+    get_case_set();
+}
+
 
 function get_case_set(p_call_back)
 {
