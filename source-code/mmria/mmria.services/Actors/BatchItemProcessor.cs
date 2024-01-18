@@ -3683,7 +3683,7 @@ GNAME 27 50
         result.Add("SSN", row.Substring(190, 9).Trim());
         result.Add("AGETYPE", row.Substring(199, 1).Trim());
         result.Add("AGE", AGE_Rule(row.Substring(200, 3).Trim()));
-        result.Add("DMAIDEN", AGE_Rule(row.Substring(3342, 50).Trim()));
+        result.Add("DMAIDEN", AGE_Rule(row.Substring(3341, 50).Trim()));
         result.Add("DOB_YR", row.Substring(204, 4).Trim());
         result.Add("DOB_MO", DOB_MO_Rule(row.Substring(208, 2).Trim()));
         result.Add("DOB_DY", DOB_DY_Rule(row.Substring(210, 2).Trim()));
