@@ -164,7 +164,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     <th class='th' scope='col'>Created</th>
                     <th class='th' scope='col'>Last Updated</th>
                     <th class='th' scope='col'>Currently Edited By</th>
-                    ${!g_is_data_analyst_mode ? `<th class='th' scope='col' style="width: 115px;">Actions</th>` : ''}
                 </tr>
             </thead>
             <tbody class="tbody">
@@ -749,23 +748,6 @@ function render_app_summary_result_item(item, i)
             </span>
             `) : ''}
         </td>
-            <td class="td">       
-            <button 
-            type="button" 
-            id="id_for_record_${i}_all" 
-            class="btn btn-primary btn-xs" 
-            style="line-height: 1.15; margin: 3px" 
-            onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
-            </button>
-            <button 
-            type="button" 
-            id="id_for_record_${i}_narrative" 
-            class="btn btn-primary btn-xs" 
-            style="line-height: 1.15; margin: 3px" 
-            onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
-            </button>
-                </td>
-
         </tr>`
     );
 
