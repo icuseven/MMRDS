@@ -1726,24 +1726,17 @@ function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 	if (parseInt(p_ui.url_state.path_array[0]) >= 0) {
 		p_result.push('<label for="print_case_id" class="sr-only">Print version</label>');
 		p_result.push('<select id="print_case_id" onchange="enable_print_button(event)" class="form-control" style="width:280px">');
-		p_result.push('<option value="">Select a form to print</option>');
-		p_result.push('<optgroup label="Current form">');
 
 		const path_to_check_multi_form = parseInt(p_ui.url_state.path_array[2]);
 		const recordNumber = path_to_check_multi_form + 1;
-
         p_result.push('<option value="' + p_metadata.name + '">');
         p_result.push(p_metadata.prompt);
         p_result.push("</option>");
-		
-		p_result.push("</optgroup>");
-
-
 		p_result.push("</select>");
 
-		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="View" onclick="print_case_onclick(event)" disabled="true" />`);
-		p_result.push(`<input type="button" id="pdf-case-view-form" class="btn btn-primary ml-3" value="View PDF" onclick="pdf_case_onclick(event, 'view')" disabled="true" />`);
-		p_result.push(`<input type="button" id="pdf-case-save-form" class="btn btn-primary ml-3" value="Save PDF" onclick="pdf_case_onclick(event, 'save')" disabled="true" />`);
+		p_result.push(`<input type="button" id="print-case-form" class="btn btn-primary ml-3" value="View" onclick="print_case_onclick(event)" />`);
+		p_result.push(`<input type="button" id="pdf-case-view-form" class="btn btn-primary ml-3" value="View PDF" onclick="pdf_case_onclick(event, 'view')" />`);
+		p_result.push(`<input type="button" id="pdf-case-save-form" class="btn btn-primary ml-3" value="Save PDF" onclick="pdf_case_onclick(event, 'save')" />`);
 	}
 }
 

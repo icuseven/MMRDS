@@ -167,9 +167,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 </tr>
             </thead>
             <tbody class="tbody">
-                
                 ${ !g_is_data_analyst_mode ? p_ui.case_view_list.map((item, i) => render_app_pinned_summary_result(item, i)).join('') : ""}
-
                 ${p_ui.case_view_list.map((item, i) => render_app_summary_result_item(item, i)).join('')}
             </tbody>
         </table>
@@ -846,23 +844,6 @@ function render_app_pinned_summary_result(item, i)
             </span>
             `) : ''}
         </td>
-
-            <td class="td" ${border_bottom_color}>
-            <button 
-            type="button" 
-            id="id_for_record_${i}_all" 
-            class="btn btn-primary btn-xs" 
-            style="line-height: 1.15; margin: 3px" 
-            onclick="pdf_case_onclick_summary(event, '${caseID}', 'all')">All
-        </button>
-        <button 
-            type="button" 
-            id="id_for_record_${i}_narrative" 
-            class="btn btn-primary btn-xs" 
-            style="line-height: 1.15; margin: 3px" 
-            onclick="pdf_case_onclick_summary(event, '${caseID}', 'case_narrative')">Narrative
-        </button>
-                </td>
         </tr>`
     );
 }
