@@ -1399,7 +1399,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                         set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", tract_county_result.county.OBGYNrate);
                         set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", tract_county_result.county.rtTEENBIRTH);
                         set_grid_value("cvs/cvs_grid/cvs_rtstd_county", tract_county_result.county.rtSTD);
-                        set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.rtMHPRACT);
+                        set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.MHCENTERrate);
                         set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", tract_county_result.county.rtDRUGODMORTALITY);
                         set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", tract_county_result.county.rtOPIOIDPRESCRIPT);
                         set_grid_value("cvs/cvs_grid/cvs_soccap_county", tract_county_result.county.SocCap);
@@ -1407,6 +1407,15 @@ public sealed class BatchItemProcessor : ReceiveActor
                         set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
                         set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
                         set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
+
+                        set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.MIDWIVESrate);
+                        set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.segregation);
+                        set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.PCPrate);
+                        set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR);
+
+                        set_grid_value("cvs/cvs_grid/cvs_pctrural", tract_county_result.county.pctRural);
+                        set_grid_value("cvs/cvs_grid/cvs_racialized_pov",  tract_county_result.county.Racialized_pov);
+                        set_grid_value("cvs/cvs_grid/cvs_mhproviderrate",  tract_county_result.county.MHPROVIDERrate);
                         
                     }
 

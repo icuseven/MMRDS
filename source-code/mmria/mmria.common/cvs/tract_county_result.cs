@@ -69,6 +69,8 @@ public sealed class county
     public double pctHOUSE_DISTRESS { get;set;}
     public double rtVIOLENTCR_ICPSR { get;set;}
     public double isolation { get;set;}
+
+    public double MHCENTERrate { get; set; }
     
     public double MIDWIVESrate { get;set;}
     public double segregation { get;set;}

@@ -262,7 +262,7 @@ var $mmria = function()
                     cvs_obgynrate_county: p_result.county.obgyNrate,
                     cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
                     cvs_rtstd_county: p_result.county.rtSTD,
-                    cvs_rtmhpract_county: p_result.county.rtMHPRACT,
+                    cvs_rtmhpract_county: p_result.county.mhcenteRrate,
                     cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
                     cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
                     cvs_soccap_county: p_result.county.socCap,
