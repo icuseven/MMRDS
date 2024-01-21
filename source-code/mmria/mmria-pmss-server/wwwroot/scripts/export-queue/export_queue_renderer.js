@@ -356,8 +356,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										<tr class="tr">
 											<th class="th" width="38" scope="col">x</th>
 											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
-											<th class="th" scope="col">Name [Jurisdiction ID]</th>
-											<th class="th" scope="col">Record ID</th>
+											<th class="th" scope="col">Case Status</th>
+											<th class="th" scope="col">PMSSNO</th>
 											<th class="th" scope="col">Date of death</th>
 											<th class="th" scope="col">Committee review date</th>
 											<th class="th" scope="col">Agency case ID</th>
@@ -388,8 +388,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 										<tr class="tr">
 											<th class="th" width="38" scope="col">x</th>
 											<th class="th" scope="col">Date last updated <br/>Last updated by</th>
-											<th class="th" scope="col">Name [Jurisdiction ID]</th>
-											<th class="th" scope="col">Record ID</th>
+											<th class="th" scope="col">Case Status</th>
+											<th class="th" scope="col">PMSSNo</th>
 											<th class="th" scope="col">Date of death</th>
 											<th class="th" scope="col">Committee review date</th>
 											<th class="th" scope="col">Agency case ID</th>
@@ -940,6 +940,8 @@ function render_search_result_list()
 {
     if(g_case_view_request.respone_rows == null) return;
 
+    
+
     let el = document.getElementById('search_result_list');
     let html = [];
 
@@ -955,6 +957,8 @@ function render_search_result_list()
       if (index > -1) {
         checked = 'checked=true';
       }
+
+      const currentCaseStatus = app_get_case_status_value_to_display(item.value.status)
 
       // Items generated after user applies filters
       html.push(`
@@ -975,16 +979,10 @@ function render_search_result_list()
       )}
 						</td>
 						<td class="td" data-type="jurisdiction_id">
-							${escape(value_list.last_name)
-                .replace(/%20/g, ' ')
-                .replace(/%3A/g, '-')}, ${escape(value_list.first_name)
-        .replace(/%20/g, ' ')
-        .replace(/%3A/g, '-')} ${escape(value_list.middle_name)
-        .replace(/%20/g, ' ')
-        .replace(/%3A/g, '-')} [${escape(value_list.jurisdiction_id)}]  
+							${currentCaseStatus}
 						</td>
 						<td class="td" data-type="record_id">
-							${escape(value_list.record_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
+							${escape(item.value.pmssno).replace(/%20/g, ' ').replace(/%3A/g, '-')}
 						</td>
 						<td class="td" data-type="date_of_death">
 						${
@@ -1029,6 +1027,11 @@ function render_selected_case_list(p_result, p_answer_summary)
     const checked = p_answer_summary.case_set.includes(item_id)
       ? 'checked=true'
       : '';
+
+    const currentCaseStatus = app_get_case_status_value_to_display(value_list.status)
+
+
+      
     // Items generated after user applies filters
     p_result.push(`
 			<tr class="tr font-weight-normal">
@@ -1046,16 +1049,10 @@ function render_selected_case_list(p_result, p_answer_summary)
             .replace(/%3A/g, '-')} <br/> ${escape(value_list.last_updated_by)}
 				</td>
 				<td class="td" data-type="jurisdiction_id">
-					${escape(value_list.last_name)
-            .replace(/%20/g, ' ')
-            .replace(/%3A/g, '-')}, ${escape(value_list.first_name)
-      .replace(/%20/g, ' ')
-      .replace(/%3A/g, '-')} ${escape(value_list.middle_name)
-      .replace(/%20/g, ' ')
-      .replace(/%3A/g, '-')} [${escape(value_list.jurisdiction_id)}]  
+					${currentCaseStatus}  
 				</td>
 				<td class="td" data-type="record_id">
-					${escape(value_list.record_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
+					${escape(value_list.pmssno).replace(/%20/g, ' ').replace(/%3A/g, '-')}
 				</td>
 				<td class="td" data-type="date_of_death">
 				${
@@ -2410,4 +2407,19 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 
 	return result;
+}
+
+function app_get_case_status_value_to_display(p_value)
+{
+    let result = p_value;
+    const lookup_value = eval(convert_dictionary_path_to_lookup_object("lookup/case_status"));
+    lookup_value.map((item)=> {
+        if(item.value == p_value)
+        { 
+            result = item.display
+        }
+    
+    } );
+
+    return result; 
 }
