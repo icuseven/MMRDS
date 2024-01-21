@@ -279,9 +279,6 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                                     ${renderPregnancyRelatedness(g_case_view_request)}
                                 </select>
                             </div-->
-
-                            
-                                  ${render_pregnancy_filter(g_case_view_request)}
                                 
                               <div class="form-inline mb-2">
                                   <table>
@@ -303,9 +300,18 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
                                   </select>
                                   </td></tr>
                                   </table>
+
+
                               </div>
 
+                            <div class="form-inline mb-2">
 
+                                <label for="search_classification" class="mr-2">Classification:</label>
+                                <select id="search_classification" class="custom-select" onchange="search_classification_onchange(this.value)">
+                                    ${render_classification(g_case_view_request)}
+                                </select>
+
+                            </div>
 
 
                             <div class="form-inline mb-2">
@@ -1603,6 +1609,50 @@ function renderPregnancyRelatedness(p_case_view)
 
 	return sortCaseStatusList.join(''); 
 }
+
+function render_classification(p_case_view)
+{
+    const index_list = [];
+    
+    function find_form(item, i)
+    { 
+        if(item.name== "cause_of_death")
+            index_list.push(i);
+    }
+
+    function find_field(item, i)
+    { 
+        if(item.name== "class")
+            index_list.push(i);
+    }
+
+    g_metadata.children.map(find_form);
+
+    g_metadata.children[index_list[0]].children.map(find_field);
+
+    const lookup_value = g_metadata.children[index_list[0]].children[index_list[1]].values
+    const values = [];
+        
+    values.push(       {
+        value : 'all',
+        display : '-- All --'
+    });
+
+    lookup_value.map((item)=> values.push({
+        value : item.value,
+        display : item.display
+    }));
+
+    const list = [];
+
+	values.map((status, i) => {
+
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.classification ? ' selected ' : ''}>${status.display}</option>`);
+    });
+
+	return list.join(''); 
+}
+
 
 function render_sort_by_include_in_export(p_sort)
 {
