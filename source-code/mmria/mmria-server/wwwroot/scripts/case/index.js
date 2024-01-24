@@ -1649,7 +1649,7 @@ async function load_and_set_data()
       g_look_up['lookup/' + child.name] = child.values;
     }
 
-    get_case_set();
+    
 
     g_ui.url_state = url_monitor.get_url_state(window.location.href);
     if (window.onhashchange) 
@@ -1663,6 +1663,9 @@ async function load_and_set_data()
     }
 
     window.onbeforeunload = navigation_away;
+
+
+    await get_case_set();
 }
   
 
@@ -1888,7 +1891,7 @@ function get_metadata()
   });
 }
 
-function window_on_hash_change(e) 
+async function window_on_hash_change(e) 
 {
 
   if (g_data) 
@@ -1958,9 +1961,9 @@ function window_on_hash_change(e)
 
             g_apply_sort(g_metadata, g_data, "","", "");
 
-            save_case(g_data, function () {
+            save_case(g_data, async function () {
             g_data = null;
-            get_case_set(function () {
+            await get_case_set(function () {
                 g_render();
             });
             }, "hash_change");
@@ -1968,7 +1971,7 @@ function window_on_hash_change(e)
         else
         {
             g_data = null;
-            get_case_set(function () {
+            await get_case_set(function () {
                 g_render();
             });
         }
