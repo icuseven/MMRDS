@@ -755,7 +755,7 @@ public sealed class BatchItemProcessor : ReceiveActor
 
 
 
-        var case_view_response = GetCaseView(item_db_info, mor_field_set["LNAME"]);
+        var case_view_response = GetCaseView(item_db_info, mor_field_set["LNAME"].Trim());
         string mmria_id = null;
 
         var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
