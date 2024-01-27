@@ -1402,7 +1402,7 @@ if
     {
         var result = new mmria.common.niosh.NioshResult();
         var builder = new System.Text.StringBuilder();
-        builder.Append("https://wwwn.cdc.gov/nioccs/IOCode.ashx?n=3");
+        builder.Append("https://wwwn.cdc.gov/nioccs/IOCode?n=3");
         var has_occupation = false;
         var has_industry = false;
 
