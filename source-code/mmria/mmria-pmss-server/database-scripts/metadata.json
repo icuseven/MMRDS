@@ -40,7 +40,7 @@
         {
           "display": "------------------------------------------------------------------------",
           "description": "",
-          "value": "------------------------------------------------------------------------",
+          "value": "--Separator-01--",
           "parent_value": "",
           "is_not_selectable": true
         },
@@ -68,7 +68,7 @@
         {
           "display": "------------------------------------------------------------------------",
           "description": "",
-          "value": "------------------------------------------------------------------------",
+          "value": "--Separator-02--",
           "is_not_selectable": true
         },
         {
@@ -94,7 +94,7 @@
         {
           "display": "------------------------------------------------------------------------",
           "description": "",
-          "value": "------------------------------------------------------------------------",
+          "value": "--Separator-03--",
           "parent_value": "",
           "is_not_selectable": true
         },
@@ -129,7 +129,7 @@
         {
           "display": "------------------------------------------------------------------------",
           "description": "",
-          "value": "------------------------------------------------------------------------",
+          "value": "--Separator-04--",
           "parent_value": "",
           "is_not_selectable": true
         },
@@ -534,7 +534,7 @@
           "is_not_selectable": false
         },
         {
-          "display": "56: Mexico (MEX)",
+          "display": "57: Mexico (MEX)",
           "description": "",
           "value": "57",
           "is_not_selectable": false
@@ -1358,13 +1358,13 @@
         },
         {
           "display": "3: Asian",
-          "description": "Native Hawaiian or Pacific Islander",
+          "description": "Asian",
           "value": "3",
           "is_not_selectable": false
         },
         {
           "display": "4: American Indian/Native American/Alaskan Native",
-          "description": "Asian",
+          "description": "Native Hawaiian or Pacific Islander",
           "value": "4",
           "is_not_selectable": false
         },
@@ -1463,7 +1463,7 @@
           "is_not_selectable": false
         },
         {
-          "display": "8: Polysubstance (use if >3 types of drugs, or \"polysubstance\" stated and types not specified)",
+          "display": "8: Polysubstance (use if >3 types of drugs, or",
           "description": "",
           "value": "8",
           "is_not_selectable": false
@@ -9945,7 +9945,7 @@
               "prompt": "Overall Case Status",
               "name": "status",
               "type": "list",
-              "data_type": "number",
+              "data_type": "string",
               "values": [],
               "default_value": "Incomplete",
               "path_reference": "lookup/case_status",
@@ -9980,7 +9980,7 @@
               "sass_export_name": "case_folder"
             },
             {
-              "prompt": "Vitals Import Batch Name",
+              "prompt": "Vitals Import Batch",
               "name": "batch_name",
               "type": "string",
               "is_read_only": true,
@@ -10029,10 +10029,12 @@
               "name": "vro_resolution_status_mirror",
               "type": "string",
               "is_read_only": true,
-              "mirror_reference": "vro_case_determnation/vro_update/vro_resolution_status",
+              "mirror_reference": "vro_case_determination/vro_update/vro_resolution_status",
               "description": "VRO Resolution Status",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "vro_resolution_status"
             }
           ],
           "description": "Administrative Information",
@@ -10680,6 +10682,201 @@
                 "FREQ"
               ],
               "sass_export_name": "cntysrce"
+            },
+            {
+              "prompt": "Matching geography type",
+              "name": "residence_feature_matching_geography_type",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Indicates the type of geographic feature used to match the address provided. See (external link) https://geoservices.tamu.edu/Services/Geocode/About/#MatchingGeographyTypes for response options.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_feature_matching_geography_type",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Latitude",
+              "name": "residence_latitude",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Latitude of the place of last residence.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_latitude",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Longitude",
+              "name": "residence_longitude",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Longitude of the place of last residence.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_longitude",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Coordinate quality code",
+              "name": "residence_naaccr_gis_coordinate_quality_code",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Code indicating the quality of the assignment of coordinates from the address provided. Lower numbers (ex. “0”) are representative of a higher quality and more precise coordinate. This data item is helpful in identifying cases that were assigned coordinates based on incomplete information, P.O. boxes, or rural routes. See (external link)  https://geoservices.tamu.edu/Services/Geocode/About/#NAACCRGISCoordinateQualityCodes for code.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_feature_matching_geography_type",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Coordinate quality type/name",
+              "name": "residence_naaccr_gis_coordinate_quality_type",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Corresponding value for the Coordinate Quality Code, the code indicating the quality of the assignment of the coordinates from the address provided. See (external link)  https://geoservices.tamu.edu/Services/Geocode/About/#NAACCRGISCoordinateQualityCodes for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_naaccr_gis_coordinate_quality_type",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Census tract certainty code",
+              "name": "residence_naaccr_census_tract_certainty_code",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Code indicating the level of accuracy to expect from the Census data associated with a geocode. Lower certainty codes are representative of a higher level of certainty. It is helpful in identifying cases that were assigned census tracts based on incomplete information, P.O. boxes, or rural routes. See (external link)  https://geoservices.tamu.edu/Services/Geocode/About/#NAACCRCensusTractCertaintyCodes for code definitions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_naaccr_census_tract_certainty_code",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Census tract certainty type/name",
+              "name": "residence_naaccr_census_tract_certainty_type",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Indicates the type of geographic feature used to match the address provided. See (external link) https://geoservices.tamu.edu/Services/Geocode/About/#MatchingGeographyTypes for response options.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_naaccr_census_tract_certainty_type",
+              "max_length": "100"
+            },
+            {
+              "prompt": "State-county FIPS code",
+              "name": "residence_state_county_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "A 5-digit assigned FIPS code that identifies the state and county of the address provided. The first two digits are the FIPS code of the state and the last three digits refer specifically to the county. Federal Information Processing Series (FIPS) codes are unique identifiers of geographic entities and their geographic coordinates. See (external link) https://www.census.gov/library/reference/code-lists/ansi.html for more on FIPS codes.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_state_county_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "State FIPS code",
+              "name": "residence_census_state_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "A 2-digit assigned FIPS code that identifies the state of the address provided. Federal Information Processing Series (FIPS) codes are unique identifiers of geographic entities and their geographic coordinates. See (external link)  https://www.census.gov/library/reference/code-lists/ansi.html for more on FIPS codes.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_state_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "County FIPS code",
+              "name": "residence_census_county_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "A 3-digit assigned FIPS code that identifies the county of the address provided. Federal Information Processing Series (FIPS) codes are unique identifiers of geographic entities and their geographic coordinates. See (external link)  https://www.census.gov/library/reference/code-lists/ansi.html for more on FIPS codes.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_county_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Tract FIPS code",
+              "name": "residence_census_tract_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "FIPS census tract code consisting of a 1-4 digit integer number with an optional two digit suffix separated by a decimal. Note that tract FIPS codes are repeated across states. Federal Information Processing Series (FIPS) codes are unique identifiers of geographic entities and their geographic coordinates. See (external link)  https://transition.fcc.gov/form477/Geo/more_about_census_tracts.pdf for more on Census tracts.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_tract_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Urban status",
+              "name": "residence_urban_status",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Urban status of the county in which the address is located, categorized into metropolitan division (>=2,500,000), metropolitan (>=50,000-2,499,999), micropolitan (10,000-49,999) or rural (<10,000) county.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_urban_status",
+              "max_length": "100"
+            },
+            {
+              "prompt": "Metropolitan Division",
+              "name": "residence_census_met_div_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "A 5-digit assigned code that identifies the location as a metropolitan division (>=2,500,000). Metropolitan divisions are distinguished from metropolitan and micropolitan statistical areas by codes that end in \"4\". See (external link) https://www.census.gov/programs-surveys/metro-micro/about/glossary.html for more info.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_met_div_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "CBSA FIPS code",
+              "name": "residence_census_cbsa_fips",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "A 5-digit assigned code that identifies the location as a metropolitan (>=50,000-2,499,999) or micropolitan (10,000-49,999) county. See (external link)  https://www.census.gov/topics/housing/housing-patterns/about/core-based-statistical-areas.html for more info on CBSAs.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_cbsa_fips",
+              "max_length": "100"
+            },
+            {
+              "prompt": "CBSA micropolitan indicator",
+              "name": "residence_census_cbsa_micro",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "Indicates whether a core-based statistical area (CBSA) is a micropolitan (10,000-49,999) or not. A value of \"1\" in this field indicates that the county is a micropolitan county. See (external link) https://www.census.gov/topics/housing/housing-patterns/about/core-based-statistical-areas.html for more info on micropolitan statistical areas.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "residence_census_cbsa_micro",
+              "max_length": "100"
             }
           ],
           "description": "Group 9",
@@ -11387,6 +11584,84 @@
               ],
               "sass_export_name": "indust",
               "max_length": "100"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Industry Code #1",
+              "name": "industry_code_1",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Industry Code #1 on Death Certificate. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "industry_code_1",
+              "max_length": "500"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Industry Code #2",
+              "name": "industry_code_2",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Industry Code #2 on Death Certificate. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "industry_code_2",
+              "max_length": "500"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Industry Code #1",
+              "name": "industry_code_3",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Industry Code #3 on Death Certificate. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "industry_code_3",
+              "max_length": "500"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Occupation Code #1",
+              "name": "occupation_code_1",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Occupation Code #1. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "occupation_code_1",
+              "max_length": "500"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Occupation Code #2",
+              "name": "occupation_code_2",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Occupation Code #2. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "occupation_code_2",
+              "max_length": "500"
+            },
+            {
+              "prompt": "NIOCCS - Mother’s Occupation Code #3",
+              "name": "occupation_code_3",
+              "type": "string",
+              "is_read_only": true,
+              "is_hidden": true,
+              "description": "NIOSH Industry and Occupation Computerized Coding System (NIOCCS) - Mother’s Occupation Code #3. See (external link) https://csams.cdc.gov/nioccs/HelpWebService.aspx and https://csams.cdc.gov/nioccs/HelpCodingSchemes.aspx for value descriptions.",
+              "tags": [
+                "FREQ"
+              ],
+              "sass_export_name": "occupation_code_3",
+              "max_length": "500"
             }
           ],
           "description": "Education, Occupation, Industry",
@@ -11465,7 +11740,7 @@
               "is_not_selectable": false
             },
             {
-              "display": "99: Unknown",
+              "display": "88: Unknown",
               "description": "",
               "value": "88",
               "is_not_selectable": false
@@ -12022,7 +12297,8 @@
               "tags": [
                 "FREQ"
               ],
-              "sass_export_name": "cod"
+              "sass_export_name": "cod",
+              "parent_list": "cause_of_death/q28/cdccod"
             }
           ],
           "description": "Group 28",
@@ -12057,7 +12333,8 @@
               "tags": [
                 "FREQ"
               ],
-              "sass_export_name": "acon1"
+              "sass_export_name": "acon1",
+              "parent_list": "cause_of_death/q29/assoc1"
             }
           ],
           "description": "Group 29",
@@ -12092,7 +12369,8 @@
               "tags": [
                 "FREQ"
               ],
-              "sass_export_name": "acon2"
+              "sass_export_name": "acon2",
+              "parent_list": "cause_of_death/q30/assoc2"
             }
           ],
           "description": "Group 30",
@@ -12127,7 +12405,8 @@
               "tags": [
                 "FREQ"
               ],
-              "sass_export_name": "acon3"
+              "sass_export_name": "acon3",
+              "parent_list": "cause_of_death/q31/assoc3"
             }
           ],
           "description": "Group 31",
@@ -12398,6 +12677,7 @@
               "prompt": "Preparer(s) Remarks",
               "name": "review_1_remarks",
               "type": "textarea",
+              "description": "Preparer(s) Remarks.",
               "tags": [],
               "sass_export_name": "review_1_remarks"
             }
@@ -12502,9 +12782,10 @@
               "sass_export_name": "review_2_on"
             },
             {
-              "prompt": "Reviewers) Remarks",
+              "prompt": "Reviewer(s) Remarks",
               "name": "review_2_remarks",
               "type": "textarea",
+              "description": "Reviewer(s) Remarks.",
               "tags": [],
               "sass_export_name": "review_2_remarks"
             }
@@ -12680,8 +12961,11 @@
               "type": "string",
               "is_read_only": true,
               "mirror_reference": "ije_dc/file_info/dstate_dc",
-              "tags": [],
-              "sass_export_name": ""
+              "description": "Death Certificate - State",
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "dstate_dc"
             },
             {
               "prompt": "Death Certificate - Number",
@@ -12689,8 +12973,11 @@
               "type": "string",
               "is_read_only": true,
               "mirror_reference": "ije_dc/file_info/fileno_dc",
-              "tags": [],
-              "sass_export_name": ""
+              "description": "Death Certificate - File Number",
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "fileno_dc"
             },
             {
               "prompt": "Auxiliary State - File Number",
@@ -12698,9 +12985,11 @@
               "type": "string",
               "is_read_only": true,
               "mirror_reference": "ije_dc/file_info/auxno_dc",
-              "description": "AUXNO_DC: Auxiliary State - File Number",
-              "tags": [],
-              "sass_export_name": ""
+              "description": "Auxiliary State - File Number",
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "auxno_dc"
             },
             {
               "prompt": "Date of Death",
@@ -12713,8 +13002,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dod_mo_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Death - Month",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dod_mo_dc"
                 },
                 {
                   "prompt": "Day",
@@ -12722,8 +13014,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dod_dy_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Death - Day",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dod_dy_dc"
                 },
                 {
                   "prompt": "Year",
@@ -12731,8 +13026,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dod_yr_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Death - Year",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dod_yr_dc"
                 }
               ],
               "tags": []
@@ -12748,8 +13046,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dob_mo_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Birth - Month",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dob_mo_dc"
                 },
                 {
                   "prompt": "Day",
@@ -12757,8 +13058,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dob_dy_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Birth - Day",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dob_dy_dc"
                 },
                 {
                   "prompt": "Year",
@@ -12766,8 +13070,11 @@
                   "type": "string",
                   "is_read_only": true,
                   "mirror_reference": "ije_dc/death_info/dob_yr_dc",
-                  "tags": [],
-                  "sass_export_name": ""
+                  "description": "Date of Birth - Year",
+                  "tags": [
+                    "DO_NOT_EXPORT"
+                  ],
+                  "sass_export_name": "dob_yr_dc"
                 }
               ],
               "tags": []
@@ -12778,8 +13085,11 @@
               "type": "string",
               "is_read_only": true,
               "mirror_reference": "tracking/admin_info/fileno_bc",
-              "tags": [],
-              "sass_export_name": ""
+              "description": "Linked Birth Certificate - File Number",
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "fileno_bc"
             },
             {
               "prompt": "Linked Fetal Death Certificate - Number",
@@ -12787,8 +13097,11 @@
               "type": "string",
               "is_read_only": true,
               "mirror_reference": "tracking/admin_info/fileno_fdc",
-              "tags": [],
-              "sass_export_name": ""
+              "description": "Linked Fetal Death Certificate - File Number",
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "fileno_fdc"
             },
             {
               "prompt": "Year (Birth/Fetal Death)",
@@ -12797,8 +13110,10 @@
               "is_read_only": true,
               "mirror_reference": "tracking/admin_info/year_birthorfetaldeath",
               "description": "Year of Birth or Fetal Death",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "year_birthorfetaldeath"
             }
           ],
           "description": "Case Identifiers",
@@ -12874,6 +13189,7 @@
               "prompt": "VRO Resolution Remarks",
               "name": "vro_resolution_remarks",
               "type": "textarea",
+              "description": "VRO Resolution Remarks",
               "tags": [],
               "sass_export_name": "vro_resolution_remarks",
               "max_length": "500"
@@ -12895,10 +13211,11 @@
               "type": "textarea",
               "is_read_only": true,
               "mirror_reference": "preparer_remarks/remarks_grp/note_to_vro",
+              "description": "CDC Staff / Medical Epidemiologist Remarks to VRO pertaining to case.",
               "tags": [
                 "DO_NOT_EXPORT"
               ],
-              "sass_export_name": ""
+              "sass_export_name": "note_to_vro"
             }
           ],
           "description": "Vital Records Office Update",
@@ -13199,8 +13516,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/manner_dc",
               "description": "MANNER_DC: Manner of Death",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "manner_dc"
             },
             {
               "prompt": "Cause of Death Part I Line A",
@@ -13209,8 +13528,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/cod1a_dc",
               "description": "Cause of Death Part I Line A",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "cod1a_dc"
             },
             {
               "prompt": "Cause of Death Part I Interval, Line A",
@@ -13219,8 +13540,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/interval1a_dc",
               "description": "Cause of Death Part I Interval, Line A",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "interval1a_dc"
             },
             {
               "prompt": "Cause of Death Part I Line B",
@@ -13229,8 +13552,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/cod1b_dc",
               "description": "Cause of Death Part I Line B",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "cod1b_dc"
             },
             {
               "prompt": "Cause of Death Part I Interval, Line B",
@@ -13239,8 +13564,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/interval1b_dc",
               "description": "Cause of Death Part I Interval, Line B",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "interval1b_dc"
             },
             {
               "prompt": "Cause of Death Part I Line C",
@@ -13249,8 +13576,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/cod1c_dc",
               "description": "Cause of Death Part I Line C",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "cod1c_dc"
             },
             {
               "prompt": "Cause of Death Part I Interval, Line C",
@@ -13259,8 +13588,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/interval1c_dc",
               "description": "Cause of Death Part I Interval, Line C",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "interval1c_dc"
             },
             {
               "prompt": "Cause of Death Part I Line D",
@@ -13269,8 +13600,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/cod1d_dc",
               "description": "Cause of Death Part I Line D",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "cod1d_dc"
             },
             {
               "prompt": "Cause of Death Part I Interval, Line D",
@@ -13279,8 +13612,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/interval1d_dc",
               "description": "Cause of Death Part I Interval, Line D",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "interval1d_dc"
             },
             {
               "prompt": "Cause of Death Part II",
@@ -13289,8 +13624,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/othercondition_dc",
               "description": "Cause of Death Part II",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "othercondition_dc"
             },
             {
               "prompt": "Manual Underlying Cause",
@@ -13299,8 +13636,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/man_uc",
               "description": "MAN_UC_DC: Manual Underlying Cause",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "man_uc"
             },
             {
               "prompt": "ACME Underlying Cause",
@@ -13309,8 +13648,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/acme_uc_dc",
               "description": "ACME Underlying Cause",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "acme_uc_dc"
             },
             {
               "prompt": "Entity-axis codes",
@@ -13319,8 +13660,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/eac_dc",
               "description": "Entity-axis codes",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "eac_dc"
             },
             {
               "prompt": "Record-axis codes",
@@ -13329,8 +13672,10 @@
               "is_read_only": true,
               "mirror_reference": "ije_dc/cause_details/rac_dc",
               "description": "Record-axis codes",
-              "tags": [],
-              "sass_export_name": ""
+              "tags": [
+                "DO_NOT_EXPORT"
+              ],
+              "sass_export_name": "rac_dc"
             }
           ],
           "is_read_only": true,
@@ -19334,7 +19679,7 @@
               "prompt": "Remarks",
               "name": "remarks",
               "type": "textarea",
-              "description": "Remarks.",
+              "description": "AMSS Remarks.",
               "tags": [
                 "DO_NOT_EXPORT"
               ],
@@ -19350,17 +19695,17 @@
           "type": "group",
           "children": [
             {
-              "prompt": "AMSS Folder",
+              "prompt": "AMSS Source Folder",
               "name": "amss_folder",
               "type": "string",
-              "description": "AMSS Folder.",
+              "description": "AMSS Source Folder.",
               "tags": [
                 "DO_NOT_EXPORT"
               ],
               "sass_export_name": "amss_folder"
             }
           ],
-          "description": "Sourced Folder.",
+          "description": "Source Folder.",
           "tags": []
         }
       ],
