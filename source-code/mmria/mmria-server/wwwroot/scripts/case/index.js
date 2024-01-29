@@ -3028,7 +3028,8 @@ async function enable_edit_click()
     g_data.date_last_checked_out = new_date;
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
-    await save_case(g_data, create_save_message, "enable_edit");
+    const current_data = g_data;
+    window.setTimeout(async ()=>await save_case(current_data, create_save_message, "enable_edit"), 0);
     g_autosave_interval = window.setInterval(autosave, 10000);
 
     g_render();
@@ -3053,7 +3054,9 @@ async function save_and_finish_click()
   g_data.last_checked_out_by = null;
   g_data_is_checked_out = false;
   g_apply_sort(g_metadata, g_data, "","", "");
-  await save_case(g_data, create_save_message, 'save_and_finish_click');
+
+  const current_data = g_data;
+  window.setTimeout(async ()=>await save_case(current_data, create_save_message, 'save_and_finish_click'), 0);
   g_render();
   window.clearInterval(g_autosave_interval);
   g_autosave_interval = null;
@@ -3360,10 +3363,10 @@ function is_case_locked(p_case)
     
     if
     (
-        p_case.home_record &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status.case_locked_date != "" &&
+        p_case.home_record != null &&
+        p_case.home_record.case_status != null  &&
+        p_case.home_record.case_status.overall_case_status != null &&
+        //p_case.home_record.case_status.case_locked_date != "" &&
         (
             selected_value == 4 ||
             selected_value == 5 ||
