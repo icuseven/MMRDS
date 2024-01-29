@@ -1940,15 +1940,13 @@ async function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                await save_case(g_data, function () 
-                {
-                    g_render();
-                }, "hash_change");
+                const current_data = g_data;
+                window.setTimeout(async () =>await save_case(current_data,  null, "hash_change"), 0);
             }
-            else
-            {
-                g_render();
-            }
+
+
+            g_render();
+            
         }
       } 
       else 
