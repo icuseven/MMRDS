@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://dk66al0rtosgl"]
+[gd_scene load_steps=2 format=3 uid="uid://dk66al0rtosgl"]
+
+[ext_resource type="Script" path="res://DragMe.gd" id="1_58gxn"]
 
 [node name="FormDesigner" type="Control"]
 layout_mode = 3
@@ -61,6 +63,13 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "800 x 800
 "
+
+[node name="DragMe" type="Label" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer/ScrollContainer/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Drag Me"
+script = ExtResource("1_58gxn")
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
