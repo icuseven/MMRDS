@@ -1697,7 +1697,8 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                     }, 
                     0
                 );
-                element.showModal();
+
+                if(!element.open) element.showModal();
         },
         unstable_network_dialog_click: function ()
         {

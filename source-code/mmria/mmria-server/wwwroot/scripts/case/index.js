@@ -2128,6 +2128,49 @@ async function save_case(p_data, p_call_back, p_note)
         });
     }
 
+
+    let case_response = {};
+
+    try
+    {
+
+    
+
+    const case_response_promise = await fetch(location.protocol + '//' + location.host + '/api/case', {
+        method: "post",
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=utf-8',
+          'dataType': 'json',
+        },
+      
+        //make sure to serialize your JSON body
+        body: JSON.stringify(save_case_request)
+      });
+
+      case_response = await case_response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
+
+        $mmria.unstable_network_dialog_show(xhr, p_note);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+
+      
+
+/*
     const case_response = await $.ajax({
       url: location.protocol + '//' + location.host + '/api/case',
       contentType: 'application/json; charset=utf-8',
@@ -2151,6 +2194,7 @@ async function save_case(p_data, p_call_back, p_note)
             window.location = redirect_url;
         }
     });
+    */
 
     g_change_stack = [];
     g_case_narrative_is_updated = false;
