@@ -1256,9 +1256,9 @@ var g_ui = {
     set_local_case
     (
         g_data,
-        function () 
+        async function () 
         {
-            save_case(g_data, function () 
+            await save_case(g_data, function () 
             {
                 var url =
                 location.protocol +
@@ -1919,7 +1919,7 @@ async function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                save_case(g_data, function () 
+                await save_case(g_data, function () 
                 {
                 get_specific_case(
                     g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
@@ -1940,7 +1940,7 @@ async function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                save_case(g_data, function () 
+                await save_case(g_data, function () 
                 {
                     g_render();
                 }, "hash_change");
@@ -1961,7 +1961,7 @@ async function window_on_hash_change(e)
 
             g_apply_sort(g_metadata, g_data, "","", "");
 
-            save_case(g_data, async function () {
+            await save_case(g_data, async function () {
             g_data = null;
             await get_case_set(function () {
                 g_render();
@@ -2086,7 +2086,7 @@ function get_specific_case(p_id)
     });
 }
 
-function save_case(p_data, p_call_back, p_note) 
+async function save_case(p_data, p_call_back, p_note) 
 {
   if (p_data.host_state == null || p_data.host_state == '') 
   {
@@ -2128,80 +2128,78 @@ function save_case(p_data, p_call_back, p_note)
         });
     }
 
-    $.ajax({
+    const case_response = await $.ajax({
       url: location.protocol + '//' + location.host + '/api/case',
       contentType: 'application/json; charset=utf-8',
       dataType: 'json',
       data: JSON.stringify(save_case_request),
       type: 'POST',
     })
-      .done(function (case_response) 
-      {
-        //console.log('save_case: success');
-
-        g_change_stack = [];
-        g_case_narrative_is_updated = false;
-        g_case_narrative_is_updated_date = null;
-
-        if (g_data) 
-        {
-            if
-            (
-                case_response.ok == null ||
-                case_response.ok == false ||
-                case_response.rev == null
-            ) 
-            {
-                if
-                (
-                    case_response != null &&
-                    case_response.error_description != null &&
-                    case_response.error_description.indexOf("(409) Conflict") > -1
-                ) return;
-
-                const err = {
-                    status: 500,
-                    responseText : case_response.error_description
-                };
-                $mmria.unstable_network_dialog_show(err, p_note);
-                return;
-            } 
-            else if
-            (
-                case_response.ok == true && 
-                g_data._id == case_response.id
-            )
-            {
-                g_data._rev = case_response.rev;
-                g_data_is_checked_out = is_case_checked_out(g_data);
-                g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
-                set_local_case(g_data);
-                //console.log('set_value save finished');
-            }
-        }
-
-        if (p_call_back) 
-        {
-          p_call_back();
-        }
-
-      })
-      .fail(function (xhr, err) 
-      {
+    .fail(function (xhr, err) 
+    {
         //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
 
         $mmria.unstable_network_dialog_show(xhr, p_note);
         if (xhr.status == 401) 
         {
-          let redirect_url = location.protocol + '//' + location.host;
-          window.location = redirect_url;
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
         }
         else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
         {
-          let redirect_url = location.protocol + '//' + location.host;
-          window.location = redirect_url;
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
         }
-      });
+    });
+
+    g_change_stack = [];
+    g_case_narrative_is_updated = false;
+    g_case_narrative_is_updated_date = null;
+
+    if (g_data) 
+    {
+        if
+        (
+            case_response.ok == null ||
+            case_response.ok == false ||
+            case_response.rev == null
+        ) 
+        {
+            if
+            (
+                case_response != null &&
+                case_response.error_description != null &&
+                case_response.error_description.indexOf("(409) Conflict") > -1
+            ) return;
+
+            const err = {
+                status: 500,
+                responseText : case_response.error_description
+            };
+            $mmria.unstable_network_dialog_show(err, p_note);
+            return;
+        } 
+        else if
+        (
+            case_response.ok == true && 
+            g_data._id == case_response.id
+        )
+        {
+            g_data._rev = case_response.rev;
+            g_data_is_checked_out = is_case_checked_out(g_data);
+            g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
+            set_local_case(g_data);
+            //console.log('set_value save finished');
+        }
+    }
+
+    if (p_call_back) 
+    {
+        p_call_back();
+    }
+
+
+      
   } 
   else 
   {
@@ -2964,7 +2962,7 @@ function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path)
     );
 }
 
-function enable_edit_click() 
+async function enable_edit_click() 
 {
   if (g_data) 
   {
@@ -2988,7 +2986,7 @@ function enable_edit_click()
     g_data.date_last_checked_out = new_date;
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
-    save_case(g_data, create_save_message, "enable_edit");
+    await save_case(g_data, create_save_message, "enable_edit");
     g_autosave_interval = window.setInterval(autosave, 10000);
 
     g_render();
@@ -3000,20 +2998,20 @@ function enable_edit_click()
   }
 }
 
-function save_form_click() 
+async function save_form_click() 
 {
     
-    save_case(g_data, create_save_message, 'save_form_click');
+    await save_case(g_data, create_save_message, 'save_form_click');
 }
 
-function save_and_finish_click() 
+async function save_and_finish_click() 
 {
   g_data.date_last_updated = new Date();
   g_data.date_last_checked_out = null;
   g_data.last_checked_out_by = null;
   g_data_is_checked_out = false;
   g_apply_sort(g_metadata, g_data, "","", "");
-  save_case(g_data, create_save_message, 'save_and_finish_click');
+  await save_case(g_data, create_save_message, 'save_and_finish_click');
   g_render();
   window.clearInterval(g_autosave_interval);
   g_autosave_interval = null;
@@ -3229,7 +3227,7 @@ function undo_click()
   g_render();
 }
 
-function autosave() 
+async function autosave() 
 {
   let split_one = window.location.href.split('#');
 
@@ -3256,7 +3254,7 @@ function autosave()
           if (number_of_minutes > 2) 
           {
             g_data.date_last_updated = new Date();
-            save_case(g_data, null, 'autosave');
+            await save_case(g_data, null, 'autosave');
           }
         }
       }
@@ -3439,7 +3437,7 @@ function g_textarea_oninput
     set_local_case(g_data, null);
 }
 
-function navigation_away() 
+async function navigation_away() 
 {
   if (g_data_is_checked_out && g_data) 
   {
@@ -3459,7 +3457,7 @@ function navigation_away()
       }
     }
 
-    save_case(g_data, null, 'navigation_away');
+    await save_case(g_data, null, 'navigation_away');
     window.clearInterval(g_autosave_interval);
     g_autosave_interval = null;
   }
