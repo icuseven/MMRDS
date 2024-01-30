@@ -3482,8 +3482,9 @@ function g_textarea_oninput
     set_local_case(g_data, null);
 }
 
-async function navigation_away() 
+function navigation_away(e) 
 {
+
   if (g_data_is_checked_out && g_data) 
   {
     g_data.date_last_updated = new Date();
@@ -3502,10 +3503,13 @@ async function navigation_away()
       }
     }
 
-    await save_case(g_data, null, 'navigation_away');
+    const current_data = g_data;
+    window.setTimeout( async ()=> await save_case(current_data, null, 'navigation_away'), 0);
     window.clearInterval(g_autosave_interval);
     g_autosave_interval = null;
   }
+
+
 }
 
 
