@@ -164,6 +164,7 @@ var $mmria = function()
                         "cvs_used": "9999",
                         "cvs_used_how": "9999",
                         "cvs_used_other_sp": "",
+                        "cvs_grid": []
                     }
                 }
 
@@ -311,9 +312,10 @@ var $mmria = function()
                         "cvs_used": "9999",
                         "cvs_used_how": "9999",
                         "cvs_used_other_sp": "",
+                        "cvs_grid": []
                     }
                 }
-                
+
                 g_cvs_api_request_data.set
                 (
                     "cvs_api_request_result_message",
