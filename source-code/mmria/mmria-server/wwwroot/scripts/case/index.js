@@ -3504,9 +3504,13 @@ function navigation_away(e)
     }
 
     const current_data = g_data;
-    window.setTimeout( async ()=> await save_case(current_data, null, 'navigation_away'), 0);
-    window.clearInterval(g_autosave_interval);
-    g_autosave_interval = null;
+    save_case(current_data, null, 'navigation_away').then
+    (
+        ()=>{
+        window.clearInterval(g_autosave_interval);
+        g_autosave_interval = null;
+        }
+    );
   }
 
 
