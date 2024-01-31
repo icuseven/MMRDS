@@ -37,7 +37,7 @@ var batch_status = [
 ];
 
 
-window.onload = function()
+window.onload = async function()
 {
     get_batch_set();
     let el = document.getElementById("clear_data");
@@ -50,7 +50,7 @@ window.onload = function()
 
 } 
 
-function get_batch_set()
+async function get_batch_set()
 {
     let el = document.getElementById("batch_list");
     el.innerHTML = `
@@ -59,113 +59,142 @@ function get_batch_set()
     </div>
     `
 
-	$.ajax({
+	const response = await $.ajax({
 		url: location.protocol + '//' + location.host + `/api/ije_message`
-	}).done(function(response) {
-        g_batch_list = [];
-        for(let i = 0; i < response.rows.length; i++)
+	}).fail(function (xhr, err) 
+    {
+        alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
+/*
+        $mmria.unstable_network_dialog_show(xhr, p_note);
+        if (xhr.status == 401) 
         {
-            let item = response.rows[i].doc;
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        */
+    });
 
 
-            let reporting_state = item.reporting_state.toUpperCase();
+    if(response.error != null)
+    {
 
-            if(g_state_list.indexOf(reporting_state) < 0)
+        el.innerHTML = `
+    <div class="card-body bg-tertiary set-radius">
+        <p class="mb-0">Fetching data error... server save_case: failed\n${response.error}\n${response.reason}</p>
+    </div>`
+        return;
+    }
+
+
+    g_batch_list = [];
+    for(let i = 0; i < response.rows.length; i++)
+    {
+        let item = response.rows[i].doc;
+
+
+        let reporting_state = item.reporting_state.toUpperCase();
+
+        if(g_state_list.indexOf(reporting_state) < 0)
+        {
+            g_state_list.push(reporting_state);
+        }
+
+        
+        if(g_state_date_list[reporting_state] == null)
+        {
+            g_state_date_list[reporting_state] = [];
+        }
+
+        let import_date = `${item.importDate.substr(5, 2)}/${item.importDate.substr(8, 2)}/${item.importDate.substr(0, 4)}`
+
+        if( g_state_date_list[reporting_state].indexOf(import_date) < 0)
+        {
+            g_state_date_list[reporting_state].push(import_date);
+        }
+
+        
+        function compare_dates(a, b)
+        {
+            const a_arr = a.split("/");
+            const a_year = parseInt(a_arr[2]);
+            const a_month = parseInt(a_arr[0]);
+            const a_day = parseInt(a_arr[1]);
+
+            const b_arr = b.split("/");
+            const b_year = parseInt(b_arr[2]);
+            const b_month = parseInt(b_arr[0]);
+            const b_day = parseInt(b_arr[1]);
+
+            if(b_year == a_year)
             {
-                g_state_list.push(reporting_state);
-            }
-
-            
-            if(g_state_date_list[reporting_state] == null)
-            {
-                g_state_date_list[reporting_state] = [];
-            }
-
-            let import_date = `${item.importDate.substr(5, 2)}/${item.importDate.substr(8, 2)}/${item.importDate.substr(0, 4)}`
-
-            if( g_state_date_list[reporting_state].indexOf(import_date) < 0)
-            {
-                g_state_date_list[reporting_state].push(import_date);
-            }
-
-            
-            function compare_dates(a, b)
-            {
-                const a_arr = a.split("/");
-                const a_year = parseInt(a_arr[2]);
-                const a_month = parseInt(a_arr[0]);
-                const a_day = parseInt(a_arr[1]);
-
-                const b_arr = b.split("/");
-                const b_year = parseInt(b_arr[2]);
-                const b_month = parseInt(b_arr[0]);
-                const b_day = parseInt(b_arr[1]);
-
-                if(b_year == a_year)
+                if(b_month == a_month)
                 {
-                    if(b_month == a_month)
-                    {
-                        return b_day - a_day;
-                    }
-                    else
-                    {
-                        return b_month - a_month;
-                    }
+                    return b_day - a_day;
                 }
                 else
                 {
-                    return b_year - a_year;
+                    return b_month - a_month;
                 }
-                
             }
-
-            
-            if(g_date_list.indexOf(import_date) < 0)
+            else
             {
-                g_date_list.push(import_date);
-            }
-
-            g_date_list.sort(compare_dates);
-            g_state_date_list[reporting_state].sort(compare_dates);
-
-            item.import_date = import_date;
-            item.reporting_state = reporting_state;
-
-            let is_batch_rejected  = false;
-            if(item.status == 6)
-            {
-                is_batch_rejected = true;
-            }
-
-            for(let j = 0; j < item.record_result.length; j++)
-            {
-                let batch_item = item.record_result[j];
-
-                batch_item.import_date = import_date;
-                batch_item.reporting_state = reporting_state;
-
-                if(is_batch_rejected)
-                {
-                    batch_item.status = 5;
-                    batch_item.statusDetail = "Whole batch rejected";
-                }
-
-                g_batch_item_list.push(batch_item);
+                return b_year - a_year;
             }
             
-            if(item.record_result.length > 0)
-            {
-                g_batch_list.push(item);
-            }
-
         }
 
+        
+        if(g_date_list.indexOf(import_date) < 0)
+        {
+            g_date_list.push(import_date);
+        }
 
-        initialize_ui()
+        g_date_list.sort(compare_dates);
+        g_state_date_list[reporting_state].sort(compare_dates);
+
+        item.import_date = import_date;
+        item.reporting_state = reporting_state;
+
+        let is_batch_rejected  = false;
+        if(item.status == 6)
+        {
+            is_batch_rejected = true;
+        }
+
+        for(let j = 0; j < item.record_result.length; j++)
+        {
+            let batch_item = item.record_result[j];
+
+            batch_item.import_date = import_date;
+            batch_item.reporting_state = reporting_state;
+
+            if(is_batch_rejected)
+            {
+                batch_item.status = 5;
+                batch_item.statusDetail = "Whole batch rejected";
+            }
+
+            g_batch_item_list.push(batch_item);
+        }
+        
+        if(item.record_result.length > 0)
+        {
+            g_batch_list.push(item);
+        }
+
+    }
+
+
+    initialize_ui()
         
         
 
-	});
+	
 }
 
 

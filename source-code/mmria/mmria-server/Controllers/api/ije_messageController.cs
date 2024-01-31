@@ -9,10 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-
-using mmria.common.model;
 using Microsoft.AspNetCore.Http;
+
 
 using  mmria.server.extension;  
 namespace mmria.server;
@@ -43,8 +41,9 @@ public sealed class ije_messageController: ControllerBase
     
     [Authorize(Roles  = "abstractor,jurisdiction_admin,data_analyst,vital_importer,vital_importer_state")]
     [HttpGet]
-    public async Task<mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch>> Get(string case_id) 
+    public async Task<IActionResult> Get(string case_id) 
     { 
+
         mmria.common.model.couchdb.alldocs_response<mmria.common.ije.Batch> result = null;
 
         try
@@ -65,10 +64,18 @@ public sealed class ije_messageController: ControllerBase
         catch(Exception ex) 
         {
             Console.WriteLine (ex);
+
+            var document_error = new mmria.common.model.couchdb.document_put_error();
+
+            document_error.error = ex.Message;
+            document_error.reason = ex.StackTrace;
+
+            return Ok(document_error);
+
         }
 
 
-        return result;
+        return Ok(result);
     }
 
     [Authorize(Roles  = "vital_importer")]
