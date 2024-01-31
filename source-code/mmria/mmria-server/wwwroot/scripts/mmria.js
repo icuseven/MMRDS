@@ -158,6 +158,15 @@ var $mmria = function()
                 g_cvs_api_request_data.get("_id") == g_data._id
             )
             {
+                if(g_data.cvs == null)
+                {
+                    g_data.cvs = {
+                        "cvs_used": "9999",
+                        "cvs_used_how": "9999",
+                        "cvs_used_other_sp": "",
+                    }
+                }
+
                 if(p_result.tract == null)
                 {
                     g_cvs_api_request_data.set("cvs_api_request_result_message", p_result); 
@@ -295,6 +304,16 @@ var $mmria = function()
                 g_cvs_api_request_data.get("_id") == g_data._id
             )
             {
+
+                if(g_data.cvs == null)
+                {
+                    g_data.cvs = {
+                        "cvs_used": "9999",
+                        "cvs_used_how": "9999",
+                        "cvs_used_other_sp": "",
+                    }
+                }
+                
                 g_cvs_api_request_data.set
                 (
                     "cvs_api_request_result_message",
