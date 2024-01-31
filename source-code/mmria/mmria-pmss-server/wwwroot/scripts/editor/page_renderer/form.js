@@ -236,13 +236,13 @@ function form_render(
 				);
 				p_result.push(add_button_disable_attribute);
 				p_result.push(
-					" onclick=\"init_inline_loader(function(){ add_new_form_click(' " +
+					" onclick=\"add_new_form_click(' " +
 						p_metadata_path +
 						"','" +
 						p_object_path +
                         "','" +
 						p_dictionary_path +
-						"') })\" />"
+						"')\" />"
 
 				);
 			}

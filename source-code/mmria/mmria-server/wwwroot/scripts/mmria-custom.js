@@ -49,7 +49,8 @@ const fancyLogin = new ClassNameOnDomLoad(userLogin, 'is-active', 150);
  * - Inline loader (next to actionable items like btn's)
  */
 
-function init_inline_loader(callback, param1, param2) {
+async function init_inline_loader(callback, param1, param2) 
+{
   const spinner = $(event.target).siblings('.spinner-inline');
   // Do stuff before callback
   spinner.addClass('spinner-active');

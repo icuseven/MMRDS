@@ -2897,9 +2897,11 @@ function openTab(pageRoute, tabName, p_section, p_type_output, p_number, p_show_
   }
 }
 
-function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path) 
+async function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path) 
 {
-  //console.log('add_new_form_click: ' + p_metadata_path + ' , ' + p_object_path);
+    const spinner = $(event.target).siblings('.spinner-inline');
+
+    spinner.addClass('spinner-active');
 
   var metadata = eval(p_metadata_path);
   var form_array = eval(p_object_path);
@@ -2910,29 +2912,29 @@ function add_new_form_click(p_metadata_path, p_object_path, p_dictionary_path)
 
   g_apply_sort(metadata, form_array, p_metadata_path, p_object_path, p_dictionary_path);
 
-    save_case
+    await save_case
     (
         g_data,
-        function () 
-        {
-            var post_html_call_back = [];
-            document.getElementById(metadata.name + '_id').innerHTML = page_render
-            (
-                metadata,
-                form_array,
-                g_ui,
-                p_metadata_path,
-                p_object_path,
-                '',
-                false,
-                post_html_call_back
-            ).join('');
-            if (post_html_call_back.length > 0) 
-            {
-                eval(post_html_call_back.join(''));
-            }
-        }
     );
+
+    var post_html_call_back = [];
+    document.getElementById(metadata.name + '_id').innerHTML = page_render
+    (
+        metadata,
+        form_array,
+        g_ui,
+        p_metadata_path,
+        p_object_path,
+        '',
+        false,
+        post_html_call_back
+    ).join('');
+    if (post_html_call_back.length > 0) 
+    {
+        eval(post_html_call_back.join(''));
+    }
+
+    spinner.removeClass('spinner-active');
 }
 
 function enable_edit_click() 
