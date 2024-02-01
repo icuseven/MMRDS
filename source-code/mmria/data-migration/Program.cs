@@ -44,9 +44,9 @@ class Program
         //"ga",
         //"fl",
         
-        "fl_dev",
+        /*"fl_dev",*/
         //"uat",
-        /*"localhost",*/
+        "localhost",
         //"qa",
         //"test",
         //"fl_dev",
@@ -226,7 +226,7 @@ class Program
         var config_id = Configuration["data_migration:config_id"];
         config_couchdb_url = Configuration["data_migration:couchdb_url"];
         config_timer_user_name = Configuration["data_migration:timer_user_name"];
-        config_timer_value = Configuration["data_migrationtimer_value"];
+        config_timer_value = Configuration["data_migration:timer_value"];
         
         ConfigurationSet = GetConfiguration(config_id);
 
@@ -236,7 +236,7 @@ class Program
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = false;
+        bool is_test_list = true;
         
         bool is_report_only_mode = true;
 
@@ -438,15 +438,16 @@ class Program
                     var v3_0_1_Migration = new migrate.set.v3_0_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
                     await v3_0_1_Migration.execute();
 
+                    var v3_3_Migration = new migrate.set.v3_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_3_Migration.execute();
+
 
                 }
                 else if(MigrationType == RunTypeEnum.DataMigration)
                 {
                     
-
-                    var v3_0_1_Migration = new migrate.set.v3_0_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
-                    await v3_0_1_Migration.execute();
-
+                    var v3_3_Migration = new migrate.set.v3_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode);
+                    await v3_3_Migration.execute();
 
                     //var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                     //await CVS_Migration.execute();
@@ -838,10 +839,11 @@ class Program
     private static mmria.common.couchdb.ConfigurationSet GetConfiguration(string config_id)
     {
         var result = new mmria.common.couchdb.ConfigurationSet();
+        
         try
         {
-            string request_string = $"{db_config.url}/configuration/{config_id}";
-            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+            string request_string = $"{config_couchdb_url}/configuration/{config_id}";
+            var case_curl = new cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
             string responseFromServer = case_curl.execute();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.ConfigurationSet> (responseFromServer);
 

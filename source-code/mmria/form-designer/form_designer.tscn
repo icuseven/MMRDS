@@ -68,6 +68,7 @@ text = "800 x 800
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
+mouse_filter = 0
 text = "Drag Me"
 script = ExtResource("1_58gxn")
 
