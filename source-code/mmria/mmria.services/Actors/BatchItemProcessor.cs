@@ -12228,7 +12228,7 @@ CALCULATE_GESTATIONAL_AGE_AT_BIRTH_ON_BC
         return result;
     }	
 
-    	bool is_result_quality_in_need_of_checking(mmria.common.cvs.tract_county_result val)
+    bool is_result_quality_in_need_of_checking(mmria.common.cvs.tract_county_result val)
 	{
 
 		var over_all_result = false;
