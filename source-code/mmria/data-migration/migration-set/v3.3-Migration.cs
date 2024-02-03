@@ -464,6 +464,8 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					primary_occupation = item_result;
 				}
 
+				var dc_m_industry_code_1 = "death_certificate/demographics/dc_m_industry_code_1";
+
 				//INDUST
 				item_result = get_value("death_certificate/demographics/occupation_business_industry");
 				if
@@ -479,13 +481,19 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					business_industry
 				);
 
+
+
+
 				if
 				(
 					!niosh_result.is_error && 
 					(
 						niosh_result.Industry.Count > 0 ||
 						niosh_result.Occupation.Count > 0 
-					)
+					) &&
+					string.IsNullOrWhiteSpace(dc_m_industry_code_1)
+
+					
 				)
 				{   
 					if(niosh_result.Industry.Count > 0)                      
@@ -526,6 +534,9 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 				{
 					business_industry = item_result;
 				}
+
+
+				var bcdcp_f_industry_code_1 = get_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
 				niosh_result = get_niosh_codes
 				(
 					primary_occupation,
@@ -538,7 +549,8 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					(
 						niosh_result.Industry.Count > 0 ||
 						niosh_result.Occupation.Count > 0 
-					)
+					) &&
+					string.IsNullOrWhiteSpace(bcdcp_f_industry_code_1)
 				)
 				{   
 					if(niosh_result.Industry.Count > 0)                      
@@ -583,13 +595,16 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					business_industry
 				);
 
+
+				var bcdcp_m_industry_code_1 = "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1";
 				if
 				(
 					!niosh_result.is_error && 
 					(
 						niosh_result.Industry.Count > 0 ||
 						niosh_result.Occupation.Count > 0 
-					)
+					) &&
+					string.IsNullOrWhiteSpace(bcdcp_m_industry_code_1)
 				)
 				{   
 					if(niosh_result.Industry.Count > 0)                      
