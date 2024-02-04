@@ -301,7 +301,12 @@ public class metadata_mgr
 			WriteAttribute(child, "", source_code_builder);	
 		}
 
-		source_code_builder.AppendLine("\tpublic void Convert(System.Text.Json.JsonElement p_value)\n\t{");	
+		source_code_builder.AppendLine("""
+				public void Convert(System.Text.Json.JsonElement p_value)
+				{
+					_id = mmria_case.GetStringField(p_value, "_id", "_id");
+					_rev = mmria_case.GetStringField(p_value, "_rev", "_rev");
+			""");	
 
 		foreach(var child in value.children)
 		{

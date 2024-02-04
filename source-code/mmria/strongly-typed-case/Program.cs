@@ -90,11 +90,11 @@ internal class Program
 
 
         System.Text.StringBuilder builder = new System.Text.StringBuilder();
-        builder.AppendLine(@"
+        /*builder.AppendLine(@"
 using System;
 using System.Collections.Generic;
 
-namespace mmria.case_version.v1;");
+namespace mmria.case_version.v1;");*/
 		while(metadata_mgr.source_code_builder_stack.Count > 0)
         {
             var current = metadata_mgr.source_code_builder_stack.Pop();
@@ -140,6 +140,8 @@ namespace mmria.case_version.v1;");
                 if(test_case != null)
                 {
                     System.Console.WriteLine($"case version: {test_case.version}");
+
+                    System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
                 }
                 else
                 {

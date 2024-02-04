@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 
@@ -4358,8 +4359,10 @@ public sealed partial class mmria_case
 	public List<_18CD53D47CBDE2540A9EF3EC5B51E0BA> informant_interviews{ get;set;}
 	public _A35F564798944667E91C53B3A3DA359D case_narrative{ get;set;}
 	public _62AEF5C4D8129ED98ECA69F7779FCBFC committee_review{ get;set;}
-	public void Convert(System.Text.Json.JsonElement p_value)
-	{
+public void Convert(System.Text.Json.JsonElement p_value)
+{
+	_id = mmria_case.GetStringField(p_value, "_id", "_id");
+	_rev = mmria_case.GetStringField(p_value, "_rev", "_rev");
 		version = mmria_case.GetStringField(p_value, "version", "version");
 		data_migration_history = mmria_case.GetGridField<_31525A784A20079888C887AC49E5D1B9>(p_value, "data_migration_history", "data_migration_history");
 		date_created = mmria_case.GetDateTimeField(p_value, "date_created", "date_created");
