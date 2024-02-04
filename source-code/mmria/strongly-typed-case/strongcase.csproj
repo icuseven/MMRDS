@@ -12,6 +12,6 @@
   </ItemGroup>
 
 <PropertyGroup>
-  <DefaultItemExcludes>$(DefaultItemExcludes);output.cs</DefaultItemExcludes>
+  <!--DefaultItemExcludes>$(DefaultItemExcludes);output.cs</DefaultItemExcludes-->
 </PropertyGroup>
 </Project>
