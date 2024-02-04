@@ -222,11 +222,15 @@ Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death)
 					bool set_value(string p_path, string p_value)
 
 					{
-						var result = true;
+						if(case_change_count == 0)
+						{
+							case_change_count += 1;
+							case_has_changed = true;
+						}
 
-						result = result &&  gs.set_value(p_path, p_value, doc);
+						case_has_changed = case_has_changed &&  gs.set_value(p_path, p_value, doc);
 
-						return result;
+						return case_has_changed;
 					}
 
 
@@ -234,14 +238,16 @@ Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death)
 					bool set_grid_value(string p_path, object p_value_list)
 
 					{
-						var result = true;
+						if(case_change_count == 0)
+						{
+							case_change_count += 1;
+							case_has_changed = true;
+						}
 
-						result = result &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
+						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
 
-						return result;
+						return case_has_changed;
 					}
-
-
 
 
                 var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
@@ -624,548 +630,30 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 
 
 
+/*
+
+				if(case_change_count == 0)
+				{
+					case_change_count += 1;
+					case_has_changed = true;
+				}
 
 
+				if(new_list.Count > 0)
+				{
+
+					case_has_changed = case_has_changed && gs.set_grid_value(doc, pphdg_b_weigh_uom_path, new_list);
+					var output_text = $"item record_id: {mmria_id} path:{pphdg_b_weigh_uom_path} set from {string.Join(",",grid_value_result.result)} => {string.Join(",",new_list)}";
+					this.output_builder.AppendLine(output_text);
+					Console.WriteLine(output_text);
+				}
 
 
-
-            
 
 					if(mmria_id == "0472264f-d3aa-44c7-b9ca-8d715479cf15")
 					{
 						System.Console.WriteLine("here");
 					}
-
-
-					var hr_hwtd_ident_path = "home_record/how_was_this_death_identified";
-
-					value_result = gs.get_value(doc, hr_hwtd_ident_path);
-
-					if
-					(
-						!value_result.is_error &&
-						value_result.result != null &&
-						value_result.result is List<object>
-					)
-					{
-						var ListOfObject =  value_result.result as List<object>;
-						var answer_set = new HashSet<string>();
-						var item_changed = false;
-						if
-						(
-							ListOfObject.Count > 1 
-
-
-						)
-						{
-							foreach(var item in ListOfObject)
-							{
-								if(item.GetType() != typeof(string))
-								{
-									if(item != null)
-									{
-										answer_set.Add(item.ToString());
-										item_changed = true;
-									}
-								}
-								else
-								{
-									answer_set.Add(item.ToString());
-								}
-							}
-
-							if
-							(
-								answer_set.Contains("9999") ||
-								answer_set.Contains("7777")
-							)
-							{
-								answer_set.Remove("9999");
-								answer_set.Remove("7777");
-
-								item_changed = true;
-							}
-
-							if(item_changed)
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-
-								var new_list = answer_set.ToList();
-
-
-								case_has_changed = case_has_changed && gs.set_multi_value(hr_hwtd_ident_path, new_list, doc);
-								var output_text = $"item record_id: {mmria_id} path:{hr_hwtd_ident_path} set from {string.Join(",",value_result.result)} => {string.Join(",",new_list)}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-							}
-						}
-					}
-
-
-
-					/*
-					06_PCR_05_PrgHis (3)
-					pphdg_b_weigh_uom
-					pphdg_b_weigh <- already existing grams was old
-					pphdg_b_weigh_oz
-
-					pphdg_b_weigh_uom prenatal/pregnancy_history/details_grid/birth_weight_uom
-					pphdg_b_weigh prenatal/pregnancy_history/details_grid/birth_weight
-					pphdg_b_weigh_oz prenatal/pregnancy_history/details_grid/birth_weight_oz
-
-					if weight then
-						set to grams
-					else
-						set to blank
-
-					*/
-
-					C_Get_Set_Value.get_grid_value_result grid_value_result = null;
-					var pphdg_b_weigh_uom_path = "prenatal/pregnancy_history/details_grid/birth_weight_uom";
-					var pphdg_b_weigh_path = "prenatal/pregnancy_history/details_grid/birth_weight";
-					var pphdg_b_weigh_oz_path = "prenatal/pregnancy_history/details_grid/birth_weight_oz";
-
-
-					grid_value_result = gs.get_grid_value(doc, pphdg_b_weigh_path);
-
-					if
-					(
-						!grid_value_result.is_error &&
-						grid_value_result.result != null
-					)
-					{
-
-						var new_list = new List<(int, object)>();
-						var has_changed = false;
-
-
-						foreach((int index, object object_value) in grid_value_result.result)
-						{
-							/*
-								9999	(blank)	
-								0	Grams	
-								1	Pounds/Ounces
-							*/
-
-							var gram_value = "0";
-							var blank_value = "9999";
-
-							if
-							(
-								object_value != null &&
-								!string.IsNullOrWhiteSpace(object_value.ToString())
-							)
-							{
-
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								
-								new_list.Add((index, gram_value));
-
-							}
-							else
-							{
-
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-								
-								new_list.Add((index, blank_value));
-					}
-						}
-
-						if(new_list.Count > 0)
-						{
-
-							case_has_changed = case_has_changed && gs.set_grid_value(doc, pphdg_b_weigh_uom_path, new_list);
-							var output_text = $"item record_id: {mmria_id} path:{pphdg_b_weigh_uom_path} set from {string.Join(",",grid_value_result.result)} => {string.Join(",",new_list)}";
-							this.output_builder.AppendLine(output_text);
-							Console.WriteLine(output_text);
-						}
-
-					}
-
-
-					/*
-							MMRIA Form - Death Certificate (DC)
-							1.1 dcd_so_birth		death_certificate/demographics/state_of_birth
-							1.2 dcd_country_birth	death_certificate/demographics/country_of_birth
-
-							8.1 dcpolr_state	death_certificate/place_of_last_residence/state
-							8.2 dcpolr_col_resid	death_certificate/place_of_last_residence/country_of_last_residence
-							2.1 bfdcpdof_so_birth	birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
-							2.2 bfdcpdof_fco_birth	birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
-
-							3.1 bfdcpdom_so_birth	birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
-							3.2 bfdcpdom_country_birth	birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
-
-
-If foreign born 3 fields only MMRDS-1853 remove US or Any US Territories
-Data migration if US or US Territory set to (blank)
-
-death_certificate/demographics/country_of_birth
-death_certificate/demographics/state_of_birth
-
-birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
-birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
-
-birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
-birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
-
-
-Move US territories to state list MMRDS-1851
-Data migration - any country where US territories
-
-
-Marshall Island is a valid country and is NOT a US Territory
-Death Certifice 3 places
-	place of last residence - with associated state
-	demographics - with associated state
-
-
-	Citizen of What country - Guam to US
-	
-BCDC Parent 2 places
-	father's demographics - with associated state	
-	mother's demographics - with associated state
-	
-SEP
-	Country of Birth
-	
-Medical Transport
-	Origin Information - with associated state
-	Destination Information - with associated state
-
-
-
-Country --> State
-
-RQ -->PR
-AQ --> AS
-GQ --> GU
-VQ --> VI
-RM --> MH
-CQ --> MP
-PS --> PW
-
-					*/
-
-					var Country_to_State_map = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase)
-					{
-						{ "RQ", "PR"},
-						{ "AQ", "AS"},
-						{ "GQ", "GU"},
-						{ "VQ", "VI"},
-						//{ "RM", "MH"},
-						{ "CQ", "MP"},
-						//{ "PS", "PW"},
-					};
-
-					bool check_and_update_country_single_value
-					(
-						string p_country_path,
-						string p_state_path = null
-					)
-					{
-						var result = false;
-					
-						value_result = gs.get_value(doc, p_country_path);
-						if(!value_result.is_error)
-						{
-
-							if
-							(
-								value_result.result != null &&
-								Country_to_State_map.ContainsKey(value_result.result.ToString())
-							)
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-
-								var us_country_value = "US";
-								
-								case_has_changed = case_has_changed && gs.set_value(p_country_path, us_country_value, doc);
-								var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {us_country_value}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-
-								if(p_state_path != null)
-								{
-									var new_state_value = Country_to_State_map[value_result.result.ToString()];
-									case_has_changed = case_has_changed && gs.set_value(p_state_path, new_state_value, doc);
-									output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {new_state_value}";
-									this.output_builder.AppendLine(output_text);
-									Console.WriteLine(output_text);
-								}
-							}
-						}
-
-						return result;
-					}
-
-
-					bool check_foreign_only_country_single_value
-					(
-						string p_country_path
-					)
-					{
-						var result = false;
-					
-						value_result = gs.get_value(doc, p_country_path);
-						if(!value_result.is_error)
-						{
-							var us_country_value = "US";
-							var blank_value = "9999";
-
-							if
-							(
-								value_result.result != null &&
-								value_result.result.ToString() == us_country_value
-							)
-							{
-								if(case_change_count == 0)
-								{
-									case_change_count += 1;
-									case_has_changed = true;
-								}
-
-								
-								
-								case_has_changed = case_has_changed && gs.set_value(p_country_path, blank_value, doc);
-								var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",value_result.result)} => {blank_value}";
-								this.output_builder.AppendLine(output_text);
-								Console.WriteLine(output_text);
-
-
-							}
-						}
-
-						return result;
-					}
-
-
-					bool check_and_update_country_multiform_value
-					(
-						string p_country_path,
-						string p_state_path
-					)
-					{
-						var result = false;
-
-						C_Get_Set_Value.get_multiform_value_result multiform_value_result = null;
-
-						multiform_value_result = gs.get_multiform_value(doc, p_country_path);
-
-						if(!multiform_value_result.is_error)
-						{
-
-							if
-							(
-								multiform_value_result.result is not null &&
-								multiform_value_result.result is List<(int, object)> result_list && 
-								result_list.Count > 0
-							)
-							{
-								var new_country_list = new List<(int, object)>();
-								var new_state_list = new List<(int, object)>();
-
-								var has_changed = false;
-
-								foreach(var (index, value) in result_list)
-								{
-									if
-									(
-										value != null &&
-										Country_to_State_map.ContainsKey(value.ToString())
-									)
-									{
-										if(case_change_count == 0)
-										{
-											case_change_count += 1;
-											case_has_changed = true;
-										}
-
-										var us_country_value = "US";
-
-										new_country_list.Add((index, us_country_value));
-
-
-										if(p_state_path != null)
-										{
-											var new_state_value = Country_to_State_map[value.ToString()];
-
-											new_state_list.Add((index, new_state_value));
-						
-										}
-									}
-								}
-
-								if(new_country_list.Count > 0)
-								{
-
-									case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_country_path, new_country_list);
-									var output_text = $"item record_id: {mmria_id} path:{p_country_path} set from {string.Join(",",result_list)} => {string.Join(",",new_country_list)}";
-									this.output_builder.AppendLine(output_text);
-									Console.WriteLine(output_text);
-								}
-
-								if(new_state_list.Count > 0)
-								{
-
-									case_has_changed = case_has_changed && gs.set_multiform_value(doc, p_state_path, new_state_list);
-									var output_text = $"item record_id: {mmria_id} path:{p_state_path} set => {string.Join(",",new_state_list)}";
-									this.output_builder.AppendLine(output_text);
-									Console.WriteLine(output_text);
-								}
-							}
-						}
-
-						return result;
-					}
-
-
-
-
-					var dcpolr_col_resid_path = "death_certificate/place_of_last_residence/country_of_last_residence";
-					var dcpolr_state_path = "death_certificate/place_of_last_residence/state";
-				
-
-					check_and_update_country_single_value
-					(
-						dcpolr_col_resid_path,
-						dcpolr_state_path
-					);
-
-
-						
-					var dcd_so_birth_path = 	"death_certificate/demographics/state_of_birth";
-					var dcd_country_birth_path ="death_certificate/demographics/country_of_birth";
-					
-					check_and_update_country_single_value
-					(
-						dcd_country_birth_path,
-						dcd_so_birth_path
-					);
-
-
-					var dc_cow_count_path = "death_certificate/citizen_of_what_country";
-					check_and_update_country_single_value
-					(
-						dc_cow_count_path
-					);
-
-					var bfdcpdof_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth";
-					var bfdcpdof_fco_birth_path = "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth";
-					check_and_update_country_single_value
-					(
-						bfdcpdof_fco_birth_path,
-						bfdcpdof_so_birth_path
-					);
-
-					var bfdcpdom_so_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth";
-					var bfdcpdom_country_birth_path = "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth";
-
-					check_and_update_country_single_value
-					(
-						bfdcpdom_country_birth_path,
-						bfdcpdom_so_birth_path
-					);
-
-					var saepsec_co_birth_path = "social_and_environmental_profile/socio_economic_characteristics/country_of_birth";
-
-					check_and_update_country_single_value
-					(
-						saepsec_co_birth_path
-						
-					);
-
-
-/*
-					if(mmria_id.Equals("799a846d-931d-478f-ab2c-71a8bf3cda14", StringComparison.OrdinalIgnoreCase))
-					{
-						System.Console.WriteLine("here");
-					}
-					*/
-
-					var mt_org_country_path = "medical_transport/origin_information/address/country";
-					var mt_org_state_path = "medical_transport/origin_information/address/state";
-					check_and_update_country_multiform_value
-					(
-						mt_org_country_path,
-						mt_org_state_path
-
-					);
-					
-					
-					var mt_dst_country_path = "medical_transport/destination_information/address/country_of_last_residence";
-					var mt_dst_state_path = "medical_transport/destination_information/address/state";
-					check_and_update_country_multiform_value
-					(
-						mt_dst_country_path,
-						mt_dst_state_path
-					);
-
-					check_foreign_only_country_single_value(dcd_country_birth_path);
-					check_foreign_only_country_single_value(bfdcpdof_fco_birth_path);
-					check_foreign_only_country_single_value(bfdcpdom_country_birth_path);
-
-
-
-/*
-
-06_PCR_05_PrgHis (3)
-pphdg_b_weigh_uom
-pphdg_b_weigh <- already existing grams was old
-pphdg_b_weigh_oz
-
-pphdg_b_weigh_uom prenatal/pregnancy_history/details_grid/birth_weight_uom
-pphdg_b_weigh prenatal/pregnancy_history/details_grid/birth_weight
-pphdg_b_weigh_oz prenatal/pregnancy_history/details_grid/birth_weight_oz
-
-if weight then
-	set to grams
-else
-	set to blank
-
-
-
-If foreign born 3 fields only MMRDS-1853 remove US or Any US Territories
-Data migration if US or US Territory set to (blank)
-
-death_certificate/demographics/country_of_birth
-death_certificate/demographics/state_of_birth
-
-birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth
-birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth
-
-birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth
-birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth
-
-
-Move US territories to state list MMRDS-1851
-Data migration - any country where US territories
-
-Country --> State
-
-RQ -->PR
-AQ --> AS
-GQ --> GU
-VQ --> VI
-RM --> MH
-CQ --> MP
-PS --> PW
 
 */
 
