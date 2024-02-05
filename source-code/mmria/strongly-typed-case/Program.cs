@@ -147,7 +147,29 @@ namespace mmria.case_version.v1;");*/
                 {
                     System.Console.WriteLine($"unable to deserialize case version: 23.11.08");
                 }
+                //stream.Close();
+                //await stream.DisposeAsync();
                 
+
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    //PropertyNamingPolicy = new UpperCaseNamingPolicy(),
+                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+                    //WriteIndented = true
+                };
+
+                using System.IO.FileStream stream2 = System.IO.File.OpenRead("json-convert-test/23.11.08.json");
+                var test_case2 = await System.Text.Json.JsonSerializer.DeserializeAsync<mmria.case_version.v1.mmria_case>(stream2, options);
+                if(test_case2 != null)
+                {
+                    System.Console.WriteLine($"case version: {test_case2.version}");
+
+                    System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
+                }
+                else
+                {
+                    System.Console.WriteLine($"unable to deserialize case version: 23.11.08");
+                }
 
                 //test_case.Convert()
 

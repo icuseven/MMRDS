@@ -47,7 +47,8 @@ public sealed class v3_3_Migration
 		string p_config_timer_value,
 		System.Text.StringBuilder p_output_builder,
 		Dictionary<string, HashSet<string>> p_summary_value_dictionary,
-		bool p_is_report_only_mode
+		bool p_is_report_only_mode,
+		mmria.common.couchdb.ConfigurationSet p_configuration_set
 	) 
 	{
 
@@ -58,6 +59,7 @@ public sealed class v3_3_Migration
 		output_builder = p_output_builder;
 		summary_value_dictionary = p_summary_value_dictionary;
 		is_report_only_mode = p_is_report_only_mode;
+		db_config_set = p_configuration_set;
 	}
 
 
@@ -70,14 +72,43 @@ public sealed class v3_3_Migration
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
+		string ping_result = PingCVSServer(db_config_set);
+		int ping_count = 1;
 		
+		while
+		(
+			(
+				ping_result == null ||
+				ping_result.ToLower() != "Server is up!".ToLower()
+			) && 
+			ping_count < 2
+		)   
+		{
+
+			Console.WriteLine($"{DateTime.Now.ToString("o")} CVS Server Not running: Waiting 40 seconds to try again: {ping_result}");
+
+			const int Milliseconds_In_Second = 1000;
+			var next_date = DateTime.Now.AddMilliseconds(40 * Milliseconds_In_Second);
+			while(DateTime.Now < next_date)
+			{
+				// do nothing
+			}
+			
+			ping_result = PingCVSServer(db_config_set);
+			ping_count +=1;
+
+			
+
+		}
+
+
 
 		try
 		{
 			string FromMetadataVersion = "23.07.25";
 			string ToMetadataVersion = "23.11.08";
 
-			string metadata_url = $"{host_db_url}/metadata/version_specification-{FromMetadataVersion}/metadata";
+			string metadata_url = $"{host_db_url}/metadata/version_specification-{ToMetadataVersion}/metadata";
 			
 			cURL metadata_curl = new cURL("GET", null, metadata_url, null, null, null);
 			mmria.common.metadata.app metadata = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.app>(await metadata_curl.executeAsync());
@@ -458,6 +489,7 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 
 				string primary_occupation = null;
 				string business_industry = null;
+				
 
 				//OCCUP
 				//mor_field_set["OCCUP"]
@@ -470,7 +502,6 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					primary_occupation = item_result;
 				}
 
-				var dc_m_industry_code_1 = "death_certificate/demographics/dc_m_industry_code_1";
 
 				//INDUST
 				item_result = get_value("death_certificate/demographics/occupation_business_industry");
@@ -487,8 +518,16 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 					business_industry
 				);
 
-
-
+				var dc_m_industry_code_1_path = "death_certificate/demographics/dc_m_industry_code_1";
+				string dc_m_industry_code_1 = null;
+				item_result = get_value(dc_m_industry_code_1_path);
+				if
+				(
+					!string.IsNullOrWhiteSpace(item_result)
+				)
+				{
+					dc_m_industry_code_1 = item_result;
+				}
 
 				if
 				(
@@ -542,12 +581,27 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 				}
 
 
-				var bcdcp_f_industry_code_1 = get_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1");
+				
 				niosh_result = get_niosh_codes
 				(
 					primary_occupation,
 					business_industry
 				);
+
+
+				
+				var bcdcp_f_industry_code_1_path = "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1";
+				string bcdcp_f_industry_code_1 = null;
+
+				item_result = get_value(bcdcp_f_industry_code_1_path);
+				if
+				(
+					!string.IsNullOrWhiteSpace(item_result)
+				)
+				{
+					bcdcp_f_industry_code_1 = item_result;
+				}
+
 
 				if
 				(
@@ -602,7 +656,17 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 				);
 
 
-				var bcdcp_m_industry_code_1 = "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1";
+				var bcdcp_m_industry_code_1_path = "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1";
+				item_result = get_value(bcdcp_m_industry_code_1_path);
+				string bcdcp_m_industry_code_1 = null;
+				if
+				(
+					!string.IsNullOrWhiteSpace(item_result)
+				)
+				{
+					bcdcp_m_industry_code_1 = item_result;
+				}
+
 				if
 				(
 					!niosh_result.is_error && 
@@ -1187,5 +1251,48 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 
     }
 
+
+
+	public string PingCVSServer
+    (
+        mmria.common.couchdb.ConfigurationSet ConfigDB
+    ) 
+    { 
+        var response_string = "";
+        try
+        {
+            var base_url = ConfigDB.name_value["cvs_api_url"];
+
+            var sever_status_body = new mmria.common.cvs.server_status_post_body()
+            {
+                id = ConfigDB.name_value["cvs_api_id"],
+                secret = ConfigDB.name_value["cvs_api_key"],
+
+            };
+
+            var body_text =  System.Text.Json.JsonSerializer.Serialize(sever_status_body);
+            var server_statu_curl = new cURL("POST", null, base_url, body_text);
+
+            response_string = server_statu_curl.execute();
+            System.Console.WriteLine(response_string);
+
+        }
+        catch(System.Net.WebException ex)
+        {
+            System.Console.WriteLine($"cvsAPIController  POST\n{ex}");
+            
+            /*return Problem(
+                type: "/docs/errors/forbidden",
+                title: "CVS API Error",
+                detail: ex.Message,
+                statusCode: (int) ex.Status,
+                instance: HttpContext.Request.Path
+            );*/
+        }
+//"Server is up!"
+
+
+        return response_string.Trim('"');
+    }
 
 }
