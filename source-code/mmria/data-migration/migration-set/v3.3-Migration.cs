@@ -352,12 +352,14 @@ Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death)
                     }
                 }
 
-
+				const int cut_off_lower_bound_year = 2005;
                 if
                 (
                     !string.IsNullOrEmpty(state_county_fips) &&
                     !string.IsNullOrEmpty(census_tract_fips) &&
-                    !string.IsNullOrEmpty(year)
+                    !string.IsNullOrEmpty(year) &&
+					! (test_int_year < cut_off_lower_bound_year)
+					
                 )
                 {
                     var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
