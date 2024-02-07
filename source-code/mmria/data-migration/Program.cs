@@ -41,12 +41,12 @@ class Program
     static List<string> test_list = new List<string>()
     {
         //"ar",
-        //"ga",
+        "ga",
         //"fl",
         
         /*"fl_dev",*/
         //"uat",
-        "localhost",
+        //"localhost",
         //"qa",
         //"test",
         //"fl_dev",

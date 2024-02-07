@@ -135,33 +135,35 @@ public sealed class v3_3_Migration
 			System.Console.WriteLine($"is count the same: {all_list_set.Count == single_form_value_set.Count + single_form_grid_value_set.Count + multiform_value_set.Count + multiform_grid_value_set.Count + single_form_multi_value_set.Count + single_form_grid_multi_value_list_set.Count + multiform_multi_value_set.Count + multiform_grid_multi_value_set.Count}");
 
 
-			var ExistingRecordIds = await GetExistingRecordIds();
+			var id_list = GetIdList();
 
-
-			string url = $"{host_db_url}/{db_name}/_all_docs?include_docs=true";
-			var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
-			string responseFromServer = await case_curl.executeAsync();
-			
-
-
-			var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<System.Dynamic.ExpandoObject>>(responseFromServer);
-			
-			foreach(var case_item in case_response.rows)
+			foreach(var existing_id in id_list)
 			{
+
+				if(existing_id.IndexOf("_design") > -1)
+				{
+					continue;
+				}
+
+				string url = $"{host_db_url}/{db_name}/{existing_id}";
+				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
+				string responseFromServer = await case_curl.executeAsync();
+				
+				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+			
+
+				//var case_item in case_response.rows
 				var case_has_changed = false;
 				var case_change_count = 0;
 
-				var doc = case_item.doc;
+				//var doc = case_item.doc;
 				
 				if(doc != null)
 				{
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
 					string mmria_id = value_result.result.ToString();
-					if(mmria_id.IndexOf("_design") > -1)
-					{
-						continue;
-					}
+					
 
 
 
@@ -284,9 +286,6 @@ Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death)
                 var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
                 var  census_tract_fips = get_value("death_certificate/place_of_last_residence/census_tract_fips");
                 var  year = get_value("home_record/date_of_death/year");
-
-
-
 
                 var cvs_form_metadata = new mmria.common.metadata.node();
 
@@ -980,34 +979,6 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 	}	
 
 
-	public async Task<HashSet<string>> GetExistingRecordIds()
-	{
-		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
-
-		try
-		{        
-			string request_string = $"{host_db_url}/{db_name}/_design/sortable/_view/by_date_created?skip=0&take=25000";
-
-			var case_view_curl = new cURL("GET", null, request_string, null, config_timer_user_name, config_timer_value);
-			string responseFromServer = await case_view_curl.executeAsync();
-
-			mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
-
-			foreach(mmria.common.model.couchdb.case_view_item cvi in case_view_response.rows)
-			{
-				result.Add(cvi.value.record_id);
-
-			}
-		}
-		catch(Exception ex) 
-		{
-			Console.WriteLine (ex);
-		}
-
-		return result;
-	} 
-
 	private int GenerateRandomFourDigits()
 	{
 		int _min = 1000;
@@ -1296,5 +1267,31 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 
         return response_string.Trim('"');
     }
+
+	private HashSet<string> GetIdList ()
+	{
+
+		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+		try
+		{
+			string URL = $"{host_db_url}/{db_name}/_all_docs";
+			var document_curl = new cURL ("GET", null, URL, null, config_timer_user_name, config_timer_value);
+			var curl_result = document_curl.execute();
+
+			var all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+			var all_cases_rows = all_cases.rows;
+
+			foreach (var row in all_cases_rows) 
+			{
+				result.Add(row.id);
+			}
+		}
+		catch(Exception)
+		{
+
+		}
+		return result;
+	}
 
 }
