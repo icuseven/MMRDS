@@ -693,6 +693,62 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 				}
 
 
+				primary_occupation = null;
+				business_industry = null;
+
+				item_result = get_value("social_and_environmental_profile/socio_economic_characteristics/occupation");
+				if
+				(
+					!string.IsNullOrWhiteSpace(item_result)
+				)
+				{
+					primary_occupation = item_result;
+				}
+
+				niosh_result = get_niosh_codes
+				(
+					primary_occupation,
+					business_industry
+				);
+
+
+				var sep_m_industry_code_1_path = "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1";
+
+				string sep_m_industry_code_1 = null;
+				item_result = get_value(sep_m_industry_code_1_path);
+				if
+				(
+					!string.IsNullOrWhiteSpace(item_result)
+				)
+				{
+					sep_m_industry_code_1 = item_result;
+				}
+
+				
+				if
+				(
+					!niosh_result.is_error && 
+					(
+						niosh_result.Industry.Count > 0 ||
+						niosh_result.Occupation.Count > 0 
+					) &&
+					string.IsNullOrWhiteSpace(sep_m_industry_code_1)
+				)
+				{   
+					if(niosh_result.Industry.Count > 0)                      
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code);
+					if(niosh_result.Industry.Count > 1)
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code);
+					if(niosh_result.Industry.Count > 2)
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code);
+					if(niosh_result.Occupation.Count > 0)
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code);
+					if(niosh_result.Occupation.Count > 1)
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code);
+					if(niosh_result.Occupation.Count > 2)
+					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code);
+				}
+
 
 
 /*
