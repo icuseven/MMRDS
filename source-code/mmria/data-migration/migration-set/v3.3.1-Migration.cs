@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace migrate.set;
 
-public sealed class v3_3_Migration
+public sealed class v3_3_1_Migration
 {
 
 	public string host_db_url;
@@ -39,7 +39,7 @@ public sealed class v3_3_Migration
 	public bool is_data_correction = false;
 
 
-	public v3_3_Migration
+	public v3_3_1_Migration
 	(
 		string p_host_db_url, 
 		string p_db_name, 
@@ -65,10 +65,10 @@ public sealed class v3_3_Migration
 
 	public async Task execute()
 	{
-		this.output_builder.AppendLine($"v3.3 Data Migration started at: {DateTime.Now.ToString("o")}");
+		this.output_builder.AppendLine($"v3.3.1Data Migration started at: {DateTime.Now.ToString("o")}");
 		DateTime begin_time = System.DateTime.Now;
 		
-		this.output_builder.AppendLine($"v3_3_Migration started at: {begin_time.ToString("o")}");
+		this.output_builder.AppendLine($"v3_3_1_Migration started at: {begin_time.ToString("o")}");
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
@@ -164,75 +164,6 @@ public sealed class v3_3_Migration
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
 					string mmria_id = value_result.result.ToString();
 					
-
-
-
-
-
-/*	
-
-cvs 
-Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death) 
-
-	/death_certificate/place_of_last_residence/street
-
-
-
-                    cvs_api_request_url: g_cvs_api_request_data.get("cvs_api_request_url"),
-                    cvs_api_request_date_time: g_cvs_api_request_data.get("cvs_api_request_date_time"),
-                    cvs_api_request_c_geoid: g_cvs_api_request_data.get("cvs_api_request_c_geoid"),
-                    cvs_api_request_t_geoid: g_cvs_api_request_data.get("cvs_api_request_t_geoid"),
-                    cvs_api_request_year: g_cvs_api_request_data.get("cvs_api_request_year"),
-                    cvs_api_request_result_message: g_cvs_api_request_data.get("cvs_api_request_result_message"),
-                    
-                    cvs_pctnoins_fem_county: p_result.county.pctNOIns_Fem,
-                    cvs_pctnoins_fem_tract: p_result.tract.pctNOIns_Fem,
-                    cvs_pctnovehicle_county: p_result.county.pctNoVehicle,                                   
-                    cvs_pctnovehicle_tract: p_result.tract.pctNoVehicle,
-                    cvs_pctmove_county: p_result.county.pctMOVE,
-                    cvs_pctmove_tract: p_result.tract.pctMOVE,
-                    cvs_pctsphh_county: p_result.county.pctSPHH,
-                    cvs_pctsphh_tract: p_result.tract.pctSPHH,
-                    cvs_pctovercrowdhh_county: p_result.county.pctOVERCROWDHH,
-                    cvs_pctovercrowdhh_tract: p_result.tract.pctOVERCROWDHH,
-                    cvs_pctowner_occ_county: p_result.county.pctOWNER_OCC,
-                    cvs_pctowner_occ_tract: p_result.tract.pctOWNER_OCC,
-                    cvs_pct_less_well_county: p_result.county.pct_less_well,
-                    cvs_pct_less_well_tract: p_result.tract.pct_less_well,
-                    cvs_ndi_raw_county: p_result.county.ndI_raw,
-                    cvs_ndi_raw_tract: p_result.tract.ndI_raw,
-                    cvs_pctpov_county: p_result.county.pctPOV,
-                    cvs_pctpov_tract: p_result.tract.pctPOV,
-                    cvs_ice_income_all_county: p_result.county.icE_INCOME_all,
-                    cvs_ice_income_all_tract: p_result.tract.icE_INCOME_all,
-                    cvs_medhhinc_county: p_result.county.medhhinc,
-                    cvs_medhhinc_tract: p_result.tract.medhhinc,
-                    cvs_pctobese_county: p_result.county.pctOBESE,
-                    cvs_fi_county: p_result.county.fi,
-
-                    cvs_obgynrate_county: p_result.county.obgyNrate,
-                    cvs_rtteenbirth_county: p_result.county.rtTEENBIRTH,
-                    cvs_rtstd_county: p_result.county.rtSTD,
-                    cvs_rtmhpract_county: p_result.county.mhcenteRrate,
-                    cvs_rtdrugodmortality_county: p_result.county.rtDRUGODMORTALITY,
-                    cvs_rtopioidprescript_county: p_result.county.rtOPIOIDPRESCRIPT,
-                    cvs_soccap_county: p_result.county.socCap,
-                    cvs_rtsocassoc_county: p_result.county.rtSocASSOC,
-                    cvs_pcthouse_distress_county: p_result.county.pctHOUSE_DISTRESS,
-                    
-                
-                    cvs_cnmrate_county: p_result.county.midwiveSrate,
-                    cvs_isolation_county: p_result.county.segregation,
-                    cvs_mdrate_county: p_result.county.pcPrate,
-                    cvs_rtviolentcr_icpsr_county: p_result.county.rtVIOLENTCR,
-
-                    cvs_pctrural : p_result.county.pctRural,
-                    cvs_mhproviderrate :p_result.county.mhprovideRrate,
-                    cvs_racialized_pov : p_result.county.racialized_pov
-
-								*/
-
-				
 					string get_value(string p_path)
 					{
 						var result = String.Empty;
@@ -458,336 +389,10 @@ Business Rule: YOD on Home Record <= 2020 (YOD = Year of Death)
 
 cvs_early_exit_label:
 
-                    /*
-
-niosh
-
-Current NIOSH API URL: https://wwwn.cdc.gov/nioccs/IOCode.ashx
-New NIOSH API URL: https://wwwn.cdc.gov/nioccs/IOCode
-
-
-Death Certificate Form - 2 Source Fields for NIOSH
-/death_certificate/demographics/primary_occupation
-/death_certificate/demographics/occupation_business_industry
- 
-SEP Form - 1 Source Field for NIOSH API
-/social_and_environmental_profile/socio_economic_characteristics/occupation
- 
- 
-Death Certificate Form - 6 Destination Fields that are populated from NIOSH API
-/death_certificate/demographics/dc_m_industry_code_1
-/death_certificate/demographics/dc_m_industry_code_2
-/death_certificate/demographics/dc_m_industry_code_3
-/death_certificate/demographics/dc_m_occupation_code_1
-/death_certificate/demographics/dc_m_occupation_code_2
-/death_certificate/demographics/dc_m_occupation_code_3
- 
-SEP Form - 6 Destination Fields that are populated from NIOSH API
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2
-/social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3
-
-
-
-
-					*/
-
-				string primary_occupation = null;
-				string business_industry = null;
-				
-
-				//OCCUP
-				//mor_field_set["OCCUP"]
-				var item_result = get_value("death_certificate/demographics/primary_occupation");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					primary_occupation = item_result;
-				}
-
-
-				//INDUST
-				item_result = get_value("death_certificate/demographics/occupation_business_industry");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					business_industry = item_result;
-				}
-				var niosh_result = get_niosh_codes
-				(
-					primary_occupation,
-					business_industry
-				);
-
-				var dc_m_industry_code_1_path = "death_certificate/demographics/dc_m_industry_code_1";
-				string dc_m_industry_code_1 = null;
-				item_result = get_value(dc_m_industry_code_1_path);
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					dc_m_industry_code_1 = item_result;
-				}
-
-				if
-				(
-					!niosh_result.is_error && 
-					(
-						niosh_result.Industry.Count > 0 ||
-						niosh_result.Occupation.Count > 0 
-					) &&
-					string.IsNullOrWhiteSpace(dc_m_industry_code_1)
-
-					
-				)
-				{   
-					if(niosh_result.Industry.Count > 0)                      
-					set_value("death_certificate/demographics/dc_m_industry_code_1", niosh_result.Industry[0].Code);
-					if(niosh_result.Industry.Count > 1)
-					set_value("death_certificate/demographics/dc_m_industry_code_2",  niosh_result.Industry[1].Code);
-					if(niosh_result.Industry.Count > 2)
-					set_value("death_certificate/demographics/dc_m_industry_code_3",  niosh_result.Industry[2].Code);
-					if(niosh_result.Occupation.Count > 0)
-					set_value("death_certificate/demographics/dc_m_occupation_code_1",  niosh_result.Occupation[0].Code);
-					if(niosh_result.Occupation.Count > 1)
-					set_value("death_certificate/demographics/dc_m_occupation_code_2", niosh_result.Occupation[1].Code);
-					if(niosh_result.Occupation.Count > 2)
-					set_value("death_certificate/demographics/dc_m_occupation_code_3", niosh_result.Occupation[2].Code);
-				}
-
-
-
-				primary_occupation = null;
-				business_industry = null;
-
-				//DAD_OC_T
-				item_result = get_value("birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					primary_occupation = item_result;
-				}
-
-				//DAD_IN_T
-				item_result = get_value("birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					business_industry = item_result;
-				}
-
-
-				
-				niosh_result = get_niosh_codes
-				(
-					primary_occupation,
-					business_industry
-				);
-
-
-				
-				var bcdcp_f_industry_code_1_path = "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1";
-				string bcdcp_f_industry_code_1 = null;
-
-				item_result = get_value(bcdcp_f_industry_code_1_path);
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					bcdcp_f_industry_code_1 = item_result;
-				}
-
-
-				if
-				(
-					!niosh_result.is_error && 
-					(
-						niosh_result.Industry.Count > 0 ||
-						niosh_result.Occupation.Count > 0 
-					) &&
-					string.IsNullOrWhiteSpace(bcdcp_f_industry_code_1)
-				)
-				{   
-					if(niosh_result.Industry.Count > 0)                      
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1", niosh_result.Industry[0].Code);
-					if(niosh_result.Industry.Count > 1)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2",  niosh_result.Industry[1].Code);
-					if(niosh_result.Industry.Count > 2)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3",  niosh_result.Industry[2].Code);
-					if(niosh_result.Occupation.Count > 0)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1",  niosh_result.Occupation[0].Code);
-					if(niosh_result.Occupation.Count > 1)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2", niosh_result.Occupation[1].Code);
-					if(niosh_result.Occupation.Count > 2)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3", niosh_result.Occupation[2].Code);
-				}
-
-
-				primary_occupation = null;
-				business_industry = null;
-				//MOM_OC_T
-				item_result = get_value("birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					primary_occupation = item_result;
-				}
-
-				//MOM_IN_T
-				item_result = get_value("birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					business_industry = item_result;
-				}
-				niosh_result = get_niosh_codes
-				(
-					primary_occupation,
-					business_industry
-				);
-
-
-				var bcdcp_m_industry_code_1_path = "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1";
-				item_result = get_value(bcdcp_m_industry_code_1_path);
-				string bcdcp_m_industry_code_1 = null;
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					bcdcp_m_industry_code_1 = item_result;
-				}
-
-				if
-				(
-					!niosh_result.is_error && 
-					(
-						niosh_result.Industry.Count > 0 ||
-						niosh_result.Occupation.Count > 0 
-					) &&
-					string.IsNullOrWhiteSpace(bcdcp_m_industry_code_1)
-				)
-				{   
-					if(niosh_result.Industry.Count > 0)                      
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1", niosh_result.Industry[0].Code);
-					if(niosh_result.Industry.Count > 1)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2",  niosh_result.Industry[1].Code);
-					if(niosh_result.Industry.Count > 2)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3",  niosh_result.Industry[2].Code);
-					if(niosh_result.Occupation.Count > 0)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1",  niosh_result.Occupation[0].Code);
-					if(niosh_result.Occupation.Count > 1)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2", niosh_result.Occupation[1].Code);
-					if(niosh_result.Occupation.Count > 2)
-					set_value("birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3", niosh_result.Occupation[2].Code);
-				}
-
-
-				primary_occupation = null;
-				business_industry = null;
-
-				item_result = get_value("social_and_environmental_profile/socio_economic_characteristics/occupation");
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					primary_occupation = item_result;
-				}
-
-				niosh_result = get_niosh_codes
-				(
-					primary_occupation,
-					business_industry
-				);
-
-
-				var sep_m_industry_code_1_path = "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1";
-
-				string sep_m_industry_code_1 = null;
-				item_result = get_value(sep_m_industry_code_1_path);
-				if
-				(
-					!string.IsNullOrWhiteSpace(item_result)
-				)
-				{
-					sep_m_industry_code_1 = item_result;
-				}
-
-				
-				if
-				(
-					!niosh_result.is_error && 
-					(
-						niosh_result.Industry.Count > 0 ||
-						niosh_result.Occupation.Count > 0 
-					) &&
-					string.IsNullOrWhiteSpace(sep_m_industry_code_1)
-				)
-				{   
-					if(niosh_result.Industry.Count > 0)                      
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1", niosh_result.Industry[0].Code);
-					if(niosh_result.Industry.Count > 1)
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2",  niosh_result.Industry[1].Code);
-					if(niosh_result.Industry.Count > 2)
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3",  niosh_result.Industry[2].Code);
-					if(niosh_result.Occupation.Count > 0)
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1",  niosh_result.Occupation[0].Code);
-					if(niosh_result.Occupation.Count > 1)
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2", niosh_result.Occupation[1].Code);
-					if(niosh_result.Occupation.Count > 2)
-					set_value("social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3", niosh_result.Occupation[2].Code);
-				}
-
-
-
-/*
-
-				if(case_change_count == 0)
-				{
-					case_change_count += 1;
-					case_has_changed = true;
-				}
-
-
-				if(new_list.Count > 0)
-				{
-
-					case_has_changed = case_has_changed && gs.set_grid_value(doc, pphdg_b_weigh_uom_path, new_list);
-					var output_text = $"item record_id: {mmria_id} path:{pphdg_b_weigh_uom_path} set from {string.Join(",",grid_value_result.result)} => {string.Join(",",new_list)}";
-					this.output_builder.AppendLine(output_text);
-					Console.WriteLine(output_text);
-				}
-
-
-
-					if(mmria_id == "0472264f-d3aa-44c7-b9ca-8d715479cf15")
-					{
-						System.Console.WriteLine("here");
-					}
-
-*/
 
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3.1");
 				}
 
 			}
@@ -800,7 +405,7 @@ SEP Form - 6 Destination Fields that are populated from NIOSH API
 		Console.WriteLine(ex);
 	}
 
-	Console.WriteLine($"v3_3_Migration Finished {DateTime.Now}");
+	Console.WriteLine($"v3_3_1_Migration Finished {DateTime.Now}");
 }
 
 	bool isInNeedOfConversion(string p_value)
