@@ -72,6 +72,7 @@ public sealed class v3_3_1_Migration
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
+/*
 		string ping_result = PingCVSServer(db_config_set);
 		int ping_count = 1;
 		
@@ -100,7 +101,22 @@ public sealed class v3_3_1_Migration
 			
 
 		}
+		*/
 
+
+		const string base_folder = "C:/Users/isu7/OneDrive - CDC/PMSS/ije/zCVS";
+
+		var file_name_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase){
+
+	"AK.csv",
+	"AL.csv",
+	"AZ.csv",
+	"HI.csv",
+	"MD.csv",
+	"ME.csv",
+	"MD.csv"
+
+	};
 
 
 		try
@@ -137,6 +153,25 @@ public sealed class v3_3_1_Migration
 
 			var id_list = GetIdList();
 
+			var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase){
+
+	"ef0dee6f-d733-482e-81c8-4f484af79b44",
+	"efb0b735-ca43-fa12-23f0-4dbf1e7d95fa",
+	"efbbd94b-6d4c-3d91-a713-53912043dddc",
+	"efbfea17-cd48-413e-8ff9-a2d9527b3a9b",
+	"f1c75318-3dd7-4491-a914-dd3e6e037ee8",
+	};
+
+
+
+
+			//"https://couchdb-mmria-al.apps.ecpaas.cdc.gov"
+
+			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
+
+			mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
+			System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
+	
 			foreach(var existing_id in id_list)
 			{
 
@@ -144,6 +179,9 @@ public sealed class v3_3_1_Migration
 				{
 					continue;
 				}
+
+				//if(!id_set.Contains(existing_id)) continue;
+
 
 				string url = $"{host_db_url}/{db_name}/{existing_id}";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
@@ -214,6 +252,17 @@ public sealed class v3_3_1_Migration
 					}
 
 
+				var current_result = cvs_data_table.Select($"_id='{mmria_id}'");
+
+		
+				
+				if(current_result.Length < 1) continue;
+
+				var current_row = current_result[0];
+
+				var tract_county_result = convert_to_tract_county(current_row);
+
+
                 var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
                 var  census_tract_fips = get_value("death_certificate/place_of_last_residence/census_tract_fips");
                 var  year = get_value("home_record/date_of_death/year");
@@ -240,6 +289,74 @@ public sealed class v3_3_1_Migration
                     new_case_dictionary["cvs"] = list;               
                 }
 
+
+
+
+				set_grid_value("cvs/cvs_grid/cvs_api_request_url", current_row["cvs_api_request_url"]);
+				set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", current_row["cvs_api_request_date_time"]);
+				set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", current_row["cvs_api_request_c_geoid"]);
+				set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", current_row["cvs_api_request_t_geoid"]);
+				set_grid_value("cvs/cvs_grid/cvs_api_request_year", current_row["cvs_api_request_year"]);
+
+
+				set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
+				set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
+				set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
+				set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle);
+				set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", tract_county_result.tract.pctNoVehicle);
+				set_grid_value("cvs/cvs_grid/cvs_pctmove_county", tract_county_result.county.pctMOVE);
+				set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", tract_county_result.tract.pctMOVE);
+				set_grid_value("cvs/cvs_grid/cvs_pctsphh_county", tract_county_result.county.pctSPHH);
+				set_grid_value("cvs/cvs_grid/cvs_pctsphh_tract", tract_county_result.tract.pctSPHH);
+				set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_county", tract_county_result.county.pctOVERCROWDHH);
+				set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_tract", tract_county_result.tract.pctOVERCROWDHH);
+				set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_county", tract_county_result.county.pctOWNER_OCC);
+				set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract", tract_county_result.tract.pctOWNER_OCC);
+				set_grid_value("cvs/cvs_grid/cvs_pct_less_well_county", tract_county_result.county.pct_less_well);
+				set_grid_value("cvs/cvs_grid/cvs_pct_less_well_tract", tract_county_result.tract.pct_less_well);
+				set_grid_value("cvs/cvs_grid/cvs_ndi_raw_county", tract_county_result.county.NDI_raw);
+				set_grid_value("cvs/cvs_grid/cvs_ndi_raw_tract", tract_county_result.tract.NDI_raw);
+				set_grid_value("cvs/cvs_grid/cvs_pctpov_county", tract_county_result.county.pctPOV);
+				set_grid_value("cvs/cvs_grid/cvs_pctpov_tract", tract_county_result.tract.pctPOV);
+				set_grid_value("cvs/cvs_grid/cvs_ice_income_all_county", tract_county_result.county.ICE_INCOME_all);
+				set_grid_value("cvs/cvs_grid/cvs_ice_income_all_tract", tract_county_result.tract.ICE_INCOME_all);
+				set_grid_value("cvs/cvs_grid/cvs_medhhinc_county", tract_county_result.county.MEDHHINC);
+				set_grid_value("cvs/cvs_grid/cvs_medhhinc_tract", tract_county_result.tract.MEDHHINC);
+				set_grid_value("cvs/cvs_grid/cvs_pctobese_county", tract_county_result.county.pctOBESE);
+				set_grid_value("cvs/cvs_grid/cvs_fi_county", tract_county_result.county.FI);
+				set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.CNMrate);
+				set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", tract_county_result.county.OBGYNrate);
+				set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", tract_county_result.county.rtTEENBIRTH);
+				set_grid_value("cvs/cvs_grid/cvs_rtstd_county", tract_county_result.county.rtSTD);
+				set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.MHCENTERrate);
+				set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", tract_county_result.county.rtDRUGODMORTALITY);
+				set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", tract_county_result.county.rtOPIOIDPRESCRIPT);
+				set_grid_value("cvs/cvs_grid/cvs_soccap_county", tract_county_result.county.SocCap);
+				set_grid_value("cvs/cvs_grid/cvs_rtsocassoc_county", tract_county_result.county.rtSocASSOC);
+				set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
+				set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
+				set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
+
+				set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.MIDWIVESrate);
+				set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.segregation);
+				set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.PCPrate);
+				set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR);
+
+				set_grid_value("cvs/cvs_grid/cvs_pctrural", tract_county_result.county.pctRural);
+				set_grid_value("cvs/cvs_grid/cvs_racialized_pov",  tract_county_result.county.Racialized_pov);
+				set_grid_value("cvs/cvs_grid/cvs_mhproviderrate",  tract_county_result.county.MHPROVIDERrate);
+
+				set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", current_row["cvs_api_request_result_message"]);
+
+
+
+
+
+
+
+
+
+goto cvs_early_exit_label;
 
                 var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
@@ -295,7 +412,7 @@ public sealed class v3_3_1_Migration
                     var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
 
 
-                    var (cvs_response_status, tract_county_result) = GetCVSData
+                    var (cvs_response_status, tract_county_result2) = GetCVSData
                     (
                         state_county_fips,
                         t_geoid,
@@ -778,7 +895,7 @@ cvs_early_exit_label:
 		var county_result = false;
 
 		const float tract_total = 11F;
-		const float county_total = 26F;
+		const float county_total = 33F;
 
 		float tract_zero_count = 0F;
 		float county_zero_count = 0F;
@@ -838,6 +955,17 @@ cvs_early_exit_label:
 		if(val.county.pctHOUSE_DISTRESS == 0) county_zero_count += 1;
 		if(val.county.rtVIOLENTCR_ICPSR == 0) county_zero_count += 1;
 		if(val.county.isolation == 0) county_zero_count += 1;
+
+
+
+		if(val.county.MIDWIVESrate == 0) county_zero_count += 1;
+		if(val.county.segregation == 0) county_zero_count += 1;
+		if(val.county.PCPrate == 0) county_zero_count += 1;
+		if(val.county.rtVIOLENTCR == 0) county_zero_count += 1;
+
+		if(val.county.pctRural == 0) county_zero_count += 1;
+		if(val.county.Racialized_pov == 0) county_zero_count += 1;
+		if(val.county.MHPROVIDERrate == 0) county_zero_count += 1;
 
 
 		if(tract_zero_count / tract_total < _30_percent_correct) tract_result = true;
@@ -959,6 +1087,100 @@ cvs_early_exit_label:
 		{
 
 		}
+		return result;
+	}
+
+
+
+	mmria.common.cvs.tract_county_result convert_to_tract_county(System.Data.DataRow row)
+	{
+		var result = new mmria.common.cvs.tract_county_result();
+		result.tract = new();
+		result.county = new();
+
+
+		double convert_db_object(string column_name)
+		{
+			if(!row.Table.Columns.Contains(column_name))
+			{
+				//System.Console.WriteLine("missing Column: " + column_name);
+				return 0;
+			} 
+
+			object value = row[column_name];
+
+			if(value is string string_value)
+			{
+				double out_value = -1;
+				if(double.TryParse(string_value, out out_value))
+				{
+					return out_value;
+				}
+			}
+			else if(value is double) return (double) value;
+			else
+			{
+				System.Console.WriteLine("here");
+			}
+
+			return 0;
+		}
+
+
+		//set_grid_value("cvs/cvs_grid/cvs_api_request_url", db_config_set.name_value["cvs_api_url"]);
+		//set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", DateTime.Now.ToString("o"));
+		//set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
+		//set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
+		//set_grid_value("cvs/cvs_grid/cvs_api_request_year", calculated_year_of_death.ToString());
+
+
+		result.county.MDrate = convert_db_object("cvs_mdrate_county");//, result.county.MDrate);
+		result.county.pctNOIns_Fem = convert_db_object("cvs_pctnoins_fem_county");//, result.county.pctNOIns_Fem);
+		result.tract.pctNOIns_Fem = convert_db_object("cvs_pctnoins_fem_tract");//, result.tract.pctNOIns_Fem
+		result.county.pctNoVehicle = convert_db_object("cvs_pctnovehicle_county");//, result.county.pctNoVehicle
+		result.tract.pctNoVehicle = convert_db_object("cvs_pctnovehicle_tract");//, result.tract.pctNoVehicle
+		result.county.pctMOVE = convert_db_object("cvs_pctmove_county");//, result.county.pctMOVE
+		result.tract.pctMOVE = convert_db_object("cvs_pctmove_tract");//, result.tract.pctMOVE
+		result.county.pctSPHH = convert_db_object("cvs_pctsphh_county");//, result.county.pctSPHH
+		result.tract.pctSPHH = convert_db_object("cvs_pctsphh_tract");//, result.tract.pctSPHH
+		result.county.pctOVERCROWDHH = convert_db_object("cvs_pctovercrowdhh_county");//, result.county.pctOVERCROWDHH
+		result.tract.pctOVERCROWDHH = convert_db_object("cvs_pctovercrowdhh_tract");//, result.tract.pctOVERCROWDHH
+		result.county.pctOWNER_OCC = convert_db_object("cvs_pctowner_occ_county");//, result.county.pctOWNER_OCC
+		result.tract.pctOWNER_OCC = convert_db_object("cvs_pctowner_occ_tract");//, result.tract.pctOWNER_OCC
+		result.county.pct_less_well = convert_db_object("cvs_pct_less_well_county");//, result.county.pct_less_well
+		result.tract.pct_less_well = convert_db_object("cvs_pct_less_well_tract");//, result.tract.pct_less_well
+		result.county.NDI_raw = convert_db_object("cvs_ndi_raw_county");//, result.county.NDI_raw
+		result.tract.NDI_raw = convert_db_object("cvs_ndi_raw_tract");//, result.tract.NDI_raw
+		result.county.pctPOV = convert_db_object("cvs_pctpov_county");//, result.county.pctPOV
+		result.tract.pctPOV = convert_db_object("cvs_pctpov_tract");//, result.tract.pctPOV
+		result.county.ICE_INCOME_all = convert_db_object("cvs_ice_income_all_county");//, result.county.ICE_INCOME_all
+		result.tract.ICE_INCOME_all = convert_db_object("cvs_ice_income_all_tract");//, result.tract.ICE_INCOME_all
+		result.county.MEDHHINC = convert_db_object("cvs_medhhinc_county");//, result.county.MEDHHINC
+		result.tract.MEDHHINC = convert_db_object("cvs_medhhinc_tract");//, result.tract.MEDHHINC
+		result.county.pctOBESE = convert_db_object("cvs_pctobese_county");//, result.county.pctOBESE
+		result.county.FI = convert_db_object("cvs_fi_county");//, result.county.FI
+		result.county.CNMrate = convert_db_object("cvs_cnmrate_county");//, result.county.CNMrate
+		result.county.OBGYNrate = convert_db_object("cvs_obgynrate_county");//, result.county.OBGYNrate
+		result.county.rtTEENBIRTH = convert_db_object("cvs_rtteenbirth_county");//, result.county.rtTEENBIRTH
+		result.county.rtSTD = convert_db_object("cvs_rtstd_county");//, result.county.rtSTD
+		result.county.MHCENTERrate = convert_db_object("cvs_rtmhpract_county");//, result.county.MHCENTERrate
+		result.county.rtDRUGODMORTALITY = convert_db_object("cvs_rtdrugodmortality_county");//, result.county.rtDRUGODMORTALITY
+		result.county.rtOPIOIDPRESCRIPT = convert_db_object("cvs_rtopioidprescript_county");//, result.county.rtOPIOIDPRESCRIPT
+		result.county.SocCap = convert_db_object("cvs_soccap_county");//, result.county.SocCap
+		result.county.rtSocASSOC = convert_db_object("cvs_rtsocassoc_county");//, result.county.rtSocASSOC
+		result.county.pctHOUSE_DISTRESS = convert_db_object("cvs_pcthouse_distress_county");//, result.county.pctHOUSE_DISTRESS
+		result.county.rtVIOLENTCR_ICPSR = convert_db_object("cvs_rtviolentcr_icpsr_county");//, result.county.rtVIOLENTCR_ICPSR
+		result.county.isolation = convert_db_object("cvs_isolation_county");//, result.county.isolation
+
+		result.county.MIDWIVESrate = convert_db_object("cvs_cnmrate_county");//, result.county.MIDWIVESrate);
+		result.county.segregation = convert_db_object("cvs_isolation_county");//, result.county.segregation);
+		result.county.PCPrate = convert_db_object("cvs_mdrate_county");//, result.county.PCPrate);
+		result.county.rtVIOLENTCR = convert_db_object("cvs_rtviolentcr_icpsr_county");//, result.county.rtVIOLENTCR);
+
+		result.county.pctRural = convert_db_object("cvs_pctrural");//, result.county.pctRural);
+		result.county.Racialized_pov = convert_db_object("cvs_racialized_pov");//,  result.county.Racialized_pov);
+		result.county.MHPROVIDERrate = convert_db_object("cvs_mhproviderrate");//,  result.county.MHPROVIDERrate);
+
 		return result;
 	}
 
