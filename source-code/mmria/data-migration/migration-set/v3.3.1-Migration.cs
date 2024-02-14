@@ -72,7 +72,7 @@ public sealed class v3_3_1_Migration
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
-/*
+
 		string ping_result = PingCVSServer(db_config_set);
 		int ping_count = 1;
 		
@@ -101,7 +101,7 @@ public sealed class v3_3_1_Migration
 			
 
 		}
-		*/
+		
 
 
 		const string base_folder = "C:/Users/isu7/OneDrive - CDC/PMSS/ije/zCVS";
@@ -150,27 +150,12 @@ public sealed class v3_3_1_Migration
 			System.Console.WriteLine($"all_list_set.Count: {all_list_set.Count} total_count: {total_count}");
 			System.Console.WriteLine($"is count the same: {all_list_set.Count == single_form_value_set.Count + single_form_grid_value_set.Count + multiform_value_set.Count + multiform_grid_value_set.Count + single_form_multi_value_set.Count + single_form_grid_multi_value_list_set.Count + multiform_multi_value_set.Count + multiform_grid_multi_value_set.Count}");
 
-
 			var id_list = GetIdList();
-
-			var id_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase){
-
-	"ef0dee6f-d733-482e-81c8-4f484af79b44",
-	"efb0b735-ca43-fa12-23f0-4dbf1e7d95fa",
-	"efbbd94b-6d4c-3d91-a713-53912043dddc",
-	"efbfea17-cd48-413e-8ff9-a2d9527b3a9b",
-	"f1c75318-3dd7-4491-a914-dd3e6e037ee8",
-	};
-
-
-
-
-			//"https://couchdb-mmria-al.apps.ecpaas.cdc.gov"
 
 			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
 
-			mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
-			System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
+			//mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
+			//System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
 	
 			foreach(var existing_id in id_list)
 			{
@@ -252,15 +237,15 @@ public sealed class v3_3_1_Migration
 					}
 
 
-				var current_result = cvs_data_table.Select($"_id='{mmria_id}'");
+				//var current_result = cvs_data_table.Select($"_id='{mmria_id}'");
 
 		
 				
-				if(current_result.Length < 1) continue;
+				//if(current_result.Length < 1) continue;
 
-				var current_row = current_result[0];
+				//var current_row = current_result[0];
 
-				var tract_county_result = convert_to_tract_county(current_row);
+				//var tract_county_result = convert_to_tract_county(current_row);
 
 
                 var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
@@ -290,7 +275,7 @@ public sealed class v3_3_1_Migration
                 }
 
 
-
+/*
 
 				set_grid_value("cvs/cvs_grid/cvs_api_request_url", current_row["cvs_api_request_url"]);
 				set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", current_row["cvs_api_request_date_time"]);
@@ -356,7 +341,7 @@ public sealed class v3_3_1_Migration
 
 
 
-goto cvs_early_exit_label;
+goto cvs_early_exit_label;*/
 
                 var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
@@ -412,7 +397,7 @@ goto cvs_early_exit_label;
                     var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
 
 
-                    var (cvs_response_status, tract_county_result2) = GetCVSData
+                    var (cvs_response_status, tract_county_result) = GetCVSData
                     (
                         state_county_fips,
                         t_geoid,
@@ -434,7 +419,7 @@ goto cvs_early_exit_label;
                         )
                         {
                             cvs_response_status += " check quality";
-							goto cvs_early_exit_label;
+							//goto cvs_early_exit_label;
 
                         }
 
@@ -509,7 +494,7 @@ cvs_early_exit_label:
 
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3.1");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3.2");
 				}
 
 			}
@@ -803,13 +788,19 @@ cvs_early_exit_label:
                 }
             };
 
+			
+
             var body_text =  System.Text.Json.JsonSerializer.Serialize(get_all_data_body);
             var get_all_data_curl = new cURL("POST", null, base_url, body_text);
 
             response_string = get_all_data_curl.execute();
             System.Console.WriteLine(response_string);
 
-            result = System.Text.Json.JsonSerializer.Deserialize<mmria.common.cvs.tract_county_result>(response_string);
+			var options = new System.Text.Json.JsonSerializerOptions
+			{
+				PropertyNameCaseInsensitive = true
+			};
+            result = System.Text.Json.JsonSerializer.Deserialize<mmria.common.cvs.tract_county_result>(response_string, options);
         
         }
         catch(System.Net.WebException ex)
@@ -890,9 +881,9 @@ cvs_early_exit_label:
     bool is_result_quality_in_need_of_checking(mmria.common.cvs.tract_county_result val)
 	{
 
-		var over_all_result = false;
-		var tract_result = false;
-		var county_result = false;
+		var five_required_fields_are_all_zero = false;
+		var tract_zero_count_more_than_30_percent = false;
+		var county_zero_count_more_than_90_percent = false;
 
 		const float tract_total = 11F;
 		const float county_total = 33F;
@@ -900,7 +891,9 @@ cvs_early_exit_label:
 		float tract_zero_count = 0F;
 		float county_zero_count = 0F;
 
-		const float _30_percent_correct = .3F;
+		const float _30_percent_are_zeros = .3F;
+
+		const float _90_percent_are_zeros = .9F;
 
 		if
 		(
@@ -911,7 +904,7 @@ cvs_early_exit_label:
 			val.tract.pctOWNER_OCC == 0 //cvs_pctowner_occ_tract
 		)
 		{
-			over_all_result = true;
+			five_required_fields_are_all_zero = true;
 		}
 
 
@@ -968,12 +961,14 @@ cvs_early_exit_label:
 		if(val.county.MHPROVIDERrate == 0) county_zero_count += 1;
 
 
-		if(tract_zero_count / tract_total < _30_percent_correct) tract_result = true;
+		if(tract_zero_count / tract_total > _30_percent_are_zeros) tract_zero_count_more_than_30_percent = true;
 
-		if(county_zero_count / county_total < _30_percent_correct) county_result = true;
+		if(county_zero_count / county_total > _90_percent_are_zeros) county_zero_count_more_than_90_percent = true;
 
 
-		return over_all_result || tract_result || county_result;
+		return five_required_fields_are_all_zero || 
+			tract_zero_count_more_than_30_percent || 
+			county_zero_count_more_than_90_percent;
 	}
 
 	mmria.common.niosh.NioshResult get_niosh_codes(string p_occupation, string p_industry)
@@ -1066,9 +1061,18 @@ cvs_early_exit_label:
 
 	private HashSet<string> GetIdList ()
 	{
+/*
+		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+		{
+			"0354d819-f445-cb98-bb8c-1eed8932e2f4",
+			"0305b731-9112-46d4-8537-43195b15b0f2",
+			"05a2395f-4493-41e5-9d45-a5f7ee68346e"
+		};
+
+		return result;*/
+
 
 		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-
 		try
 		{
 			string URL = $"{host_db_url}/{db_name}/_all_docs";
