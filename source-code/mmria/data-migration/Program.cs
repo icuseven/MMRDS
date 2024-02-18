@@ -126,7 +126,7 @@ class Program
 /**/
     static HashSet<string> prefix_list = new HashSet<string>()
     {
-
+/*
 
             "as",
             "cnmi",
@@ -164,10 +164,10 @@ class Program
         "ar",
         "ca",
         "ct",
-        "cdc",
+        //"cdc",
         "co",
         "de",
-        "demo",
+        //"demo",
         "fl",
         "hi",
         "ia",
@@ -189,7 +189,7 @@ class Program
         "nj",
         "nm",
         "ny",
-        "nv",
+        "nv",*/
         "oh",
         "ok",
         "or",

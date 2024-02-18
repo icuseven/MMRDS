@@ -150,6 +150,8 @@ public sealed class v3_3_1_Migration
 			System.Console.WriteLine($"all_list_set.Count: {all_list_set.Count} total_count: {total_count}");
 			System.Console.WriteLine($"is count the same: {all_list_set.Count == single_form_value_set.Count + single_form_grid_value_set.Count + multiform_value_set.Count + multiform_grid_value_set.Count + single_form_multi_value_set.Count + single_form_grid_multi_value_list_set.Count + multiform_multi_value_set.Count + multiform_grid_multi_value_set.Count}");
 
+			System.Console.WriteLine(host_db_url);
+			
 			var id_list = GetIdList();
 
 			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
@@ -157,6 +159,10 @@ public sealed class v3_3_1_Migration
 			//mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
 			//System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
 	
+
+            var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
+
+
 			foreach(var existing_id in id_list)
 			{
 
@@ -166,7 +172,6 @@ public sealed class v3_3_1_Migration
 				}
 
 				//if(!id_set.Contains(existing_id)) continue;
-
 
 				string url = $"{host_db_url}/{db_name}/{existing_id}";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
@@ -343,7 +348,6 @@ public sealed class v3_3_1_Migration
 
 goto cvs_early_exit_label;*/
 
-                var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
                 var int_year_of_death = -1;
                 int test_int_year = -1;
