@@ -137,29 +137,32 @@ namespace mmria.case_version.v1;");*/
                 test_case.Convert(json_element.RootElement);
                 
 
-                if(test_case != null)
-                {
-                    System.Console.WriteLine($"case version: {test_case.version}");
-
-                    System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
-                }
-                else
+                if(test_case == null)
                 {
                     System.Console.WriteLine($"unable to deserialize case version: 23.11.08");
+                 
                 }
                 //stream.Close();
                 //await stream.DisposeAsync();
                 
+                System.Console.WriteLine($"case version: {test_case.version}");
+
+                var test_case_json = System.Text.Json.JsonSerializer.Serialize(test_case);
+                System.Console.WriteLine(test_case_json);
+
+                System.IO.File.WriteAllText("output/file-01.json", JsonPrettify(test_case_json));
 
                 var options = new System.Text.Json.JsonSerializerOptions
                 {
                     //PropertyNamingPolicy = new UpperCaseNamingPolicy(),
-                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
-                    //WriteIndented = true
+                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
+                    WriteIndented = true
                 };
 
-                using System.IO.FileStream stream2 = System.IO.File.OpenRead("json-convert-test/23.11.08.json");
-                var test_case2 = await System.Text.Json.JsonSerializer.DeserializeAsync<mmria.case_version.v1.mmria_case>(stream2, options);
+                //using System.IO.FileStream stream2 = System.IO.File.OpenRead("json-convert-test/23.11.08.json");
+                //var test_case2 = await System.Text.Json.JsonSerializer.DeserializeAsync<mmria.case_version.v1.mmria_case>(stream2, options);
+
+                var test_case2 = System.Text.Json.JsonSerializer.Deserialize<mmria.case_version.v1.mmria_case>(test_case_json, options);
                 if(test_case2 != null)
                 {
                     System.Console.WriteLine($"case version: {test_case2.version}");
@@ -198,6 +201,13 @@ namespace mmria.case_version.v1;");*/
         {
             System.Console.WriteLine($"\n: {item.Node.name}");
         }
+    }
+
+
+    public static string JsonPrettify(string json)
+    {
+        using var jDoc = System.Text.Json.JsonDocument.Parse(json);
+        return System.Text.Json.JsonSerializer.Serialize(jDoc, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
     }
 
 
