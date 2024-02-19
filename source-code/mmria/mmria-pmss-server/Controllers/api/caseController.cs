@@ -47,7 +47,7 @@ public sealed class caseController: ControllerBase
     
     [Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
     [HttpGet]
-    public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
+    public async Task<mmria.case_version.v230616.mmria_case> Get(string case_id) 
     { 
         try
         {
@@ -59,7 +59,7 @@ public sealed class caseController: ControllerBase
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (responseFromServer);
 
                 if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
@@ -186,17 +186,15 @@ public sealed class caseController: ControllerBase
             {
                 var check_document_curl = new cURL ("GET", null, db_config.Get_Prefix_DB_Url($"mmrds/{id_val}"), null,db_config.user_name, db_config.user_value);
                 string check_document_json = await check_document_curl.executeAsync ();
-                var check_document_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (check_document_json);
-                IDictionary<string, object> result_dictionary = check_document_expando_object as IDictionary<string, object>;
+                var case_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (check_document_json);
 
                 if
                 (
-                    result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, case_object)
                 )
                 {
-                    result.error_description = $"unauthorized PUT: {result_dictionary["_id"]}";
-                    Console.Write($"unauthorized PUT: {result_dictionary["_id"]}");
+                    result.error_description = $"unauthorized PUT: {case_object._id}";
+                    Console.Write($"unauthorized PUT: {case_object._id}");
                     return result;
                 }
 
@@ -284,7 +282,7 @@ public sealed class caseController: ControllerBase
 
     [Authorize(Roles  = "abstractor")]
     [HttpDelete]
-    public async Task<System.Dynamic.ExpandoObject> Delete(string case_id = null, string rev = null) 
+    public async Task<mmria.case_version.v230616.mmria_case> Delete(string case_id = null, string rev = null) 
     { 
         try
         {
@@ -322,44 +320,32 @@ public sealed class caseController: ControllerBase
             {
                 
                 document_json = await check_document_curl.executeAsync ();
-                var check_docuement_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (document_json);
-                IDictionary<string, object> result_dictionary = check_docuement_curl_result as IDictionary<string, object>;
+                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (document_json);
                 
                 if
                 (
-                    result_dictionary != null && 
-                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, check_docuement_curl_result)
+                    !mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, mmria_case)
                 )
                 {
-                    Console.Write($"unauthorized DELETE {result_dictionary["case_folder"]}: {result_dictionary["_id"]}");
+                    Console.Write($"unauthorized DELETE {mmria_case.tracking.admin_info.jurisdiction}: {mmria_case._id}");
                     return null;
                 }
                 
                 
-                if (result_dictionary.ContainsKey ("_rev")) 
+                if (!string.IsNullOrWhiteSpace(mmria_case._rev)) 
                 {
-                    request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}?rev={result_dictionary ["_rev"]}");
+                    request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}?rev={mmria_case._rev}");
                 }
 
-                if 
-                (
-                    result_dictionary.ContainsKey ("tracking") &&
-                    result_dictionary["tracking"] is IDictionary<string,object> tracking &&
-                    tracking.ContainsKey("admin_info") &&
-                    result_dictionary["admin_info"] is IDictionary<string,object> admin_info
-                    
-                ) 
-                {
-                    if(admin_info.ContainsKey("pmssno"))
-                    pmssno = admin_info["pmssno"].ToString();
+                pmssno = mmria_case.tracking.admin_info.pmssno;
 /*
-                    if(admin_info.ContainsKey("first_name"))
-                    first_name = tracking["first_name"].ToString();
+                if(admin_info.ContainsKey("first_name"))
+                first_name = tracking["first_name"].ToString();
 
-                    if(admin_info.ContainsKey("last_name"))
-                    last_name = admin_info["last_name"].ToString();
-                    */
-                }
+                if(admin_info.ContainsKey("last_name"))
+                last_name = admin_info["last_name"].ToString();
+                */
+                
             } 
             catch (Exception ex) 
             {
@@ -368,7 +354,7 @@ public sealed class caseController: ControllerBase
             }
 
             string responseFromServer = await delete_report_curl.executeAsync ();;
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (responseFromServer);
 
             var audit_data = new mmria.common.model.couchdb.Change_Stack()
             {

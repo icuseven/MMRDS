@@ -16,7 +16,7 @@ public sealed class authorization_case
         mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
-        System.Dynamic.ExpandoObject p_case_expando_object
+        mmria.case_version.v230616.mmria_case p_case_expando_object
     )
     {
 
@@ -25,49 +25,44 @@ public sealed class authorization_case
         var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
         
 
-        IDictionary<string,object> pre_tracking = (IDictionary<string,object>)p_case_expando_object;
-        IDictionary<string,object> tracking = (IDictionary<string,object>)pre_tracking["tracking"];
+        //IDictionary<string,object> pre_tracking = (IDictionary<string,object>)p_case_expando_object;
+        //IDictionary<string,object> tracking = (IDictionary<string,object>)pre_tracking["tracking"];
         
 
-        if(tracking != null)
+        if(p_case_expando_object.tracking != null)
         {
             if
-            (
-                !tracking.ContainsKey("admin_info") || 
-                tracking["admin_info"] == null
+            ( 
+                p_case_expando_object.tracking.admin_info == null
             )
             {
-                tracking["admin_info"] = new Dictionary<string,object>();
+               p_case_expando_object. tracking.admin_info = new ();
             }
 
-            var admin_info = tracking["admin_info"] as IDictionary<string,object>;
 
-            if(admin_info != null)
+            if
+            (
+                string.IsNullOrWhiteSpace(p_case_expando_object.tracking.admin_info.case_folder)
+            )
             {
+                p_case_expando_object.tracking.admin_info.case_folder= "/";
+            }
+            
+            foreach(var jurisdiction_item in  jurisdiction_hashset)
+            {
+                var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
                 if
                 (
-                    !admin_info.ContainsKey("case_folder") || 
-                    admin_info["case_folder"] == null
+                    regex.IsMatch(p_case_expando_object.tracking.admin_info.case_folder) && 
+                    p_resoure_right_enum ==  jurisdiction_item.ResourceRight
                 )
                 {
-                    admin_info["case_folder"] = "/";
-                }
-                
-                foreach(var jurisdiction_item in  jurisdiction_hashset)
-                {
-                    var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
-                    if
-                    (
-                        regex.IsMatch(admin_info["case_folder"].ToString()) && 
-                        p_resoure_right_enum ==  jurisdiction_item.ResourceRight
-                    )
-                    {
-                        
-                        result = true;
-                        break;
-                    }
+                    
+                    result = true;
+                    break;
                 }
             }
+            
         }
 
         return result;
