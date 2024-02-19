@@ -16,7 +16,7 @@ internal class Program
         Test_Output_Load_Json
     }
 
-    static RunEnum Run_Type = RunEnum.Test_Output_Load_Json;
+    static RunEnum Run_Type = RunEnum.Generate_From_Metadata;
     static public async Task Main(string[] args)
     {
         if(Run_Type == RunEnum.Generate_From_Metadata)
@@ -49,7 +49,14 @@ internal class Program
 
 
         //var metadata_url = $"http://localhost:5984/metadata/version_specification-23.01.03/metadata";
-        var metadata_url = $"http://localhost:5984/metadata/version_specification-23.11.08/metadata";
+        //var metadata_url = $"http://localhost:5984/metaata/version_specification-23.11.08/metadata";
+
+
+//https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/
+//https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/
+
+        var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata";
+
         using(var metadata_client = new HttpClient ())
         {
             metadata = await metadata_client.GetFromJsonAsync<mmria.common.metadata.app>(metadata_url);
