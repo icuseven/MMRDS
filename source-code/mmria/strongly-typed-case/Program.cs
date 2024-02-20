@@ -16,7 +16,7 @@ internal class Program
         Test_Output_Load_Json
     }
 
-    static RunEnum Run_Type = RunEnum.Generate_From_Metadata;
+    static RunEnum Run_Type = RunEnum.Test_Output_Load_Json;
     static public async Task Main(string[] args)
     {
         if(Run_Type == RunEnum.Generate_From_Metadata)
@@ -157,7 +157,7 @@ namespace mmria.case_version.v1;");*/
                 System.Console.WriteLine($"case version: {test_case.version}");
 
                 var test_case_json = System.Text.Json.JsonSerializer.Serialize(test_case);
-                System.Console.WriteLine(test_case_json);
+                //System.Console.WriteLine(test_case_json);
 
                 System.IO.File.WriteAllText("output/file-01.json", JsonPrettify(test_case_json));
 
@@ -176,7 +176,7 @@ namespace mmria.case_version.v1;");*/
                 {
                     System.Console.WriteLine($"case version: {test_case2.version}");
 
-                    System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
+                    //System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
                 }
                 else
                 {

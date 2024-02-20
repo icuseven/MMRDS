@@ -370,16 +370,28 @@ public sealed partial class mmria_case
 
         if
         (
-            value.TryGetProperty(key, out var new_value) &&
-            new_value.ValueKind == System.Text.Json.JsonValueKind.String
+            value.TryGetProperty(key, out var new_value)
         )
         {
-            result = new_value.GetString();
+            if(new_value.ValueKind == System.Text.Json.JsonValueKind.String)
+            {
+                result = new_value.GetString();
+            }
+            else if(new_value.ValueKind == System.Text.Json.JsonValueKind.Number)
+            {
+                result = new_value.GetDouble().ToString();
+            }
+            else
+            {
+                System.Console.WriteLine($"GetHiddenField Not a string or number: {path} key: {key}");
+            }
+                
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine($"GetHiddenField {path} key: {key}");
         }
+        
         return result;
     }
     //case "textarea":
