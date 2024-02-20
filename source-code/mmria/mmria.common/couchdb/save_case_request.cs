@@ -74,3 +74,15 @@ public sealed class Save_Case_Request
 
     }
 }
+
+
+public sealed class Save_Case_Request <T>
+{
+    public Change_Stack Change_Stack {get;set;} = new();
+
+    public T Case_Data {get;set;}
+    public Save_Case_Request()
+    {
+
+    }
+}

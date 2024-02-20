@@ -55,7 +55,9 @@ internal class Program
 //https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/
 //https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/
 
-        var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata";
+        //var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
+
+        var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.11.08/metadata"; // mmria
 
         using(var metadata_client = new HttpClient ())
         {
@@ -64,7 +66,7 @@ internal class Program
             Console.WriteLine($"node name: {metadata.name} prompt: {metadata.prompt} type: {metadata.type}");
         }
 
-        var metadata_mgr = new metadata_mgr(metadata, "v230616");
+        var metadata_mgr = new metadata_mgr(metadata, "v1");
         var total_count = metadata_mgr.single_form_value_set.Count + 
             metadata_mgr.single_form_grid_value_set.Count + 
             metadata_mgr.multiform_value_set.Count + 

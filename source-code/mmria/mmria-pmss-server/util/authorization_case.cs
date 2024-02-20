@@ -16,7 +16,7 @@ public sealed class authorization_case
         mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
-        mmria.case_version.v230616.mmria_case p_case_expando_object
+        mmria.pmss.case_version.v230616.mmria_case p_case_expando_object
     )
     {
 
