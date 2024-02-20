@@ -491,13 +491,30 @@ public sealed partial class mmria_case
         )
         {
             var val = new_value.GetString();
+            TimeOnly test;
             if(string.IsNullOrWhiteSpace(val))
             {
                 // do nothing
             }
-            else if(TimeOnly.TryParse(val, out var test))
+            else if(TimeOnly.TryParse(val, out test))
             {
                 result = test;
+            }
+            else if(val.Length == 3)
+            {
+                var test_string = val[0] + ":"  + val[1..];
+                if(TimeOnly.TryParse(test_string, out test))
+                {
+                    result = test;
+                }
+            }
+            else if(val.Length == 4)
+            {
+                var test_string = val[0..2] + ":"  + val[2..];
+                if(TimeOnly.TryParse(test_string, out test))
+                {
+                    result = test;
+                }
             }
             else
             {

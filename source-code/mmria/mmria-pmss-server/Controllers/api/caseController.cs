@@ -59,7 +59,21 @@ public sealed class caseController: ControllerBase
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (responseFromServer);
+                //var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v230616.mmria_case> (responseFromServer);
+
+                var options = new System.Text.Json.JsonSerializerOptions
+                {
+                    //PropertyNamingPolicy = new UpperCaseNamingPolicy(),
+                    NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString,
+                    WriteIndented = true
+                };
+
+
+                var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer, options);
+                var result = new mmria.case_version.v230616.mmria_case();
+                result.Convert(json_doc.RootElement);
+                
+                
 
                 if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {

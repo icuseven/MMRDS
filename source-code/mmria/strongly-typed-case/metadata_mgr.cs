@@ -28,9 +28,12 @@ public class metadata_mgr
 
 	public Stack<System.Text.StringBuilder> source_code_builder_stack = new();
 
-    public metadata_mgr(mmria.common.metadata.app metadata)
+	string namespace_version = "v1";
+
+    public metadata_mgr(mmria.common.metadata.app metadata, string p_namespace_version)
     {
         	this.lookup = get_look_up(metadata);
+			namespace_version = p_namespace_version;
 
 			all_list_set = new();
 
@@ -321,11 +324,11 @@ public class metadata_mgr
 			PassTwo(child, "");
 		}
 
-		var top_line = new System.Text.StringBuilder().AppendLine(@"
+		var top_line = new System.Text.StringBuilder().AppendLine(@$"
 using System;
 using System.Collections.Generic;
 
-namespace mmria.case_version.v1;");
+namespace mmria.case_version.{namespace_version};");
 		source_code_builder_stack.Push(top_line);
 	}
 

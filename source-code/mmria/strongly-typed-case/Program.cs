@@ -64,7 +64,7 @@ internal class Program
             Console.WriteLine($"node name: {metadata.name} prompt: {metadata.prompt} type: {metadata.type}");
         }
 
-        var metadata_mgr = new metadata_mgr(metadata);
+        var metadata_mgr = new metadata_mgr(metadata, "v230616");
         var total_count = metadata_mgr.single_form_value_set.Count + 
             metadata_mgr.single_form_grid_value_set.Count + 
             metadata_mgr.multiform_value_set.Count + 
