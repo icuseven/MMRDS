@@ -714,11 +714,31 @@ GridList
 				}
 
 			break;
-
+			case "hidden":
+				if(value.data_type != null)
+				{
+					if(value.data_type == "number")
+					{
+						builder.AppendLine($"\tpublic double? {name} {{ get; set; }}");
+					}
+					else if(value.data_type == "boolean")
+					{
+						builder.AppendLine($"\tpublic bool? {name} {{ get; set; }}");
+					}
+					else
+					{
+						builder.AppendLine($"\tpublic string {name} {{ get; set; }}");
+					}
+				}
+				else
+				{
+					builder.AppendLine($"\tpublic string {name} {{ get; set; }}");
+				}
 			
+			break;
 			case "string":
 			case "jurisdiction":
-			case "hidden":
+			
 			case "textarea":
 				builder.AppendLine($"\tpublic string {name} {{ get; set; }}");
 				break;
@@ -849,7 +869,27 @@ GridList
 				builder.AppendLine($"\t\t{name} = mmria_case.GetJurisdictionField(p_value, \"{value.name}\", \"{current_path}\");");
 				break;
 			case "hidden":
-				builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\", \"{current_path}\");");
+				if(value.data_type != null)
+				{
+
+					if(value.data_type.ToLower() == "number")
+					{
+						builder.AppendLine($"\t\t{name} = mmria_case.GetNumberField(p_value, \"{value.name}\", \"{current_path}\");");
+					}
+					else if(value.data_type.ToLower() == "boolean")
+					{
+						builder.AppendLine($"\t\t{name} = mmria_case.GetBooleanField(p_value, \"{value.name}\", \"{current_path}\");");
+					}
+					else
+					{
+						builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\", \"{current_path}\");");
+					}
+				}
+				else
+				{
+					builder.AppendLine($"\t\t{name} = mmria_case.GetHiddenField(p_value, \"{value.name}\", \"{current_path}\");");
+				}
+				
 				break;
 			case "textarea":
 				builder.AppendLine($"\t\t{name} = mmria_case.GetTextAreaField(p_value, \"{value.name}\", \"{current_path}\");");

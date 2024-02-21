@@ -381,13 +381,13 @@ public sealed partial class mmria_case
             {
                 result = new_value.GetDouble().ToString();
             }
-            else if(new_value.ValueKind == System.Text.Json.JsonValueKind.False)
+            else if
+            (
+                new_value.ValueKind == System.Text.Json.JsonValueKind.True ||
+                new_value.ValueKind == System.Text.Json.JsonValueKind.False
+            )
             {
-                result = new_value.GetBoolean().ToString();
-            }
-            else if(new_value.ValueKind == System.Text.Json.JsonValueKind.True)
-            {
-                result = new_value.GetBoolean().ToString();
+                result = new_value.GetBoolean().ToString().ToLower();
             }
             else
             {
@@ -573,6 +573,47 @@ public sealed partial class mmria_case
             else
             {
                 System.Console.WriteLine($"GetDateTimeField tryparse {path} key: {key} val:{val}");
+            }
+        }
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null
+        )
+        {
+            System.Console.WriteLine($"GetDateTimeField {path} key: {key}");
+        }
+
+        return result;
+    }
+
+    public static bool?  GetBooleanField(System.Text.Json.JsonElement value, string key, string path)
+    {
+        bool? result = null;
+
+        if
+        (
+            value.TryGetProperty(key, out var new_value)
+        )
+        {
+            var val = new_value.GetString();
+            switch(new_value.ValueKind)
+            {
+                case System.Text.Json.JsonValueKind.String:
+                    
+                    if(bool.TryParse(val, out var new_bool_value))
+                        result = new_bool_value;
+                    else
+                        System.Console.WriteLine($"GetBooleanField tryparse {path} key: {key} val:{val}");
+
+                break;
+                case System.Text.Json.JsonValueKind.False:
+                case System.Text.Json.JsonValueKind.True:
+                    result = new_value.GetBoolean();
+                break;
+                default:
+                    System.Console.WriteLine($"GetBooleanField tryparse {path} key: {key} val:{val}");
+                break;
             }
         }
         else if
