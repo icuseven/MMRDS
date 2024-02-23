@@ -39,7 +39,7 @@ public sealed class AkkaHostedService : IHostedService, IAsyncDisposable
  
     public Task StartAsync(CancellationToken stoppingToken)
     {
-        System.Console.WriteLine("{Service} is running.", nameof(AkkaHostedService));
+        //System.Console.WriteLine("{Service} is running.", nameof(AkkaHostedService));
 
         return _completedTask;
     }
@@ -48,18 +48,20 @@ public sealed class AkkaHostedService : IHostedService, IAsyncDisposable
     {
         int count = 0;
 
-        System.Console.WriteLine(
+        /*System.Console.WriteLine(
             "{Service} is working, execution count: {Count:#,0}",
             nameof(AkkaHostedService),
             count);
+            */
     }
 
     public Task StopAsync(CancellationToken stoppingToken)
     {
+       /*
         System.Console.WriteLine(
             "{Service} is stopping.", nameof(AkkaHostedService));
 
-
+*/
 
         return _completedTask;
     }
