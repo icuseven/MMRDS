@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace migrate.set;
 
-public sealed class v3_3_1_Migration
+public sealed class v3_3_3_Migration
 {
 
 	public string host_db_url;
@@ -39,7 +39,7 @@ public sealed class v3_3_1_Migration
 	public bool is_data_correction = false;
 
 
-	public v3_3_1_Migration
+	public v3_3_3_Migration
 	(
 		string p_host_db_url, 
 		string p_db_name, 
@@ -65,14 +65,14 @@ public sealed class v3_3_1_Migration
 
 	public async Task execute()
 	{
-		this.output_builder.AppendLine($"v3.3.1Data Migration started at: {DateTime.Now.ToString("o")}");
+		this.output_builder.AppendLine($"v3.3.3 Data Migration started at: {DateTime.Now.ToString("o")}");
 		DateTime begin_time = System.DateTime.Now;
 		
-		this.output_builder.AppendLine($"v3_3_1_Migration started at: {begin_time.ToString("o")}");
+		this.output_builder.AppendLine($"v3_3_3_Migration started at: {begin_time.ToString("o")}");
 		
 		var gs = new C_Get_Set_Value(this.output_builder);
 
-
+/*
 		string ping_result = PingCVSServer(db_config_set);
 		int ping_count = 1;
 		
@@ -97,28 +97,19 @@ public sealed class v3_3_1_Migration
 			
 			ping_result = PingCVSServer(db_config_set);
 			ping_count +=1;
-
-			
-
 		}
 		
+*/
+
+		const string base_folder = "C:/Users/isu7/Downloads/thu-2024-02-08";
 
 
-		const string base_folder = "C:/Users/isu7/OneDrive - CDC/PMSS/ije/zCVS";
-
-		var file_name_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase){
-
-	"AK.csv",
-	"AL.csv",
-	"AZ.csv",
-	"HI.csv",
-	"MD.csv",
-	"ME.csv",
-	"MD.csv"
-
-	};
+		const string default_cvs_text = "She (or use pseudonym) lived in a community that was characterized as being “higher than average risk” for (insert domains – “domains” are the dials on the right side of the dashboard). The community was characterized as being “average risk” for (insert domains) and “lower than average risk” for (insert domains).\n\n(If desired, highlight those indicators that are most relevant to the circumstances of this case. Recall that red and blue dots on the left side – in the greenish area – represent lower risk and dots on the right side – in the purplish area – represent higher risk relative to other communities in the state or nation. See the Resources page of the ERASE MM Community Vital Signs Portal for more guidance on triangulating indicators to specific circumstances in a case and the data dictionary for understanding the rationale of each measure.)";
+		const string default_cvs_text2 = @"She (or use pseudonym) lived in a community that was characterized as being “lower than average” for (insert domains). The community was characterized as being “average” for (insert domains) and “higher than average” for (insert domains).";
 
 
+
+		
 		try
 		{
 			string FromMetadataVersion = "23.07.25";
@@ -156,11 +147,9 @@ public sealed class v3_3_1_Migration
 
 			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
 
-			//mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
-			//System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
-	
+			//if(prefix == "MMRIA") prefix = "mo";
 
-            var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
+            //var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
 
 			foreach(var existing_id in id_list)
@@ -171,6 +160,8 @@ public sealed class v3_3_1_Migration
 					continue;
 				}
 
+				var backup_file_path = System.IO.Path.Combine(base_folder, prefix, "mmrds", existing_id + ".json");
+
 				//if(!id_set.Contains(existing_id)) continue;
 
 				string url = $"{host_db_url}/{db_name}/{existing_id}";
@@ -178,6 +169,15 @@ public sealed class v3_3_1_Migration
 				string responseFromServer = await case_curl.executeAsync();
 				
 				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+
+
+				System.Dynamic.ExpandoObject backup_doc = null;
+
+				if(System.IO.File.Exists(backup_file_path))
+				{
+					backup_doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(await System.IO.File.ReadAllTextAsync(backup_file_path));
+				}
+				
 			
 
 				//var case_item in case_response.rows
@@ -186,7 +186,7 @@ public sealed class v3_3_1_Migration
 
 				//var doc = case_item.doc;
 				
-				if(doc != null)
+				if(doc != null && backup_doc != null)
 				{
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
@@ -210,6 +210,24 @@ public sealed class v3_3_1_Migration
 						return result;
 					}
 
+
+					string backup_get_value(string p_path)
+					{
+						var result = String.Empty;
+
+
+						migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(backup_doc, p_path);
+						if
+						(
+							! temp_result.is_error &&
+							temp_result.result != null
+						)
+						{
+							result = temp_result.result.ToString();
+						}
+
+						return result;
+					}
 					
 					bool set_value(string p_path, string p_value)
 
@@ -242,269 +260,108 @@ public sealed class v3_3_1_Migration
 					}
 
 
-				//var current_result = cvs_data_table.Select($"_id='{mmria_id}'");
 
-		
-				
-				//if(current_result.Length < 1) continue;
+					bool cvs_exists = false;
 
-				//var current_row = current_result[0];
+					var record_id = get_value("home_record/record_id");
 
-				//var tract_county_result = convert_to_tract_county(current_row);
+					var new_case_dictionary = doc as IDictionary<string, object>;
+					if
+					(
+						new_case_dictionary != null 
+					)
+					{
+						if(!new_case_dictionary.ContainsKey("cvs"))
+						{
+							/*
+							var cvs_form_metadata = new mmria.common.metadata.node();
 
+							foreach(var child in metadata.children)
+							{
+								if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
+								{
+									cvs_form_metadata = child;
+								}
+							}
 
-                var state_county_fips = get_value("death_certificate/place_of_last_residence/state_county_fips");
-                var  census_tract_fips = get_value("death_certificate/place_of_last_residence/census_tract_fips");
-                var  year = get_value("home_record/date_of_death/year");
-
-                var cvs_form_metadata = new mmria.common.metadata.node();
-
-                foreach(var child in metadata.children)
-                {
-                    if(child.name.Equals("cvs", StringComparison.OrdinalIgnoreCase))
-                    {
-                        cvs_form_metadata = child;
-                    }
-                }
-
-
-
-
-				var new_case_dictionary = doc as IDictionary<string, object>;
-
-                if
-				(
-					new_case_dictionary != null &&
-					!new_case_dictionary.ContainsKey("cvs")
-				)
-                {
-
-					var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
-					mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
-					var list = new_cvs_form["cvs"] as  IDictionary<string,object>;
-                    new_case_dictionary.Add("cvs", list);               
-                }
+							var new_cvs_form = new Dictionary<string,object>(StringComparer.OrdinalIgnoreCase);
+							mmria.services.vitalsimport.default_case.create(cvs_form_metadata, new_cvs_form, true);
+							var list = new_cvs_form["cvs"] as  IDictionary<string,object>;
+							new_case_dictionary.Add("cvs", list);  
+							*/
+						}
+						else
+						{
+							cvs_exists = true;
+						}
+					}
 
 
-/*
+					if(!cvs_exists)
+					{
+						continue;
+					}
 
-				set_grid_value("cvs/cvs_grid/cvs_api_request_url", current_row["cvs_api_request_url"]);
-				set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", current_row["cvs_api_request_date_time"]);
-				set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", current_row["cvs_api_request_c_geoid"]);
-				set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", current_row["cvs_api_request_t_geoid"]);
-				set_grid_value("cvs/cvs_grid/cvs_api_request_year", current_row["cvs_api_request_year"]);
-
-
-				set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
-				set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
-				set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
-				set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle);
-				set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", tract_county_result.tract.pctNoVehicle);
-				set_grid_value("cvs/cvs_grid/cvs_pctmove_county", tract_county_result.county.pctMOVE);
-				set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", tract_county_result.tract.pctMOVE);
-				set_grid_value("cvs/cvs_grid/cvs_pctsphh_county", tract_county_result.county.pctSPHH);
-				set_grid_value("cvs/cvs_grid/cvs_pctsphh_tract", tract_county_result.tract.pctSPHH);
-				set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_county", tract_county_result.county.pctOVERCROWDHH);
-				set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_tract", tract_county_result.tract.pctOVERCROWDHH);
-				set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_county", tract_county_result.county.pctOWNER_OCC);
-				set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract", tract_county_result.tract.pctOWNER_OCC);
-				set_grid_value("cvs/cvs_grid/cvs_pct_less_well_county", tract_county_result.county.pct_less_well);
-				set_grid_value("cvs/cvs_grid/cvs_pct_less_well_tract", tract_county_result.tract.pct_less_well);
-				set_grid_value("cvs/cvs_grid/cvs_ndi_raw_county", tract_county_result.county.NDI_raw);
-				set_grid_value("cvs/cvs_grid/cvs_ndi_raw_tract", tract_county_result.tract.NDI_raw);
-				set_grid_value("cvs/cvs_grid/cvs_pctpov_county", tract_county_result.county.pctPOV);
-				set_grid_value("cvs/cvs_grid/cvs_pctpov_tract", tract_county_result.tract.pctPOV);
-				set_grid_value("cvs/cvs_grid/cvs_ice_income_all_county", tract_county_result.county.ICE_INCOME_all);
-				set_grid_value("cvs/cvs_grid/cvs_ice_income_all_tract", tract_county_result.tract.ICE_INCOME_all);
-				set_grid_value("cvs/cvs_grid/cvs_medhhinc_county", tract_county_result.county.MEDHHINC);
-				set_grid_value("cvs/cvs_grid/cvs_medhhinc_tract", tract_county_result.tract.MEDHHINC);
-				set_grid_value("cvs/cvs_grid/cvs_pctobese_county", tract_county_result.county.pctOBESE);
-				set_grid_value("cvs/cvs_grid/cvs_fi_county", tract_county_result.county.FI);
-				set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.CNMrate);
-				set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", tract_county_result.county.OBGYNrate);
-				set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", tract_county_result.county.rtTEENBIRTH);
-				set_grid_value("cvs/cvs_grid/cvs_rtstd_county", tract_county_result.county.rtSTD);
-				set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.MHCENTERrate);
-				set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", tract_county_result.county.rtDRUGODMORTALITY);
-				set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", tract_county_result.county.rtOPIOIDPRESCRIPT);
-				set_grid_value("cvs/cvs_grid/cvs_soccap_county", tract_county_result.county.SocCap);
-				set_grid_value("cvs/cvs_grid/cvs_rtsocassoc_county", tract_county_result.county.rtSocASSOC);
-				set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
-				set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
-				set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
-
-				set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.MIDWIVESrate);
-				set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.segregation);
-				set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.PCPrate);
-				set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR);
-
-				set_grid_value("cvs/cvs_grid/cvs_pctrural", tract_county_result.county.pctRural);
-				set_grid_value("cvs/cvs_grid/cvs_racialized_pov",  tract_county_result.county.Racialized_pov);
-				set_grid_value("cvs/cvs_grid/cvs_mhproviderrate",  tract_county_result.county.MHPROVIDERrate);
-
-				set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", current_row["cvs_api_request_result_message"]);
-
-
-
-
-
-
-
-
-
-goto cvs_early_exit_label;*/
-
-
-                var int_year_of_death = -1;
-                int test_int_year = -1;
-
-                const int year_difference_limit = 9;
-
-                if(int.TryParse(year, out test_int_year))
-                {
-                    int_year_of_death = test_int_year;
-                }
-
-                var calculated_year_of_death = int_year_of_death;
-
-                if
-                (
-                    Valid_CVS_Years != null &&
-                    Valid_CVS_Years.Count > 0 &&
-                    ! Valid_CVS_Years.Contains(int_year_of_death)
-                )
-                {
-
-                    var lower_diff = System.Math.Abs(Valid_CVS_Years[0] - int_year_of_death);
-                    var upper_diff = System.Math.Abs(Valid_CVS_Years[Valid_CVS_Years.Count -1] - int_year_of_death);
-
-                    if(lower_diff < upper_diff)
-                    {
-                        if(lower_diff <= year_difference_limit)
-                        {
-                            calculated_year_of_death = Valid_CVS_Years[0];
-                        }
-                    }
-                    else
-                    {
-                        if(upper_diff <= year_difference_limit)
-                        {
-                            calculated_year_of_death = Valid_CVS_Years[Valid_CVS_Years.Count -1];
-                        }
-                    }
-                }
-
-				const int cut_off_lower_bound_year = 2005;
-                if
-                (
-                    !string.IsNullOrEmpty(state_county_fips) &&
-                    !string.IsNullOrEmpty(census_tract_fips) &&
-                    !string.IsNullOrEmpty(year) &&
-					! (test_int_year < cut_off_lower_bound_year)
 					
-                )
-                {
-                    var t_geoid = $"{state_county_fips}{census_tract_fips.Replace(".","").PadRight(6, '0')}";
+
+					var cvs_used_path = "cvs/cvs_used";
+					var cvs_used_how_path = "cvs/cvs_used_how";
+					var cvs_used_other_sp_path = "cvs/cvs_used_other_sp";
+					var cvs_r_note_path = "cvs/reviewer_note";
+
+					var backup_cvs_used = backup_get_value(cvs_used_path);
+					var backup_cvs_used_how = backup_get_value(cvs_used_how_path);
+					var backup_cvs_used_other_sp = backup_get_value(cvs_used_other_sp_path);
+					var backup_cvs_r_note = backup_get_value(cvs_r_note_path);
 
 
-                    var (cvs_response_status, tract_county_result) = GetCVSData
-                    (
-                        state_county_fips,
-                        t_geoid,
-                        calculated_year_of_death.ToString(),
-                       db_config_set
-                    );
+					var cvs_used = get_value(cvs_used_path);
+					var cvs_used_how = get_value(cvs_used_how_path);
+					var cvs_used_other_sp = get_value(cvs_used_other_sp_path);
+					var cvs_r_note = get_value(cvs_r_note_path);
 
-                    if(cvs_response_status == "success")
-                    {
+					if(backup_cvs_used != cvs_used && cvs_used == "9999") 
+						set_value(cvs_used_path, backup_cvs_used);
 
-                        if(calculated_year_of_death != int_year_of_death)
-                        {
-                            cvs_response_status += " year_of_death adjusted";
-                        }
-
-                        if
-                        (
-                          is_result_quality_in_need_of_checking(tract_county_result)
-                        )
-                        {
-                            cvs_response_status += " check quality";
-							//goto cvs_early_exit_label;
-
-                        }
-
-						set_grid_value("cvs/cvs_grid/cvs_api_request_url", db_config_set.name_value["cvs_api_url"]);
-						set_grid_value("cvs/cvs_grid/cvs_api_request_date_time", DateTime.Now.ToString("o"));
-						set_grid_value("cvs/cvs_grid/cvs_api_request_c_geoid", state_county_fips);
-						set_grid_value("cvs/cvs_grid/cvs_api_request_t_geoid", t_geoid);
-						set_grid_value("cvs/cvs_grid/cvs_api_request_year", calculated_year_of_death.ToString());
+					if(backup_cvs_used_how != cvs_used_how && cvs_used_how == "9999") 
+						set_value(cvs_used_how_path, backup_cvs_used_how);
 
 
-                        set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.MDrate);
-                        set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_county", tract_county_result.county.pctNOIns_Fem);
-                        set_grid_value("cvs/cvs_grid/cvs_pctnoins_fem_tract", tract_county_result.tract.pctNOIns_Fem);
-                        set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_county", tract_county_result.county.pctNoVehicle);
-                        set_grid_value("cvs/cvs_grid/cvs_pctnovehicle_tract", tract_county_result.tract.pctNoVehicle);
-                        set_grid_value("cvs/cvs_grid/cvs_pctmove_county", tract_county_result.county.pctMOVE);
-                        set_grid_value("cvs/cvs_grid/cvs_pctmove_tract", tract_county_result.tract.pctMOVE);
-                        set_grid_value("cvs/cvs_grid/cvs_pctsphh_county", tract_county_result.county.pctSPHH);
-                        set_grid_value("cvs/cvs_grid/cvs_pctsphh_tract", tract_county_result.tract.pctSPHH);
-                        set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_county", tract_county_result.county.pctOVERCROWDHH);
-                        set_grid_value("cvs/cvs_grid/cvs_pctovercrowdhh_tract", tract_county_result.tract.pctOVERCROWDHH);
-                        set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_county", tract_county_result.county.pctOWNER_OCC);
-                        set_grid_value("cvs/cvs_grid/cvs_pctowner_occ_tract", tract_county_result.tract.pctOWNER_OCC);
-                        set_grid_value("cvs/cvs_grid/cvs_pct_less_well_county", tract_county_result.county.pct_less_well);
-                        set_grid_value("cvs/cvs_grid/cvs_pct_less_well_tract", tract_county_result.tract.pct_less_well);
-                        set_grid_value("cvs/cvs_grid/cvs_ndi_raw_county", tract_county_result.county.NDI_raw);
-                        set_grid_value("cvs/cvs_grid/cvs_ndi_raw_tract", tract_county_result.tract.NDI_raw);
-                        set_grid_value("cvs/cvs_grid/cvs_pctpov_county", tract_county_result.county.pctPOV);
-                        set_grid_value("cvs/cvs_grid/cvs_pctpov_tract", tract_county_result.tract.pctPOV);
-                        set_grid_value("cvs/cvs_grid/cvs_ice_income_all_county", tract_county_result.county.ICE_INCOME_all);
-                        set_grid_value("cvs/cvs_grid/cvs_ice_income_all_tract", tract_county_result.tract.ICE_INCOME_all);
-                        set_grid_value("cvs/cvs_grid/cvs_medhhinc_county", tract_county_result.county.MEDHHINC);
-                        set_grid_value("cvs/cvs_grid/cvs_medhhinc_tract", tract_county_result.tract.MEDHHINC);
-                        set_grid_value("cvs/cvs_grid/cvs_pctobese_county", tract_county_result.county.pctOBESE);
-                        set_grid_value("cvs/cvs_grid/cvs_fi_county", tract_county_result.county.FI);
-                        set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.CNMrate);
-                        set_grid_value("cvs/cvs_grid/cvs_obgynrate_county", tract_county_result.county.OBGYNrate);
-                        set_grid_value("cvs/cvs_grid/cvs_rtteenbirth_county", tract_county_result.county.rtTEENBIRTH);
-                        set_grid_value("cvs/cvs_grid/cvs_rtstd_county", tract_county_result.county.rtSTD);
-                        set_grid_value("cvs/cvs_grid/cvs_rtmhpract_county", tract_county_result.county.MHCENTERrate);
-                        set_grid_value("cvs/cvs_grid/cvs_rtdrugodmortality_county", tract_county_result.county.rtDRUGODMORTALITY);
-                        set_grid_value("cvs/cvs_grid/cvs_rtopioidprescript_county", tract_county_result.county.rtOPIOIDPRESCRIPT);
-                        set_grid_value("cvs/cvs_grid/cvs_soccap_county", tract_county_result.county.SocCap);
-                        set_grid_value("cvs/cvs_grid/cvs_rtsocassoc_county", tract_county_result.county.rtSocASSOC);
-                        set_grid_value("cvs/cvs_grid/cvs_pcthouse_distress_county", tract_county_result.county.pctHOUSE_DISTRESS);
-                        set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR_ICPSR);
-                        set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.isolation);
-
-                        set_grid_value("cvs/cvs_grid/cvs_cnmrate_county", tract_county_result.county.MIDWIVESrate);
-                        set_grid_value("cvs/cvs_grid/cvs_isolation_county", tract_county_result.county.segregation);
-                        set_grid_value("cvs/cvs_grid/cvs_mdrate_county", tract_county_result.county.PCPrate);
-                        set_grid_value("cvs/cvs_grid/cvs_rtviolentcr_icpsr_county", tract_county_result.county.rtVIOLENTCR);
-
-                        set_grid_value("cvs/cvs_grid/cvs_pctrural", tract_county_result.county.pctRural);
-                        set_grid_value("cvs/cvs_grid/cvs_racialized_pov",  tract_county_result.county.Racialized_pov);
-                        set_grid_value("cvs/cvs_grid/cvs_mhproviderrate",  tract_county_result.county.MHPROVIDERrate);
-
-						set_grid_value("cvs/cvs_grid/cvs_api_request_result_message", cvs_response_status);
-
-                    }
-
-                    
-                }
-                else
-                {
-                    
-                }
+					if(backup_cvs_used_other_sp != cvs_used_other_sp && string.IsNullOrWhiteSpace(cvs_used_other_sp))
+						set_value(cvs_used_other_sp_path, backup_cvs_used_other_sp);
 
 
-cvs_early_exit_label:
+					if(backup_cvs_r_note != cvs_r_note)
+					{
+						
+						System.Console.WriteLine($"record_id: {record_id}");
 
+						
+						if(cvs_r_note == default_cvs_text)
+						{
+							//System.Console.WriteLine(cvs_r_note);
+							System.Console.WriteLine("matched default1:" + backup_cvs_r_note);
+							set_value(cvs_r_note_path, backup_cvs_r_note);
+						}
+						
+						else if(cvs_r_note == default_cvs_text2)
+						{
+							System.Console.WriteLine("matched default2:"  + backup_cvs_r_note);
+							set_value(cvs_r_note_path, backup_cvs_r_note);
+						}
+						else if(string.IsNullOrWhiteSpace(cvs_r_note))
+						{
+							set_value(cvs_r_note_path, backup_cvs_r_note);
+						}
+						else
+						{
+							System.Console.WriteLine(cvs_r_note);
+						}
+					}
 
 				if(!is_report_only_mode && case_has_changed)
 				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3.2");
+					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.3.3");
 				}
 
 			}
@@ -517,60 +374,9 @@ cvs_early_exit_label:
 		Console.WriteLine(ex);
 	}
 
-	Console.WriteLine($"v3_3_1_Migration Finished {DateTime.Now}");
+	Console.WriteLine($"v3_3_3_Migration Finished {DateTime.Now}");
 }
 
-	bool isInNeedOfConversion(string p_value)
-	{
-		var result = true;
-
-		if(p_value != null)
-		{
-			if
-			(
-				p_value.Trim().StartsWith("12:") ||
-				p_value.Trim().StartsWith("24:")
-			)
-			{
-				result = false;
-			}
-		}
-
-
-		return result;
-	}
-
-
-
-	string ConvertToStandardTime(string p_value)
-	{
-		var result = p_value;
-
-		if(p_value != null)
-		{
-			if
-			(
-				p_value.Trim().StartsWith("12:")
-			)
-			{
-				var data = p_value.Split(":");
-				data[0] = "00";
-				result =string.Join(':',data);
-			}
-			else if
-			(
-				p_value.Trim().StartsWith("24:")
-			)
-			{
-				var data = p_value.Split(":");
-				data[0] = "12";
-				result =string.Join(':',data);
-			}
-		}
-
-
-		return result;
-	}
 
 	public sealed class Metadata_Node
 	{

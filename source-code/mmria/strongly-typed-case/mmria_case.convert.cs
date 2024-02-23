@@ -391,7 +391,7 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetHiddenField Not a string or number: {path} key: {key}");
+                System.Console.WriteLine($"GetHiddenField Not a string or number or boolean: {path} key: {key}");
             }
                 
         }
