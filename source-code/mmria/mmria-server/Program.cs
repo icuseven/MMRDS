@@ -60,6 +60,8 @@ public sealed partial class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddHostedService<AkkaHostedService>();
+
         configuration = builder.Configuration;
 
         //string config_export_directory = "/workspace/export";
@@ -298,7 +300,13 @@ public sealed partial class Program
                 timer_user_name,
                 timer_value
             );
+
+
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
+
+            var hosted_service_prefix = new HostedServicePrefix(host_prefix);
+
+            builder.Services.AddSingleton<HostedServicePrefix>(hosted_service_prefix);
 
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
