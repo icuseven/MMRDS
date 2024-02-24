@@ -41,47 +41,7 @@ class Program
 
     static HashSet<string> has_been_done_set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
     {
-        "ma",
-        "mo",
-        "fl",
-               "as",
-            "cnmi",
-            "vi",
-                "aa",
-                "anthc",
-                "cat",
-                "gl",
-                "gp",
-                "ica",
-                "nn",
-                "nwp",
-                "rm",
-                "sp",
-                "uset",
-                "chickasaw",
-                "gu",
-        
-"afd",
-"dc",
-"ga",
-"hi",
-"md",
-"me",
-"nd",
-"vt",
-"pr",
 
-        
-
-        
-        "al",
-        "ak",
-        "az",
-        "ar",
-        "ca",
-        "ct",
-        "cdc",
-        "demo",
     };
 
     static List<string> test_list = new List<string>()
@@ -120,7 +80,7 @@ mo
 fl
 
 */
-"ma"
+"fl"
         //"hi",
         //"al",
         //"ak",
@@ -322,9 +282,9 @@ fl
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = false;
+        bool is_test_list = true;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.OneTime;
@@ -549,12 +509,14 @@ fl
                 else if(MigrationType == RunTypeEnum.OneTime)
                 {
 
+                    var v3_4_PreUpgrade = new migrate.set.v3_4_PreUpgrade(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    await v3_4_PreUpgrade.execute();
 
-                   var v3_3_3_Migration = new migrate.set.v3_3_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
-                   await v3_3_3_Migration.execute();
 
-                    //var v3_4_PreUpgrade = new migrate.set.v3_4_PreUpgrade(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
-                    //await v3_4_PreUpgrade.execute();
+                   //var v3_3_3_Migration = new migrate.set.v3_3_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                   //await v3_3_3_Migration.execute();
+
+
 
                    // var v3_3_1_Migration = new migrate.set.v3_3_1_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                    // await v3_3_1_Migration.execute();
