@@ -60,7 +60,7 @@ public sealed partial class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
-        builder.Services.AddHostedService<AkkaHostedService>();
+        //builder.Services.AddHostedService<AkkaHostedService>();
 
         configuration = builder.Configuration;
 
@@ -304,15 +304,27 @@ public sealed partial class Program
 
             builder.Services.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
 
-            var hosted_service_prefix = new HostedServicePrefix(host_prefix);
+            //var hosted_service_prefix = new HostedServicePrefix(host_prefix);
 
-            builder.Services.AddSingleton<HostedServicePrefix>(hosted_service_prefix);
+            //builder.Services.AddSingleton<HostedServicePrefix>(hosted_service_prefix);
 
             configuration["steve_api:sea_bucket_kms_key"] = DbConfigSet.name_value["steve_api:sea_bucket_kms_key"];
             configuration["steve_api:client_name"] = DbConfigSet.name_value["steve_api:client_name"];
             configuration["steve_api:client_secret_key"] = DbConfigSet.name_value["steve_api:client_secret_key"];
             configuration["steve_api:base_url"] = DbConfigSet.name_value["steve_api:base_url"];
                         
+
+
+
+
+            // ******* To Be removed start
+            configuration["mmria_settings:config_id"] = overridable_config.GetString("config_id", host_prefix);
+            configuration["mmria_settings:export_directory"] = overridable_config.GetString("export_directory", host_prefix);
+            configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
+            configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
+            configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
+            configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
+
 
             var collection = new ServiceCollection();
 
@@ -323,15 +335,6 @@ public sealed partial class Program
             collection.AddLogging();
 
             var provider = collection.BuildServiceProvider();
-
-
-            // ******* To Be removed start
-            configuration["mmria_settings:config_id"] = overridable_config.GetString("config_id", host_prefix);
-            configuration["mmria_settings:export_directory"] = overridable_config.GetString("export_directory", host_prefix);
-            configuration["mmria_settings:metadata_version"] = overridable_config.GetString("metadata_version", host_prefix);
-            configuration["mmria_settings:vitals_service_key"] = overridable_config.GetString("vitals_service_key", host_prefix);
-            configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
-            configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
 
 
             // ******* To Be removed end
