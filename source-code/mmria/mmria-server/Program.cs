@@ -325,7 +325,7 @@ public sealed partial class Program
             configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
             configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
 
-
+/*
             var collection = new ServiceCollection();
 
             collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
@@ -335,6 +335,7 @@ public sealed partial class Program
             collection.AddLogging();
 
             var provider = collection.BuildServiceProvider();
+            */
 
 
             // ******* To Be removed end
@@ -369,7 +370,7 @@ public sealed partial class Program
             //System.Console.WriteLine(akka_config_string);
             //var config = ConfigurationFactory.ParseString(akka_config_string);
             //var actorSystem = ActorSystem.Create(mmria_actor_system_name, config).UseServiceProvider(provider);
-            var actorSystem = ActorSystem.Create(mmria_actor_system_name).UseServiceProvider(provider);
+            var actorSystem = ActorSystem.Create(mmria_actor_system_name);//.UseServiceProvider(provider);
             
             Log.Information($"ActorSystem: akka.tcp://{mmria_actor_system_name}@{Dns.GetHostAddresses(Dns.GetHostName())[0]}:{akka_port}");
             Log.Information($"Akka seed node: {akka_seed_node}");
