@@ -10,8 +10,6 @@ public interface IConvertDictionary
     public void Convert(System.Text.Json.JsonElement p_value);
 }
 
-
-
 public sealed partial class mmria_case
 {
 
