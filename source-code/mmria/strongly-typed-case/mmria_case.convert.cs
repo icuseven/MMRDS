@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Windows.Markup;
 
 namespace mmria.case_version.v1;
 
@@ -13,6 +14,16 @@ public interface IConvertDictionary
 
 public sealed partial class mmria_case
 {
+
+    public static Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
+
+    public static void add_error(string path, string error)
+    {
+        if(!ErrorDictionary.ContainsKey(path))
+            ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+        ErrorDictionary[path].Add(error);
+    }
 
     public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
@@ -46,9 +57,18 @@ public sealed partial class mmria_case
             {
                 result = new_value.GetString();
             }
+            else if
+            (
+                new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+            )
+            {
+                result = new_value.GetDouble().ToString();
+            }
             else
             {
-                System.Console.WriteLine($"GetStringListField path: {path}");
+                var error = $"GetStringListField path: {path} key{key} value: {new_value.GetString()}";
+                add_error(path,error);
+                System.Console.WriteLine(error);
             }
         }
 
@@ -177,7 +197,9 @@ public sealed partial class mmria_case
                     }
                     else
                     {
-                        System.Console.WriteLine($"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} val: {val}");
+                        var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} val: {val}";
+                        add_error(path, error);
+                        //System.Console.WriteLine(error);
                     }
                 }
                 else 
@@ -449,7 +471,9 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetNumberField {path} key: {key} val:{val}");
+                var error = $"GetNumberField {path} key: {key} val:{val}";
+                add_error(path, error);
+                //System.Console.WriteLine(error);
             }
             
         }
@@ -480,9 +504,10 @@ public sealed partial class mmria_case
             {
                 result = test;
             }   
-            else
+            else if(!string.IsNullOrWhiteSpace(new_value.ToString()))
             {
-
+                var error = $"GetDateField {path} key: {key} value:{new_value}";
+                add_error(path, error);
             }
         }
         else if
@@ -492,6 +517,10 @@ public sealed partial class mmria_case
         )
         {
             System.Console.WriteLine($"GetDateField {path} key: {key}");
+        }
+        else
+        {
+           // System.Console.WriteLine($"GetDateField {path} key: {key}");
         }
 
         return result;
@@ -536,7 +565,9 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetTimeField TryParse {path} key: {key} val:{val}");
+                var error = $"GetTimeField TryParse {path} key: {key} val:{val}";
+                add_error(path,error);
+                //System.Console.WriteLine(error);
             }      
         }
         else if
@@ -572,7 +603,9 @@ public sealed partial class mmria_case
             }   
             else
             {
-                System.Console.WriteLine($"GetDateTimeField tryparse {path} key: {key} val:{val}");
+                var error = $"GetDateTimeField tryparse {path} key: {key} val:{val}";
+                add_error(path,error);
+                //System.Console.WriteLine(error);
             }
         }
         else if
