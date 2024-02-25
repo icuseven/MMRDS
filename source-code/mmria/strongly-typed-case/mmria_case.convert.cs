@@ -131,9 +131,11 @@ public sealed partial class mmria_case
         {
             result = new List<string>();
             var max_index = new_value.GetArrayLength();
-            for(int i = 0; i < max_index; i++)
+            //for(int i = 0; i < max_index; i++)
+            foreach (System.Text.Json.JsonElement item in new_value.EnumerateArray())
+            
             {
-                var item = new_value[i];
+                //var item = new_value[i];
 
                 if
                 (
@@ -170,9 +172,11 @@ public sealed partial class mmria_case
             
             result = new List<double>();
             var max_index = new_value.GetArrayLength();
-            for(int i = 0; i < max_index; i++)
+            int i = 0;
+            var array_string = new_value.ToString();
+            foreach (System.Text.Json.JsonElement item in new_value.EnumerateArray())
+            
             {
-                var item = new_value[i];
 
                 if
                 (
@@ -197,7 +201,7 @@ public sealed partial class mmria_case
                     }
                     else
                     {
-                        var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} val: {val}";
+                        var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
                         add_error(path, error);
                         //System.Console.WriteLine(error);
                     }
@@ -206,13 +210,54 @@ public sealed partial class mmria_case
                 {
                     System.Console.WriteLine("GetMultiSelectNumberListField need a number");
                 }
+                i++;
             }
 
 
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetMultiSelectNumberListField");
+            switch(new_value.ValueKind)
+            {
+
+                case System.Text.Json.JsonValueKind.String:
+                if(double.TryParse(new_value.GetString(), out var new_double_value))
+                {
+
+                    result = new List<double>()
+                    {
+                        new_double_value
+                    };
+            
+
+                }
+                else
+                {
+                     System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                }
+                break;
+
+                case System.Text.Json.JsonValueKind.Number:
+                    result = new List<double>()
+                    {
+                        new_value.GetDouble()
+                    };
+            
+                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                break;
+
+                case System.Text.Json.JsonValueKind.False:
+                case System.Text.Json.JsonValueKind.True:
+                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                break;
+
+                default:
+                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                break;
+            }
+
+
+            
         }
         return result;
     }
@@ -395,7 +440,11 @@ public sealed partial class mmria_case
             value.TryGetProperty(key, out var new_value)
         )
         {
-            if(new_value.ValueKind == System.Text.Json.JsonValueKind.String)
+            if(new_value.ValueKind == System.Text.Json.JsonValueKind.Null)
+            {
+                // do nothing
+            }
+            else if(new_value.ValueKind == System.Text.Json.JsonValueKind.String)
             {
                 result = new_value.GetString();
             }
@@ -500,13 +549,22 @@ public sealed partial class mmria_case
             new_value.ValueKind == System.Text.Json.JsonValueKind.String
         )
         {
-            if(DateOnly.TryParse(new_value.GetString(), out var test))
+            var new_value_string = new_value.ToString();
+            if(string.IsNullOrWhiteSpace(new_value_string))
             {
-                result = test;
-            }   
-            else if(!string.IsNullOrWhiteSpace(new_value.ToString()))
+                // do nothing
+            }
+            else if(DateOnly.TryParse(new_value_string, out var date_only_test))
             {
-                var error = $"GetDateField {path} key: {key} value:{new_value}";
+                result = date_only_test;
+            }  
+            else if(DateTime.TryParse(new_value_string, out var date_time_test))
+            {
+                result = new DateOnly(date_time_test.Year, date_time_test.Month, date_time_test.Day);
+            }  
+            else
+            {
+                var error = $"GetDateField {path} key: {key} value:{new_value_string}";
                 add_error(path, error);
             }
         }

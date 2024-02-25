@@ -220,10 +220,10 @@ public sealed class v3_4_PreUpgrade
 
 		foreach(var kvp in mmria.case_version.v231108.mmria_case.ErrorDictionary)
 		{
-			System.Console.Write($"path: {kvp.Key}");
+			output_builder.AppendLine($"path: {kvp.Key}");
 			foreach(var val in kvp.Value)
 			{
-				System.Console.Write($"\t\t{val}");
+				output_builder.AppendLine($"\t\t{val}");
 			}
 		}
 	}
