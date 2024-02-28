@@ -1,9 +1,13 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlTypes;
 using System.Windows.Markup;
 using migrate;
 using migrate.set;
+using Newtonsoft.Json.Serialization;
+using mmria.common.metadata;
 
 namespace mmria.case_version.v231108;
 
@@ -12,10 +16,11 @@ public interface IConvertDictionary
     public void Convert(System.Text.Json.JsonElement p_value);
 }
 
-
-
 public sealed partial class mmria_case
 {
+
+
+    public static Dictionary<string, Metadata_Node> all_list_set = null;
 
     public static Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
 
@@ -26,6 +31,46 @@ public sealed partial class mmria_case
 
         ErrorDictionary[path].Add(error);
     }
+
+    public static string? try_correct_list_string_or_add_error(string path, string error)
+    {
+        string? result = null;
+
+        if(all_list_set == null)
+        {
+            if(!ErrorDictionary.ContainsKey(path))
+                ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+            ErrorDictionary[path].Add(error);
+
+            goto return_label;
+        }
+
+return_label:
+
+        return result;
+    }
+
+    public static double? try_correct_list_double_or_add_error(string path, string error)
+    {
+        double? result = default;
+
+        if(all_list_set == null)
+        {
+            if(!ErrorDictionary.ContainsKey(path))
+                ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+            ErrorDictionary[path].Add(error);
+
+            goto return_label;
+        }
+
+return_label:
+
+        return result;
+    }
+
+
 
     public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
@@ -105,7 +150,9 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}");
+                var error = $"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}";
+                add_error(path,error);
+                //System.Console.WriteLine();
             }
         }
         else if

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Markup;
 
 
-namespace mmria.pmss.case_version.v231108;
+namespace mmria.pmss.case_version.v230616;
 
 public interface IConvertDictionary
 {

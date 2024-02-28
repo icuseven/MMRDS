@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using mmria.common.metadata;
 
 namespace migrate.set;
 
@@ -287,20 +288,6 @@ public sealed class v3_4_PreUpgrade
 		return result;
 	}
 
-	public sealed class Metadata_Node
-	{
-		public Metadata_Node(){}
-		public bool is_multiform { get; set; }
-		public bool is_grid { get; set; }
-
-		public string path {get;set;}
-
-		public string sass_export_name {get;set;}
-		public mmria.common.metadata.node Node { get; set; }
-
-		public Dictionary<string,string> display_to_value { get; set; }
-		public Dictionary<string,string> value_to_display { get; set; }
-	}
 	
 
 	private List<Metadata_Node> get_metadata_node_by_type(mmria.common.metadata.app p_metadata, string p_type)
