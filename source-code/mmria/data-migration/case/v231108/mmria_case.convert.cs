@@ -26,6 +26,8 @@ public sealed partial class mmria_case
 
     public delegate void add_error_delegate(string path, string error);
 
+    public static event add_error_delegate add_error;
+/*
     public static void add_error(string path, string error)
     {
         if(!ErrorDictionary.ContainsKey(path))
@@ -33,6 +35,7 @@ public sealed partial class mmria_case
 
         ErrorDictionary[path].Add(error);
     }
+
 
     public delegate string? try_correct_list_string_delegate(System.Text.Json.JsonElement value, string path);
     public delegate double? try_correct_list_double_delegate(System.Text.Json.JsonElement value, string path);
@@ -96,7 +99,7 @@ return_label:
 
         return result;
     }
-
+*/
 
 
     public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
@@ -141,7 +144,9 @@ return_label:
             else
             {
                 var error = $"GetStringListField path: {path} key{key} value: {new_value.GetString()}";
-                add_error(path,error);
+                
+                
+                if(add_error != null) add_error(path,error);
                 System.Console.WriteLine(error);
             }
         }
@@ -178,7 +183,7 @@ return_label:
             else
             {
                 var error = $"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}";
-                add_error(path,error);
+                if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine();
             }
         }
@@ -278,7 +283,7 @@ return_label:
                     else
                     {
                         var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
-                        add_error(path, error);
+                        if(add_error != null) add_error(path, error);
                         //System.Console.WriteLine(error);
                     }
                 }
@@ -597,7 +602,7 @@ return_label:
             else
             {
                 var error = $"GetNumberField {path} key: {key} val:{val}";
-                add_error(path, error);
+                if(add_error != null) add_error(path, error);
                 //System.Console.WriteLine(error);
             }
             
@@ -641,7 +646,7 @@ return_label:
             else
             {
                 var error = $"GetDateField {path} key: {key} value:{new_value_string}";
-                add_error(path, error);
+                if(add_error != null) add_error(path, error);
             }
         }
         else if
@@ -700,7 +705,7 @@ return_label:
             else
             {
                 var error = $"GetTimeField TryParse {path} key: {key} val:{val}";
-                add_error(path,error);
+                if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine(error);
             }      
         }
@@ -738,7 +743,7 @@ return_label:
             else
             {
                 var error = $"GetDateTimeField tryparse {path} key: {key} val:{val}";
-                add_error(path,error);
+                if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine(error);
             }
         }
