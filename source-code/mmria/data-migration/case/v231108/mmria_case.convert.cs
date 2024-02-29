@@ -32,11 +32,21 @@ public sealed partial class mmria_case
         ErrorDictionary[path].Add(error);
     }
 
-    public static string? try_correct_list_string_or_add_error(string path, string error)
+    public delegate string? try_correct_list_string_delegate(System.Text.Json.JsonElement value, string path);
+    public delegate double? try_correct_list_double_delegate(System.Text.Json.JsonElement value, string path);
+   
+    public static event try_correct_list_string_delegate try_correct_list_string;
+    public static event try_correct_list_double_delegate try_correct_list_double;
+   
+    public static string? try_correct_list_string_or_add_error(System.Text.Json.JsonElement value, string path, string error)
     {
         string? result = null;
 
-        if(all_list_set == null)
+        if
+        (
+            all_list_set == null ||
+            !all_list_set.ContainsKey(path)
+        )
         {
             if(!ErrorDictionary.ContainsKey(path))
                 ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
@@ -47,15 +57,24 @@ public sealed partial class mmria_case
         }
 
 return_label:
+
+        if(try_correct_list_string != null)
+        {
+            result = try_correct_list_string(value, path);
+        }
 
         return result;
     }
 
-    public static double? try_correct_list_double_or_add_error(string path, string error)
+    public static double? try_correct_list_double_or_add_error(System.Text.Json.JsonElement value, string path, string error)
     {
         double? result = default;
 
-        if(all_list_set == null)
+        if
+        (
+            all_list_set == null ||
+            !all_list_set.ContainsKey(path)
+        )
         {
             if(!ErrorDictionary.ContainsKey(path))
                 ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
@@ -66,6 +85,12 @@ return_label:
         }
 
 return_label:
+
+
+        if(try_correct_list_double != null)
+        {
+            result = try_correct_list_double(value, path);
+        }
 
         return result;
     }
