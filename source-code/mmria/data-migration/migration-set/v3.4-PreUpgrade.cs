@@ -118,6 +118,9 @@ public sealed class v3_4_PreUpgrade
 
             //var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
+    		Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
+
+			 Dictionary<string, Metadata_Node> all_list_dictionary = null;
 
 			foreach(var existing_id in id_list)
 			{
@@ -134,8 +137,21 @@ public sealed class v3_4_PreUpgrade
 				string responseFromServer = await case_curl.executeAsync();
 
 
+				void add_error(string path, string error)
+				{
+					if(!ErrorDictionary.ContainsKey(path))
+						ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+					ErrorDictionary[path].Add(error);
+				}
+
+
+
+
+
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
                 var result = new mmria.case_version.v231108.mmria_case();
+				
                 result.Convert(json_doc.RootElement);
 
 				
@@ -204,6 +220,72 @@ public sealed class v3_4_PreUpgrade
 						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
 
 						return case_has_changed;
+					}
+
+
+
+					//public delegate string? try_correct_list_string_delegate(System.Text.Json.JsonElement value, string path);
+					//public delegate double? try_correct_list_double_delegate(System.Text.Json.JsonElement value, string path);
+				
+					//public static event try_correct_list_string_delegate try_correct_list_string;
+					//public static event try_correct_list_double_delegate try_correct_list_double;
+				
+					string? try_correct_list_string_or_add_error(System.Text.Json.JsonElement value, string path, string error)
+					{
+						string? result = null;
+
+						if
+						(
+							all_list_dictionary == null ||
+							!all_list_dictionary.ContainsKey(path)
+						)
+						{
+							if(!ErrorDictionary.ContainsKey(path))
+								ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+							ErrorDictionary[path].Add(error);
+
+							goto return_label;
+						}
+
+				return_label:
+/*
+						if(try_correct_list_string != null)
+						{
+							result = try_correct_list_string(value, path);
+						}*/
+
+						return result;
+					}
+
+					double? try_correct_list_double_or_add_error(System.Text.Json.JsonElement value, string path, string error)
+					{
+						double? result = default;
+
+						if
+						(
+							all_list_dictionary == null ||
+							!all_list_dictionary.ContainsKey(path)
+						)
+						{
+							if(!ErrorDictionary.ContainsKey(path))
+								ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+							ErrorDictionary[path].Add(error);
+
+							goto return_label;
+						}
+
+				return_label:
+
+/*
+						if(try_correct_list_double != null)
+						{
+							result = try_correct_list_double(value, path);
+						}
+						*/
+
+						return result;
 					}
 
 

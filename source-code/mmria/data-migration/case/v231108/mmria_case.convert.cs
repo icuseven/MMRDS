@@ -24,6 +24,8 @@ public sealed partial class mmria_case
 
     public static Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
 
+    public delegate void add_error_delegate(string path, string error);
+
     public static void add_error(string path, string error)
     {
         if(!ErrorDictionary.ContainsKey(path))

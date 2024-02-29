@@ -779,10 +779,10 @@ function  tracking_q1_amsssno_onchange(p_control)
 
 
 /* 
-path=vro_case_determnation/vro_update/vro_resolution_status
+path=vro_case_determination/vro_update/vro_resolution_status
 event=onchange
 */
-function  vro_case_determnation_vro_update_vro_resolution_status_onchange(p_control) 
+function  vro_case_determination_vro_update_vro_resolution_status_onchange(p_control) 
 {
     const my_value = p_control.value;
     if 
@@ -814,7 +814,7 @@ function  tracking_admin_info_status_onchange(p_control)
         my_value = "STEVE: Pending VRO Investigation, Re-review Requested by CDC"
     )
     {
-        g_data.vro_case_determnation.vro_update.vro_resolution_status = "Pending VRO Investigation";
+        g_data.vro_case_determination.vro_update.vro_resolution_status = "Pending VRO Investigation";
         // $mmria.set_control_value('tracking/admin_info/vro_resolution_status_mirror', "Pending VRO Investigation");
     }
     else
