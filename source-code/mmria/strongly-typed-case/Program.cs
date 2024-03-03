@@ -16,7 +16,7 @@ internal class Program
         Test_Output_Load_Json
     }
 
-    static RunEnum Run_Type = RunEnum.Test_Output_Load_Json;
+    static RunEnum Run_Type = RunEnum.Generate_From_Metadata;
     static public async Task Main(string[] args)
     {
         if(Run_Type == RunEnum.Generate_From_Metadata)
@@ -116,6 +116,95 @@ namespace mmria.case_version.v1;");*/
 
         System.IO.File.WriteAllText("output.cs", builder.ToString());
 
+
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.getset.template.cs.text");
+        var template_keys = new Dictionary<string, System.Text.StringBuilder>()
+        {
+            {"//{get_string}", new System.Text.StringBuilder()},
+            {"//{get_double}", new System.Text.StringBuilder()},
+            {"//{get_datetime}", new System.Text.StringBuilder()},
+            {"//{get_date_only}", new System.Text.StringBuilder()},
+            {"//{get_time_only}", new System.Text.StringBuilder()},
+            {"//{get_list_of_double}", new System.Text.StringBuilder()},
+            {"//{get_list_of_string}", new System.Text.StringBuilder()},
+ 
+        };
+
+        foreach(var kvp in metadata_mgr.dictionary_set)
+        {
+            var node = kvp.Value.Node;
+            var meta_node = kvp.Value;
+
+            switch(node.type.ToLower())
+            {
+                case "string":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+                case "list":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid 
+
+                    )
+                    {
+                        if
+                        (
+
+                            node.is_multiselect.HasValue &&
+                            node.is_multiselect.Value
+                        )
+                        {
+                            if(string.IsNullOrWhiteSpace(node.data_type))
+                            {
+                                template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                            else if(node.data_type.ToLower() == "number")
+                            {
+                                template_keys["//{get_list_of_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                            else
+                            {
+                                template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                        }
+                        else
+                        {
+                            if(string.IsNullOrWhiteSpace(node.data_type))
+                            {
+                                template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                            else if(node.data_type.ToLower() == "number")
+                            {
+                                template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                            else
+                            {
+                                template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            }
+                        }
+                        
+                    }
+                break;
+                
+            }
+        }
+
+
+        foreach(var kvp in template_keys)
+        {
+            get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
+        }
+
+
+        System.IO.File.WriteAllText("output.getset.cs", get_set_template);
 
         /*
             print("Single Form", metadata_mgr.SingleformList);

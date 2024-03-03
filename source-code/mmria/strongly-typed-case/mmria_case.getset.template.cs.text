@@ -1,0 +1,93 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace mmria.case_version.v1;
+
+public sealed partial class mmria_case
+{
+
+
+    public string? get_string(string path)
+    {
+        string? result = path.ToLower() switch
+        {
+//{get_string}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public double? get_double(string path)
+    {
+        double? result = path.ToLower() switch
+        {
+//{get_double}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public List<double>? get_list_of_double(string path)
+    {
+        List<double>? result = path.ToLower() switch
+        {
+//{get_list_of_double}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    
+    public List<string>? get_list_of_string(string path)
+    {
+        List<string>? result = path.ToLower() switch
+        {
+//{get_list_of_string}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public DateTime? get_datetime(string path)
+    {
+        DateTime? result = path.ToLower() switch
+        {
+//{get_datetime}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+    public DateOnly? get_date_only(string path)
+    {
+        DateOnly? result = path.ToLower() switch
+        {
+//{get_date_only}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+        public TimeOnly? get_time_only(string path)
+    {
+        TimeOnly? result = path.ToLower() switch
+        {
+//{get_time_only}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+}

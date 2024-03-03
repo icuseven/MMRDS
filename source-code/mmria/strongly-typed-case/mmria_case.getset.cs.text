@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace mmria.case_version.v1;
 
@@ -116,5 +117,24 @@ public sealed partial class mmria_case
         
         return result;
     }
+
+/*
+    public _2F66E2C85C3BE07445A8007E07961BF7 get_home_record() => home_record; 
+
+    public _172DA69DB9FF602A0978A04E9D3E470F get_death_certificate() => death_certificate;
+
+    public _1757340A93C7CC802C810229D906E417 get_birth_fetal_death_certificate_parent() => birth_fetal_death_certificate_parent;
+    public List<_580C23C24054AB0BE30540A0BDCD16A0> get_birth_certificate_infant_fetal_section() => birth_certificate_infant_fetal_section;
+
+    public _B01FDEA65CCD8F2AE7E63858F58F93D2 get_autopsy_report() => autopsy_report;
+
+    public _A35F564798944667E91C53B3A3DA359D get_case_narrative() => case_narrative;
+
+    public _62AEF5C4D8129ED98ECA69F7779FCBFC get_committee_review() => committee_review;
+
+    public _72F1A850D966375FA159121C7C8B09A1 get_cvs() => cvs;
+
+    public List<_0CE40C4018C47CA22AC1A0003DC34FB7> get_er_visit_and_hospital_medical_records() => er_visit_and_hospital_medical_records;
+    */
 
 }
