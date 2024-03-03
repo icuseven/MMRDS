@@ -4,6 +4,7 @@ using System.ComponentModel.Design;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace strongcase;
 
@@ -130,7 +131,7 @@ namespace mmria.case_version.v1;");*/
  
         };
 
-        foreach(var kvp in metadata_mgr.dictionary_set)
+        foreach(var kvp in metadata_mgr.dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == false))
         {
             var node = kvp.Value.Node;
             var meta_node = kvp.Value;
@@ -141,75 +142,73 @@ namespace mmria.case_version.v1;");*/
                 case "textarea":
                 case "html_area":
                 case "string":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                 break;
-
                 case "number":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                 break;
 
                 case "datetime":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_datetime}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_datetime}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    
                 break;
                 case "date":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_date_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_date_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                 break;
                 case "time":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_time_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_time_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                 break;
                 case "boolean":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid
-                    )
-                    {
-                        template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                    }
+                    template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                 break;
                 case "hidden":
-                    if(meta_node.is_multiform)
+                    if(string.IsNullOrWhiteSpace(node.data_type))
                     {
-
+                        template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                     }
-                    else if(meta_node.is_grid)
+                    else switch(node.data_type.ToLower())
                     {
+                        case "number":
+                            template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        break;
+                        case "boolean":
+                            template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        break;
+                        case "datetime":
+                            template_keys["//{get_datetime}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            
+                        break;
+                        case "date":
+                            template_keys["//{get_date_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        break;
+                        case "time":
+                            template_keys["//{get_time_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        break;
+                        default:
+                            template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        break;
+                    }
+                break;
+                case "list":
+                    if
+                    (
 
+                        node.is_multiselect.HasValue &&
+                        node.is_multiselect.Value
+                    )
+                    {
+                        if(string.IsNullOrWhiteSpace(node.data_type))
+                        {
+                            template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        }
+                        else if(node.data_type.ToLower() == "number")
+                        {
+                            template_keys["//{get_list_of_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        }
+                        else
+                        {
+                            template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        }
                     }
                     else
                     {
@@ -217,65 +216,14 @@ namespace mmria.case_version.v1;");*/
                         {
                             template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                         }
-                        else switch(node.data_type.ToLower())
+                        else if(node.data_type.ToLower() == "number")
                         {
-                            case "number":
-                                template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            break;
-                            case "boolean":
-                                template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            break;
-
-                            default:
-                            template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            break;
-                        }
-                    }
-                break;
-                case "list":
-                    if
-                    (
-                        !meta_node.is_multiform &&
-                        !meta_node.is_grid 
-
-                    )
-                    {
-                        if
-                        (
-
-                            node.is_multiselect.HasValue &&
-                            node.is_multiselect.Value
-                        )
-                        {
-                            if(string.IsNullOrWhiteSpace(node.data_type))
-                            {
-                                template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
-                            else if(node.data_type.ToLower() == "number")
-                            {
-                                template_keys["//{get_list_of_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
-                            else
-                            {
-                                template_keys["//{get_list_of_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
+                            template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                         }
                         else
                         {
-                            if(string.IsNullOrWhiteSpace(node.data_type))
-                            {
-                                template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
-                            else if(node.data_type.ToLower() == "number")
-                            {
-                                template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
-                            else
-                            {
-                                template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
-                            }
+                            template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
                         }
-                        
                     }
                 break;
                 
