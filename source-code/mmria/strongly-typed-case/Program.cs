@@ -137,6 +137,9 @@ namespace mmria.case_version.v1;");*/
 
             switch(node.type.ToLower())
             {
+                case "jurisdiction":
+                case "textarea":
+                case "html_area":
                 case "string":
                     if
                     (
@@ -145,6 +148,88 @@ namespace mmria.case_version.v1;");*/
                     )
                     {
                         template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+
+                case "number":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+
+                case "datetime":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_datetime}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+                case "date":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_date_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+                case "time":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_time_only}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+                case "boolean":
+                    if
+                    (
+                        !meta_node.is_multiform &&
+                        !meta_node.is_grid
+                    )
+                    {
+                        template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                    }
+                break;
+                case "hidden":
+                    if(meta_node.is_multiform)
+                    {
+
+                    }
+                    else if(meta_node.is_grid)
+                    {
+
+                    }
+                    else
+                    {
+                        if(string.IsNullOrWhiteSpace(node.data_type))
+                        {
+                            template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                        }
+                        else switch(node.data_type.ToLower())
+                        {
+                            case "number":
+                                template_keys["//{get_double}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            break;
+                            case "boolean":
+                                template_keys["//{get_boolean}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            break;
+
+                            default:
+                            template_keys["//{get_string}"].AppendLine($"""         "{kvp.Key}" => this.{kvp.Key.Replace("/",".")},""");
+                            break;
+                        }
                     }
                 break;
                 case "list":
