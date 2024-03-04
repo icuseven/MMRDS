@@ -9,7 +9,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
             <table style='border-color:#e0e0e0;padding:5px;' border=1>
-            <tr align=center style='background-color:#b890bb;'><th>${p_metadata.prompt}</th></tr>
+            <tr align=center style='background-color:#b890bb;'><th>${p_metadata.prompt} 
+            [ <a href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(p_object_path)}')">graph</a> | <a href="javascript:chart_switch_to_table('${convert_object_path_to_jquery_id(p_object_path)}')">table</a> ]</th></tr>
             <tr align=center><td>
 			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
             
@@ -449,4 +450,17 @@ function chart_onrendered()
 
     el.attr('transform', 'rotate(325)translate(${translate_x},0)');
     el.innerText = '';
+}
+
+
+function chart_switch_to_table(p_ui_div_id, p_ctx)
+{
+    const el = document.getElementById(p_ui_div_id);
+    el.innerHTML = "Show Table";
+}
+
+function chart_switch_to_graph(p_ui_div_id, p_ctx)
+{
+    const el = document.getElementById(p_ui_div_id);
+    el.innerHTML = chart_render().join("");
 }

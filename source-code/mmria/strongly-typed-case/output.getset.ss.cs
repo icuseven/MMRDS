@@ -9,7 +9,7 @@ public sealed partial class mmria_case
 {
 
 
-    public string? get_string(string path)
+    public string? GetSS_String(string path)
     {
         string? result = path.ToLower() switch
         {
@@ -306,7 +306,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public double? get_double(string path)
+    public double? GetSS_Double(string path)
     {
         double? result = path.ToLower() switch
         {
@@ -549,7 +549,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool? get_boolean(string path)
+    public bool? GetSS_Boolean(string path)
     {
         bool? result = path.ToLower() switch
         {
@@ -560,7 +560,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public List<double>? get_list_of_double(string path)
+    public List<double>? GetSS_List_Of_Double(string path)
     {
         List<double>? result = path.ToLower() switch
         {
@@ -594,7 +594,7 @@ public sealed partial class mmria_case
     }
 
     
-    public List<string>? get_list_of_string(string path)
+    public List<string>? GetSS_List_Of_String(string path)
     {
         List<string>? result = path.ToLower() switch
         {
@@ -605,7 +605,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public DateTime? get_datetime(string path)
+    public DateTime? GetSS_Datetime(string path)
     {
         DateTime? result = path.ToLower() switch
         {
@@ -620,7 +620,7 @@ public sealed partial class mmria_case
     }
 
 
-    public DateOnly? get_date_only(string path)
+    public DateOnly? GetSS_Date_Only(string path)
     {
         DateOnly? result = path.ToLower() switch
         {
@@ -638,7 +638,7 @@ public sealed partial class mmria_case
     }
 
 
-        public TimeOnly? get_time_only(string path)
+    public TimeOnly? GetSS_Time_Only(string path)
     {
         TimeOnly? result = path.ToLower() switch
         {

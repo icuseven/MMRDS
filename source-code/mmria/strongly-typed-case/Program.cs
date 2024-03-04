@@ -237,7 +237,7 @@ namespace mmria.case_version.v1;");*/
         }
 
 
-        System.IO.File.WriteAllText("output.getset.cs", get_set_template);
+        System.IO.File.WriteAllText("output.getset.ss.cs", get_set_template);
 
         /*
             print("Single Form", metadata_mgr.SingleformList);
