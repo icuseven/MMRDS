@@ -462,5 +462,5 @@ function chart_switch_to_table(p_ui_div_id, p_ctx)
 function chart_switch_to_graph(p_ui_div_id, p_ctx)
 {
     const el = document.getElementById(p_ui_div_id);
-    el.innerHTML = chart_render().join("");
+    el.innerHTML = "Show Graph";// chart_render().join("");
 }
