@@ -1,0 +1,104 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace mmria.case_version.v1;
+
+public sealed partial class mmria_case
+{
+
+
+    public string? GetSG_String(string path, int index)
+    {
+        string? result = path.ToLower() switch
+        {
+//{get_string}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public double? GetSG_Double(string path, int index)
+    {
+        double? result = path.ToLower() switch
+        {
+//{get_double}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public bool? GetSG_Boolean(string path, int index)
+    {
+        bool? result = path.ToLower() switch
+        {
+//{get_boolean}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public List<double>? GetSG_List_Of_Double(string path, int index)
+    {
+        List<double>? result = path.ToLower() switch
+        {
+//{get_list_of_double}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    
+    public List<string>? GetSG_List_Of_String(string path, int index)
+    {
+        List<string>? result = path.ToLower() switch
+        {
+//{get_list_of_string}
+            _ => null
+        };
+        
+        return result;
+    }
+
+    public DateTime? GetSG_Datetime(string path, int index)
+    {
+        DateTime? result = path.ToLower() switch
+        {
+//{get_datetime}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+    public DateOnly? GetSG_Date_Only(string path, int index)
+    {
+        DateOnly? result = path.ToLower() switch
+        {
+//{get_date_only}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+    public TimeOnly? GetSG_Time_Only(string path, int index)
+    {
+        TimeOnly? result = path.ToLower() switch
+        {
+//{get_time_only}
+            _ => null
+        };
+        
+        return result;
+    }
+
+
+}
