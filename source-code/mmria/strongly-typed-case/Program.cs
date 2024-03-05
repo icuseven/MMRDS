@@ -117,8 +117,8 @@ namespace mmria.case_version.v1;");*/
 
         System.IO.File.WriteAllText("output.cs", builder.ToString());
 
-
-        var get_set_template = System.IO.File.ReadAllText("mmria_case.getset.template.cs.text");
+// S
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.get.s.template.cs.text");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
             {"//{get_string}", new System.Text.StringBuilder()},
@@ -241,19 +241,8 @@ namespace mmria.case_version.v1;");*/
 
 //  SG
 
-        get_set_template = System.IO.File.ReadAllText("mmria_case.getset.sg.template.cs.text");
-        template_keys = new Dictionary<string, System.Text.StringBuilder>()
-        {
-            {"//{get_string}", new System.Text.StringBuilder()},
-            {"//{get_double}", new System.Text.StringBuilder()},
-            {"//{get_boolean}", new System.Text.StringBuilder()},
-            {"//{get_datetime}", new System.Text.StringBuilder()},
-            {"//{get_date_only}", new System.Text.StringBuilder()},
-            {"//{get_time_only}", new System.Text.StringBuilder()},
-            {"//{get_list_of_double}", new System.Text.StringBuilder()},
-            {"//{get_list_of_string}", new System.Text.StringBuilder()},
- 
-        };
+        get_set_template = System.IO.File.ReadAllText("mmria_case.get.sg.template.cs.text");
+        foreach(var kvp in template_keys) kvp.Value.Clear();
 
         foreach(var kvp in metadata_mgr.dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == true))
         {
