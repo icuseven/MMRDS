@@ -100,9 +100,9 @@ return_label:
 */
 
 
-    public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
+    public static string  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
-        string? result = null;
+        string result = null;
 
         if
         (

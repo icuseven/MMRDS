@@ -10,6 +10,8 @@ public sealed class Metadata_Node
 
     public string path {get;set;}
 
+    public string hash_value {get;set;}
+
     public string sass_export_name {get;set;}
     public mmria.common.metadata.node Node { get; set; }
 

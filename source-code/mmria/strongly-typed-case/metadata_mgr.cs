@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Metadata_Node = mmria.common.metadata.Metadata_Node;
 
 public class metadata_mgr
 {
@@ -70,6 +71,7 @@ public class metadata_mgr
 		return result;
 	}	
 
+/*
     public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
@@ -85,7 +87,7 @@ public class metadata_mgr
 		public Dictionary<string,string> display_to_value { get; set; }
 		public Dictionary<string,string> value_to_display { get; set; }
 	}
-	
+	*/
 
 	public Dictionary<string, Metadata_Node> get_metadata_node(mmria.common.metadata.app p_metadata)
 	{

@@ -118,6 +118,10 @@ namespace mmria.case_version.v1;");*/
         System.IO.File.WriteAllText("output.cs", builder.ToString());
 
 // S
+
+        var S_Get = new Template_Writer_S_Get(metadata_mgr.dictionary_set);
+        await S_Get.Execute();
+        /*
         var get_set_template = System.IO.File.ReadAllText("mmria_case.get.s.template.cs.text");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
@@ -238,10 +242,26 @@ namespace mmria.case_version.v1;");*/
         }
 
         System.IO.File.WriteAllText("output.getset.ss.cs", get_set_template);
-
+        */
 //  SG
 
-        get_set_template = System.IO.File.ReadAllText("mmria_case.get.sg.template.cs.text");
+        var SG_Get = new Template_Writer_SG_Get(metadata_mgr.dictionary_set);
+        await SG_Get.Execute();
+        /*
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.get.sg.template.cs.text");
+        var template_keys = new Dictionary<string, System.Text.StringBuilder>()
+        {
+            {"//{get_string}", new System.Text.StringBuilder()},
+            {"//{get_double}", new System.Text.StringBuilder()},
+            {"//{get_boolean}", new System.Text.StringBuilder()},
+            {"//{get_datetime}", new System.Text.StringBuilder()},
+            {"//{get_date_only}", new System.Text.StringBuilder()},
+            {"//{get_time_only}", new System.Text.StringBuilder()},
+            {"//{get_list_of_double}", new System.Text.StringBuilder()},
+            {"//{get_list_of_string}", new System.Text.StringBuilder()},
+ 
+        };
+        
         foreach(var kvp in template_keys) kvp.Value.Clear();
 
         foreach(var kvp in metadata_mgr.dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == true))
@@ -364,7 +384,7 @@ namespace mmria.case_version.v1;");*/
 
         System.IO.File.WriteAllText("output.getset.sg.cs", get_set_template);
 
-
+        */
 
 
 
@@ -455,7 +475,7 @@ namespace mmria.case_version.v1;");*/
         return await System.Text.Json.JsonSerializer.DeserializeAsync<T>(stream);
     }
 
-    static void print(string list_name, List<metadata_mgr.Metadata_Node> list)
+    static void print(string list_name, List<mmria.common.metadata.Metadata_Node> list)
     {
         System.Console.WriteLine($"List: {list_name} Count: {list.Count}");
         foreach(var item in list)
