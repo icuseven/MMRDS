@@ -1,0 +1,125 @@
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace mmria.case_version.v1;
+
+public sealed partial class mmria_case
+{
+
+
+    public bool SetS_String(string path, string value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_string}
+/*
+            case "_id":
+                this._id = value;
+            break;
+            */
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+    public bool SetS_Double(string path, double? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_double}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+    public bool SetS_Boolean(string path, bool? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_boolean}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+    public bool SetS_List_Of_Double(string path, List<double>? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_list_of_double}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+    
+    public bool SetS_List_Of_String(string path, List<string>? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_list_of_string}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+    public bool SetS_Datetime(string path, DateTime? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_datetime}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+
+    public bool SetS_Date_Only(string path, DateOnly? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_date_only}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+
+    public bool SetS_Time_Only(string path, TimeOnly? value)
+    {
+        bool result = false;
+        switch(path.ToLower())
+        {
+//{set_time_only}
+            default:
+            break;
+        };
+        
+        return result;
+    }
+
+
+}
