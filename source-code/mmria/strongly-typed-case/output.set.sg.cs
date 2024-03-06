@@ -772,7 +772,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool SetS_List_Of_Double(string path, int index, List<double>? value)
+    public bool SetS_List_Of_Double(string path, int index, List<double> value)
     {
         bool result = false;
         switch(path.ToLower())
@@ -786,7 +786,7 @@ public sealed partial class mmria_case
     }
 
     
-    public bool SetS_List_Of_String(string path, int index, List<string>? value)
+    public bool SetS_List_Of_String(string path, int index, List<string> value)
     {
         bool result = false;
         switch(path.ToLower())
