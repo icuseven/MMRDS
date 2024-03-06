@@ -504,12 +504,7 @@ prenatal/routine_monitoring/date_and_time
 
                  if
                 (
-                    p_node.type.ToLower() == "group" &&
-                    (
-                        p_node.tags == null ||
-                        p_node.tags.Length == 0 ||
-                        !p_node.tags.Contains("CALC_DATE") 
-                    )
+                    p_node.type.ToLower() == "group" 
                 )
                 {
                     for(var i = 0; i < p_node.children.Count(); i++)
@@ -833,9 +828,36 @@ prenatal/routine_monitoring/date_and_time
                 }
 
 
-                if(p_node.type == "group")
+                if
+                (
+                    p_node.type == "group" && 
+                    p_node.tags != null &&
+                    p_node.tags.Contains("CALC_DATE")
+                )
                 {
+                    var item = new mmria.server.model.SummaryReport.Detail();/*
                     //Console.WriteLine("Generate Frequency <todo> CALC_DATE Group");
+                    var year_value_result = gs.get_multiform_grid_value(Context.source_object, path + "/year");
+                    var month_value_result = gs.get_multiform_grid_value(Context.source_object, path + "/month");
+                    var day_value_result = gs.get_multiform_grid_value(Context.source_object, path + "/day");
+
+
+                    if
+                    (
+                        !year_value_result.is_error &&
+                        !year_value_result.result
+                    )
+                    
+                    for(var i = 0; i < p_node.children.Count(); i++)
+                    {
+                        var item = p_node.children[i];
+                        process(item,  p_is_multiform, p_is_grid, p_path, Context);
+                        
+                    }*/
+                    item.value = "<todo>";
+                    item.count = 1;
+                                
+                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                 }
 
                 if(p_is_multiform)
