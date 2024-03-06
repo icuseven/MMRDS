@@ -835,7 +835,7 @@ prenatal/routine_monitoring/date_and_time
                     p_node.tags.Contains("CALC_DATE")
                 )
                 {
-                    var item = new mmria.server.model.SummaryReport.Detail();/*
+                    /*var item = new mmria.server.model.SummaryReport.Detail();
                     //Console.WriteLine("Generate Frequency <todo> CALC_DATE Group");
                     var year_value_result = gs.get_multiform_grid_value(Context.source_object, path + "/year");
                     var month_value_result = gs.get_multiform_grid_value(Context.source_object, path + "/month");
@@ -853,11 +853,11 @@ prenatal/routine_monitoring/date_and_time
                         var item = p_node.children[i];
                         process(item,  p_is_multiform, p_is_grid, p_path, Context);
                         
-                    }*/
+                    }
                     item.value = "<todo>";
                     item.count = 1;
                                 
-                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);*/
                 }
 
                 if(p_is_multiform)
