@@ -37246,17 +37246,4 @@ span.reverse {
   transform: rotate(0.5turn);
 }
 
-.chart-header-row {
-  border: none;
-  display: flex;
-  justify-content: center;
-}
-
-.chart-header-toggle {
-  background: #FFFFFF;
-  padding: 0.05rem;
-  margin-left: auto;
-  font-size: small;
-}
-
 /*# sourceMappingURL=index.css.map */
