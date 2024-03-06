@@ -12,9 +12,11 @@ public sealed partial class mmria_case
     public bool SetS_String(string path, int index, string value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "data_migration_history/version":
+            switch(path.ToLower())
+            {
+                case "data_migration_history/version":
                     data_migration_history[index].version = value;
                     result = true;
             break;
@@ -463,9 +465,16 @@ public sealed partial class mmria_case
                     result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
+
         
         return result;
     }
@@ -473,9 +482,11 @@ public sealed partial class mmria_case
     public bool SetS_Double(string path, int index, double? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "death_certificate/causes_of_death/cause_type":
+            switch(path.ToLower())
+            {
+                case "death_certificate/causes_of_death/cause_type":
                     death_certificate.causes_of_death[index].cause_type = value;
                     result = true;
             break;
@@ -752,9 +763,16 @@ public sealed partial class mmria_case
                     result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+        
+
         
         return result;
     }
@@ -762,12 +780,21 @@ public sealed partial class mmria_case
     public bool SetS_Boolean(string path, int index, bool? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+        
+
         
         return result;
     }
@@ -775,12 +802,21 @@ public sealed partial class mmria_case
     public bool SetS_List_Of_Double(string path, int index, List<double> value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+        
+
         
         return result;
     }
@@ -789,12 +825,21 @@ public sealed partial class mmria_case
     public bool SetS_List_Of_String(string path, int index, List<string> value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+        
+
         
         return result;
     }
@@ -802,12 +847,21 @@ public sealed partial class mmria_case
     public bool SetS_Datetime(string path, int index, DateTime? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+        
+
         
         return result;
     }
@@ -816,9 +870,11 @@ public sealed partial class mmria_case
     public bool SetS_Date_Only(string path, int index, DateOnly? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "social_and_environmental_profile/details_of_incarcerations/date":
+            switch(path.ToLower())
+            {
+                case "social_and_environmental_profile/details_of_incarcerations/date":
                     social_and_environmental_profile.details_of_incarcerations[index].date = value;
                     result = true;
             break;
@@ -883,9 +939,16 @@ public sealed partial class mmria_case
                     result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+        
+
         
         return result;
     }
@@ -894,12 +957,21 @@ public sealed partial class mmria_case
     public bool SetS_Time_Only(string path, int index, TimeOnly? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+        
+
         
         return result;
     }

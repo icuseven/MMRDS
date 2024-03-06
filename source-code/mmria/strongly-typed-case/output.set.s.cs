@@ -12,9 +12,11 @@ public sealed partial class mmria_case
     public bool SetS_String(string path, string value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "version":
+            switch(path.ToLower())
+            {
+                case "version":
                 version = value;
                 result = true;
             break;
@@ -1068,9 +1070,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -1078,9 +1086,11 @@ public sealed partial class mmria_case
     public bool SetS_Double(string path, double? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "home_record/date_of_death/month":
+            switch(path.ToLower())
+            {
+                case "home_record/date_of_death/month":
                 home_record.date_of_death.month = value;
                 result = true;
             break;
@@ -2009,9 +2019,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -2019,12 +2035,20 @@ public sealed partial class mmria_case
     public bool SetS_Boolean(string path, bool? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+        }
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
+
         
         return result;
     }
@@ -2032,9 +2056,11 @@ public sealed partial class mmria_case
     public bool SetS_List_Of_Double(string path, List<double> value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "home_record/how_was_this_death_identified":
+            switch(path.ToLower())
+            {
+                case "home_record/how_was_this_death_identified":
                 home_record.how_was_this_death_identified = value;
                 result = true;
             break;
@@ -2123,9 +2149,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -2134,12 +2166,22 @@ public sealed partial class mmria_case
     public bool SetS_List_Of_String(string path, List<string> value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
+        {
+            switch(path.ToLower())
+            {
+    
+                default:
+                break;
+            };
+            
+
+        }
+       
+        catch(Exception)
         {
 
-            default:
-            break;
-        };
+        }
         
         return result;
     }
@@ -2147,9 +2189,11 @@ public sealed partial class mmria_case
     public bool SetS_Datetime(string path, DateTime? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "date_created":
+            switch(path.ToLower())
+            {
+                case "date_created":
                 date_created = value;
                 result = true;
             break;
@@ -2162,9 +2206,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -2173,9 +2223,11 @@ public sealed partial class mmria_case
     public bool SetS_Date_Only(string path, DateOnly? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "home_record/case_status/abstraction_begin_date":
+            switch(path.ToLower())
+            {
+                case "home_record/case_status/abstraction_begin_date":
                 home_record.case_status.abstraction_begin_date = value;
                 result = true;
             break;
@@ -2200,9 +2252,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -2211,9 +2269,11 @@ public sealed partial class mmria_case
     public bool SetS_Time_Only(string path, TimeOnly? value)
     {
         bool result = false;
-        switch(path.ToLower())
+        try
         {
-            case "death_certificate/certificate_identification/time_of_death":
+            switch(path.ToLower())
+            {
+                case "death_certificate/certificate_identification/time_of_death":
                 death_certificate.certificate_identification.time_of_death = value;
                 result = true;
             break;
@@ -2222,9 +2282,15 @@ public sealed partial class mmria_case
                 result = true;
             break;
 
-            default:
-            break;
-        };
+                default:
+                break;
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
