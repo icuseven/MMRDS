@@ -11,9 +11,12 @@ public sealed partial class mmria_case
 
     public string? GetSS_String(string path)
     {
-        string? result = path.ToLower() switch
+        string? result = null;
+        try
         {
-         "version" => version,
+            result = path.ToLower() switch
+            {
+             "version" => version,
          "created_by" => created_by,
          "last_updated_by" => last_updated_by,
          "last_checked_out_by" => last_checked_out_by,
@@ -300,17 +303,24 @@ public sealed partial class mmria_case
          "committee_review/cr_add_recs" => committee_review.cr_add_recs,
          "committee_review/notes_about_key_circumstances_surrounding_death" => committee_review.notes_about_key_circumstances_surrounding_death,
 
-            _ => null
-        };
-        
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
         return result;
     }
 
     public double? GetSS_Double(string path)
     {
-        double? result = path.ToLower() switch
+        double? result = null;
+        try
         {
-         "home_record/date_of_death/month" => home_record.date_of_death.month,
+            result = path.ToLower() switch
+            {
+             "home_record/date_of_death/month" => home_record.date_of_death.month,
          "home_record/date_of_death/day" => home_record.date_of_death.day,
          "home_record/date_of_death/year" => home_record.date_of_death.year,
          "home_record/case_status/overall_case_status" => home_record.case_status.overall_case_status,
@@ -543,28 +553,47 @@ public sealed partial class mmria_case
          "committee_review/was_this_death_preventable" => committee_review.was_this_death_preventable,
          "committee_review/chance_to_alter_outcome" => committee_review.chance_to_alter_outcome,
 
-            _ => null
-        };
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
+
         
         return result;
     }
 
     public bool? GetSS_Boolean(string path)
     {
-        bool? result = path.ToLower() switch
+        bool? result = null;
+        try
         {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
 
-            _ => null
-        };
         
         return result;
     }
 
     public List<double>? GetSS_List_Of_Double(string path)
     {
-        List<double>? result = path.ToLower() switch
+        List<double>? result = null;
+        try
         {
-         "home_record/how_was_this_death_identified" => home_record.how_was_this_death_identified,
+            result = path.ToLower() switch
+            {
+             "home_record/how_was_this_death_identified" => home_record.how_was_this_death_identified,
          "death_certificate/race/race" => death_certificate.race.race,
          "birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father" => birth_fetal_death_certificate_parent.demographic_of_father.race.race_of_father,
          "birth_fetal_death_certificate_parent/race/race_of_mother" => birth_fetal_death_certificate_parent.race.race_of_mother,
@@ -587,8 +616,15 @@ public sealed partial class mmria_case
          "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy" => mental_health_profile.mental_health_conditions_during_the_most_recent_pregnancy,
          "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy" => mental_health_profile.mental_health_conditions_after_the_most_recent_pregnancy,
 
-            _ => null
-        };
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
+
         
         return result;
     }
@@ -596,25 +632,43 @@ public sealed partial class mmria_case
     
     public List<string>? GetSS_List_Of_String(string path)
     {
-        List<string>? result = path.ToLower() switch
+        List<string>? result = null;
+        try
         {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
 
-            _ => null
-        };
         
         return result;
     }
 
     public DateTime? GetSS_Datetime(string path)
     {
-        DateTime? result = path.ToLower() switch
+        DateTime? result = null;
+        try
         {
-         "date_created" => date_created,
+            result = path.ToLower() switch
+            {
+             "date_created" => date_created,
          "date_last_updated" => date_last_updated,
          "date_last_checked_out" => date_last_checked_out,
 
-            _ => null
-        };
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
@@ -622,17 +676,26 @@ public sealed partial class mmria_case
 
     public DateOnly? GetSS_Date_Only(string path)
     {
-        DateOnly? result = path.ToLower() switch
+        DateOnly? result = null;
+        try
         {
-         "home_record/case_status/abstraction_begin_date" => home_record.case_status.abstraction_begin_date,
+            result = path.ToLower() switch
+            {
+             "home_record/case_status/abstraction_begin_date" => home_record.case_status.abstraction_begin_date,
          "home_record/case_status/abstraction_complete_date" => home_record.case_status.abstraction_complete_date,
          "home_record/case_status/projected_review_date" => home_record.case_status.projected_review_date,
          "home_record/case_status/committee_review_date" => home_record.case_status.committee_review_date,
          "home_record/case_status/case_locked_date" => home_record.case_status.case_locked_date,
          "committee_review/date_of_review" => committee_review.date_of_review,
 
-            _ => null
-        };
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
@@ -640,14 +703,23 @@ public sealed partial class mmria_case
 
     public TimeOnly? GetSS_Time_Only(string path)
     {
-        TimeOnly? result = path.ToLower() switch
+        TimeOnly? result = null;
+        try
         {
-         "death_certificate/certificate_identification/time_of_death" => death_certificate.certificate_identification.time_of_death,
+            result = path.ToLower() switch
+            {
+             "death_certificate/certificate_identification/time_of_death" => death_certificate.certificate_identification.time_of_death,
          "death_certificate/injury_associated_information/time_of_injury" => death_certificate.injury_associated_information.time_of_injury,
 
-            _ => null
-        };
-        
+                _ => null
+            };
+                    
+        }
+        catch(Exception)
+        {
+            
+        }
+
         return result;
     }
 

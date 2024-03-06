@@ -11,44 +11,80 @@ public sealed partial class mmria_case
 
     public string? GetSS_String(string path)
     {
-        string? result = path.ToLower() switch
+        string? result = null;
+        try
         {
-//{get_string}
-            _ => null
-        };
-        
+            result = path.ToLower() switch
+            {
+    //{get_string}
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
         return result;
     }
 
     public double? GetSS_Double(string path)
     {
-        double? result = path.ToLower() switch
+        double? result = null;
+        try
         {
-//{get_double}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_double}
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
+
         
         return result;
     }
 
     public bool? GetSS_Boolean(string path)
     {
-        bool? result = path.ToLower() switch
+        bool? result = null;
+        try
         {
-//{get_boolean}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_boolean}
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
 
     public List<double>? GetSS_List_Of_Double(string path)
     {
-        List<double>? result = path.ToLower() switch
+        List<double>? result = null;
+        try
         {
-//{get_list_of_double}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_list_of_double}
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
+
         
         return result;
     }
@@ -56,22 +92,40 @@ public sealed partial class mmria_case
     
     public List<string>? GetSS_List_Of_String(string path)
     {
-        List<string>? result = path.ToLower() switch
+        List<string>? result = null;
+        try
         {
-//{get_list_of_string}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_list_of_string}
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
 
     public DateTime? GetSS_Datetime(string path)
     {
-        DateTime? result = path.ToLower() switch
+        DateTime? result = null;
+        try
         {
-//{get_datetime}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_datetime}
+                _ => null
+            };        
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
@@ -79,11 +133,20 @@ public sealed partial class mmria_case
 
     public DateOnly? GetSS_Date_Only(string path)
     {
-        DateOnly? result = path.ToLower() switch
+        DateOnly? result = null;
+        try
         {
-//{get_date_only}
-            _ => null
-        };
+            result = path.ToLower() switch
+            {
+    //{get_date_only}
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+            
+        }
+
         
         return result;
     }
@@ -91,12 +154,21 @@ public sealed partial class mmria_case
 
     public TimeOnly? GetSS_Time_Only(string path)
     {
-        TimeOnly? result = path.ToLower() switch
+        TimeOnly? result = null;
+        try
         {
-//{get_time_only}
-            _ => null
-        };
-        
+            result = path.ToLower() switch
+            {
+    //{get_time_only}
+                _ => null
+            };
+                    
+        }
+        catch(Exception)
+        {
+            
+        }
+
         return result;
     }
 

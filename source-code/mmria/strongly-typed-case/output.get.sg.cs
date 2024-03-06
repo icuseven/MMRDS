@@ -11,9 +11,13 @@ public sealed partial class mmria_case
 
     public string? GetSG_String(string path, int index)
     {
-        string? result = path.ToLower() switch
+        string? result = null;
+
+        try
         {
-         "data_migration_history/version" => data_migration_history[index].version,
+            result = path.ToLower() switch
+            {
+             "data_migration_history/version" => data_migration_history[index].version,
          "data_migration_history/datetime" => data_migration_history[index].datetime,
          "data_migration_history/is_forced_write" => data_migration_history[index].is_forced_write,
          "death_certificate/causes_of_death/cause_descriptive" => death_certificate.causes_of_death[index].cause_descriptive,
@@ -126,17 +130,27 @@ public sealed partial class mmria_case
          "committee_review/critical_factors_worksheet/committee_recommendations" => committee_review.critical_factors_worksheet[index].committee_recommendations,
          "committee_review/recommendations_of_committee/committee_recommendations" => committee_review.recommendations_of_committee[index].committee_recommendations,
 
-            _ => null
-        };
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
+
         
         return result;
     }
 
     public double? GetSG_Double(string path, int index)
     {
-        double? result = path.ToLower() switch
+        double? result = null;
+        try
         {
-         "death_certificate/causes_of_death/cause_type" => death_certificate.causes_of_death[index].cause_type,
+            result = path.ToLower() switch
+            {
+             "death_certificate/causes_of_death/cause_type" => death_certificate.causes_of_death[index].cause_type,
          "death_certificate/causes_of_death/interval" => death_certificate.causes_of_death[index].interval,
          "death_certificate/causes_of_death/interval_unit" => death_certificate.causes_of_death[index].interval_unit,
          "social_and_environmental_profile/members_of_household/relationship" => social_and_environmental_profile.members_of_household[index].relationship,
@@ -206,30 +220,54 @@ public sealed partial class mmria_case
          "committee_review/recommendations_of_committee/prevention" => committee_review.recommendations_of_committee[index].prevention,
          "committee_review/recommendations_of_committee/impact_level" => committee_review.recommendations_of_committee[index].impact_level,
 
-            _ => null
-        };
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
 
     public bool? GetSG_Boolean(string path, int index)
     {
-        bool? result = path.ToLower() switch
+        bool? result = null;
+        try
+        {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
         {
 
-            _ => null
-        };
+        }
+
         
         return result;
     }
 
     public List<double>? GetSG_List_Of_Double(string path, int index)
     {
-        List<double>? result = path.ToLower() switch
+        List<double>? result = null;
+        try
+        {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
         {
 
-            _ => null
-        };
+        }
+
         
         return result;
     }
@@ -237,22 +275,40 @@ public sealed partial class mmria_case
     
     public List<string>? GetSG_List_Of_String(string path, int index)
     {
-        List<string>? result = path.ToLower() switch
+        List<string>? result = null;
+        try
+        {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
         {
 
-            _ => null
-        };
+        }
+
         
         return result;
     }
 
     public DateTime? GetSG_Datetime(string path, int index)
     {
-        DateTime? result = path.ToLower() switch
+        DateTime? result = null;
+        try
+        {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
         {
 
-            _ => null
-        };
+        }
+
         
         return result;
     }
@@ -260,9 +316,12 @@ public sealed partial class mmria_case
 
     public DateOnly? GetSG_Date_Only(string path, int index)
     {
-        DateOnly? result = path.ToLower() switch
+        DateOnly? result = null;
+        try
         {
-         "social_and_environmental_profile/details_of_incarcerations/date" => social_and_environmental_profile.details_of_incarcerations[index].date,
+            result = path.ToLower() switch
+            {
+             "social_and_environmental_profile/details_of_incarcerations/date" => social_and_environmental_profile.details_of_incarcerations[index].date,
          "social_and_environmental_profile/details_of_arrests/date_of_arrest" => social_and_environmental_profile.details_of_arrests[index].date_of_arrest,
          "social_and_environmental_profile/social_and_medical_referrals/date" => social_and_environmental_profile.social_and_medical_referrals[index].date,
          "social_and_environmental_profile/sources_of_social_services_information_for_this_record/date" => social_and_environmental_profile.sources_of_social_services_information_for_this_record[index].date,
@@ -279,8 +338,14 @@ public sealed partial class mmria_case
          "prenatal/other_sources_of_prenatal_care/end_date" => prenatal.other_sources_of_prenatal_care[index].end_date,
          "mental_health_profile/were_there_documented_mental_health_conditions/date_of_screening" => mental_health_profile.were_there_documented_mental_health_conditions[index].date_of_screening,
 
-            _ => null
-        };
+                _ => null
+            };
+        }
+        catch(Exception)
+        {
+
+        }
+
         
         return result;
     }
@@ -288,11 +353,20 @@ public sealed partial class mmria_case
 
     public TimeOnly? GetSG_Time_Only(string path, int index)
     {
-        TimeOnly? result = path.ToLower() switch
+        TimeOnly? result = null;
+        try
+        {
+            result = path.ToLower() switch
+            {
+    
+                _ => null
+            };
+        }
+        catch(Exception)
         {
 
-            _ => null
-        };
+        }
+
         
         return result;
     }
