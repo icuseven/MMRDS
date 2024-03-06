@@ -764,3 +764,16 @@ input:disabled {
 span.reverse {
   transform: rotate(.5turn);
 }
+
+.chart-header-row {
+  border: none;
+  display: flex;
+  justify-content: center;
+}
+
+.chart-header-toggle {
+  background: $white;
+  padding: .05rem;
+  margin-left: auto;
+  font-size: small;
+}
