@@ -131,6 +131,9 @@ namespace mmria.case_version.v1;");*/
         await S_Set.Execute();
 
 
+        var SG_Set = new Template_Writer_SG_Set(metadata_mgr.dictionary_set);
+        await SG_Set.Execute();
+
 
         /*
             print("Single Form", metadata_mgr.SingleformList);
