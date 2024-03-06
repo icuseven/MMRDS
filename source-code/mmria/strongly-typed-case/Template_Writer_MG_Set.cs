@@ -8,24 +8,21 @@ using System.Linq;
 
 namespace strongcase;
 
-public class Template_Writer_S_Set
+public class Template_Writer_MG_Set
 {
-
     Dictionary<string, mmria.common.metadata.Metadata_Node> dictionary_set;
 
-    public Template_Writer_S_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
+    public Template_Writer_MG_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
     {
         dictionary_set = _dictionary_set;
     }
 
-
     public async Task Execute()
     {
-        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.s.template.cs.text");
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.mg.template.cs.text");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
             {"//{set_string}", new System.Text.StringBuilder()},
-            
             {"//{set_double}", new System.Text.StringBuilder()},
             {"//{set_boolean}", new System.Text.StringBuilder()},
             {"//{set_datetime}", new System.Text.StringBuilder()},
@@ -35,20 +32,46 @@ public class Template_Writer_S_Set
             {"//{set_list_of_string}", new System.Text.StringBuilder()},
  
         };
+        
+        foreach(var kvp in template_keys) kvp.Value.Clear();
 
-        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == false))
+        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == true && kv.Value.is_grid == true))
         {
             var node = kvp.Value.Node;
             var meta_node = kvp.Value;
 
+            var new_name = kvp.Key.Replace("/",".");
+
+            var first_index = new_name.IndexOf(".");
+            if(first_index > -1)
+            {
+                var pre_name = new_name[..first_index];
+                var post_name = new_name[first_index..];
+                
+                new_name = pre_name + "[form_index]" + post_name;
+
+            }
+
+            var last_index = new_name.LastIndexOf(".");
+            if(last_index > -1)
+            {
+                var pre_name = new_name[..last_index];
+                var post_name = new_name[last_index..];
+
+                if(post_name == ".class") post_name = ".@class";
+                
+                new_name = pre_name + "[grid_index]" + post_name;
+
+            }
+
 
             var value_string = 
-                        $"""
-                                    case "{kvp.Key}":
-                                        {kvp.Key.Replace("/",".")} = value;
-                                        result = true;
-                                    break;
-                        """;
+            $"""
+                        case "{kvp.Key}":
+                                {new_name} = value;
+                                result = true;
+                        break;
+            """;
 
             switch(node.type.ToLower())
             {
@@ -57,13 +80,6 @@ public class Template_Writer_S_Set
                 case "html_area":
                 case "string":
                     template_keys["//{set_string}"].AppendLine(value_string);
-                
-                /*
-            case "_id":
-                this._id = value;
-            break;
-                */
-                
                 break;
                 case "number":
                     template_keys["//{set_double}"].AppendLine(value_string);
@@ -157,8 +173,7 @@ public class Template_Writer_S_Set
             get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
         }
 
-        System.IO.File.WriteAllText("output.set.s.cs", get_set_template);
-
+        System.IO.File.WriteAllText("output.set.mg.cs", get_set_template);
     }
 
 }

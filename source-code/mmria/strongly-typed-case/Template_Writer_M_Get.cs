@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace strongcase;
 
-public class Template_Writer_S_Get
+public class Template_Writer_M_Get
 {
 
     Dictionary<string, mmria.common.metadata.Metadata_Node> dictionary_set;
 
-    public Template_Writer_S_Get(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
+    public Template_Writer_M_Get(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
     {
         dictionary_set = _dictionary_set;
     }
@@ -21,7 +21,7 @@ public class Template_Writer_S_Get
 
     public async Task Execute()
     {
-        var get_set_template = System.IO.File.ReadAllText("mmria_case.get.s.template.cs.text");
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.get.m.template.cs.text");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
             {"//{get_string}", new System.Text.StringBuilder()},
@@ -35,12 +35,27 @@ public class Template_Writer_S_Get
  
         };
 
-        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == false))
+        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == true && kv.Value.is_grid == false))
         {
             var node = kvp.Value.Node;
             var meta_node = kvp.Value;
 
             var new_name = kvp.Key.Replace("/",".");
+            var first_index = new_name.IndexOf(".");
+            if(first_index > -1)
+            {
+                var pre_name = new_name[..first_index];
+                var post_name = new_name[first_index..];
+
+                if(post_name.EndsWith(".class"))
+                {
+                    post_name = ".@class";
+                }
+                
+                new_name = pre_name + "[index]" + post_name;
+
+            }
+
 
             switch(node.type.ToLower())
             {
@@ -142,7 +157,7 @@ public class Template_Writer_S_Get
             get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
         }
 
-        System.IO.File.WriteAllText("output.get.s.cs", get_set_template);
+        System.IO.File.WriteAllText("output.get.m.cs", get_set_template);
 
     }
 

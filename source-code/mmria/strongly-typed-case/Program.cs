@@ -97,8 +97,6 @@ internal class Program
         System.Console.WriteLine($"Group Count: {metadata_mgr.GroupList.Count}");
         System.Console.WriteLine($"MultivaluedList Count: {metadata_mgr.MultivaluedList.Count}");
 
-
-
         System.Text.StringBuilder builder = new System.Text.StringBuilder();
         /*builder.AppendLine(@"
 using System;
@@ -134,7 +132,18 @@ namespace mmria.case_version.v1;");*/
         var SG_Set = new Template_Writer_SG_Set(metadata_mgr.dictionary_set);
         await SG_Set.Execute();
 
+        var M_Get = new Template_Writer_M_Get(metadata_mgr.dictionary_set);
+        await M_Get.Execute();
 
+        var MG_Get = new Template_Writer_MG_Get(metadata_mgr.dictionary_set);
+        await MG_Get.Execute();
+
+        var M_Set = new Template_Writer_M_Set(metadata_mgr.dictionary_set);
+        await M_Set.Execute();
+
+        var MG_Set = new Template_Writer_MG_Set(metadata_mgr.dictionary_set);
+        await MG_Set.Execute();
+        
         /*
             print("Single Form", metadata_mgr.SingleformList);
             print("Multi Form", metadata_mgr.MultifFormList);

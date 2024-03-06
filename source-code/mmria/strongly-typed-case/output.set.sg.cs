@@ -9,7 +9,7 @@ public sealed partial class mmria_case
 {
 
 
-    public bool SetS_String(string path, int index, string value)
+    public bool SetSG_String(string path, int index, string value)
     {
         bool result = false;
         try
@@ -479,7 +479,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool SetS_Double(string path, int index, double? value)
+    public bool SetSG_Double(string path, int index, double? value)
     {
         bool result = false;
         try
@@ -777,7 +777,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool SetS_Boolean(string path, int index, bool? value)
+    public bool SetSG_Boolean(string path, int index, bool? value)
     {
         bool result = false;
         try
@@ -799,7 +799,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool SetS_List_Of_Double(string path, int index, List<double> value)
+    public bool SetSG_List_Of_Double(string path, int index, List<double> value)
     {
         bool result = false;
         try
@@ -822,7 +822,7 @@ public sealed partial class mmria_case
     }
 
     
-    public bool SetS_List_Of_String(string path, int index, List<string> value)
+    public bool SetSG_List_Of_String(string path, int index, List<string> value)
     {
         bool result = false;
         try
@@ -844,7 +844,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool SetS_Datetime(string path, int index, DateTime? value)
+    public bool SetSG_Datetime(string path, int index, DateTime? value)
     {
         bool result = false;
         try
@@ -867,7 +867,7 @@ public sealed partial class mmria_case
     }
 
 
-    public bool SetS_Date_Only(string path, int index, DateOnly? value)
+    public bool SetSG_Date_Only(string path, int index, DateOnly? value)
     {
         bool result = false;
         try
@@ -954,7 +954,7 @@ public sealed partial class mmria_case
     }
 
 
-    public bool SetS_Time_Only(string path, int index, TimeOnly? value)
+    public bool SetSG_Time_Only(string path, int index, TimeOnly? value)
     {
         bool result = false;
         try

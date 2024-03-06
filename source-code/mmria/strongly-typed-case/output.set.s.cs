@@ -92,9 +92,10 @@ public sealed partial class mmria_case
                 home_record.automated_vitals_group.vro_status = value;
                 result = true;
             break;
-        case "home_record/automated_vitals_group/import_date":
-              home_record.automated_vitals_group.import_date = value;
-        break;
+            case "home_record/automated_vitals_group/import_date":
+                home_record.automated_vitals_group.import_date = value;
+                result = true;
+            break;
             case "death_certificate/certificate_identification/local_file_number":
                 death_certificate.certificate_identification.local_file_number = value;
                 result = true;
@@ -147,12 +148,14 @@ public sealed partial class mmria_case
                 death_certificate.place_of_last_residence.longitude = value;
                 result = true;
             break;
-        case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code":
-              death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type":
-              death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code":
+                death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type":
+                death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code":
                 death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -161,31 +164,38 @@ public sealed partial class mmria_case
                 death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-        case "death_certificate/place_of_last_residence/state_county_fips":
-              death_certificate.place_of_last_residence.state_county_fips = value;
-        break;
-        case "death_certificate/place_of_last_residence/census_state_fips":
-              death_certificate.place_of_last_residence.census_state_fips = value;
-        break;
-        case "death_certificate/place_of_last_residence/census_county_fips":
-              death_certificate.place_of_last_residence.census_county_fips = value;
-        break;
-        case "death_certificate/place_of_last_residence/census_tract_fips":
-              death_certificate.place_of_last_residence.census_tract_fips = value;
-        break;
+            case "death_certificate/place_of_last_residence/state_county_fips":
+                death_certificate.place_of_last_residence.state_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/census_state_fips":
+                death_certificate.place_of_last_residence.census_state_fips = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/census_county_fips":
+                death_certificate.place_of_last_residence.census_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/census_tract_fips":
+                death_certificate.place_of_last_residence.census_tract_fips = value;
+                result = true;
+            break;
             case "death_certificate/place_of_last_residence/urban_status":
                 death_certificate.place_of_last_residence.urban_status = value;
                 result = true;
             break;
-        case "death_certificate/place_of_last_residence/census_met_div_fips":
-              death_certificate.place_of_last_residence.census_met_div_fips = value;
-        break;
-        case "death_certificate/place_of_last_residence/census_cbsa_fips":
-              death_certificate.place_of_last_residence.census_cbsa_fips = value;
-        break;
-        case "death_certificate/place_of_last_residence/census_cbsa_micro":
-              death_certificate.place_of_last_residence.census_cbsa_micro = value;
-        break;
+            case "death_certificate/place_of_last_residence/census_met_div_fips":
+                death_certificate.place_of_last_residence.census_met_div_fips = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/census_cbsa_fips":
+                death_certificate.place_of_last_residence.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "death_certificate/place_of_last_residence/census_cbsa_micro":
+                death_certificate.place_of_last_residence.census_cbsa_micro = value;
+                result = true;
+            break;
             case "death_certificate/demographics/city_of_birth":
                 death_certificate.demographics.city_of_birth = value;
                 result = true;
@@ -210,24 +220,30 @@ public sealed partial class mmria_case
                 death_certificate.demographics.is_of_hispanic_origin_other_specify = value;
                 result = true;
             break;
-        case "death_certificate/demographics/dc_m_industry_code_1":
-              death_certificate.demographics.dc_m_industry_code_1 = value;
-        break;
-        case "death_certificate/demographics/dc_m_industry_code_2":
-              death_certificate.demographics.dc_m_industry_code_2 = value;
-        break;
-        case "death_certificate/demographics/dc_m_industry_code_3":
-              death_certificate.demographics.dc_m_industry_code_3 = value;
-        break;
-        case "death_certificate/demographics/dc_m_occupation_code_1":
-              death_certificate.demographics.dc_m_occupation_code_1 = value;
-        break;
-        case "death_certificate/demographics/dc_m_occupation_code_2":
-              death_certificate.demographics.dc_m_occupation_code_2 = value;
-        break;
-        case "death_certificate/demographics/dc_m_occupation_code_3":
-              death_certificate.demographics.dc_m_occupation_code_3 = value;
-        break;
+            case "death_certificate/demographics/dc_m_industry_code_1":
+                death_certificate.demographics.dc_m_industry_code_1 = value;
+                result = true;
+            break;
+            case "death_certificate/demographics/dc_m_industry_code_2":
+                death_certificate.demographics.dc_m_industry_code_2 = value;
+                result = true;
+            break;
+            case "death_certificate/demographics/dc_m_industry_code_3":
+                death_certificate.demographics.dc_m_industry_code_3 = value;
+                result = true;
+            break;
+            case "death_certificate/demographics/dc_m_occupation_code_1":
+                death_certificate.demographics.dc_m_occupation_code_1 = value;
+                result = true;
+            break;
+            case "death_certificate/demographics/dc_m_occupation_code_2":
+                death_certificate.demographics.dc_m_occupation_code_2 = value;
+                result = true;
+            break;
+            case "death_certificate/demographics/dc_m_occupation_code_3":
+                death_certificate.demographics.dc_m_occupation_code_3 = value;
+                result = true;
+            break;
             case "death_certificate/citizen_of_what_country":
                 death_certificate.citizen_of_what_country = value;
                 result = true;
@@ -284,18 +300,22 @@ public sealed partial class mmria_case
                 death_certificate.address_of_injury.feature_matching_geography_type = value;
                 result = true;
             break;
-        case "death_certificate/address_of_injury/latitude":
-              death_certificate.address_of_injury.latitude = value;
-        break;
-        case "death_certificate/address_of_injury/longitude":
-              death_certificate.address_of_injury.longitude = value;
-        break;
-        case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_code":
-              death_certificate.address_of_injury.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_type":
-              death_certificate.address_of_injury.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "death_certificate/address_of_injury/latitude":
+                death_certificate.address_of_injury.latitude = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/longitude":
+                death_certificate.address_of_injury.longitude = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_code":
+                death_certificate.address_of_injury.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_type":
+                death_certificate.address_of_injury.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "death_certificate/address_of_injury/naaccr_census_tract_certainty_code":
                 death_certificate.address_of_injury.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -304,31 +324,38 @@ public sealed partial class mmria_case
                 death_certificate.address_of_injury.naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-        case "death_certificate/address_of_injury/state_county_fips":
-              death_certificate.address_of_injury.state_county_fips = value;
-        break;
-        case "death_certificate/address_of_injury/census_state_fips":
-              death_certificate.address_of_injury.census_state_fips = value;
-        break;
-        case "death_certificate/address_of_injury/census_county_fips":
-              death_certificate.address_of_injury.census_county_fips = value;
-        break;
-        case "death_certificate/address_of_injury/census_tract_fips":
-              death_certificate.address_of_injury.census_tract_fips = value;
-        break;
+            case "death_certificate/address_of_injury/state_county_fips":
+                death_certificate.address_of_injury.state_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/census_state_fips":
+                death_certificate.address_of_injury.census_state_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/census_county_fips":
+                death_certificate.address_of_injury.census_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/census_tract_fips":
+                death_certificate.address_of_injury.census_tract_fips = value;
+                result = true;
+            break;
             case "death_certificate/address_of_injury/urban_status":
                 death_certificate.address_of_injury.urban_status = value;
                 result = true;
             break;
-        case "death_certificate/address_of_injury/census_met_div_fips":
-              death_certificate.address_of_injury.census_met_div_fips = value;
-        break;
-        case "death_certificate/address_of_injury/census_cbsa_fips":
-              death_certificate.address_of_injury.census_cbsa_fips = value;
-        break;
-        case "death_certificate/address_of_injury/census_cbsa_micro":
-              death_certificate.address_of_injury.census_cbsa_micro = value;
-        break;
+            case "death_certificate/address_of_injury/census_met_div_fips":
+                death_certificate.address_of_injury.census_met_div_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/census_cbsa_fips":
+                death_certificate.address_of_injury.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_injury/census_cbsa_micro":
+                death_certificate.address_of_injury.census_cbsa_micro = value;
+                result = true;
+            break;
             case "death_certificate/death_information/other_death_outside_of_hospital":
                 death_certificate.death_information.other_death_outside_of_hospital = value;
                 result = true;
@@ -365,18 +392,22 @@ public sealed partial class mmria_case
                 death_certificate.address_of_death.feature_matching_geography_type = value;
                 result = true;
             break;
-        case "death_certificate/address_of_death/latitude":
-              death_certificate.address_of_death.latitude = value;
-        break;
-        case "death_certificate/address_of_death/longitude":
-              death_certificate.address_of_death.longitude = value;
-        break;
-        case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_code":
-              death_certificate.address_of_death.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_type":
-              death_certificate.address_of_death.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "death_certificate/address_of_death/latitude":
+                death_certificate.address_of_death.latitude = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/longitude":
+                death_certificate.address_of_death.longitude = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_code":
+                death_certificate.address_of_death.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_type":
+                death_certificate.address_of_death.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "death_certificate/address_of_death/naaccr_census_tract_certainty_code":
                 death_certificate.address_of_death.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -385,31 +416,38 @@ public sealed partial class mmria_case
                 death_certificate.address_of_death.naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-        case "death_certificate/address_of_death/state_county_fips":
-              death_certificate.address_of_death.state_county_fips = value;
-        break;
-        case "death_certificate/address_of_death/census_state_fips":
-              death_certificate.address_of_death.census_state_fips = value;
-        break;
-        case "death_certificate/address_of_death/census_county_fips":
-              death_certificate.address_of_death.census_county_fips = value;
-        break;
-        case "death_certificate/address_of_death/census_tract_fips":
-              death_certificate.address_of_death.census_tract_fips = value;
-        break;
+            case "death_certificate/address_of_death/state_county_fips":
+                death_certificate.address_of_death.state_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/census_state_fips":
+                death_certificate.address_of_death.census_state_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/census_county_fips":
+                death_certificate.address_of_death.census_county_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/census_tract_fips":
+                death_certificate.address_of_death.census_tract_fips = value;
+                result = true;
+            break;
             case "death_certificate/address_of_death/urban_status":
                 death_certificate.address_of_death.urban_status = value;
                 result = true;
             break;
-        case "death_certificate/address_of_death/census_met_div_fips":
-              death_certificate.address_of_death.census_met_div_fips = value;
-        break;
-        case "death_certificate/address_of_death/census_cbsa_fips":
-              death_certificate.address_of_death.census_cbsa_fips = value;
-        break;
-        case "death_certificate/address_of_death/census_cbsa_micro":
-              death_certificate.address_of_death.census_cbsa_micro = value;
-        break;
+            case "death_certificate/address_of_death/census_met_div_fips":
+                death_certificate.address_of_death.census_met_div_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/census_cbsa_fips":
+                death_certificate.address_of_death.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "death_certificate/address_of_death/census_cbsa_micro":
+                death_certificate.address_of_death.census_cbsa_micro = value;
+                result = true;
+            break;
             case "death_certificate/reviewer_note":
                 death_certificate.reviewer_note = value;
                 result = true;
@@ -518,22 +556,26 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.facility_of_delivery_location.county = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.latitude = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.longitude = value;
-        break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.latitude = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.longitude = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type":
                 birth_fetal_death_certificate_parent.facility_of_delivery_location.feature_matching_geography_type = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code":
                 birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -546,27 +588,34 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.facility_of_delivery_location.urban_status = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.state_county_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_state_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_county_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_tract_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_met_div_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro":
-              birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_micro = value;
-        break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.state_county_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_state_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_county_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_tract_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_met_div_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro":
+                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_micro = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/demographic_of_father/city_of_birth":
                 birth_fetal_death_certificate_parent.demographic_of_father.city_of_birth = value;
                 result = true;
@@ -611,24 +660,30 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.demographic_of_father.race.omb_race_recode = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3":
-              birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = value;
-        break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3":
+                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/record_identification/first_name":
                 birth_fetal_death_certificate_parent.record_identification.first_name = value;
                 result = true;
@@ -673,24 +728,30 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.demographic_of_mother.is_of_hispanic_origin_other_specify = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = value;
-        break;
-        case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3":
-              birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = value;
-        break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3":
+                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/location_of_residence/street":
                 birth_fetal_death_certificate_parent.location_of_residence.street = value;
                 result = true;
@@ -719,18 +780,22 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.location_of_residence.feature_matching_geography_type = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/latitude":
-              birth_fetal_death_certificate_parent.location_of_residence.latitude = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/longitude":
-              birth_fetal_death_certificate_parent.location_of_residence.longitude = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_code":
-              birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_type":
-              birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/latitude":
+                birth_fetal_death_certificate_parent.location_of_residence.latitude = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/longitude":
+                birth_fetal_death_certificate_parent.location_of_residence.longitude = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_code":
+                birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_type":
+                birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_census_tract_certainty_code":
                 birth_fetal_death_certificate_parent.location_of_residence.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -739,31 +804,38 @@ public sealed partial class mmria_case
                 birth_fetal_death_certificate_parent.location_of_residence.naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/state_county_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.state_county_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_state_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.census_state_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_county_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.census_county_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_tract_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.census_tract_fips = value;
-        break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/state_county_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.state_county_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_state_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.census_state_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_county_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.census_county_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_tract_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.census_tract_fips = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/location_of_residence/urban_status":
                 birth_fetal_death_certificate_parent.location_of_residence.urban_status = value;
                 result = true;
             break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_met_div_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.census_met_div_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_fips":
-              birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_fips = value;
-        break;
-        case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_micro":
-              birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_micro = value;
-        break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_met_div_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.census_met_div_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_fips":
+                birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_micro":
+                birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_micro = value;
+                result = true;
+            break;
             case "birth_fetal_death_certificate_parent/race/other_race":
                 birth_fetal_death_certificate_parent.race.other_race = value;
                 result = true;
@@ -832,24 +904,30 @@ public sealed partial class mmria_case
                 social_and_environmental_profile.socio_economic_characteristics.country_of_birth = value;
                 result = true;
             break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = value;
-        break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = value;
-        break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = value;
-        break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = value;
-        break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = value;
-        break;
-        case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3":
-              social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = value;
-        break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = value;
+                result = true;
+            break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = value;
+                result = true;
+            break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = value;
+                result = true;
+            break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = value;
+                result = true;
+            break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = value;
+                result = true;
+            break;
+            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3":
+                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = value;
+                result = true;
+            break;
             case "social_and_environmental_profile/gender_identity/sep_genid_source_othersp":
                 social_and_environmental_profile.gender_identity.sep_genid_source_othersp = value;
                 result = true;
@@ -954,18 +1032,22 @@ public sealed partial class mmria_case
                 prenatal.location_of_primary_prenatal_care_facility.feature_matching_geography_type = value;
                 result = true;
             break;
-        case "prenatal/location_of_primary_prenatal_care_facility/latitude":
-              prenatal.location_of_primary_prenatal_care_facility.latitude = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/longitude":
-              prenatal.location_of_primary_prenatal_care_facility.longitude = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_code":
-              prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_code = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_type":
-              prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_type = value;
-        break;
+            case "prenatal/location_of_primary_prenatal_care_facility/latitude":
+                prenatal.location_of_primary_prenatal_care_facility.latitude = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/longitude":
+                prenatal.location_of_primary_prenatal_care_facility.longitude = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_code":
+                prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_code = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_type":
+                prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_type = value;
+                result = true;
+            break;
             case "prenatal/location_of_primary_prenatal_care_facility/naaccr_census_tract_certainty_code":
                 prenatal.location_of_primary_prenatal_care_facility.naaccr_census_tract_certainty_code = value;
                 result = true;
@@ -974,31 +1056,38 @@ public sealed partial class mmria_case
                 prenatal.location_of_primary_prenatal_care_facility.naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-        case "prenatal/location_of_primary_prenatal_care_facility/state_county_fips":
-              prenatal.location_of_primary_prenatal_care_facility.state_county_fips = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_state_fips":
-              prenatal.location_of_primary_prenatal_care_facility.census_state_fips = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_county_fips":
-              prenatal.location_of_primary_prenatal_care_facility.census_county_fips = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_tract_fips":
-              prenatal.location_of_primary_prenatal_care_facility.census_tract_fips = value;
-        break;
+            case "prenatal/location_of_primary_prenatal_care_facility/state_county_fips":
+                prenatal.location_of_primary_prenatal_care_facility.state_county_fips = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_state_fips":
+                prenatal.location_of_primary_prenatal_care_facility.census_state_fips = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_county_fips":
+                prenatal.location_of_primary_prenatal_care_facility.census_county_fips = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_tract_fips":
+                prenatal.location_of_primary_prenatal_care_facility.census_tract_fips = value;
+                result = true;
+            break;
             case "prenatal/location_of_primary_prenatal_care_facility/urban_status":
                 prenatal.location_of_primary_prenatal_care_facility.urban_status = value;
                 result = true;
             break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_met_div_fips":
-              prenatal.location_of_primary_prenatal_care_facility.census_met_div_fips = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_fips":
-              prenatal.location_of_primary_prenatal_care_facility.census_cbsa_fips = value;
-        break;
-        case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_micro":
-              prenatal.location_of_primary_prenatal_care_facility.census_cbsa_micro = value;
-        break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_met_div_fips":
+                prenatal.location_of_primary_prenatal_care_facility.census_met_div_fips = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_fips":
+                prenatal.location_of_primary_prenatal_care_facility.census_cbsa_fips = value;
+                result = true;
+            break;
+            case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_micro":
+                prenatal.location_of_primary_prenatal_care_facility.census_cbsa_micro = value;
+                result = true;
+            break;
             case "prenatal/intendedenes/pi_wp_plann_sp":
                 prenatal.intendedenes.pi_wp_plann_sp = value;
                 result = true;
@@ -1011,12 +1100,14 @@ public sealed partial class mmria_case
                 prenatal.infertility_treatment.specify_other_art_type = value;
                 result = true;
             break;
-        case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_ultrasound":
-              prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_ultrasound = value;
-        break;
-        case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_lmp":
-              prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_lmp = value;
-        break;
+            case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_ultrasound":
+                prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_ultrasound = value;
+                result = true;
+            break;
+            case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_lmp":
+                prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_lmp = value;
+                result = true;
+            break;
             case "prenatal/current_pregnancy/intended_birthing_facility":
                 prenatal.current_pregnancy.intended_birthing_facility = value;
                 result = true;

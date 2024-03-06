@@ -9,9 +9,10 @@ public sealed partial class mmria_case
 {
 
 
-    public string? GetS_String(string path)
+    public string? GetSG_String(string path, int form_index, int grid_index)
     {
         string? result = null;
+
         try
         {
             result = path.ToLower() switch
@@ -22,12 +23,15 @@ public sealed partial class mmria_case
         }
         catch(Exception)
         {
-            
+
         }
+
+
+        
         return result;
     }
 
-    public double? GetS_Double(string path)
+    public double? GetSG_Double(string path, int form_index, int grid_index)
     {
         double? result = null;
         try
@@ -36,19 +40,18 @@ public sealed partial class mmria_case
             {
     //{get_double}
                 _ => null
-            };        
+            };
         }
         catch(Exception)
         {
-            
-        }
 
+        }
 
         
         return result;
     }
 
-    public bool? GetS_Boolean(string path)
+    public bool? GetSG_Boolean(string path, int form_index, int grid_index)
     {
         bool? result = null;
         try
@@ -61,14 +64,14 @@ public sealed partial class mmria_case
         }
         catch(Exception)
         {
-            
+
         }
 
         
         return result;
     }
 
-    public List<double>? GetS_List_Of_Double(string path)
+    public List<double>? GetSG_List_Of_Double(string path, int form_index, int grid_index)
     {
         List<double>? result = null;
         try
@@ -77,20 +80,19 @@ public sealed partial class mmria_case
             {
     //{get_list_of_double}
                 _ => null
-            };        
+            };
         }
         catch(Exception)
         {
-            
-        }
 
+        }
 
         
         return result;
     }
 
     
-    public List<string>? GetS_List_Of_String(string path)
+    public List<string>? GetSG_List_Of_String(string path, int form_index, int grid_index)
     {
         List<string>? result = null;
         try
@@ -99,18 +101,18 @@ public sealed partial class mmria_case
             {
     //{get_list_of_string}
                 _ => null
-            };        
+            };
         }
         catch(Exception)
         {
-            
+
         }
 
         
         return result;
     }
 
-    public DateTime? GetS_Datetime(string path)
+    public DateTime? GetSG_Datetime(string path, int form_index, int grid_index)
     {
         DateTime? result = null;
         try
@@ -119,11 +121,11 @@ public sealed partial class mmria_case
             {
     //{get_datetime}
                 _ => null
-            };        
+            };
         }
         catch(Exception)
         {
-            
+
         }
 
         
@@ -131,7 +133,7 @@ public sealed partial class mmria_case
     }
 
 
-    public DateOnly? GetS_Date_Only(string path)
+    public DateOnly? GetSG_Date_Only(string path, int form_index, int grid_index)
     {
         DateOnly? result = null;
         try
@@ -144,7 +146,7 @@ public sealed partial class mmria_case
         }
         catch(Exception)
         {
-            
+
         }
 
         
@@ -152,7 +154,7 @@ public sealed partial class mmria_case
     }
 
 
-    public TimeOnly? GetS_Time_Only(string path)
+    public TimeOnly? GetSG_Time_Only(string path, int form_index, int grid_index)
     {
         TimeOnly? result = null;
         try
@@ -162,13 +164,13 @@ public sealed partial class mmria_case
     //{get_time_only}
                 _ => null
             };
-                    
         }
         catch(Exception)
         {
-            
+
         }
 
+        
         return result;
     }
 

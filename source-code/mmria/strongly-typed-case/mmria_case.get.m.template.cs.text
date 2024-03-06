@@ -9,7 +9,7 @@ public sealed partial class mmria_case
 {
 
 
-    public string? GetS_String(string path)
+    public string? GetM_String(string path, int index)
     {
         string? result = null;
         try
@@ -27,7 +27,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public double? GetS_Double(string path)
+    public double? GetM_Double(string path, int index)
     {
         double? result = null;
         try
@@ -48,7 +48,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool? GetS_Boolean(string path)
+    public bool? GetM_Boolean(string path, int index)
     {
         bool? result = null;
         try
@@ -68,7 +68,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public List<double>? GetS_List_Of_Double(string path)
+    public List<double>? GetM_List_Of_Double(string path, int index)
     {
         List<double>? result = null;
         try
@@ -90,7 +90,7 @@ public sealed partial class mmria_case
     }
 
     
-    public List<string>? GetS_List_Of_String(string path)
+    public List<string>? GetM_List_Of_String(string path, int index)
     {
         List<string>? result = null;
         try
@@ -110,7 +110,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public DateTime? GetS_Datetime(string path)
+    public DateTime? GetM_Datetime(string path, int index)
     {
         DateTime? result = null;
         try
@@ -131,7 +131,7 @@ public sealed partial class mmria_case
     }
 
 
-    public DateOnly? GetS_Date_Only(string path)
+    public DateOnly? GetM_Date_Only(string path, int index)
     {
         DateOnly? result = null;
         try
@@ -152,7 +152,7 @@ public sealed partial class mmria_case
     }
 
 
-    public TimeOnly? GetS_Time_Only(string path)
+    public TimeOnly? GetM_Time_Only(string path, int index)
     {
         TimeOnly? result = null;
         try

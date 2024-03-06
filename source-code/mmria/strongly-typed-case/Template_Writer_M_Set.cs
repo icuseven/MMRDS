@@ -8,12 +8,12 @@ using System.Linq;
 
 namespace strongcase;
 
-public class Template_Writer_S_Set
+public class Template_Writer_M_Set
 {
 
     Dictionary<string, mmria.common.metadata.Metadata_Node> dictionary_set;
 
-    public Template_Writer_S_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
+    public Template_Writer_M_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
     {
         dictionary_set = _dictionary_set;
     }
@@ -21,7 +21,7 @@ public class Template_Writer_S_Set
 
     public async Task Execute()
     {
-        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.s.template.cs.text");
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.m.template.cs.text");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
             {"//{set_string}", new System.Text.StringBuilder()},
@@ -36,16 +36,33 @@ public class Template_Writer_S_Set
  
         };
 
-        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == false && kv.Value.is_grid == false))
+        foreach(var kvp in dictionary_set.Where( kv => kv.Value.is_multiform == true && kv.Value.is_grid == false))
         {
             var node = kvp.Value.Node;
             var meta_node = kvp.Value;
+
+            var new_name = kvp.Key.Replace("/",".");
+            var first_index = new_name.IndexOf(".");
+            if(first_index > -1)
+            {
+                var pre_name = new_name[..first_index];
+                var post_name = new_name[first_index..];
+
+                if(post_name.EndsWith(".class"))
+                {
+                    post_name = ".@class";
+                }
+                
+                new_name = pre_name + "[index]" + post_name;
+
+            }
+
 
 
             var value_string = 
                         $"""
                                     case "{kvp.Key}":
-                                        {kvp.Key.Replace("/",".")} = value;
+                                        {new_name} = value;
                                         result = true;
                                     break;
                         """;
@@ -157,7 +174,7 @@ public class Template_Writer_S_Set
             get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
         }
 
-        System.IO.File.WriteAllText("output.set.s.cs", get_set_template);
+        System.IO.File.WriteAllText("output.set.m.cs", get_set_template);
 
     }
 
