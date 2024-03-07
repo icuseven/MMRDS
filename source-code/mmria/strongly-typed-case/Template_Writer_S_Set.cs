@@ -41,11 +41,27 @@ public class Template_Writer_S_Set
             var node = kvp.Value.Node;
             var meta_node = kvp.Value;
 
+            var new_name = kvp.Key.Replace("/",".");
+            var last_index = new_name.LastIndexOf(".");
+
+            if(last_index > -1)
+            {
+                var pre_name = new_name[..last_index];
+                var post_name = new_name[last_index..];
+
+                if(post_name.EndsWith(".class")) 
+                {
+                    post_name = ".@class";
+                }
+                
+                new_name = pre_name + post_name;
+
+            }
 
             var value_string = 
                         $"""
                                     case "{kvp.Key}":
-                                        {kvp.Key.Replace("/",".")} = value;
+                                        {new_name} = value;
                                         result = true;
                                     break;
                         """;

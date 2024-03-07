@@ -1,8 +1,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.SqlTypes;
 using System.Windows.Markup;
 
+using mmria.common.metadata;
 
 namespace mmria.pmss.case_version.v230616;
 
@@ -11,13 +14,18 @@ public interface IConvertDictionary
     public void Convert(System.Text.Json.JsonElement p_value);
 }
 
-
-
 public sealed partial class mmria_case
 {
 
+
+    public static Dictionary<string, Metadata_Node> all_list_set = null;
+
     public static Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
 
+    public delegate void add_error_delegate(string path, string error);
+
+    public static event add_error_delegate add_error;
+/*
     public static void add_error(string path, string error)
     {
         if(!ErrorDictionary.ContainsKey(path))
@@ -26,9 +34,75 @@ public sealed partial class mmria_case
         ErrorDictionary[path].Add(error);
     }
 
-    public static string?  GetStringField(System.Text.Json.JsonElement value, string key, string path)
+
+    public delegate string? try_correct_list_string_delegate(System.Text.Json.JsonElement value, string path);
+    public delegate double? try_correct_list_double_delegate(System.Text.Json.JsonElement value, string path);
+   
+    public static event try_correct_list_string_delegate try_correct_list_string;
+    public static event try_correct_list_double_delegate try_correct_list_double;
+   
+    public static string? try_correct_list_string_or_add_error(System.Text.Json.JsonElement value, string path, string error)
     {
         string? result = null;
+
+        if
+        (
+            all_list_set == null ||
+            !all_list_set.ContainsKey(path)
+        )
+        {
+            if(!ErrorDictionary.ContainsKey(path))
+                ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+            ErrorDictionary[path].Add(error);
+
+            goto return_label;
+        }
+
+return_label:
+
+        if(try_correct_list_string != null)
+        {
+            result = try_correct_list_string(value, path);
+        }
+
+        return result;
+    }
+
+    public static double? try_correct_list_double_or_add_error(System.Text.Json.JsonElement value, string path, string error)
+    {
+        double? result = default;
+
+        if
+        (
+            all_list_set == null ||
+            !all_list_set.ContainsKey(path)
+        )
+        {
+            if(!ErrorDictionary.ContainsKey(path))
+                ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
+
+            ErrorDictionary[path].Add(error);
+
+            goto return_label;
+        }
+
+return_label:
+
+
+        if(try_correct_list_double != null)
+        {
+            result = try_correct_list_double(value, path);
+        }
+
+        return result;
+    }
+*/
+
+
+    public static string  GetStringField(System.Text.Json.JsonElement value, string key, string path)
+    {
+        string result = null;
 
         if
         (
@@ -68,7 +142,9 @@ public sealed partial class mmria_case
             else
             {
                 var error = $"GetStringListField path: {path} key{key} value: {new_value.GetString()}";
-                add_error(path,error);
+                
+                
+                if(add_error != null) add_error(path,error);
                 System.Console.WriteLine(error);
             }
         }
@@ -104,7 +180,9 @@ public sealed partial class mmria_case
             }
             else
             {
-                System.Console.WriteLine($"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}");
+                var error = $"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}";
+                if(add_error != null) add_error(path,error);
+                //System.Console.WriteLine();
             }
         }
         else if
@@ -203,7 +281,7 @@ public sealed partial class mmria_case
                     else
                     {
                         var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
-                        add_error(path, error);
+                        if(add_error != null) add_error(path, error);
                         //System.Console.WriteLine(error);
                     }
                 }
@@ -522,7 +600,7 @@ public sealed partial class mmria_case
             else
             {
                 var error = $"GetNumberField {path} key: {key} val:{val}";
-                add_error(path, error);
+                if(add_error != null) add_error(path, error);
                 //System.Console.WriteLine(error);
             }
             
@@ -566,7 +644,7 @@ public sealed partial class mmria_case
             else
             {
                 var error = $"GetDateField {path} key: {key} value:{new_value_string}";
-                add_error(path, error);
+                if(add_error != null) add_error(path, error);
             }
         }
         else if
@@ -625,7 +703,7 @@ public sealed partial class mmria_case
             else
             {
                 var error = $"GetTimeField TryParse {path} key: {key} val:{val}";
-                add_error(path,error);
+                if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine(error);
             }      
         }
@@ -663,7 +741,7 @@ public sealed partial class mmria_case
             else
             {
                 var error = $"GetDateTimeField tryparse {path} key: {key} val:{val}";
-                add_error(path,error);
+                if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine(error);
             }
         }

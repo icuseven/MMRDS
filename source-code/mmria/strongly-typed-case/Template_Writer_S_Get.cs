@@ -41,6 +41,22 @@ public class Template_Writer_S_Get
             var meta_node = kvp.Value;
 
             var new_name = kvp.Key.Replace("/",".");
+            var last_index = new_name.LastIndexOf(".");
+
+            if(last_index > -1)
+            {
+                var pre_name = new_name[..last_index];
+                var post_name = new_name[last_index..];
+
+                if(post_name.EndsWith(".class")) 
+                {
+                    post_name = ".@class";
+                }
+                
+                new_name = pre_name + post_name;
+
+            }
+
 
             switch(node.type.ToLower())
             {

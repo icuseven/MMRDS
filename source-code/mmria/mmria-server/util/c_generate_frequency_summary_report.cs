@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Metadata_Node = mmria.common.metadata.Metadata_Node;
 
 using mmria.getset;
 
@@ -9,6 +10,7 @@ namespace mmria.server.utils;
 public sealed class c_generate_frequency_summary_report
 {
 
+/*
 	public sealed class Metadata_Node
 	{
 		public Metadata_Node(){}
@@ -25,6 +27,7 @@ public sealed class c_generate_frequency_summary_report
 		public Dictionary<string,string> display_to_value { get; set; }
 		public Dictionary<string,string> value_to_display { get; set; }
 	}
+    */
 
     class SetDetailContext
     {

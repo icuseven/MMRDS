@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v1;
+namespace mmria.pmss.case_version.v230616;
 
 public sealed partial class mmria_case
 {
 
 
-    public string? GetSG_String(string path, int form_index, int grid_index)
+    public string? GetSG_String(string path, int index)
     {
         string? result = null;
 
@@ -17,7 +17,10 @@ public sealed partial class mmria_case
         {
             result = path.ToLower() switch
             {
-    
+             "data_migration_history/version" => data_migration_history[index].version,
+         "data_migration_history/datetime" => data_migration_history[index].datetime,
+         "data_migration_history/is_forced_write" => data_migration_history[index].is_forced_write,
+
                 _ => null
             };
         }
@@ -31,7 +34,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public double? GetSG_Double(string path, int form_index, int grid_index)
+    public double? GetSG_Double(string path, int index)
     {
         double? result = null;
         try
@@ -51,7 +54,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public bool? GetSG_Boolean(string path, int form_index, int grid_index)
+    public bool? GetSG_Boolean(string path, int index)
     {
         bool? result = null;
         try
@@ -71,7 +74,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public List<double>? GetSG_List_Of_Double(string path, int form_index, int grid_index)
+    public List<double>? GetSG_List_Of_Double(string path, int index)
     {
         List<double>? result = null;
         try
@@ -92,7 +95,7 @@ public sealed partial class mmria_case
     }
 
     
-    public List<string>? GetSG_List_Of_String(string path, int form_index, int grid_index)
+    public List<string>? GetSG_List_Of_String(string path, int index)
     {
         List<string>? result = null;
         try
@@ -112,7 +115,7 @@ public sealed partial class mmria_case
         return result;
     }
 
-    public DateTime? GetSG_Datetime(string path, int form_index, int grid_index)
+    public DateTime? GetSG_Datetime(string path, int index)
     {
         DateTime? result = null;
         try
@@ -133,7 +136,7 @@ public sealed partial class mmria_case
     }
 
 
-    public DateOnly? GetSG_Date_Only(string path, int form_index, int grid_index)
+    public DateOnly? GetSG_Date_Only(string path, int index)
     {
         DateOnly? result = null;
         try
@@ -154,7 +157,7 @@ public sealed partial class mmria_case
     }
 
 
-    public TimeOnly? GetSG_Time_Only(string path, int form_index, int grid_index)
+    public TimeOnly? GetSG_Time_Only(string path, int index)
     {
         TimeOnly? result = null;
         try
