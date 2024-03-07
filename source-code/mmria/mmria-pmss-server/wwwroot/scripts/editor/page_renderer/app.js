@@ -7,7 +7,15 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
 
     /* The Intro */
     p_result.push("<div>");
-    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>Line Listing Summary</h1>");
+    if(g_is_data_analyst_mode)
+    {
+        p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>CDC Analyst Line Listing Summary</h1>");
+    }
+    else
+    {
+        p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>CDC Abstractor Line Listing Summary</h1>");
+    }
+    
     p_result.push("<div class='row no-gutters align-items-center'>");
     
     let is_read_only_html = '';

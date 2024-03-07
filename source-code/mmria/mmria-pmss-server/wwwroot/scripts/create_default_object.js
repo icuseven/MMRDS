@@ -122,7 +122,14 @@ function create_default_object(p_metadata, p_parent, p_create_grid)
         }
         else
         {
-          p_parent[p_metadata.name] = "9999";
+          if(p_metadata.default_value && p_metadata.default_value != "")
+          {
+            p_parent[p_metadata.name] = new String(p_metadata.default_value);
+          }
+          else
+          {
+            p_parent[p_metadata.name] = "9999";
+          }
         }
             
         break;

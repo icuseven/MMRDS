@@ -359,8 +359,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											<th class="th" scope="col">Case Status</th>
 											<th class="th" scope="col">PMSSNO</th>
 											<th class="th" scope="col">Date of death</th>
-											<th class="th" scope="col">Committee review date</th>
-											<th class="th" scope="col">Agency case ID</th>
+											<!--th class="th" scope="col">Committee review date</th>
+											<th class="th" scope="col">Agency case ID</th-->
 											<th class="th" scope="col">Date created<br/>Created by</th>
 										</tr>
 									</thead>
@@ -391,8 +391,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 											<th class="th" scope="col">Case Status</th>
 											<th class="th" scope="col">PMSSNo</th>
 											<th class="th" scope="col">Date of death</th>
-											<th class="th" scope="col">Committee review date</th>
-											<th class="th" scope="col">Agency case ID</th>
+											<!--th class="th" scope="col">Committee review date</th>
+											<th class="th" scope="col">Agency case ID</th-->
 											<th class="th" scope="col">Date created<br/>Created by</th>
 										</tr>
 									</thead>
@@ -995,7 +995,7 @@ function render_search_result_list()
           : ''
       }
 						</td>
-						<td class="td" data-type="committee_review_date">
+						<!--td class="td" data-type="committee_review_date">
 						${
               value_list.date_of_committee_review != null
                 ? value_list.date_of_committee_review
@@ -1004,7 +1004,7 @@ function render_search_result_list()
 						</td>
 						<td class="td" data-type="agency_case_id">
 							${escape(value_list.agency_case_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-						</td>
+						</td-->
 						<td class="td" data-type="date_last_updated">
 							${escape(value_list.date_last_updated)
                 .replace(/%20/g, ' ')
@@ -1065,7 +1065,7 @@ function render_selected_case_list(p_result, p_answer_summary)
         : ''
     }
 				</td>
-				<td class="td" data-type="committee_review_date">
+				<!--td class="td" data-type="committee_review_date">
 				${
           value_list.date_of_committee_review != null
             ? value_list.date_of_committee_review
@@ -1074,7 +1074,7 @@ function render_selected_case_list(p_result, p_answer_summary)
 				</td>
 				<td class="td" data-type="agency_case_id">
 					${escape(value_list.agency_case_id).replace(/%20/g, ' ').replace(/%3A/g, '-')}
-				</td>
+				</td-->
 				<td class="td" data-type="date_last_updated">
 					${escape(value_list.date_last_updated)
             .replace(/%20/g, ' ')
