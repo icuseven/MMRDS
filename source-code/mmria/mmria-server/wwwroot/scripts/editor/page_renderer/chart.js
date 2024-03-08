@@ -1,6 +1,34 @@
+const chart_function_params_map = new Map();
 function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx, p_is_de_identified = false)
 {
-	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+	let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
+
+    const function_params = {
+        p_result: p_result, 
+        p_metadata: p_metadata, 
+        p_data: p_data, 
+        p_ui: p_ui, 
+        p_metadata_path: p_metadata_path, 
+        p_object_path: p_object_path, 
+        p_dictionary_path: p_dictionary_path, 
+        p_is_grid_context: p_is_grid_context, 
+        p_post_html_render: p_post_html_render, 
+        p_search_ctx: p_search_ctx, 
+        p_ctx: p_ctx, 
+        p_is_de_identified: p_is_de_identified
+
+    };
+
+
+    const map_key = convert_object_path_to_jquery_id(p_object_path);
+
+    chart_function_params_map.set(map_key, function_params);
+
+
+    const function_param_json = JSON.stringify(function_params).replace("'", "&quot;");
+
+
 	
 	p_result.push
 	(
@@ -464,14 +492,70 @@ function chart_onrendered()
 }
 
 
-function chart_switch_to_table(p_ui_div_id, p_ctx)
+function chart_switch_to_table(p_ui_div_id)
 {
     const el = document.getElementById(p_ui_div_id);
-    el.innerHTML = "Show Table";
+
+    var params = chart_function_params_map.get(p_ui_div_id);
+
+    let style_object = g_default_ui_specification.form_design[params.p_dictionary_path.substring(1)];
+
+
+    el.outerHTML = 	`
+        <div id='${convert_object_path_to_jquery_id(params.p_object_path)}'
+        mpath='id='${params.p_metadata_path}' 
+        style='${get_only_size_and_position_string(style_object.control.style)}'>
+        <table style='border-color:#e0e0e0;padding:5px;' border=1>
+        <tr align=center style='background-color:#b890bb;'>
+            <th style="display: flex; justify-content: center;">
+            <span style="margin-left: 3rem;">
+                ${params.p_metadata.prompt} 
+            </span>
+            <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
+                <a href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(params.p_object_path)}')">Graph</a> |
+                <a>Table</a>
+            </span>
+            </th>
+        </tr>
+        <tr align=center><td>
+        <div id='${convert_object_path_to_jquery_id(params.p_object_path)}_chart'>
+        
+        </div>
+        </td></tr>
+        </table>
+    </div>`;
+    
 }
 
-function chart_switch_to_graph(p_ui_div_id, p_ctx)
+function chart_switch_to_graph(p_ui_div_id)
 {
+
+    var params = chart_function_params_map.get(p_ui_div_id);
+
     const el = document.getElementById(p_ui_div_id);
-    el.innerHTML = "Show Graph";// chart_render().join("");
+    const result = [];
+    const post_html_render = [];
+    chart_render
+    (
+        result, 
+        params.p_metadata, 
+        params.p_data, 
+        params.p_ui, 
+        params.p_metadata_path, 
+        params.p_object_path, 
+        params.p_dictionary_path, 
+        params.p_is_grid_context, 
+        post_html_render, 
+        params.p_search_ctx, 
+        params.p_ctx, 
+        params.p_is_de_identified
+    );
+
+
+    el.outerHTML = result.join("");
+
+    if(post_html_render.length > 0)
+    {
+        eval(post_html_render.join(""));
+    }
 }

@@ -1896,6 +1896,7 @@ async function window_on_hash_change(e)
 
   if (g_data) 
   {
+    
     if (e.isTrusted) 
     {
       var new_url = e.newURL || window.location.href;
@@ -1915,6 +1916,7 @@ async function window_on_hash_change(e)
         if( g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id != case_id)
         {
             g_ui.broken_rules = {};
+            chart_function_params_map.clear();
             g_charts.clear();
             g_chart_data.clear();
             if(g_data_is_checked_out)
@@ -1936,6 +1938,7 @@ async function window_on_hash_change(e)
         }
         else
         {
+            chart_function_params_map.clear();
             g_charts.clear();
             g_chart_data.clear();
             if(g_data_is_checked_out)
@@ -1993,6 +1996,7 @@ async function window_on_hash_change(e)
       if (g_ui.case_view_list.length > 0) 
       {
         g_ui.broken_rules = {};
+        chart_function_params_map.clear();
         g_charts.clear();
         g_chart_data.clear();
         get_specific_case
