@@ -173,7 +173,7 @@ public sealed class caseController: ControllerBase
             pmssno = case_post_request.tracking.admin_info.pmssno;
             
 
-            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, case_post_request.tracking.admin_info.jurisdiction))
+            if(!mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteCase, case_post_request.tracking.admin_info.case_folder))
             {
                 result.error_description = $"unauthorized PUT {case_post_request.tracking.admin_info.jurisdiction}: {case_post_request._id}";
                 Console.Write($"unauthorized PUT {case_post_request.tracking.admin_info.jurisdiction}: {case_post_request._id}");

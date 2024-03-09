@@ -811,7 +811,7 @@ function  tracking_admin_info_status_onchange(p_control)
     const my_value = p_control.value;
     if 
     (
-        my_value = "STEVE: Pending VRO Investigation, Re-review Requested by CDC"
+        my_value == "STEVE: Pending VRO Investigation, Re-review Requested by CDC"
     )
     {
         g_data.vro_case_determination.vro_update.vro_resolution_status = "Pending VRO Investigation";
