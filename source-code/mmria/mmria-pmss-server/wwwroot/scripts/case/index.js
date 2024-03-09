@@ -1578,8 +1578,11 @@ async function load_and_set_data()
 
         g_ui.case_view_request.status = "STEVE: Pending Vro Investigation";
         g_ui.case_view_request.jurisdiction = value.jurisdiction_id;
+    }
 
-
+    if(location.href.endsWith("/CaseVRO"))
+    {
+        g_ui.case_view_request.status = "STEVE: Pending Vro Investigation";
     }
 
     create_jurisdiction_list(g_jurisdiction_tree);
