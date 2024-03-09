@@ -1261,7 +1261,7 @@ var g_ui = {
       result.push('descending=' + this.descending);
       result.push('jurisdiction=' + this.jurisdiction);
       result.push('year_of_death=' + this.year_of_death);
-      result.push('status=' + this.status);
+      result.push('status=' + encodeURIComponent(this.status));
       result.push('classification=' + this.classification);
       
       result.push('field_selection=' + this.field_selection);
