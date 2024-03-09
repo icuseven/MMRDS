@@ -67,7 +67,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             <table>
             <tr><td>
             <label for="search_jurisdiction" class="mr-2">Jurisdiction:</label>
-            <select id="search_jurisdiction" class="custom-select" onchange="search_jurisdiction_onchange(this.value)">
+            <select id="search_jurisdiction" class="custom-select" onchange="search_jurisdiction_onchange(this.value)" disabled="disabled">
                 ${render_jurisdiction(p_ui.case_view_request)}
             </select>
             </td><td>
@@ -78,7 +78,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             </td>
             <td>
             <label for="search_case_status" class="mr-2">Status:</label>
-            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)" disabled="disabled">
                 ${render_case_status(p_ui.case_view_request)}
             </select>
             </td></tr>
@@ -802,8 +802,6 @@ function render_app_summary_result_item(item, i)
         delete_enabled_html = ' disabled = "disabled" ';
     }
 
-    delete_enabled_html = ' disabled = "disabled" ';
-
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.case_folder;
@@ -910,8 +908,6 @@ function render_app_pinned_summary_result(item, i)
         checked_out_html = '';
         delete_enabled_html = ' disabled = "disabled" ';
     }
-
-    delete_enabled_html = ' disabled = "disabled" ';
  
     const caseID = item.id;
     const hostState = item.value.host_state;
