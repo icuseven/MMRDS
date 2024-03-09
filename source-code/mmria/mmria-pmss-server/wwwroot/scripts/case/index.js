@@ -1565,6 +1565,17 @@ async function load_and_set_data()
         }
     }
 
+    if
+    (
+        g_user_role_jurisdiction_list.length == 0 &&
+        my_role_list_response.rows.length == 1 &&
+        my_role_list_response.rows[0].value.role_name == "vro"
+    )
+    {
+        const value = my_role_list_response.rows[0].value;
+        g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+    }
+
     create_jurisdiction_list(g_jurisdiction_tree);
 
     $('#landing_page').hide();

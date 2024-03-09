@@ -544,7 +544,7 @@ function render_case_status(p_case_view)
 
     values.map((status, i) => {
 
-        return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
+        return list.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
     return list.join(''); 

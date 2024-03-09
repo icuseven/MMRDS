@@ -8,7 +8,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     /* The Intro */
     p_result.push("<div>");
 
-    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>CDC Committee Member Line Listing Summary</h1>");
+    p_result.push("<h1 class='content-intro-title h2' tabindex='-1'>CDC VRO Line Listing Summary</h1>");
     
     
     p_result.push("<div class='row no-gutters align-items-center'>");
@@ -487,7 +487,16 @@ function render_jurisdiction(p_case_view)
 
     values.map((status, i) => {
 
-        return list.push(`<option value="${status.value}" ${status.value == p_case_view.jurisdiction ? ' selected ' : ''}>${status.display}</option>`);
+        if(status.value == 'all' && g_user_role_jurisdiction_list[0] == '/')
+        {
+            return list.push(`<option value="${status.value}" ' selected '}>Top Folder</option>`);
+        }
+        else
+        {
+            return list.push(`<option value="${status.value}" ${"/" + status.value == g_user_role_jurisdiction_list[0] ? ' selected ' : ''}>${status.display}</option>`);
+        }
+
+        
     });
 
     return list.join(''); 
@@ -539,7 +548,7 @@ function render_case_status(p_case_view)
 
     values.map((status, i) => {
 
-        return list.push(`<option value="${status.value}" ${status.value == p_case_view.year_of_death ? ' selected ' : ''}>${status.display}</option>`);
+        return list.push(`<option value="${status.value}" ${status.value == "STEVE: Pending VRO Investigation" ? ' selected ' : ''}>${status.display}</option>`);
     });
 
     return list.join(''); 
@@ -802,6 +811,8 @@ function render_app_summary_result_item(item, i)
         delete_enabled_html = ' disabled = "disabled" ';
     }
 
+    delete_enabled_html = ' disabled = "disabled" ';
+
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.case_folder;
@@ -908,6 +919,8 @@ function render_app_pinned_summary_result(item, i)
         checked_out_html = '';
         delete_enabled_html = ' disabled = "disabled" ';
     }
+
+    delete_enabled_html = ' disabled = "disabled" ';
  
     const caseID = item.id;
     const hostState = item.value.host_state;
