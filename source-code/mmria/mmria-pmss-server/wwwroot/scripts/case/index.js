@@ -1558,6 +1558,7 @@ async function load_and_set_data()
         if(value.role_name=="abstractor")
         {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+            //g_ui.case_view_request.jurisdiction = value.jurisdiction_id;
         }
         else if(value.role_name=="jurisdiction_admin")
         {
@@ -1574,6 +1575,11 @@ async function load_and_set_data()
     {
         const value = my_role_list_response.rows[0].value;
         g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+
+        g_ui.case_view_request.status = "STEVE: Pending Vro Investigation";
+        g_ui.case_view_request.jurisdiction = value.jurisdiction_id;
+
+
     }
 
     create_jurisdiction_list(g_jurisdiction_tree);
