@@ -2245,11 +2245,12 @@ STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
         field_selection,
         jurisdiction, year_of_death, status, classification
     );
+    /*
     is_valid_status = create_predicate_by_status(
         search_key,
         field_selection,
         jurisdiction, year_of_death, status, classification
-    );
+    );*/
     is_valid_month_of_birth = create_predicate_by_month_of_birth(
         search_key,
         field_selection,
