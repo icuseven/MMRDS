@@ -1135,6 +1135,7 @@ var g_ui = {
     }
 
     result.tracking.admin_info.jurisdiction = p_state_of_death;
+    result.tracking.statdth = p_state_of_death
     result.tracking.admin_info.track_year = p_year_of_death;
     result.host_state = window.location.host.split('-')[0];
 /*    result.tracking.date_of_death.year = p_year_of_death;

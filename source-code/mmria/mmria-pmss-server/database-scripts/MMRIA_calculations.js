@@ -89,8 +89,8 @@ function $update_age_difference
         start_year != 9999 
     )
     {
-        const new_date_string = `${start_year}-${start_month}-${start_day}`;
-        const date_display = `${start_month}/${start_day}/${start_year}`;
+        const new_date_string = `${start_year}-${start_month.toString().padStart(2, "0")}-${start_day.toString().padStart(2, "0")}`;
+        const date_display = `${start_month.toString().padStart(2, "0")}/${start_day.toString().padStart(2, "0")}/${start_year}`;
 
         start_date = new Date(new_date_string);
     }
@@ -111,8 +111,8 @@ function $update_age_difference
         end_year != 9999 
     )
     {
-        const new_date_string = `${end_year}-${end_month}-${end_day}`;
-        const date_display = `${end_month}/${end_day}/${end_year}`;
+        const new_date_string = `${end_year}-${end_month.toString().padStart(2, "0")}-${end_day.toString().padStart(2, "0")}`;
+        const date_display = `${end_month.toString().padStart(2, "0")}/${end_day.toString().padStart(2, "0")}/${end_year}`;
 
         end_date = new Date(new_date_string);
     }
@@ -169,8 +169,8 @@ function $update_term_days
         start_year != 9999 
     )
     {
-        const new_date_string = `${start_year}-${start_month}-${start_day}`;
-        const date_display = `${start_month}/${start_day}/${start_year}`;
+        const new_date_string = `${start_year}-${start_month.toString().padStart(2, "0")}-${start_day.toString().padStart(2, "0")}`;
+        const date_display = `${start_month.toString().padStart(2, "0")}/${start_day.toString().padStart(2, "0")}/${start_year}`;
 
         start_date = new Date(new_date_string);
     }
@@ -191,8 +191,8 @@ function $update_term_days
         end_year != 9999 
     )
     {
-        const new_date_string = `${end_year}-${end_month}-${end_day}`;
-        const date_display = `${end_month}/${end_day}/${end_year}`;
+        const new_date_string = `${end_year}-${end_month.toString().padStart(2, "0")}-${end_day.toString().padStart(2, "0")}`;
+        const date_display = `${end_month.toString().padStart(2, "0")}/${end_day.toString().padStart(2, "0")}/${end_year}`;
 
         end_date = new Date(new_date_string);
     }
@@ -243,8 +243,8 @@ function $tracking_dod_update
         year != 9999 
     )
     {
-        const new_date_string = `${year}-${month}-${day}`;
-        const date_display = `${month}/${day}/${year}`;
+        const new_date_string = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+        const date_display = `${month.toString().padStart(2, "0")}/${day.toString().padStart(2, "0")}/${year}`;
 
         g_data.tracking.date_of_death.dod = new_date_string;
         $mmria.set_control_value('tracking/date_of_death/dod', date_display);
@@ -407,8 +407,8 @@ function $demographic_dob_update
         year != 9999 
     )
     {
-        const new_date_string = `${year}-${month}-${day}`;
-        const date_display = `${month}/${day}/${year}`;
+        const new_date_string = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+        const date_display = `${month.toString().padStart(2, "0")}/${day.toString().padStart(2, "0")}/${year}`;
 
         g_data.demographic.date_of_birth.dob = new_date_string;
         $mmria.set_control_value('demographic/date_of_birth/dob', date_display);
@@ -534,8 +534,8 @@ function $outcome_dterm_update
         year != 9999 
     )
     {
-        const new_date_string = `${year}-${month}-${day}`;
-        const date_display = `${month}/${day}/${year}`;
+        const new_date_string = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+        const date_display = `${month.toString().padStart(2, "0")}/${day.toString().padStart(2, "0")}/${year}`;
 
         g_data.outcome.dterm_grp.dterm = new_date_string;
         $mmria.set_control_value('outcome/dterm_grp/dterm', date_display);
