@@ -78,7 +78,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             </td>
             <td>
             <label for="search_case_status" class="mr-2">Status:</label>
-            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)" disabled="disabled">
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
                 ${render_case_status(p_ui.case_view_request)}
             </select>
             </td></tr>
@@ -548,7 +548,13 @@ function render_case_status(p_case_view)
 
     values.map((status, i) => {
 
-        return list.push(`<option value="${status.value}" ${status.value == "STEVE: Pending VRO Investigation" ? ' selected ' : ''}>${status.display}</option>`);
+        if
+        (
+            status.value.indexOf("STEVE: Pending VRO Investigation") == 0 ||
+            status.value == "all"
+            
+        )
+        return list.push(`<option value="${status.value}" ${status.value == g_ui.case_view_request.status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
     return list.join(''); 
