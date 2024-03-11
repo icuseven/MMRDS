@@ -1860,6 +1860,7 @@ async function list_check_for_dependent_change
         const child_metadata = eval(g_dependent_child_metadata.get(p_parent_path));
 
         const current_value = document.getElementById(`${convert_object_path_to_jquery_id(p_object_path)}_control`).value;
+        
         $mmria.confirm_dialog_show
         (
             "Confirm Selection", 
@@ -1872,7 +1873,8 @@ async function list_check_for_dependent_change
     }
     else
     {
-        await list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_data);
+        eval(`${p_object_path} = "${p_control.value}"`);
+        await list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_control.value);
     }
 
 
@@ -1905,6 +1907,8 @@ async function list_apply_dependent_change
     const child_element  = document.getElementById(`${convert_object_path_to_jquery_id("g_data." + p_dictionary_path.replace(/\//g, "."))}`);
     
     const object_path = "g_data." + p_dictionary_path.replace(/\//g, ".");
+
+    eval(`${p_object_path} = "${p_data}"`)
 
     eval(`${object_path} = "9999"`)
 

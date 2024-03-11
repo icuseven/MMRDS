@@ -501,6 +501,14 @@ function chart_switch_to_table(p_ui_div_id)
     let style_object = g_default_ui_specification.form_design[params.p_dictionary_path.substring(1)];
 
 
+    let result = [];
+	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+
+	const array = eval(array_field[0]);
+
+    //  const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+
+
     el.outerHTML = 	`
         <div id='${convert_object_path_to_jquery_id(params.p_object_path)}'
         mpath='id='${params.p_metadata_path}' 

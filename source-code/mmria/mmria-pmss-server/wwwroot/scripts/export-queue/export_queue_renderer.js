@@ -2098,11 +2098,11 @@ function search_case_status_onchange(p_value)
     }
 }
 
-function search_pregnancy_relatedness_onchange(p_value)
+function search_classification_onchange(p_value)
 {
-    if(g_case_view_request.pregnancy_relatedness != p_value)
+    if(g_case_view_request.classification != p_value)
     {
-        g_case_view_request.pregnancy_relatedness = p_value;
+        g_case_view_request.classification = p_value;
         g_case_view_request.page = 1;
         g_case_view_request.skip = 0;
     }
