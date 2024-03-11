@@ -867,7 +867,7 @@ var g_case_view_request = {
     result.push('descending=' + this.descending);
     result.push('jurisdiction=' + this.jurisdiction);
     result.push('year_of_death=' + this.year_of_death);
-    result.push('status=' + this.status);
+    result.push('status=' + encodeURI(this.status));
     result.push('classification=' + this.classification);
     
     result.push('field_selection=' + this.field_selection);
@@ -1561,7 +1561,7 @@ function renderSortCaseStatus(p_case_view)
 
 	sortCaseStatuses.map((status, i) => {
 
-        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.case_status ? ' selected ' : ''}>${status.display}</option>`);
+        return sortCaseStatusList.push(`<option value="${status.value}" ${status.value == p_case_view.status ? ' selected ' : ''}>${status.display}</option>`);
     });
 
 	return sortCaseStatusList.join('');
@@ -2090,9 +2090,9 @@ function deselect_all_filtered_cases_click()
 
 function search_case_status_onchange(p_value)
 {
-    if(g_case_view_request.case_status != p_value)
+    if(g_case_view_request.status != p_value)
     {
-        g_case_view_request.case_status = p_value;
+        g_case_view_request.status = p_value;
         g_case_view_request.page = 1;
         g_case_view_request.skip = 0;
     }

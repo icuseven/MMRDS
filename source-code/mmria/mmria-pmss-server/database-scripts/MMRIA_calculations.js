@@ -655,7 +655,9 @@ function $update_bmi
     if
     (
         height != null &&
-        height != 9999 
+        height != '' &&
+        height != 99  &&
+        height != 999
     )
     {
         my_height = height;
@@ -668,7 +670,10 @@ function $update_bmi
     if
     (
         weight != null &&
-        weight != 9999 
+        weight != '' &&
+        weight != 666  &&
+        weight != 777 &&
+        weight != 999 
     )
     {
         my_weight = weight;
