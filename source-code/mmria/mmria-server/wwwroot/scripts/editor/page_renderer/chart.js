@@ -25,11 +25,6 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     chart_function_params_map.set(map_key, function_params);
 
-
-    const function_param_json = JSON.stringify(function_params).replace("'", "&quot;");
-
-
-	
 	p_result.push
 	(
 		`<div id='${convert_object_path_to_jquery_id(p_object_path)}'
@@ -496,17 +491,72 @@ function chart_switch_to_table(p_ui_div_id)
 {
     const el = document.getElementById(p_ui_div_id);
 
-    var params = chart_function_params_map.get(p_ui_div_id);
+    const params = chart_function_params_map.get(p_ui_div_id);
 
     let style_object = g_default_ui_specification.form_design[params.p_dictionary_path.substring(1)];
 
 
+
+    // Date         Systolic Diastolic
+    // Date         Weight (lbs.)
+    // Date         Blood Hematocrit
+    // MM/DD/YYYY   ###
+
     let result = [];
-	const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
 
-	const array = eval(array_field[0]);
+    const metadata = eval(params.p_metadata_path);
 
-    //  const array_field = eval(convert_dictionary_path_to_array_field(p_metadata_path));
+
+    
+    const x_data_type = metadata.x_type;
+    const y_data_type = metadata.y_type;
+
+    let graph_prefix = "";
+
+    if(metadata.x_axis.indexOf("vital_signs") > -1)
+    {
+        graph_prefix = ".vital_signs.";
+    }
+
+    let last_index = metadata.x_axis.lastIndexOf("/") + 1;
+    const x_axis = metadata.x_axis.substr(last_index).trim();
+    const y_axis = [];
+    metadata.y_axis.split(',').forEach(element => {
+        
+        const index = element.lastIndexOf("/") + 1;
+        y_axis.push(graph_prefix + element.substr(index).trim());
+    });
+    
+
+    last_index = metadata.x_axis.lastIndexOf("/");
+    const object_path_last_index = params.p_object_path.lastIndexOf(".")
+    
+    const pre_object = params.p_object_path.substring(0, object_path_last_index);
+    let data = null;
+    if(graph_prefix == "")
+    {
+        data = eval("g_data." + metadata.x_axis.trim().replace("/",".").substring(0, last_index));
+    }
+    else
+    {
+        data = eval(pre_object + graph_prefix.substring(0,graph_prefix.length - 1));
+    }
+    const data_table = [];
+
+    data_table.push(`<tr><th>Date</th>`)
+    y_axis.forEach(element => {
+        data_table.push(`<th>${element.replace(graph_prefix, "")}</th>`)
+    });
+    data_table.push(`</tr>`);
+
+    data.forEach(row => {
+        data_table.push(`<tr><td>${row[x_axis.replace(graph_prefix, "")]}</td>`)
+        y_axis.forEach(col => {
+            data_table.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
+        });
+        data_table.push(`</tr>`);
+    });
+    data_table.push("</table>");
 
 
     el.outerHTML = 	`
@@ -527,7 +577,7 @@ function chart_switch_to_table(p_ui_div_id)
         </tr>
         <tr align=center><td>
         <div id='${convert_object_path_to_jquery_id(params.p_object_path)}_chart'>
-        
+        ${data_table.join("")}
         </div>
         </td></tr>
         </table>
