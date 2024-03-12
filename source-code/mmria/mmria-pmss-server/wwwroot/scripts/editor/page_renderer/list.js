@@ -1866,14 +1866,14 @@ async function list_check_for_dependent_change
             "Confirm Selection", 
             "",
             `Are you sure you want to change the <strong>${metadata.prompt}</strong> list box? selection? The text in the <strong>${child_metadata.prompt}</strong> child list will be cleared.`,
-            new Function(`list_apply_dependent_change("${p_metadata_path}","${p_object_path}","${p_parent_path}","${current_value}");`),
-            new Function(`list_apply_dependent_change_cancel("${p_metadata_path}","${p_object_path}","${p_parent_path}","${p_data}");`)
+            new Function(`list_apply_dependent_change("${p_object_path}","${p_parent_path}","${current_value}");`),
+            new Function(`list_apply_dependent_change_cancel("${p_object_path}","${p_parent_path}","${p_data}");`)
         
         );
     }
     else
     {
-        eval(`${p_object_path} = "${p_control.value}"`);
+        //eval(`${p_object_path} = "${p_control.value}"`);
         await list_apply_dependent_change(p_metadata_path, p_object_path, p_parent_path, p_control.value);
     }
 
@@ -1883,7 +1883,6 @@ async function list_check_for_dependent_change
 
 async function list_apply_dependent_change
 (
-    p_metadata_path,
     p_object_path,
     p_parent_path,
     p_data
@@ -1942,7 +1941,6 @@ async function list_apply_dependent_change
 
 function list_apply_dependent_change_cancel
 (
-    p_metadata_path,
     p_object_path,
     p_parent_path,
     p_data
