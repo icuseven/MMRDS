@@ -38,8 +38,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
                   ${p_metadata.prompt} 
                 </span>
                 <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
-                  <a>Graph</a> |
-                  <a href="javascript:chart_switch_to_table('${convert_object_path_to_jquery_id(p_object_path)}')">Table</a>
+                  Graph |
+                  <a href="javascript:chart_switch_to_table('${map_key}')">Table</a>
                 </span>
               </th>
             </tr>
@@ -506,8 +506,6 @@ function chart_switch_to_table(p_ui_div_id)
 
     const metadata = eval(params.p_metadata_path);
 
-
-    
     const x_data_type = metadata.x_type;
     const y_data_type = metadata.y_type;
 
@@ -541,22 +539,24 @@ function chart_switch_to_table(p_ui_div_id)
     {
         data = eval(pre_object + graph_prefix.substring(0,graph_prefix.length - 1));
     }
-    const data_table = [];
 
-    data_table.push(`<tr><th>Date</th>`)
+
+
+    const data_table_html = [];
+    data_table_html.push(`<table><tr><th>Date</th>`)
     y_axis.forEach(element => {
-        data_table.push(`<th>${element.replace(graph_prefix, "")}</th>`)
+        data_table_html.push(`<th>${element.replace(graph_prefix, "")}</th>`)
     });
-    data_table.push(`</tr>`);
+    data_table_html.push(`</tr>`);
 
     data.forEach(row => {
-        data_table.push(`<tr><td>${row[x_axis.replace(graph_prefix, "")]}</td>`)
+        data_table_html.push(`<tr><td>${row[x_axis.replace(graph_prefix, "")]}</td>`)
         y_axis.forEach(col => {
-            data_table.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
+            data_table_html.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
         });
-        data_table.push(`</tr>`);
+        data_table_html.push(`</tr>`);
     });
-    data_table.push("</table>");
+    data_table_html.push("</table>");
 
 
     el.outerHTML = 	`
@@ -571,13 +571,13 @@ function chart_switch_to_table(p_ui_div_id)
             </span>
             <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
                 <a href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(params.p_object_path)}')">Graph</a> |
-                <a>Table</a>
+                Table
             </span>
             </th>
         </tr>
         <tr align=center><td>
         <div id='${convert_object_path_to_jquery_id(params.p_object_path)}_chart'>
-        ${data_table.join("")}
+        ${data_table_html.join("")}
         </div>
         </td></tr>
         </table>
