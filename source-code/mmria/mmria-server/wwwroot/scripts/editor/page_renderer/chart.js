@@ -24,7 +24,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
 	p_result.push
 	(
-		`<div id='${convert_object_path_to_jquery_id(p_object_path)}'
+		`<div id='${map_key}'
 		  mpath='id='${p_metadata_path}' 
 		  style='${get_only_size_and_position_string(style_object.control.style)}'
 		>
@@ -41,7 +41,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
               </th>
             </tr>
             <tr align=center><td>
-			<div id='${convert_object_path_to_jquery_id(p_object_path)}_chart'>
+			<div id='${map_key}_chart'>
             
             </div>
             </td></tr>
@@ -54,7 +54,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
   
 
 	var chart_size = get_chart_size(style_object.control.style);
-	var chart_gen_name = "chart_" + convert_object_path_to_jquery_id(p_object_path);
+	var chart_gen_name = "chart_" + map_key;
 
    let translate_x = "-30";
    if
@@ -77,10 +77,10 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	  transition: {
 	    duration: null
       },
-      bindto: '#${convert_object_path_to_jquery_id(p_object_path)}_chart',
+      bindto: '#${map_key}_chart',
       onrendered: function()
       {
-		const el = d3.select('#${convert_object_path_to_jquery_id(p_object_path)} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
+		const el = d3.select('#${map_key} svg').selectAll('g.c3-axis.c3-axis-x > g.tick > text');
         el.attr('transform', 'rotate(325)translate(${translate_x},0)');
 
       },`);
@@ -269,7 +269,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
     (
         `${chart_gen_name}`, 
         {
-            div_id: convert_object_path_to_jquery_id(p_object_path),
+            div_id: map_key,
             p_result: p_result,
             p_metadata: p_metadata,
             p_ui: p_ui,
@@ -295,8 +295,8 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 	p_post_html_render.push("  }");
     p_post_html_render.push("  });");
 
-    p_post_html_render.push(" d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').append('text')");
-    p_post_html_render.push("     .attr('x', d3.select('#" + convert_object_path_to_jquery_id(p_object_path) + " svg').node().getBoundingClientRect().width / 2)");
+    p_post_html_render.push(" d3.select('#" + map_key + " svg').append('text')");
+    p_post_html_render.push("     .attr('x', d3.select('#" + map_key + " svg').node().getBoundingClientRect().width / 2)");
     p_post_html_render.push("     .attr('y', 16)");
     p_post_html_render.push("     .attr('text-anchor', 'middle')");
     p_post_html_render.push("     .style('font-size', '1.4em');");
