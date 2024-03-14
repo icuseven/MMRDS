@@ -1,5 +1,5 @@
 @page "/login"
-<div class="container-fluid app-main mt-2" style="background-image: url('/img/Purple-Pattern-Light.png')">
+<div class="container-fluid app-main mt-2 purple-pattern">
   <div class="row justify-content-center">
     @{
       <div class="primary-background">
@@ -12,14 +12,14 @@
         <div class="vertical-control form-group ml-3 mr-3">
           <label for="login_name" class="login__label">Username</label>
           <div>
-            <input autocomplete="off" id="login_name" class="login__field form-control vertical-control col-md-12" name="username" type="text" />
+            <input required autocomplete="off" id="login_name" class="login__field form-control vertical-control col-md-12" name="username" type="text" />
             <i class="login__icon"></i>
           </div>
         </div>
         <div class="form-group vertical-control ml-3 mr-3">
           <label for="login_value" class="login__label">Password</label>
           <div>
-            <input autocomplete="off" id="login_value" class="login__field form-control vertical-control col-md-12" name="value" type="password" />
+            <input required autocomplete="off" id="login_value" class="login__field form-control vertical-control col-md-12" name="value" type="password" />
             <i class="login__icon"></i>
           </div>
         </div>

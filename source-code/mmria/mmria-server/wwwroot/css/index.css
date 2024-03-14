@@ -37259,4 +37259,10 @@ span.reverse {
   font-size: small;
 }
 
+.purple-pattern {
+  background-image: url(/img/Purple-Pattern-Light.png);
+  background-repeat: round;
+  background-size: cover;
+}
+
 /*# sourceMappingURL=index.css.map */

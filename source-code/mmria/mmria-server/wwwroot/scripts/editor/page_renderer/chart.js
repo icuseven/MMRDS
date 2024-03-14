@@ -3,27 +3,24 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 {
 	let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
 
+  const function_params = {
+      p_result: p_result, 
+      p_metadata: p_metadata, 
+      p_data: p_data, 
+      p_ui: p_ui, 
+      p_metadata_path: p_metadata_path, 
+      p_object_path: p_object_path, 
+      p_dictionary_path: p_dictionary_path, 
+      p_is_grid_context: p_is_grid_context, 
+      p_post_html_render: p_post_html_render, 
+      p_search_ctx: p_search_ctx, 
+      p_ctx: p_ctx, 
+      p_is_de_identified: p_is_de_identified
 
-    const function_params = {
-        p_result: p_result, 
-        p_metadata: p_metadata, 
-        p_data: p_data, 
-        p_ui: p_ui, 
-        p_metadata_path: p_metadata_path, 
-        p_object_path: p_object_path, 
-        p_dictionary_path: p_dictionary_path, 
-        p_is_grid_context: p_is_grid_context, 
-        p_post_html_render: p_post_html_render, 
-        p_search_ctx: p_search_ctx, 
-        p_ctx: p_ctx, 
-        p_is_de_identified: p_is_de_identified
+  };
 
-    };
-
-
-    const map_key = convert_object_path_to_jquery_id(p_object_path);
-
-    chart_function_params_map.set(map_key, function_params);
+  const map_key = convert_object_path_to_jquery_id(p_object_path);
+  chart_function_params_map.set(map_key, function_params);
 
 	p_result.push
 	(
@@ -34,10 +31,10 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
             <table style='border-color:#e0e0e0;padding:5px;' border=1>
             <tr align=center style='background-color:#b890bb;'>
               <th style="display: flex; justify-content: center;">
-                <span style="margin-left: 3rem;">
-                  ${p_metadata.prompt} 
+                <span>
+                  ${p_metadata.prompt.replace(" Graph", "")} 
                 </span>
-                <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
+                <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem; margin-right: .2rem; margin-bottom: .2rem;">
                   Graph |
                   <a href="javascript:chart_switch_to_table('${map_key}')">Table</a>
                 </span>
@@ -490,12 +487,8 @@ function chart_onrendered()
 function chart_switch_to_table(p_ui_div_id)
 {
     const el = document.getElementById(p_ui_div_id);
-
     const params = chart_function_params_map.get(p_ui_div_id);
-
     let style_object = g_default_ui_specification.form_design[params.p_dictionary_path.substring(1)];
-
-
 
     // Date         Systolic Diastolic
     // Date         Weight (lbs.)
@@ -503,13 +496,12 @@ function chart_switch_to_table(p_ui_div_id)
     // MM/DD/YYYY   ###
 
     let result = [];
-
     const metadata = eval(params.p_metadata_path);
-
     const x_data_type = metadata.x_type;
     const y_data_type = metadata.y_type;
-
     let graph_prefix = "";
+    let bp_header_prefix = "bp_";
+    let bp_header_suffix = "_bp";
 
     if(metadata.x_axis.indexOf("vital_signs") > -1)
     {
@@ -524,7 +516,6 @@ function chart_switch_to_table(p_ui_div_id)
         const index = element.lastIndexOf("/") + 1;
         y_axis.push(graph_prefix + element.substr(index).trim());
     });
-    
 
     last_index = metadata.x_axis.lastIndexOf("/");
     const object_path_last_index = params.p_object_path.lastIndexOf(".")
@@ -540,49 +531,64 @@ function chart_switch_to_table(p_ui_div_id)
         data = eval(pre_object + graph_prefix.substring(0,graph_prefix.length - 1));
     }
 
-
-
-    const data_table_html = [];
-    data_table_html.push(`<table><tr><th>Date</th>`)
+    const data_table_header_html = [];
+    const data_table_body_html = [];
+    data_table_header_html.push(`<tr><th style="background-color: #E3D3E4; padding-left: 5px;">Date</th>`)
     y_axis.forEach(element => {
-        data_table_html.push(`<th>${element.replace(graph_prefix, "")}</th>`)
+        let header_string = "";
+        header_string = element.replace(graph_prefix, "").replace(bp_header_prefix, "").replace(bp_header_suffix, "");
+        header_string = header_string.replace("_", " ");
+        header_string = header_string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1, word.length + 1)).join(' ');
+        if(header_string == "Weight")
+          header_string += " (lbs.)";
+        data_table_header_html.push(`<th style="background-color: #E3D3E4; padding-left: 5px;">${header_string}</th>`)
     });
-    data_table_html.push(`</tr>`);
+    data_table_header_html.push(`</tr>`);
 
     data.forEach(row => {
-        data_table_html.push(`<tr><td>${row[x_axis.replace(graph_prefix, "")]}</td>`)
+      let date_string = "";
+      let temp_date_data = row[x_axis.replace(graph_prefix, "")];
+      if (temp_date_data.indexOf("T") != -1)
+        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
+      else
+        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
+      data_table_body_html.push(`<tr><td>${date_string}</td>`)
         y_axis.forEach(col => {
-            data_table_html.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
+          data_table_body_html.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
         });
-        data_table_html.push(`</tr>`);
+        data_table_body_html.push(`</tr>`);
     });
-    data_table_html.push("</table>");
-
 
     el.outerHTML = 	`
         <div id='${convert_object_path_to_jquery_id(params.p_object_path)}'
         mpath='id='${params.p_metadata_path}' 
-        style='${get_only_size_and_position_string(style_object.control.style)}'>
-        <table style='border-color:#e0e0e0;padding:5px;' border=1>
-        <tr align=center style='background-color:#b890bb;'>
-            <th style="display: flex; justify-content: center;">
-            <span style="margin-left: 3rem;">
-                ${params.p_metadata.prompt} 
-            </span>
-            <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
-                <a href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(params.p_object_path)}')">Graph</a> |
-                Table
-            </span>
-            </th>
-        </tr>
-        <tr align=center><td>
-        <div id='${convert_object_path_to_jquery_id(params.p_object_path)}_chart'>
-        ${data_table_html.join("")}
-        </div>
-        </td></tr>
+        style='${get_only_size_and_position_string(style_object.control.style)};overflow-y: auto;'>
+        <table style='border-color:#e0e0e0;padding:5px; width: 100%;' border=1>
+        <thead style="position: sticky; top: 0px">
+          <tr align=center style='background-color:#b890bb;'>
+              <th style="padding-bottom: 0.2rem;" colspan="100">
+                <span style="margin-left: 3rem;">
+                    ${params.p_metadata.prompt.replace(" Graph", "")} 
+                </span>
+                <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
+                    <a role="button" href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(params.p_object_path)}')">Graph</a> |
+                    Table
+                </span>
+              </th>
+          </tr>
+          <tr style="display: none;" aria-hidden="true"  align=center>
+            <td>
+              <div id='${convert_object_path_to_jquery_id(params.p_object_path)}_chart'>
+                ${data_table_header_html.join("")}
+              </div>
+            </td>
+          </tr>     
+        </thead>
+        <tbody>
+          ${data_table_body_html.join("")}
+        </tbody>        
         </table>
     </div>`;
-    
 }
 
 function chart_switch_to_graph(p_ui_div_id)
