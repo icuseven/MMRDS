@@ -18,6 +18,14 @@ public sealed partial class mmria_case
 {
 
 
+    string data_migration_json_mmria_id = null;
+    string data_migration_json_record_id = null;
+
+    public void SetJsonErrorId(string id, string record_id)
+    {
+        data_migration_json_mmria_id = id;
+        data_migration_json_record_id = record_id;
+    }
     public static Dictionary<string, Metadata_Node> all_list_set = null;
 
     public static Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);

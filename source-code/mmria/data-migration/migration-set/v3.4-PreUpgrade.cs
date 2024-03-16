@@ -9,6 +9,8 @@ namespace migrate.set;
 public sealed class v3_4_PreUpgrade
 {
 
+	record case_view_result_item(string _id, string record_id);
+
 	public string host_db_url;
 	public string db_name;
 	public string config_timer_user_name;
@@ -108,7 +110,7 @@ public sealed class v3_4_PreUpgrade
 
 			System.Console.WriteLine(host_db_url);
 			
-			var id_list = GetIdList();
+			var id_record_id_tuple = GetIdList();
 
 			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
 
@@ -118,29 +120,31 @@ public sealed class v3_4_PreUpgrade
 
             //var Valid_CVS_Years = CVS_Get_Valid_Years(db_config_set);
 
-    		Dictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
+    		SortedDictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
 
 			Dictionary<string, Metadata_Node> all_list_dictionary = null;
 
 
 
-			foreach(var existing_id in id_list)
+			foreach(var kv in id_record_id_tuple)
 			{
 
-				if(existing_id.IndexOf("_design") > -1)
+				if(kv._id.IndexOf("_design") > -1)
 				{
 					continue;
 				}
 
 				//if(!id_set.Contains(existing_id)) continue;
 
-				string url = $"{host_db_url}/{db_name}/{existing_id}";
+				string url = $"{host_db_url}/{db_name}/{kv._id}";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 
 
 
 				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				
+				/*
 				string get_doc_value(string p_path)
 				{
 					var result = String.Empty;
@@ -159,28 +163,36 @@ public sealed class v3_4_PreUpgrade
 					return result;
 				}
 				string mmria_record_id = get_doc_value("home_record/record_id");
-				string mmria_id = get_doc_value("_id");
+				string mmria_id = get_doc_value("_id");*/
 
 
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
                 var result = new mmria.case_version.v231108.mmria_case();
+				result.SetJsonErrorId(kv._id, kv.record_id);
+
+				//if(mmria.case_version.v231108.mmria_case.add_error != null)
+				//{
+					
+				//}
 
 				void add_error(string path, string error)
 				{
 					if(!ErrorDictionary.ContainsKey(path))
 						ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
 
-					ErrorDictionary[path].Add($"id: {existing_id} record_id: {mmria_record_id} error: {error}");
+					ErrorDictionary[path].Add($"id: {kv._id} record_id: {kv.record_id} error: {error}");
 
 
 
 				}
+
+
 				mmria.case_version.v231108.mmria_case.add_error += add_error;
 
 
 
                 result.Convert(json_doc.RootElement);
-
+				mmria.case_version.v231108.mmria_case.add_error -= add_error;
 				
 				continue;
 
@@ -325,9 +337,16 @@ public sealed class v3_4_PreUpgrade
 		
 		}
 
-		foreach(var kvp in mmria.case_version.v231108.mmria_case.ErrorDictionary)
+		output_builder.AppendLine($"paths with data problems:");
+		foreach(var kvp in ErrorDictionary)
 		{
 			output_builder.AppendLine($"path: {kvp.Key}");
+		}
+		output_builder.AppendLine($"\n");
+
+		foreach(var kvp in ErrorDictionary)
+		{
+			output_builder.AppendLine($"\n\npath: {kvp.Key} details:");
 			foreach(var val in kvp.Value)
 			{
 				output_builder.AppendLine($"\t\t{val}");
@@ -877,7 +896,7 @@ public sealed class v3_4_PreUpgrade
         return response_string.Trim('"');
     }
 
-	private HashSet<string> GetIdList ()
+	private List<case_view_result_item> GetIdList ()
 	{
 /*
 		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
@@ -890,24 +909,27 @@ public sealed class v3_4_PreUpgrade
 		return result;*/
 
 
-		var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+		var result = new List<case_view_result_item>();
 		try
 		{
-			string URL = $"{host_db_url}/{db_name}/_all_docs";
+			//string URL = $"{host_db_url}/{db_name}/_all_docs";
+			string URL = $"{host_db_url}/{db_name}/_design/sortable/_view/by_date_created?skip=0&limit=30000";
+			//
 			var document_curl = new cURL ("GET", null, URL, null, config_timer_user_name, config_timer_value);
 			var curl_result = document_curl.execute();
 
-			var all_cases = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.alldocs_response<System.Dynamic.ExpandoObject>> (curl_result);
+
+			var all_cases =  Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response> (curl_result);
 			var all_cases_rows = all_cases.rows;
 
 			foreach (var row in all_cases_rows) 
 			{
-				result.Add(row.id);
+				result.Add(new(row.id,row.value.record_id));
 			}
 		}
 		catch(Exception)
 		{
-
+			//System.Console.WriteLine(ex);
 		}
 		return result;
 	}
