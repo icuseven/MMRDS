@@ -140,6 +140,27 @@ public sealed class v3_4_PreUpgrade
 
 
 
+				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				string get_doc_value(string p_path)
+				{
+					var result = String.Empty;
+
+
+					migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(doc, p_path);
+					if
+					(
+						! temp_result.is_error &&
+						temp_result.result != null
+					)
+					{
+						result = temp_result.result.ToString();
+					}
+
+					return result;
+				}
+				string mmria_record_id = get_doc_value("home_record/record_id");
+				string mmria_id = get_doc_value("_id");
+
 
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
                 var result = new mmria.case_version.v231108.mmria_case();
@@ -149,7 +170,7 @@ public sealed class v3_4_PreUpgrade
 					if(!ErrorDictionary.ContainsKey(path))
 						ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
 
-					ErrorDictionary[path].Add($"id: {existing_id} {error}");
+					ErrorDictionary[path].Add($"id: {existing_id} record_id: {mmria_record_id} error: {error}");
 
 
 
@@ -163,7 +184,7 @@ public sealed class v3_4_PreUpgrade
 				
 				continue;
 
-				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				//var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 				//var case_item in case_response.rows
 				var case_has_changed = false;
 				var case_change_count = 0;
@@ -174,7 +195,7 @@ public sealed class v3_4_PreUpgrade
 				{
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-					string mmria_id = value_result.result.ToString();
+					//string mmria_id = value_result.result.ToString();
 					
 					string get_value(string p_path)
 					{

@@ -56,9 +56,9 @@ internal class Program
 //https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/
 //https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/
 
-        var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
+        //var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
 
-        //var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.11.08/metadata"; // mmria
+        var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.11.08/metadata"; // mmria
 
         using(var metadata_client = new HttpClient ())
         {
