@@ -3506,7 +3506,7 @@ function g_textarea_oninput
     set_local_case(g_data, null);
 }
 
-async function navigation_away() 
+function navigation_away() 
 {
   if (g_data_is_checked_out && g_data) 
   {
