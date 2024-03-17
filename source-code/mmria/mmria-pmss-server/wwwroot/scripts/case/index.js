@@ -1218,9 +1218,9 @@ var g_ui = {
     set_local_case
     (
         g_data,
-        function () 
+        async function () 
         {
-            save_case(g_data, function () 
+            await save_case(g_data, function () 
             {
                 var url =
                 location.protocol +
@@ -1908,7 +1908,7 @@ function get_metadata()
   });
 }
 
-function window_on_hash_change(e) 
+async function window_on_hash_change(e) 
 {
 
   if (g_data) 
@@ -1940,9 +1940,9 @@ function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                save_case(g_data, function () 
+                await save_case(g_data, function () 
                 {
-                get_specific_case(
+                    get_specific_case(
                     g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
                 );
                 }, "hash_change");
@@ -1961,15 +1961,12 @@ function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                save_case(g_data, function () 
-                {
-                    g_render();
-                }, "hash_change");
+                const current_data = g_data;
+                window.setTimeout(async () =>await save_case(current_data,  null, "hash_change"), 0);
             }
-            else
-            {
-                g_render();
-            }
+
+
+            g_render();
         }
       } 
       else 
@@ -1982,19 +1979,24 @@ function window_on_hash_change(e)
 
             g_apply_sort(g_metadata, g_data, "","", "");
 
-            save_case(g_data, function () {
-            g_data = null;
-            get_case_set(function () {
-                g_render();
-            });
-            }, "hash_change");
+            await save_case
+            (
+                g_data, 
+                async function () {
+                    g_data = null;
+                    await get_case_set();
+                    }, 
+                "hash_change"
+            );
+
+            g_render();
+            
         }
         else
         {
             g_data = null;
-            get_case_set(function () {
-                g_render();
-            });
+            await get_case_set();
+            g_render();
         }
       }
     }
@@ -3053,7 +3055,7 @@ function enable_edit_click()
     g_data.date_last_checked_out = new_date;
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
-    save_case(g_data, create_save_message, "enable_edit");
+    window.setTimeout(async ()=> await save_case(g_data, create_save_message, "enable_edit"), 0);
     g_autosave_interval = window.setInterval(autosave, 10000);
 
     g_render();
@@ -3065,10 +3067,10 @@ function enable_edit_click()
   }
 }
 
-function save_form_click() 
+async function save_form_click() 
 {
     
-    save_case(g_data, create_save_message, 'save_form_click');
+    await save_case(g_data, create_save_message, 'save_form_click');
 }
 
 function save_and_finish_click() 
@@ -3078,7 +3080,7 @@ function save_and_finish_click()
   g_data.last_checked_out_by = null;
   g_data_is_checked_out = false;
   g_apply_sort(g_metadata, g_data, "","", "");
-  save_case(g_data, create_save_message, 'save_and_finish_click');
+  window.setTimeout(async ()=> await save_case(g_data, create_save_message, 'save_and_finish_click'), 0);
   g_render();
   window.clearInterval(g_autosave_interval);
   g_autosave_interval = null;
@@ -3294,7 +3296,7 @@ function undo_click()
   g_render();
 }
 
-function autosave() 
+async function autosave() 
 {
   let split_one = window.location.href.split('#');
 
@@ -3321,7 +3323,7 @@ function autosave()
           if (number_of_minutes > 2) 
           {
             g_data.date_last_updated = new Date();
-            save_case(g_data, null, 'autosave');
+            await save_case(g_data, null, 'autosave');
           }
         }
       }
@@ -3504,7 +3506,7 @@ function g_textarea_oninput
     set_local_case(g_data, null);
 }
 
-function navigation_away() 
+async function navigation_away() 
 {
   if (g_data_is_checked_out && g_data) 
   {
@@ -3524,9 +3526,14 @@ function navigation_away()
       }
     }
 
-    save_case(g_data, null, 'navigation_away');
-    window.clearInterval(g_autosave_interval);
-    g_autosave_interval = null;
+    const current_data = g_data;
+    save_case(current_data, null, 'navigation_away').then
+    (
+        ()=>{
+        window.clearInterval(g_autosave_interval);
+        g_autosave_interval = null;
+        }
+    );
   }
 }
 

@@ -1025,7 +1025,7 @@ function g_delete_grid_item_action
 
 }
 
-function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
+async function g_duplicate_record_item(p_object_path, p_metadata_path, p_index) 
 {
     const metadata = eval(p_metadata_path);
     var object_string = p_object_path.replace(new RegExp("(\\[\\d+\\]$)"), "");
@@ -1049,7 +1049,7 @@ function g_duplicate_record_item(p_object_path, p_metadata_path, p_index)
     
     g_apply_sort(metadata, form_array, p_metadata_path, multiform_path, "/" + metadata.name);
     
-        save_case
+        await save_case
         (
             g_data,
             function () 
