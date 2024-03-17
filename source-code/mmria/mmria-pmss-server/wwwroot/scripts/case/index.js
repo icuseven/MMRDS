@@ -2252,7 +2252,7 @@ async function save_case(p_data, p_call_back, p_note)
         {
             g_data._rev = case_response.rev;
             g_data_is_checked_out = is_case_checked_out(g_data);
-            g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
+            //g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
             set_local_case(g_data);
             //console.log('set_value save finished');
         }
