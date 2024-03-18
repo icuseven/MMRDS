@@ -80,7 +80,9 @@ mo
 fl
 
 */
-"ny"
+"wi",
+"wy",
+//"ny"
         //"hi",
         //"al",
         //"ak",
@@ -282,7 +284,7 @@ fl
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = true;
+        bool is_test_list = false;
         
         bool is_report_only_mode = true;
 

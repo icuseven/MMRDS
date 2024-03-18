@@ -827,3 +827,967 @@ function  tracking_admin_info_status_onchange(p_control)
 
     }
 }
+
+// CALCULATE OMB RACE
+function $calc_race_omb(p_white, p_black, p_amindalknat, p_asianindian, p_chinese, p_filipino, p_japanese, p_korean, p_vietnamese, p_otherasian, p_nativehawaiian, p_guamcham, p_samoan, p_otherpacific, p_other, p_notspecified) 
+{
+    let race_omb = 9999;
+
+    let rW = 0;
+    let rB = 0;
+    let rA = 0;
+    let rAiAn = 0;
+    let rPI = 0;
+    let rO = 0;
+    let rNS = 0;
+    
+    if 
+    (
+        p_white == "N" && 
+        p_black == "N" && 
+        p_amindalknat == "N" && 
+        p_asianindian == "N" && 
+        p_chinese == "N" && 
+        p_filipino == "N" && 
+        p_japanese == "N" && 
+        p_korean == "N" && 
+        p_vietnamese == "N" && 
+        p_otherasian == "N" && 
+        p_nativehawaiian == "N" && 
+        p_guamcham == "N" && 
+        p_samoan == "N" && 
+        p_otherpacific == "N" && 
+        p_other == "N" && 
+        p_notspecified == "N"
+    ) 
+    {
+      rNS = 1;
+    }
+    else
+    {
+        if (p_notspecified == "Y")
+        { 
+            rNS = 1;
+        }
+        if (p_white == "Y") 
+        {
+            rW = 1;
+        }
+        if (p_black == "Y") 
+        {
+            rB = 1;
+        }
+        if (p_amindalknat == "Y")
+        {
+            rAiAn = 1;
+        }
+        if (p_other == "Y") 
+        {
+            rO = 1;
+        }
+      
+        if (p_asianindian == "Y")
+        {
+            rA = 1;
+        }
+        if (p_chinese == "Y")
+        {
+            rA = 1;
+        }
+        if (p_filipino == "Y")
+        {
+            rA = 1;
+        }
+        if (p_japanese == "Y")
+        {
+            rA = 1;
+        }
+        if (p_korean == "Y")
+        {
+            rA = 1;
+        }
+        if (p_vietnamese == "Y")
+        {
+            rA = 1;
+        }
+        if (p_otherasian == "Y")
+        {
+            rA = 1;
+        }
+      
+        if (p_nativehawaiian == "Y")
+        {
+            rPI = 1;
+        }
+        if (p_guamcham == "Y")
+        {
+            rPI = 1;
+        }
+        if (p_samoan == "Y")
+        {
+            rPI = 1;
+        }
+        if (p_otherpacific == "Y")
+        {
+            rPI = 1;
+        }
+    }
+      
+    if ((rW + rB + rAiAn + rA + rPI + rO + rNS) == 1)
+    {
+        if (rW = 1)
+        {
+            race_omb = 1;
+        }
+        else if (rB = 1)
+        {
+            race_omb = 2;
+        }
+        else if (rA = 1) 
+        {
+            race_omb = 3;
+        }
+        else if (rAiAn = 1)
+        {
+            race_omb = 4;
+        }
+        else if (rPI = 1)
+        {
+            race_omb = 5;
+        }
+        else if (rO = 1) 
+        {
+            race_omb = 8;
+        }
+        else if (rNS = 1)
+        {
+            race_omb = 9;
+        }
+    }
+    
+    else if ((rW + rB + rAiAn + Ra + rPI + rO) == 2)
+    {
+        race_omb = 6;
+    }
+    else if ((rW + rB + rAiAn + Ra + rPI + rO) > 2)
+    {
+        race_omb = 7;
+    }
+    else if (rNS = 1) 
+    {
+        race_omb = 9;
+    }
+
+    return race_omb;
+}
+
+//CALCULATE RACE OMB
+function $update_race_omb
+(
+    race_white,
+    race_black,
+    race_amindalknat,
+    race_asianindian,
+    race_chinese,
+    race_filipino,
+    race_japanese,
+    race_korean,
+    race_vietnamese,
+    race_otherasian,
+    race_nativehawaiian,
+    race_guamcham,
+    race_samoan,
+    race_otherpacific,
+    race_other,
+    race_notspecified
+)
+{
+    let my_race_white = null
+    let my_race_black = null
+    let my_race_amindalknat = null
+    let my_race_asianindian = null
+    let my_race_chinese = null
+    let my_race_filipino = null
+    let my_race_japanese = null
+    let my_race_korean = null
+    let my_race_vietnamese = null
+    let my_race_otherasian = null
+    let my_race_nativehawaiian = null
+    let my_race_guamcham = null
+    let my_race_samoan = null
+    let my_race_otherpacific = null
+    let my_race_other = null
+    let my_race_notspecified = null
+	
+	
+	function GetValue(value)
+	{
+		let result = null;
+		
+		if
+		(
+		value != null &&
+        value != '' &&
+        value != "9999"
+		)
+		result = value;
+		
+		return result;
+	}
+	
+    my_race_white = GetValue(race_white);
+    my_race_black = GetValue(race_black);
+    my_race_amindalknat = GetValue(race_amindalknat);
+    my_race_asianindian = GetValue(race_asianindian);
+    my_race_chinese = GetValue(race_chinese);
+    my_race_filipino = GetValue(race_filipino);
+    my_race_japanese = GetValue(race_japanese);
+    my_race_korean = GetValue(race_korean);
+    my_race_vietnamese = GetValue(race_vietnamese);
+    my_race_otherasian = GetValue(race_otherasian);
+    my_race_nativehawaiian = GetValue(race_nativehawaiian);
+    my_race_guamcham = GetValue(race_guamcham);
+    my_race_samoan = GetValue(race_samoan);
+    my_race_otherpacific = GetValue(race_otherpacific);
+    my_race_other = GetValue(race_other);
+    my_race_notspecified = GetValue(race_notspecified);
+    
+    
+    if 
+    (
+        my_race_white != null && 
+        my_race_black != null && 
+        my_race_amindalknat != null && 
+        my_race_asianindian != null && 
+        my_race_chinese != null && 
+        my_race_filipino != null && 
+        my_race_japanese != null && 
+        my_race_korean != null && 
+        my_race_vietnamese != null && 
+        my_race_otherasian != null && 
+        my_race_nativehawaiian != null && 
+        my_race_guamcham != null && 
+        my_race_samoan != null && 
+        my_race_otherpacific != null && 
+        my_race_other != null && 
+        my_race_notspecified != null
+    )
+
+    {
+        let my_race_omb = $global.calc_race_omb
+        (
+            my_race_white,
+            my_race_black, 
+            my_race_amindalknat, 
+            my_race_asianindian, 
+            my_race_chinese, 
+            my_race_filipino, 
+            my_race_japanese, 
+            my_race_korean, 
+            my_race_vietnamese, 
+            my_race_otherasian, 
+            my_race_nativehawaiian, 
+            my_race_guamcham,
+            my_race_samoan, 
+            my_race_otherpacific, 
+            my_race_other,
+            my_race_notspecified,
+        );
+        
+        g_data.demographic.q12.group.race_omb = my_race_omb;
+        $mmria.set_control_value('demographic/q12/group/race_omb', my_race_omb);
+    }
+    else
+    {
+        g_data.demographic.q12.group.race_omb = 9999;  
+        $mmria.set_control_value('demographic/q12/group/race_omb', 9999); 
+    }
+}
+
+/*
+path=demographic/q12/group/race_white
+event=onchange
+*/
+function  demographic_q12_group_race_white_onchange(p_control) 
+{
+    const race_white = p_control.value;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_black
+event=onchange
+*/
+function  demographic_q12_group_race_black_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = p_control.value;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_amindalknat
+event=onchange
+*/
+function  demographic_q12_group_race_amindalknat_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = p_control.value;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_asianindian
+event=onchange
+*/
+function  demographic_q12_group_race_asianindian_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = p_control.value;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_chinese
+event=onchange
+*/
+function  demographic_q12_group_race_chinese_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = p_control.value;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_filipino
+event=onchange
+*/
+function  demographic_q12_group_race_filipino_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = p_control.value;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_japanese
+event=onchange
+*/
+function  demographic_q12_group_race_japanese_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = p_control.value;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_korean
+event=onchange
+*/
+function  demographic_q12_group_race_korean_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = p_control.value;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_vietnamese
+event=onchange
+*/
+function  demographic_q12_group_race_vietnamese_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = p_control.value;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_otherasian
+event=onchange
+*/
+function  demographic_q12_group_race_otherasian_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = p_control.value;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_nativehawaiian
+event=onchange
+*/
+function  demographic_q12_group_race_nativehawaiian_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = p_control.value;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_guamcham
+event=onchange
+*/
+function  demographic_q12_group_race_guamcham_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = p_control.value;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_samoan
+event=onchange
+*/
+function  demographic_q12_group_race_samoan_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = p_control.value;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_otherpacific
+event=onchange
+*/
+function  demographic_q12_group_race_otherpacific_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = p_control.value;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_other
+event=onchange
+*/
+function  demographic_q12_group_race_other_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = p_control.value;
+    const race_notspecified = g_data.demographic.q12.group.race_notspecified;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
+
+/*
+path=demographic/q12/group/race_notspecified
+event=onchange
+*/
+function  demographic_q12_group_race_notspecified_onchange(p_control) 
+{
+    const race_white = g_data.demographic.q12.group.race_white;
+    const race_black = g_data.demographic.q12.group.race_black;
+    const race_amindalknat = g_data.demographic.q12.group.race_amindalknat;
+    const race_asianindian = g_data.demographic.q12.group.race_asianindian;
+    const race_chinese = g_data.demographic.q12.group.race_chinese;
+    const race_filipino = g_data.demographic.q12.group.race_filipino;
+    const race_japanese = g_data.demographic.q12.group.race_japanese;
+    const race_korean = g_data.demographic.q12.group.race_korean;
+    const race_vietnamese = g_data.demographic.q12.group.race_vietnamese;
+    const race_otherasian = g_data.demographic.q12.group.race_otherasian;
+    const race_nativehawaiian = g_data.demographic.q12.group.race_nativehawaiian;
+    const race_guamcham = g_data.demographic.q12.group.race_guamcham;
+    const race_samoan = g_data.demographic.q12.group.race_samoan;
+    const race_otherpacific = g_data.demographic.q12.group.race_otherpacific;
+    const race_other = g_data.demographic.q12.group.race_other;
+    const race_notspecified = p_control.value;
+    $global.update_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+}
