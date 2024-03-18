@@ -764,7 +764,7 @@ async function download_data_quality_report_button_click()
     {
         let headers = {
             title: `Data Quality Report for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter }    Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+            subtitle: `Reporting Period: ${ get_header_reporting_period(g_model.selectedQuarter) }    Previous 4 Periods: ${ getPreviousFourQuarters()}`,
         };
 
         await create_pdf(
@@ -780,7 +780,7 @@ async function download_data_quality_report_button_click()
     {
         let headers = {
             title: `Data Quality Report Details for: ${ getCaseFolder() }`,
-            subtitle: `Reporting Period: ${ g_model.selectedQuarter }   Previous 4 Periods: ${ getPreviousFourQuarters()}`,
+            subtitle: `Reporting Period: ${ get_header_reporting_period(g_model.selectedQuarter) }   Previous 4 Periods: ${ getPreviousFourQuarters()}`,
         };
         
 
@@ -1145,7 +1145,7 @@ function getPreviousFourQuarters()
 
     let arr = g_model.selectedQuarter.split("-");
     let qtr = parseInt(arr[0][1]);
-    let yy = parseInt(arr[1]);
+    let yy = parseInt(arr[1].substr(2));
     
     for ( let i = 0; i < 4; i++ )
     {
@@ -1162,6 +1162,34 @@ function getPreviousFourQuarters()
     }
 
     return qStr;
+}
+
+
+function get_header_reporting_period(value)
+{
+    let result = value;
+    const arr = value.split("-");
+    const year_string = arr[1];
+
+    switch(arr[0].toUpperCase())
+    {
+        case 'Q1':
+            result = `Q1 (Jan-Mar ${year_string})`;
+        break;
+        case 'Q2':
+            result = `Q2 (Apr-Jun ${year_string})`;
+        break;
+        case 'Q3':
+            result = `Q3 (Jul-Sep ${year_string})`;
+        break;
+        case 'Q4':
+            result = `Q3 (Oct-Dec ${year_string})`;
+        break;
+
+    }
+
+
+    return result;
 }
 
 
