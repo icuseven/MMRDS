@@ -1170,20 +1170,21 @@ function get_header_reporting_period(value)
     let result = value;
     const arr = value.split("-");
     const year_string = arr[1];
+    const year_two_digit = arr[1].substr(2);
 
     switch(arr[0].toUpperCase())
     {
         case 'Q1':
-            result = `Q1 (Jan-Mar ${year_string})`;
+            result = `Q1-${year_two_digit} (Jan-Mar ${year_string})`;
         break;
         case 'Q2':
-            result = `Q2 (Apr-Jun ${year_string})`;
+            result = `Q2-${year_two_digit} (Apr-Jun ${year_string})`;
         break;
         case 'Q3':
-            result = `Q3 (Jul-Sep ${year_string})`;
+            result = `Q3-${year_two_digit} (Jul-Sep ${year_string})`;
         break;
         case 'Q4':
-            result = `Q3 (Oct-Dec ${year_string})`;
+            result = `Q3-${year_two_digit} (Oct-Dec ${year_string})`;
         break;
 
     }
