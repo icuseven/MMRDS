@@ -88,7 +88,7 @@ public sealed class AuditRecoverUtilController: ControllerBase
 
 
             //var request_string = $"{configuration.url}/{configuration.prefix}audit/_all_docs?include_docs=true";
-            var (request_string, post_data) = get_find_url(db_config, case_id);
+            var (request_string, post_data) = get_find_url(config, case_id);
             var audit_view_curl = new mmria.getset.cURL("POST",null,request_string,post_data, config.user_name, config.user_value);
             responseFromServer = await audit_view_curl.executeAsync();
 
