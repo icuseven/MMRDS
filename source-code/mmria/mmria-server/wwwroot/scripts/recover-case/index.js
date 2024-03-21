@@ -742,6 +742,11 @@ function set_list_lookup
             {
                 multiform_grid_set.add(p_path);
             }
+
+            if(p_is_multiform)
+            {
+                multiform_set.add(p_path);
+            }
             
             if(p_metadata.type.toLowerCase() == "list")
             {
