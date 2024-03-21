@@ -5191,7 +5191,8 @@ async function autorecalculate
             break;
         }
     }
-
+    
+    /*
     if(is_log_auto_count)
     {
         console.log(`
@@ -5203,6 +5204,7 @@ async function autorecalculate
         autorecalculate_entry ${autorecalculate_entry}
         `);
     }
+    */
 }
 
 async function autorecalculate_all_gestation

@@ -251,6 +251,7 @@ async function show_versions_for_id_click(p_id)
     render();
 }
 
+
 function render_versions_for_selected_id()
 {
     const result = [];
@@ -313,6 +314,31 @@ function render_versions_for_selected_id()
     return result.join("");
 }
 
+function extract_form_index_from_object_path(p_dictionary_path, value)
+{
+    let result = null;
+    //g_data.er_visit_and_hospital_medical_records[6].referrals_and_consultations[4].date"
+
+    const start_index = value.indexOf("[");
+    const end_index = value.indexOf("]");
+    if
+    (
+        start_index > -1 && 
+        end_index > -1 &&
+        (
+            multiform_set.has(p_dictionary_path) ||
+            multiform_grid_set.has(p_dictionary_path)
+        )
+    )
+        result =value.substr(start_index + 1, end_index - start_index - 1);
+
+    return result;
+}
+
+
+const multiform_grid_set = new Set();
+const multiform_set = new Set();
+
 function render_audit_for(p_revision_id)
 {
     const result = [];
@@ -334,6 +360,7 @@ function render_audit_for(p_revision_id)
     }
     else
     {
+
         for(const result_index in results)
         {
             const change = results[result_index];
@@ -341,7 +368,7 @@ function render_audit_for(p_revision_id)
             
             <ul>
             <li>stack ${parseInt(result_index) + 1} of ${results.length}</li>
-            <li>date_created: ${change.date_created}</li>
+            <li>date_created: ${change.date_created} : ${new Date(change.date_created).toLocaleString()}</li>
             <li>user_name: ${change.user_name}</li>
             <li>number of changes: ${change.items.length} </li>
             <li>note: ${change.note}</li>
@@ -368,9 +395,21 @@ function render_audit_for(p_revision_id)
                 let form_index = '';
                 let grid_index = '';
 
-                if(ci.form_index != null)
+
+
+                if(ci.form_index == null || ci.form_index == '')
+                {
+                    const index_result = extract_form_index_from_object_path(ci.dictionary_path, ci.object_path);
+                    if(index_result != null)
+                    {
+                        form_index =  'f: ' + index_result;
+                        ci.form_index = index_result;
+                    }
+                }
+                else 
                 {
                     form_index = 'f: ' + ci.form_index;
+
                 }
 
                 if(ci.grid_index != null)
@@ -433,7 +472,21 @@ function on_apply_change_click
             )
             {
                 result.form_path = "g_data." + item;
-                if(p_form_index != null)
+                if
+                (
+                    p_form_index == null ||
+                    p_form_index == ''
+                )
+                {
+                    const index_result = extract_form_index_from_object_path(p_dictionary_path, p_object_path);
+
+                    if(index_result != null)
+                    {
+                        result.is_multiform = true;
+                        p_form_index = index_result;
+                    }
+                }
+                else 
                 {
                     result.is_multiform = true;
                 }
@@ -604,23 +657,92 @@ function openTab(pageRoute, tabName, p_section, p_metadata, p_data, p_show_hidde
     }
 }
 
-function set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, p_metadata, p_path)
+function set_list_lookup
+(
+    p_list_lookup, 
+    p_name_to_value_lookup, 
+    p_value_to_index_number_lookup, 
+    p_metadata, 
+    p_path,
+    p_is_multiform = false,
+    p_is_grid = false
+
+)
 {
     switch(p_metadata.type.toLowerCase())
     {
         case "app":
-        case "form":
         case "group":
-        case "grid":
             for(let i = 0; i < p_metadata.children.length; i++)
             {
                 let child = p_metadata.children[i];
-                set_list_lookup(p_list_lookup, p_name_to_value_lookup, p_value_to_index_number_lookup, child, p_path + "/" + child.name);
+                set_list_lookup
+                (
+                    p_list_lookup, 
+                    p_name_to_value_lookup, 
+                    p_value_to_index_number_lookup, 
+                    child, p_path + "/" + child.name,
+                    p_is_multiform,
+                    p_is_grid
+                );
+            }
+
+            break;        
+        case "form":
+            let is_multiform = p_is_multiform;
+            if
+            (
+                p_metadata.cardinality != null &&
+                (
+                    p_metadata.cardinality == "+" ||
+                    p_metadata.cardinality == "*" 
+                )
+            )
+            {
+                is_multiform = true;
+                multiform_set.add(p_path);
+            }
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup
+                (
+                    p_list_lookup, 
+                    p_name_to_value_lookup, 
+                    p_value_to_index_number_lookup, 
+                    child, p_path + "/" + child.name,
+                    is_multiform,
+                    p_is_grid
+                );
+            }
+
+            break;
+        case "grid":
+            let is_grid = true;
+
+            for(let i = 0; i < p_metadata.children.length; i++)
+            {
+                let child = p_metadata.children[i];
+                set_list_lookup
+                (
+                    p_list_lookup, 
+                    p_name_to_value_lookup, 
+                    p_value_to_index_number_lookup, 
+                    child, p_path + "/" + child.name,
+                    p_is_multiform,
+                    is_grid
+                );
             }
 
             break;
 
         default:
+            if(p_is_multiform && p_is_grid)
+            {
+                multiform_grid_set.add(p_path);
+            }
+            
             if(p_metadata.type.toLowerCase() == "list")
             {
                 let data_value_list = p_metadata.values;
