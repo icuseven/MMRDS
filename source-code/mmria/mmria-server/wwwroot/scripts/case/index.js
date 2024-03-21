@@ -59,6 +59,8 @@ const g_dependent_child_to_parent = new Map();
 const g_dependent_child_metadata = new Map();
 
 
+var is_faulted = false;
+
 const peg_parser = peg.generate(`
 start = blank_space html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)* blank_space html_end_tag blank_space
 html_start_tag = '<html>'
@@ -2236,6 +2238,11 @@ async function save_case(p_data, p_call_back, p_note)
             g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
             set_local_case(g_data);
             //console.log('set_value save finished');
+        }
+        else
+        {
+            is_faulted = true;
+            $mmria.unstable_network_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
         }
     }
 
