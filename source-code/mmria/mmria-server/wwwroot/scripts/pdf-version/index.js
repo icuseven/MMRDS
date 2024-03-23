@@ -1110,7 +1110,7 @@ function GetTableHeader(p_result, p_node)
 	switch (p_node.nodeName.toUpperCase()) 
     {
 		case "TH":
-			p_result.push(p_node.textContent.trim());
+			p_result.push(decodeURI(p_node.textContent).trim());
 			break;
 		case "TR":
 		default:
@@ -1132,7 +1132,7 @@ function GetTableDetailRow(p_result, p_node)
 	switch (p_node.nodeName.toUpperCase()) 
     {
 		case "TD":
-			p_result.push(p_node.textContent.trim());
+			p_result.push(decodeURI(p_node.textContent).trim());
 			break;
 		default:
 			for (let i = 0; i < p_node.childNodes.length; i++) 
@@ -1250,7 +1250,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			return;
 			break;
 		case "#TEXT":
-			p_result.push({ text: p_node.textContent.trim().replace("<br>", "\n") });
+			p_result.push({ text: decodeURI(p_node.textContent).trim().replace("<br>", "\n") });
 			return;
 			break;
 		case "P":
@@ -1272,7 +1272,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 
             if(span_text_array.length == 1)
             {
-                p_result.push({ text: ' ' + span_text_array[0].text,  style: convert_attribute_to_pdf(p_node) });
+                p_result.push({ text: ' ' + decodeURI(span_text_array[0].text),  style: convert_attribute_to_pdf(p_node) });
             }
             else
             {
@@ -1283,7 +1283,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 		case "STRONG":
         case "B":
 			let strong_attr = { bold: true };
-			p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
+			p_result.push({ text: decodeURI(p_node.textContent).trim(), style: convert_attribute_to_pdf(p_node, strong_attr) });
 			return;
 			break;
 		case "BR":
@@ -1292,7 +1292,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			break;
 		case "EM":
 			let em_attr = { italics: true };
-			p_result.push({ text: p_node.textContent.trim(), style: convert_attribute_to_pdf(p_node, em_attr) });
+			p_result.push({ text: decodeURI(p_node.textContent).trim(), style: convert_attribute_to_pdf(p_node, em_attr) });
 			return;
 			break;
 		case "UL":
@@ -1334,7 +1334,7 @@ function ConvertHTMLDOMWalker(p_result, p_node)
 			} 
             else 
             {
-				let li_node = { text: p_node.textContent.trim() }
+				let li_node = { text: decodeURI(p_node.textContent).trim() }
 				p_result.push(convert_attribute_to_pdf(p_node, li_node));
 			}
 			return;
@@ -1533,7 +1533,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 									row.push({ text: textStr, style: ['tableDetail'], },);
 								}
 								else {
-									row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
+									row.push({ text: decodeURI(p_data[i][child.name]), style: ['tableDetail'], },);
 								}
 							}
 							else {
@@ -1596,7 +1596,7 @@ function core_pdf_summary(p_metadata, p_data, p_path, p_is_core_summary, p_metad
 										row.push({ text: textStr, style: ['tableDetail'], },);
 									}
 									else {
-										row.push({ text: p_data[i][child.name], style: ['tableDetail'], },);
+										row.push({ text: decodeURI(p_data[i][child.name]), style: ['tableDetail'], },);
 									}
 								}
 								else {
@@ -2001,7 +2001,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
+									colData.push({ text: decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
@@ -2069,7 +2069,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
+									colData.push({ text: decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -2148,10 +2148,10 @@ function print_pdf_render_content(ctx) {
 								case 'string':
 								case 'number':
 								case 'time':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: chkNull(decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: chkNull(decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
@@ -2241,10 +2241,10 @@ function print_pdf_render_content(ctx) {
 								case 'string':
 								case 'number':
 								case 'time':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: chkNull(decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: chkNull(decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'] },);
@@ -2288,7 +2288,7 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-				{ text: chkNull(ctx.data), style: ['tableDetail'], },
+				{ text: chkNull(decodeURI(ctx.data)), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
