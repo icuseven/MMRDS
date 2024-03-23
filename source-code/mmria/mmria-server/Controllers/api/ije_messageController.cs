@@ -48,9 +48,9 @@ public sealed class ije_messageController: ControllerBase
 
         try
         {
-            //mmria.common.couchdb.DBConfigurationDetail config = configuration.GetDBConfig("vital_import");
+            mmria.common.couchdb.DBConfigurationDetail config = configuration.GetDBConfig("vital_import");
 
-            mmria.common.couchdb.DBConfigurationDetail config =  config_id_configuration.detail_list["vital_import"];
+            //mmria.common.couchdb.DBConfigurationDetail config =  config_id_configuration.detail_list["vital_import"];
             
             string url = $"{config.url}/vital_import/_all_docs?include_docs=true";
 
