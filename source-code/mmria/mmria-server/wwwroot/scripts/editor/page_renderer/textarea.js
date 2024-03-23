@@ -125,33 +125,6 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 });
             `);
 
-/*
-    code_array.push("g_set_data_object_from_path(\"");
-    code_array.push(p_object_path);
-    code_array.push("\",\"");
-    code_array.push(p_metadata_path);
-    code_array.push("\",\"");
-    code_array.push(p_dictionary_path);
-    code_array.push("\",p_control.value, null");
-    if(p_ctx!=null)
-    {
-        if(p_ctx.form_index != null)
-        {
-            code_array.push(", ");
-            code_array.push(p_ctx.form_index);
-        }
-
-        if(p_ctx.grid_index != null)
-        {
-            code_array.push(", ");
-            code_array.push(p_ctx.grid_index);
-        }
-    }
-    code_array.push(");\n}).call(");
-    code_array.push(p_object_path.substring(0, p_object_path.lastIndexOf(".")));
-    code_array.push(", event.target);");
-*/
-
         }
         else
         {
