@@ -541,7 +541,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
                 }
                 else
                 {
-                    p_result.push(p_data.replace(/'/g, "&apos;"));
+                    p_result.push(decodeURI(p_data).replace(/'/g, "&apos;"));
                 }
             }
             else

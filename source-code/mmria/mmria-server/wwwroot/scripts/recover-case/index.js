@@ -548,10 +548,17 @@ function on_apply_change_click
             var grid_metadata_path = p_metadata_path.substring(0, p_metadata_path.lastIndexOf("."));
             var grid_dictionary_path = p_dictionary_path.substring(0, p_dictionary_path.lastIndexOf("/"));
 
-            const grid = eval(Form_Grid_PathSet.grid_path);
+            let grid_path = Form_Grid_PathSet.grid_path
+            if(Form_Grid_PathSet.is_multiform)
+            {
+                const start_index = p_object_path.lastIndexOf("[");
+                const end_index = p_object_path.lastIndexOf("]");
+                grid_path = p_object_path.substring(0, start_index);
+            }
+            const grid = eval(grid_path);
             while(grid.length - 1 < p_grid_index)
             {
-                add_grid_item(Form_Grid_PathSet.grid_path, grid_metadata_path, p_dictionary_path) 
+                add_grid_item(grid_path, grid_metadata_path, p_dictionary_path) 
             }
 
         }
