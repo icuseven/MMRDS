@@ -1450,6 +1450,7 @@ async function list_other_specify_onchange
     let other_specify_list_key = [];
     let other_specify_list_path = [];
     let other_specify_list_key_show = [];
+    const object_path_list = []
     if
     (
         p_metadata.other_specify_list != null && 
@@ -1484,6 +1485,7 @@ async function list_other_specify_onchange
         const proper_index = p_object_path.lastIndexOf(".");
 
         let object_path = p_object_path.substring(0,proper_index) + target_name;
+        object_path_list.push(object_path);
 
         let other_specify_value = eval(object_path);
         if(p_control_value == item)
@@ -1528,8 +1530,42 @@ async function list_other_specify_onchange
     }
     else
     {}*/
+
         await g_set_data_object_from_path(p_object_path,p_metadata_path,p_dictionary_path,p_control_value);
-    
+        const fp_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+        const parent_control_id = `${convert_object_path_to_jquery_id(p_object_path)}_control`;
+        const parent_control = document.getElementById(parent_control_id);
+
+        //let och_code = "";
+
+        if
+        (
+            fp_name != null && 
+            fp_name != ''
+        )
+        {
+            const och_func = eval(fp_name);
+
+            if(parent_control!= null)
+            och_func.call
+                (
+                    p_object_path.substring(0, p_object_path.lastIndexOf(".")),
+                    parent_control
+                );
+            
+            //eval(och_code);
+        }
+        
+        /*await list_clear_other_specify_confirm
+        (
+            p_object_path, 
+            p_metadata_path,
+            p_dictionary_path,
+            object_path_list[0],
+            other_specify_list_path[0],
+            p_control_value
+        );
+        */
 
 
 
@@ -1791,6 +1827,30 @@ async function list_clear_other_specify_confirm(p_object_path,p_metadata_path,p_
     if(path_to_onclick_map[p_metadata_path])
     {
         page_render_create_event(click_code, "onclick", "", p_metadata_path, p_object_path, p_dictionary_path);
+    }
+
+    const fp_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_och";
+    const parent_control_id = `${convert_object_path_to_jquery_id(p_object_path)}_control`;
+    const parent_control = document.getElementById(parent_control_id);
+
+    //let och_code = "";
+
+    if
+    (
+        fp_name != null && 
+        fp_name != ''
+    )
+    {
+        const och_func = eval(fp_name);
+
+        if(parent_control!= null)
+        och_func.call
+            (
+                p_object_path.substring(0, p_object_path.lastIndexOf(".")),
+                parent_control
+            );
+        
+        //eval(och_code);
     }
 
     let index_of_function = 3;
