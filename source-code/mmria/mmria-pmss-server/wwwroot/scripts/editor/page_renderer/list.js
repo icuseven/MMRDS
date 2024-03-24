@@ -174,6 +174,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         {
             if(other_specify_list_key.length > 0)
             {
+                /*
                 if (path_to_int_map[p_metadata_path])
                 {
 
@@ -183,10 +184,12 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         list_other_specify_create_event(p_result, "onchange", p_metadata.onchange, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
                     }
                 }
+                */
 
                 list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
             }
+            /*
             else if(other_specify_list_key.length > 0)
             {
                 if (path_to_int_map[p_metadata_path])
@@ -201,7 +204,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                 list_other_specify_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
-            }
+            }*/
             else
             {
 
@@ -1897,6 +1900,9 @@ async function list_apply_dependent_change
     const metadata_path = g_dependent_child_metadata.get(p_dictionary_path);
 
 
+
+
+
     //console.log(`${p_parent_path} apply change => ${p_dictionary_path}`)
 
     //console.log(g_look_up['lookup/cod_ddl_cdccod']);
@@ -1933,6 +1939,43 @@ async function list_apply_dependent_change
     }
 
     //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
+
+    const f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    let ocl_code = "";
+
+    if(f_name != null && f_name != '')
+    {
+        ocl_code = `
+            ${f_name}.call
+            (
+                ${p_object_path.substring(0, p_object_path.lastIndexOf("."))},
+                , ${child_control}
+            );
+        `;
+
+        eval(ocl_code);
+    }
+
+    let form_index = null;
+    let grid_index = null;
+    
+    if(p_ctx!=null)
+    {
+        form_index = p_ctx.form_index;
+        grid_index = p_ctx.grid_index;
+    }
+
+    const onblur_code = `g_set_data_object_from_path
+    (
+        "${p_object_path}",
+        "${p_metadata_path}",
+        "${p_dictionary_path},
+        ${p_data},
+        ${form_index},
+        ${grid_index}
+     );`;
+
+     eval(onblur_code);
 
 
     $mmria.confirm_dialog_confirm_close();
