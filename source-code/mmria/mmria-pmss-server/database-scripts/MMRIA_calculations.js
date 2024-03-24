@@ -965,11 +965,11 @@ function $calc_race_omb(p_white, p_black, p_amindalknat, p_asianindian, p_chines
         }
     }
     
-    else if ((rW + rB + rAiAn + Ra + rPI + rO) == 2)
+    else if ((rW + rB + rAiAn + rA + rPI + rO) == 2)
     {
         race_omb = 6;
     }
-    else if ((rW + rB + rAiAn + Ra + rPI + rO) > 2)
+    else if ((rW + rB + rAiAn + rA + rPI + rO) > 2)
     {
         race_omb = 7;
     }
