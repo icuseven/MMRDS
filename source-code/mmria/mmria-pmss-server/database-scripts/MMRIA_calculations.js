@@ -935,31 +935,31 @@ function $calc_race_omb(p_white, p_black, p_amindalknat, p_asianindian, p_chines
       
     if ((rW + rB + rAiAn + rA + rPI + rO + rNS) == 1)
     {
-        if (rW = 1)
+        if (rW == 1)
         {
             race_omb = 1;
         }
-        else if (rB = 1)
+        else if (rB == 1)
         {
             race_omb = 2;
         }
-        else if (rA = 1) 
+        else if (rA == 1) 
         {
             race_omb = 3;
         }
-        else if (rAiAn = 1)
+        else if (rAiAn == 1)
         {
             race_omb = 4;
         }
-        else if (rPI = 1)
+        else if (rPI == 1)
         {
             race_omb = 5;
         }
-        else if (rO = 1) 
+        else if (rO == 1) 
         {
             race_omb = 8;
         }
-        else if (rNS = 1)
+        else if (rNS == 1)
         {
             race_omb = 9;
         }
@@ -973,7 +973,7 @@ function $calc_race_omb(p_white, p_black, p_amindalknat, p_asianindian, p_chines
     {
         race_omb = 7;
     }
-    else if (rNS = 1) 
+    else if (rNS == 1) 
     {
         race_omb = 9;
     }
