@@ -933,7 +933,8 @@ function $calc_race_omb(p_white, p_black, p_amindalknat, p_asianindian, p_chines
         }
     }
       
-    if ((rW + rB + rAiAn + rA + rPI + rO + rNS) == 1)
+    //if ((rW + rB + rAiAn + rA + rPI + rO + rNS) == 1)
+    if ((rW + rB + rAiAn + rA + rPI + rO) == 1)
     {
         if (rW == 1)
         {
