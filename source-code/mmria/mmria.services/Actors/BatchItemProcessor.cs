@@ -4386,15 +4386,17 @@ GNAME 27 50
 
     private string TD_FET_Rule(string value)
     {
+        //Transfer number verbatim to MMRIA field, format as MMRIA time.; if TOD = 9999 then this field should be left blank
         string parsedValue = "";
 
-        if(!string.IsNullOrWhiteSpace(value))
+        if (!string.IsNullOrWhiteSpace(value))
         {
             if (value == "9999")
                 parsedValue = "";
             else
             {
-                parsedValue = parseHHmm_To_MMRIATime(value);
+                parsedValue = ConvertHHmm_To_MMRIATime(value);
+
             }
         }
 
@@ -4451,28 +4453,7 @@ GNAME 27 50
 
         return result;
     }
-
     
-
-    private static string parseHHmm_To_MMRIATime(string value)
-    {
-        string parsedValue;
-        try
-        {
-            //Ensure three digit times parse with 4 digits, e.g. 744 becomes 0744 and will be parsed to 7:44 AM
-            if (value.Length == 3)
-                value = $"0{value}";
-
-            parsedValue = DateTime.ParseExact(value, "HHmm", CultureInfo.CurrentCulture).ToString("h:mm tt");
-        }
-        catch (Exception ex)
-        {
-            //Error parsing, eat it and put exact text in as to not lose data on import
-            parsedValue = value;
-        }
-
-        return parsedValue;
-    }
 
     private string STATEC_FET_Rule(string value)
     {
