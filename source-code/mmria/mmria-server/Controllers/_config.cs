@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using mmria.server.extension;
+using Microsoft.AspNetCore.Http;
+
+using  mmria.server.extension; 
 
 namespace mmria.server.Controllers;
 
@@ -15,14 +18,24 @@ public sealed class _configController : Controller
 
     IConfiguration configuration;
     mmria.common.couchdb.ConfigurationSet config_set;
+
+    mmria.common.couchdb.OverridableConfiguration overridable_configuration;
+    common.couchdb.DBConfigurationDetail db_config;
+    string host_prefix = null;
     public _configController
     (
         IConfiguration p_configuration, 
-        mmria.common.couchdb.ConfigurationSet p_config_db
+        mmria.common.couchdb.ConfigurationSet p_config_db,
+        IHttpContextAccessor httpContextAccessor, 
+        mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         configuration = p_configuration;
         config_set = p_config_db;
+
+        overridable_configuration = _configuration;
+        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        db_config = overridable_configuration.GetDBConfig(host_prefix);
     }
 
     public IActionResult Index()
@@ -112,9 +125,9 @@ public sealed class _configController : Controller
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(app_config, settings);
 
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
+            string request_string = $"{db_config.url}/configuration/{configuration["mmria_settings:shared_config_id"]}";
             
-            var case_curl = new cURL("PUT", null, request_string, object_string, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var case_curl = new cURL("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
 
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response> (responseFromServer);
