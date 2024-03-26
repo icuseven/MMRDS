@@ -75,6 +75,9 @@ public sealed class _configController : Controller
         {
             string request_string = $"{db_config.url}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
+
+            System.Console.WriteLine($"GetConfiguration: request_string {request_string}");
+
             var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
 
