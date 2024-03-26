@@ -46,9 +46,9 @@ public sealed class _configController : Controller
         app_config.web_site_url = configuration["mmria_settings:web_site_url"];
         app_config.log_directory = configuration["mmria_settings:log_directory"];
         app_config.export_directory = configuration["mmria_settings:export_directory"];
-        app_config.couchdb_url = configuration["mmria_settings:couchdb_url"];
-        app_config.timer_user_name = configuration["mmria_settings:timer_user_name"];
-        app_config.timer_value = configuration["mmria_settings:timer_value"];
+        app_config.couchdb_url = db_config.url;
+        app_config.timer_user_name = db_config.user_name;
+        app_config.timer_value = db_config.user_value;
         app_config.cron_schedule = configuration["mmria_settings:cron_schedule"];
         app_config.pass_word_minimum_length = int.Parse(configuration["password_settings:minimum_length"]);
         app_config.pass_word_days_before_expires = int.Parse(configuration["password_settings:days_before_expires"]);
@@ -73,9 +73,9 @@ public sealed class _configController : Controller
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
+            string request_string = $"{db_config.url}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
-            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
 
             app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.Configuration> (responseFromServer);
@@ -96,9 +96,11 @@ public sealed class _configController : Controller
 
         try
         {
-            string request_string = $"{configuration["mmria_settings:couchdb_url"]}/configuration/{configuration["mmria_settings:shared_config_id"]}";
+            string request_string = $"{db_config.url}/configuration/{configuration["mmria_settings:shared_config_id"]}";
 
-            var case_curl = new cURL("GET", null, request_string, null, configuration["mmria_settings:timer_user_name"], configuration["mmria_settings:timer_value"]);
+            System.Console.WriteLine($"GetConfigurationMaster: request_string {request_string}");
+
+            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
 
             app_config = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.couchdb.OverridableConfiguration> (responseFromServer);
@@ -155,11 +157,11 @@ public sealed class _configController : Controller
             result.integer_keys.Add("shared", new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase));
         
             result.string_keys["shared"].Add("geocode_api_url", configuration["mmria_settings:geocode_api_url"]);
-            result.string_keys["shared"].Add("couchdb_url", configuration["mmria_settings:couchdb_url"]);
+            result.string_keys["shared"].Add("couchdb_url", db_config.url);
             result.string_keys["shared"].Add("db_prefix", configuration["mmria_settings:db_prefix"]);
             result.string_keys["shared"].Add("web_site_url", configuration["mmria_settings:web_site_url"]);
-            result.string_keys["shared"].Add("timer_user_name", configuration["mmria_settings:timer_user_name"]);
-            result.string_keys["shared"].Add("timer_value", configuration["mmria_settings:timer_value"]);
+            result.string_keys["shared"].Add("timer_user_name", db_config.user_name);
+            result.string_keys["shared"].Add("timer_value", db_config.user_value);
             result.string_keys["shared"].Add("cron_schedule", configuration["mmria_settings:cron_schedule"]);
 
             result.string_keys["shared"].Add("log_directory", configuration["mmria_settings:log_directory"]);
