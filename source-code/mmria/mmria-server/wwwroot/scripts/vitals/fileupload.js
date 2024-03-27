@@ -300,7 +300,7 @@ async function setup_file_list()
     g_jurisdiction_tree = await $.ajax
     (
         {
-            url: location.protocol + '//' + location.host + '/api/jurisdiction_tree',
+            url: location.protocol + '//' + location.host + '/vitals/GetJurisdictionTree?j=' + g_host_state,
             type: "GET"
         }
     );
