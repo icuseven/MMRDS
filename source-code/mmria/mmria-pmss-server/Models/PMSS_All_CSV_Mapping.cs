@@ -297,7 +297,7 @@ public sealed class PMSS_All_CSV_Mapping : TinyCsvParser.Mapping.CsvMapping<PMSS
         MapProperty(285, x => x.seiz_bc);
         MapProperty(286, x => x.binj_bc);
         MapProperty(287, x => x.anen_bc);
-        MapProperty(288, x => x.minsb_bc);
+        MapProperty(288, x => x.mnsb_bc);
         MapProperty(289, x => x.cchd_bc);
         MapProperty(290, x => x.cdh_bc);
         MapProperty(291, x => x.omph_bc);

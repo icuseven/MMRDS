@@ -755,7 +755,7 @@ public sealed class _47628FA77E08A185109A556F92BC79C6 : IConvertDictionary
 	public string seiz_bc { get; set; }
 	public string binj_bc { get; set; }
 	public string anen_bc { get; set; }
-	public string minsb_bc { get; set; }
+	public string mnsb_bc { get; set; }
 	public string cchd_bc { get; set; }
 	public string cdh_bc { get; set; }
 	public string omph_bc { get; set; }
@@ -832,7 +832,7 @@ public sealed class _47628FA77E08A185109A556F92BC79C6 : IConvertDictionary
 		seiz_bc = mmria_case.GetStringField(p_value, "seiz_bc", "ije_bc/delivery_info/seiz_bc");
 		binj_bc = mmria_case.GetStringField(p_value, "binj_bc", "ije_bc/delivery_info/binj_bc");
 		anen_bc = mmria_case.GetStringField(p_value, "anen_bc", "ije_bc/delivery_info/anen_bc");
-		minsb_bc = mmria_case.GetStringField(p_value, "minsb_bc", "ije_bc/delivery_info/minsb_bc");
+		mnsb_bc = mmria_case.GetStringField(p_value, "mnsb_bc", "ije_bc/delivery_info/mnsb_bc");
 		cchd_bc = mmria_case.GetStringField(p_value, "cchd_bc", "ije_bc/delivery_info/cchd_bc");
 		cdh_bc = mmria_case.GetStringField(p_value, "cdh_bc", "ije_bc/delivery_info/cdh_bc");
 		omph_bc = mmria_case.GetStringField(p_value, "omph_bc", "ije_bc/delivery_info/omph_bc");
@@ -1233,7 +1233,7 @@ public sealed class _35FD478CD58D3D1159A0C338470EAA77 : IConvertDictionary
 	{
 		vro_resolution_status = mmria_case.GetStringListField(p_value, "vro_resolution_status", "vro_case_determination/vro_update/vro_resolution_status");
 		vro_resolution_remarks = mmria_case.GetTextAreaField(p_value, "vro_resolution_remarks", "vro_case_determination/vro_update/vro_resolution_remarks");
-		vro_is_checkbox_correct = mmria_case.GetStringListField(p_value, "vro_is_checkbox_correct", "vro_case_determination/vro_update/vro_is_checkbox_correct");
+		vro_is_checkbox_correct = mmria_case.GetStringField(p_value, "vro_is_checkbox_correct", "vro_case_determination/vro_update/vro_is_checkbox_correct");
 		vro_duration_endpreg_death = mmria_case.GetStringField(p_value, "vro_duration_endpreg_death", "vro_case_determination/vro_update/vro_duration_endpreg_death");
 		vro_file_no_of_linked_lbfd = mmria_case.GetStringField(p_value, "vro_file_no_of_linked_lbfd", "vro_case_determination/vro_update/vro_file_no_of_linked_lbfd");
 		note_to_vro_mirror = mmria_case.GetTextAreaField(p_value, "note_to_vro_mirror", "vro_case_determination/vro_update/note_to_vro_mirror");
@@ -1400,14 +1400,14 @@ public sealed class _9046BAEC9DC8EE8023CBD639FB324319 : IConvertDictionary
 	public _9046BAEC9DC8EE8023CBD639FB324319()
 	{
 	}
+	public string note_to_vro { get; set; }
 	public string remarks { get; set; }
 	public string update_remarks { get; set; }
-	public string note_to_vro { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
+		note_to_vro = mmria_case.GetTextAreaField(p_value, "note_to_vro", "preparer_remarks/remarks_grp/note_to_vro");
 		remarks = mmria_case.GetTextAreaField(p_value, "remarks", "preparer_remarks/remarks_grp/remarks");
 		update_remarks = mmria_case.GetTextAreaField(p_value, "update_remarks", "preparer_remarks/remarks_grp/update_remarks");
-		note_to_vro = mmria_case.GetTextAreaField(p_value, "note_to_vro", "preparer_remarks/remarks_grp/note_to_vro");
 	}
 }
 
@@ -1673,16 +1673,16 @@ public sealed class _A50E2D82A8E3BC8A4288196E429C2446 : IConvertDictionary
 	public string race_korean { get; set; }
 	public string race_vietnamese { get; set; }
 	public string race_otherasian { get; set; }
+	public string race_otherasian_literal { get; set; }
 	public string race_nativehawaiian { get; set; }
 	public string race_guamcham { get; set; }
 	public string race_samoan { get; set; }
 	public string race_otherpacific { get; set; }
+	public string race_otherpacific_literal { get; set; }
 	public string race_other { get; set; }
 	public string race_oth { get; set; }
 	public string race_notspecified { get; set; }
 	public double? race_omb { get; set; }
-	public string race_otherasian_literal { get; set; }
-	public string race_otherpacific_literal { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		race_source = mmria_case.GetStringListField(p_value, "race_source", "demographic/q12/group/race_source");
@@ -1697,16 +1697,16 @@ public sealed class _A50E2D82A8E3BC8A4288196E429C2446 : IConvertDictionary
 		race_korean = mmria_case.GetStringListField(p_value, "race_korean", "demographic/q12/group/race_korean");
 		race_vietnamese = mmria_case.GetStringListField(p_value, "race_vietnamese", "demographic/q12/group/race_vietnamese");
 		race_otherasian = mmria_case.GetStringListField(p_value, "race_otherasian", "demographic/q12/group/race_otherasian");
+		race_otherasian_literal = mmria_case.GetStringField(p_value, "race_otherasian_literal", "demographic/q12/group/race_otherasian_literal");
 		race_nativehawaiian = mmria_case.GetStringListField(p_value, "race_nativehawaiian", "demographic/q12/group/race_nativehawaiian");
 		race_guamcham = mmria_case.GetStringListField(p_value, "race_guamcham", "demographic/q12/group/race_guamcham");
 		race_samoan = mmria_case.GetStringListField(p_value, "race_samoan", "demographic/q12/group/race_samoan");
 		race_otherpacific = mmria_case.GetStringListField(p_value, "race_otherpacific", "demographic/q12/group/race_otherpacific");
+		race_otherpacific_literal = mmria_case.GetStringField(p_value, "race_otherpacific_literal", "demographic/q12/group/race_otherpacific_literal");
 		race_other = mmria_case.GetStringListField(p_value, "race_other", "demographic/q12/group/race_other");
 		race_oth = mmria_case.GetStringField(p_value, "race_oth", "demographic/q12/group/race_oth");
 		race_notspecified = mmria_case.GetStringListField(p_value, "race_notspecified", "demographic/q12/group/race_notspecified");
 		race_omb = mmria_case.GetNumberListField(p_value, "race_omb", "demographic/q12/group/race_omb");
-		race_otherasian_literal = mmria_case.GetStringField(p_value, "race_otherasian_literal", "demographic/q12/group/race_otherasian_literal");
-		race_otherpacific_literal = mmria_case.GetStringField(p_value, "race_otherpacific_literal", "demographic/q12/group/race_otherpacific_literal");
 	}
 }
 
@@ -1897,12 +1897,13 @@ public sealed class _1DCADE918C1D24A0E4B29F438833775E : IConvertDictionary
 	public _1DCADE918C1D24A0E4B29F438833775E()
 	{
 	}
+	public string pmssno { get; set; }
 	public string jurisdiction { get; set; }
 	public double? track_year { get; set; }
-	public string pmssno { get; set; }
 	public double? med_coder_check { get; set; }
 	public double? med_dir_check { get; set; }
 	public string status { get; set; }
+	public string vro_resolution_status_mirror { get; set; }
 	public double? steve_transfer { get; set; }
 	public string case_folder { get; set; }
 	public string batch_name { get; set; }
@@ -1910,15 +1911,15 @@ public sealed class _1DCADE918C1D24A0E4B29F438833775E : IConvertDictionary
 	public string fileno_bc { get; set; }
 	public string fileno_fdc { get; set; }
 	public string year_birthorfetaldeath { get; set; }
-	public string vro_resolution_status_mirror { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
+		pmssno = mmria_case.GetStringField(p_value, "pmssno", "tracking/admin_info/pmssno");
 		jurisdiction = mmria_case.GetStringListField(p_value, "jurisdiction", "tracking/admin_info/jurisdiction");
 		track_year = mmria_case.GetNumberListField(p_value, "track_year", "tracking/admin_info/track_year");
-		pmssno = mmria_case.GetStringField(p_value, "pmssno", "tracking/admin_info/pmssno");
 		med_coder_check = mmria_case.GetNumberListField(p_value, "med_coder_check", "tracking/admin_info/med_coder_check");
 		med_dir_check = mmria_case.GetNumberListField(p_value, "med_dir_check", "tracking/admin_info/med_dir_check");
 		status = mmria_case.GetStringListField(p_value, "status", "tracking/admin_info/status");
+		vro_resolution_status_mirror = mmria_case.GetStringField(p_value, "vro_resolution_status_mirror", "tracking/admin_info/vro_resolution_status_mirror");
 		steve_transfer = mmria_case.GetNumberListField(p_value, "steve_transfer", "tracking/admin_info/steve_transfer");
 		case_folder = mmria_case.GetJurisdictionField(p_value, "case_folder", "tracking/admin_info/case_folder");
 		batch_name = mmria_case.GetStringField(p_value, "batch_name", "tracking/admin_info/batch_name");
@@ -1926,7 +1927,6 @@ public sealed class _1DCADE918C1D24A0E4B29F438833775E : IConvertDictionary
 		fileno_bc = mmria_case.GetStringField(p_value, "fileno_bc", "tracking/admin_info/fileno_bc");
 		fileno_fdc = mmria_case.GetStringField(p_value, "fileno_fdc", "tracking/admin_info/fileno_fdc");
 		year_birthorfetaldeath = mmria_case.GetStringField(p_value, "year_birthorfetaldeath", "tracking/admin_info/year_birthorfetaldeath");
-		vro_resolution_status_mirror = mmria_case.GetStringField(p_value, "vro_resolution_status_mirror", "tracking/admin_info/vro_resolution_status_mirror");
 	}
 }
 

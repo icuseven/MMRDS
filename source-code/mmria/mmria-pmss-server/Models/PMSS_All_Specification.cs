@@ -312,7 +312,7 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("seiz_bc", "ije_bc/delivery_info/seiz_bc"),
         KeyValuePair.Create("binj_bc", "ije_bc/delivery_info/binj_bc"),
         KeyValuePair.Create("anen_bc", "ije_bc/delivery_info/anen_bc"),
-        KeyValuePair.Create("minsb_bc", "ije_bc/delivery_info/minsb_bc"),
+        KeyValuePair.Create("mnsb_bc", "ije_bc/delivery_info/mnsb_bc"),
         KeyValuePair.Create("cchd_bc", "ije_bc/delivery_info/cchd_bc"),
         KeyValuePair.Create("cdh_bc", "ije_bc/delivery_info/cdh_bc"),
         KeyValuePair.Create("omph_bc", "ije_bc/delivery_info/omph_bc"),
@@ -577,6 +577,12 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("dad_oc_t_fdc", "ije_fetaldc/demog_details/dad_oc_t_fdc"),
         KeyValuePair.Create("fbplacd_st_ter_c_fdc", "ije_fetaldc/demog_details/fbplacd_st_ter_c_fdc"),
         KeyValuePair.Create("fbplace_cnt_c_fdc", "ije_fetaldc/demog_details/fbplace_cnt_c_fdc"),
+        KeyValuePair.Create("vro_is_checkbox_correct", "vro_case_determination/vro_update/vro_is_checkbox_correct"),
+        KeyValuePair.Create("vro_duration_endpreg_death", "vro_case_determination/vro_update/vro_duration_endpreg_death"),
+        KeyValuePair.Create("vro_file_no_of_linked_lbfd", "vro_case_determination/vro_update/vro_file_no_of_linked_lbfd"),
+        KeyValuePair.Create("Race_OtherAsian_Literal", "demographic/q12/group/race_otherasian_literal"),
+        KeyValuePair.Create("Race_OtherPacific_Literal", "demographic/q12/group/race_otherpacific_literal"),
+        KeyValuePair.Create("MatBplc_Else_Literal", "demographic/q12/matbplc_else_literal")
 
 
     });

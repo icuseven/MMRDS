@@ -5621,7 +5621,7 @@
         "style": "{\"position\":\"absolute\",\"top\":3401.988421421875,\"left\":444.9905271347656,\"height\":38.4375,\"width\":473.968,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(73, 80, 87)\"}"
       }
     },
-    "ije_bc/delivery_info/minsb_bc": {
+    "ije_bc/delivery_info/mnsb_bc": {
       "prompt": {
         "style": "{\"position\":\"absolute\",\"top\":3460.984515171875,\"left\":7.518938999999989,\"height\":50,\"width\":426.989,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
       },

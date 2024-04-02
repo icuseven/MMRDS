@@ -44,1120 +44,2088 @@ public sealed partial class mmria_case
                 cmpquarter = value;
                 result = true;
             break;
-            case "home_record/first_name":
-                home_record.first_name = value;
+            case "tracking/admin_info/pmssno":
+                tracking.admin_info.pmssno = value;
                 result = true;
             break;
-            case "home_record/middle_name":
-                home_record.middle_name = value;
+            case "tracking/admin_info/jurisdiction":
+                tracking.admin_info.jurisdiction = value;
                 result = true;
             break;
-            case "home_record/last_name":
-                home_record.last_name = value;
+            case "tracking/admin_info/status":
+                tracking.admin_info.status = value;
                 result = true;
             break;
-            case "home_record/state_of_death_record":
-                home_record.state_of_death_record = value;
+            case "tracking/admin_info/vro_resolution_status_mirror":
+                tracking.admin_info.vro_resolution_status_mirror = value;
                 result = true;
             break;
-            case "home_record/record_id":
-                home_record.record_id = value;
+            case "tracking/admin_info/case_folder":
+                tracking.admin_info.case_folder = value;
                 result = true;
             break;
-            case "home_record/agency_case_id":
-                home_record.agency_case_id = value;
+            case "tracking/admin_info/batch_name":
+                tracking.admin_info.batch_name = value;
                 result = true;
             break;
-            case "home_record/specify_other_multiple_sources":
-                home_record.specify_other_multiple_sources = value;
+            case "tracking/admin_info/fileno_dc":
+                tracking.admin_info.fileno_dc = value;
                 result = true;
             break;
-            case "home_record/primary_abstractor":
-                home_record.primary_abstractor = value;
+            case "tracking/admin_info/fileno_bc":
+                tracking.admin_info.fileno_bc = value;
                 result = true;
             break;
-            case "home_record/jurisdiction_id":
-                home_record.jurisdiction_id = value;
+            case "tracking/admin_info/fileno_fdc":
+                tracking.admin_info.fileno_fdc = value;
                 result = true;
             break;
-            case "home_record/overall_assessment_of_timing_of_death/hr_prg_outcome_othsp":
-                home_record.overall_assessment_of_timing_of_death.hr_prg_outcome_othsp = value;
+            case "tracking/admin_info/year_birthorfetaldeath":
+                tracking.admin_info.year_birthorfetaldeath = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/vital_report":
-                home_record.automated_vitals_group.vital_report = value;
+            case "tracking/q1/amssno":
+                tracking.q1.amssno = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/vro_status":
-                home_record.automated_vitals_group.vro_status = value;
+            case "tracking/death_certificate_number":
+                tracking.death_certificate_number = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/import_date":
-                home_record.automated_vitals_group.import_date = value;
+            case "tracking/statdth":
+                tracking.statdth = value;
                 result = true;
             break;
-            case "death_certificate/certificate_identification/local_file_number":
-                death_certificate.certificate_identification.local_file_number = value;
+            case "tracking/q9/statres":
+                tracking.q9.statres = value;
                 result = true;
             break;
-            case "death_certificate/certificate_identification/state_file_number":
-                death_certificate.certificate_identification.state_file_number = value;
+            case "tracking/q9/reszip":
+                tracking.q9.reszip = value;
                 result = true;
             break;
-            case "death_certificate/certificate_identification/dmaiden":
-                death_certificate.certificate_identification.dmaiden = value;
+            case "tracking/q9/county":
+                tracking.q9.county = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/street":
-                death_certificate.place_of_last_residence.street = value;
+            case "tracking/q9/residence_feature_matching_geography_type":
+                tracking.q9.residence_feature_matching_geography_type = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/apartment":
-                death_certificate.place_of_last_residence.apartment = value;
+            case "tracking/q9/residence_latitude":
+                tracking.q9.residence_latitude = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/city":
-                death_certificate.place_of_last_residence.city = value;
+            case "tracking/q9/residence_longitude":
+                tracking.q9.residence_longitude = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/state":
-                death_certificate.place_of_last_residence.state = value;
+            case "tracking/q9/residence_naaccr_gis_coordinate_quality_code":
+                tracking.q9.residence_naaccr_gis_coordinate_quality_code = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/country_of_last_residence":
-                death_certificate.place_of_last_residence.country_of_last_residence = value;
+            case "tracking/q9/residence_naaccr_gis_coordinate_quality_type":
+                tracking.q9.residence_naaccr_gis_coordinate_quality_type = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/zip_code":
-                death_certificate.place_of_last_residence.zip_code = value;
+            case "tracking/q9/residence_naaccr_census_tract_certainty_code":
+                tracking.q9.residence_naaccr_census_tract_certainty_code = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/county":
-                death_certificate.place_of_last_residence.county = value;
+            case "tracking/q9/residence_naaccr_census_tract_certainty_type":
+                tracking.q9.residence_naaccr_census_tract_certainty_type = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/feature_matching_geography_type":
-                death_certificate.place_of_last_residence.feature_matching_geography_type = value;
+            case "tracking/q9/residence_state_county_fips":
+                tracking.q9.residence_state_county_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/latitude":
-                death_certificate.place_of_last_residence.latitude = value;
+            case "tracking/q9/residence_census_state_fips":
+                tracking.q9.residence_census_state_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/longitude":
-                death_certificate.place_of_last_residence.longitude = value;
+            case "tracking/q9/residence_census_county_fips":
+                tracking.q9.residence_census_county_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_code":
-                death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_code = value;
+            case "tracking/q9/residence_census_tract_fips":
+                tracking.q9.residence_census_tract_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/naaccr_gis_coordinate_quality_type":
-                death_certificate.place_of_last_residence.naaccr_gis_coordinate_quality_type = value;
+            case "tracking/q9/residence_urban_status":
+                tracking.q9.residence_urban_status = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/naaccr_census_tract_certainty_code":
-                death_certificate.place_of_last_residence.naaccr_census_tract_certainty_code = value;
+            case "tracking/q9/residence_census_met_div_fips":
+                tracking.q9.residence_census_met_div_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/naaccr_census_tract_certainty_type":
-                death_certificate.place_of_last_residence.naaccr_census_tract_certainty_type = value;
+            case "tracking/q9/residence_census_cbsa_fips":
+                tracking.q9.residence_census_cbsa_fips = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/state_county_fips":
-                death_certificate.place_of_last_residence.state_county_fips = value;
+            case "tracking/q9/residence_census_cbsa_micro":
+                tracking.q9.residence_census_cbsa_micro = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_state_fips":
-                death_certificate.place_of_last_residence.census_state_fips = value;
+            case "demographic/q12/group/race_source":
+                demographic.q12.group.race_source = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_county_fips":
-                death_certificate.place_of_last_residence.census_county_fips = value;
+            case "demographic/q12/group/race_white":
+                demographic.q12.group.race_white = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_tract_fips":
-                death_certificate.place_of_last_residence.census_tract_fips = value;
+            case "demographic/q12/group/race_black":
+                demographic.q12.group.race_black = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/urban_status":
-                death_certificate.place_of_last_residence.urban_status = value;
+            case "demographic/q12/group/race_amindalknat":
+                demographic.q12.group.race_amindalknat = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_met_div_fips":
-                death_certificate.place_of_last_residence.census_met_div_fips = value;
+            case "demographic/q12/group/tribe":
+                demographic.q12.group.tribe = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_cbsa_fips":
-                death_certificate.place_of_last_residence.census_cbsa_fips = value;
+            case "demographic/q12/group/race_asianindian":
+                demographic.q12.group.race_asianindian = value;
                 result = true;
             break;
-            case "death_certificate/place_of_last_residence/census_cbsa_micro":
-                death_certificate.place_of_last_residence.census_cbsa_micro = value;
+            case "demographic/q12/group/race_chinese":
+                demographic.q12.group.race_chinese = value;
                 result = true;
             break;
-            case "death_certificate/demographics/city_of_birth":
-                death_certificate.demographics.city_of_birth = value;
+            case "demographic/q12/group/race_filipino":
+                demographic.q12.group.race_filipino = value;
                 result = true;
             break;
-            case "death_certificate/demographics/state_of_birth":
-                death_certificate.demographics.state_of_birth = value;
+            case "demographic/q12/group/race_japanese":
+                demographic.q12.group.race_japanese = value;
                 result = true;
             break;
-            case "death_certificate/demographics/country_of_birth":
-                death_certificate.demographics.country_of_birth = value;
+            case "demographic/q12/group/race_korean":
+                demographic.q12.group.race_korean = value;
                 result = true;
             break;
-            case "death_certificate/demographics/primary_occupation":
-                death_certificate.demographics.primary_occupation = value;
+            case "demographic/q12/group/race_vietnamese":
+                demographic.q12.group.race_vietnamese = value;
                 result = true;
             break;
-            case "death_certificate/demographics/occupation_business_industry":
-                death_certificate.demographics.occupation_business_industry = value;
+            case "demographic/q12/group/race_otherasian":
+                demographic.q12.group.race_otherasian = value;
                 result = true;
             break;
-            case "death_certificate/demographics/is_of_hispanic_origin_other_specify":
-                death_certificate.demographics.is_of_hispanic_origin_other_specify = value;
+            case "demographic/q12/group/race_otherasian_literal":
+                demographic.q12.group.race_otherasian_literal = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_industry_code_1":
-                death_certificate.demographics.dc_m_industry_code_1 = value;
+            case "demographic/q12/group/race_nativehawaiian":
+                demographic.q12.group.race_nativehawaiian = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_industry_code_2":
-                death_certificate.demographics.dc_m_industry_code_2 = value;
+            case "demographic/q12/group/race_guamcham":
+                demographic.q12.group.race_guamcham = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_industry_code_3":
-                death_certificate.demographics.dc_m_industry_code_3 = value;
+            case "demographic/q12/group/race_samoan":
+                demographic.q12.group.race_samoan = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_occupation_code_1":
-                death_certificate.demographics.dc_m_occupation_code_1 = value;
+            case "demographic/q12/group/race_otherpacific":
+                demographic.q12.group.race_otherpacific = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_occupation_code_2":
-                death_certificate.demographics.dc_m_occupation_code_2 = value;
+            case "demographic/q12/group/race_otherpacific_literal":
+                demographic.q12.group.race_otherpacific_literal = value;
                 result = true;
             break;
-            case "death_certificate/demographics/dc_m_occupation_code_3":
-                death_certificate.demographics.dc_m_occupation_code_3 = value;
+            case "demographic/q12/group/race_other":
+                demographic.q12.group.race_other = value;
                 result = true;
             break;
-            case "death_certificate/citizen_of_what_country":
-                death_certificate.citizen_of_what_country = value;
+            case "demographic/q12/group/race_oth":
+                demographic.q12.group.race_oth = value;
                 result = true;
             break;
-            case "death_certificate/race/other_race":
-                death_certificate.race.other_race = value;
+            case "demographic/q12/group/race_notspecified":
+                demographic.q12.group.race_notspecified = value;
                 result = true;
             break;
-            case "death_certificate/race/other_asian":
-                death_certificate.race.other_asian = value;
+            case "demographic/q12/ethnicity/ethnic1_mex":
+                demographic.q12.ethnicity.ethnic1_mex = value;
                 result = true;
             break;
-            case "death_certificate/race/other_pacific_islander":
-                death_certificate.race.other_pacific_islander = value;
+            case "demographic/q12/ethnicity/ethnic2_pr":
+                demographic.q12.ethnicity.ethnic2_pr = value;
                 result = true;
             break;
-            case "death_certificate/race/principle_tribe":
-                death_certificate.race.principle_tribe = value;
+            case "demographic/q12/ethnicity/ethnic3_cub":
+                demographic.q12.ethnicity.ethnic3_cub = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/place_of_injury":
-                death_certificate.injury_associated_information.place_of_injury = value;
+            case "demographic/q12/ethnicity/ethnic4_other":
+                demographic.q12.ethnicity.ethnic4_other = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/transport_related_other_specify":
-                death_certificate.injury_associated_information.transport_related_other_specify = value;
+            case "demographic/q12/ethnicity/hisp_oth":
+                demographic.q12.ethnicity.hisp_oth = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/street":
-                death_certificate.address_of_injury.street = value;
+            case "demographic/q12/matbplc_us":
+                demographic.q12.matbplc_us = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/apartment":
-                death_certificate.address_of_injury.apartment = value;
+            case "demographic/q12/matbplc_else":
+                demographic.q12.matbplc_else = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/city":
-                death_certificate.address_of_injury.city = value;
+            case "demographic/q12/matbplc_else_literal":
+                demographic.q12.matbplc_else_literal = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/state":
-                death_certificate.address_of_injury.state = value;
+            case "demographic/q14/occup":
+                demographic.q14.occup = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/zip_code":
-                death_certificate.address_of_injury.zip_code = value;
+            case "demographic/q14/indust":
+                demographic.q14.indust = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/county":
-                death_certificate.address_of_injury.county = value;
+            case "demographic/q14/industry_code_1":
+                demographic.q14.industry_code_1 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/feature_matching_geography_type":
-                death_certificate.address_of_injury.feature_matching_geography_type = value;
+            case "demographic/q14/industry_code_2":
+                demographic.q14.industry_code_2 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/latitude":
-                death_certificate.address_of_injury.latitude = value;
+            case "demographic/q14/industry_code_3":
+                demographic.q14.industry_code_3 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/longitude":
-                death_certificate.address_of_injury.longitude = value;
+            case "demographic/q14/occupation_code_1":
+                demographic.q14.occupation_code_1 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_code":
-                death_certificate.address_of_injury.naaccr_gis_coordinate_quality_code = value;
+            case "demographic/q14/occupation_code_2":
+                demographic.q14.occupation_code_2 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/naaccr_gis_coordinate_quality_type":
-                death_certificate.address_of_injury.naaccr_gis_coordinate_quality_type = value;
+            case "demographic/q14/occupation_code_3":
+                demographic.q14.occupation_code_3 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/naaccr_census_tract_certainty_code":
-                death_certificate.address_of_injury.naaccr_census_tract_certainty_code = value;
+            case "demographic/height":
+                demographic.height = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/naaccr_census_tract_certainty_type":
-                death_certificate.address_of_injury.naaccr_census_tract_certainty_type = value;
+            case "demographic/wtpreprg":
+                demographic.wtpreprg = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/state_county_fips":
-                death_certificate.address_of_injury.state_county_fips = value;
+            case "demographic/bmi":
+                demographic.bmi = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_state_fips":
-                death_certificate.address_of_injury.census_state_fips = value;
+            case "cause_of_death/coder":
+                cause_of_death.coder = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_county_fips":
-                death_certificate.address_of_injury.census_county_fips = value;
+            case "preparer_remarks/preparer_grp/review_1_remarks":
+                preparer_remarks.preparer_grp.review_1_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_tract_fips":
-                death_certificate.address_of_injury.census_tract_fips = value;
+            case "preparer_remarks/remarks_grp/note_to_vro":
+                preparer_remarks.remarks_grp.note_to_vro = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/urban_status":
-                death_certificate.address_of_injury.urban_status = value;
+            case "preparer_remarks/remarks_grp/remarks":
+                preparer_remarks.remarks_grp.remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_met_div_fips":
-                death_certificate.address_of_injury.census_met_div_fips = value;
+            case "preparer_remarks/remarks_grp/update_remarks":
+                preparer_remarks.remarks_grp.update_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_cbsa_fips":
-                death_certificate.address_of_injury.census_cbsa_fips = value;
+            case "preparer_remarks/pdf_grp/pdf_link":
+                preparer_remarks.pdf_grp.pdf_link = value;
                 result = true;
             break;
-            case "death_certificate/address_of_injury/census_cbsa_micro":
-                death_certificate.address_of_injury.census_cbsa_micro = value;
+            case "preparer_remarks/pdf_grp/pdf_steve_link":
+                preparer_remarks.pdf_grp.pdf_steve_link = value;
                 result = true;
             break;
-            case "death_certificate/death_information/other_death_outside_of_hospital":
-                death_certificate.death_information.other_death_outside_of_hospital = value;
+            case "committee_review/reviewer_grp/review_2_remarks":
+                committee_review.reviewer_grp.review_2_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/place_of_death":
-                death_certificate.address_of_death.place_of_death = value;
+            case "committee_review/rev_assessment_grp/dc_info_remarks":
+                committee_review.rev_assessment_grp.dc_info_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/street":
-                death_certificate.address_of_death.street = value;
+            case "committee_review/rev_assessment_grp/mmria_used_remarks":
+                committee_review.rev_assessment_grp.mmria_used_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/apartment":
-                death_certificate.address_of_death.apartment = value;
+            case "committee_review/agreement_grp/agreement_status":
+                committee_review.agreement_grp.agreement_status = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/city":
-                death_certificate.address_of_death.city = value;
+            case "committee_review/agreement_grp/agreement_remarks":
+                committee_review.agreement_grp.agreement_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/state":
-                death_certificate.address_of_death.state = value;
+            case "vro_case_determination/case_identifiers/dstate_dc_mirror":
+                vro_case_determination.case_identifiers.dstate_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/zip_code":
-                death_certificate.address_of_death.zip_code = value;
+            case "vro_case_determination/case_identifiers/fileno_dc_mirror":
+                vro_case_determination.case_identifiers.fileno_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/county":
-                death_certificate.address_of_death.county = value;
+            case "vro_case_determination/case_identifiers/auxno_dc_mirror":
+                vro_case_determination.case_identifiers.auxno_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/feature_matching_geography_type":
-                death_certificate.address_of_death.feature_matching_geography_type = value;
+            case "vro_case_determination/case_identifiers/dodeath_mirror/dod_mo_dc_mirror":
+                vro_case_determination.case_identifiers.dodeath_mirror.dod_mo_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/latitude":
-                death_certificate.address_of_death.latitude = value;
+            case "vro_case_determination/case_identifiers/dodeath_mirror/dod_dy_dc_mirror":
+                vro_case_determination.case_identifiers.dodeath_mirror.dod_dy_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/longitude":
-                death_certificate.address_of_death.longitude = value;
+            case "vro_case_determination/case_identifiers/dodeath_mirror/dod_yr_dc_mirror":
+                vro_case_determination.case_identifiers.dodeath_mirror.dod_yr_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_code":
-                death_certificate.address_of_death.naaccr_gis_coordinate_quality_code = value;
+            case "vro_case_determination/case_identifiers/dobirth_mirror/dob_mo_dc_mirror":
+                vro_case_determination.case_identifiers.dobirth_mirror.dob_mo_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/naaccr_gis_coordinate_quality_type":
-                death_certificate.address_of_death.naaccr_gis_coordinate_quality_type = value;
+            case "vro_case_determination/case_identifiers/dobirth_mirror/dob_dy_dc_mirror":
+                vro_case_determination.case_identifiers.dobirth_mirror.dob_dy_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/naaccr_census_tract_certainty_code":
-                death_certificate.address_of_death.naaccr_census_tract_certainty_code = value;
+            case "vro_case_determination/case_identifiers/dobirth_mirror/dob_yr_dc_mirror":
+                vro_case_determination.case_identifiers.dobirth_mirror.dob_yr_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/naaccr_census_tract_certainty_type":
-                death_certificate.address_of_death.naaccr_census_tract_certainty_type = value;
+            case "vro_case_determination/case_identifiers/fileno_bc_mirror":
+                vro_case_determination.case_identifiers.fileno_bc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/state_county_fips":
-                death_certificate.address_of_death.state_county_fips = value;
+            case "vro_case_determination/case_identifiers/fileno_fdc_mirror":
+                vro_case_determination.case_identifiers.fileno_fdc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_state_fips":
-                death_certificate.address_of_death.census_state_fips = value;
+            case "vro_case_determination/case_identifiers/year_birthorfetaldeath_mirror":
+                vro_case_determination.case_identifiers.year_birthorfetaldeath_mirror = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_county_fips":
-                death_certificate.address_of_death.census_county_fips = value;
+            case "vro_case_determination/vro_update/vro_resolution_status":
+                vro_case_determination.vro_update.vro_resolution_status = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_tract_fips":
-                death_certificate.address_of_death.census_tract_fips = value;
+            case "vro_case_determination/vro_update/vro_resolution_remarks":
+                vro_case_determination.vro_update.vro_resolution_remarks = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/urban_status":
-                death_certificate.address_of_death.urban_status = value;
+            case "vro_case_determination/vro_update/vro_is_checkbox_correct":
+                vro_case_determination.vro_update.vro_is_checkbox_correct = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_met_div_fips":
-                death_certificate.address_of_death.census_met_div_fips = value;
+            case "vro_case_determination/vro_update/vro_duration_endpreg_death":
+                vro_case_determination.vro_update.vro_duration_endpreg_death = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_cbsa_fips":
-                death_certificate.address_of_death.census_cbsa_fips = value;
+            case "vro_case_determination/vro_update/vro_file_no_of_linked_lbfd":
+                vro_case_determination.vro_update.vro_file_no_of_linked_lbfd = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/census_cbsa_micro":
-                death_certificate.address_of_death.census_cbsa_micro = value;
+            case "vro_case_determination/vro_update/note_to_vro_mirror":
+                vro_case_determination.vro_update.note_to_vro_mirror = value;
                 result = true;
             break;
-            case "death_certificate/reviewer_note":
-                death_certificate.reviewer_note = value;
+            case "vro_case_determination/cause_details_mirror/manner_dc_mirror":
+                vro_case_determination.cause_details_mirror.manner_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/vital_summary_text":
-                death_certificate.vitals_import_group.vital_summary_text = value;
+            case "vro_case_determination/cause_details_mirror/cod1a_dc":
+                vro_case_determination.cause_details_mirror.cod1a_dc = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/cod1a":
-                death_certificate.vitals_import_group.cod1a = value;
+            case "vro_case_determination/cause_details_mirror/interval1a_dc_mirror":
+                vro_case_determination.cause_details_mirror.interval1a_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/interval1a":
-                death_certificate.vitals_import_group.interval1a = value;
+            case "vro_case_determination/cause_details_mirror/cod1b_dc_mirror":
+                vro_case_determination.cause_details_mirror.cod1b_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/cod1b":
-                death_certificate.vitals_import_group.cod1b = value;
+            case "vro_case_determination/cause_details_mirror/interval1b_dc_mirror":
+                vro_case_determination.cause_details_mirror.interval1b_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/interval1b":
-                death_certificate.vitals_import_group.interval1b = value;
+            case "vro_case_determination/cause_details_mirror/cod1c_dc_mirror":
+                vro_case_determination.cause_details_mirror.cod1c_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/cod1c":
-                death_certificate.vitals_import_group.cod1c = value;
+            case "vro_case_determination/cause_details_mirror/interval1c_dc_mirror":
+                vro_case_determination.cause_details_mirror.interval1c_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/interval1c":
-                death_certificate.vitals_import_group.interval1c = value;
+            case "vro_case_determination/cause_details_mirror/cod1d_dc_mirror":
+                vro_case_determination.cause_details_mirror.cod1d_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/cod1d":
-                death_certificate.vitals_import_group.cod1d = value;
+            case "vro_case_determination/cause_details_mirror/interval1d_dc_mirror":
+                vro_case_determination.cause_details_mirror.interval1d_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/interfval1d":
-                death_certificate.vitals_import_group.interfval1d = value;
+            case "vro_case_determination/cause_details_mirror/othercondition_dc_mirror":
+                vro_case_determination.cause_details_mirror.othercondition_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/othercondition":
-                death_certificate.vitals_import_group.othercondition = value;
+            case "vro_case_determination/cause_details_mirror/man_uc_dc":
+                vro_case_determination.cause_details_mirror.man_uc_dc = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/man_uc":
-                death_certificate.vitals_import_group.man_uc = value;
+            case "vro_case_determination/cause_details_mirror/acme_uc_dc_mirror":
+                vro_case_determination.cause_details_mirror.acme_uc_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/acme_uc":
-                death_certificate.vitals_import_group.acme_uc = value;
+            case "vro_case_determination/cause_details_mirror/eac_dc_mirror":
+                vro_case_determination.cause_details_mirror.eac_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/eac":
-                death_certificate.vitals_import_group.eac = value;
+            case "vro_case_determination/cause_details_mirror/rac_dc_mirror":
+                vro_case_determination.cause_details_mirror.rac_dc_mirror = value;
                 result = true;
             break;
-            case "death_certificate/vitals_import_group/rac":
-                death_certificate.vitals_import_group.rac = value;
+            case "ije_dc/file_info/dstate_dc":
+                ije_dc.file_info.dstate_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/other_maternal_level_of_care":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.other_maternal_level_of_care = value;
+            case "ije_dc/file_info/fileno_dc":
+                ije_dc.file_info.fileno_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/facility_npi_number":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.facility_npi_number = value;
+            case "ije_dc/file_info/auxno_dc":
+                ije_dc.file_info.auxno_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/facility_name":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.facility_name = value;
+            case "ije_dc/death_info/dod_mo_dc":
+                ije_dc.death_info.dod_mo_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/other_attendant_type":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.other_attendant_type = value;
+            case "ije_dc/death_info/dod_dy_dc":
+                ije_dc.death_info.dod_dy_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_npi":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.attendant_npi = value;
+            case "ije_dc/death_info/dod_yr_dc":
+                ije_dc.death_info.dod_yr_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/transferred_from_where":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.transferred_from_where = value;
+            case "ije_dc/death_info/tod_dc":
+                ije_dc.death_info.tod_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/street":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.street = value;
+            case "ije_dc/death_info/citytext_d_dc":
+                ije_dc.death_info.citytext_d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/apartment":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.apartment = value;
+            case "ije_dc/death_info/countytext_d_dc":
+                ije_dc.death_info.countytext_d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/city":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.city = value;
+            case "ije_dc/death_info/statetext_d_dc":
+                ije_dc.death_info.statetext_d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/state":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.state = value;
+            case "ije_dc/death_info/zip9_d_dc":
+                ije_dc.death_info.zip9_d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/zip_code":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.zip_code = value;
+            case "ije_dc/death_info/preg_dc":
+                ije_dc.death_info.preg_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/county":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.county = value;
+            case "ije_dc/death_info/inact_dc":
+                ije_dc.death_info.inact_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/latitude":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.latitude = value;
+            case "ije_dc/death_info/autop_dc":
+                ije_dc.death_info.autop_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/longitude":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.longitude = value;
+            case "ije_dc/death_info/autopf_dc":
+                ije_dc.death_info.autopf_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/feature_matching_geography_type":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.feature_matching_geography_type = value;
+            case "ije_dc/death_info/transprt_dc":
+                ije_dc.death_info.transprt_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_code":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_code = value;
+            case "ije_dc/death_info/tobac_dc":
+                ije_dc.death_info.tobac_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_gis_coordinate_quality_type":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_gis_coordinate_quality_type = value;
+            case "ije_dc/cause_details/manner_dc":
+                ije_dc.cause_details.manner_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_code":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_census_tract_certainty_code = value;
+            case "ije_dc/cause_details/cod1a_dc":
+                ije_dc.cause_details.cod1a_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/naaccr_census_tract_certainty_type":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.naaccr_census_tract_certainty_type = value;
+            case "ije_dc/cause_details/interval1a_dc":
+                ije_dc.cause_details.interval1a_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/urban_status":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.urban_status = value;
+            case "ije_dc/cause_details/cod1b_dc":
+                ije_dc.cause_details.cod1b_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/state_county_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.state_county_fips = value;
+            case "ije_dc/cause_details/interval1b_dc":
+                ije_dc.cause_details.interval1b_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_state_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_state_fips = value;
+            case "ije_dc/cause_details/cod1c_dc":
+                ije_dc.cause_details.cod1c_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_county_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_county_fips = value;
+            case "ije_dc/cause_details/interval1c_dc":
+                ije_dc.cause_details.interval1c_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_tract_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_tract_fips = value;
+            case "ije_dc/cause_details/cod1d_dc":
+                ije_dc.cause_details.cod1d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_met_div_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_met_div_fips = value;
+            case "ije_dc/cause_details/interval1d_dc":
+                ije_dc.cause_details.interval1d_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_fips":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_fips = value;
+            case "ije_dc/cause_details/othercondition_dc":
+                ije_dc.cause_details.othercondition_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_location/census_cbsa_micro":
-                birth_fetal_death_certificate_parent.facility_of_delivery_location.census_cbsa_micro = value;
+            case "ije_dc/cause_details/man_uc_dc":
+                ije_dc.cause_details.man_uc_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/city_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_father.city_of_birth = value;
+            case "ije_dc/cause_details/acme_uc_dc":
+                ije_dc.cause_details.acme_uc_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/state_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_father.state_of_birth = value;
+            case "ije_dc/cause_details/eac_dc":
+                ije_dc.cause_details.eac_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/father_country_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_father.father_country_of_birth = value;
+            case "ije_dc/cause_details/rac_dc":
+                ije_dc.cause_details.rac_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/primary_occupation":
-                birth_fetal_death_certificate_parent.demographic_of_father.primary_occupation = value;
+            case "ije_dc/injury_details/doi_mo_dc":
+                ije_dc.injury_details.doi_mo_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/occupation_business_industry":
-                birth_fetal_death_certificate_parent.demographic_of_father.occupation_business_industry = value;
+            case "ije_dc/injury_details/doi_dy_dc":
+                ije_dc.injury_details.doi_dy_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin_other_specify":
-                birth_fetal_death_certificate_parent.demographic_of_father.is_father_of_hispanic_origin_other_specify = value;
+            case "ije_dc/injury_details/doi_yr_dc":
+                ije_dc.injury_details.doi_yr_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/other_race":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.other_race = value;
+            case "ije_dc/injury_details/toi_hr_dc":
+                ije_dc.injury_details.toi_hr_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/other_asian":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.other_asian = value;
+            case "ije_dc/injury_details/howinj_dc":
+                ije_dc.injury_details.howinj_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/other_pacific_islander":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.other_pacific_islander = value;
+            case "ije_dc/injury_details/workinj_dc":
+                ije_dc.injury_details.workinj_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/principle_tribe":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.principle_tribe = value;
+            case "ije_dc/birthplace_mother/bplace_cnt_dc":
+                ije_dc.birthplace_mother.bplace_cnt_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/omb_race_recode":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.omb_race_recode = value;
+            case "ije_dc/birthplace_mother/bplace_st_dc":
+                ije_dc.birthplace_mother.bplace_st_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_1":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_1 = value;
+            case "ije_dc/birthplace_mother/cityc_dc":
+                ije_dc.birthplace_mother.cityc_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_2":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_2 = value;
+            case "ije_dc/residence_mother/citytext_r_dc":
+                ije_dc.residence_mother.citytext_r_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_industry_code_3":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_industry_code_3 = value;
+            case "ije_dc/residence_mother/countyc_dc":
+                ije_dc.residence_mother.countyc_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_1":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_1 = value;
+            case "ije_dc/residence_mother/countrytext_r_dc":
+                ije_dc.residence_mother.countrytext_r_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_2":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_2 = value;
+            case "ije_dc/residence_mother/statec_dc":
+                ije_dc.residence_mother.statec_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/bcdcp_f_occupation_code_3":
-                birth_fetal_death_certificate_parent.demographic_of_father.bcdcp_f_occupation_code_3 = value;
+            case "ije_dc/residence_mother/statetext_r_dc":
+                ije_dc.residence_mother.statetext_r_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/record_identification/first_name":
-                birth_fetal_death_certificate_parent.record_identification.first_name = value;
+            case "ije_dc/residence_mother/zip9_r_dc":
+                ije_dc.residence_mother.zip9_r_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/record_identification/middle_name":
-                birth_fetal_death_certificate_parent.record_identification.middle_name = value;
+            case "ije_dc/demog_details/dob_mo_dc":
+                ije_dc.demog_details.dob_mo_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/record_identification/last_name":
-                birth_fetal_death_certificate_parent.record_identification.last_name = value;
+            case "ije_dc/demog_details/dob_dy_dc":
+                ije_dc.demog_details.dob_dy_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/record_identification/maiden_name":
-                birth_fetal_death_certificate_parent.record_identification.maiden_name = value;
+            case "ije_dc/demog_details/dob_yr_dc":
+                ije_dc.demog_details.dob_yr_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/record_identification/medical_record_number":
-                birth_fetal_death_certificate_parent.record_identification.medical_record_number = value;
+            case "ije_dc/demog_details/age_dc":
+                ije_dc.demog_details.age_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/city_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_mother.city_of_birth = value;
+            case "ije_dc/demog_details/sex_dc":
+                ije_dc.demog_details.sex_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/state_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_mother.state_of_birth = value;
+            case "ije_dc/demog_details/marital_dc":
+                ije_dc.demog_details.marital_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/country_of_birth":
-                birth_fetal_death_certificate_parent.demographic_of_mother.country_of_birth = value;
+            case "ije_dc/demog_details/indust_dc":
+                ije_dc.demog_details.indust_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/primary_occupation":
-                birth_fetal_death_certificate_parent.demographic_of_mother.primary_occupation = value;
+            case "ije_dc/demog_details/occup_dc":
+                ije_dc.demog_details.occup_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/occupation_business_industry":
-                birth_fetal_death_certificate_parent.demographic_of_mother.occupation_business_industry = value;
+            case "ije_dc/demog_details/armedf_dc":
+                ije_dc.demog_details.armedf_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin_other_specify":
-                birth_fetal_death_certificate_parent.demographic_of_mother.is_of_hispanic_origin_other_specify = value;
+            case "ije_dc/demog_details/dethnic1_dc":
+                ije_dc.demog_details.dethnic1_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_1":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_1 = value;
+            case "ije_dc/demog_details/dethnic2_dc":
+                ije_dc.demog_details.dethnic2_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_2":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_2 = value;
+            case "ije_dc/demog_details/dethnic3_dc":
+                ije_dc.demog_details.dethnic3_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_industry_code_3":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_industry_code_3 = value;
+            case "ije_dc/demog_details/dethnic4_dc":
+                ije_dc.demog_details.dethnic4_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_1":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_1 = value;
+            case "ije_dc/demog_details/dethnic5_dc":
+                ije_dc.demog_details.dethnic5_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_2":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_2 = value;
+            case "ije_dc/demog_details/race1_dc":
+                ije_dc.demog_details.race1_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/bcdcp_m_occupation_code_3":
-                birth_fetal_death_certificate_parent.demographic_of_mother.bcdcp_m_occupation_code_3 = value;
+            case "ije_dc/demog_details/race2_dc":
+                ije_dc.demog_details.race2_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/street":
-                birth_fetal_death_certificate_parent.location_of_residence.street = value;
+            case "ije_dc/demog_details/race3_dc":
+                ije_dc.demog_details.race3_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/apartment":
-                birth_fetal_death_certificate_parent.location_of_residence.apartment = value;
+            case "ije_dc/demog_details/race4_dc":
+                ije_dc.demog_details.race4_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/city":
-                birth_fetal_death_certificate_parent.location_of_residence.city = value;
+            case "ije_dc/demog_details/race5_dc":
+                ije_dc.demog_details.race5_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/state":
-                birth_fetal_death_certificate_parent.location_of_residence.state = value;
+            case "ije_dc/demog_details/race6_dc":
+                ije_dc.demog_details.race6_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/zip_code":
-                birth_fetal_death_certificate_parent.location_of_residence.zip_code = value;
+            case "ije_dc/demog_details/race7_dc":
+                ije_dc.demog_details.race7_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/county":
-                birth_fetal_death_certificate_parent.location_of_residence.county = value;
+            case "ije_dc/demog_details/race8_dc":
+                ije_dc.demog_details.race8_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/feature_matching_geography_type":
-                birth_fetal_death_certificate_parent.location_of_residence.feature_matching_geography_type = value;
+            case "ije_dc/demog_details/race9_dc":
+                ije_dc.demog_details.race9_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/latitude":
-                birth_fetal_death_certificate_parent.location_of_residence.latitude = value;
+            case "ije_dc/demog_details/race10_dc":
+                ije_dc.demog_details.race10_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/longitude":
-                birth_fetal_death_certificate_parent.location_of_residence.longitude = value;
+            case "ije_dc/demog_details/race11_dc":
+                ije_dc.demog_details.race11_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_code":
-                birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_code = value;
+            case "ije_dc/demog_details/race12_dc":
+                ije_dc.demog_details.race12_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_gis_coordinate_quality_type":
-                birth_fetal_death_certificate_parent.location_of_residence.naaccr_gis_coordinate_quality_type = value;
+            case "ije_dc/demog_details/race13_dc":
+                ije_dc.demog_details.race13_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_census_tract_certainty_code":
-                birth_fetal_death_certificate_parent.location_of_residence.naaccr_census_tract_certainty_code = value;
+            case "ije_dc/demog_details/race14_dc":
+                ije_dc.demog_details.race14_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/naaccr_census_tract_certainty_type":
-                birth_fetal_death_certificate_parent.location_of_residence.naaccr_census_tract_certainty_type = value;
+            case "ije_dc/demog_details/race15_dc":
+                ije_dc.demog_details.race15_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/state_county_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.state_county_fips = value;
+            case "ije_dc/demog_details/race16_dc":
+                ije_dc.demog_details.race16_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_state_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.census_state_fips = value;
+            case "ije_dc/demog_details/race17_dc":
+                ije_dc.demog_details.race17_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_county_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.census_county_fips = value;
+            case "ije_dc/demog_details/race18_dc":
+                ije_dc.demog_details.race18_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_tract_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.census_tract_fips = value;
+            case "ije_dc/demog_details/race19_dc":
+                ije_dc.demog_details.race19_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/urban_status":
-                birth_fetal_death_certificate_parent.location_of_residence.urban_status = value;
+            case "ije_dc/demog_details/race20_dc":
+                ije_dc.demog_details.race20_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_met_div_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.census_met_div_fips = value;
+            case "ije_dc/demog_details/race21_dc":
+                ije_dc.demog_details.race21_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_fips":
-                birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_fips = value;
+            case "ije_dc/demog_details/race22_dc":
+                ije_dc.demog_details.race22_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/census_cbsa_micro":
-                birth_fetal_death_certificate_parent.location_of_residence.census_cbsa_micro = value;
+            case "ije_dc/demog_details/race23_dc":
+                ije_dc.demog_details.race23_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/race/other_race":
-                birth_fetal_death_certificate_parent.race.other_race = value;
+            case "ije_bc/file_info/bstate_bc":
+                ije_bc.file_info.bstate_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/race/other_asian":
-                birth_fetal_death_certificate_parent.race.other_asian = value;
+            case "ije_bc/file_info/fileno_bc":
+                ije_bc.file_info.fileno_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/race/other_pacific_islander":
-                birth_fetal_death_certificate_parent.race.other_pacific_islander = value;
+            case "ije_bc/file_info/auxno_bc":
+                ije_bc.file_info.auxno_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/race/principle_tribe":
-                birth_fetal_death_certificate_parent.race.principle_tribe = value;
+            case "ije_bc/delivery_info/dwgt_bc":
+                ije_bc.delivery_info.dwgt_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/race/omb_race_recode":
-                birth_fetal_death_certificate_parent.race.omb_race_recode = value;
+            case "ije_bc/delivery_info/pwgt_bc":
+                ije_bc.delivery_info.pwgt_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/pregnancy_interval":
-                birth_fetal_death_certificate_parent.pregnancy_history.pregnancy_interval = value;
+            case "ije_bc/delivery_info/hft_bc":
+                ije_bc.delivery_info.hft_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/specify_if_greater_than_3":
-                birth_fetal_death_certificate_parent.prenatal_care.specify_if_greater_than_3 = value;
+            case "ije_bc/delivery_info/hin_bc":
+                ije_bc.delivery_info.hin_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/specify_other_payor":
-                birth_fetal_death_certificate_parent.prenatal_care.specify_other_payor = value;
+            case "ije_bc/delivery_info/idob_mo_bc":
+                ije_bc.delivery_info.idob_mo_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/specify_other_infection":
-                birth_fetal_death_certificate_parent.specify_other_infection = value;
+            case "ije_bc/delivery_info/idob_dy_bc":
+                ije_bc.delivery_info.idob_dy_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/reviewer_note":
-                birth_fetal_death_certificate_parent.reviewer_note = value;
+            case "ije_bc/delivery_info/idob_yr_bc":
+                ije_bc.delivery_info.idob_yr_bc = value;
                 result = true;
             break;
-            case "cvs/cvs_used_other_sp":
-                cvs.cvs_used_other_sp = value;
+            case "ije_bc/delivery_info/tb_bc":
+                ije_bc.delivery_info.tb_bc = value;
                 result = true;
             break;
-            case "cvs/reviewer_note":
-                cvs.reviewer_note = value;
+            case "ije_bc/delivery_info/isex_bc":
+                ije_bc.delivery_info.isex_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/source_of_income_other_specify":
-                social_and_environmental_profile.socio_economic_characteristics.source_of_income_other_specify = value;
+            case "ije_bc/delivery_info/bwg_bc":
+                ije_bc.delivery_info.bwg_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/employment_status_other_specify":
-                social_and_environmental_profile.socio_economic_characteristics.employment_status_other_specify = value;
+            case "ije_bc/delivery_info/owgest_bc":
+                ije_bc.delivery_info.owgest_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/occupation":
-                social_and_environmental_profile.socio_economic_characteristics.occupation = value;
+            case "ije_bc/delivery_info/apgar5_bc":
+                ije_bc.delivery_info.apgar5_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/religious_preference":
-                social_and_environmental_profile.socio_economic_characteristics.religious_preference = value;
+            case "ije_bc/delivery_info/apgar10_bc":
+                ije_bc.delivery_info.apgar10_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/country_of_birth":
-                social_and_environmental_profile.socio_economic_characteristics.country_of_birth = value;
+            case "ije_bc/delivery_info/plur_bc":
+                ije_bc.delivery_info.plur_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_1":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_1 = value;
+            case "ije_bc/delivery_info/sord_bc":
+                ije_bc.delivery_info.sord_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_2":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_2 = value;
+            case "ije_bc/delivery_info/hosp_bc":
+                ije_bc.delivery_info.hosp_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_occupation_code_3":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_occupation_code_3 = value;
+            case "ije_bc/delivery_info/birth_co_bc":
+                ije_bc.delivery_info.birth_co_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_1":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_1 = value;
+            case "ije_bc/delivery_info/tran_bc":
+                ije_bc.delivery_info.tran_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_2":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_2 = value;
+            case "ije_bc/delivery_info/itran_bc":
+                ije_bc.delivery_info.itran_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/socio_economic_characteristics/sep_m_industry_code_3":
-                social_and_environmental_profile.socio_economic_characteristics.sep_m_industry_code_3 = value;
+            case "ije_bc/delivery_info/bfed_bc":
+                ije_bc.delivery_info.bfed_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/gender_identity/sep_genid_source_othersp":
-                social_and_environmental_profile.gender_identity.sep_genid_source_othersp = value;
+            case "ije_bc/delivery_info/wic_bc":
+                ije_bc.delivery_info.wic_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/gender_identity/sep_genid_source_terms":
-                social_and_environmental_profile.gender_identity.sep_genid_source_terms = value;
+            case "ije_bc/delivery_info/iliv_bc":
+                ije_bc.delivery_info.iliv_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/health_care_access/barriers_to_health_care_access_other_specify":
-                social_and_environmental_profile.health_care_access.barriers_to_health_care_access_other_specify = value;
+            case "ije_bc/delivery_info/gon_bc":
+                ije_bc.delivery_info.gon_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/health_care_access/comments":
-                social_and_environmental_profile.health_care_access.comments = value;
+            case "ije_bc/delivery_info/syph_bc":
+                ije_bc.delivery_info.syph_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/communications/barriers_to_communications_other_specify":
-                social_and_environmental_profile.communications.barriers_to_communications_other_specify = value;
+            case "ije_bc/delivery_info/hsv_bc":
+                ije_bc.delivery_info.hsv_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/communications/comments":
-                social_and_environmental_profile.communications.comments = value;
+            case "ije_bc/delivery_info/cham_bc":
+                ije_bc.delivery_info.cham_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/social_or_emotional_stress/specify_other_evidence_stress":
-                social_and_environmental_profile.social_or_emotional_stress.specify_other_evidence_stress = value;
+            case "ije_bc/delivery_info/hepb_bc":
+                ije_bc.delivery_info.hepb_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/social_or_emotional_stress/explain_further":
-                social_and_environmental_profile.social_or_emotional_stress.explain_further = value;
+            case "ije_bc/delivery_info/hepc_bc":
+                ije_bc.delivery_info.hepc_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/health_care_system/specify_other_reason":
-                social_and_environmental_profile.health_care_system.specify_other_reason = value;
+            case "ije_bc/delivery_info/cerv_bc":
+                ije_bc.delivery_info.cerv_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/health_care_system/comments":
-                social_and_environmental_profile.health_care_system.comments = value;
+            case "ije_bc/delivery_info/toc_bc":
+                ije_bc.delivery_info.toc_bc = value;
                 result = true;
             break;
-            case "social_and_environmental_profile/reviewer_note":
-                social_and_environmental_profile.reviewer_note = value;
+            case "ije_bc/delivery_info/ecvs_bc":
+                ije_bc.delivery_info.ecvs_bc = value;
                 result = true;
             break;
-            case "autopsy_report/reporter_characteristics/other_specify":
-                autopsy_report.reporter_characteristics.other_specify = value;
+            case "ije_bc/delivery_info/ecvf_bc":
+                ije_bc.delivery_info.ecvf_bc = value;
                 result = true;
             break;
-            case "autopsy_report/reporter_characteristics/jurisdiction":
-                autopsy_report.reporter_characteristics.jurisdiction = value;
+            case "ije_bc/delivery_info/prom_bc":
+                ije_bc.delivery_info.prom_bc = value;
                 result = true;
             break;
-            case "autopsy_report/icd_code_version":
-                autopsy_report.icd_code_version = value;
+            case "ije_bc/delivery_info/pric_bc":
+                ije_bc.delivery_info.pric_bc = value;
                 result = true;
             break;
-            case "autopsy_report/reviewer_note":
-                autopsy_report.reviewer_note = value;
+            case "ije_bc/delivery_info/prol_bc":
+                ije_bc.delivery_info.prol_bc = value;
                 result = true;
             break;
-            case "prenatal/prenatal_care_record_no":
-                prenatal.prenatal_care_record_no = value;
+            case "ije_bc/delivery_info/indl_bc":
+                ije_bc.delivery_info.indl_bc = value;
                 result = true;
             break;
-            case "prenatal/primary_prenatal_care_facility/other_place_type":
-                prenatal.primary_prenatal_care_facility.other_place_type = value;
+            case "ije_bc/delivery_info/augl_bc":
+                ije_bc.delivery_info.augl_bc = value;
                 result = true;
             break;
-            case "prenatal/primary_prenatal_care_facility/specify_other_provider_type":
-                prenatal.primary_prenatal_care_facility.specify_other_provider_type = value;
+            case "ije_bc/delivery_info/nvpr_bc":
+                ije_bc.delivery_info.nvpr_bc = value;
                 result = true;
             break;
-            case "prenatal/primary_prenatal_care_facility/other_payment_source":
-                prenatal.primary_prenatal_care_facility.other_payment_source = value;
+            case "ije_bc/delivery_info/ster_bc":
+                ije_bc.delivery_info.ster_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/street":
-                prenatal.location_of_primary_prenatal_care_facility.street = value;
+            case "ije_bc/delivery_info/antb_bc":
+                ije_bc.delivery_info.antb_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/apartment":
-                prenatal.location_of_primary_prenatal_care_facility.apartment = value;
+            case "ije_bc/delivery_info/chor_bc":
+                ije_bc.delivery_info.chor_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/city":
-                prenatal.location_of_primary_prenatal_care_facility.city = value;
+            case "ije_bc/delivery_info/mecs_bc":
+                ije_bc.delivery_info.mecs_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/state":
-                prenatal.location_of_primary_prenatal_care_facility.state = value;
+            case "ije_bc/delivery_info/fint_bc":
+                ije_bc.delivery_info.fint_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/zip_code":
-                prenatal.location_of_primary_prenatal_care_facility.zip_code = value;
+            case "ije_bc/delivery_info/esan_bc":
+                ije_bc.delivery_info.esan_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/county":
-                prenatal.location_of_primary_prenatal_care_facility.county = value;
+            case "ije_bc/delivery_info/tlab_bc":
+                ije_bc.delivery_info.tlab_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/feature_matching_geography_type":
-                prenatal.location_of_primary_prenatal_care_facility.feature_matching_geography_type = value;
+            case "ije_bc/delivery_info/mtr_bc":
+                ije_bc.delivery_info.mtr_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/latitude":
-                prenatal.location_of_primary_prenatal_care_facility.latitude = value;
+            case "ije_bc/delivery_info/plac_bc":
+                ije_bc.delivery_info.plac_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/longitude":
-                prenatal.location_of_primary_prenatal_care_facility.longitude = value;
+            case "ije_bc/delivery_info/rut_bc":
+                ije_bc.delivery_info.rut_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_code":
-                prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_code = value;
+            case "ije_bc/delivery_info/uhys_bc":
+                ije_bc.delivery_info.uhys_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_gis_coordinate_quality_type":
-                prenatal.location_of_primary_prenatal_care_facility.naaccr_gis_coordinate_quality_type = value;
+            case "ije_bc/delivery_info/aint_bc":
+                ije_bc.delivery_info.aint_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_census_tract_certainty_code":
-                prenatal.location_of_primary_prenatal_care_facility.naaccr_census_tract_certainty_code = value;
+            case "ije_bc/delivery_info/uopr_bc":
+                ije_bc.delivery_info.uopr_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/naaccr_census_tract_certainty_type":
-                prenatal.location_of_primary_prenatal_care_facility.naaccr_census_tract_certainty_type = value;
+            case "ije_bc/delivery_info/aven1_bc":
+                ije_bc.delivery_info.aven1_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/state_county_fips":
-                prenatal.location_of_primary_prenatal_care_facility.state_county_fips = value;
+            case "ije_bc/delivery_info/aven6_bc":
+                ije_bc.delivery_info.aven6_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_state_fips":
-                prenatal.location_of_primary_prenatal_care_facility.census_state_fips = value;
+            case "ije_bc/delivery_info/nicu_bc":
+                ije_bc.delivery_info.nicu_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_county_fips":
-                prenatal.location_of_primary_prenatal_care_facility.census_county_fips = value;
+            case "ije_bc/delivery_info/surf_bc":
+                ije_bc.delivery_info.surf_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_tract_fips":
-                prenatal.location_of_primary_prenatal_care_facility.census_tract_fips = value;
+            case "ije_bc/delivery_info/anti_bc":
+                ije_bc.delivery_info.anti_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/urban_status":
-                prenatal.location_of_primary_prenatal_care_facility.urban_status = value;
+            case "ije_bc/delivery_info/seiz_bc":
+                ije_bc.delivery_info.seiz_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_met_div_fips":
-                prenatal.location_of_primary_prenatal_care_facility.census_met_div_fips = value;
+            case "ije_bc/delivery_info/binj_bc":
+                ije_bc.delivery_info.binj_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_fips":
-                prenatal.location_of_primary_prenatal_care_facility.census_cbsa_fips = value;
+            case "ije_bc/delivery_info/anen_bc":
+                ije_bc.delivery_info.anen_bc = value;
                 result = true;
             break;
-            case "prenatal/location_of_primary_prenatal_care_facility/census_cbsa_micro":
-                prenatal.location_of_primary_prenatal_care_facility.census_cbsa_micro = value;
+            case "ije_bc/delivery_info/mnsb_bc":
+                ije_bc.delivery_info.mnsb_bc = value;
                 result = true;
             break;
-            case "prenatal/intendedenes/pi_wp_plann_sp":
-                prenatal.intendedenes.pi_wp_plann_sp = value;
+            case "ije_bc/delivery_info/cchd_bc":
+                ije_bc.delivery_info.cchd_bc = value;
                 result = true;
             break;
-            case "prenatal/intendedenes/was_patient_using_birth_control_other_specify":
-                prenatal.intendedenes.was_patient_using_birth_control_other_specify = value;
+            case "ije_bc/delivery_info/cdh_bc":
+                ije_bc.delivery_info.cdh_bc = value;
                 result = true;
             break;
-            case "prenatal/infertility_treatment/specify_other_art_type":
-                prenatal.infertility_treatment.specify_other_art_type = value;
+            case "ije_bc/delivery_info/omph_bc":
+                ije_bc.delivery_info.omph_bc = value;
                 result = true;
             break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_ultrasound":
-                prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_ultrasound = value;
+            case "ije_bc/delivery_info/gast_bc":
+                ije_bc.delivery_info.gast_bc = value;
                 result = true;
             break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on_lmp":
-                prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on_lmp = value;
+            case "ije_bc/delivery_info/limb_bc":
+                ije_bc.delivery_info.limb_bc = value;
                 result = true;
             break;
-            case "prenatal/current_pregnancy/intended_birthing_facility":
-                prenatal.current_pregnancy.intended_birthing_facility = value;
+            case "ije_bc/delivery_info/cl_bc":
+                ije_bc.delivery_info.cl_bc = value;
                 result = true;
             break;
-            case "prenatal/reviewer_note":
-                prenatal.reviewer_note = value;
+            case "ije_bc/delivery_info/cp_bc":
+                ije_bc.delivery_info.cp_bc = value;
                 result = true;
             break;
-            case "mental_health_profile/other_prior_to_pregnancy":
-                mental_health_profile.other_prior_to_pregnancy = value;
+            case "ije_bc/delivery_info/dowt_bc":
+                ije_bc.delivery_info.dowt_bc = value;
                 result = true;
             break;
-            case "mental_health_profile/other_during_pregnancy":
-                mental_health_profile.other_during_pregnancy = value;
+            case "ije_bc/delivery_info/cdit_bc":
+                ije_bc.delivery_info.cdit_bc = value;
                 result = true;
             break;
-            case "mental_health_profile/other_after_pregnancy":
-                mental_health_profile.other_after_pregnancy = value;
+            case "ije_bc/delivery_info/hypo_bc":
+                ije_bc.delivery_info.hypo_bc = value;
                 result = true;
             break;
-            case "mental_health_profile/reviewer_note":
-                mental_health_profile.reviewer_note = value;
+            case "ije_bc/previous_info/dlmp_mo_bc":
+                ije_bc.previous_info.dlmp_mo_bc = value;
                 result = true;
             break;
-            case "case_narrative/case_opening_overview":
-                case_narrative.case_opening_overview = value;
+            case "ije_bc/previous_info/dlmp_dy_bc":
+                ije_bc.previous_info.dlmp_dy_bc = value;
                 result = true;
             break;
-            case "committee_review/pmss_mm":
-                committee_review.pmss_mm = value;
+            case "ije_bc/previous_info/dlmp_yr_bc":
+                ije_bc.previous_info.dlmp_yr_bc = value;
                 result = true;
             break;
-            case "committee_review/pmss_mm_secondary":
-                committee_review.pmss_mm_secondary = value;
+            case "ije_bc/previous_info/dofp_mo_bc":
+                ije_bc.previous_info.dofp_mo_bc = value;
                 result = true;
             break;
-            case "committee_review/specify_other_means_fatal_injury":
-                committee_review.specify_other_means_fatal_injury = value;
+            case "ije_bc/previous_info/dofp_dy_bc":
+                ije_bc.previous_info.dofp_dy_bc = value;
                 result = true;
             break;
-            case "committee_review/specify_other_relationship":
-                committee_review.specify_other_relationship = value;
+            case "ije_bc/previous_info/dofp_yr_bc":
+                ije_bc.previous_info.dofp_yr_bc = value;
                 result = true;
             break;
-            case "committee_review/cr_add_recs":
-                committee_review.cr_add_recs = value;
+            case "ije_bc/previous_info/dolp_mo_bc":
+                ije_bc.previous_info.dolp_mo_bc = value;
                 result = true;
             break;
-            case "committee_review/notes_about_key_circumstances_surrounding_death":
-                committee_review.notes_about_key_circumstances_surrounding_death = value;
+            case "ije_bc/previous_info/dolp_dy_bc":
+                ije_bc.previous_info.dolp_dy_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/dolp_yr_bc":
+                ije_bc.previous_info.dolp_yr_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/nprev_bc":
+                ije_bc.previous_info.nprev_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/plbl_bc":
+                ije_bc.previous_info.plbl_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/plbd_bc":
+                ije_bc.previous_info.plbd_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/popo_bc":
+                ije_bc.previous_info.popo_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/mllb_bc":
+                ije_bc.previous_info.mllb_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/yllb_bc":
+                ije_bc.previous_info.yllb_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/mopo_bc":
+                ije_bc.previous_info.mopo_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/yopo_bc":
+                ije_bc.previous_info.yopo_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/cigpn_bc":
+                ije_bc.previous_info.cigpn_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/cigfn_bc":
+                ije_bc.previous_info.cigfn_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/cigsn_bc":
+                ije_bc.previous_info.cigsn_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/cigln_bc":
+                ije_bc.previous_info.cigln_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/pdiab_bc":
+                ije_bc.previous_info.pdiab_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/gdiab_bc":
+                ije_bc.previous_info.gdiab_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/phype_bc":
+                ije_bc.previous_info.phype_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/ghype_bc":
+                ije_bc.previous_info.ghype_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/ppb_bc":
+                ije_bc.previous_info.ppb_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/ppo_bc":
+                ije_bc.previous_info.ppo_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/inft_bc":
+                ije_bc.previous_info.inft_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/pces_bc":
+                ije_bc.previous_info.pces_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/npces_bc":
+                ije_bc.previous_info.npces_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/ehype_bc":
+                ije_bc.previous_info.ehype_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/inft_drg_bc":
+                ije_bc.previous_info.inft_drg_bc = value;
+                result = true;
+            break;
+            case "ije_bc/previous_info/inft_art_bc":
+                ije_bc.previous_info.inft_art_bc = value;
+                result = true;
+            break;
+            case "ije_bc/residence_mother/citytext_bc":
+                ije_bc.residence_mother.citytext_bc = value;
+                result = true;
+            break;
+            case "ije_bc/residence_mother/countytxt_bc":
+                ije_bc.residence_mother.countytxt_bc = value;
+                result = true;
+            break;
+            case "ije_bc/residence_mother/statetxt_bc":
+                ije_bc.residence_mother.statetxt_bc = value;
+                result = true;
+            break;
+            case "ije_bc/residence_mother/zipcode_bc":
+                ije_bc.residence_mother.zipcode_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mbplace_st_ter_tx_bc":
+                ije_bc.demog_details.mbplace_st_ter_tx_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mbplace_cntry_tx_bc":
+                ije_bc.demog_details.mbplace_cntry_tx_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mager_bc":
+                ije_bc.demog_details.mager_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mdob_mo_bc":
+                ije_bc.demog_details.mdob_mo_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mdob_dy_bc":
+                ije_bc.demog_details.mdob_dy_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mdob_yr_bc":
+                ije_bc.demog_details.mdob_yr_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/marn_bc":
+                ije_bc.demog_details.marn_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/ackn_bc":
+                ije_bc.demog_details.ackn_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mom_in_t_bc":
+                ije_bc.demog_details.mom_in_t_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mom_oc_t_bc":
+                ije_bc.demog_details.mom_oc_t_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/methnic1_bc":
+                ije_bc.demog_details.methnic1_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/methnic2_bc":
+                ije_bc.demog_details.methnic2_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/methnic3_bc":
+                ije_bc.demog_details.methnic3_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/methnic4_bc":
+                ije_bc.demog_details.methnic4_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/methnic5_bc":
+                ije_bc.demog_details.methnic5_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace1_bc":
+                ije_bc.demog_details.mrace1_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace2_bc":
+                ije_bc.demog_details.mrace2_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace3_bc":
+                ije_bc.demog_details.mrace3_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace4_bc":
+                ije_bc.demog_details.mrace4_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace5_bc":
+                ije_bc.demog_details.mrace5_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace6_bc":
+                ije_bc.demog_details.mrace6_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace7_bc":
+                ije_bc.demog_details.mrace7_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace8_bc":
+                ije_bc.demog_details.mrace8_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace9_bc":
+                ije_bc.demog_details.mrace9_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace10_bc":
+                ije_bc.demog_details.mrace10_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace11_bc":
+                ije_bc.demog_details.mrace11_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace12_bc":
+                ije_bc.demog_details.mrace12_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace13_bc":
+                ije_bc.demog_details.mrace13_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace14_bc":
+                ije_bc.demog_details.mrace14_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace15_bc":
+                ije_bc.demog_details.mrace15_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace16_bc":
+                ije_bc.demog_details.mrace16_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace17_bc":
+                ije_bc.demog_details.mrace17_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace18_bc":
+                ije_bc.demog_details.mrace18_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace19_bc":
+                ije_bc.demog_details.mrace19_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace20_bc":
+                ije_bc.demog_details.mrace20_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace21_bc":
+                ije_bc.demog_details.mrace21_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace22_bc":
+                ije_bc.demog_details.mrace22_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/mrace23_bc":
+                ije_bc.demog_details.mrace23_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/fager_bc":
+                ije_bc.demog_details.fager_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/dad_in_t_fdc_bc":
+                ije_bc.demog_details.dad_in_t_fdc_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/dad_oc_t_bc":
+                ije_bc.demog_details.dad_oc_t_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/fbplacd_st_ter_c_bc":
+                ije_bc.demog_details.fbplacd_st_ter_c_bc = value;
+                result = true;
+            break;
+            case "ije_bc/demog_details/fbplace_cnt_c_bc":
+                ije_bc.demog_details.fbplace_cnt_c_bc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/file_info/dstate_fdc":
+                ije_fetaldc.file_info.dstate_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/file_info/fileno_fdc":
+                ije_fetaldc.file_info.fileno_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/file_info/auxno_fdc":
+                ije_fetaldc.file_info.auxno_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/fdod_mo_fdc":
+                ije_fetaldc.delivery_info.fdod_mo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/fdod_dy_fdc":
+                ije_fetaldc.delivery_info.fdod_dy_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/fdod_yr_fdc":
+                ije_fetaldc.delivery_info.fdod_yr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/td_fdc":
+                ije_fetaldc.delivery_info.td_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/dwgt_fdc":
+                ije_fetaldc.delivery_info.dwgt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/pwgt_fdc":
+                ije_fetaldc.delivery_info.pwgt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hft_fdc":
+                ije_fetaldc.delivery_info.hft_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hin_fdc":
+                ije_fetaldc.delivery_info.hin_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/fsex_fdc":
+                ije_fetaldc.delivery_info.fsex_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/fwg_fdc":
+                ije_fetaldc.delivery_info.fwg_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/owgest_fdc":
+                ije_fetaldc.delivery_info.owgest_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/plur_fdc":
+                ije_fetaldc.delivery_info.plur_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/sord_fdc":
+                ije_fetaldc.delivery_info.sord_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hosp_d_fdc":
+                ije_fetaldc.delivery_info.hosp_d_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cnty_d_fdc":
+                ije_fetaldc.delivery_info.cnty_d_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/tran_fdc":
+                ije_fetaldc.delivery_info.tran_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/wic_fdc":
+                ije_fetaldc.delivery_info.wic_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/gon_fdc":
+                ije_fetaldc.delivery_info.gon_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/syph_fdc":
+                ije_fetaldc.delivery_info.syph_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hsv_fdc":
+                ije_fetaldc.delivery_info.hsv_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cham_fdc":
+                ije_fetaldc.delivery_info.cham_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/lm_fdc":
+                ije_fetaldc.delivery_info.lm_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/gbs_fdc":
+                ije_fetaldc.delivery_info.gbs_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cmv_fdc":
+                ije_fetaldc.delivery_info.cmv_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/b19_fdc":
+                ije_fetaldc.delivery_info.b19_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/toxo_fdc":
+                ije_fetaldc.delivery_info.toxo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hsv1_fdc":
+                ije_fetaldc.delivery_info.hsv1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hiv_fdc":
+                ije_fetaldc.delivery_info.hiv_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/tlab_fdc":
+                ije_fetaldc.delivery_info.tlab_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/otheri_fdc":
+                ije_fetaldc.delivery_info.otheri_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/mtr_fdc":
+                ije_fetaldc.delivery_info.mtr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/plac_fdc":
+                ije_fetaldc.delivery_info.plac_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/rut_fdc":
+                ije_fetaldc.delivery_info.rut_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/uhys_fdc":
+                ije_fetaldc.delivery_info.uhys_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/aint_fdc":
+                ije_fetaldc.delivery_info.aint_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/uopr_fdc":
+                ije_fetaldc.delivery_info.uopr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/anen_fdc":
+                ije_fetaldc.delivery_info.anen_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/mnsb_fdc":
+                ije_fetaldc.delivery_info.mnsb_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cchd_fdc":
+                ije_fetaldc.delivery_info.cchd_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cdh_fdc":
+                ije_fetaldc.delivery_info.cdh_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/omph_fdc":
+                ije_fetaldc.delivery_info.omph_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/gast_fdc":
+                ije_fetaldc.delivery_info.gast_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/limb_fdc":
+                ije_fetaldc.delivery_info.limb_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cl_fdc":
+                ije_fetaldc.delivery_info.cl_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/caf_fdc":
+                ije_fetaldc.delivery_info.caf_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/dowt_fdc":
+                ije_fetaldc.delivery_info.dowt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/cdit_fdc":
+                ije_fetaldc.delivery_info.cdit_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/delivery_info/hypo_fdc":
+                ije_fetaldc.delivery_info.hypo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a1_fdc":
+                ije_fetaldc.condition_cause.cod18a1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a2_fdc":
+                ije_fetaldc.condition_cause.cod18a2_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a3_fdc":
+                ije_fetaldc.condition_cause.cod18a3_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a4_fdc":
+                ije_fetaldc.condition_cause.cod18a4_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a5_fdc":
+                ije_fetaldc.condition_cause.cod18a5_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a6_fdc":
+                ije_fetaldc.condition_cause.cod18a6_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a7_fdc":
+                ije_fetaldc.condition_cause.cod18a7_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a8_fdc":
+                ije_fetaldc.condition_cause.cod18a8_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a9_fdc":
+                ije_fetaldc.condition_cause.cod18a9_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a10_fdc":
+                ije_fetaldc.condition_cause.cod18a10_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a11_fdc":
+                ije_fetaldc.condition_cause.cod18a11_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a12_fdc":
+                ije_fetaldc.condition_cause.cod18a12_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a13_fdc":
+                ije_fetaldc.condition_cause.cod18a13_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18a14_fdc":
+                ije_fetaldc.condition_cause.cod18a14_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b1_fdc":
+                ije_fetaldc.condition_cause.cod18b1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b2_fdc":
+                ije_fetaldc.condition_cause.cod18b2_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b3_fdc":
+                ije_fetaldc.condition_cause.cod18b3_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b4_fdc":
+                ije_fetaldc.condition_cause.cod18b4_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b5_fdc":
+                ije_fetaldc.condition_cause.cod18b5_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b6_fdc":
+                ije_fetaldc.condition_cause.cod18b6_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b7_fdc":
+                ije_fetaldc.condition_cause.cod18b7_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b8_fdc":
+                ije_fetaldc.condition_cause.cod18b8_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b9_fdc":
+                ije_fetaldc.condition_cause.cod18b9_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b10_fdc":
+                ije_fetaldc.condition_cause.cod18b10_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b11_fdc":
+                ije_fetaldc.condition_cause.cod18b11_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b12_fdc":
+                ije_fetaldc.condition_cause.cod18b12_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b13_fdc":
+                ije_fetaldc.condition_cause.cod18b13_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/cod18b14_fdc":
+                ije_fetaldc.condition_cause.cod18b14_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/icod_fdc":
+                ije_fetaldc.condition_cause.icod_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod1_fdc":
+                ije_fetaldc.condition_cause.ocod1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod2_fdc":
+                ije_fetaldc.condition_cause.ocod2_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod3_fdc":
+                ije_fetaldc.condition_cause.ocod3_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod4_fdc":
+                ije_fetaldc.condition_cause.ocod4_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod5_fdc":
+                ije_fetaldc.condition_cause.ocod5_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod6_fdc":
+                ije_fetaldc.condition_cause.ocod6_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/condition_cause/ocod7_fdc":
+                ije_fetaldc.condition_cause.ocod7_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dlmp_mo_fdc":
+                ije_fetaldc.previous_info.dlmp_mo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dlmp_dy_fdc":
+                ije_fetaldc.previous_info.dlmp_dy_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dlmp_yr_fdc":
+                ije_fetaldc.previous_info.dlmp_yr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dofp_mo_fdc":
+                ije_fetaldc.previous_info.dofp_mo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dofp_dy_fdc":
+                ije_fetaldc.previous_info.dofp_dy_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dofp_yr_fdc":
+                ije_fetaldc.previous_info.dofp_yr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dolp_mo_fdc":
+                ije_fetaldc.previous_info.dolp_mo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dolp_dy_fdc":
+                ije_fetaldc.previous_info.dolp_dy_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/dolp_yr_fdc":
+                ije_fetaldc.previous_info.dolp_yr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/nprev_fdc":
+                ije_fetaldc.previous_info.nprev_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/plbl_fdc":
+                ije_fetaldc.previous_info.plbl_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/plbd_fdc":
+                ije_fetaldc.previous_info.plbd_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/popo_fdc":
+                ije_fetaldc.previous_info.popo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/mllb_fdc":
+                ije_fetaldc.previous_info.mllb_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/yllb_fdc":
+                ije_fetaldc.previous_info.yllb_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/mopo_fdc":
+                ije_fetaldc.previous_info.mopo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/yopo_fdc":
+                ije_fetaldc.previous_info.yopo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/cigpn_fdc":
+                ije_fetaldc.previous_info.cigpn_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/cigfn_fdc":
+                ije_fetaldc.previous_info.cigfn_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/cigsn_fdc":
+                ije_fetaldc.previous_info.cigsn_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/cigln_fdc":
+                ije_fetaldc.previous_info.cigln_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/pdiab_fdc":
+                ije_fetaldc.previous_info.pdiab_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/gdiab_fdc":
+                ije_fetaldc.previous_info.gdiab_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/phype_fdc":
+                ije_fetaldc.previous_info.phype_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/ghype_fdc":
+                ije_fetaldc.previous_info.ghype_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/ppb_fdc":
+                ije_fetaldc.previous_info.ppb_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/ppo_fdc":
+                ije_fetaldc.previous_info.ppo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/inft_fdc":
+                ije_fetaldc.previous_info.inft_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/pces_fdc":
+                ije_fetaldc.previous_info.pces_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/npces_fdc":
+                ije_fetaldc.previous_info.npces_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/ehype_fdc":
+                ije_fetaldc.previous_info.ehype_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/inft_drg_fdc":
+                ije_fetaldc.previous_info.inft_drg_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/previous_info/inft_art_fdc":
+                ije_fetaldc.previous_info.inft_art_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/residence_mother/citytxt_fdc":
+                ije_fetaldc.residence_mother.citytxt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/residence_mother/countytxt_fdc":
+                ije_fetaldc.residence_mother.countytxt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/residence_mother/statetxt_fdc":
+                ije_fetaldc.residence_mother.statetxt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/residence_mother/zipcode_fdc":
+                ije_fetaldc.residence_mother.zipcode_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mbplace_st_ter_txt_fdc":
+                ije_fetaldc.demog_details.mbplace_st_ter_txt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mbplace_cntry_txt_fdc":
+                ije_fetaldc.demog_details.mbplace_cntry_txt_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mager_fdc":
+                ije_fetaldc.demog_details.mager_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mdob_mo_fdc":
+                ije_fetaldc.demog_details.mdob_mo_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mdob_dy_fdc":
+                ije_fetaldc.demog_details.mdob_dy_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mdob_yr_fdc":
+                ije_fetaldc.demog_details.mdob_yr_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/marn_fdc":
+                ije_fetaldc.demog_details.marn_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mom_in_t_fdc":
+                ije_fetaldc.demog_details.mom_in_t_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mom_oc_t_fdc":
+                ije_fetaldc.demog_details.mom_oc_t_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/methnic1_fdc":
+                ije_fetaldc.demog_details.methnic1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/methnic2_fdc":
+                ije_fetaldc.demog_details.methnic2_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/methnic3_fdc":
+                ije_fetaldc.demog_details.methnic3_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/methnic4_fdc":
+                ije_fetaldc.demog_details.methnic4_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/methnic5_fdc":
+                ije_fetaldc.demog_details.methnic5_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace1_fdc":
+                ije_fetaldc.demog_details.mrace1_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace2_fdc":
+                ije_fetaldc.demog_details.mrace2_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace3_fdc":
+                ije_fetaldc.demog_details.mrace3_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace4_fdc":
+                ije_fetaldc.demog_details.mrace4_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace5_fdc":
+                ije_fetaldc.demog_details.mrace5_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace6_fdc":
+                ije_fetaldc.demog_details.mrace6_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace7_fdc":
+                ije_fetaldc.demog_details.mrace7_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace8_fdc":
+                ije_fetaldc.demog_details.mrace8_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace9_fdc":
+                ije_fetaldc.demog_details.mrace9_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace10_fdc":
+                ije_fetaldc.demog_details.mrace10_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace11_fdc":
+                ije_fetaldc.demog_details.mrace11_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace12_fdc":
+                ije_fetaldc.demog_details.mrace12_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace13_fdc":
+                ije_fetaldc.demog_details.mrace13_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace14_fdc":
+                ije_fetaldc.demog_details.mrace14_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace15_fdc":
+                ije_fetaldc.demog_details.mrace15_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace16_fdc":
+                ije_fetaldc.demog_details.mrace16_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace17_fdc":
+                ije_fetaldc.demog_details.mrace17_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace18_fdc":
+                ije_fetaldc.demog_details.mrace18_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace19_fdc":
+                ije_fetaldc.demog_details.mrace19_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace20_fdc":
+                ije_fetaldc.demog_details.mrace20_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace21_fdc":
+                ije_fetaldc.demog_details.mrace21_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace22_fdc":
+                ije_fetaldc.demog_details.mrace22_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/mrace23_fdc":
+                ije_fetaldc.demog_details.mrace23_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/fager_fdc":
+                ije_fetaldc.demog_details.fager_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/dad_in_t_fdc":
+                ije_fetaldc.demog_details.dad_in_t_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/dad_oc_t_fdc":
+                ije_fetaldc.demog_details.dad_oc_t_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/fbplacd_st_ter_c_fdc":
+                ije_fetaldc.demog_details.fbplacd_st_ter_c_fdc = value;
+                result = true;
+            break;
+            case "ije_fetaldc/demog_details/fbplace_cnt_c_fdc":
+                ije_fetaldc.demog_details.fbplace_cnt_c_fdc = value;
+                result = true;
+            break;
+            case "amss_tracking/admin_grp/amss_status":
+                amss_tracking.admin_grp.amss_status = value;
+                result = true;
+            break;
+            case "amss_tracking/assessment_grp/classification_diagnosis":
+                amss_tracking.assessment_grp.classification_diagnosis = value;
+                result = true;
+            break;
+            case "amss_tracking/assessment_grp/remarks":
+                amss_tracking.assessment_grp.remarks = value;
+                result = true;
+            break;
+            case "amss_tracking/folder_grp/amss_folder":
+                amss_tracking.folder_grp.amss_folder = value;
                 result = true;
             break;
 
@@ -1181,932 +2149,356 @@ public sealed partial class mmria_case
         {
             switch(path.ToLower())
             {
-                case "home_record/date_of_death/month":
-                home_record.date_of_death.month = value;
+                case "tracking/admin_info/track_year":
+                tracking.admin_info.track_year = value;
                 result = true;
             break;
-            case "home_record/date_of_death/day":
-                home_record.date_of_death.day = value;
+            case "tracking/admin_info/med_coder_check":
+                tracking.admin_info.med_coder_check = value;
                 result = true;
             break;
-            case "home_record/date_of_death/year":
-                home_record.date_of_death.year = value;
+            case "tracking/admin_info/med_dir_check":
+                tracking.admin_info.med_dir_check = value;
                 result = true;
             break;
-            case "home_record/case_status/overall_case_status":
-                home_record.case_status.overall_case_status = value;
+            case "tracking/admin_info/steve_transfer":
+                tracking.admin_info.steve_transfer = value;
                 result = true;
             break;
-            case "home_record/overall_assessment_of_timing_of_death/abstrator_assigned_status":
-                home_record.overall_assessment_of_timing_of_death.abstrator_assigned_status = value;
+            case "tracking/q1/amssrel":
+                tracking.q1.amssrel = value;
                 result = true;
             break;
-            case "home_record/overall_assessment_of_timing_of_death/number_of_days_after_end_of_pregnancey":
-                home_record.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey = value;
+            case "tracking/date_of_death/month":
+                tracking.date_of_death.month = value;
                 result = true;
             break;
-            case "home_record/overall_assessment_of_timing_of_death/hr_prg_outcome":
-                home_record.overall_assessment_of_timing_of_death.hr_prg_outcome = value;
+            case "tracking/date_of_death/day":
+                tracking.date_of_death.day = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/death_certificate":
-                home_record.case_progress_report.death_certificate = value;
+            case "tracking/date_of_death/year":
+                tracking.date_of_death.year = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/autopsy_report":
-                home_record.case_progress_report.autopsy_report = value;
+            case "tracking/sourcnot":
+                tracking.sourcnot = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/birth_certificate_parent_section":
-                home_record.case_progress_report.birth_certificate_parent_section = value;
+            case "tracking/dcfile":
+                tracking.dcfile = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/birth_certificate_infant_or_fetal_death_section":
-                home_record.case_progress_report.birth_certificate_infant_or_fetal_death_section = value;
+            case "tracking/lbfile":
+                tracking.lbfile = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/community_vital_signs":
-                home_record.case_progress_report.community_vital_signs = value;
+            case "tracking/q7/pregstat":
+                tracking.q7.pregstat = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/social_and_psychological_profile":
-                home_record.case_progress_report.social_and_psychological_profile = value;
+            case "tracking/q7/pcbtime":
+                tracking.q7.pcbtime = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/prenatal_care_record":
-                home_record.case_progress_report.prenatal_care_record = value;
+            case "tracking/q9/zipsrce":
+                tracking.q9.zipsrce = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/er_visits_and_hospitalizations":
-                home_record.case_progress_report.er_visits_and_hospitalizations = value;
+            case "tracking/q9/cntysrce":
+                tracking.q9.cntysrce = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/other_medical_visits":
-                home_record.case_progress_report.other_medical_visits = value;
+            case "demographic/mage":
+                demographic.mage = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/medical_transport":
-                home_record.case_progress_report.medical_transport = value;
+            case "demographic/date_of_birth/month":
+                demographic.date_of_birth.month = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/mental_health_profile":
-                home_record.case_progress_report.mental_health_profile = value;
+            case "demographic/date_of_birth/day":
+                demographic.date_of_birth.day = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/informant_interviews":
-                home_record.case_progress_report.informant_interviews = value;
+            case "demographic/date_of_birth/year":
+                demographic.date_of_birth.year = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/case_narrative":
-                home_record.case_progress_report.case_narrative = value;
+            case "demographic/date_of_birth/agedif":
+                demographic.date_of_birth.agedif = value;
                 result = true;
             break;
-            case "home_record/case_progress_report/committe_review_worksheet":
-                home_record.case_progress_report.committe_review_worksheet = value;
+            case "demographic/q12/race":
+                demographic.q12.race = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/bc_det_match":
-                home_record.automated_vitals_group.bc_det_match = value;
+            case "demographic/q12/group/race_omb":
+                demographic.q12.group.race_omb = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/fdc_det_match":
-                home_record.automated_vitals_group.fdc_det_match = value;
+            case "demographic/q12/ethnicity/hisporg":
+                demographic.q12.ethnicity.hisporg = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/bc_prob_match":
-                home_record.automated_vitals_group.bc_prob_match = value;
+            case "demographic/q12/matbplc":
+                demographic.q12.matbplc = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/fdc_prob_match":
-                home_record.automated_vitals_group.fdc_prob_match = value;
+            case "demographic/marstat":
+                demographic.marstat = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/icd10_match":
-                home_record.automated_vitals_group.icd10_match = value;
+            case "demographic/q14/educatn":
+                demographic.q14.educatn = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/pregcb_match":
-                home_record.automated_vitals_group.pregcb_match = value;
+            case "demographic/placedth":
+                demographic.placedth = value;
                 result = true;
             break;
-            case "home_record/automated_vitals_group/literalcod_match":
-                home_record.automated_vitals_group.literalcod_match = value;
+            case "demographic/pnc":
+                demographic.pnc = value;
                 result = true;
             break;
-            case "death_certificate/demographics/date_of_birth/month":
-                death_certificate.demographics.date_of_birth.month = value;
+            case "demographic/autopsy3":
+                demographic.autopsy3 = value;
                 result = true;
             break;
-            case "death_certificate/demographics/date_of_birth/day":
-                death_certificate.demographics.date_of_birth.day = value;
+            case "demographic/prevlb":
+                demographic.prevlb = value;
                 result = true;
             break;
-            case "death_certificate/demographics/date_of_birth/year":
-                death_certificate.demographics.date_of_birth.year = value;
+            case "demographic/prvothpg":
+                demographic.prvothpg = value;
                 result = true;
             break;
-            case "death_certificate/demographics/age":
-                death_certificate.demographics.age = value;
+            case "demographic/pymtsrc":
+                demographic.pymtsrc = value;
                 result = true;
             break;
-            case "death_certificate/demographics/age_on_death_certificate":
-                death_certificate.demographics.age_on_death_certificate = value;
+            case "demographic/wic":
+                demographic.wic = value;
                 result = true;
             break;
-            case "death_certificate/demographics/marital_status":
-                death_certificate.demographics.marital_status = value;
+            case "outcome/outindx":
+                outcome.outindx = value;
                 result = true;
             break;
-            case "death_certificate/demographics/ever_in_us_armed_forces":
-                death_certificate.demographics.ever_in_us_armed_forces = value;
+            case "outcome/multgest":
+                outcome.multgest = value;
                 result = true;
             break;
-            case "death_certificate/demographics/is_of_hispanic_origin":
-                death_certificate.demographics.is_of_hispanic_origin = value;
+            case "outcome/q25/termproc":
+                outcome.q25.termproc = value;
                 result = true;
             break;
-            case "death_certificate/demographics/education_level":
-                death_certificate.demographics.education_level = value;
+            case "outcome/q25/termpro1":
+                outcome.q25.termpro1 = value;
                 result = true;
             break;
-            case "death_certificate/race/omb_race_recode":
-                death_certificate.race.omb_race_recode = value;
+            case "outcome/q25/termpro2":
+                outcome.q25.termpro2 = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/date_of_injury/month":
-                death_certificate.injury_associated_information.date_of_injury.month = value;
+            case "outcome/gestwk":
+                outcome.gestwk = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/date_of_injury/day":
-                death_certificate.injury_associated_information.date_of_injury.day = value;
+            case "outcome/dterm_grp/dterm_mo":
+                outcome.dterm_grp.dterm_mo = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/date_of_injury/year":
-                death_certificate.injury_associated_information.date_of_injury.year = value;
+            case "outcome/dterm_grp/dterm_dy":
+                outcome.dterm_grp.dterm_dy = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/was_injury_at_work":
-                death_certificate.injury_associated_information.was_injury_at_work = value;
+            case "outcome/dterm_grp/dterm_yr":
+                outcome.dterm_grp.dterm_yr = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/transportation_related_injury":
-                death_certificate.injury_associated_information.transportation_related_injury = value;
+            case "outcome/dterm_grp/daydif":
+                outcome.dterm_grp.daydif = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/were_seat_belts_in_use":
-                death_certificate.injury_associated_information.were_seat_belts_in_use = value;
+            case "cause_of_death/q28/cdccod":
+                cause_of_death.q28.cdccod = value;
                 result = true;
             break;
-            case "death_certificate/death_information/death_occured_in_hospital":
-                death_certificate.death_information.death_occured_in_hospital = value;
+            case "cause_of_death/q28/cod":
+                cause_of_death.q28.cod = value;
                 result = true;
             break;
-            case "death_certificate/death_information/death_outside_of_hospital":
-                death_certificate.death_information.death_outside_of_hospital = value;
+            case "cause_of_death/q29/assoc1":
+                cause_of_death.q29.assoc1 = value;
                 result = true;
             break;
-            case "death_certificate/death_information/manner_of_death":
-                death_certificate.death_information.manner_of_death = value;
+            case "cause_of_death/q29/acon1":
+                cause_of_death.q29.acon1 = value;
                 result = true;
             break;
-            case "death_certificate/death_information/was_autopsy_performed":
-                death_certificate.death_information.was_autopsy_performed = value;
+            case "cause_of_death/q30/assoc2":
+                cause_of_death.q30.assoc2 = value;
                 result = true;
             break;
-            case "death_certificate/death_information/was_autopsy_used_for_death_coding":
-                death_certificate.death_information.was_autopsy_used_for_death_coding = value;
+            case "cause_of_death/q30/acon2":
+                cause_of_death.q30.acon2 = value;
                 result = true;
             break;
-            case "death_certificate/death_information/pregnancy_status":
-                death_certificate.death_information.pregnancy_status = value;
+            case "cause_of_death/q31/assoc3":
+                cause_of_death.q31.assoc3 = value;
                 result = true;
             break;
-            case "death_certificate/death_information/did_tobacco_contribute_to_death":
-                death_certificate.death_information.did_tobacco_contribute_to_death = value;
+            case "cause_of_death/q31/acon3":
+                cause_of_death.q31.acon3 = value;
                 result = true;
             break;
-            case "death_certificate/address_of_death/estimated_death_distance_from_residence":
-                death_certificate.address_of_death.estimated_death_distance_from_residence = value;
+            case "cause_of_death/injury":
+                cause_of_death.injury = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/month":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.month = value;
+            case "cause_of_death/q33/drug_1":
+                cause_of_death.q33.drug_1 = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/day":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.day = value;
+            case "cause_of_death/q33/drug_2":
+                cause_of_death.q33.drug_2 = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/date_of_delivery/year":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.date_of_delivery.year = value;
+            case "cause_of_death/q33/drug_3":
+                cause_of_death.q33.drug_3 = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/type_of_place":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.type_of_place = value;
+            case "cause_of_death/q33/drug_iv":
+                cause_of_death.q33.drug_iv = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/was_home_delivery_planned":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.was_home_delivery_planned = value;
+            case "cause_of_death/class":
+                cause_of_death.@class = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/maternal_level_of_care":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.maternal_level_of_care = value;
+            case "cause_of_death/clsmo":
+                cause_of_death.clsmo = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/attendant_type":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.attendant_type = value;
+            case "cause_of_death/clsyr":
+                cause_of_death.clsyr = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/facility_of_delivery_demographics/was_mother_transferred":
-                birth_fetal_death_certificate_parent.facility_of_delivery_demographics.was_mother_transferred = value;
+            case "committee_review/rev_assessment_grp/dc_info_complete":
+                committee_review.rev_assessment_grp.dc_info_complete = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/month":
-                birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.month = value;
+            case "committee_review/rev_assessment_grp/mmria_used":
+                committee_review.rev_assessment_grp.mmria_used = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/date_of_birth/year":
-                birth_fetal_death_certificate_parent.demographic_of_father.date_of_birth.year = value;
+            case "vro_case_determination/cdc_case_matching_results/pregcb_match":
+                vro_case_determination.cdc_case_matching_results.pregcb_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/age":
-                birth_fetal_death_certificate_parent.demographic_of_father.age = value;
+            case "vro_case_determination/cdc_case_matching_results/literalcod_match":
+                vro_case_determination.cdc_case_matching_results.literalcod_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/education_level":
-                birth_fetal_death_certificate_parent.demographic_of_father.education_level = value;
+            case "vro_case_determination/cdc_case_matching_results/icd10_match":
+                vro_case_determination.cdc_case_matching_results.icd10_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/is_father_of_hispanic_origin":
-                birth_fetal_death_certificate_parent.demographic_of_father.is_father_of_hispanic_origin = value;
+            case "vro_case_determination/cdc_case_matching_results/bc_det_match":
+                vro_case_determination.cdc_case_matching_results.bc_det_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/month":
-                birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.month = value;
+            case "vro_case_determination/cdc_case_matching_results/fdc_det_match":
+                vro_case_determination.cdc_case_matching_results.fdc_det_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/day":
-                birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.day = value;
+            case "vro_case_determination/cdc_case_matching_results/bc_prob_match":
+                vro_case_determination.cdc_case_matching_results.bc_prob_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/date_of_birth/year":
-                birth_fetal_death_certificate_parent.demographic_of_mother.date_of_birth.year = value;
+            case "vro_case_determination/cdc_case_matching_results/fdc_prob_match":
+                vro_case_determination.cdc_case_matching_results.fdc_prob_match = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/age":
-                birth_fetal_death_certificate_parent.demographic_of_mother.age = value;
+            case "ije_dc/file_info/void_dc":
+                ije_dc.file_info.void_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/mother_married":
-                birth_fetal_death_certificate_parent.demographic_of_mother.mother_married = value;
+            case "ije_dc/file_info/replace_dc":
+                ije_dc.file_info.replace_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/If_mother_not_married_has_paternity_acknowledgement_been_signed_in_the_hospital":
-                birth_fetal_death_certificate_parent.demographic_of_mother.If_mother_not_married_has_paternity_acknowledgement_been_signed_in_the_hospital = value;
+            case "ije_dc/death_info/dplace_dc":
+                ije_dc.death_info.dplace_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/ever_in_us_armed_forces":
-                birth_fetal_death_certificate_parent.demographic_of_mother.ever_in_us_armed_forces = value;
+            case "ije_dc/demog_details/agetype_dc":
+                ije_dc.demog_details.agetype_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/is_of_hispanic_origin":
-                birth_fetal_death_certificate_parent.demographic_of_mother.is_of_hispanic_origin = value;
+            case "ije_dc/demog_details/deduc_dc":
+                ije_dc.demog_details.deduc_dc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/demographic_of_mother/education_level":
-                birth_fetal_death_certificate_parent.demographic_of_mother.education_level = value;
+            case "ije_bc/file_info/void_bc":
+                ije_bc.file_info.void_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/location_of_residence/estimated_distance_from_residence":
-                birth_fetal_death_certificate_parent.location_of_residence.estimated_distance_from_residence = value;
+            case "ije_bc/file_info/replace_bc":
+                ije_bc.file_info.replace_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/month":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.month = value;
+            case "ije_bc/delivery_info/bplace_bc":
+                ije_bc.delivery_info.bplace_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/day":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.day = value;
+            case "ije_bc/delivery_info/attend_bc":
+                ije_bc.delivery_info.attend_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_live_birth/year":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_live_birth.year = value;
+            case "ije_bc/delivery_info/pay_bc":
+                ije_bc.delivery_info.pay_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/live_birth_interval":
-                birth_fetal_death_certificate_parent.pregnancy_history.live_birth_interval = value;
+            case "ije_bc/delivery_info/pres_bc":
+                ije_bc.delivery_info.pres_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/number_of_previous_live_births":
-                birth_fetal_death_certificate_parent.pregnancy_history.number_of_previous_live_births = value;
+            case "ije_bc/delivery_info/rout_bc":
+                ije_bc.delivery_info.rout_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/now_living":
-                birth_fetal_death_certificate_parent.pregnancy_history.now_living = value;
+            case "ije_bc/demog_details/meduc_bc":
+                ije_bc.demog_details.meduc_bc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/now_dead":
-                birth_fetal_death_certificate_parent.pregnancy_history.now_dead = value;
+            case "ije_fetaldc/file_info/void_fdc":
+                ije_fetaldc.file_info.void_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/other_outcomes":
-                birth_fetal_death_certificate_parent.pregnancy_history.other_outcomes = value;
+            case "ije_fetaldc/file_info/replace_fdc":
+                ije_fetaldc.file_info.replace_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/month":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.month = value;
+            case "ije_fetaldc/delivery_info/city_d_fdc":
+                ije_fetaldc.delivery_info.city_d_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/day":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.day = value;
+            case "ije_fetaldc/delivery_info/attend_fdc":
+                ije_fetaldc.delivery_info.attend_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/pregnancy_history/date_of_last_other_outcome/year":
-                birth_fetal_death_certificate_parent.pregnancy_history.date_of_last_other_outcome.year = value;
+            case "ije_fetaldc/delivery_info/pres_fdc":
+                ije_fetaldc.delivery_info.pres_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/height_feet":
-                birth_fetal_death_certificate_parent.maternal_biometrics.height_feet = value;
+            case "ije_fetaldc/delivery_info/rout_fdc":
+                ije_fetaldc.delivery_info.rout_fdc = value;
                 result = true;
             break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/height_inches":
-                birth_fetal_death_certificate_parent.maternal_biometrics.height_inches = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/pre_pregnancy_weight":
-                birth_fetal_death_certificate_parent.maternal_biometrics.pre_pregnancy_weight = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/weight_at_delivery":
-                birth_fetal_death_certificate_parent.maternal_biometrics.weight_at_delivery = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/weight_gain":
-                birth_fetal_death_certificate_parent.maternal_biometrics.weight_gain = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/maternal_biometrics/bmi":
-                birth_fetal_death_certificate_parent.maternal_biometrics.bmi = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/month":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.month = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/day":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.day = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_normal_menses/year":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_normal_menses.year = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/month":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_1st_prenatal_visit.month = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/day":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_1st_prenatal_visit.day = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_1st_prenatal_visit/year":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_1st_prenatal_visit.year = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/month":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_prenatal_visit.month = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/day":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_prenatal_visit.day = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/date_of_last_prenatal_visit/year":
-                birth_fetal_death_certificate_parent.prenatal_care.date_of_last_prenatal_visit.year = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation":
-                birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/calculated_gestation_days":
-                birth_fetal_death_certificate_parent.prenatal_care.calculated_gestation_days = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/obsteric_estimate_of_gestation":
-                birth_fetal_death_certificate_parent.prenatal_care.obsteric_estimate_of_gestation = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/plurality":
-                birth_fetal_death_certificate_parent.prenatal_care.plurality = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/was_wic_used":
-                birth_fetal_death_certificate_parent.prenatal_care.was_wic_used = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/principal_source_of_payment_for_this_delivery":
-                birth_fetal_death_certificate_parent.prenatal_care.principal_source_of_payment_for_this_delivery = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/trimester_of_1st_prenatal_care_visit":
-                birth_fetal_death_certificate_parent.prenatal_care.trimester_of_1st_prenatal_care_visit = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/prenatal_care/number_of_visits":
-                birth_fetal_death_certificate_parent.prenatal_care.number_of_visits = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months":
-                birth_fetal_death_certificate_parent.cigarette_smoking.prior_3_months = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/prior_3_months_type":
-                birth_fetal_death_certificate_parent.cigarette_smoking.prior_3_months_type = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_1st = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_1st_type":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_1st_type = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_2nd = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_2nd_type":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_2nd_type = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_3rd = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/trimester_3rd_type":
-                birth_fetal_death_certificate_parent.cigarette_smoking.trimester_3rd_type = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/cigarette_smoking/none_or_not_specified":
-                birth_fetal_death_certificate_parent.cigarette_smoking.none_or_not_specified = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/risk_factors/number_of_c_sections":
-                birth_fetal_death_certificate_parent.risk_factors.number_of_c_sections = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/length_between_child_birth_and_death_of_mother":
-                birth_fetal_death_certificate_parent.length_between_child_birth_and_death_of_mother = value;
-                result = true;
-            break;
-            case "cvs/cvs_used":
-                cvs.cvs_used = value;
-                result = true;
-            break;
-            case "cvs/cvs_used_how":
-                cvs.cvs_used_how = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/source_of_income":
-                social_and_environmental_profile.socio_economic_characteristics.source_of_income = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/employment_status":
-                social_and_environmental_profile.socio_economic_characteristics.employment_status = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/immigration_status":
-                social_and_environmental_profile.socio_economic_characteristics.immigration_status = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/time_in_the_us":
-                social_and_environmental_profile.socio_economic_characteristics.time_in_the_us = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/time_in_the_us_units":
-                social_and_environmental_profile.socio_economic_characteristics.time_in_the_us_units = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/current_living_arrangements":
-                social_and_environmental_profile.socio_economic_characteristics.current_living_arrangements = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/gender_identity/sep_genid_is_nonfemale":
-                social_and_environmental_profile.gender_identity.sep_genid_is_nonfemale = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/health_care_system/no_prenatal_care":
-                social_and_environmental_profile.health_care_system.no_prenatal_care = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/had_military_service":
-                social_and_environmental_profile.had_military_service = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/was_there_bereavement_support":
-                social_and_environmental_profile.was_there_bereavement_support = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/documented_substance_use":
-                social_and_environmental_profile.documented_substance_use = value;
-                result = true;
-            break;
-            case "autopsy_report/was_there_an_autopsy_referral":
-                autopsy_report.was_there_an_autopsy_referral = value;
-                result = true;
-            break;
-            case "autopsy_report/type_of_autopsy_or_examination":
-                autopsy_report.type_of_autopsy_or_examination = value;
-                result = true;
-            break;
-            case "autopsy_report/is_autopsy_or_exam_report_available":
-                autopsy_report.is_autopsy_or_exam_report_available = value;
-                result = true;
-            break;
-            case "autopsy_report/was_toxicology_performed":
-                autopsy_report.was_toxicology_performed = value;
-                result = true;
-            break;
-            case "autopsy_report/is_toxicology_report_available":
-                autopsy_report.is_toxicology_report_available = value;
-                result = true;
-            break;
-            case "autopsy_report/completeness_of_autopsy_information":
-                autopsy_report.completeness_of_autopsy_information = value;
-                result = true;
-            break;
-            case "autopsy_report/reporter_characteristics/reporter_type":
-                autopsy_report.reporter_characteristics.reporter_type = value;
-                result = true;
-            break;
-            case "autopsy_report/reporter_characteristics/date_of_autopsy/month":
-                autopsy_report.reporter_characteristics.date_of_autopsy.month = value;
-                result = true;
-            break;
-            case "autopsy_report/reporter_characteristics/date_of_autopsy/day":
-                autopsy_report.reporter_characteristics.date_of_autopsy.day = value;
-                result = true;
-            break;
-            case "autopsy_report/reporter_characteristics/date_of_autopsy/year":
-                autopsy_report.reporter_characteristics.date_of_autopsy.year = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/mother/height/feet":
-                autopsy_report.biometrics.mother.height.feet = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/mother/height/inches":
-                autopsy_report.biometrics.mother.height.inches = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/mother/weight":
-                autopsy_report.biometrics.mother.weight = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/mother/bmi":
-                autopsy_report.biometrics.mother.bmi = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/fetal_weight_uom":
-                autopsy_report.biometrics.fetus.fetal_weight_uom = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/fetal_weight":
-                autopsy_report.biometrics.fetus.fetal_weight = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/fetal_weight_ounce_value":
-                autopsy_report.biometrics.fetus.fetal_weight_ounce_value = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/fetal_length_uom":
-                autopsy_report.biometrics.fetus.fetal_length_uom = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/fetal_length":
-                autopsy_report.biometrics.fetus.fetal_length = value;
-                result = true;
-            break;
-            case "autopsy_report/biometrics/fetus/gestational_age_estimate":
-                autopsy_report.biometrics.fetus.gestational_age_estimate = value;
-                result = true;
-            break;
-            case "autopsy_report/was_drug_toxicology_positive":
-                autopsy_report.was_drug_toxicology_positive = value;
-                result = true;
-            break;
-            case "prenatal/number_of_pnc_sources":
-                prenatal.number_of_pnc_sources = value;
-                result = true;
-            break;
-            case "prenatal/primary_prenatal_care_facility/place_type":
-                prenatal.primary_prenatal_care_facility.place_type = value;
-                result = true;
-            break;
-            case "prenatal/primary_prenatal_care_facility/primary_provider_type":
-                prenatal.primary_prenatal_care_facility.primary_provider_type = value;
-                result = true;
-            break;
-            case "prenatal/primary_prenatal_care_facility/principal_source_of_payment":
-                prenatal.primary_prenatal_care_facility.principal_source_of_payment = value;
-                result = true;
-            break;
-            case "prenatal/primary_prenatal_care_facility/is_use_wic":
-                prenatal.primary_prenatal_care_facility.is_use_wic = value;
-                result = true;
-            break;
-            case "prenatal/had_pre_existing_conditions":
-                prenatal.had_pre_existing_conditions = value;
-                result = true;
-            break;
-            case "prenatal/were_there_documented_mental_health_conditions":
-                prenatal.were_there_documented_mental_health_conditions = value;
-                result = true;
-            break;
-            case "prenatal/evidence_of_substance_use":
-                prenatal.evidence_of_substance_use = value;
-                result = true;
-            break;
-            case "prenatal/pregnancy_history/gravida":
-                prenatal.pregnancy_history.gravida = value;
-                result = true;
-            break;
-            case "prenatal/pregnancy_history/para":
-                prenatal.pregnancy_history.para = value;
-                result = true;
-            break;
-            case "prenatal/pregnancy_history/abortions":
-                prenatal.pregnancy_history.abortions = value;
-                result = true;
-            break;
-            case "prenatal/intendedenes/date_birth_control_was_discontinued/month":
-                prenatal.intendedenes.date_birth_control_was_discontinued.month = value;
-                result = true;
-            break;
-            case "prenatal/intendedenes/date_birth_control_was_discontinued/day":
-                prenatal.intendedenes.date_birth_control_was_discontinued.day = value;
-                result = true;
-            break;
-            case "prenatal/intendedenes/date_birth_control_was_discontinued/year":
-                prenatal.intendedenes.date_birth_control_was_discontinued.year = value;
-                result = true;
-            break;
-            case "prenatal/intendedenes/was_pregnancy_planned":
-                prenatal.intendedenes.was_pregnancy_planned = value;
-                result = true;
-            break;
-            case "prenatal/intendedenes/was_patient_using_birth_control":
-                prenatal.intendedenes.was_patient_using_birth_control = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/was_pregnancy_result_of_infertility_treatment":
-                prenatal.infertility_treatment.was_pregnancy_result_of_infertility_treatment = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/fertility_enhanding_drugs":
-                prenatal.infertility_treatment.fertility_enhanding_drugs = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/assisted_reproductive_technology":
-                prenatal.infertility_treatment.assisted_reproductive_technology = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/art_type":
-                prenatal.infertility_treatment.art_type = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/cycle_number":
-                prenatal.infertility_treatment.cycle_number = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/embryos_transferred":
-                prenatal.infertility_treatment.embryos_transferred = value;
-                result = true;
-            break;
-            case "prenatal/infertility_treatment/embryos_growing":
-                prenatal.infertility_treatment.embryos_growing = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_normal_menses/month":
-                prenatal.current_pregnancy.date_of_last_normal_menses.month = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_normal_menses/day":
-                prenatal.current_pregnancy.date_of_last_normal_menses.day = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_normal_menses/year":
-                prenatal.current_pregnancy.date_of_last_normal_menses.year = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/month":
-                prenatal.current_pregnancy.estimated_date_of_confinement.month = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/day":
-                prenatal.current_pregnancy.estimated_date_of_confinement.day = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/year":
-                prenatal.current_pregnancy.estimated_date_of_confinement.year = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/estimated_date_of_confinement/estimate_based_on":
-                prenatal.current_pregnancy.estimated_date_of_confinement.estimate_based_on = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_prenatal_visit/month":
-                prenatal.current_pregnancy.date_of_1st_prenatal_visit.month = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_prenatal_visit/day":
-                prenatal.current_pregnancy.date_of_1st_prenatal_visit.day = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_prenatal_visit/year":
-                prenatal.current_pregnancy.date_of_1st_prenatal_visit.year = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_weeks":
-                prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_weeks = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_prenatal_visit/gestational_age_days":
-                prenatal.current_pregnancy.date_of_1st_prenatal_visit.gestational_age_days = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_ultrasound/month":
-                prenatal.current_pregnancy.date_of_1st_ultrasound.month = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_ultrasound/day":
-                prenatal.current_pregnancy.date_of_1st_ultrasound.day = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_ultrasound/year":
-                prenatal.current_pregnancy.date_of_1st_ultrasound.year = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound":
-                prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_1st_ultrasound/gestational_age_at_first_ultrasound_days":
-                prenatal.current_pregnancy.date_of_1st_ultrasound.gestational_age_at_first_ultrasound_days = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_prenatal_visit/month":
-                prenatal.current_pregnancy.date_of_last_prenatal_visit.month = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_prenatal_visit/day":
-                prenatal.current_pregnancy.date_of_last_prenatal_visit.day = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_prenatal_visit/year":
-                prenatal.current_pregnancy.date_of_last_prenatal_visit.year = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit":
-                prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/date_of_last_prenatal_visit/gestational_age_at_last_prenatal_visit_days":
-                prenatal.current_pregnancy.date_of_last_prenatal_visit.gestational_age_at_last_prenatal_visit_days = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/height/feet":
-                prenatal.current_pregnancy.height.feet = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/height/inches":
-                prenatal.current_pregnancy.height.inches = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/pre_pregnancy_weight":
-                prenatal.current_pregnancy.pre_pregnancy_weight = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/bmi":
-                prenatal.current_pregnancy.bmi = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/weight_at_1st_visit":
-                prenatal.current_pregnancy.weight_at_1st_visit = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/weight_at_last_visit":
-                prenatal.current_pregnancy.weight_at_last_visit = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/weight_gain":
-                prenatal.current_pregnancy.weight_gain = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/total_number_of_visits":
-                prenatal.current_pregnancy.total_number_of_visits = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/trimester_of_first_pnc_visit":
-                prenatal.current_pregnancy.trimester_of_first_pnc_visit = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/number_of_fetuses":
-                prenatal.current_pregnancy.number_of_fetuses = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/was_home_delivery_planned":
-                prenatal.current_pregnancy.was_home_delivery_planned = value;
-                result = true;
-            break;
-            case "prenatal/current_pregnancy/attended_prenatal_visits_alone":
-                prenatal.current_pregnancy.attended_prenatal_visits_alone = value;
-                result = true;
-            break;
-            case "prenatal/highest_blood_pressure/systolic":
-                prenatal.highest_blood_pressure.systolic = value;
-                result = true;
-            break;
-            case "prenatal/highest_blood_pressure/diastolic":
-                prenatal.highest_blood_pressure.diastolic = value;
-                result = true;
-            break;
-            case "prenatal/lowest_hematocrit":
-                prenatal.lowest_hematocrit = value;
-                result = true;
-            break;
-            case "prenatal/were_there_problems_identified":
-                prenatal.were_there_problems_identified = value;
-                result = true;
-            break;
-            case "prenatal/were_there_adverse_reactions":
-                prenatal.were_there_adverse_reactions = value;
-                result = true;
-            break;
-            case "prenatal/were_there_pre_delivery_hospitalizations":
-                prenatal.were_there_pre_delivery_hospitalizations = value;
-                result = true;
-            break;
-            case "prenatal/were_medical_referrals_to_others":
-                prenatal.were_medical_referrals_to_others = value;
-                result = true;
-            break;
-            case "mental_health_profile/were_there_documented_preexisting_mental_health_conditions":
-                mental_health_profile.were_there_documented_preexisting_mental_health_conditions = value;
-                result = true;
-            break;
-            case "committee_review/pregnancy_relatedness":
-                committee_review.pregnancy_relatedness = value;
-                result = true;
-            break;
-            case "committee_review/estimate_degree_relevant_information_available":
-                committee_review.estimate_degree_relevant_information_available = value;
-                result = true;
-            break;
-            case "committee_review/does_committee_agree_with_cod_on_death_certificate":
-                committee_review.does_committee_agree_with_cod_on_death_certificate = value;
-                result = true;
-            break;
-            case "committee_review/did_obesity_contribute_to_the_death":
-                committee_review.did_obesity_contribute_to_the_death = value;
-                result = true;
-            break;
-            case "committee_review/did_discrimination_contribute_to_the_death":
-                committee_review.did_discrimination_contribute_to_the_death = value;
-                result = true;
-            break;
-            case "committee_review/did_mental_health_conditions_contribute_to_the_death":
-                committee_review.did_mental_health_conditions_contribute_to_the_death = value;
-                result = true;
-            break;
-            case "committee_review/did_substance_use_disorder_contribute_to_the_death":
-                committee_review.did_substance_use_disorder_contribute_to_the_death = value;
-                result = true;
-            break;
-            case "committee_review/was_this_death_a_sucide":
-                committee_review.was_this_death_a_sucide = value;
-                result = true;
-            break;
-            case "committee_review/was_this_death_a_homicide":
-                committee_review.was_this_death_a_homicide = value;
-                result = true;
-            break;
-            case "committee_review/means_of_fatal_injury":
-                committee_review.means_of_fatal_injury = value;
-                result = true;
-            break;
-            case "committee_review/if_homicide_relationship_of_perpetrator":
-                committee_review.if_homicide_relationship_of_perpetrator = value;
-                result = true;
-            break;
-            case "committee_review/was_this_death_preventable":
-                committee_review.was_this_death_preventable = value;
-                result = true;
-            break;
-            case "committee_review/chance_to_alter_outcome":
-                committee_review.chance_to_alter_outcome = value;
+            case "ije_fetaldc/demog_details/meduc_fdc":
+                ije_fetaldc.demog_details.meduc_fdc = value;
                 result = true;
             break;
 
@@ -2151,92 +2543,12 @@ public sealed partial class mmria_case
         {
             switch(path.ToLower())
             {
-                case "home_record/how_was_this_death_identified":
-                home_record.how_was_this_death_identified = value;
+                case "preparer_remarks/preparer_grp/review_1_by":
+                preparer_remarks.preparer_grp.review_1_by = value;
                 result = true;
             break;
-            case "death_certificate/race/race":
-                death_certificate.race.race = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father":
-                birth_fetal_death_certificate_parent.demographic_of_father.race.race_of_father = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/race/race_of_mother":
-                birth_fetal_death_certificate_parent.race.race_of_mother = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/risk_factors/risk_factors_in_this_pregnancy":
-                birth_fetal_death_certificate_parent.risk_factors.risk_factors_in_this_pregnancy = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/infections_present_or_treated_during_pregnancy":
-                birth_fetal_death_certificate_parent.infections_present_or_treated_during_pregnancy = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/onset_of_labor":
-                birth_fetal_death_certificate_parent.onset_of_labor = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/obstetric_procedures":
-                birth_fetal_death_certificate_parent.obstetric_procedures = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/characteristics_of_labor_and_delivery":
-                birth_fetal_death_certificate_parent.characteristics_of_labor_and_delivery = value;
-                result = true;
-            break;
-            case "birth_fetal_death_certificate_parent/maternal_morbidity":
-                birth_fetal_death_certificate_parent.maternal_morbidity = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/homelessness":
-                social_and_environmental_profile.socio_economic_characteristics.homelessness = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/socio_economic_characteristics/unstable_housing":
-                social_and_environmental_profile.socio_economic_characteristics.unstable_housing = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/gender_identity/sep_genid_source":
-                social_and_environmental_profile.gender_identity.sep_genid_source = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/previous_or_current_incarcerations":
-                social_and_environmental_profile.previous_or_current_incarcerations = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/was_decedent_ever_arrested":
-                social_and_environmental_profile.was_decedent_ever_arrested = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/health_care_access/barriers_to_health_care_access":
-                social_and_environmental_profile.health_care_access.barriers_to_health_care_access = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/communications/barriers_to_communications":
-                social_and_environmental_profile.communications.barriers_to_communications = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress":
-                social_and_environmental_profile.social_or_emotional_stress.evidence_of_social_or_emotional_stress = value;
-                result = true;
-            break;
-            case "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments":
-                social_and_environmental_profile.health_care_system.reasons_for_missed_appointments = value;
-                result = true;
-            break;
-            case "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy":
-                mental_health_profile.mental_health_conditions_prior_to_the_most_recent_pregnancy = value;
-                result = true;
-            break;
-            case "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy":
-                mental_health_profile.mental_health_conditions_during_the_most_recent_pregnancy = value;
-                result = true;
-            break;
-            case "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy":
-                mental_health_profile.mental_health_conditions_after_the_most_recent_pregnancy = value;
+            case "committee_review/reviewer_grp/review_2_by":
+                committee_review.reviewer_grp.review_2_by = value;
                 result = true;
             break;
 
@@ -2318,28 +2630,40 @@ public sealed partial class mmria_case
         {
             switch(path.ToLower())
             {
-                case "home_record/case_status/abstraction_begin_date":
-                home_record.case_status.abstraction_begin_date = value;
+                case "tracking/date_of_death/dod":
+                tracking.date_of_death.dod = value;
                 result = true;
             break;
-            case "home_record/case_status/abstraction_complete_date":
-                home_record.case_status.abstraction_complete_date = value;
+            case "demographic/date_of_birth/dob":
+                demographic.date_of_birth.dob = value;
                 result = true;
             break;
-            case "home_record/case_status/projected_review_date":
-                home_record.case_status.projected_review_date = value;
+            case "outcome/dterm_grp/dterm":
+                outcome.dterm_grp.dterm = value;
                 result = true;
             break;
-            case "home_record/case_status/committee_review_date":
-                home_record.case_status.committee_review_date = value;
+            case "preparer_remarks/preparer_grp/review_1_on":
+                preparer_remarks.preparer_grp.review_1_on = value;
                 result = true;
             break;
-            case "home_record/case_status/case_locked_date":
-                home_record.case_status.case_locked_date = value;
+            case "committee_review/reviewer_grp/review_2_on":
+                committee_review.reviewer_grp.review_2_on = value;
                 result = true;
             break;
-            case "committee_review/date_of_review":
-                committee_review.date_of_review = value;
+            case "amss_tracking/admin_grp/case_rcvd_on":
+                amss_tracking.admin_grp.case_rcvd_on = value;
+                result = true;
+            break;
+            case "amss_tracking/admin_grp/mr_rcvd_on":
+                amss_tracking.admin_grp.mr_rcvd_on = value;
+                result = true;
+            break;
+            case "amss_tracking/admin_grp/autopsy_rcvd_on":
+                amss_tracking.admin_grp.autopsy_rcvd_on = value;
+                result = true;
+            break;
+            case "amss_tracking/admin_grp/file_closed_on":
+                amss_tracking.admin_grp.file_closed_on = value;
                 result = true;
             break;
 
@@ -2364,12 +2688,12 @@ public sealed partial class mmria_case
         {
             switch(path.ToLower())
             {
-                case "death_certificate/certificate_identification/time_of_death":
-                death_certificate.certificate_identification.time_of_death = value;
+                case "tracking/date_of_death/time_of_death":
+                tracking.date_of_death.time_of_death = value;
                 result = true;
             break;
-            case "death_certificate/injury_associated_information/time_of_injury":
-                death_certificate.injury_associated_information.time_of_injury = value;
+            case "outcome/dterm_grp/dterm_tm":
+                outcome.dterm_grp.dterm_tm = value;
                 result = true;
             break;
 

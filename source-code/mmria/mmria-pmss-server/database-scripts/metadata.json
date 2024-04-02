@@ -16143,14 +16143,14 @@
             },
             {
               "prompt": "Cong. Anom. of Newborn - Meningomyelocele/Spina Bifida",
-              "name": "minsb_bc",
+              "name": "mnsb_bc",
               "type": "string",
               "is_read_only": true,
               "description": "MINSB: Cong. Anom. of Newborn - Meningomyelocele/Spina Bifida",
               "tags": [
                 "DO_NOT_EXPORT"
               ],
-              "sass_export_name": "minsb_bc"
+              "sass_export_name": "mnsb_bc"
             },
             {
               "prompt": "Cong. Anom. of Newborn - Cyanotic congenital heart disease",

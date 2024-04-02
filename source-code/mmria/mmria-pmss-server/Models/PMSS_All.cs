@@ -298,7 +298,7 @@ public sealed class PMSS_All
     public string seiz_bc{ get; set; }
     public string binj_bc{ get; set; }
     public string anen_bc{ get; set; }
-    public string minsb_bc{ get; set; }
+    public string mnsb_bc{ get; set; }
     public string cchd_bc{ get; set; }
     public string cdh_bc{ get; set; }
     public string omph_bc{ get; set; }
@@ -857,7 +857,7 @@ public sealed class PMSS_All
         x.seiz_bc = row[285];
         x.binj_bc = row[286];
         x.anen_bc = row[287];
-        x.minsb_bc = row[288];
+        x.mnsb_bc = row[288];
         x.cchd_bc = row[289];
         x.cdh_bc = row[290];
         x.omph_bc = row[291];

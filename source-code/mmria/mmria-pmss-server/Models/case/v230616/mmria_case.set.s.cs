@@ -44,16 +44,20 @@ public sealed partial class mmria_case
                 cmpquarter = value;
                 result = true;
             break;
-            case "tracking/admin_info/jurisdiction":
-                tracking.admin_info.jurisdiction = value;
-                result = true;
-            break;
             case "tracking/admin_info/pmssno":
                 tracking.admin_info.pmssno = value;
                 result = true;
             break;
+            case "tracking/admin_info/jurisdiction":
+                tracking.admin_info.jurisdiction = value;
+                result = true;
+            break;
             case "tracking/admin_info/status":
                 tracking.admin_info.status = value;
+                result = true;
+            break;
+            case "tracking/admin_info/vro_resolution_status_mirror":
+                tracking.admin_info.vro_resolution_status_mirror = value;
                 result = true;
             break;
             case "tracking/admin_info/case_folder":
@@ -78,10 +82,6 @@ public sealed partial class mmria_case
             break;
             case "tracking/admin_info/year_birthorfetaldeath":
                 tracking.admin_info.year_birthorfetaldeath = value;
-                result = true;
-            break;
-            case "tracking/admin_info/vro_resolution_status_mirror":
-                tracking.admin_info.vro_resolution_status_mirror = value;
                 result = true;
             break;
             case "tracking/q1/amssno":
@@ -216,6 +216,10 @@ public sealed partial class mmria_case
                 demographic.q12.group.race_otherasian = value;
                 result = true;
             break;
+            case "demographic/q12/group/race_otherasian_literal":
+                demographic.q12.group.race_otherasian_literal = value;
+                result = true;
+            break;
             case "demographic/q12/group/race_nativehawaiian":
                 demographic.q12.group.race_nativehawaiian = value;
                 result = true;
@@ -232,6 +236,10 @@ public sealed partial class mmria_case
                 demographic.q12.group.race_otherpacific = value;
                 result = true;
             break;
+            case "demographic/q12/group/race_otherpacific_literal":
+                demographic.q12.group.race_otherpacific_literal = value;
+                result = true;
+            break;
             case "demographic/q12/group/race_other":
                 demographic.q12.group.race_other = value;
                 result = true;
@@ -242,14 +250,6 @@ public sealed partial class mmria_case
             break;
             case "demographic/q12/group/race_notspecified":
                 demographic.q12.group.race_notspecified = value;
-                result = true;
-            break;
-            case "demographic/q12/group/race_otherasian_literal":
-                demographic.q12.group.race_otherasian_literal = value;
-                result = true;
-            break;
-            case "demographic/q12/group/race_otherpacific_literal":
-                demographic.q12.group.race_otherpacific_literal = value;
                 result = true;
             break;
             case "demographic/q12/ethnicity/ethnic1_mex":
@@ -336,16 +336,16 @@ public sealed partial class mmria_case
                 preparer_remarks.preparer_grp.review_1_remarks = value;
                 result = true;
             break;
+            case "preparer_remarks/remarks_grp/note_to_vro":
+                preparer_remarks.remarks_grp.note_to_vro = value;
+                result = true;
+            break;
             case "preparer_remarks/remarks_grp/remarks":
                 preparer_remarks.remarks_grp.remarks = value;
                 result = true;
             break;
             case "preparer_remarks/remarks_grp/update_remarks":
                 preparer_remarks.remarks_grp.update_remarks = value;
-                result = true;
-            break;
-            case "preparer_remarks/remarks_grp/note_to_vro":
-                preparer_remarks.remarks_grp.note_to_vro = value;
                 result = true;
             break;
             case "preparer_remarks/pdf_grp/pdf_link":
@@ -1084,8 +1084,8 @@ public sealed partial class mmria_case
                 ije_bc.delivery_info.anen_bc = value;
                 result = true;
             break;
-            case "ije_bc/delivery_info/minsb_bc":
-                ije_bc.delivery_info.minsb_bc = value;
+            case "ije_bc/delivery_info/mnsb_bc":
+                ije_bc.delivery_info.mnsb_bc = value;
                 result = true;
             break;
             case "ije_bc/delivery_info/cchd_bc":

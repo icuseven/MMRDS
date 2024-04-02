@@ -177,7 +177,14 @@ public sealed class PMSS_Other_Specification : I_PMSS_File_Specification
             KeyValuePair.Create("acme_uc_dc", "ije_dc/cause_details/acme_uc_dc"),
             KeyValuePair.Create("eac_dc", "ije_dc/cause_details/eac_dc"),
             KeyValuePair.Create("rac_dc", "ije_dc/cause_details/rac_dc"),
-            KeyValuePair.Create("howinj_dc", "ije_dc/injury_details/howinj_dc")
+            KeyValuePair.Create("howinj_dc", "ije_dc/injury_details/howinj_dc"),
+
+            KeyValuePair.Create("vro_is_checkbox_correct", "vro_case_determination/vro_update/vro_is_checkbox_correct"),
+            KeyValuePair.Create("vro_duration_endpreg_death", "vro_case_determination/vro_update/vro_duration_endpreg_death"),
+            KeyValuePair.Create("vro_file_no_of_linked_lbfd", "vro_case_determination/vro_update/vro_file_no_of_linked_lbfd"),
+            KeyValuePair.Create("Race_OtherAsian_Literal", "demographic/q12/group/race_otherasian_literal"),
+            KeyValuePair.Create("Race_OtherPacific_Literal", "demographic/q12/group/race_otherpacific_literal"),
+            KeyValuePair.Create("MatBplc_Else_Literal", "demographic/q12/matbplc_else_literal")
 
 
 
