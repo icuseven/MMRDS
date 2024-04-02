@@ -102,6 +102,9 @@ public sealed class vitalsController : Controller
         }
         catch(Exception ex) 
         {
+            var message = $"{ex}";
+             
+             
             System.Console.WriteLine($"{ex}");
         }
 

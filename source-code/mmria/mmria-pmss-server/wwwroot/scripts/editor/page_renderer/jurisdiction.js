@@ -34,6 +34,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
 
     let disabled_html = " disabled='true' ";
     
+    /*
     if
     (
         g_data_is_checked_out || 
@@ -45,6 +46,7 @@ function user_jurisdiction_render(p_result, p_metadata, p_data, p_ui, p_metadata
     {
       disabled_html = " ";
     }
+    */
     p_result.push(disabled_html);
 
     p_result.push(">");
