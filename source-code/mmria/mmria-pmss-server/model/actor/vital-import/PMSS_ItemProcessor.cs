@@ -226,7 +226,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         I_PMSS_File_Specification name_to_path;
 
-        if( header_to_index.Count == 155)
+        if( header_to_index.Count == 156)
         {
             name_to_path = new PMSS_Other_Specification();
         }
@@ -495,14 +495,17 @@ Destination:
         var document_curl = new mmria.getset.cURL("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
 
         var document_put_response = new mmria.common.model.couchdb.document_put_response();
+
+        string responseFromServer = string.Empty;
         try
         {
-            var responseFromServer = document_curl.execute();
+            responseFromServer = document_curl.execute();
             document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
         }
         catch (Exception ex)
         {
 
+            System.Console.WriteLine(responseFromServer);
             System.Console.WriteLine(ex);
 /*
             finished = new mmria.common.ije.BatchItem()

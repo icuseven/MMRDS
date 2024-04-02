@@ -134,8 +134,8 @@ function setup_file_list()
                 }
                 else if 
                 (
-                    data[0].length != 150 &&
-                    data[0].length != 552
+                    data[0].length != 156 &&
+                    data[0].length != 558
                 ) 
                 {
                     g_validation_errors.push("csv columns != 150 or 555" + data.length);
@@ -143,7 +143,7 @@ function setup_file_list()
                 else 
                 {
 
-                    if(data[0].length == 150) g_is_other_file = true;
+                    if(data[0].length == 156) g_is_other_file = true;
                     /*
                     var copy = g_content_list[i];
                     var morRows = copy.split("\n");
