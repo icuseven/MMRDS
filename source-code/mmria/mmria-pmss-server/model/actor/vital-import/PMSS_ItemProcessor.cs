@@ -181,12 +181,31 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
 
         var new_case = new System.Dynamic.ExpandoObject();
+        //var new_case = new mmria.pmss.case_version.v230616.mmria_case();
 
         mmria.pmss.services.vitalsimport.default_case.create(metadata, new_case);
 
         var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
 
         var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
+
+        string get_value(string p_path)
+        {
+            var result = String.Empty;
+
+
+            migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(new_case, p_path);
+            if
+            (
+                ! temp_result.is_error &&
+                temp_result.result != null
+            )
+            {
+                result = temp_result.result.ToString();
+            }
+
+            return result;
+        }
 
         var mmria_id = System.Guid.NewGuid().ToString();
 
@@ -463,6 +482,52 @@ Destination:
                 new_case
             );
         }
+
+
+
+    string race_white = get_value("demographic/q12/group/race_white");
+    string race_black = get_value("demographic/q12/group/race_black");
+    string race_amindalknat = get_value("demographic/q12/group/race_amindalknat");
+    string race_asianindian = get_value("demographic/q12/group/race_asianindian");
+    string race_chinese = get_value("demographic/q12/group/race_chinese");
+    string race_filipino = get_value("demographic/q12/group/race_filipino");
+    string race_japanese = get_value("demographic/q12/group/race_japanese");
+    string race_korean = get_value("demographic/q12/group/race_korean");
+    string race_vietnamese = get_value("demographic/q12/group/race_vietnamese");
+    string race_otherasian = get_value("demographic/q12/group/race_otherasian");
+    string race_nativehawaiian = get_value("demographic/q12/group/race_nativehawaiian");
+    string race_guamcham = get_value("demographic/q12/group/race_guamcham");
+    string race_samoan = get_value("demographic/q12/group/race_samoan");
+    string race_otherpacific = get_value("demographic/q12/group/race_otherpacific");
+    string race_other = get_value("demographic/q12/group/race_other");
+    string race_notspecified = get_value("demographic/q12/group/race_notspecified");
+    
+    int? omb = calc_race_omb
+    (
+        race_white,
+        race_black,
+        race_amindalknat,
+        race_asianindian,
+        race_chinese,
+        race_filipino,
+        race_japanese,
+        race_korean,
+        race_vietnamese,
+        race_otherasian,
+        race_nativehawaiian,
+        race_guamcham,
+        race_samoan,
+        race_otherpacific,
+        race_other,
+        race_notspecified
+    );
+
+    string omb_string_value = "9999";
+
+    if(omb.HasValue)
+        omb_string_value = omb.ToString();
+
+    gs.set_value("demographic/q12/group/race_omb", omb_string_value, new_case);
 
 
 /*
@@ -1210,74 +1275,248 @@ private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.c
 
 
 
- static List<List<string>> ParseCsv(ReadOnlySpan<char> csv) 
- {
-    var result = new List<List<string>>();
-    var row = new List<string>();
-    string field = "";
-    bool inQuotedField = false;
-
-    for (int i = 0; i < csv.Length; i++) 
+    static List<List<string>> ParseCsv(ReadOnlySpan<char> csv) 
     {
-        char current = csv[i];
-        char next = i == csv.Length - 1 ? ' ' : csv[i + 1];
+        var result = new List<List<string>>();
+        var row = new List<string>();
+        string field = "";
+        bool inQuotedField = false;
 
-        if 
-        (
+        for (int i = 0; i < csv.Length; i++) 
+        {
+            char current = csv[i];
+            char next = i == csv.Length - 1 ? ' ' : csv[i + 1];
+
+            if 
             (
-                current != '"' && 
-                current != ',' && 
-                current != '\r' && 
-                current != '\n'
-            ) || 
-            (
-                current != '"' && 
-                inQuotedField
-            )
-        ) 
-        {
-            field += current;
-        } 
-        else if (current == ' ' || current == '\t') 
-        {
-            continue;
-        } 
-        else if (current == '"') 
-        {
-            if (inQuotedField && next == '"') 
+                (
+                    current != '"' && 
+                    current != ',' && 
+                    current != '\r' && 
+                    current != '\n'
+                ) || 
+                (
+                    current != '"' && 
+                    inQuotedField
+                )
+            ) 
             {
-                i++;
                 field += current;
             } 
-            else if (inQuotedField) 
+            else if (current == ' ' || current == '\t') 
             {
-                row.Add(field);
-                if (next == ',') 
+                continue;
+            } 
+            else if (current == '"') 
+            {
+                if (inQuotedField && next == '"') 
                 {
                     i++;
+                    field += current;
+                } 
+                else if (inQuotedField) 
+                {
+                    row.Add(field);
+                    if (next == ',') 
+                    {
+                        i++;
+                    }
+                    field = "";
+                    inQuotedField = false;
+                } 
+                else 
+                {
+                    inQuotedField = true; 
                 }
-                field = "";
-                inQuotedField = false;
             } 
-            else 
+            else if (current == ',') 
             {
-                inQuotedField = true; 
+                row.Add(field);
+                field = "";
+            } 
+            else if (current == '\n') 
+            {
+                row.Add(field);
+                result.Add(new List<string>(row));
+                field = "";
+                row.Clear();
             }
-        } 
-        else if (current == ',') 
-        {
-            row.Add(field);
-            field = "";
-        } 
-        else if (current == '\n') 
-        {
-            row.Add(field);
-            result.Add(new List<string>(row));
-            field = "";
-            row.Clear();
         }
+
+        return result;
     }
 
-    return result;
-}
+
+    int calc_race_omb
+    (
+        string p_white, 
+        string p_black, 
+        string p_amindalknat, 
+        string p_asianindian, 
+        string p_chinese, 
+        string p_filipino, 
+        string p_japanese, 
+        string p_korean, 
+        string p_vietnamese, 
+        string p_otherasian, 
+        string p_nativehawaiian, 
+        string p_guamcham, 
+        string p_samoan, 
+        string p_otherpacific, 
+        string p_other, 
+        string p_notspecified
+    ) 
+    {
+        int race_omb = 9999;
+
+        int rW = 0;
+        int rB = 0;
+        int rA = 0;
+        int rAiAn = 0;
+        int rPI = 0;
+        int rO = 0;
+        int rNS = 0;
+        
+        if 
+        (
+            p_white == "N" && 
+            p_black == "N" && 
+            p_amindalknat == "N" && 
+            p_asianindian == "N" && 
+            p_chinese == "N" && 
+            p_filipino == "N" && 
+            p_japanese == "N" && 
+            p_korean == "N" && 
+            p_vietnamese == "N" && 
+            p_otherasian == "N" && 
+            p_nativehawaiian == "N" && 
+            p_guamcham == "N" && 
+            p_samoan == "N" && 
+            p_otherpacific == "N" && 
+            p_other == "N" && 
+            p_notspecified == "N"
+        ) 
+        {
+        rNS = 1;
+        }
+        else
+        {
+            if (p_notspecified == "Y")
+            { 
+                rNS = 1;
+            }
+            if (p_white == "Y") 
+            {
+                rW = 1;
+            }
+            if (p_black == "Y") 
+            {
+                rB = 1;
+            }
+            if (p_amindalknat == "Y")
+            {
+                rAiAn = 1;
+            }
+            if (p_other == "Y") 
+            {
+                rO = 1;
+            }
+        
+            if (p_asianindian == "Y")
+            {
+                rA = 1;
+            }
+            if (p_chinese == "Y")
+            {
+                rA = 1;
+            }
+            if (p_filipino == "Y")
+            {
+                rA = 1;
+            }
+            if (p_japanese == "Y")
+            {
+                rA = 1;
+            }
+            if (p_korean == "Y")
+            {
+                rA = 1;
+            }
+            if (p_vietnamese == "Y")
+            {
+                rA = 1;
+            }
+            if (p_otherasian == "Y")
+            {
+                rA = 1;
+            }
+        
+            if (p_nativehawaiian == "Y")
+            {
+                rPI = 1;
+            }
+            if (p_guamcham == "Y")
+            {
+                rPI = 1;
+            }
+            if (p_samoan == "Y")
+            {
+                rPI = 1;
+            }
+            if (p_otherpacific == "Y")
+            {
+                rPI = 1;
+            }
+        }
+        
+        //if ((rW + rB + rAiAn + rA + rPI + rO + rNS) == 1)
+        if ((rW + rB + rAiAn + rA + rPI + rO) == 1)
+        {
+            if (rW == 1)
+            {
+                race_omb = 1;
+            }
+            else if (rB == 1)
+            {
+                race_omb = 2;
+            }
+            else if (rA == 1) 
+            {
+                race_omb = 3;
+            }
+            else if (rAiAn == 1)
+            {
+                race_omb = 4;
+            }
+            else if (rPI == 1)
+            {
+                race_omb = 5;
+            }
+            else if (rO == 1) 
+            {
+                race_omb = 8;
+            }
+            else if (rNS == 1)
+            {
+                race_omb = 9;
+            }
+        }
+        
+        else if ((rW + rB + rAiAn + rA + rPI + rO) == 2)
+        {
+            race_omb = 6;
+        }
+        else if ((rW + rB + rAiAn + rA + rPI + rO) > 2)
+        {
+            race_omb = 7;
+        }
+        else if (rNS == 1) 
+        {
+            race_omb = 9;
+        }
+
+        return race_omb;
+    }
+
+
 }
