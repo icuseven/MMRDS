@@ -10,6 +10,7 @@ using mmria.pmss.server.Controllers;
 using mmria_pmss_client.Models.IJE;
 using TinyCsvParser;
 using mmria.common.model.couchdb;
+using mmria.pmss.case_version.v230616;
 
 namespace mmria.pmss.services.vitalsimport;
 
@@ -180,41 +181,63 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
 
 
-        var new_case = new System.Dynamic.ExpandoObject();
-        //var new_case = new mmria.pmss.case_version.v230616.mmria_case();
+        //var new_case = new System.Dynamic.ExpandoObject();
+        var new_case = new mmria.pmss.case_version.v230616.mmria_case();
 
-        mmria.pmss.services.vitalsimport.default_case.create(metadata, new_case);
+
+        
+
+        //mmria.pmss.services.vitalsimport.default_case.create(metadata, new_case);
 
         var current_date_iso_string = System.DateTime.UtcNow.ToString("o");
 
         var gs = new migrate.C_Get_Set_Value(new System.Text.StringBuilder());
 
-        string get_value(string p_path)
+        string get_string_value(string p_path)
         {
-            var result = String.Empty;
+            var result = new_case.GetS_String(p_path);
+
+            return result;
+        }
+
+        double? get_number(string p_path)
+        {
+            var result = new_case.GetS_Double(p_path);
+
+            return result;
+        }
 
 
-            migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(new_case, p_path);
-            if
-            (
-                ! temp_result.is_error &&
-                temp_result.result != null
-            )
-            {
-                result = temp_result.result.ToString();
-            }
+        bool set_string_value(string p_path,string value)
+        {
+            var result = false;
+
+
+            result = new_case.SetS_String(p_path, value);
+
+
+            return result;
+        }
+
+        bool set_double_value(string p_path,double? value)
+        {
+            var result = false;
+
+
+           result = new_case.SetS_Double(p_path, value);
+
 
             return result;
         }
 
         var mmria_id = System.Guid.NewGuid().ToString();
 
-        gs.set_value("_id", mmria_id, new_case);
-        gs.set_value("date_created", current_date_iso_string, new_case);
-        gs.set_value("created_by", "pmss-import", new_case);
-        gs.set_value("date_last_updated", current_date_iso_string, new_case);
-        gs.set_value("last_updated_by", "pmss-import", new_case);
-        gs.set_value("version", metadata.version, new_case);
+        set_string_value("_id", mmria_id);
+        set_string_value("date_created", current_date_iso_string);
+        set_string_value("created_by", "pmss-import");
+        set_string_value("date_last_updated", current_date_iso_string);
+        set_string_value("last_updated_by", "pmss-import");
+        set_string_value("version", metadata.version);
 
     
         var is_valid_file = true;
@@ -257,6 +280,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         foreach(var kvp in header_to_index)
         {
 
+            string[] arr = new string[0];
+            
             if(name_to_path.Contains(kvp.Key))
             {
                 var mmria_path = name_to_path[kvp.Key];
@@ -278,24 +303,202 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                 }
 
                 
-                var metdata_node = get_metadata_node(metadata, mmria_path);
+                var metadata_node = get_metadata_node(metadata, mmria_path);
 
-                if(metdata_node.type.ToLower() == "date")
+                var data_type = metadata_node.type.ToLower();
+                if(data_type == "list")
                 {
-                    var arr = data.Split("/");
-                    if(arr.Length > 2)
+                    if
+                    (
+                        metadata_node.is_multiselect != null &&
+                        metadata_node.is_multiselect.HasValue &&
+                        metadata_node.is_multiselect.Value
+                    )
                     {
-                        data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                        data_type = "list_of_";
+                    }
+                    else
+                    {
+                        data_type = "";
+                    }
+
+
+                    if(metadata_node.data_type == null)
+                    {
+                        data_type += "string";
+                    }
+                    else if(metadata_node.data_type == "number")
+                    {
+                        data_type += "number";
+                    }
+                    else if(metadata_node.data_type == "string")
+                    {
+                        data_type += "string";
+                    }
+                    else 
+                    {
+                        data_type += "string";
                     }
                 }
 
-                var set_result = gs.set_value
-                (
-                    mmria_path, 
-                    data, 
-                    new_case
-                );
+                var set_result = false;
+                
+                var is_ignored = false;
 
+                switch(data_type)
+                {
+                    case "date":
+                        arr = data.Split("/");
+                        if(arr.Length > 2)
+                        {
+                            data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                        }
+                        DateOnly date_only_value;
+                        //(int.Parse(arr[2]), int.Parse(arr[0]), int.Parse(arr[1]))
+                        
+                        if(DateOnly.TryParse(data, out date_only_value))
+                        {
+                            set_result = new_case.SetS_Date_Only
+                            (
+                                mmria_path, 
+                                date_only_value
+                            );
+                        }
+                        else
+                        {
+                            set_result = new_case.SetS_Date_Only
+                            (
+                                mmria_path, 
+                                null
+                            );
+                        }
+                       
+                    break;
+
+                    case "datetime":
+                        DateTime datetime_value;
+                        if(DateTime.TryParse(data, out datetime_value))
+                        {
+                            set_result = new_case.SetS_Datetime
+                            (
+                                mmria_path, 
+                                datetime_value
+                            );
+                        }
+                        else
+                        {
+                            set_result = new_case.SetS_Datetime
+                            (
+                                mmria_path, 
+                                null
+                            );
+                        }
+
+                       
+                    break;
+
+                    case "time":
+                        if(string.IsNullOrWhiteSpace(data))
+                        {
+                            set_result = new_case.SetS_Time_Only
+                            (
+                                mmria_path, 
+                                null
+                            );
+
+                            break;
+                        }
+
+                        var temp_time = data.PadLeft(4, '0');
+
+                        var temp_time_string = $"{temp_time[..2]}:{temp_time[2..]}";
+ 
+                        TimeOnly time_only_value;
+
+                        if(TimeOnly.TryParse(temp_time_string, out time_only_value))
+                        {
+                            set_result = new_case.SetS_Time_Only
+                            (
+                                mmria_path, 
+                                time_only_value
+                            );
+                        }
+                        else
+                        {
+                            set_result = new_case.SetS_Time_Only
+                            (
+                                mmria_path, 
+                                null
+                            );
+                        }
+                    break;
+                    case "number":
+                        double number_value = -1;
+                        if(double.TryParse(data, out number_value))
+                        {
+                            set_result = new_case.SetS_Double
+                            (
+                                mmria_path, 
+                                number_value
+                            );
+                        }
+                        else
+                        {
+                            set_result = new_case.SetS_Double
+                            (
+                                mmria_path, 
+                                null
+                            );
+                        }
+
+
+                    break;
+
+                    case "list_of_string":
+                        arr = data.Split("/");
+                        if(arr.Length > 2)
+                        {
+                            data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                        }
+                        set_result = new_case.SetS_Date_Only
+                        (
+                            mmria_path, 
+                            new DateOnly(int.Parse(arr[2]), int.Parse(arr[0]), int.Parse(arr[1]))
+                        );
+                    break;
+
+                    case "list_of_number":
+                        arr = data.Split("/");
+                        if(arr.Length > 2)
+                        {
+                            data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                        }
+                        set_result = new_case.SetS_Date_Only
+                        (
+                            mmria_path, 
+                            new DateOnly(int.Parse(arr[2]), int.Parse(arr[0]), int.Parse(arr[1]))
+                        );
+                    break;
+
+                    case "string":
+                    case "textarea":
+                        set_result = new_case.SetS_String
+                        (
+                            mmria_path, 
+                            data
+                        );
+
+                    break;
+                    case "group":
+                        is_ignored = true;
+                    break;
+                    default:
+                        System.Console.WriteLine($"Not On Set List data_type{data_type} {kvp.Key}:{data} {mmria_path}");
+                    break;
+                }
+
+
+                if(!is_ignored)
                 if(set_result)
                 {
                     //System.Console.WriteLine($"Updated {kvp.Key}:{data} {mmria_path}");
@@ -389,61 +592,55 @@ Destination:
             var niosh_result = get_niosh_codes(occup_string, indust_string);
             if(niosh_result.Industry.Count > 0)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/industry_code_1", 
-                    niosh_result.Industry[0].Code, 
-                    new_case
+                    niosh_result.Industry[0].Code
                 );
             }
 
             if(niosh_result.Industry.Count > 1)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/industry_code_2", 
-                    niosh_result.Industry[1].Code, 
-                    new_case
+                    niosh_result.Industry[1].Code
                 );
             }
 
             if(niosh_result.Industry.Count > 2)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/industry_code_3", 
-                    niosh_result.Industry[2].Code, 
-                    new_case
+                    niosh_result.Industry[2].Code
                 );
             }
 
             if(niosh_result.Occupation.Count > 0)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/occupation_code_1", 
-                    niosh_result.Occupation[0].Code, 
-                    new_case
+                    niosh_result.Occupation[0].Code
                 );
             }
 
             if(niosh_result.Occupation.Count > 1)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/occupation_code_2", 
-                    niosh_result.Occupation[1].Code, 
-                    new_case
+                    niosh_result.Occupation[1].Code
                 );
             }
 
             if(niosh_result.Occupation.Count > 2)
             {
-                gs.set_value
+                set_string_value
                 (
                     "demographic/q14/occupation_code_3", 
-                    niosh_result.Occupation[2].Code, 
-                    new_case
+                    niosh_result.Occupation[2].Code
                 );
             }
 
@@ -485,22 +682,22 @@ Destination:
 
 
 
-    string race_white = get_value("demographic/q12/group/race_white");
-    string race_black = get_value("demographic/q12/group/race_black");
-    string race_amindalknat = get_value("demographic/q12/group/race_amindalknat");
-    string race_asianindian = get_value("demographic/q12/group/race_asianindian");
-    string race_chinese = get_value("demographic/q12/group/race_chinese");
-    string race_filipino = get_value("demographic/q12/group/race_filipino");
-    string race_japanese = get_value("demographic/q12/group/race_japanese");
-    string race_korean = get_value("demographic/q12/group/race_korean");
-    string race_vietnamese = get_value("demographic/q12/group/race_vietnamese");
-    string race_otherasian = get_value("demographic/q12/group/race_otherasian");
-    string race_nativehawaiian = get_value("demographic/q12/group/race_nativehawaiian");
-    string race_guamcham = get_value("demographic/q12/group/race_guamcham");
-    string race_samoan = get_value("demographic/q12/group/race_samoan");
-    string race_otherpacific = get_value("demographic/q12/group/race_otherpacific");
-    string race_other = get_value("demographic/q12/group/race_other");
-    string race_notspecified = get_value("demographic/q12/group/race_notspecified");
+    string race_white = get_string_value("demographic/q12/group/race_white");
+    string race_black = get_string_value("demographic/q12/group/race_black");
+    string race_amindalknat = get_string_value("demographic/q12/group/race_amindalknat");
+    string race_asianindian = get_string_value("demographic/q12/group/race_asianindian");
+    string race_chinese = get_string_value("demographic/q12/group/race_chinese");
+    string race_filipino = get_string_value("demographic/q12/group/race_filipino");
+    string race_japanese = get_string_value("demographic/q12/group/race_japanese");
+    string race_korean = get_string_value("demographic/q12/group/race_korean");
+    string race_vietnamese = get_string_value("demographic/q12/group/race_vietnamese");
+    string race_otherasian = get_string_value("demographic/q12/group/race_otherasian");
+    string race_nativehawaiian = get_string_value("demographic/q12/group/race_nativehawaiian");
+    string race_guamcham = get_string_value("demographic/q12/group/race_guamcham");
+    string race_samoan = get_string_value("demographic/q12/group/race_samoan");
+    string race_otherpacific = get_string_value("demographic/q12/group/race_otherpacific");
+    string race_other = get_string_value("demographic/q12/group/race_other");
+    string race_notspecified = get_string_value("demographic/q12/group/race_notspecified");
     
     int? omb = calc_race_omb
     (
@@ -632,7 +829,12 @@ Destination:
         return result;
     }
 
-    private void Set_Residence_Gecocode(migrate.C_Get_Set_Value gs, GeocodeTuple geocode_data, System.Dynamic.ExpandoObject new_case)
+    private void Set_Residence_Gecocode
+    (
+        migrate.C_Get_Set_Value gs, 
+        GeocodeTuple geocode_data, 
+        mmria.pmss.case_version.v230616.mmria_case new_case
+    )
     {
         string urban_status = null;
         string state_county_fips = null;
@@ -724,21 +926,21 @@ Destination:
             facility_of_delivery_location_longitude = longitude;
         }
 
-        gs.set_value("tracking/q9/feature_matching_geography_type", feature_matching_geography_type, new_case);
-        gs.set_value("tracking/q9/latitude", latitude, new_case);
-        gs.set_value("tracking/q9/longitude", longitude, new_case);
-        gs.set_value("tracking/q9/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code, new_case);
-        gs.set_value("tracking/q9/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type, new_case);
-        gs.set_value("tracking/q9/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code, new_case);
-        gs.set_value("tracking/q9/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type, new_case);
-        gs.set_value("tracking/q9/census_state_fips", census_state_fips, new_case);
-        gs.set_value("tracking/q9/census_county_fips", census_county_fips, new_case);
-        gs.set_value("tracking/q9/census_tract_fips", census_tract_fips, new_case);
-        gs.set_value("tracking/q9/census_cbsa_fips", census_cbsa_fips, new_case);
-        gs.set_value("tracking/q9/census_cbsa_micro", census_cbsa_micro, new_case);
-        gs.set_value("tracking/q9/census_met_div_fips", census_met_div_fips, new_case);
-        gs.set_value("tracking/q9/urban_status", urban_status, new_case);
-        gs.set_value("tracking/q9/state_county_fips", state_county_fips, new_case);
+        new_case.SetS_String("tracking/q9/feature_matching_geography_type", feature_matching_geography_type);
+        new_case.SetS_String("tracking/q9/latitude", latitude);
+        new_case.SetS_String("tracking/q9/longitude", longitude);
+        new_case.SetS_String("tracking/q9/naaccr_gis_coordinate_quality_code", naaccr_gis_coordinate_quality_code);
+        new_case.SetS_String("tracking/q9/naaccr_gis_coordinate_quality_type", naaccr_gis_coordinate_quality_type);
+        new_case.SetS_String("tracking/q9/naaccr_census_tract_certainty_code", naaccr_census_tract_certainty_code);
+        new_case.SetS_String("tracking/q9/naaccr_census_tract_certainty_type", naaccr_census_tract_certainty_type);
+        new_case.SetS_String("tracking/q9/census_state_fips", census_state_fips);
+        new_case.SetS_String("tracking/q9/census_county_fips", census_county_fips);
+        new_case.SetS_String("tracking/q9/census_tract_fips", census_tract_fips);
+        new_case.SetS_String("tracking/q9/census_cbsa_fips", census_cbsa_fips);
+        new_case.SetS_String("tracking/q9/census_cbsa_micro", census_cbsa_micro);
+        new_case.SetS_String("tracking/q9/census_met_div_fips", census_met_div_fips);
+        new_case.SetS_String("tracking/q9/urban_status", urban_status);
+        new_case.SetS_String("tracking/q9/state_county_fips", state_county_fips);
         
     }
 
