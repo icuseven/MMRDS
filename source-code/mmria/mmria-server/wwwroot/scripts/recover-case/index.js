@@ -97,7 +97,7 @@ function render_search_ui()
 {
 
     const jurisdiction_html_builder = [];
-    jurisdiction_html_builder.push("<p>Select Jurisdition</p>\n<select onchange=\"juridiction_changed(this.value)\">");
+    jurisdiction_html_builder.push("<p>Select Jurisdition</p>\n<select id=\"jurisdiction-select\" onchange=\"juridiction_changed(this.value)\">");
 
     jurisdiction_html_builder.push(`<option value="" selected>Select a Jurisdition</option>`);
     for(const i in g_jurisdiction_list)
@@ -519,7 +519,7 @@ function on_apply_change_click
     const results = view_model.audit_change_set_list.ls.filter(is_rev);
     if(results.length < 1)
     {
-        return "";
+        return;;
     }
     else
     {
@@ -570,7 +570,7 @@ function on_apply_change_click
         if(location == null)
         {
             console.log("location is null");
-            return "";
+            return;
         }
 
         if
