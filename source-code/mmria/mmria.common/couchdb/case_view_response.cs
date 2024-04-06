@@ -9,6 +9,8 @@ public sealed class case_view_sortable_item
     public string first_name{ get; set; }
     public string middle_name{ get; set; }
     public string last_name{ get; set; }
+
+    public string maiden_name{ get; set; }
     public int? date_of_death_year{ get; set; }
     public int? date_of_death_month{ get; set; }
 
