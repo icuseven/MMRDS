@@ -584,11 +584,6 @@ function window_on_hash_change(e)
 
           if(g_ui.url_state.path_array && g_ui.url_state.path_array.length > 0 && (parseInt(g_ui.url_state.path_array[0]) >= 0))
           {
-            /*
-            if(g_data._id != g_ui.data_list[parseInt(g_ui.url_state.path_array[0])]._id)
-            {
-                save_queue.push(g_data._id);
-            }*/
 
             var case_id = g_data._id;
             save_case(g_data, function()
@@ -600,11 +595,6 @@ function window_on_hash_change(e)
           }
           else
           {
-            /*
-            if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-            {
-              save_queue.push(g_data._id);
-            }*/
             save_case(g_data, function(){
               g_data = null;
               get_case_set(function(){ g_render();} );
@@ -640,13 +630,6 @@ function window_on_hash_change(e)
 		}
     else
     {
-/*
-      if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-      {
-        save_queue.push(g_data._id);
-      }*/
-      //save_case(g_data);
-      //g_data = null;
 
       g_render();
 
@@ -939,7 +922,6 @@ function delete_record(p_index)
 
 
 var save_interval_id = null;
-var save_queue = [];
 
 	
 function print_case_onchange()

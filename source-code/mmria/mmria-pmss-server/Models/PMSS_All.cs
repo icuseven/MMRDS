@@ -443,7 +443,7 @@ public sealed class PMSS_All
     public string gast_fdc{ get; set; }
     public string limb_fdc{ get; set; }
     public string cl_fdc{ get; set; }
-    public string caf_fdc{ get; set; }
+    public string cp_fdc{ get; set; }
     public string dowt_fdc{ get; set; }
     public string cdit_fdc{ get; set; }
     public string hypo_fdc{ get; set; }
@@ -1002,7 +1002,7 @@ public sealed class PMSS_All
         x.gast_fdc = row[430];
         x.limb_fdc = row[431];
         x.cl_fdc = row[432];
-        x.caf_fdc = row[433];
+        x.cp_fdc = row[433];
         x.dowt_fdc = row[434];
         x.cdit_fdc = row[435];
         x.hypo_fdc = row[436];

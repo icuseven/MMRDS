@@ -2610,7 +2610,7 @@
         "style": "{\"position\":\"absolute\",\"top\":3682,\"left\":12,\"height\":38,\"width\":815.516,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(73, 80, 87)\"}"
       }
     },
-    "ije_fdc/delivery_info/caf_fdc": {
+    "ije_fdc/delivery_info/cp_fdc": {
       "prompt": {
         "style": "{\"position\":\"absolute\",\"top\":3730,\"left\":12,\"height\":24,\"width\":328.188,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
       },
@@ -6814,7 +6814,7 @@
         "style": "{\"position\":\"absolute\",\"top\":2474.990374546875,\"left\":461.98863504492186,\"height\":37.0076,\"width\":441.989,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(73, 80, 87)\"}"
       }
     },
-    "ije_fetaldc/delivery_info/caf_fdc": {
+    "ije_fetaldc/delivery_info/cp_fdc": {
       "prompt": {
         "style": "{\"position\":\"absolute\",\"top\":2529.990374546875,\"left\":10.918566685546864,\"height\":50,\"width\":441.989,\"font-weight\":\"400\",\"font-size\":\"16px\",\"font-style\":\"normal\",\"color\":\"rgb(33, 37, 41)\"}"
       },

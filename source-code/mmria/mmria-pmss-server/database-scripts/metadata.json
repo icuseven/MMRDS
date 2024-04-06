@@ -18079,14 +18079,14 @@
             },
             {
               "prompt": "Congential Anomaly Fetus - Cleft Palate Alone",
-              "name": "caf_fdc",
+              "name": "cp_fdc",
               "type": "string",
               "is_read_only": true,
               "description": "CAF: Congential Anomaly Fetus - Cleft Palate Alone",
               "tags": [
                 "DO_NOT_EXPORT"
               ],
-              "sass_export_name": "caf_fdc"
+              "sass_export_name": "cp_fdc"
             },
             {
               "prompt": "Congential Anomaly Fetus - Down Syndrome",

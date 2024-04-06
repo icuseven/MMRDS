@@ -1636,8 +1636,8 @@ public sealed partial class mmria_case
                 ije_fetaldc.delivery_info.cl_fdc = value;
                 result = true;
             break;
-            case "ije_fetaldc/delivery_info/caf_fdc":
-                ije_fetaldc.delivery_info.caf_fdc = value;
+            case "ije_fetaldc/delivery_info/cp_fdc":
+                ije_fetaldc.delivery_info.cp_fdc = value;
                 result = true;
             break;
             case "ije_fetaldc/delivery_info/dowt_fdc":

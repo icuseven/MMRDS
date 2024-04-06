@@ -394,7 +394,7 @@ public sealed class _389EAF30BFB0B5E91DE06287A4164076 : IConvertDictionary
 	public string gast_fdc { get; set; }
 	public string limb_fdc { get; set; }
 	public string cl_fdc { get; set; }
-	public string caf_fdc { get; set; }
+	public string cp_fdc { get; set; }
 	public string dowt_fdc { get; set; }
 	public string cdit_fdc { get; set; }
 	public string hypo_fdc { get; set; }
@@ -448,7 +448,7 @@ public sealed class _389EAF30BFB0B5E91DE06287A4164076 : IConvertDictionary
 		gast_fdc = mmria_case.GetStringField(p_value, "gast_fdc", "ije_fetaldc/delivery_info/gast_fdc");
 		limb_fdc = mmria_case.GetStringField(p_value, "limb_fdc", "ije_fetaldc/delivery_info/limb_fdc");
 		cl_fdc = mmria_case.GetStringField(p_value, "cl_fdc", "ije_fetaldc/delivery_info/cl_fdc");
-		caf_fdc = mmria_case.GetStringField(p_value, "caf_fdc", "ije_fetaldc/delivery_info/caf_fdc");
+		cp_fdc = mmria_case.GetStringField(p_value, "cp_fdc", "ije_fetaldc/delivery_info/cp_fdc");
 		dowt_fdc = mmria_case.GetStringField(p_value, "dowt_fdc", "ije_fetaldc/delivery_info/dowt_fdc");
 		cdit_fdc = mmria_case.GetStringField(p_value, "cdit_fdc", "ije_fetaldc/delivery_info/cdit_fdc");
 		hypo_fdc = mmria_case.GetStringField(p_value, "hypo_fdc", "ije_fetaldc/delivery_info/hypo_fdc");

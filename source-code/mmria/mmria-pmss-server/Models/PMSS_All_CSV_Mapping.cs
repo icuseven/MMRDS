@@ -442,7 +442,7 @@ public sealed class PMSS_All_CSV_Mapping : TinyCsvParser.Mapping.CsvMapping<PMSS
         MapProperty(430, x => x.gast_fdc);
         MapProperty(431, x => x.limb_fdc);
         MapProperty(432, x => x.cl_fdc);
-        MapProperty(433, x => x.caf_fdc);
+        MapProperty(433, x => x.cp_fdc);
         MapProperty(434, x => x.dowt_fdc);
         MapProperty(435, x => x.cdit_fdc);
         MapProperty(436, x => x.hypo_fdc);

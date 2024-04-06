@@ -218,7 +218,20 @@ one_or_more_blank_space "One or more blank space" = [ \\t\\n\\r]+
 
 `);
 
-//blank_space = [ \t\n\r]*
+
+const save_queue = [];
+
+function get_new_save_queue_item(p_data)
+{
+    return {
+        id: $mmria.get_new_guid(),
+        date_created: new Date(),
+        date_completed: null,
+        case_id: p_data._id,
+        rev_id: p_data.rev_id,
+        post_rev: null
+    };
+}
 
 async function g_set_data_object_from_path
 (
@@ -2796,7 +2809,6 @@ function delete_record(p_index)
 }
 
 var save_interval_id = null;
-var save_queue = [];
 
 function enable_print_button(event) 
 {

@@ -325,10 +325,6 @@ function window_on_hash_change(e)
           }
           else
           {
-            if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-            {
-              save_queue.push(g_data._id);
-            }
             g_data = null;
             document.getElementById('navbar').innerHTML = navigation_render(g_metadata, 0, g_ui).join("");
             document.getElementById('form_content_id').innerHTML = page_render(true, g_metadata, default_object, g_ui, "g_metadata", "default_object", false, 0, 0, 0).join("");
@@ -405,11 +401,6 @@ function window_on_hash_change(e)
 		}
     else
     {
-
-      if(g_data && !(save_queue.indexOf(g_data._id) > -1))
-      {
-        save_queue.push(g_data._id);
-      }
               
       g_data = null;
 

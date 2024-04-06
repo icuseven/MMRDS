@@ -457,7 +457,7 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("gast_fdc", "ije_fetaldc/delivery_info/gast_fdc"),
         KeyValuePair.Create("limb_fdc", "ije_fetaldc/delivery_info/limb_fdc"),
         KeyValuePair.Create("cl_fdc", "ije_fetaldc/delivery_info/cl_fdc"),
-        KeyValuePair.Create("caf_fdc", "ije_fetaldc/delivery_info/caf_fdc"),
+        KeyValuePair.Create("cp_fdc", "ije_fetaldc/delivery_info/cp_fdc"),
         KeyValuePair.Create("dowt_fdc", "ije_fetaldc/delivery_info/dowt_fdc"),
         KeyValuePair.Create("cdit_fdc", "ije_fetaldc/delivery_info/cdit_fdc"),
         KeyValuePair.Create("hypo_fdc", "ije_fetaldc/delivery_info/hypo_fdc"),
