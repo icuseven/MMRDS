@@ -50,7 +50,7 @@
             </div>
           </div>                             
           <blockquote id="hostname" class="col col-md-3" style="font-size:24px;text-align:left;">
-             @MyNavigationManager.BaseUri.Split("-")[0].ToUpper()-MMRIA
+             @MyNavigationManager.BaseUri.Split("-")[0].ToUpper().Replace("HTTP://", "").Replace("HTTPS://", "").Replace("/", "")-MMRIA
           </blockquote>
           <div class="col col-md-1">
             Log in
