@@ -455,28 +455,38 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                     break;
 
                     case "list_of_string":
-                        arr = data.Split("/");
-                        if(arr.Length > 2)
+                        List<string> list_of_string = new();
+                        arr = data.Split("|");
+                        foreach(var item in arr)
                         {
-                            data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                            var trimmed_item = item.Trim();
+                            if(!string.IsNullOrWhiteSpace(trimmed_item))
+                            {
+                                list_of_string.Add(trimmed_item);
+                            }
                         }
-                        set_result = new_case.SetS_Date_Only
-                        (
+                        set_result = new_case.SetS_List_Of_String
+                        (                        
                             mmria_path, 
-                            new DateOnly(int.Parse(arr[2]), int.Parse(arr[0]), int.Parse(arr[1]))
+                            list_of_string
                         );
                     break;
 
                     case "list_of_number":
-                        arr = data.Split("/");
-                        if(arr.Length > 2)
+                        List<double> list_of_double = new();
+                        arr = data.Split("|");
+                        foreach(var item in arr)
                         {
-                            data = $"{arr[2]}-{arr[0]}-{arr[1]}";
+                            var trimmed_item = item.Trim();
+                            if(!double.TryParse(trimmed_item, out var double_value))
+                            {
+                                list_of_double.Add(double_value);
+                            }
                         }
-                        set_result = new_case.SetS_Date_Only
-                        (
+                        set_result = new_case.SetS_List_Of_Double
+                        (                        
                             mmria_path, 
-                            new DateOnly(int.Parse(arr[2]), int.Parse(arr[0]), int.Parse(arr[1]))
+                            list_of_double
                         );
                     break;
 
