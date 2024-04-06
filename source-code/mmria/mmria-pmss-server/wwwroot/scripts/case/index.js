@@ -223,16 +223,26 @@ one_or_more_blank_space "One or more blank space" = [ \\t\\n\\r]+
 
 `);
 
-const save_queue = [];
+const save_queue = {
+    is_active: false,
+    item_list: [],
+}
 
-function get_new_save_queue_item(p_data)
+function get_new_save_queue_item
+(
+    p_data, 
+    p_call_back, 
+    p_note
+)
 {
     return {
         id: $mmria.get_new_guid(),
         date_created: new Date(),
         date_completed: null,
-        case_id: p_data._id,
-        rev_id: p_data.rev_id,
+        data: p_data, 
+        call_back: p_call_back, 
+        note: p_note,
+        is_data_analyst_mode: g_is_data_analyst_mode,
         post_rev: null
     };
 }
@@ -2121,14 +2131,59 @@ function get_specific_case(p_id)
     });
 }
 
-async function save_case(p_data, p_call_back, p_note) 
+async function save_case(p_data, p_call_back, p_note)
 {
+
+    let is_found = false;
+
+    for(let i = 0; i < save_queue.item_list.length; i++)
+    {
+        const item = save_queue.item_list[i];
+        if(item.data._rev == p_data._rev)
+        {
+            is_found = true;
+            break;
+        }
+    }
+
+    if(is_found) return;
+
+    const queue_item = get_new_save_queue_item(p_data, p_call_back, p_note);
+    save_queue.item_list.push(queue_item);
+}
+
+async function process_save_case() 
+{
+    if(save_queue.is_active) return;
+
+    save_queue.is_active = true;
+
+    const item = save_queue.item_list.pop();
+
+    const p_data = item.data;
+    const p_call_back = item.call_back;
+    const p_note = item.note;
+    
+    /*
+
+    {
+        id: $mmria.get_new_guid(),
+        date_created: new Date(),
+        date_completed: null,
+        data: p_data, 
+        call_back: p_call_back, 
+        note: p_note,
+        post_rev: null
+    };
+
+    */
+
   if (p_data.host_state == null || p_data.host_state == '') 
   {
     p_data.host_state = window.location.host.split('-')[0];
   }
 
-  if (g_is_data_analyst_mode == null) 
+  if (item.is_data_analyst_mode == null) 
   {
 
     let save_case_request = { 
@@ -2202,79 +2257,62 @@ async function save_case(p_data, p_call_back, p_note)
         }
     }
 
-
-      
-
-/*
-    const case_response = await $.ajax({
-      url: location.protocol + '//' + location.host + '/api/case',
-      contentType: 'application/json; charset=utf-8',
-      dataType: 'json',
-      data: JSON.stringify(save_case_request),
-      type: 'POST',
-    })
-    .fail(function (xhr, err) 
-    {
-        //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
-
-        $mmria.unstable_network_dialog_show(xhr, p_note);
-        if (xhr.status == 401) 
-        {
-            let redirect_url = location.protocol + '//' + location.host;
-            window.location = redirect_url;
-        }
-        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
-        {
-            let redirect_url = location.protocol + '//' + location.host;
-            window.location = redirect_url;
-        }
-    });
-    */
-
-    g_change_stack = [];
-    g_case_narrative_is_updated = false;
-    g_case_narrative_is_updated_date = null;
-
-    if (g_data) 
+    if
+    (
+        case_response.ok == null ||
+        case_response.ok == false ||
+        case_response.rev == null
+    ) 
     {
         if
         (
-            case_response.ok == null ||
-            case_response.ok == false ||
-            case_response.rev == null
-        ) 
-        {
-            if
-            (
-                case_response != null &&
-                case_response.error_description != null &&
-                case_response.error_description.indexOf("(409) Conflict") > -1
-            ) return;
+            case_response != null &&
+            case_response.error_description != null &&
+            case_response.error_description.indexOf("(409) Conflict") > -1
+        ) return;
 
-            const err = {
-                status: 500,
-                responseText : case_response.error_description
-            };
-            $mmria.unstable_network_dialog_show(err, p_note);
-            return;
-        } 
-        else if
-        (
-            case_response.ok == true && 
-            g_data._id == case_response.id
-        )
+        const err = {
+            status: 500,
+            responseText : case_response.error_description
+        };
+        $mmria.unstable_network_dialog_show(err, p_note);
+        return;
+    } 
+    else if(case_response.ok == true)
+    {
+
+        if(item.data._id == case_response.id)
         {
-            g_data._rev = case_response.rev;
-            g_data_is_checked_out = is_case_checked_out(g_data);
-            //g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
-            set_local_case(g_data);
-            //console.log('set_value save finished');
+            if(g_data._id == case_response.id)
+            {
+                g_change_stack = [];
+                g_case_narrative_is_updated = false;
+                g_case_narrative_is_updated_date = null;
+
+                g_data._rev = case_response.rev;
+                g_data_is_checked_out = is_case_checked_out(g_data);
+                //g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
+                set_local_case(g_data);
+                //console.log('set_value save finished');
+            }
+            
         }
+        else
+        {
+            console.log('save_case error data._id != case_response.id');
+        }
+
+        save_queue.is_active = false;
+    }
+    else
+    {
+        console.log('save_case error case_response.ok != true');
     }
 
-    if (p_call_back) 
+
+    if (item.call_back) 
     {
-        p_call_back();
+        item.call_back();
     }
 
 
@@ -2282,9 +2320,9 @@ async function save_case(p_data, p_call_back, p_note)
   } 
   else 
   {
-    if (p_call_back) 
+    if (item.call_back) 
     {
-      p_call_back();
+      item.call_back();
     }
   }
 }
@@ -3067,7 +3105,10 @@ function enable_edit_click()
     g_data.last_checked_out_by = g_user_name;
     g_data_is_checked_out = true;
     window.setTimeout(async ()=> await save_case(g_data, create_save_message, "enable_edit"), 0);
+
     g_autosave_interval = window.setInterval(autosave, 10000);
+    window.setInterval(process_save_case, 1000);
+    
 
     g_render();
 
