@@ -30,14 +30,16 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		>
             <table style='border-color:#e0e0e0;padding:5px;' border=1>
             <tr align=center style='background-color:#b890bb;'>
-              <th style="display: flex; justify-content: center;">
-                <span>
-                  ${p_metadata.prompt.replace(" Graph", "")} 
-                </span>
-                <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem; margin-right: .2rem; margin-bottom: .2rem;">
-                  Graph |
-                  <a href="javascript:chart_switch_to_table('${map_key}')">Table</a>
-                </span>
+              <th style="padding-bottom: 0.2rem;" colspan="100">
+                <div style="display: flex; align-items: center;">
+                  <span style="flex: 2; padding-left: 6rem;">
+                    ${p_metadata.prompt.replace(" Graph", "")} 
+                  </span>
+                  <span style="background: #FFFFFF; font-size: small; margin-left: auto; padding: .05rem; margin-right: .2rem; margin-bottom: .2rem; margin-top: .2rem;">
+                    Graph |
+                    <a href="javascript:chart_switch_to_table('${map_key}')">Table</a>
+                  </span>
+                </div>
               </th>
             </tr>
             <tr align=center><td>
@@ -567,13 +569,15 @@ function chart_switch_to_table(p_ui_div_id)
         <thead style="position: sticky; top: 0px">
           <tr align=center style='background-color:#b890bb;'>
               <th style="padding-bottom: 0.2rem;" colspan="100">
-                <span style="margin-left: 3rem;">
+              <div style="display: flex; align-items: center;">
+                <span style="flex: 2; padding-left: 6rem;">
                     ${params.p_metadata.prompt.replace(" Graph", "")} 
                 </span>
-                <span style="background: #FFFFFF; font-size: small; margin-left: 1rem; padding: .05rem;">
+                <span style="background: #FFFFFF; font-size: small; margin-left: auto; padding: .05rem; margin-right: 0.2rem; margin-bottom: 0.2rem; margin-top: 0.2rem;">
                     <a role="button" href="javascript:chart_switch_to_graph('${convert_object_path_to_jquery_id(params.p_object_path)}')">Graph</a> |
                     Table
                 </span>
+              </div>
               </th>
           </tr>
           <tr style="display: none;" aria-hidden="true"  align=center>
