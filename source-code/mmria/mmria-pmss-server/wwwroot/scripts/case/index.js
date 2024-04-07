@@ -1509,6 +1509,8 @@ $(function ()
   $.datetimepicker.setLocale('en');
 
   window.setTimeout(load_and_set_data, 0);
+
+  window.setInterval(process_save_case, 1000);
 });
 
 
@@ -2154,11 +2156,13 @@ async function save_case(p_data, p_call_back, p_note)
 
 async function process_save_case() 
 {
-    if(save_queue.is_active) return;
-
-    save_queue.is_active = true;
+    if(save_queue.is_active == true) return;
 
     const item = save_queue.item_list.pop();
+
+    if(item == null || item == undefined) return;
+
+    save_queue.is_active = true;
 
     const p_data = item.data;
     const p_call_back = item.call_back;
@@ -3107,7 +3111,7 @@ function enable_edit_click()
     window.setTimeout(async ()=> await save_case(g_data, create_save_message, "enable_edit"), 0);
 
     g_autosave_interval = window.setInterval(autosave, 10000);
-    window.setInterval(process_save_case, 1000);
+
     
 
     g_render();

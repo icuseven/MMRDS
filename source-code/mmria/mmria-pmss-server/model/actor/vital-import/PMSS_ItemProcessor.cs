@@ -178,6 +178,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
         lookup = get_look_up(metadata);
 
+        var all_nodes = metadata.Flatten();
+
 
 
 
@@ -238,6 +240,43 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         set_string_value("date_last_updated", current_date_iso_string);
         set_string_value("last_updated_by", "pmss-import");
         set_string_value("version", metadata.version);
+
+
+        foreach(var has_default_attribute in all_nodes.Where(n => !string.IsNullOrWhiteSpace(n.Node.default_value)))
+        {
+
+            string default_string_value = "";
+            Double? default_number_value = null;
+
+            var node = has_default_attribute.Node;
+            switch (node.type.ToString().ToLower())
+            {
+                case "string":
+                    
+
+
+                break;
+                case "number":
+                    
+
+                    break;
+
+                case "list":
+                    if(string.IsNullOrWhiteSpace(node.data_type))
+                    {
+
+                    }
+                    else
+                    {
+
+                    } 
+                break;
+                default:
+                
+                    System.Console.WriteLine($"set default: {node.type} not found: {has_default_attribute.path}");
+                break;
+            }
+        }
 
     
         var is_valid_file = true;
@@ -304,6 +343,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
                 
                 var metadata_node = get_metadata_node(metadata, mmria_path);
+
+
 
                 var data_type = metadata_node.type.ToLower();
                 if(data_type == "list")
