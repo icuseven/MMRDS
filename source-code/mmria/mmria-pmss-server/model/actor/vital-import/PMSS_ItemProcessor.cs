@@ -246,30 +246,142 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         {
 
             string default_string_value = "";
-            Double? default_number_value = null;
+            double default_dobule_value = -1;
+
 
             var node = has_default_attribute.Node;
             switch (node.type.ToString().ToLower())
             {
                 case "string":
-                    
-
+                    default_string_value = node.default_value;
+                    new_case.SetS_String
+                    (
+                        has_default_attribute.path, 
+                        default_string_value
+                    );
 
                 break;
                 case "number":
-                    
-
+                    if(double.TryParse(node.default_value, out default_dobule_value))
+                    {
+                        default_string_value = node.default_value;
+                        new_case.SetS_Double
+                        (
+                            has_default_attribute.path, 
+                            default_dobule_value
+                        );
+                    }
                     break;
 
                 case "list":
-                    if(string.IsNullOrWhiteSpace(node.data_type))
+                    if
+                    (
+                        node.is_multiselect != null &&
+                        node.is_multiselect.HasValue &&
+                        node.is_multiselect.Value
+                    )
                     {
+                        
 
+                        string[] default_list_of_string;
+                        if(string.IsNullOrWhiteSpace(node.data_type))
+                        {
+                            default_list_of_string = node.default_value.Split("|");
+                            List<string> val = new List<string>();
+                            foreach(var item in default_list_of_string)
+                            {
+                                var trimmed_value = item.Trim();
+                                if(!string.IsNullOrWhiteSpace(trimmed_value))
+                                    val.Add(trimmed_value);
+                            }
+
+                            new_case.SetS_List_Of_String
+                            (
+                                has_default_attribute.path, 
+                                val
+                            );
+                        }
+                        else switch(node.data_type.ToLower())
+                        {
+                            case "number":
+                                default_list_of_string = node.default_value.Split("|");
+                                List<double> double_list = new List<double>();
+                                foreach(var item in default_list_of_string)
+                                {
+                                    var trimmed_value = item.Trim();
+                                    if(has_default_attribute.display_to_value.ContainsKey(trimmed_value))
+                                    {
+                                        trimmed_value = has_default_attribute.display_to_value[trimmed_value];
+                                    }
+
+                                    if(double.TryParse(trimmed_value, out var default_double))
+                                        double_list.Add(default_double);
+                                }
+
+                                new_case.SetS_List_Of_Double
+                                (
+                                    has_default_attribute.path, 
+                                    double_list
+                                );
+                            break;
+                            case "string":
+                                default_list_of_string = node.default_value.Split("|");
+                                List<string> val = new List<string>();
+                                foreach(var item in default_list_of_string)
+                                {
+                                    var trimmed_value = item.Trim();
+                                    if(!string.IsNullOrWhiteSpace(trimmed_value))
+                                        val.Add(trimmed_value);
+                                }
+
+                                new_case.SetS_List_Of_String
+                                (
+                                    has_default_attribute.path, 
+                                    val
+                                );
+                            break;
+                            default:
+                            System.Console.WriteLine($"default type: {node.type} not found: {has_default_attribute.path}");
+                            break;
+                        }
                     }
                     else
                     {
-
-                    } 
+                        if(string.IsNullOrWhiteSpace(node.data_type))
+                        {
+                            default_string_value = node.default_value;
+                            new_case.SetS_String
+                            (
+                                has_default_attribute.path, 
+                                default_string_value
+                            );
+                        }
+                        else switch(node.data_type.ToLower())
+                        {
+                            case "number":
+                                if(double.TryParse(node.default_value, out var double_value))
+                                {
+                                    new_case.SetS_Double
+                                    (
+                                        has_default_attribute.path, 
+                                        double_value
+                                    );
+                                }
+                            break;
+                            case "string":
+                                default_string_value = node.default_value;
+                                new_case.SetS_String
+                                (
+                                    has_default_attribute.path, 
+                                    default_string_value
+                                );
+                            break;
+                            default:
+                            System.Console.WriteLine($"default type: {node.type} not found: {has_default_attribute.path}");
+                            break;
+                        } 
+                    }
+                    
                 break;
                 default:
                 
@@ -341,8 +453,16 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
                 }
 
-                
-                var metadata_node = get_metadata_node(metadata, mmria_path);
+                var meta_node = all_nodes.Where(n => n.path.Equals(mmria_path, StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+
+                if(meta_node == null)
+                {
+                    System.Console.WriteLine($"Node Not Found path {mmria_path} key:{kvp.Key} value:{data} ");
+                    continue;
+                }
+                //var metadata_node = get_metadata_node(metadata, mmria_path);
+                var metadata_node = meta_node.Node;
 
 
 
@@ -519,7 +639,13 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                         foreach(var item in arr)
                         {
                             var trimmed_item = item.Trim();
-                            if(!double.TryParse(trimmed_item, out var double_value))
+
+                            if(meta_node.display_to_value.ContainsKey(trimmed_item))
+                            {
+                                trimmed_item = meta_node.display_to_value[trimmed_item];
+                            }
+
+                            if(double.TryParse(trimmed_item, out var double_value))
                             {
                                 list_of_double.Add(double_value);
                             }
