@@ -64,7 +64,7 @@ const g_dependent_child_to_parent = new Map();
 const g_dependent_child_metadata = new Map();
 
 
-
+var is_faulted = false;
 
 const peg_parser = peg.generate(`
 start = blank_space html_start_tag  (blank_space ( balanced_tag / single_tag ) blank_space)* blank_space html_end_tag blank_space
@@ -2285,14 +2285,14 @@ async function process_save_case()
     else if(case_response.ok == true)
     {
 
+        g_change_stack = [];
+        g_case_narrative_is_updated = false;
+        g_case_narrative_is_updated_date = null; 
+
         if(item.data._id == case_response.id)
         {
             if(g_data._id == case_response.id)
             {
-                g_change_stack = [];
-                g_case_narrative_is_updated = false;
-                g_case_narrative_is_updated_date = null;
-
                 g_data._rev = case_response.rev;
                 g_data_is_checked_out = is_case_checked_out(g_data);
                 //g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
@@ -2303,7 +2303,7 @@ async function process_save_case()
         }
         else
         {
-            console.log('save_case error data._id != case_response.id');
+            console.log('save_case info data._id != case_response.id');
         }
 
         save_queue.is_active = false;
@@ -2311,6 +2311,8 @@ async function process_save_case()
     else
     {
         console.log('save_case error case_response.ok != true');
+        is_faulted = true;
+        $mmria.unstable_network_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
     }
 
 
