@@ -212,6 +212,7 @@ public sealed class update_maiden_nameController : Controller
             }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 
+//death_certificate/certificate_identification/dmaiden
             
             var dictionary = case_response as IDictionary<string,object>;
             if(dictionary != null)
@@ -225,7 +226,7 @@ public sealed class update_maiden_nameController : Controller
                         // date_of_death["year"] = model.YearOfDeathReplacement.ToString();
                         dictionary["last_updated_by"] = userName;
                         dictionary["date_last_updated"] = DateTime.Now;
-                        certificate_identification["maiden_name"] = Model.MaidenNameReplacement;
+                        certificate_identification["dmaiden"] = Model.MaidenNameReplacement;
 
                         Model.LastUpdatedBy = userName;
                         Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
