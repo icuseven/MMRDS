@@ -2300,6 +2300,10 @@ async function process_save_case()
             set_local_case(g_data);
             //console.log('set_value save finished');
         }
+        else
+        {
+            console.log('save_case info data._id != case_response.id');
+        }
 
         save_queue.is_active = false;
 
