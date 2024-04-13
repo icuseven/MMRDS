@@ -54,9 +54,6 @@ public sealed class _8355BA227D01C14C5E1E0C172277D46E : IConvertDictionary
 {
 	public _8355BA227D01C14C5E1E0C172277D46E()
 	{
-		admin_grp = new();
-		assessment_grp = new();
-		folder_grp = new();
 	}
 	public _783B66841FE95D0D97C64EE944131B93 admin_grp{ get;set;}
 	public _4C1515801B98326EC6AEBA7A057CE829 assessment_grp{ get;set;}
@@ -479,13 +476,6 @@ public sealed class _1CDCB33AD951AAC284F43FCC500F25C8 : IConvertDictionary
 {
 	public _1CDCB33AD951AAC284F43FCC500F25C8()
 	{
-		file_info = new();
-		delivery_info = new();
-		condition_cause = new();
-		previous_info = new();
-		residence_mother = new();
-		demog_details = new();
-
 	}
 	public _69100D16668ED65EDA2D79F3633069E1 file_info{ get;set;}
 	public _389EAF30BFB0B5E91DE06287A4164076 delivery_info{ get;set;}
@@ -509,8 +499,8 @@ public sealed class _8FD72D7AFDA852DEFE3E53E3CEFC2B28 : IConvertDictionary
 	public _8FD72D7AFDA852DEFE3E53E3CEFC2B28()
 	{
 	}
-	public string mbplace_st_ter_tx_bc { get; set; }
-	public string mbplace_cntry_tx_bc { get; set; }
+	public string mbplace_st_ter_txt_bc { get; set; }
+	public string mbplace_cntry_txt_bc { get; set; }
 	public string mager_bc { get; set; }
 	public string mdob_mo_bc { get; set; }
 	public string mdob_dy_bc { get; set; }
@@ -549,14 +539,14 @@ public sealed class _8FD72D7AFDA852DEFE3E53E3CEFC2B28 : IConvertDictionary
 	public string mrace22_bc { get; set; }
 	public string mrace23_bc { get; set; }
 	public string fager_bc { get; set; }
-	public string dad_in_t_fdc_bc { get; set; }
+	public string dad_in_t_bc { get; set; }
 	public string dad_oc_t_bc { get; set; }
 	public string fbplacd_st_ter_c_bc { get; set; }
 	public string fbplace_cnt_c_bc { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
-		mbplace_st_ter_tx_bc = mmria_case.GetStringField(p_value, "mbplace_st_ter_tx_bc", "ije_bc/demog_details/mbplace_st_ter_tx_bc");
-		mbplace_cntry_tx_bc = mmria_case.GetStringField(p_value, "mbplace_cntry_tx_bc", "ije_bc/demog_details/mbplace_cntry_tx_bc");
+		mbplace_st_ter_txt_bc = mmria_case.GetStringField(p_value, "mbplace_st_ter_txt_bc", "ije_bc/demog_details/mbplace_st_ter_txt_bc");
+		mbplace_cntry_txt_bc = mmria_case.GetStringField(p_value, "mbplace_cntry_txt_bc", "ije_bc/demog_details/mbplace_cntry_txt_bc");
 		mager_bc = mmria_case.GetStringField(p_value, "mager_bc", "ije_bc/demog_details/mager_bc");
 		mdob_mo_bc = mmria_case.GetStringField(p_value, "mdob_mo_bc", "ije_bc/demog_details/mdob_mo_bc");
 		mdob_dy_bc = mmria_case.GetStringField(p_value, "mdob_dy_bc", "ije_bc/demog_details/mdob_dy_bc");
@@ -595,7 +585,7 @@ public sealed class _8FD72D7AFDA852DEFE3E53E3CEFC2B28 : IConvertDictionary
 		mrace22_bc = mmria_case.GetStringField(p_value, "mrace22_bc", "ije_bc/demog_details/mrace22_bc");
 		mrace23_bc = mmria_case.GetStringField(p_value, "mrace23_bc", "ije_bc/demog_details/mrace23_bc");
 		fager_bc = mmria_case.GetStringField(p_value, "fager_bc", "ije_bc/demog_details/fager_bc");
-		dad_in_t_fdc_bc = mmria_case.GetStringField(p_value, "dad_in_t_fdc_bc", "ije_bc/demog_details/dad_in_t_fdc_bc");
+		dad_in_t_bc = mmria_case.GetStringField(p_value, "dad_in_t_bc", "ije_bc/demog_details/dad_in_t_bc");
 		dad_oc_t_bc = mmria_case.GetStringField(p_value, "dad_oc_t_bc", "ije_bc/demog_details/dad_oc_t_bc");
 		fbplacd_st_ter_c_bc = mmria_case.GetStringField(p_value, "fbplacd_st_ter_c_bc", "ije_bc/demog_details/fbplacd_st_ter_c_bc");
 		fbplace_cnt_c_bc = mmria_case.GetStringField(p_value, "fbplace_cnt_c_bc", "ije_bc/demog_details/fbplace_cnt_c_bc");
@@ -880,13 +870,6 @@ public sealed class _380867B2F39E2C3A1183FE46EB907A2F : IConvertDictionary
 {
 	public _380867B2F39E2C3A1183FE46EB907A2F()
 	{
-
-		file_info = new();
-		delivery_info = new();
-		previous_info = new();
-		residence_mother = new();
-		demog_details = new();
-
 	}
 	public _D48BB1C9495CCF57A18D865394E024C5 file_info{ get;set;}
 	public _47628FA77E08A185109A556F92BC79C6 delivery_info{ get;set;}
@@ -1153,15 +1136,6 @@ public sealed class _0D69863CC31E49D042EEE11D6403ED7B : IConvertDictionary
 {
 	public _0D69863CC31E49D042EEE11D6403ED7B()
 	{
-
-		file_info = new();
-		death_info = new();
-		cause_details = new();
-		injury_details = new();
-		birthplace_mother = new();
-		residence_mother = new();
-		demog_details = new();
-
 	}
 	public _D7A964C0F749BC3F6923EDAB88E6C29E file_info{ get;set;}
 	public _61B99B384D3000FB6457F422C3039D85 death_info{ get;set;}
@@ -1197,7 +1171,7 @@ public sealed class _18CCB400C97876203A224BBC13B8453C : IConvertDictionary
 	public string cod1d_dc_mirror { get; set; }
 	public string interval1d_dc_mirror { get; set; }
 	public string othercondition_dc_mirror { get; set; }
-	public string man_uc_dc { get; set; }
+	public string man_uc_dc_mirror { get; set; }
 	public string acme_uc_dc_mirror { get; set; }
 	public string eac_dc_mirror { get; set; }
 	public string rac_dc_mirror { get; set; }
@@ -1213,7 +1187,7 @@ public sealed class _18CCB400C97876203A224BBC13B8453C : IConvertDictionary
 		cod1d_dc_mirror = mmria_case.GetStringField(p_value, "cod1d_dc_mirror", "vro_case_determination/cause_details_mirror/cod1d_dc_mirror");
 		interval1d_dc_mirror = mmria_case.GetStringField(p_value, "interval1d_dc_mirror", "vro_case_determination/cause_details_mirror/interval1d_dc_mirror");
 		othercondition_dc_mirror = mmria_case.GetStringField(p_value, "othercondition_dc_mirror", "vro_case_determination/cause_details_mirror/othercondition_dc_mirror");
-		man_uc_dc = mmria_case.GetStringField(p_value, "man_uc_dc", "vro_case_determination/cause_details_mirror/man_uc_dc");
+		man_uc_dc_mirror = mmria_case.GetStringField(p_value, "man_uc_dc_mirror", "vro_case_determination/cause_details_mirror/man_uc_dc_mirror");
 		acme_uc_dc_mirror = mmria_case.GetStringField(p_value, "acme_uc_dc_mirror", "vro_case_determination/cause_details_mirror/acme_uc_dc_mirror");
 		eac_dc_mirror = mmria_case.GetStringField(p_value, "eac_dc_mirror", "vro_case_determination/cause_details_mirror/eac_dc_mirror");
 		rac_dc_mirror = mmria_case.GetStringField(p_value, "rac_dc_mirror", "vro_case_determination/cause_details_mirror/rac_dc_mirror");
@@ -1302,10 +1276,6 @@ public sealed class _016FCDB951F95B19033708F378D04AED : IConvertDictionary
 {
 	public _016FCDB951F95B19033708F378D04AED()
 	{
-
-		dodeath_mirror = new();
-		dobirth_mirror = new();
-
 	}
 	public string dstate_dc_mirror { get; set; }
 	public string fileno_dc_mirror { get; set; }
@@ -1332,12 +1302,6 @@ public sealed class _4A4043A4503BB4DF04BA1D8D121871FD : IConvertDictionary
 {
 	public _4A4043A4503BB4DF04BA1D8D121871FD()
 	{
-
-		case_identifiers = new();
-		vro_update = new();
-		cdc_case_matching_results = new();
-		cause_details_mirror = new();
-
 	}
 	public _016FCDB951F95B19033708F378D04AED case_identifiers{ get;set;}
 	public _35FD478CD58D3D1159A0C338470EAA77 vro_update{ get;set;}
@@ -1405,12 +1369,6 @@ public sealed class _62AEF5C4D8129ED98ECA69F7779FCBFC : IConvertDictionary
 {
 	public _62AEF5C4D8129ED98ECA69F7779FCBFC()
 	{
-		
-
-		reviewer_grp = new ();
-		rev_assessment_grp = new ();
-		agreement_grp = new ();
-
 	}
 	public _5D25FC75453F8EE5C815093BA91CB4E8 reviewer_grp{ get;set;}
 	public _AAF3874F75AF4E0C8B4F1A8C80211F77 rev_assessment_grp{ get;set;}
@@ -1474,12 +1432,6 @@ public sealed class _3401C823D7E669B796E77290FE6A6D5F : IConvertDictionary
 {
 	public _3401C823D7E669B796E77290FE6A6D5F()
 	{
-		
-
-		preparer_grp = new();
-		remarks_grp = new();
-		pdf_grp = new();
-
 	}
 	public _812D5DBE0EF4B69F9C6A32C631BB4A37 preparer_grp{ get;set;}
 	public _9046BAEC9DC8EE8023CBD639FB324319 remarks_grp{ get;set;}
@@ -1570,13 +1522,6 @@ public sealed class _8C2D3559CAC525D0B20C896AB71DA6DE : IConvertDictionary
 {
 	public _8C2D3559CAC525D0B20C896AB71DA6DE()
 	{
-
-		q28 = new();
-		q29 = new();
-		q30 = new();
-		q31 = new();
-		q33 = new();
-
 	}
 	public _0144F5B1942DDC29EE5AE5B9DE40E934 q28{ get;set;}
 	public _840626E88AD4F5181D122006422746D1 q29{ get;set;}
@@ -1645,8 +1590,6 @@ public sealed class _3032AD6AED6C5C3CDA992D241F4D28BF : IConvertDictionary
 {
 	public _3032AD6AED6C5C3CDA992D241F4D28BF()
 	{
-		q25 = new();
-		dterm_grp = new();
 	}
 	public double? outindx { get; set; }
 	public double? multgest { get; set; }
@@ -1771,8 +1714,6 @@ public sealed class _6135235F2FC2D9AD60100129ABB94EBC : IConvertDictionary
 {
 	public _6135235F2FC2D9AD60100129ABB94EBC()
 	{
-		group = new();
-		ethnicity = new();
 	}
 	public double? race { get; set; }
 	public _A50E2D82A8E3BC8A4288196E429C2446 group{ get;set;}
@@ -1817,9 +1758,6 @@ public sealed class _125E8E9BBE92C992689F82460866FEE3 : IConvertDictionary
 {
 	public _125E8E9BBE92C992689F82460866FEE3()
 	{
-		date_of_birth = new();
-		q12 = new();
-		q14 = new();
 	}
 	public double? mage { get; set; }
 	public _F7C389389B7004924221B820D81117CE date_of_birth{ get;set;}
@@ -1996,11 +1934,6 @@ public sealed class _1879966223C3E382E14C6524C84942F1 : IConvertDictionary
 {
 	public _1879966223C3E382E14C6524C84942F1()
 	{
-		admin_info = new();
-		q1 = new();
-		date_of_death = new();
-		q7 = new();
-		q9 = new();
 	}
 	public _1DCADE918C1D24A0E4B29F438833775E admin_info{ get;set;}
 	public _419E7777D6D3FC43E91EB066203CA08D q1{ get;set;}
@@ -2048,21 +1981,6 @@ public sealed partial class mmria_case
 	public mmria_case()
 	{
 		data_migration_history = new ();
-		committee_review = new();
-        committee_review.agreement_grp = new();
-        committee_review.rev_assessment_grp = new();
-        committee_review.reviewer_grp = new();
-        committee_review.reviewer_grp.review_2_by = new();
-        amss_tracking = new();
-        cause_of_death = new();
-        demographic = new();
-        tracking = new();
-        vro_case_determination = new();
-        ije_bc = new();
-        ije_dc = new();
-        ije_fetaldc = new();
-        outcome = new();
-        preparer_remarks = new();
 	}
 	public string _id { get; set; }
 	public string _rev { get; set; }

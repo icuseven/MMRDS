@@ -488,8 +488,8 @@ public sealed partial class mmria_case
                 vro_case_determination.cause_details_mirror.othercondition_dc_mirror = value;
                 result = true;
             break;
-            case "vro_case_determination/cause_details_mirror/man_uc_dc":
-                vro_case_determination.cause_details_mirror.man_uc_dc = value;
+            case "vro_case_determination/cause_details_mirror/man_uc_dc_mirror":
+                vro_case_determination.cause_details_mirror.man_uc_dc_mirror = value;
                 result = true;
             break;
             case "vro_case_determination/cause_details_mirror/acme_uc_dc_mirror":
@@ -1276,12 +1276,12 @@ public sealed partial class mmria_case
                 ije_bc.residence_mother.zipcode_bc = value;
                 result = true;
             break;
-            case "ije_bc/demog_details/mbplace_st_ter_tx_bc":
-                ije_bc.demog_details.mbplace_st_ter_tx_bc = value;
+            case "ije_bc/demog_details/mbplace_st_ter_txt_bc":
+                ije_bc.demog_details.mbplace_st_ter_txt_bc = value;
                 result = true;
             break;
-            case "ije_bc/demog_details/mbplace_cntry_tx_bc":
-                ije_bc.demog_details.mbplace_cntry_tx_bc = value;
+            case "ije_bc/demog_details/mbplace_cntry_txt_bc":
+                ije_bc.demog_details.mbplace_cntry_txt_bc = value;
                 result = true;
             break;
             case "ije_bc/demog_details/mager_bc":
@@ -1432,8 +1432,8 @@ public sealed partial class mmria_case
                 ije_bc.demog_details.fager_bc = value;
                 result = true;
             break;
-            case "ije_bc/demog_details/dad_in_t_fdc_bc":
-                ije_bc.demog_details.dad_in_t_fdc_bc = value;
+            case "ije_bc/demog_details/dad_in_t_bc":
+                ije_bc.demog_details.dad_in_t_bc = value;
                 result = true;
             break;
             case "ije_bc/demog_details/dad_oc_t_bc":

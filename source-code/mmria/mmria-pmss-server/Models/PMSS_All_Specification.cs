@@ -39,8 +39,7 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("Year", "tracking/admin_info/track_year"),
         KeyValuePair.Create("CaseNo", "tracking/admin_info/pmssno"),
         KeyValuePair.Create("PMSS_State_Code", "tracking/admin_info/jurisdiction"),
-        //KeyValuePair.Create("Jurisdiction	NOT MAPPED"),
-        //KeyValuePair.Create("Jurisdiction_Name	NOT MAPPED"),
+
         KeyValuePair.Create("Status", "tracking/admin_info/status"),
         KeyValuePair.Create("AmssNo", "tracking/q1/amssno"),
         KeyValuePair.Create("AmssRel", "tracking/q1/amssrel"),
@@ -156,7 +155,7 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("mmria_used_remarks", "committee_review/rev_assessment_grp/mmria_used_remarks"),
         KeyValuePair.Create("agreement_status", "committee_review/agreement_grp/agreement_status"),
         KeyValuePair.Create("agreement_remarks", "committee_review/agreement_grp/agreement_remarks"),
-        //KeyValuePair.Create("fileno_dc", "ije_dc/file_info/fileno_dc"),
+
         KeyValuePair.Create("auxno_dc", "ije_dc/file_info/auxno_dc"),
         KeyValuePair.Create("replace_dc", "ije_dc/file_info/replace_dc"),
         KeyValuePair.Create("void_dc", "ije_dc/file_info/void_dc"),
@@ -244,7 +243,7 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("race22_dc", "ije_dc/demog_details/race22_dc"),
         KeyValuePair.Create("race23_dc", "ije_dc/demog_details/race23_dc"),
         KeyValuePair.Create("bstate_bc", "ije_bc/file_info/bstate_bc"),
-        //KeyValuePair.Create("fileno_bc", "ije_bc/file_info/fileno_bc"),
+        
         KeyValuePair.Create("auxno_bc", "ije_bc/file_info/auxno_bc"),
         KeyValuePair.Create("void_bc", "ije_bc/file_info/void_bc"),
         KeyValuePair.Create("replace_bc", "ije_bc/file_info/replace_bc"),
@@ -360,8 +359,8 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("countytxt_bc", "ije_bc/residence_mother/countytxt_bc"),
         KeyValuePair.Create("statetxt_bc", "ije_bc/residence_mother/statetxt_bc"),
         KeyValuePair.Create("zipcode_bc", "ije_bc/residence_mother/zipcode_bc"),
-        KeyValuePair.Create("mbplace_st_ter_tx_bc", "ije_bc/demog_details/mbplace_st_ter_tx_bc"),
-        KeyValuePair.Create("mbplace_cntry_tx_bc", "ije_bc/demog_details/mbplace_cntry_tx_bc"),
+        KeyValuePair.Create("mbplace_st_ter_txt_bc", "ije_bc/demog_details/mbplace_st_ter_txt_bc"),
+        KeyValuePair.Create("mbplace_cntry_txt_bc", "ije_bc/demog_details/mbplace_cntry_txt_bc"),
         KeyValuePair.Create("mager_bc", "ije_bc/demog_details/mager_bc"),
         KeyValuePair.Create("mdob_mo_bc", "ije_bc/demog_details/mdob_mo_bc"),
         KeyValuePair.Create("mdob_dy_bc", "ije_bc/demog_details/mdob_dy_bc"),
@@ -400,12 +399,12 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("mrace22_bc", "ije_bc/demog_details/mrace22_bc"),
         KeyValuePair.Create("mrace23_bc", "ije_bc/demog_details/mrace23_bc"),
         KeyValuePair.Create("fager_bc", "ije_bc/demog_details/fager_bc"),
-        KeyValuePair.Create("dad_in_t_ bc", "ije_bc/demog_details/dad_in_t_bc"),
+        KeyValuePair.Create("dad_in_t_bc", "ije_bc/demog_details/dad_in_t_bc"),
         KeyValuePair.Create("dad_oc_t_bc", "ije_bc/demog_details/dad_oc_t_bc"),
         KeyValuePair.Create("fbplacd_st_ter_c_bc", "ije_bc/demog_details/fbplacd_st_ter_c_bc"),
         KeyValuePair.Create("fbplace_cnt_c_bc", "ije_bc/demog_details/fbplace_cnt_c_bc"),
         KeyValuePair.Create("dstate_fdc", "ije_fetaldc/file_info/dstate_fdc"),
-        //KeyValuePair.Create("fileno_fdc", "ije_fetaldc/file_info/fileno_fdc"),
+        
         KeyValuePair.Create("auxno_fdc", "ije_fetaldc/file_info/auxno_fdc"),
         KeyValuePair.Create("void_fdc", "ije_fetaldc/file_info/void_fdc"),
         KeyValuePair.Create("replace_fdc", "ije_fetaldc/file_info/replace_fdc"),
@@ -582,7 +581,13 @@ public sealed class PMSS_All_Specification : I_PMSS_File_Specification
         KeyValuePair.Create("vro_file_no_of_linked_lbfd", "vro_case_determination/vro_update/vro_file_no_of_linked_lbfd"),
         KeyValuePair.Create("Race_OtherAsian_Literal", "demographic/q12/group/race_otherasian_literal"),
         KeyValuePair.Create("Race_OtherPacific_Literal", "demographic/q12/group/race_otherpacific_literal"),
-        KeyValuePair.Create("MatBplc_Else_Literal", "demographic/q12/matbplc_else_literal")
+        KeyValuePair.Create("MatBplc_Else_Literal", "demographic/q12/matbplc_else_literal"),
+
+        KeyValuePair.Create("dstate_dc", "ije_dc/file_info/dstate_dc"),
+        KeyValuePair.Create("fileno_orig_dc", "ije_dc/file_info/fileno_dc"),
+        KeyValuePair.Create("fileno_orig_bc", "ije_bc/file_info/fileno_bc"),
+        KeyValuePair.Create("fileno_orig_fdc", "ije_fetaldc/file_info/fileno_fdc")
+
 
 
     });

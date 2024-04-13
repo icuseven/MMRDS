@@ -859,49 +859,61 @@ Destination:
 
 
 
-    string race_white = get_string_value("demographic/q12/group/race_white");
-    string race_black = get_string_value("demographic/q12/group/race_black");
-    string race_amindalknat = get_string_value("demographic/q12/group/race_amindalknat");
-    string race_asianindian = get_string_value("demographic/q12/group/race_asianindian");
-    string race_chinese = get_string_value("demographic/q12/group/race_chinese");
-    string race_filipino = get_string_value("demographic/q12/group/race_filipino");
-    string race_japanese = get_string_value("demographic/q12/group/race_japanese");
-    string race_korean = get_string_value("demographic/q12/group/race_korean");
-    string race_vietnamese = get_string_value("demographic/q12/group/race_vietnamese");
-    string race_otherasian = get_string_value("demographic/q12/group/race_otherasian");
-    string race_nativehawaiian = get_string_value("demographic/q12/group/race_nativehawaiian");
-    string race_guamcham = get_string_value("demographic/q12/group/race_guamcham");
-    string race_samoan = get_string_value("demographic/q12/group/race_samoan");
-    string race_otherpacific = get_string_value("demographic/q12/group/race_otherpacific");
-    string race_other = get_string_value("demographic/q12/group/race_other");
-    string race_notspecified = get_string_value("demographic/q12/group/race_notspecified");
-    
-    int? omb = calc_race_omb
-    (
-        race_white,
-        race_black,
-        race_amindalknat,
-        race_asianindian,
-        race_chinese,
-        race_filipino,
-        race_japanese,
-        race_korean,
-        race_vietnamese,
-        race_otherasian,
-        race_nativehawaiian,
-        race_guamcham,
-        race_samoan,
-        race_otherpacific,
-        race_other,
-        race_notspecified
-    );
+    var omb_path = "demographic/q12/group/race_omb";
+    string omb_string_value = get_string_value(omb_path);
 
-    string omb_string_value = "9999";
+    if(string.IsNullOrWhiteSpace(omb_string_value))
+    {
+        string race_white = get_string_value("demographic/q12/group/race_white");
+        string race_black = get_string_value("demographic/q12/group/race_black");
+        string race_amindalknat = get_string_value("demographic/q12/group/race_amindalknat");
+        string race_asianindian = get_string_value("demographic/q12/group/race_asianindian");
+        string race_chinese = get_string_value("demographic/q12/group/race_chinese");
+        string race_filipino = get_string_value("demographic/q12/group/race_filipino");
+        string race_japanese = get_string_value("demographic/q12/group/race_japanese");
+        string race_korean = get_string_value("demographic/q12/group/race_korean");
+        string race_vietnamese = get_string_value("demographic/q12/group/race_vietnamese");
+        string race_otherasian = get_string_value("demographic/q12/group/race_otherasian");
+        string race_nativehawaiian = get_string_value("demographic/q12/group/race_nativehawaiian");
+        string race_guamcham = get_string_value("demographic/q12/group/race_guamcham");
+        string race_samoan = get_string_value("demographic/q12/group/race_samoan");
+        string race_otherpacific = get_string_value("demographic/q12/group/race_otherpacific");
+        string race_other = get_string_value("demographic/q12/group/race_other");
+        string race_notspecified = get_string_value("demographic/q12/group/race_notspecified");
+        
+        int? omb = calc_race_omb
+        (
+            race_white,
+            race_black,
+            race_amindalknat,
+            race_asianindian,
+            race_chinese,
+            race_filipino,
+            race_japanese,
+            race_korean,
+            race_vietnamese,
+            race_otherasian,
+            race_nativehawaiian,
+            race_guamcham,
+            race_samoan,
+            race_otherpacific,
+            race_other,
+            race_notspecified
+        );
 
-    if(omb.HasValue)
-        omb_string_value = omb.ToString();
+        
+        if(omb.HasValue)
+        {
+            omb_string_value = omb.ToString();
+        }
+        else
+        {
+            omb_string_value = "9999";
+        }
+            
 
-    gs.set_value("demographic/q12/group/race_omb", omb_string_value, new_case);
+        gs.set_value(omb_path, omb_string_value, new_case);
+    }
 
 
 /*
