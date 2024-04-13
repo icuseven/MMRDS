@@ -153,7 +153,7 @@ public class Template_Writer_SG_Get
             get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
         }
 
-        System.IO.File.WriteAllText("output.get.sg.cs", get_set_template);
+        System.IO.File.WriteAllText("output/mmria_case.get.sg.cs", get_set_template);
     }
 
 }

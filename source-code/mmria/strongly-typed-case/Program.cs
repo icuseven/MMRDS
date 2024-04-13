@@ -113,7 +113,7 @@ namespace mmria.case_version.v1;");*/
         
         System.Console.WriteLine($"source code: {builder.ToString()}");
 
-        System.IO.File.WriteAllText("output.cs", builder.ToString());
+        System.IO.File.WriteAllText("output/mmria_case.cs", builder.ToString());
 
 // S
 

@@ -79,7 +79,6 @@ public sealed class v3_4_TimeField
 		//var path_to_val = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
 		try
 		{
-			string FromMetadataVersion = "23.07.25";
 			string ToMetadataVersion = "23.11.08";
 
 			string metadata_url = $"{host_db_url}/metadata/version_specification-{ToMetadataVersion}/metadata";

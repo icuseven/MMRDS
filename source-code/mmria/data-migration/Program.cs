@@ -81,7 +81,13 @@ fl
 
 
 "ma",*/
-"mn",
+//IA, MI, MO, PA, SC ,
+
+"ia",
+"mi",
+"mo",
+"pa",
+"sc",
 //"fl",
 //"wa",
 //"ks",

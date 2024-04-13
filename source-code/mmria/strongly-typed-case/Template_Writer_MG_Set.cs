@@ -173,7 +173,7 @@ public class Template_Writer_MG_Set
             get_set_template = get_set_template.Replace(kvp.Key, kvp.Value.ToString());
         }
 
-        System.IO.File.WriteAllText("output.set.mg.cs", get_set_template);
+        System.IO.File.WriteAllText("output/mmria_case.set.mg.cs", get_set_template);
     }
 
 }
