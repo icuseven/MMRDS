@@ -70,14 +70,6 @@ public sealed class update_maiden_nameController : Controller
                 responseFromServer = await case_view_curl.executeAsync();
 
             }
-            else
-            {
-             
-                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
-                var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
-                responseFromServer = await case_view_curl.executeAsync();   
-            }
-
 
             mmria.common.model.couchdb.case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.case_view_response>(responseFromServer);
 
@@ -149,9 +141,6 @@ public sealed class update_maiden_nameController : Controller
     public IActionResult ConfirmUpdateMaidenNameRequest(mmria.server.model.maiden_name.MaidenNameDetail Model)
     {
         var model = Model;
-
-        
-        
         string server_url = db_config.url;
         string user_name = db_config.user_name;
         string user_value = db_config.user_value;
@@ -165,22 +154,6 @@ public sealed class update_maiden_nameController : Controller
             user_name = db_info.user_name;
             user_value = db_info.user_value;
         }
-
-        // HashSet<string> ExistingRecordIds = GetExistingRecordIds(server_url, user_name, user_value, prefix);
-
-        // var array = Model.RecordId.Split('-');
-
-        // string record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{array[2]}";
-
-        // System.Console.WriteLine($"ExistingRecordIds.Count{ExistingRecordIds.Count}");
-
-        // while (ExistingRecordIds.Contains(record_id))
-        // {
-        //     record_id = $"{array[0]}-{Model.YearOfDeathReplacement}-{GenerateRandomFourDigits().ToString()}";
-        // };
-
-        // Model.RecordIdReplacement = record_id;
-
         return View(model);
     }
 
@@ -188,10 +161,8 @@ public sealed class update_maiden_nameController : Controller
     public async Task<IActionResult> UpdateMaidenName(mmria.server.model.maiden_name.MaidenNameDetail Model)
     {
         var model = Model;
-
         try
         {
-
             var userName = "";
             if (User.Identities.Any(u => u.IsAuthenticated))
             {
@@ -199,8 +170,6 @@ public sealed class update_maiden_nameController : Controller
                     u => u.IsAuthenticated && 
                     u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             }
-
-
             string responseFromServer = null;
             if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
@@ -211,9 +180,8 @@ public sealed class update_maiden_nameController : Controller
                 responseFromServer = await case_view_curl.executeAsync();
             }
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-
-//death_certificate/certificate_identification/dmaiden
             
+            //death_certificate/certificate_identification/dmaiden
             var dictionary = case_response as IDictionary<string,object>;
             if(dictionary != null)
             {
@@ -224,13 +192,13 @@ public sealed class update_maiden_nameController : Controller
                     if(certificate_identification != null)
                     {
                         // date_of_death["year"] = model.YearOfDeathReplacement.ToString();
+                        Model.MaidenName = Model.MaidenName.Replace(Model.MaidenName.ToString(), Model.MaidenNameReplacement);
                         dictionary["last_updated_by"] = userName;
                         dictionary["date_last_updated"] = DateTime.Now;
-                        certificate_identification["dmaiden"] = Model.MaidenNameReplacement;
+                        certificate_identification["dmaiden"] = Model.MaidenName;
 
                         Model.LastUpdatedBy = userName;
                         Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
-                        //Model.MaidenName = Model.MaidenName.Replace(Model.MaidenName.ToString(), Model.MaidenNameReplacement);
                         // Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
 
                         Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();

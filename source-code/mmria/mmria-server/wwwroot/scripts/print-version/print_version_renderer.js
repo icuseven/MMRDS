@@ -957,8 +957,8 @@ function make_c3_date(p_value)
   result.push(date_time.getHours());
   result.push(':');
   result.push(date_time.getMinutes());
-  result.push(':');
-  result.push(date_time.getSeconds());
+  // result.push(':');
+  // result.push(date_time.getSeconds());
 
   return result.join('');
 }

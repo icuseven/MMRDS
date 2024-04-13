@@ -105,7 +105,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
             p_metadata.x_type.toLowerCase() == 'datetime'
         )
         {
-		    p_post_html_render.push(" format: '%m/%d/%Y %H:%M:%S',");
+		    p_post_html_render.push(" format: '%m/%d/%Y %H:%M',");
         }
         else
         {
@@ -141,7 +141,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
-        p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
+        p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M',");
     }
 
     p_post_html_render.push("      columns: [");
@@ -535,7 +535,7 @@ function chart_switch_to_table(p_ui_div_id)
 
     const data_table_header_html = [];
     const data_table_body_html = [];
-    data_table_header_html.push(`<tr><th style="background-color: #E3D3E4; padding-left: 5px;">Date</th>`)
+    data_table_header_html.push(`<tr><th style="background-color: #E3D3E4; padding-left: 5px;">Date Time</th>`)
     y_axis.forEach(element => {
         let header_string = "";
         header_string = element.replace(graph_prefix, "").replace(bp_header_prefix, "").replace(bp_header_suffix, "");
@@ -551,12 +551,12 @@ function chart_switch_to_table(p_ui_div_id)
       let date_string = "";
       let temp_date_data = row[x_axis.replace(graph_prefix, "")];
       if (temp_date_data.indexOf("T") != -1)
-        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
+        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
       else
-        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
-      data_table_body_html.push(`<tr><td>${date_string}</td>`)
+        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+      data_table_body_html.push(`<tr><td style="padding-left: 5px;">${date_string}</td>`)
         y_axis.forEach(col => {
-          data_table_body_html.push(`<td>${row[col.replace(graph_prefix, "")]}</td>`)
+          data_table_body_html.push(`<td style="padding-left: 5px;">${row[col.replace(graph_prefix, "")]}</td>`)
         });
         data_table_body_html.push(`</tr>`);
     });

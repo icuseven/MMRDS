@@ -105,7 +105,33 @@
                     } *@
                 </td>
                 <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
-                <td class="td">@item.CaseStatus</td>
+                <td class="td">
+                  @if (@item.CaseStatus.ToString() == "9999")
+                  {
+                    @Html.Raw("(blank)");
+                  } else if (@item.CaseStatus.ToString() == "0")
+                  {
+                    @Html.Raw("Vitals Import");
+                  } else if (@item.CaseStatus.ToString() == "1")
+                  {
+                     @Html.Raw("Abstracting (Incomplete)");
+                  } else if (@item.CaseStatus.ToString() == "2")
+                  {
+                     @Html.Raw("Abstraction Complete");
+                  } else if (@item.CaseStatus.ToString() == "3")
+                  {
+                     @Html.Raw("Ready for Review");
+                  } else if (@item.CaseStatus.ToString() == "4")
+                  {
+                     @Html.Raw("Review Complete and Decision Entered");
+                  } else if (@item.CaseStatus.ToString() == "5")
+                  {
+                     @Html.Raw("Out of Scope and Death Certificate Entered");
+                  } else if (@item.CaseStatus.ToString() == "6")
+                  {
+                     @Html.Raw("False Positive and Death Certificate Entered");
+                  }
+                </td>
                 <td class="td">@item.LastUpdatedBy, @item.DateLastUpdated</td>
                 <td class="td">
                                 
