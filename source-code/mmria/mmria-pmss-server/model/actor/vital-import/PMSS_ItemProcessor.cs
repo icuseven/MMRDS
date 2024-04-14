@@ -187,6 +187,98 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         var new_case = new mmria.pmss.case_version.v230616.mmria_case();
 
 
+        new_case.data_migration_history = new();
+        new_case.amss_tracking = new();
+        new_case.amss_tracking.admin_grp = new();
+        new_case.amss_tracking.assessment_grp = new();
+        new_case.amss_tracking.folder_grp = new();
+
+
+        new_case.cause_of_death = new();
+        new_case.cause_of_death.q28 = new();
+        new_case.cause_of_death.q29 = new();
+        new_case.cause_of_death.q30 = new();
+        new_case.cause_of_death.q31 = new();
+        new_case.cause_of_death.q33 = new();
+
+
+
+
+        new_case.committee_review = new();
+        new_case.committee_review.agreement_grp = new();
+        new_case.committee_review.rev_assessment_grp = new();
+        new_case.committee_review.reviewer_grp = new();
+   
+
+
+
+        new_case.demographic = new();
+        new_case.demographic.q12 = new();
+        new_case.demographic.q12.ethnicity = new();
+
+        new_case.outcome = new();
+        new_case.outcome.q25 = new();
+        new_case.outcome.dterm_grp = new();
+
+        new_case.preparer_remarks = new();
+        new_case.preparer_remarks.preparer_grp = new();
+        new_case.preparer_remarks.remarks_grp = new();
+        new_case.preparer_remarks.pdf_grp = new();
+
+
+
+
+        new_case.demographic.q12.group = new ();
+
+
+        new_case.demographic.q14 = new();
+        new_case.demographic.date_of_birth = new();
+
+        
+        new_case.tracking = new();
+        new_case.tracking.admin_info = new();
+        new_case.tracking.date_of_death = new();
+        
+ 
+        new_case.tracking.q1 = new();
+        new_case.tracking.q7 = new();
+        new_case.tracking.q9 = new();
+
+        
+        
+        new_case.ije_bc = new();
+        new_case.ije_bc.file_info = new();
+        new_case.ije_bc.delivery_info = new();
+        new_case.ije_bc.previous_info = new();
+        new_case.ije_bc.residence_mother = new();
+        new_case.ije_bc.demog_details = new();
+
+        
+        
+        new_case.ije_dc = new();
+        new_case.ije_dc.file_info = new();
+        new_case.ije_dc.death_info = new();
+        new_case.ije_dc.cause_details = new();
+        new_case.ije_dc.injury_details = new();
+        new_case.ije_dc.birthplace_mother = new();
+        new_case.ije_dc.residence_mother = new();
+        new_case.ije_dc.demog_details = new();
+        
+        
+        new_case.ije_fetaldc = new();
+        new_case.ije_fetaldc.file_info = new();
+        new_case.ije_fetaldc.delivery_info = new();
+        new_case.ije_fetaldc.condition_cause = new();
+        new_case.ije_fetaldc.previous_info = new();
+        new_case.ije_fetaldc.residence_mother = new();
+        new_case.ije_fetaldc.demog_details = new();
+        
+        
+        new_case.vro_case_determination = new();
+        new_case.vro_case_determination.cdc_case_matching_results = new();
+        new_case.vro_case_determination.vro_update = new();
+       
+
         
 
         //mmria.pmss.services.vitalsimport.default_case.create(metadata, new_case);

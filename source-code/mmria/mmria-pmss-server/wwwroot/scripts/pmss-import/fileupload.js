@@ -135,7 +135,7 @@ function setup_file_list()
                 else if 
                 (
                     data[0].length != 156 &&
-                    data[0].length != 558
+                    data[0].length != 562
                 ) 
                 {
                     g_validation_errors.push("csv columns != 150 or 555" + data.length);
