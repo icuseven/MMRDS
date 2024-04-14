@@ -1044,9 +1044,9 @@ Destination:
 
         var agedif_answer = calc_number_of_years
             (
-                date_of_death_year_double,
-                date_of_death_month_double,
-                date_of_death_day_double,
+                date_of_birth_year_double,
+                date_of_birth_month_double,
+                date_of_birth_day_double,
                 date_of_death_year_double,
                 date_of_death_month_double,
                 date_of_death_day_double
