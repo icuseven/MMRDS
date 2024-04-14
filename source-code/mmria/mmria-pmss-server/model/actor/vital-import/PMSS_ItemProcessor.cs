@@ -917,6 +917,120 @@ Destination:
 
 
 /*
+
+-	IF AgeDif IS BLANK then Calculate AgeDif		ELSE Transfer AgeDIf to Path: app/demographic/date_of_birth/agedif		[Current value in CSV-file: BLANK]
+-	IF DayDif is BLANK then Calculate DayDIf		ELSE Transfer DayDif to Path app/outcome/dterm_grp/daydif			[Current value in CSV-file: BLANK]	
+-	IF Race_OMB is BLANK then Calculate Race_OMB	ELSE Transfer Race_OMB to Path: app/demographic/q12/group/race_omb 	[Current value in CSV-file: BLANK]	
+-	IF BMI is BLANK then Calculate BMI			ELSE Transfer BMI to Path: app/demographic/bmi				[Current value in CSV-file: BLANK]
+
+
+-	IF AgeDif IS BLANK then Calculate AgeDif		ELSE Transfer AgeDIf to Path: app/demographic/date_of_birth/agedif	(DOD-DOB)	
+DESTINATION-FIELD: app/demographic/date_of_birth/agedif
+SOURCE-FIELDS:
+tracking/date_of_death/month		demographic/date_of_birth/month
+tracking/date_of_death/day		demographic/date_of_birth/day
+tracking/date_of_death/year		demographic/date_of_birth/year
+
+
+-	IF DayDif IS BLANK then Calculate DayDif		ELSE Transfer DayDif to Path:  app/outcome/dterm_grp/daydif		(DDEL - DOD)	
+DESTINATION-FIELD: : app/outcome/dterm_grp/daydif
+SOURCE-FIELDS
+tracking/date_of_death/month 		outcome/dterm_grp/dterm_mo
+tracking/date_of_death/day 		outcome/dterm_grp/dterm_dy
+tracking/date_of_death/year 		outcome/dterm_grp/dterm_yr
+//CALCULATE NUMBER OF DAYS BETWEEN 2 DATES
+
+
+
+-	IF BMI IS BLANK then Calculate BMI			ELSE Transfer BMI to Path: app/demographic/bmi		(WT/HT2)
+DESTINATION-FIELD: app/demographic/bmi
+SOURCE-FIELDS
+demographic/height
+demographic/wtpreprg
+//CALCLATE BMI FROM HEIGHT (IN INCHES)AND WEIGHT (IN POUNDS)
+function $calc_bmi(p_height, p_weight) 
+{
+    var bmi = null;
+    var height = parseInt(p_height);
+    var weight = parseInt(p_weight);
+    height /= 39.3700787;
+    weight /= 2.20462;
+    bmi = Math.round(weight / Math.pow(height, 2) * 10) / 10;
+    return bmi;
+}
+
+//CALCULATE BMI
+function $update_bmi
+(
+    height,
+    weight 
+)
+{
+    let my_height = null
+    let my_weight = null
+
+    if
+    (
+        height != null &&
+        height != '' &&
+        height != 99  &&
+        height != 999
+    )
+    {
+        my_height = height;
+    }
+    else
+    {
+        // ;
+    }
+
+    if
+    (
+        weight != null &&
+        weight != '' &&
+        weight != 666  &&
+        weight != 777 &&
+        weight != 999 
+    )
+    {
+        my_weight = weight;
+    }
+    else
+    {
+        // ;
+    }
+
+    if 
+    (
+        my_height != null && 
+        my_weight != null
+    )
+    {
+        let my_bmi = $global.calc_bmi
+        (
+            my_height,
+            my_weight
+        );
+        
+        g_data.demographic.bmi = my_bmi;
+        $mmria.set_control_value('demographic/bmi', my_bmi);
+    }
+    else
+    {
+        g_data.demographic.bmi = '';
+        $mmria.set_control_value('demographic/bmi', '');
+    }
+}
+
+
+
+
+*/
+
+
+
+
+/*
         var finished = new mmria.common.ije.BatchItem()
         {
             Status = mmria.common.ije.BatchItem.StatusEnum.NewCaseAdded,
@@ -985,6 +1099,88 @@ Destination:
 
     }
 
+    double? calc_bmi(double? height, double? weight) 
+    {
+
+
+
+        double? result = null;
+
+        if
+        (
+            !height.HasValue ||
+            height == 99  ||
+            height == 999
+        )
+        {
+            return result;
+        }
+
+        if
+        (
+            !weight.HasValue ||
+            weight == 666 ||
+            weight == 777 ||
+            weight == 999 
+        )
+        {
+            return result;
+        }
+
+
+        height /= 39.3700787;
+        weight /= 2.20462;
+        var temp = Math.Round(weight.Value / Math.Pow(height.Value, 2D) * 10D) / 10D;
+
+        if(!double.IsNaN(temp))
+            result = temp;
+
+
+        return result;
+    }
+
+    private double? calc_number_of_days
+    (
+        string date_of_delivery_year, 
+        string date_of_delivery_month,
+        string date_of_delivery_day,
+        string date_of_death_year,
+        string date_of_death_month,
+        string date_of_death_day
+    )
+    {
+            double? result = null;
+            int.TryParse(date_of_delivery_year, out int start_year);
+            int.TryParse(date_of_delivery_month, out int start_month);
+            int.TryParse(date_of_delivery_day, out int start_day);
+            int.TryParse(date_of_death_year, out int end_year);
+            int.TryParse(date_of_death_month, out int end_month);
+            int.TryParse(date_of_death_day, out int end_day);
+
+            if 
+            (
+                DateTime.TryParse
+                (   
+                    $"{start_year}/{start_month}/{start_day}", 
+                    out DateTime startDateTest
+                ) == true 
+                && 
+                DateTime.TryParse
+                (
+                    $"{end_year}/{end_month}/{end_day}", 
+                    out DateTime endDateTest
+                ) == true
+            ) 
+            {
+                var time_span = endDateTest - startDateTest;
+
+
+                var days = time_span.Days;
+                result = (double) days;
+            }
+
+           return result;
+    }
 
     GeocodeTuple get_geocode_info(string street, string city, string state, string zip)
     {
