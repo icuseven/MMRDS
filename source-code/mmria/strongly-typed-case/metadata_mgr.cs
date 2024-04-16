@@ -603,6 +603,7 @@ GridList
 		{
 			
 			case "form":
+			/*
 				if
 				(
 					value.cardinality == "+" ||
@@ -615,9 +616,12 @@ GridList
 				{
 					//builder.AppendLine($@"public _{dictionary_set[current_path].hash_value} {name}{{ get;set;}}");
 				}
+*/
+				constructorbuilder.AppendLine($"\t\t{name} = new ();");
 			break;
 			case "group":
 					//builder.AppendLine($@"public _{dictionary_set[current_path].hash_value} {name}{{ get;set;}}");
+					constructorbuilder.AppendLine($"\t\t{name} = new ();");
 			break;
 			case "grid":
 				//builder.AppendLine($@"public List<_{dictionary_set[current_path].hash_value}> {name}{{ get;set;}}");			
