@@ -316,18 +316,6 @@ public sealed partial class mmria_case
                 demographic.q14.occupation_code_3 = value;
                 result = true;
             break;
-            case "demographic/height":
-                demographic.height = value;
-                result = true;
-            break;
-            case "demographic/wtpreprg":
-                demographic.wtpreprg = value;
-                result = true;
-            break;
-            case "demographic/bmi":
-                demographic.bmi = value;
-                result = true;
-            break;
             case "cause_of_death/coder":
                 cause_of_death.coder = value;
                 result = true;
@@ -1520,6 +1508,10 @@ public sealed partial class mmria_case
                 ije_fetaldc.delivery_info.cnty_d_fdc = value;
                 result = true;
             break;
+            case "ije_fetaldc/delivery_info/city_d_fdc":
+                ije_fetaldc.delivery_info.city_d_fdc = value;
+                result = true;
+            break;
             case "ije_fetaldc/delivery_info/tran_fdc":
                 ije_fetaldc.delivery_info.tran_fdc = value;
                 result = true;
@@ -2265,6 +2257,18 @@ public sealed partial class mmria_case
                 demographic.autopsy3 = value;
                 result = true;
             break;
+            case "demographic/height":
+                demographic.height = value;
+                result = true;
+            break;
+            case "demographic/wtpreprg":
+                demographic.wtpreprg = value;
+                result = true;
+            break;
+            case "demographic/bmi":
+                demographic.bmi = value;
+                result = true;
+            break;
             case "demographic/prevlb":
                 demographic.prevlb = value;
                 result = true;
@@ -2479,10 +2483,6 @@ public sealed partial class mmria_case
             break;
             case "ije_fetaldc/file_info/replace_fdc":
                 ije_fetaldc.file_info.replace_fdc = value;
-                result = true;
-            break;
-            case "ije_fetaldc/delivery_info/city_d_fdc":
-                ije_fetaldc.delivery_info.city_d_fdc = value;
                 result = true;
             break;
             case "ije_fetaldc/delivery_info/attend_fdc":

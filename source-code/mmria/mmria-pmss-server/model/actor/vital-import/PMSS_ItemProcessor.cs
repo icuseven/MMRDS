@@ -11,6 +11,7 @@ using mmria_pmss_client.Models.IJE;
 using TinyCsvParser;
 using mmria.common.model.couchdb;
 using mmria.pmss.case_version.v230616;
+using System.Security.Policy;
 
 namespace mmria.pmss.services.vitalsimport;
 
@@ -186,7 +187,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         //var new_case = new System.Dynamic.ExpandoObject();
         var new_case = new mmria.pmss.case_version.v230616.mmria_case();
 
-
+/*
         new_case.data_migration_history = new();
         new_case.amss_tracking = new();
         new_case.amss_tracking.admin_grp = new();
@@ -277,7 +278,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
         new_case.vro_case_determination = new();
         new_case.vro_case_determination.cdc_case_matching_results = new();
         new_case.vro_case_determination.vro_update = new();
-       
+       */
 
         
 
@@ -559,8 +560,12 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
 
                 var data_type = metadata_node.type.ToLower();
+                var is_a_list = false;
+
                 if(data_type == "list")
                 {
+                    is_a_list = true;
+
                     if
                     (
                         metadata_node.is_multiselect != null &&
@@ -751,7 +756,54 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
                     case "string":
                     case "textarea":
-                        set_result = new_case.SetS_String
+                        HashSet<string> Padding_Path_List = new(StringComparer.OrdinalIgnoreCase)
+                        {
+                            "tracking/statdth",
+                            "tracking/q9/statres",
+                            "tracking/admin_info/jurisdiction"
+                        };
+
+                        if(Padding_Path_List.Contains(mmria_path))
+                        {
+                            if(string.IsNullOrWhiteSpace(data))
+                            {
+                                set_result = new_case.SetS_String
+                                (
+                                    mmria_path, 
+                                    "9999"
+                                );
+                            }
+                            else if(data.Length < 2)
+                            {
+                                set_result = new_case.SetS_String
+                                (
+                                    mmria_path, 
+                                    data.PadLeft(2, '0')
+                                );
+                            }
+                            else set_result = new_case.SetS_String
+                            (
+                                mmria_path, 
+                                data
+                            );
+                        }                        
+                        else if(mmria_path == "tracking/q1/amssno")
+                        {
+                            if(string.IsNullOrWhiteSpace(data))
+                            {
+                                set_result = new_case.SetS_String
+                                (
+                                    mmria_path, 
+                                    "00000"
+                                );
+                            }
+                            else set_result = new_case.SetS_String
+                            (
+                                mmria_path, 
+                                data.PadLeft(5, '0')
+                            );
+                        }
+                        else set_result = new_case.SetS_String
                         (
                             mmria_path, 
                             data
@@ -973,7 +1025,7 @@ Destination:
         string race_other = get_string_value("demographic/q12/group/race_other");
         string race_notspecified = get_string_value("demographic/q12/group/race_notspecified");
         
-        int? omb = calc_race_omb
+        double? omb = calc_race_omb
         (
             race_white,
             race_black,
@@ -996,15 +1048,14 @@ Destination:
         
         if(omb.HasValue)
         {
-            omb_string_value = omb.ToString();
+            set_double_value(omb_path, omb.Value);
         }
         else
         {
-            omb_string_value = "9999";
+            set_double_value(omb_path, 9999);
         }
             
-
-        gs.set_value(omb_path, omb_string_value, new_case);
+        
     }
 
 
@@ -1057,9 +1108,9 @@ Destination:
 
         var daydif_answer = calc_number_of_days
             (
-                date_of_death_year_double,
-                date_of_death_month_double,
-                date_of_death_day_double,
+                outcome_year_double,
+                outcome_month_double,
+                outcome_day_double,
                 date_of_death_year_double,
                 date_of_death_month_double,
                 date_of_death_day_double

@@ -170,7 +170,7 @@ namespace mmria.case_version.v1;");*/
                 //test_case = await System.Text.Json.JsonSerializer.DeserializeAsync<mmria.case_version.v1.mmria_case>(stream);
                 //var json = System.IO.File.ReadAllText("json-convert-test/23.11.08.json");
                 var json_element = await System.Text.Json.JsonSerializer.DeserializeAsync<System.Text.Json.JsonDocument>(stream);
-                test_case.Convert(json_element.RootElement);
+                //test_case.Convert(json_element.RootElement);
                 
 
                 if(test_case == null)
@@ -181,7 +181,7 @@ namespace mmria.case_version.v1;");*/
                 //stream.Close();
                 //await stream.DisposeAsync();
                 
-                System.Console.WriteLine($"case version: {test_case.version}");
+                //System.Console.WriteLine($"case version: {test_case.version}");
 
                 var test_case_json = System.Text.Json.JsonSerializer.Serialize(test_case);
                 //System.Console.WriteLine(test_case_json);
@@ -201,7 +201,7 @@ namespace mmria.case_version.v1;");*/
                 var test_case2 = System.Text.Json.JsonSerializer.Deserialize<mmria.case_version.v1.mmria_case>(test_case_json, options);
                 if(test_case2 != null)
                 {
-                    System.Console.WriteLine($"case version: {test_case2.version}");
+                    //System.Console.WriteLine($"case version: {test_case2.version}");
 
                     //System.Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(test_case));
                 }
