@@ -184,7 +184,7 @@ public sealed class c_sync_document
         }
     
         
-
+        return;
 
         try
         {
@@ -224,7 +224,7 @@ public sealed class c_sync_document
         }
 
 
-
+        
         try
         {
             string opioid_report_json = new mmria.pmss.server.utils.c_convert_to_opioid_report_object(document_json, "overdose", metadata_version, db_config).execute();
