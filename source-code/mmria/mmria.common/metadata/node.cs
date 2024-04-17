@@ -3,6 +3,8 @@ namespace mmria.common.metadata;
 
 public sealed class node
 {
+    public node() {} 
+
     public string prompt { get; set; }
     public string name { get; set; }
     public string type { get; set; }
@@ -87,11 +89,9 @@ public sealed class node
     public bool? is_not_selectable { get; set; } 
     public string sort_order { get; set; }
 
-    public node()
-    {
+    public string committee_description { get; set; }
 
-    } 
-        //
+
 
 }
 

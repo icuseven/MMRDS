@@ -812,6 +812,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 					result.push('</textarea> </li>');			
 				break;
 			case "validation_description":
+            case "committee_description":
 			case "description":
             case "other_specify_list":
             case "parent_list":     
@@ -1099,6 +1100,7 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('">');
 	result.push('<option></option>');
     result.push('<option>description</option>');
+    result.push('<option>committee_description</option>');
     result.push('<option>other_specify_list</option>');
     result.push('<option>parent_list</option>');
     result.push('<option>is_hidden</option>');
@@ -1764,6 +1766,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "regex_pattern":
 			case "validation":
 			case "validation_description":
+            case "committee_description":
 			case "onfocus":
 			case "onchange":
 			case "onblur":
