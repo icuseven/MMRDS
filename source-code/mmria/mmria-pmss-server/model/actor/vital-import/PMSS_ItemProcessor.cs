@@ -1175,6 +1175,23 @@ Destination:
     }
 
 
+    var pmssno_path = "tracking/admin_infor/pmssno";
+    
+    var pmssno = get_string_value(pmssno_path);
+    if(string.IsNullOrWhiteSpace(pmssno))
+    {
+        var prefix_path = "tracking/admin_info/jurisdiction";
+        var prefix = get_string_value(prefix_path);
+        if(!string.IsNullOrWhiteSpace(prefix))
+        {
+            pmssno = GetNextPMSSNumber(prefix);
+            set_string_value(pmssno_path, pmssno);
+        }
+            
+    }
+
+    
+
 /*
         var finished = new mmria.common.ije.BatchItem()
         {
@@ -2301,6 +2318,42 @@ private void get_metadata_node_by_type(ref List<Metadata_Node> p_result, mmria.c
         }
 
         return race_omb;
+    }
+
+
+    public string GetNextPMSSNumber
+    (
+        string prefix
+    )
+    {
+        var result = new List<string>();
+
+        var prefix_array = prefix.Split("-");
+
+        try
+        {
+            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_pmss_number?skip=0&take=250000";
+
+            var case_view_curl = new mmria.pmss.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+            string responseFromServer = case_view_curl.execute();
+
+            mmria.common.model.couchdb.pmss_case_view_response case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pmss_case_view_response>(responseFromServer);
+
+            foreach (mmria.common.model.couchdb.pmss_case_view_item cvi in case_view_response.rows)
+            {
+                if(cvi.value.pmssno.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                {
+                    result.Add(cvi.value.pmssno);
+                }
+
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+
+        return $"{prefix}-{(result.Count + 1).ToString().PadLeft(4,'0')}";
     }
 
 
