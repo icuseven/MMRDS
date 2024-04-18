@@ -1298,7 +1298,7 @@ var $mmria = function()
                         <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,97) + "..." : p_title}</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
-                    <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+                    <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 250px;" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                             
                                 ${p_inner_html}
