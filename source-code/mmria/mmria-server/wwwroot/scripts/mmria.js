@@ -1272,7 +1272,60 @@ var $mmria = function()
             let el = document.getElementById("dictionary-lookup-id");
             el.close();
         },
+        committee_description_dialog_show: async function (p_title, p_inner_html)
+        {
 
+            let element = document.getElementById("dictionary-lookup-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "dictionary-lookup-id");
+                    element.setAttribute("role", "dialog");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.maxWidth = "1024px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "600px";
+                element.style.overflow = "hidden";
+    
+                let html = [];
+                html.push(`
+                    <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,97) + "..." : p_title}</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                            
+                                ${p_inner_html}
+                            
+                        </div>
+
+                    </div>
+                    <div>
+                    <footer class="modal-footer">
+                        <button id="committee_description_dialog_click" class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+                    </footer>
+                    </div>
+                `);
+    
+                element.innerHTML = html.join("");
+
+                mmria_pre_modal("dictionary-lookup-id");
+                
+                window.setTimeout(()=> { const committee_description_dialog_button = document.getElementById("committee_description_dialog_click"); committee_description_dialog_button.focus(); }, 0);
+                element.showModal();
+        },
+        committee_description_dialog_click: function ()
+        {
+            mmria_post_modal();
+            let el = document.getElementById("dictionary-lookup-id");
+            el.close();
+        },
         converter_calculater_dialog_show: async function ()
         {
             let element = document.getElementById("converter-calculater-id");

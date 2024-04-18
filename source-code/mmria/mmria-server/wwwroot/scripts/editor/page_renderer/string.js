@@ -175,7 +175,7 @@ async function on_abstractor_committee_dictionary_lookup_click(p_path)
     const result = []
     render_search_result(result, p_path.toLowerCase(), true);
 
-    await $mmria.data_dictionary_dialog_show
+    await $mmria.committee_description_dialog_show
     (
         `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
         result.join("")
@@ -313,6 +313,35 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				description = p_metadata.description;
 			}
 
+            if
+            (
+                p_is_abstractor_committee != null &&
+                p_is_abstractor_committee == true
+            )
+            {
+
+                p_result.push(`
+                    
+                            <table class="table table--standard rounded-0 mb-3" style="font-size: 14px" >
+                                <thead class="thead">
+                                    <tr class="tr bg-gray-l2">
+                                        <th class="th" width="1080" scope="colgroup">Committee Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbody">	
+                                <tr class="tr">
+                                    <td class="td">${p_metadata.committee_description}</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        
+                `);
+
+
+                return;
+            }
+
+
 			if(p_metadata.type.toLowerCase() == "list")
 			{
 				let value_list = p_metadata.values;
@@ -328,44 +357,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				}
 
 
-                if
-                (
-                    p_is_abstractor_committee != null &&
-                    p_is_abstractor_committee == true
-                )
-                {
 
-                    list_values.push(`
-                        <tr class="tr">
-                            <td class="td" width="140"></td>
-                            <td class="td p-0" colspan="5">
-                                <table class="table table--standard rounded-0 m-0">
-                                    <thead class="thead">
-                                        <tr class="tr bg-gray-l2">
-                                            <th class="th" colspan="5" width="1080" scope="colgroup">Committee Description</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="tbody">	
-                    `);
-                               
-                                    list_values.push(`
-									<tr class="tr">
-										<td class="td">${p_metadata.committee_description}</td>
-									</tr>
-						        `);
-                                
-
-
-				
-                    list_values.push(`
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td class="td" colspan="2"></td>
-                        </tr>
-                    `);
-
-                }
 
 				list_values.push(`
 					<tr class="tr">
