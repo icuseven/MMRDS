@@ -60,11 +60,11 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
                    ${pDescription && pDescription.length > 0 ? `rel="tooltip" data-original-title="${pDescription.replace(/'/g, "\\'")}"` : ''}
                    ${pValidationDescript && pValidationDescript.length > 0 ? `validation-tooltip="${p_validation_description.replace(/'/g, "\\'")}"` : ''}>
                 ${p_metadata.prompt}
-                ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                ${render_data_analyst_dictionary_link
                     (
                         p_metadata, 
                         p_dictionary_path
-                    ) : ""}
+                    )}
             </label>
         `);
 
@@ -84,14 +84,50 @@ function render_data_analyst_dictionary_link
     p_dictionary_path
 )
 {
-    return `
-    <a 
-        class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
-        data-toggle="tooltip" 
-        data-placement="bottom"
-        onclick="on_dictionary_lookup_click('${p_dictionary_path}')" >
-    </a>
-`;
+
+/*
+
+                ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
+                (
+                    p_ctx.metadata, 
+                    p_ctx.mmria_path
+                ) : ""}
+            
+
+*/
+
+    if(g_is_data_analyst_mode)
+    {
+        return `
+        <a 
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
+            data-toggle="tooltip" 
+            data-placement="bottom"
+            onclick="on_dictionary_lookup_click('${p_dictionary_path}')" >
+        </a>
+    `;
+    }
+    else if
+    (
+        window.location.pathname == "/abstractorDeidentifiedCase" &&
+        p_metadata.committee_description != null &&
+        p_metadata.committee_description != ""
+
+    )
+    {
+        return `
+        <a 
+            class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1" 
+            data-toggle="tooltip" 
+            data-placement="bottom"
+            onclick="on_abstractor_committee_dictionary_lookup_click('${p_dictionary_path}')" >
+        </a>
+    `;
+    }
+    else
+    {
+        return ``;
+    }
 
 }
 
@@ -123,12 +159,34 @@ async function on_dictionary_lookup_click(p_path)
 
 
 
+async function on_abstractor_committee_dictionary_lookup_click(p_path)
+{
+    if(g_release_version_specification == null)
+    {
+
+        response = await $.ajax({
+            url: `${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version}`
+        });
+
+        g_release_version_specification = response;
+    }
+	
+
+    const result = []
+    render_search_result(result, p_path.toLowerCase(), true);
+
+    await $mmria.data_dictionary_dialog_show
+    (
+        `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
+        result.join("")
+    );
+}
 
 
-function render_search_result(p_result, p_path)
+function render_search_result(p_result, p_path, p_is_abstractor_committee)
 {
 	selected_dictionary_info = {};
-	render_search_result_item(p_result, g_metadata, "", null, p_path.toLowerCase());
+	render_search_result_item(p_result, g_metadata, "", null, p_path.toLowerCase(), p_is_abstractor_committee);
 }
 
 
@@ -137,7 +195,7 @@ function render_search_result(p_result, p_path)
 let last_form = null;
 let selected_dictionary_info = {};
 
-function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
+function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text, p_is_abstractor_committee)
 {
 
     if(p_metadata.mirror_reference != null && p_metadata.mirror_reference != "")
@@ -153,7 +211,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				{
 					let item = p_metadata.children[i];
 
-					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
 				}
 			}
 			else
@@ -164,7 +222,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					{
 						let item = p_metadata.children[i];
 
-						render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
+						render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
 					}
 				}
 			}
@@ -185,11 +243,11 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 				if(form_filter.toLowerCase() == "(any form)")
 				{
-					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
 				}
 				else if(item.type.toLowerCase() == "form")
 				{
-					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
+					render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
 				}
 				
 			}
@@ -200,7 +258,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			for(let i = 0; i < p_metadata.children.length; i++)
 			{
 				let item = p_metadata.children[i];
-				render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text);
+				render_search_result_item(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
 			}
 			break;
 
@@ -269,6 +327,46 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					}
 				}
 
+
+                if
+                (
+                    p_is_abstractor_committee != null &&
+                    p_is_abstractor_committee == true
+                )
+                {
+
+                    list_values.push(`
+                        <tr class="tr">
+                            <td class="td" width="140"></td>
+                            <td class="td p-0" colspan="5">
+                                <table class="table table--standard rounded-0 m-0">
+                                    <thead class="thead">
+                                        <tr class="tr bg-gray-l2">
+                                            <th class="th" colspan="5" width="1080" scope="colgroup">Committee Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">	
+                    `);
+                               
+                                    list_values.push(`
+									<tr class="tr">
+										<td class="td">${p_metadata.committee_description}</td>
+									</tr>
+						        `);
+                                
+
+
+				
+                    list_values.push(`
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td class="td" colspan="2"></td>
+                        </tr>
+                    `);
+
+                }
+
 				list_values.push(`
 					<tr class="tr">
 						<td class="td" width="140"></td>
@@ -288,7 +386,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 								</thead>
 								<tbody class="tbody">	
 				`);
-
+                    
 					for(let i= 0; i < value_list.length; i++)
 					{
 						list_values.push(`
