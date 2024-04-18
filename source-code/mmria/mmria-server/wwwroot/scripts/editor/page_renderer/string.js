@@ -325,7 +325,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                             <table class="table table--standard rounded-0 mb-3" style="font-size: 14px" >
                                 <thead class="thead">
                                     <tr class="tr bg-gray-l2">
-                                        <th class="th" width="1080" scope="colgroup">Committee Description</th>
+                                        <th class="th" width="1080" scope="colgroup">Committee Decisions Form - Note</th>
                                     </tr>
                                 </thead>
                                 <tbody class="tbody">	
