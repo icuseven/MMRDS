@@ -1184,7 +1184,7 @@ function get_header_reporting_period(value)
             result = `Q3-${year_two_digit} (Jul-Sep ${year_string})`;
         break;
         case 'Q4':
-            result = `Q3-${year_two_digit} (Oct-Dec ${year_string})`;
+            result = `Q4-${year_two_digit} (Oct-Dec ${year_string})`;
         break;
 
     }
