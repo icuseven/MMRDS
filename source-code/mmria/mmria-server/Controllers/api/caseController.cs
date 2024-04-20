@@ -227,11 +227,22 @@ public sealed class caseController: ControllerBase
                 Console.WriteLine(ex);
             }
 
-            if (!result.ok  && string.IsNullOrWhiteSpace(result.error_description))
+            if (!result.ok)
+             
             {
-                result.error_description = save_response_from_server;
                 Console.Write($"save failed for: {id_val}");
-                Console.Write($"save_response:\n{save_response_from_server}");
+                if(string.IsNullOrWhiteSpace(result.error_description))
+                {
+                    result.error_description = save_response_from_server;
+                }
+                else
+                {
+                    result.error_description = result.error_description;
+                }
+
+                Console.Write($"save_response:\n{result.error_description}");
+                
+                
             }
 
 
