@@ -154,6 +154,7 @@ public sealed class caseController: ControllerBase
 
                 if(! is_match)
                 {
+                    result.error_description = $"No Match On Id Format: Id:{id_val}";
                     return result;
                 }
             }
