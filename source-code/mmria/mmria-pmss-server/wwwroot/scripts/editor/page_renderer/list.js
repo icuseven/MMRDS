@@ -1992,7 +1992,9 @@ async function list_apply_dependent_change
     ).join('');
     child_element.innerHTML = render_result;
 
-    const child_control = document.getElementById(`${convert_object_path_to_jquery_id("g_data." + p_dictionary_path.replace(/\//g, "."))}_control`);
+    const child_document_id = `${convert_object_path_to_jquery_id("g_data." + p_dictionary_path.replace(/\//g, "."))}_control`;
+
+    const child_control = document.getElementById(child_document_id);
     if(child_control.options.length == 1)
     {
         child_control.setAttribute("disabled","disabled");
@@ -2000,7 +2002,7 @@ async function list_apply_dependent_change
 
     //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
 
-    const f_name = "x" + path_to_int_map[p_metadata_path].toString(16) + "_ocl";
+    const f_name = "x" + path_to_int_map[metadata_path].toString(16) + "_ocl";
     let ocl_code = "";
 
     if(f_name != null && f_name != '')
@@ -2008,8 +2010,7 @@ async function list_apply_dependent_change
         ocl_code = `
             ${f_name}.call
             (
-                ${p_object_path.substring(0, p_object_path.lastIndexOf("."))},
-                , ${child_control}
+                ${p_object_path.substring(0, p_object_path.lastIndexOf("."))}, document.getElementById('${child_document_id}')
             );
         `;
 

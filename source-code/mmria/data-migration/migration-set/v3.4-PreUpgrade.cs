@@ -111,8 +111,7 @@ public sealed class v3_4_PreUpgrade
 			System.Console.WriteLine(host_db_url);
 			
 			var id_record_id_tuple = GetIdList();
-
-			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
+			//var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
 
 			//mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
 			//System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");

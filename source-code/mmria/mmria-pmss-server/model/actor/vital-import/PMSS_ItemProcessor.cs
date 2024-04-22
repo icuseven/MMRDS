@@ -760,7 +760,8 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
                         {
                             "tracking/statdth",
                             "tracking/q9/statres",
-                            "tracking/admin_info/jurisdiction"
+                            "tracking/admin_info/jurisdiction",
+                            "demographic/q12/matbplc_us"
                         };
 
                         if(Padding_Path_List.Contains(mmria_path))
@@ -1175,7 +1176,7 @@ Destination:
     }
 
 
-    var pmssno_path = "tracking/admin_infor/pmssno";
+    var pmssno_path = "tracking/admin_info/pmssno";
     
     var pmssno = get_string_value(pmssno_path);
     if(string.IsNullOrWhiteSpace(pmssno))
