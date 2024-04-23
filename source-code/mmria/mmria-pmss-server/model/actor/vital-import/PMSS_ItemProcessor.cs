@@ -1185,10 +1185,14 @@ Destination:
         var year_path = "tracking/admin_info/track_year";
 
         var jurisdiction = get_string_value(jurisdiction_path);
-        var year_string = get_string_value(year_path);
+        var year_number = get_number(year_path);
 
-        if(year_string?.Length > 2)
-            year_string = year_string?.ToString()[2..];
+        var year_string = "00";
+
+        if(year_number.HasValue)
+        {
+             year_string = year_number.ToString().PadLeft(4,'0')[2..];
+        }  
 
         var prefix = $"{jurisdiction}-{year_string}";
         if(!string.IsNullOrWhiteSpace(prefix))
