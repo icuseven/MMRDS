@@ -1030,7 +1030,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             var hr_cdc_icd = hr_cdc_icd_values.Where(x=> x.value == mor_field_set["ICD10_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_checkbox = hr_cdc_checkbox_values.Where(x=> x.value == mor_field_set["PREGCB_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
-            //var hr_cdc_other = hr_cdc_other_values.Where(x=> x.value == mor_field_set["HR_CDC_OTHER"]).Select(x=> x.value).FirstOrDefault();
+            var hr_cdc_other = hr_cdc_other_values.Where(x=> x.value == mor_field_set["HR_CDC_OTHER"]).Select(x=> x.value).FirstOrDefault();
             
             gs.set_value(IJE_to_MMRIA_Path["HR_CDC_OTHER"], mor_field_set["HR_CDC_OTHER"], new_case);
 
