@@ -33,6 +33,8 @@ public sealed class BatchItemProcessor : ReceiveActor
         //6 home_record/first_name - GNAME*/}
         { "GNAME", "home_record/first_name" },
 
+        {"HR_CDC_OTHER", "home_record/automated_vitals_group/hr_cdc_other"},
+
         //Rest of Mor mappings
         //{"DOD_YR","home_record/date_of_death/Year"},
         //{"DSTATE","home_record/state_of_death_record"},
@@ -1018,7 +1020,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             var hr_cdc_icd_values = get_metadata_value_node("home_record/automated_vitals_group/icd10_match", metadata);
             var hr_cdc_checkbox_values = get_metadata_value_node("home_record/automated_vitals_group/pregcb_match", metadata);
             var hr_cdc_literalcod_values = get_metadata_value_node("home_record/automated_vitals_group/literalcod_match", metadata);
-
+            var hr_cdc_other_values =  get_metadata_value_node("home_record/automated_vitals_group/hr_cdc_other", metadata);
 
             var hr_cdc_match_det_bc = hr_cdc_match_det_bc_values.Where(x=> x.value == mor_field_set["BC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_match_det_fdc = hr_cdc_match_det_fdc_values.Where(x=> x.value == mor_field_set["FDC_DET_MATCH"]).Select(x=> x.display).FirstOrDefault();
@@ -1027,8 +1029,8 @@ public sealed class BatchItemProcessor : ReceiveActor
             var hr_cdc_icd = hr_cdc_icd_values.Where(x=> x.value == mor_field_set["ICD10_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_checkbox = hr_cdc_checkbox_values.Where(x=> x.value == mor_field_set["PREGCB_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
-
-
+            var hr_cdc_other = hr_cdc_other_values.Where(x=> x.value == mor_field_set["HR_CDC_OTHER"]).Select(x=> x.display).FirstOrDefault();
+            
             var string_builder = new System.Text.StringBuilder();
             
             
@@ -1041,6 +1043,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             string_builder.AppendLine($"5) CDC Identified ICD-10 Code Indicating Pregnancy on Death Certificate: {hr_cdc_icd}");
             string_builder.AppendLine($"6) CDC Identified Pregnancy Checkbox Indicating Pregnancy on Death Certificate: {hr_cdc_checkbox}");
             string_builder.AppendLine($"7) CDC Identified Literal Cause of Death that Included Pregnancy Related Term on Death Certificate: {hr_cdc_literalcod}");
+            string_builder.AppendLine($"8) CDC Other Identification Method: DISPLAY TEXT FROM FIELD: {hr_cdc_other}");
             
             gs.set_value("home_record/automated_vitals_group/vital_report", string_builder.ToString(), new_case);
             //  Vital Report End
@@ -1457,7 +1460,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             gs.set_value(IJE_to_MMRIA_Path["ICD10_MATCH"], mor_field_set["ICD10_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["PREGCB_MATCH"], mor_field_set["PREGCB_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["LITERALCOD_MATCH"], mor_field_set["LITERALCOD_MATCH"], new_case);
-
+            gs.set_value(IJE_to_MMRIA_Path["HR_CDC_OTHER"], mor_field_set["HR_CDC_OTHER"], new_case);
 
             // death_certificate/vitals_import_group/vital_summary_text - begin
             string_builder.Clear();
@@ -3804,6 +3807,8 @@ GNAME 27 50
         result.Add("ICD10_MATCH", row.Substring(4997, 1).Trim());
         result.Add("PREGCB_MATCH", row.Substring(4998, 1).Trim());
         result.Add("LITERALCOD_MATCH", row.Substring(4999, 1).Trim());
+
+        result.Add("HR_CDC_OTHER", row.Substring(4991, 1).Trim());
 
 
         return result;
