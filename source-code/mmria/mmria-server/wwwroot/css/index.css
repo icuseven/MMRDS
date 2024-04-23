@@ -7455,7 +7455,7 @@ button.bg-dark:focus {
   padding-right: 1rem !important;
 }
 
-.pb-3,
+.pb-3, .statement-info,
 .py-3 {
   padding-bottom: 1rem !important;
 }
@@ -37263,6 +37263,52 @@ span.reverse {
   background-image: url(/img/Purple-Pattern-Light.png);
   background-repeat: round;
   background-size: cover;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid-item > div {
+  height: 100%;
+}
+
+/* Grid system for 1/3 || 25% */
+.grid-item.grid-item-3 {
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  width: calc(33.3333333333% - 1rem + 0.3333333333rem);
+}
+
+/* All children except for 1st in every row */
+.grid-item.grid-item-3:nth-child(3n) {
+  margin-right: 0;
+}
+
+thead {
+  border-left: 1px solid #cccccc !important;
+  border-right: 1px solid #cccccc !important;
+}
+
+.flex-break {
+  flex-basis: 100%;
+  height: 0;
+}
+
+.statement-info {
+  font-size: smaller;
+}
+
+.statement {
+  background-color: var(--white);
+  border: 1px solid #cccccc;
+  border-radius: var(--radius);
+  display: inline-block;
+  padding: 8px;
+}
+.statement > p {
+  font-size: 90%;
 }
 
 /*# sourceMappingURL=index.css.map */
