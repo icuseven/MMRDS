@@ -1012,6 +1012,7 @@ public sealed class BatchItemProcessor : ReceiveActor
 
             gs.set_value("home_record/automated_vitals_group/import_date", current_date_iso_string, new_case);
 
+            
             //  Vital Report Start
             var hr_cdc_match_det_bc_values = get_metadata_value_node("home_record/automated_vitals_group/bc_det_match", metadata);
             var hr_cdc_match_det_fdc_values = get_metadata_value_node("home_record/automated_vitals_group/fdc_det_match", metadata);
@@ -1031,6 +1032,8 @@ public sealed class BatchItemProcessor : ReceiveActor
             var hr_cdc_literalcod = hr_cdc_literalcod_values.Where(x=> x.value == mor_field_set["LITERALCOD_MATCH"]).Select(x=> x.display).FirstOrDefault();
             var hr_cdc_other = hr_cdc_other_values.Where(x=> x.value == mor_field_set["HR_CDC_OTHER"]).Select(x=> x.display).FirstOrDefault();
             
+            gs.set_value(IJE_to_MMRIA_Path["HR_CDC_OTHER"], hr_cdc_other, new_case);
+
             var string_builder = new System.Text.StringBuilder();
             
             
@@ -1460,7 +1463,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             gs.set_value(IJE_to_MMRIA_Path["ICD10_MATCH"], mor_field_set["ICD10_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["PREGCB_MATCH"], mor_field_set["PREGCB_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["LITERALCOD_MATCH"], mor_field_set["LITERALCOD_MATCH"], new_case);
-            gs.set_value(IJE_to_MMRIA_Path["HR_CDC_OTHER"], mor_field_set["HR_CDC_OTHER"], new_case);
+
 
             // death_certificate/vitals_import_group/vital_summary_text - begin
             string_builder.Clear();

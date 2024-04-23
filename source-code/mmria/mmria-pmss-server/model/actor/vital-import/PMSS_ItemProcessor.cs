@@ -1181,8 +1181,16 @@ Destination:
     var pmssno = get_string_value(pmssno_path);
     if(string.IsNullOrWhiteSpace(pmssno))
     {
-        var prefix_path = "tracking/admin_info/jurisdiction";
-        var prefix = get_string_value(prefix_path);
+        var jurisdiction_path = "tracking/admin_info/jurisdiction";
+        var year_path = "tracking/admin_info/track_year";
+
+        var jurisdiction = get_string_value(jurisdiction_path);
+        var year_string = get_string_value(year_path);
+
+        if(year_string?.Length > 2)
+            year_string = year_string?.ToString()[2..];
+
+        var prefix = $"{jurisdiction}-{year_string}";
         if(!string.IsNullOrWhiteSpace(prefix))
         {
             pmssno = GetNextPMSSNumber(prefix);
