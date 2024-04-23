@@ -1929,7 +1929,7 @@ async function list_check_for_dependent_change
             "Confirm Selection", 
             "",
             `Are you sure you want to change the <strong>${metadata.prompt}</strong> list box? selection? The text in the <strong>${child_metadata.prompt}</strong> child list will be cleared.`,
-            new Function(`list_apply_dependent_change("${p_object_path}","${p_parent_path}","${current_value}");`),
+            new Function(`list_apply_dependent_change("${p_metadata_path}","${p_object_path}","${p_parent_path}","${current_value}");`),
             new Function(`list_apply_dependent_change_cancel("${p_object_path}","${p_parent_path}","${p_data}");`)
         
         );
@@ -1946,6 +1946,7 @@ async function list_check_for_dependent_change
 
 async function list_apply_dependent_change
 (
+    p_metadata_path,
     p_object_path,
     p_parent_path,
     p_data
@@ -2002,12 +2003,12 @@ async function list_apply_dependent_change
 
     //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
 
-    const f_name = "x" + path_to_int_map[metadata_path].toString(16) + "_ocl";
+    const f_name = "x" + path_to_int_map[metadata_path].toString(16) + "_och";
     let ocl_code = "";
 
     if(f_name != null && f_name != '')
     {
-        ocl_code = `
+        ocl_code = `if(typeof ${f_name} !=='undefined')
             ${f_name}.call
             (
                 ${p_object_path.substring(0, p_object_path.lastIndexOf("."))}, document.getElementById('${child_document_id}')
@@ -2016,21 +2017,27 @@ async function list_apply_dependent_change
 
         eval(ocl_code);
     }
+   /* */
+   
+
+
 
     let form_index = null;
     let grid_index = null;
     
+   /* 
     if(p_ctx!=null)
     {
         form_index = p_ctx.form_index;
         grid_index = p_ctx.grid_index;
     }
+    */
 
     const onblur_code = `g_set_data_object_from_path
     (
         "${p_object_path}",
         "${p_metadata_path}",
-        "${p_dictionary_path},
+        "${p_dictionary_path}",
         ${p_data},
         ${form_index},
         ${grid_index}

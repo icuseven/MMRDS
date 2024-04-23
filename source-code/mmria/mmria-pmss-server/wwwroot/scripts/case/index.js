@@ -516,6 +516,15 @@ async function g_set_data_object_from_path
         }
       }
     } 
+    else if(typeof value == "number")
+    {
+        eval(
+            p_object_path +
+              ' = "' +
+              value +
+              '"'
+          );
+    }
     else 
     {
       eval(
@@ -2193,8 +2202,8 @@ async function process_save_case()
     let save_case_request = { 
             Change_Stack:{
                 _id: $mmria.get_new_guid(),
-                case_id: g_data._id,
-                case_rev: g_data._rev,
+                case_id: p_data._id,
+                case_rev: p_data._rev,
                 date_created: new Date().toISOString(),
                 user_name: g_user_name, 
                 items: g_change_stack,
@@ -2204,12 +2213,12 @@ async function process_save_case()
             },
             Case_Data:p_data
         };
-
+/*
     if(g_case_narrative_is_updated)
     {
         save_case_request.Change_Stack.items.push({
-            _id: g_data._id,
-            _rev: g_data._rev,
+            _id: p_data._id,
+            _rev: p_data._rev,
           object_path: "g_data.case_narrative.case_opening_overview",
           metadata_path: "/case_narrative/case_opening_overview",
           old_value: g_case_narrative_original_value,
@@ -2220,7 +2229,7 @@ async function process_save_case()
           date_created: g_case_narrative_is_updated_date.toISOString(),
           user_name: g_user_name
         });
-    }
+    }*/
 
 
     let case_response = {};
