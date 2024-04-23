@@ -1,20 +1,432 @@
-﻿@page "/test2"
+﻿@page "/home"
+@using System.Security.Claims
+@using BurdenStatement
+
+@{ 
+  var is_guest = false;
+  var is_abstractor = true;
+  var is_authenticated = true;
+  var is_cdc_analyst = true;
+  var is_vital_importer = false;
+  var is_vital_importer_state = false;
+  var is_cdc_admin = false;
+  var is_committee_member = false;
+  var is_form_designer = true;
+  var userName = "ptr8";
+  var is_installation_admin = false;
+  var is_jurisdiction_admin = false;
+  var is_data_analyst = true;
+  var is_steve_mmria = false;
+  var is_steve_prams = false;
+  //ViewBag.Sidebar = false;
+  
+  @* if(User.Identity != null && User.Identity.IsAuthenticated)
+  {
+    userName = User.Identities.First(
+    u => u.IsAuthenticated && 
+    u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+
+    foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    {
+      switch(role.Value)
+      {
+        case "abstractor":
+          is_abstractor = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "data_analyst":
+          is_data_analyst = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "form_designer":
+          is_form_designer = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "committee_member":
+          is_committee_member = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "jurisdiction_admin":
+          is_jurisdiction_admin = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "installation_admin":
+          is_installation_admin = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "cdc_analyst":
+          is_cdc_analyst = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "vital_importer":
+          is_vital_importer = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;
+        case "vital_importer_state":
+          is_vital_importer_state = true;
+          is_authenticated = true;
+          is_guest = false;
+          break;  
+        case "cdc_admin":
+            is_cdc_admin = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+        case "steve_mmria":
+            is_steve_mmria = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+        case "steve_prams":
+            is_steve_prams = true;
+            is_authenticated = true;
+            is_guest = false;
+            break;
+      }
+    }
+  } *@
+}
 
 <PageTitle>Home</PageTitle>
 
-<div>
+<div class="row justify-content-between">
   <h1>MMRIA Home</h1>
-  <span>
-    Form Approved metadata
-  </span>
+  <BurdenStatement />
 </div>
+@* <div class="row">Public report burden statement</div> *@
 <div class="row">
     <div class="w-100 pl-3 pr-3 pt-0 pb-1" id="broadcast_published_message_one"></div>
     <div class="w-100 pl-3 pr-3 pt-0 pb-1" id="broadcast_published_message_two"></div>
 </div>
-<div>
-  Link cards
-</div>
-<div>
-  Role assignment list
-</div>
+@if (is_guest)
+{
+  <p>As a MMRIA user, you currently do not have any active role assignments.</p>
+  <p>Please ask your Jurisdiction Administrator to assign you active roles.</p>
+}
+else
+{
+  <div class="row grid">
+    @if(is_abstractor)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Abstrator</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/Case">View or Modify Case Data</a></li>
+                <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
+                <li><a href="/export-queue">Export Data</a></li>
+                @*<li><a href="/recover-case">Recover-case</a></li>*@
+                <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+                <li><a href="/aggregate-report" >View Aggregate Report</a></li>        
+                <li><a href="/data-quality-report">View Data Quality Report</a></li>
+                <li><a href="/vital-import-history">View Vitals Import History</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_data_analyst)
+    {
+    <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+      <div class="card-container-light col-md-12">
+        <div class="header">Analyst</div>
+          <div class="card-content">
+            <ul>
+              <li><a href="/analyst-case">View Case Data</a></li>
+              <li><a href="/export-queue">Export Data</a></li>
+              <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+              <li><a href="/aggregate-report" >View Aggregate Report</a></li>
+              <li><a href="/data-quality-report">View Data Quality Report</a></li>
+              <li><a href="/view-data-summary">View Data Summary Checks</a></li>
+            </ul>
+          </div>
+        </div>                
+      </div>
+    }
+    @if(is_committee_member)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Committee Member</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/de-identified">View De-identified Case Data</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_cdc_analyst)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">CDC Analyst</div>
+            <div class="card-content">
+              <ul>
+                <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
+                <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_steve_mmria)
+    {
+    <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+      <div class="card-container-light col-md-12">
+        <div class="header">STEVE - MMRIA</div>
+          <div class="card-content">
+            <ul>
+              <li> <a href="/steveMMRIA">Download Vital Records Data from STEVE</a></li>
+            </ul>
+          </div>
+        </div>                
+      </div>
+    }
+    @if(is_steve_prams)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">STEVE - PRAMS</div>
+            <div class="card-content">
+              <ul>
+                <li> <a href="/stevePRAMS">Download Natality Data from STEVE</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_vital_importer)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Vitals Import</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
+                <li><a href="/vitals">View Vitals Import History</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_vital_importer_state)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Vitals Import - State</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/vitals-state/FileUpload">Upload IJE Files</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_cdc_admin)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">CDC Admin</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="update_year_of_death?role=cdc_admin">Update Year of Death and/or MMRIA Record ID</a></li>
+                <li><a href="update_maiden_name?role=cdc_admin">Update Maiden Name</a></li>
+                <li><a href="/clear_case_status?role=cdc_admin">Unlock and Clear Case Status</a></li>
+                <li><a href="/recover-deleted-case">Recover Deleted Case</a></li>
+                <li>
+                  <strong>De-Identified List</strong>
+                  <ul>
+                    <li><a href="/export-de-identified-list">Open Export De-Identification List manager</a></li>
+                    <li><a href="/de-identified-list">Open Committee Member De-Identified List</a></li>
+                  </ul>
+                </li>
+                <li><a href="/jurisdictionSummary">View Jurisdiction Summary Report</a></li>
+                <li><a href="/sessionSummary">View Session Activity Report</a></li>
+                <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
+                <li><a href="/export-list-manager">Open Export List Manager</a></li>
+                <li><a href="/populate-cdc-instance">Populate CDC Instance</a></li>
+                <li><a href="/view-data-summary">View Data Summary Checks</a></li>
+                <li><a href="/broadcast-message">Broadcast Message to All MMRIA Users</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_form_designer)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Form Designer</div>
+            <div class="card-content">
+              <ul>
+                <li>
+                  <strong>Metadata Management</strong>
+                  <ul>
+                    <li><a href="/editor">Open metadata editor</a></li>
+                    <li><a href="/form-designer">Open form designer</a></li>
+                    <li><a href="/version-manager">Open metadata version manager</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>De-Identified List</strong>
+                  <ul>
+                    <li><a href="/export-de-identified-list">Open Export De-Identification List manager</a></li>
+                    <li><a href="/de-identified-list">Open Committee Member De-Identified List</a></li>
+                  </ul>
+                </li>
+                <li>
+                  <strong>Data Migration</strong>
+                  <ul>
+                    <li><a href="/migrationplan">Open migration plan manager</a></li>
+                    @**<!--li><a href="/version-manager/migrate">Open data migration manager</a></li-->**@
+                  </ul>
+                </li>
+                <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
+                <li><a href="/export-list-manager">Open Export List Manager</a></li>
+                <li><a href="/sessionSummary">View Session Activity Report</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_jurisdiction_admin && !is_installation_admin)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Jurisdiction Admin</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/_users">Manage Users & Case Folders</a></li>
+                if(is_abstractor)
+                {
+                  <li><a href="/manage-case-check-outs">Manage Case Check Outs</a></li>
+                }
+                <li><a href="/clear_case_status">Unlock and Clear Case Status</a></li>
+                <li><a href="/vital-import-history">View Vitals Import History</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    @if(is_installation_admin)
+    {
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Installation Admin</div>
+            <div class="card-content">
+              <ul>
+                <li><a href="/_users">Manage users & case folders</a></li>
+                <li><a href="/_config">View configuration</a></li>
+                <li><a href="/backupManager">View backup manager</a></li>
+                <li><a href="/recover-case">Recover Case Data</a></li>
+                <li><a href="/recover-deleted-case">Recover Deleted Case</a></li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+    }
+    <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+      <div class="card-container-light col-md-12">
+        <div class="header">General</div>
+          <div class="card-content">
+            <ul>
+              @if(is_installation_admin)
+              {
+                <li><a href="/Account/Profile" >View Account Profile</a></li>
+              }
+              <li><a href="/data-dictionary" target="_blank">View MMRIA Data Dictionary</a></li>
+              <li>
+                <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
+              </li>
+            </ul>
+          </div>
+        </div>                
+      </div>
+      <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+        <div class="card-container-light col-md-12">
+          <div class="header">Help</div>
+            <div class="card-content">
+              <ul>
+                <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>
+                <li>For MMRIA user roles or permissions, please contact your MMRIA Jurisdiction Administrator.</li>
+                <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901.</li>
+                <li>
+                  <a href="javascript:review_to_action_link_click()">Access the ReviewToAction Resource Center<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
+                </li>
+                  <li>
+                    <a href="javascript:system_documentation_link_click()">Access MMRIA system specific documentation and data quality reports<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
+                </li>
+              </ul>
+            </div>
+          </div>                
+        </div>
+  </div>
+  <div class="row">
+    <div class="vertical-control pl-0 pr-0 col-md-12 mb-4">
+      <table class="table">
+        <thead>
+          <tr class="header-level-top-black">
+            <th colspan="7">Role assignment list</th>
+          </tr>
+          <tr class="header-level-2">
+            <th>Role Name</th>
+            <th>Case Folder Access</th>
+            <th>Is Active</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Days until Role Expires</th>
+            <th>Role Added By</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+          </tr>
+          <tr>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+          </tr>
+          <tr>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+          </tr>
+          <tr>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+            <td>Item</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+}
