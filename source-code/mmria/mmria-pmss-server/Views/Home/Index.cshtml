@@ -153,8 +153,6 @@
 
 <div class="row no-gutters justify-content-between mb-3">
   <h1 class="h2" tabindex="-1">PMSS Home</h1>
-
-  @await Html.PartialAsync("_BurdenStatement")
 </div>
 
 @if (is_guest)
@@ -236,7 +234,7 @@ else
     @if(is_vro)
     {
       <li class="card grid-item grid-item--3">
-        <div class="card-header bg-secondary"><h4 class="h5">Vital Records Office Technical Assistance</h4></div>
+        <div class="card-header bg-secondary"><h4 class="h5">Technical Assistance</h4></div>
         <div class="card-body">
           <ul>
             <li><a href="/CaseVRO">View Cases Pending VRO Investigation</a></li>
@@ -281,10 +279,10 @@ else
           <ul>
 
             <li>
-               <strong>PMSS Excel</strong>
+               <strong>CSV Import</strong>
                <ul>
-              <li><a href="/pmss-import/FileUpload">PMSS Excel Import</a></li>
-              <li><a href="/pmss-import">View PMSS Excel Import History</a></li>
+              <li><a href="/pmss-import/FileUpload">PMSS CSV Import</a></li>
+              <li><a href="/pmss-import">View PMSS CSV Import History</a></li>
               </ul>
             </li>
 
