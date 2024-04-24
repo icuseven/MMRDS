@@ -1034,11 +1034,15 @@ public sealed class BatchItemProcessor : ReceiveActor
 
             var hr_cdc_other_display  = hr_cdc_other;
 
-            if(!int.TryParse(hr_cdc_other, out var hr_cdc_other_int))
+            if(int.TryParse(hr_cdc_other, out var hr_cdc_other_int))
             {
                 hr_cdc_other = hr_cdc_other_int.ToString();
-
                 hr_cdc_other_display = hr_cdc_other_values.Where(x=> x.value == hr_cdc_other).Select(x=> x.display).FirstOrDefault();
+            }
+            else
+            {
+                hr_cdc_other = "9999";
+                hr_cdc_other_display = "(blank)";
             }
             
             gs.set_value(IJE_to_MMRIA_Path["HR_CDC_OTHER"], hr_cdc_other, new_case);
