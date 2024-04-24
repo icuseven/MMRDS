@@ -85,17 +85,6 @@ function render_data_analyst_dictionary_link
 )
 {
 
-/*
-
-                ${g_is_data_analyst_mode? render_data_analyst_dictionary_link
-                (
-                    p_ctx.metadata, 
-                    p_ctx.mmria_path
-                ) : ""}
-            
-
-*/
-
     if(g_is_data_analyst_mode)
     {
         return `

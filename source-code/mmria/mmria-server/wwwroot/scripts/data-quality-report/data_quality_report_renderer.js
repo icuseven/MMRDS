@@ -1092,11 +1092,14 @@ function getCaseFolder()
     var case_folder_display = top_folder_name;
     var case_folder_exclude = ' - Exclude: ';
 
+    const display_size = 25;
+    const display_number = 22;
+
 
     if ( g_case_folder_list.length == 1 )
     {
         case_folder_display = top_folder_name;
-        return case_folder_display;
+        return case_folder_display.length > display_size? case_folder_display.substring(0, display_number) + "..." : case_folder_display;
     }
 
     
@@ -1122,7 +1125,7 @@ function getCaseFolder()
 
         case_folder_display += case_folder_exclude.substring(0, (case_folder_exclude.length - 2));
         
-        return case_folder_display;
+        return case_folder_display.length > display_size? case_folder_display.substring(0, display_number) + "..." : case_folder_display;
     }
 
 
@@ -1135,7 +1138,7 @@ function getCaseFolder()
         case_folder_display += j;
     });
 
-    return case_folder_display;
+    return case_folder_display.length > display_size? case_folder_display.substring(0, display_number) + "..." : case_folder_display;
 }
 
 
