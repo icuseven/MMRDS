@@ -1037,7 +1037,13 @@ public sealed class BatchItemProcessor : ReceiveActor
             if(int.TryParse(hr_cdc_other, out var hr_cdc_other_int))
             {
                 hr_cdc_other = hr_cdc_other_int.ToString();
-                hr_cdc_other_display = hr_cdc_other_values.Where(x=> x.value == hr_cdc_other).Select(x=> x.display).FirstOrDefault();
+                foreach(var item in hr_cdc_other_values)
+                {
+                    if(item.value.Trim() == hr_cdc_other.Trim())
+                    {
+                        hr_cdc_other_display = item?.display;
+                    }
+                }
             }
             else
             {
