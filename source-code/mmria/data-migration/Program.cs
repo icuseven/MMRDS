@@ -83,13 +83,13 @@ fl
 "ma",*/
 //IA, MI, MO, PA, SC ,
 //AK, CO, KS, MS
-"fl",
-"ma",
+"ny",
+/*"ma",
 "wa",
 "ms",
 "mn"
 //"localhost",
-/*
+
 "ia",
 "mi",
 "mo",
