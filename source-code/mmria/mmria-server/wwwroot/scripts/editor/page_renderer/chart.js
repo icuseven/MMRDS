@@ -535,7 +535,7 @@ function chart_switch_to_table(p_ui_div_id)
 
     const data_table_header_html = [];
     const data_table_body_html = [];
-    let xTypeLabel = metadata.x_type.indexOf("time") === -1 ? "Date" : "Date Time";
+    let xTypeLabel = metadata.x_type.indexOf("time") === -1 ? "Date" : "Date / Time";
     data_table_header_html.push(`<tr><th style="background-color: #E3D3E4; padding-left: 5px;">${xTypeLabel}</th>`)
     y_axis.forEach(element => {
         let header_string = "";
@@ -554,7 +554,7 @@ function chart_switch_to_table(p_ui_div_id)
       if (metadata.x_type.indexOf("time") === -1)
         date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
       else
-        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false});
+        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
       data_table_body_html.push(`<tr><td style="padding-left: 5px;">${date_string.replace(",", "")}</td>`)
         y_axis.forEach(col => {
           data_table_body_html.push(`<td style="padding-left: 5px;">${row[col.replace(graph_prefix, "")]}</td>`)
