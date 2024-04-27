@@ -529,6 +529,14 @@ function convert_datetime_to_local_display_value(p_value)
         }
     }
 
+    if
+    (
+        result != null &&
+        result instanceof Date
+    )
+    {
+        result = result.toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
+    }
     return result;
 }
 

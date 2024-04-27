@@ -2307,6 +2307,20 @@ async function process_save_case()
                 //g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
                 set_local_case(g_data);
                 //console.log('set_value save finished');
+
+                const el = document.getElementById('last_updated_span')
+                if(el != null)
+                {
+                    const date_part_display_value = convert_datetime_to_local_display_value(
+                        g_data.date_last_updated
+                    );
+
+                    const save_text = `${
+                        g_data.last_updated_by && g_data.last_updated_by
+                    } ${date_part_display_value}`
+                    
+                    el.innerHTML = save_text;
+                }
             }
             
         }

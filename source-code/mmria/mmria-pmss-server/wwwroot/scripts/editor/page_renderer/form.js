@@ -217,7 +217,7 @@ function form_render(
 				);
 
 				p_result.push(
-					`<p class='construct__info mb-0'>Last updated: <span>${
+					`<p class='construct__info mb-0'>Last updated: <span id='last_updated_span'>${
 						g_data.last_updated_by && g_data.last_updated_by
 					} ${date_part_display_value}</span></p>`
 				);
@@ -723,7 +723,7 @@ function form_render(
 				let date_part_display_value = convert_datetime_to_local_display_value(g_data.date_last_updated);
 
 				p_result.push(
-					`<p class='construct__info mb-0'>Last updated: <span>${
+					`<p class='construct__info mb-0'>Last updated: <span id='last_updated_span'>${
 						g_data.last_updated_by && g_data.last_updated_by
 					} ${date_part_display_value}</span></p>`
 				);
@@ -962,7 +962,7 @@ function form_render(
 			);
 
 			p_result.push(
-				`<p class='construct__info mb-0'>Last updated: <span>${
+				`<p class='construct__info mb-0'>Last updated: <span id='last_updated_span'>${
 					g_data.last_updated_by && g_data.last_updated_by
 				} ${date_part_display_value}</span></p>`
 			);
