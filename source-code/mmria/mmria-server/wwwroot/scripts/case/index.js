@@ -1858,65 +1858,6 @@ async function get_case_set(p_call_back)
     }
 }
 
-
-
-
-
-function get_metadata() 
-{
-  document.getElementById('form_content_id').innerHTML =
-    '<h4>Fetching data from database.</h4><h5>Please wait a few moments...</h5>';
-
-  $.ajax({
-    url:
-      location.protocol +
-      '//' +
-      location.host +
-      `/api/version/${g_release_version}/metadata`,
-  })
-  .done
-  (
-    function (response) 
-    {
-    g_metadata = response;
-    metadata_summary(g_metadata_summary, g_metadata, 'g_metadata', 0, 0);
-    default_object = create_default_object(g_metadata, {});
-
-    build_other_specify_lookup(g_other_specify_lookup, g_metadata);
-
-    set_list_lookup
-    (
-      g_display_to_value_lookup,
-      g_value_to_display_lookup,
-      g_value_to_index_number_lookup,
-      g_metadata,
-      ''
-    );
-
-    for (var i in g_metadata.lookup) 
-    {
-      var child = g_metadata.lookup[i];
-
-      g_look_up['lookup/' + child.name] = child.values;
-    }
-
-    get_case_set();
-
-    g_ui.url_state = url_monitor.get_url_state(window.location.href);
-    if (window.onhashchange) 
-    {
-      window.onhashchange({ isTrusted: true, newURL: window.location.href });
-    } 
-    else 
-    {
-      window.onhashchange = window_on_hash_change;
-      window.onhashchange({ isTrusted: true, newURL: window.location.href });
-    }
-
-    window.onbeforeunload = navigation_away;
-  });
-}
-
 async function window_on_hash_change(e) 
 {
 
