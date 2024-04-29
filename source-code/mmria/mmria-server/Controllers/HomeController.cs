@@ -9,8 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Akka.Actor;
 using Microsoft.AspNetCore.Http;
 
-using  mmria.server.extension;    
-	
+using  mmria.server.extension;
+using System.Collections.Generic;
+
 namespace mmria.server.Controllers;
 
 public sealed class HomeController : Controller
@@ -118,8 +119,11 @@ public sealed class HomeController : Controller
         ViewBag.days_til_password_expires = days_til_expiration;
         ViewBag.config_password_days_before_expires = password_days_before_expires;
 
+        var LinkList = configuration.GetExternalHomePageLinks();
 
-        return View();
+        
+
+        return View(LinkList);
     }
 
 }

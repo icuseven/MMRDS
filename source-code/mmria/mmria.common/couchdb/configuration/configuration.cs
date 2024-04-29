@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using mmria.common.util;
 
 namespace mmria.common.couchdb;
 
@@ -354,6 +356,47 @@ public sealed class OverridableConfiguration
         
 
         return result;
+    }
+
+    public  List<Html_Link> GetExternalHomePageLinks()
+    {
+        var result = new List<Html_Link>();
+        const int Max_List_Size = 10;
+
+        for(var i = 0; i < Max_List_Size; i++)
+        {
+            var display_key = $"link:display:{i}";
+            var value_key = $"link:value:{i}";
+            
+            if
+            (
+                string_keys["shared"].ContainsKey(display_key) &&
+                string_keys["shared"].ContainsKey(value_key) 
+            )
+            {
+                var item = new Html_Link()
+                {
+                    Text = string_keys["shared"][display_key],
+                    Url = string_keys["shared"][value_key]
+                };
+
+                result.Add(item);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public class Html_Link
+    {
+        public Html_Link() {}
+
+        public string Text { get; set; }
+        public string Url { get; set; }
     }
 
 }

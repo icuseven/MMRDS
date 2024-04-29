@@ -286,6 +286,32 @@ For more information on CDC's web notification policies, see Website Disclaimers
 
 */
 
+
+async function external_link_click(p_url)
+{
+    function cancel()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+    }
+
+    function confirm()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            p_url, 
+            "_blank"
+        );
+    }
+
+    $mmria.confirm_external_nav_dialog_show
+    (
+        confirm, 
+        cancel
+    )
+}
+
+
 async function erase_mm_link_click()
 {
     function cancel()

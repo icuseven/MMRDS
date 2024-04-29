@@ -25,23 +25,17 @@ func _process(delta):
 func _input(event):
 	if event is InputEventMouseMotion:
 		if is_dragging:
-			lasso_end = get_local_mouse_position()
 			
-			
-			#var size_x = abs(lasso_start.x - lasso_end.x) / 2
-			#var size_y = abs(lasso_start.y - lasso_end.y) / 2
-			
+			lasso_end = get_local_mouse_position()		
 			var size_x = (lasso_start.x - lasso_end.x)
 			var size_y = (lasso_start.y - lasso_end.y)
 	
 			LassoArea.position = lasso_start - Vector2(size_x, size_y) /2
-			
 			LassoCollisionShap.size = Vector2(abs(size_x), abs(size_y))
 			
-
-				 
 		queue_redraw()	
 	elif event is InputEventMouseButton:
+		
 		if event.button_index == MOUSE_BUTTON_RIGHT and !event.pressed:
 			print("right mouse button event at %s event_pressed: %s", event.position, event.pressed)
 		elif event.button_index == MOUSE_BUTTON_LEFT:
