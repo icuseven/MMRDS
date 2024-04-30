@@ -64,14 +64,14 @@ func _draw():
 		var point_array:PackedVector2Array
 		point_array.append(lasso_start)
 		point_array.append(Vector2(lasso_end.x, lasso_start.y))
-		point_array.append(Vector2(lasso_start.x, lasso_end.y))
 		point_array.append(lasso_end)
+		point_array.append(Vector2(lasso_start.x, lasso_end.y))
 		#raw_line(point_array[0], point_array[3], Color.BLUE)
 		
 		draw_line(point_array[0], point_array[1], lasso_color)
-		draw_line(point_array[0], point_array[2], lasso_color)
+		draw_line(point_array[1], point_array[2], lasso_color)
 		draw_line(point_array[2], point_array[3], lasso_color)
-		draw_line(point_array[3], point_array[1], lasso_color)
+		draw_line(point_array[3], point_array[0], lasso_color)
 
 func _lasso_on_enter(area: Area2D):
 	print("Lasso Area Enterd")

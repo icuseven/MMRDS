@@ -5,6 +5,7 @@ var is_entered = false
 var is_dragging = false
 
 @export var radius:int = 5
+var CollisionShape:CircleShape2D
 
 var area:Area2D
 
@@ -12,6 +13,9 @@ func _ready():
 	area = $Area2D
 	area.connect("mouse_entered", _on_mouse_enter)
 	area.connect("mouse_exited", _on_mouse_exited)
+	CollisionShape = $Area2D/CollisionShape2D.shape
+	CollisionShape.radius = radius
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
