@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dk66al0rtosgl"]
+[gd_scene load_steps=8 format=3 uid="uid://dk66al0rtosgl"]
 
 [ext_resource type="Script" path="res://DragMe.gd" id="1_58gxn"]
 [ext_resource type="Script" path="res://LayoutSurfacePanel.gd" id="1_gmjft"]
 [ext_resource type="Script" path="res://TextEditDrag.gd" id="2_yorkv"]
+[ext_resource type="PackedScene" uid="uid://vblwvnp6m6wd" path="res://group_field.tscn" id="4_skau2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgjku"]
 
@@ -118,6 +119,9 @@ script = ExtResource("2_yorkv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/TextEdit2/Area2D"]
 position = Vector2(52, 18)
 shape = SubResource("RectangleShape2D_0pi5k")
+
+[node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
+position = Vector2(92, 86)
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2

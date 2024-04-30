@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://vblwvnp6m6wd"]
+
+[ext_resource type="PackedScene" uid="uid://e8hdxg1ohuap" path="res://HandleBar.tscn" id="1_dvp4h"]
+[ext_resource type="Script" path="res://group_field.gd" id="1_mt2ww"]
+
+[node name="GroupField" type="Node2D"]
+script = ExtResource("1_mt2ww")
+
+[node name="TopLeftHandleBar" parent="." instance=ExtResource("1_dvp4h")]
+
+[node name="BottomRightHandleBar" parent="." instance=ExtResource("1_dvp4h")]
