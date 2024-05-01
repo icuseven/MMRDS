@@ -1,3 +1,4 @@
+@tool
 extends Node2D
 class_name HandleBar
 
@@ -9,18 +10,26 @@ var CollisionShape:CircleShape2D
 
 var area:Area2D
 
-func _ready():
+func _enter_tree():
 	area = $Area2D
 	area.connect("mouse_entered", _on_mouse_enter)
 	area.connect("mouse_exited", _on_mouse_exited)
 	CollisionShape = $Area2D/CollisionShape2D.shape
 	CollisionShape.radius = radius
+	area.position = Vector2.ZERO
+	print("handlebar enter tree")
 	
-
+func _ready():
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
+	
+
+func update_position(value:Vector2):
+	position = value
+	queue_redraw()
 	
 
 func _input(event):
@@ -51,12 +60,13 @@ func _draw():
 	
 	
 func _on_mouse_enter():
-	#print("HandleBar Area Enterd")
+	print("HandleBar mouse Enterd")
 	is_entered = true
+	queue_redraw()
 	
 	
 func _on_mouse_exited():
-	#print("HandleBar Area Exited")
+	#print("HandleBar mouse Exited")
 	is_entered = false
-
+	queue_redraw()
 

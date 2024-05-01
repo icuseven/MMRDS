@@ -1,5 +1,5 @@
+@tool
 extends Node2D
-
 
 @export var width:float = 40
 @export var height:float = 20
@@ -14,14 +14,19 @@ var BottomRightHandleBar:HandleBar
 var start:Vector2 = Vector2.ZERO
 var end:Vector2 = Vector2.ZERO
 
+func _enter_tree():
+
+	print("group field enter_tree")
+
 func _ready():
+	print("group field ready")
 	TopLeftHandleBar = $TopLeftHandleBar
 	BottomRightHandleBar = $BottomRightHandleBar
 	_calc_positions()
-	TopLeftHandleBar.position = start
-	BottomRightHandleBar.position = end
+	TopLeftHandleBar.update_position(start)
+	BottomRightHandleBar.update_position(end)
 	queue_redraw()
-
+	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass

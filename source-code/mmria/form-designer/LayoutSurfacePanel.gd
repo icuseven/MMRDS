@@ -18,7 +18,7 @@ func _ready():
 	LassoArea.connect("area_exited", _lasso_on_exited)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
