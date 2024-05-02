@@ -16,10 +16,11 @@ var end:Vector2 = Vector2.ZERO
 
 func _enter_tree():
 
-	print("group field enter_tree")
+	#print("group field enter_tree")
+	pass
 
 func _ready():
-	print("group field ready")
+	#print("group field ready")
 	TopLeftHandleBar = $TopLeftHandleBar
 	BottomRightHandleBar = $BottomRightHandleBar
 	_calc_positions()
@@ -28,7 +29,7 @@ func _ready():
 	queue_redraw()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 func _calc_positions():
@@ -38,7 +39,7 @@ func _calc_positions():
 	end = Vector2(x_diff, y_diff)
 
 func _draw():
-	var point_array:PackedVector2Array
+	var point_array:PackedVector2Array = []
 	point_array.append(start)
 	point_array.append(Vector2(end.x, start.y))
 	point_array.append(end)

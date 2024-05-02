@@ -20,6 +20,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="HSplitContainer" type="HSplitContainer" parent="."]
 layout_mode = 1
@@ -32,6 +33,7 @@ split_offset = 100
 
 [node name="LeftSideColorRect" type="ColorRect" parent="HSplitContainer"]
 layout_mode = 2
+mouse_filter = 1
 color = Color(0.0196078, 0.698039, 0.792157, 1)
 
 [node name="VSplitContainer" type="VSplitContainer" parent="HSplitContainer"]
@@ -40,6 +42,7 @@ split_offset = 100
 
 [node name="TopColorRect" type="ColorRect" parent="HSplitContainer/VSplitContainer"]
 layout_mode = 2
+mouse_filter = 1
 color = Color(0.247059, 0.721569, 0.521569, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HSplitContainer/VSplitContainer"]
@@ -65,7 +68,7 @@ custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-mouse_filter = 2
+mouse_filter = 1
 script = ExtResource("1_gmjft")
 
 [node name="LassoArea2D" type="Area2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]

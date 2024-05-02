@@ -61,7 +61,7 @@ func _input(event):
 
 func _draw():
 	if is_dragging:
-		var point_array:PackedVector2Array
+		var point_array:PackedVector2Array = []
 		point_array.append(lasso_start)
 		point_array.append(Vector2(lasso_end.x, lasso_start.y))
 		point_array.append(lasso_end)
@@ -73,9 +73,9 @@ func _draw():
 		draw_line(point_array[2], point_array[3], lasso_color)
 		draw_line(point_array[3], point_array[0], lasso_color)
 
-func _lasso_on_enter(area: Area2D):
+func _lasso_on_enter(_area: Area2D):
 	print("Lasso Area Enterd")
 	
 	
-func _lasso_on_exited(area: Area2D):
+func _lasso_on_exited(_area: Area2D):
 	print("Lasso Area Exited")

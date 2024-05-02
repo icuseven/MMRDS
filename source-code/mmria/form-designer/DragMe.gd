@@ -40,7 +40,7 @@ func _gui_input(event):
 	#	position += event.relative
 	#	print("_gui_input")
 
-func _unhandled_input(event):
+func _unhandled_input(_event):
 	#print("_unhandled_input")
 	#if event is InputEventMouseButton and not event.pressed:
 	#	lifted = false
@@ -48,7 +48,7 @@ func _unhandled_input(event):
 	#	position += event.relative
 	pass
 
-func _input_event(_viewport, event, _shape_idx):
+func _input_event(_viewport, _event, _shape_idx):
 	#print("_input_event")
 	#if event is InputEventMouseButton and event.pressed:
 	#	lifted = true
