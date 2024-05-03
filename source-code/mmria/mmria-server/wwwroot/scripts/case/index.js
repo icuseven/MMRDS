@@ -2228,6 +2228,7 @@ async function process_save_case()
 
 
             g_data._rev = case_response.rev;
+            g_data.last_updated_by = g_user_name;
             g_data_is_checked_out = is_case_checked_out(g_data);
             g_case_narrative_original_value = g_data.case_narrative.case_opening_overview;
             set_local_case(g_data);
@@ -2240,7 +2241,7 @@ async function process_save_case()
 				);
 
                 const save_text = `${
-                    g_data.last_updated_by && g_data.last_updated_by
+                    g_data.last_updated_by
                 } ${date_part_display_value}`
                 
                 el.innerHTML = save_text;

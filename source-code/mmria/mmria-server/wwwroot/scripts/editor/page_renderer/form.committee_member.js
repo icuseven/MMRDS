@@ -192,7 +192,7 @@ function form_render(
 
 				p_result.push(
 					`<p class='construct__info mb-0'>Last updated: <span>${
-						g_data.last_updated_by && g_data.last_updated_by
+						g_data.last_updated_by
 					} ${date_part_display_value}</span></p>`
 				);
 			}
@@ -682,7 +682,7 @@ function form_render(
 
 				p_result.push(
 					`<p class='construct__info mb-0'>Last updated: <span>${
-						g_data.last_updated_by && g_data.last_updated_by
+						g_data.last_updated_by
 					} ${date_part_display_value}</span></p>`
 				);
 			}
@@ -913,7 +913,7 @@ function form_render(
 
 			p_result.push(
 				`<p class='construct__info mb-0'>Last updated: <span>${
-					g_data.last_updated_by && g_data.last_updated_by
+					g_data.last_updated_by
 				} ${date_part_display_value}</span></p>`
 			);
 		}
