@@ -5,7 +5,12 @@ class_name HandleBar
 var is_entered = false
 var is_dragging = false
 
-signal mouse_dragging(position)
+@export var default_color:Color = Color.WHITE
+@export var over_color:Color = Color.YELLOW_GREEN
+
+signal mouse_move(position)
+signal mouse_engaged(position)
+signal mouse_disengaged(position)
 
 @export var radius:int = 5
 var CollisionShape:CircleShape2D
@@ -39,25 +44,27 @@ func _input(event):
 		return
 		
 	if event is InputEventMouseMotion:
-		pass
 		if is_dragging:
-			mouse_dragging.emit(event.position)
+			mouse_move.emit(event.position)
 	elif event is InputEventMouseButton:
 		
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				is_dragging = true
-				print("HandleBar is dragging")
+				#print("HandleBar is dragging")
+				mouse_engaged.emit(event.position)
 			else:
-				is_dragging = false
+				if is_dragging:
+					mouse_disengaged.emit(event.position)
+					is_dragging = false
 				
 	queue_redraw()
 
 func _draw():
 	if is_entered:
-		draw_circle(Vector2.ZERO, radius * 1.25, Color.YELLOW_GREEN)
+		draw_circle(Vector2.ZERO, radius * 1.25, over_color)
 	else:
-		draw_circle(Vector2.ZERO, radius * 1.00, Color.WHITE)
+		draw_circle(Vector2.ZERO, radius * 1.00, default_color)
 	
 	
 	
@@ -69,4 +76,7 @@ func _on_mouse_enter():
 func _on_mouse_exited():
 	#print("HandleBar mouse Exited")
 	is_entered = false
+	if is_dragging:
+		is_dragging = false
+		mouse_disengaged.emit(get_global_mouse_position())
 	
