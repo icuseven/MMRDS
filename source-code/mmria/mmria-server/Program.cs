@@ -585,7 +585,7 @@ public sealed partial class Program
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapRazorPages();
+            //app.MapRazorPages();
             app.MapControllerRoute
             (
                 "default", 
