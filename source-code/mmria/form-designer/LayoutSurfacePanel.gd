@@ -38,7 +38,7 @@ func _input(event):
 		
 		if event.button_index == MOUSE_BUTTON_RIGHT and !event.pressed:
 			print("right mouse button event at %s event_pressed: %s", event.position, event.pressed)
-		elif event.button_index == MOUSE_BUTTON_LEFT && event.shift_pressed:
+		elif event.button_index == MOUSE_BUTTON_LEFT: # && event.shift_pressed:
 			if event.pressed:
 				is_dragging = true
 				lasso_start = get_local_mouse_position()
@@ -48,7 +48,11 @@ func _input(event):
 				#print("Left mouse button event at %s event_pressed: %s", event.position, event.pressed)
 				#for area in LassoArea.get_overlapping_areas():
 				#	print("OverLapping %s",area)
-				is_dragging = false
+				if is_dragging:
+					for item in LassoArea.get_overlapping_areas():
+						if item.get_parent() is GroupField:
+							print(item.name)
+					is_dragging = false
 				queue_redraw()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			print("Wheel up")			

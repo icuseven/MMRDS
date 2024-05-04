@@ -1,5 +1,6 @@
 @tool
 extends Node2D
+class_name GroupField
 
 @export var width:float = 40
 @export var height:float = 20
@@ -30,6 +31,7 @@ func _ready():
 
 	Area = $Area2D
 	CollisionShap = $Area2D/CollisionShape2D.shape
+	Area.name = "GroupField"
 	
 	Area.connect("area_entered", _area_on_enter)
 	Area.connect("area_exited", _area_on_exited)
@@ -108,29 +110,29 @@ func _area_on_exited(_area: Area2D):
 	pass
 	
 	
-func top_handle_bar_start(position:Vector2):
-	print("top_handle_bar_start G:%s P:%s", get_global_mouse_position(), position)
+func top_handle_bar_start(p_position:Vector2):
+	print("top_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 	
-func top_handle_bar_changed(position:Vector2):
-	print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), position)
-	_calc_resize(to_local(position), BottomRightHandleBar.position)
+func top_handle_bar_changed(p_position:Vector2):
+	print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
+	_calc_resize(to_local(p_position), BottomRightHandleBar.position)
 	pass	
 	
-func top_handle_bar_end(position:Vector2):
-	print("top_handle_bar_end G:%s P:%s", get_global_mouse_position(), position)
+func top_handle_bar_end(p_position:Vector2):
+	print("top_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 	
-func bottom_handle_bar_start(position:Vector2):
-	print("bottom_handle_bar_start G:%s P:%s", get_global_mouse_position(), position)
+func bottom_handle_bar_start(p_position:Vector2):
+	print("bottom_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 
-func bottom_handle_bar_changed(position:Vector2):
-	print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), position)
-	_calc_resize(TopLeftHandleBar.position, to_local(position))
+func bottom_handle_bar_changed(p_position:Vector2):
+	print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
+	_calc_resize(TopLeftHandleBar.position, to_local(p_position))
 	
 	pass
 	
-func bottom_handle_bar_end(position:Vector2):
-	print("bottom_handle_bar_end G:%s P:%s", get_global_mouse_position(), position)
+func bottom_handle_bar_end(p_position:Vector2):
+	print("bottom_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
