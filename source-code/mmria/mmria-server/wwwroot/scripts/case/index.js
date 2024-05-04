@@ -2087,9 +2087,18 @@ async function process_save_case()
 {
     if(save_queue.is_active == true) return;
 
-    
+    if(save_queue.item_list.length == 0) return;
+
+    const before_pop = save_queue.item_list.length;
 
     const item = save_queue.item_list.pop();
+
+    const after_pop = save_queue.item_list.length;
+
+    if(before_pop != after_pop + 1)
+    {
+        console.log("removal problem");
+    }
 
     if(item == null || item == undefined) return;
 
@@ -2193,6 +2202,8 @@ async function process_save_case()
         }
     }
 
+
+
     if
     (
         case_response.ok == null ||
@@ -2205,13 +2216,19 @@ async function process_save_case()
             case_response != null &&
             case_response.error_description != null &&
             case_response.error_description.indexOf("(409) Conflict") > -1
-        ) return;
+        ) 
+        {
+            save_queue.is_active = false;
+            return;
+        }
 
         const err = {
             status: 500,
             responseText : case_response.error_description
         };
+        
         $mmria.unstable_network_dialog_show(err, p_note);
+        save_queue.is_active = false;
         return;
     } 
     else if
@@ -2253,7 +2270,7 @@ async function process_save_case()
             console.log('save_case info data._id != case_response.id');
         }
 
-        save_queue.is_active = false;
+        //save_queue.is_active = false;
 
     }
     else
@@ -2263,6 +2280,7 @@ async function process_save_case()
         $mmria.unstable_network_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
     }
     
+    save_queue.is_active = false;
 
     if (item.call_back) 
     {

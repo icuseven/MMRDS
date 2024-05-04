@@ -29,9 +29,8 @@ func _ready():
 	TopLeftHandleBar = $TopLeftHandleBar
 	BottomRightHandleBar = $BottomRightHandleBar
 
-	Area = $Area2D
+	Area = get_node("Area2D")
 	CollisionShap = $Area2D/CollisionShape2D.shape
-	Area.name = "GroupField"
 	
 	Area.connect("area_entered", _area_on_enter)
 	Area.connect("area_exited", _area_on_exited)

@@ -8,6 +8,7 @@ var is_dragging:bool = false
 var LassoArea:Area2D
 var LassoCollisionShap:RectangleShape2D
 
+var SelectedItemList:Dictionary = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -36,9 +37,9 @@ func _input(event):
 		queue_redraw()	
 	elif event is InputEventMouseButton:
 		
-		if event.button_index == MOUSE_BUTTON_RIGHT and !event.pressed:
-			print("right mouse button event at %s event_pressed: %s", event.position, event.pressed)
-		elif event.button_index == MOUSE_BUTTON_LEFT: # && event.shift_pressed:
+		#if event.button_index == MOUSE_BUTTON_RIGHT and !event.pressed:
+		#	print("right mouse button event at %s event_pressed: %s", event.position, event.pressed)
+		if event.button_index == MOUSE_BUTTON_RIGHT: # && event.shift_pressed:
 			if event.pressed:
 				is_dragging = true
 				lasso_start = get_local_mouse_position()
@@ -49,9 +50,12 @@ func _input(event):
 				#for area in LassoArea.get_overlapping_areas():
 				#	print("OverLapping %s",area)
 				if is_dragging:
-					for item in LassoArea.get_overlapping_areas():
-						if item.get_parent() is GroupField:
-							print(item.name)
+					#for item in LassoArea.get_overlapping_areas():
+					#	if item.get_parent() is GroupField:
+					#		print(item.name)
+							
+					for item in SelectedItemList.keys():
+						print(item.name)
 					is_dragging = false
 				queue_redraw()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
@@ -80,11 +84,19 @@ func _draw():
 	else:
 		pass
 
-func _lasso_on_enter(_area: Area2D):
+func _lasso_on_enter(area: Area2D):
 	#print("Lasso Area Enterd")
+	if area.get_parent() is GroupField:
+		var parent =  area.get_parent()
+		if !SelectedItemList.has(parent):
+			SelectedItemList[parent] = true
 	pass
 	
 	
-func _lasso_on_exited(_area: Area2D):
+func _lasso_on_exited(area: Area2D):
 	#print("Lasso Area Exited")
+	if area.get_parent() is GroupField:
+		var parent =  area.get_parent()
+		if SelectedItemList.has(parent):
+			SelectedItemList.erase(parent)
 	pass
