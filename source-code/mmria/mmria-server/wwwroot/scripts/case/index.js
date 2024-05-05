@@ -3326,44 +3326,49 @@ function undo_click()
 
 async function autosave() 
 {
-  let split_one = window.location.href.split('#');
+    let split_one = window.location.href.split('#');
 
-  if (split_one.length > 1) 
-  {
+    if (split_one.length <= 1) return;
+
     let split_two = split_one[0].split('/');
 
-    if 
+    if (split_two.length <= 3) return;
+    
+    if
     (
-        split_two.length > 3 && 
-        (
+        !(
             split_two[3].toLocaleLowerCase() == 'case' ||
             split_two[3].toLocaleLowerCase() == 'abstractordeidentifiedcase' 
         )
     )
     {
-      let split_three = split_one[1].split('/');
-
-      if
-      (
-        split_three.length > 1 &&
-        split_three[1].toLocaleLowerCase() != 'summary'
-      ) 
-      {
-        if (g_data) 
-        {
-          let dt1 = new Date(g_data.date_last_updated);
-          let dt2 = new Date();
-          let number_of_minutes = diff_minutes(dt1, dt2);
-
-          if (number_of_minutes > 2) 
-          {
-            g_data.date_last_updated = new Date();
-            await save_case(g_data, null, 'autosave');
-          }
-        }
-      }
+        return;
     }
-  }
+
+    let split_three = split_one[1].split('/');
+
+    if
+    (
+        split_three.length <= 1 ||
+        split_three[1].toLocaleLowerCase() == 'summary'
+    ) 
+    {
+        return;
+    }
+
+    if (g_data == null  || g_data == undefined) return;
+
+    
+    let dt1 = new Date(g_data.date_last_updated);
+    let dt2 = new Date();
+    let number_of_minutes = diff_minutes(dt1, dt2);
+
+    if (number_of_minutes < 3) return; 
+    
+
+    g_data.date_last_updated = new Date();
+    await save_case(g_data, null, 'autosave');
+  
 }
 
 function is_case_view_locked(p_case)
