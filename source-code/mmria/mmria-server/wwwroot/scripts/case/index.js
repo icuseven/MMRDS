@@ -3332,7 +3332,14 @@ async function autosave()
   {
     let split_two = split_one[0].split('/');
 
-    if (split_two.length > 3 && split_two[3].toLocaleLowerCase() == 'case')
+    if 
+    (
+        split_two.length > 3 && 
+        (
+            split_two[3].toLocaleLowerCase() == 'case' ||
+            split_two[3].toLocaleLowerCase() == 'abstractordeidentifiedcase' 
+        )
+    )
     {
       let split_three = split_one[1].split('/');
 

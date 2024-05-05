@@ -101,8 +101,10 @@ text = "800 x 800
 
 [node name="DragMe" type="Label" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 59.0
+offset_top = 20.0
+offset_right = 124.0
+offset_bottom = 43.0
 mouse_filter = 0
 text = "Drag Me"
 script = ExtResource("1_58gxn")
@@ -115,10 +117,10 @@ shape = SubResource("RectangleShape2D_yh05u")
 
 [node name="TextEdit2" type="TextEdit" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
 layout_mode = 0
-offset_left = 138.0
-offset_top = 70.0
-offset_right = 242.0
-offset_bottom = 110.0
+offset_left = 300.0
+offset_top = 36.0
+offset_right = 404.0
+offset_bottom = 76.0
 placeholder_text = "Text Edit"
 editable = false
 script = ExtResource("2_yorkv")
@@ -130,7 +132,7 @@ position = Vector2(52, 18)
 shape = SubResource("RectangleShape2D_0pi5k")
 
 [node name="GroupField2" type="Node2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
-position = Vector2(119, 134)
+position = Vector2(317, 316)
 script = ExtResource("4_uqoye")
 
 [node name="TopLeftHandleBar" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2" instance=ExtResource("5_kv0d5")]
@@ -145,7 +147,11 @@ position = Vector2(20, 10)
 shape = SubResource("RectangleShape2D_2ldsk")
 
 [node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
-position = Vector2(92, 86)
+position = Vector2(286, 225)
+selected_color = Color(0.972549, 0.972549, 1, 1)
+dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
+is_drag_mode = false
+is_selected_mode = false
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2

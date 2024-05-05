@@ -8,6 +8,15 @@ class_name GroupField
 @export var left:float = 20
 
 @export var color:Color = Color.RED
+@export var selected_color:Color = Color.GHOST_WHITE
+
+@export var dragging_color:Color = Color.GRAY
+
+@export var is_drag_mode:bool = false
+
+@export var is_selected_mode:bool = false
+
+var draw_color:Color
 
 var Area:Area2D
 var CollisionShap:RectangleShape2D
@@ -18,6 +27,12 @@ var BottomRightHandleBar:HandleBar
 
 var start:Vector2 = Vector2.ZERO
 var end:Vector2 = Vector2.ZERO
+
+var drag_offset:Vector2 = Vector2.ZERO
+var origin_drag_position:Vector2 = Vector2.ZERO
+
+var point_list:PackedVector2Array = []
+var t:float = 0.0
 
 func _enter_tree():
 
@@ -50,13 +65,18 @@ func _ready():
 	
 	CollisionShap.size = Vector2(width, height)
 	
-	
+	draw_color = color
 	
 	queue_redraw()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+func _process(delta):
+	if is_drag_mode:
+		t += delta * 0.4
+		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
+		
+		#position = position.lerp(point_list[0] - drag_offset, delta)
+		position = position.lerp(point_list[0], t)
 
 func _calc_positions():
 	var x_diff = width / 2.0
@@ -92,10 +112,10 @@ func _draw():
 	
 	#raw_line(point_array[0], point_array[3], Color.BLUE)
 	
-	draw_line(point_array[0], point_array[1], color)
-	draw_line(point_array[1], point_array[2], color)
-	draw_line(point_array[2], point_array[3], color)
-	draw_line(point_array[3], point_array[0], color)
+	draw_line(point_array[0], point_array[1], draw_color)
+	draw_line(point_array[1], point_array[2], draw_color)
+	draw_line(point_array[2], point_array[3], draw_color)
+	draw_line(point_array[3], point_array[0], draw_color)
 	
 	#draw_circle(Vector2.ZERO, 3, Color.ALICE_BLUE)
 
@@ -103,35 +123,77 @@ func _area_on_enter(_area: Area2D):
 	#print("Lasso Area Enterd")
 	pass
 	
-	
 func _area_on_exited(_area: Area2D):
 	#print("Lasso Area Exited")
 	pass
 	
 	
-func top_handle_bar_start(p_position:Vector2):
-	print("top_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
+func top_handle_bar_start(_p_position:Vector2):
+	#print("top_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 	
 func top_handle_bar_changed(p_position:Vector2):
-	print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
+	#print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
 	_calc_resize(to_local(p_position), BottomRightHandleBar.position)
 	pass	
 	
-func top_handle_bar_end(p_position:Vector2):
-	print("top_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
+func top_handle_bar_end(_p_position:Vector2):
+	#print("top_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 	
-func bottom_handle_bar_start(p_position:Vector2):
-	print("bottom_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
+func bottom_handle_bar_start(_p_position:Vector2):
+	#print("bottom_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 
 func bottom_handle_bar_changed(p_position:Vector2):
-	print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
+	#print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
 	_calc_resize(TopLeftHandleBar.position, to_local(p_position))
 	
 	pass
 	
-func bottom_handle_bar_end(p_position:Vector2):
-	print("bottom_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
+func bottom_handle_bar_end(_p_position:Vector2):
+	#print("bottom_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
+
+
+func set_to_selected():
+	draw_color = selected_color
+	is_selected_mode = true
+	queue_redraw()
+	
+func unset_to_selected():	
+	draw_color = color
+	is_selected_mode = false
+	queue_redraw()
+
+func set_to_drag():
+	#drag_offset = to_global(position) - get_global_mouse_position()
+	draw_color = selected_color
+	is_selected_mode = true
+	queue_redraw()
+	
+func unset_to_drag():
+	drag_offset = Vector2.ZERO
+	draw_color = color
+	is_selected_mode = false
+	queue_redraw()
+	
+func set_drag_motion():
+	is_drag_mode = true
+	drag_offset = Vector2.ZERO
+	
+	
+	origin_drag_position = get_global_mouse_position()
+	drag_offset = origin_drag_position - to_global(position)
+	
+	point_list.append(get_global_mouse_position())
+	draw_color = dragging_color
+	queue_redraw()
+	
+func addpoint_list(value:Vector2):
+	point_list.append(value)
+	
+
+	
+
+	

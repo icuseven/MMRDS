@@ -3,7 +3,9 @@ extends Panel
 var lasso_start:Vector2 = Vector2.ZERO
 var lasso_end:Vector2 = Vector2.ZERO
 var lasso_color:Color = Color.YELLOW
-var is_dragging:bool = false
+var lasso_is_dragging:bool = false
+
+var selection_is_dragging:bool = false
 
 var LassoArea:Area2D
 var LassoCollisionShap:RectangleShape2D
@@ -25,7 +27,7 @@ func _process(_delta):
 
 func _input(event):
 	if event is InputEventMouseMotion:
-		if is_dragging:
+		if lasso_is_dragging:
 			
 			lasso_end = get_local_mouse_position()		
 			var size_x = (lasso_start.x - lasso_end.x)
@@ -33,6 +35,10 @@ func _input(event):
 	
 			LassoArea.position = lasso_start - Vector2(size_x, size_y) /2
 			LassoCollisionShap.size = Vector2(abs(size_x), abs(size_y))
+		elif selection_is_dragging:
+			pass
+			
+				
 			
 		queue_redraw()	
 	elif event is InputEventMouseButton:
@@ -41,25 +47,46 @@ func _input(event):
 		#	print("right mouse button event at %s event_pressed: %s", event.position, event.pressed)
 		if event.button_index == MOUSE_BUTTON_RIGHT: # && event.shift_pressed:
 			if event.pressed:
-				is_dragging = true
+				lasso_is_dragging = true
 				lasso_start = get_local_mouse_position()
+				
 				#LassoArea.position = lasso_start
 				#LassoOffset = LassoStart - event.position
 			else:
 				#print("Left mouse button event at %s event_pressed: %s", event.position, event.pressed)
 				#for area in LassoArea.get_overlapping_areas():
 				#	print("OverLapping %s",area)
-				if is_dragging:
+				if lasso_is_dragging:
 					#for item in LassoArea.get_overlapping_areas():
 					#	if item.get_parent() is GroupField:
 					#		print(item.name)
 							
 					for item in SelectedItemList.keys():
-						print(item.name)
-					is_dragging = false
+						#print(item.name)
+						pass
+					lasso_is_dragging = false
 				queue_redraw()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			print("Wheel up")			
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if !selection_is_dragging:
+					for item:GroupField in SelectedItemList.keys():
+						if !selection_is_dragging:
+							item.set_to_drag()
+						
+						item.set_drag_motion()
+						print(item.name)
+					selection_is_dragging = true
+				
+			else:
+				pass
+				if selection_is_dragging:
+					#for item in SelectedItemList.keys():
+					#	item.set_drag_motion(false)
+					selection_is_dragging = false
+				
+			pass
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_T:
 			if event.shift_pressed:
@@ -69,7 +96,7 @@ func _input(event):
 
 
 func _draw():
-	if is_dragging:
+	if lasso_is_dragging:
 		var point_array:PackedVector2Array = []
 		point_array.append(lasso_start)
 		point_array.append(Vector2(lasso_end.x, lasso_start.y))
@@ -87,16 +114,17 @@ func _draw():
 func _lasso_on_enter(area: Area2D):
 	#print("Lasso Area Enterd")
 	if area.get_parent() is GroupField:
-		var parent =  area.get_parent()
-		if !SelectedItemList.has(parent):
-			SelectedItemList[parent] = true
+		var parent =  area.get_parent() as GroupField
+		SelectedItemList[parent] = true
+		parent.set_to_selected()
 	pass
 	
 	
 func _lasso_on_exited(area: Area2D):
 	#print("Lasso Area Exited")
 	if area.get_parent() is GroupField:
-		var parent =  area.get_parent()
+		var parent =  area.get_parent() as GroupField
 		if SelectedItemList.has(parent):
 			SelectedItemList.erase(parent)
+		parent.unset_to_selected()
 	pass
