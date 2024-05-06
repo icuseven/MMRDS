@@ -2292,6 +2292,8 @@ async function process_save_case()
   } 
   else 
   {
+    //save_queue.is_active = false;
+
     if (item.call_back) 
     {
       item.call_back();
@@ -3326,11 +3328,11 @@ function undo_click()
 
 async function autosave() 
 {
-    let split_one = window.location.href.split('#');
+    const split_one = window.location.href.split('#');
 
     if (split_one.length <= 1) return;
 
-    let split_two = split_one[0].split('/');
+    const split_two = split_one[0].split('/');
 
     if (split_two.length <= 3) return;
     
@@ -3345,7 +3347,7 @@ async function autosave()
         return;
     }
 
-    let split_three = split_one[1].split('/');
+    const split_three = split_one[1].split('/');
 
     if
     (
@@ -3359,9 +3361,9 @@ async function autosave()
     if (g_data == null  || g_data == undefined) return;
 
     
-    let dt1 = new Date(g_data.date_last_updated);
-    let dt2 = new Date();
-    let number_of_minutes = diff_minutes(dt1, dt2);
+    const dt1 = new Date(g_data.date_last_updated);
+    const dt2 = new Date();
+    const number_of_minutes = diff_minutes(dt1, dt2);
 
     if (number_of_minutes < 3) return; 
     

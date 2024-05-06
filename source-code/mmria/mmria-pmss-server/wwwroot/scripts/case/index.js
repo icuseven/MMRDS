@@ -2108,7 +2108,18 @@ async function process_save_case()
 {
     if(save_queue.is_active == true) return;
 
+    if(save_queue.item_list.length == 0) return;
+
+    const before_pop = save_queue.item_list.length;
+
     const item = save_queue.item_list.pop();
+
+    const after_pop = save_queue.item_list.length;
+
+    if(before_pop != after_pop + 1)
+    {
+        console.log("removal problem");
+    }
 
     if(item == null || item == undefined) return;
 
@@ -2223,13 +2234,18 @@ async function process_save_case()
             case_response != null &&
             case_response.error_description != null &&
             case_response.error_description.indexOf("(409) Conflict") > -1
-        ) return;
+        ) 
+        {
+            save_queue.is_active = false;
+            return;
+        }
 
         const err = {
             status: 500,
             responseText : case_response.error_description
         };
         $mmria.unstable_network_dialog_show(err, p_note);
+        save_queue.is_active = false;
         return;
     } 
     else if(case_response.ok == true)
@@ -2270,7 +2286,7 @@ async function process_save_case()
             console.log('save_case info data._id != case_response.id');
         }
 
-        save_queue.is_active = false;
+        //save_queue.is_active = false;
     }
     else
     {
@@ -2279,6 +2295,7 @@ async function process_save_case()
         $mmria.unstable_network_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
     }
 
+    save_queue.is_active = false;
 
     if (item.call_back) 
     {
@@ -2290,6 +2307,8 @@ async function process_save_case()
   } 
   else 
   {
+    //save_queue.is_active = false;
+
     if (item.call_back) 
     {
       item.call_back();
@@ -3317,37 +3336,49 @@ function undo_click()
 
 async function autosave() 
 {
-  let split_one = window.location.href.split('#');
+    const split_one = window.location.href.split('#');
 
-  if (split_one.length > 1) 
-  {
-    let split_two = split_one[0].split('/');
+    if (split_one.length <= 1) return;
 
-    if (split_two.length > 3 && split_two[3].toLocaleLowerCase() == 'case')
+    const split_two = split_one[0].split('/');
+
+    if (split_two.length <= 3) return;
+    
+    if
+    (
+        !(
+            split_two[3].toLocaleLowerCase() == 'case' ||
+            split_two[3].toLocaleLowerCase() == 'abstractordeidentifiedcase' 
+        )
+    )
     {
-      let split_three = split_one[1].split('/');
-
-      if
-      (
-        split_three.length > 1 &&
-        split_three[1].toLocaleLowerCase() != 'summary'
-      ) 
-      {
-        if (g_data) 
-        {
-          let dt1 = new Date(g_data.date_last_updated);
-          let dt2 = new Date();
-          let number_of_minutes = diff_minutes(dt1, dt2);
-
-          if (number_of_minutes > 2) 
-          {
-            g_data.date_last_updated = new Date();
-            await save_case(g_data, null, 'autosave');
-          }
-        }
-      }
+        return;
     }
-  }
+
+    const split_three = split_one[1].split('/');
+
+    if
+    (
+        split_three.length <= 1 ||
+        split_three[1].toLocaleLowerCase() == 'summary'
+    ) 
+    {
+        return;
+    }
+
+    if (g_data == null  || g_data == undefined) return;
+
+    
+    const dt1 = new Date(g_data.date_last_updated);
+    const dt2 = new Date();
+    const number_of_minutes = diff_minutes(dt1, dt2);
+
+    if (number_of_minutes < 3) return; 
+    
+
+    g_data.date_last_updated = new Date();
+    await save_case(g_data, null, 'autosave');
+  
 }
 
 function is_case_view_locked(p_case)
