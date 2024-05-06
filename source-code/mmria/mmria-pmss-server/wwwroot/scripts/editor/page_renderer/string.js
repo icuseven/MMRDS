@@ -354,3 +354,19 @@ function convert_form_name(p_value)
 
 	return lookup[p_value.toLowerCase()];
 }
+
+function safe_decodeURI(value)
+{
+    let result = value;
+
+    try
+    {
+        decodeURI(value);
+    }
+    catch(e)
+    {
+        result = decodeURI(encodeURI(value));
+    }
+
+    return result;
+}
