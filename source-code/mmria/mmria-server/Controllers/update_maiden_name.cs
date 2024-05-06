@@ -192,11 +192,12 @@ public sealed class update_maiden_nameController : Controller
                     if(certificate_identification != null)
                     {
                         // date_of_death["year"] = model.YearOfDeathReplacement.ToString();
-                        Model.MaidenName = Model.MaidenName.Replace(Model.MaidenName.ToString(), Model.MaidenNameReplacement);
+                        //Model.MaidenName = Model.MaidenName.Replace(Model.MaidenName.ToString(), Model.MaidenNameReplacement);
                         dictionary["last_updated_by"] = userName;
                         dictionary["date_last_updated"] = DateTime.Now;
-                        certificate_identification["dmaiden"] = Model.MaidenName;
+                        certificate_identification["dmaiden"] = Model.MaidenNameReplacement;
 
+                        Model.MaidenName = Model.MaidenNameReplacement;
                         Model.LastUpdatedBy = userName;
                         Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
                         // Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
