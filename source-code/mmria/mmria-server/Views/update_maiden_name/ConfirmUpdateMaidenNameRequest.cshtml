@@ -3,6 +3,7 @@
 @{ 
     Layout = "_LayoutBase";
     ViewBag.BreadCrumbs = true;
+    ViewBag.Title = "Update Maiden Name - Change Maiden Name";
     var userName = "";
 
     if(User.Identity != null && User.Identity.IsAuthenticated)
@@ -20,12 +21,12 @@
     <input type="hidden" name="Role" value="cdc_admin" />
     <input type="hidden" name="StateDatabase" value="@Model.StateDatabase" />
     <input type="hidden" name="RecordId" value="@Model.RecordId" />
-    <input value="< Back to Search Results" role="link" type="Submit" class="btn btn-link pl-0 pb-0" />
+    <input value="< Back to Search Results" type="Submit" class="btn btn-link pl-0 pb-0" />
 </form>
 <form method="post" action="/update_maiden_name/UpdateMaidenName">
     <p class="d-flex mt-2 mb-2">
       <strong class="align-self-center">Maiden Name:</strong>
-      <input maxlength="40" type="text" class="form-control col-3 ml-2" name="MaidenNameReplacement" value="@Model.MaidenName" />
+      <input aria-label="Maiden Name" maxlength="40" type="text" class="form-control col-3 ml-2" name="MaidenNameReplacement" value="@Model.MaidenName" />
     </p>
     <p><strong>First Name:</strong> @Model.FirstName</p>
     <p><strong>Middle Name:</strong> @Model.MiddleName</p>

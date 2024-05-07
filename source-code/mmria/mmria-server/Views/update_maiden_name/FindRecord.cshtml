@@ -3,6 +3,7 @@
 @model mmria.server.model.maiden_name.MaidenNameRequestResponse
 @{ 
     Layout = "_LayoutBase";
+    ViewBag.Title = "Update Maiden Name - Choose Case to Update";
     ViewBag.BreadCrumbs = true;
     var userName = "";
 
@@ -72,7 +73,7 @@
                 <td class="td">@i</td>
                 <td class="td">@item.RecordId</td>
                 <td class="td"style="width:160px;">
-                  @if (@item.MaidenName == null) {
+                  @if (@item.MaidenName == null || @item.MaidenName == "") {
                     @Html.Raw("(blank)");
                   } else {
                     @item.MaidenName
