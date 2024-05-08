@@ -541,7 +541,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
                 }
                 else
                 {
-                    p_result.push(decodeURI(p_data).replace(/'/g, "&apos;"));
+                    p_result.push(safe_decodeURI(p_data).replace(/'/g, "&apos;"));
                 }
             }
             else
@@ -961,7 +961,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
     page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path, p_dictionary_path, p_ctx);
 
     p_result.push(" >");
-    p_result.push(decodeURI(p_data));
+    p_result.push(safe_decodeURI(p_data));
 
 	p_result.push("</textarea>");
 }
