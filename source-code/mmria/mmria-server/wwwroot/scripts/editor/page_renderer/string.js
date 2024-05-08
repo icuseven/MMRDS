@@ -453,7 +453,7 @@ function safe_decodeURI(value)
 
     try
     {
-        decodeURI(value);
+        result = decodeURI(value);
     }
     catch(e)
     {
