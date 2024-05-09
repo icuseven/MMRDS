@@ -300,15 +300,4 @@ public sealed class update_maiden_nameController : Controller
         return result;
     }
 
-    int my_count = -1;
-    private int GenerateRandomFourDigits()
-    {
-        int _min = 1000;
-        int _max = 9999;
-        Random _rdm = new Random(System.DateTime.Now.Millisecond + my_count);
-        my_count ++;
-        return _rdm.Next(_min, _max);
-        
-    }
-
 }
