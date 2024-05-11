@@ -2284,7 +2284,7 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-				{ text: chkNull(ctx.data), style: ['tableDetail'], },
+				{ text: safe_decodeURI(chkNull(ctx.data)), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
