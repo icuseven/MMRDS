@@ -1995,7 +1995,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
+									colData.push({ text: safe_decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
@@ -2063,7 +2063,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
+									colData.push({ text: safe_decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -2139,13 +2139,14 @@ function print_pdf_render_content(ctx) {
 								case 'list':
 									row.push({ text: getLookupField(ctx.lookup, dataChild[metaChild.name], metaChild), style: ['tableDetail'], },);
 									break;
-								case 'string':
+								
 								case 'number':
 								case 'time':
 									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
+								case 'string':
 								case 'textarea':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
@@ -2232,13 +2233,14 @@ function print_pdf_render_content(ctx) {
 								case 'list':
 									row.push({ text: getLookupField(ctx.lookup, dataChild[metaChild.name], metaChild), style: ['tableDetail'], },);
 									break;
-								case 'string':
+
 								case 'number':
 								case 'time':
 									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
+								case 'string':
 								case 'textarea':
-									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'] },);
