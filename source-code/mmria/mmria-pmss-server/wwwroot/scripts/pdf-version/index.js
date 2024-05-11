@@ -2425,7 +2425,7 @@ function print_pdf_render_content(ctx) {
 				],
 					[
 						{ 
-							text: `${(typeof ctx.data == 'string') ? ctx.data : ctx.data.toString()}`, 
+							text: `${(typeof ctx.data == 'string') ? safe_decodeURI(ctx.data) : safe_decodeURI(ctx.data.toString())}`, 
 							style: ['tableDetail'], 
 							colSpan: '2', 
 						},
