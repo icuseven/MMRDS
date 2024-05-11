@@ -2148,10 +2148,10 @@ function print_pdf_render_content(ctx) {
 								case 'string':
 								case 'number':
 								case 'time':
-									row.push({ text: chkNull(safe_decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push({ text: chkNull(safe_decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(dchkNull(ataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
@@ -2241,10 +2241,10 @@ function print_pdf_render_content(ctx) {
 								case 'string':
 								case 'number':
 								case 'time':
-									row.push({ text: chkNull(safe_decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push({ text: chkNull(safe_decodeURI(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'] },);
@@ -2288,7 +2288,7 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-				{ text: chkNull(safe_decodeURI(ctx.data)), style: ['tableDetail'], },
+				{ text: safe_decodeURI(chkNull(ctx.data)), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
@@ -2429,7 +2429,7 @@ function print_pdf_render_content(ctx) {
 				],
 					[
 						{ 
-							text: `${(typeof ctx.data == 'string') ? ctx.data : ctx.data.toString()}`, 
+							text: `${(typeof ctx.data == 'string') ? safe_decodeURI(ctx.data) : ctx.data.toString()}`, 
 							style: ['tableDetail'], 
 							colSpan: '2', 
 						},
@@ -2760,7 +2760,7 @@ function print_pdf_render_content(ctx) {
 			if (g_show_hidden) {
 				ctx.content.push([
 					{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-					{ text: chkNull(ctx.data), style: ['tableDetail', 'fgRed'], },
+					{ text: safe_decodeURI(chkNull(ctx.data)), style: ['tableDetail', 'fgRed'], },
 				]);
 			}
 			break;
@@ -2776,7 +2776,7 @@ function print_pdf_render_content(ctx) {
 			// console.log('*** in DEFAULT', ctx.metadata.prompt);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-				{ text: chkNull(ctx.data), style: ['tableDetail'] },
+				{ text: safe_decodeURI(chkNull(ctx.data)), style: ['tableDetail'] },
 			]);
 			break;
 	}
