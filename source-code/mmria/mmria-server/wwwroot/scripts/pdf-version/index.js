@@ -2783,3 +2783,22 @@ function print_pdf_render_content(ctx) {
 
 	return ctx.content;
 }
+
+
+
+function safe_decodeURI(value)
+{
+    let result = value;
+
+    try
+    {
+        result = decodeURI(value);
+    }
+    catch(e)
+    {
+        result = decodeURI(encodeURI(value));
+    }
+
+    return result;
+}
+
