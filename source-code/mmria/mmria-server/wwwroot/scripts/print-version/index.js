@@ -107,4 +107,20 @@ function load_metadata()
 }
 
 
+function safe_decodeURI(value)
+{
+    let result = value;
+
+    try
+    {
+        result = decodeURI(value);
+    }
+    catch(e)
+    {
+        result = decodeURI(encodeURI(value));
+    }
+
+    return result;
+}
+
 
