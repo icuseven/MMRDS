@@ -2151,7 +2151,7 @@ function print_pdf_render_content(ctx) {
 									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'textarea':
-									row.push({ text: safe_decodeURI(dchkNull(ataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
