@@ -83,7 +83,15 @@ fl
 "ma",*/
 //IA, MI, MO, PA, SC ,
 //AK, CO, KS, MS
-"ny",
+
+"al",
+"ar",
+"az",
+"la",
+"nh",
+"sc",
+"wi"
+//"ny",
 /*"ma",
 "wa",
 "ms",
