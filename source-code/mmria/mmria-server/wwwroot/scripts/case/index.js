@@ -2131,11 +2131,14 @@ async function process_save_case()
   if (p_data.is_data_analyst_mode == null) 
   {
 
-    let save_case_request = { 
+    if(p_data._id == g_data._id)
+
+    {
+        let save_case_request = { 
             Change_Stack:{
                 _id: $mmria.get_new_guid(),
-                case_id: g_data._id,
-                case_rev: g_data._rev,
+                case_id: p_data._id,
+                case_rev: p_data._rev,
                 date_created: new Date().toISOString(),
                 user_name: g_user_name, 
                 items: g_change_stack,
@@ -2146,44 +2149,53 @@ async function process_save_case()
             Case_Data:p_data
         };
 
-    if(g_case_narrative_is_updated)
-    {
-        save_case_request.Change_Stack.items.push({
-            _id: g_data._id,
-            _rev: g_data._rev,
-          object_path: "g_data.case_narrative.case_opening_overview",
-          metadata_path: "/case_narrative/case_opening_overview",
-          old_value: g_case_narrative_original_value,
-          new_value: g_data.case_narrative.case_opening_overview,
-          dictionary_path: "/case_narrative/case_opening_overview",
-          metadata_type: "textarea",
-          prompt: 'Case Narrative',
-          date_created: g_case_narrative_is_updated_date.toISOString(),
-          user_name: g_user_name
-        });
+        if(g_case_narrative_is_updated)
+        {
+            save_case_request.Change_Stack.items.push({
+                _id: p_data._id,
+                _rev: p_data._rev,
+            object_path: "g_data.case_narrative.case_opening_overview",
+            metadata_path: "/case_narrative/case_opening_overview",
+            old_value: g_case_narrative_original_value,
+            new_value: g_data.case_narrative.case_opening_overview,
+            dictionary_path: "/case_narrative/case_opening_overview",
+            metadata_type: "textarea",
+            prompt: 'Case Narrative',
+            date_created: g_case_narrative_is_updated_date.toISOString(),
+            user_name: g_user_name
+            });
+        }
+
     }
+    else
+    {
+        const err = {
+            status: 500,
+            responseText : "p_data._id != g_data._id "
+        };
+        $mmria.save_error_500_dialog_show(err, p_note);
+    }
+
+    
 
 
     let case_response = {};
 
     try
     {
+        const case_response_promise = await fetch(location.protocol + '//' + location.host + '/api/case', {
+            method: "post",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            },
+        
+            //make sure to serialize your JSON body
+            body: JSON.stringify(save_case_request)
+        });
 
-    
-
-    const case_response_promise = await fetch(location.protocol + '//' + location.host + '/api/case', {
-        method: "post",
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json; charset=utf-8',
-          'dataType': 'json',
-        },
-      
-        //make sure to serialize your JSON body
-        body: JSON.stringify(save_case_request)
-      });
-
-      case_response = await case_response_promise.json();
+        case_response = await case_response_promise.json();
     }  
     catch(xhr) 
     {
