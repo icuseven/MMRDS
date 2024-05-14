@@ -1795,7 +1795,7 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                     element = document.createElement("dialog");
                     element.classList.add('p-0');
                     element.classList.add('set-radius');
-                    element.setAttribute("id", "save_error_500-id");
+                    element.setAttribute("id", "save-error-500-id");
                     element.setAttribute("role", "dialog");
     
                     document.firstElementChild.appendChild(element);
@@ -1831,30 +1831,19 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                             </ul>
                          </li>
                         </ol>
-                         <!--a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
-                         <div id="server_response_detail_div" style="display:none">
-                         <br/>
-                         <textarea id=server_response_textarea rows=7 cols=55 readonly>
-Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
-Action: ${p_note}
-Server Response:
-${p_error.responseText== undefined ? "offline" : p_error.responseText }
-                         </textarea>
-                         <button class="btn btn-primary mr-1" onclick="$mmria.save_error_500_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy Details to Clipboard</button-->
-                         </div>
                         </div>
 
                     </div>
                     <div style="display:block">
                     <footer class="modal-footer">
-                        <button id="unstable_network_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.save_error_500_dialog_click()" style="font-family: 'Open-Sans';">OK</button>
+                        <button id="save_error_500_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.save_error_500_dialog_click()" style="font-family: 'Open-Sans';">OK</button>
                     </footer>
                     </div>
                 `);
     
                 element.innerHTML = html.join("");
 
-                mmria_pre_modal("save_error_500-id");
+                mmria_pre_modal("save-error-500-id");
                 
                 window.setTimeout
                 (
