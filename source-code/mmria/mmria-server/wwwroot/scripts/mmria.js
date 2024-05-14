@@ -1814,23 +1814,23 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
-                         <p>To prevent data loss, <b>do NOT close this MMRIA form.</b></p>
-                         <p>Please wait 5 minutes, then press the <b>Save & Continue</b> button to save your work. You should receive confirmation that your data has been saved.</p>
+                         <p>An error occured while saving.</p>
+                         <p>Error Details: ${p_note}</p>
                          
                          <p>
-                         <b>If this error occurs again, please do the following:</b> 
+                         <b>Please copy the error details and notify mmriaIf this error occurs again, please do the following:</b> 
                          <ol>
-                            <li>Select <u>Show Error Detail</u> below</li>
-                            <li>Select <u>Copy Details to Clipboard</u></li>
+                            <li>Select <u>Error Detail: above</u> below</li>
+                            <li>Select <u>Copy Details to Clipboard</u> Ctl-C</li>
                             <li>Send an email to MMRIA Support with the following details:
                             <ul>
                             <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
                             <li>Subject: MMRIA Save Error</li>
-                            <li>Body: Paste the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
+                            <li>Body: Paste (Ctl-v) the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
                             </ul>
                          </li>
                         </ol>
-                         <a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
+                         <!--a href="javascript:$mmria.server_response_detail_div_show()">Show Error Detail</a> | <a href="javascript:$mmria.server_response_detail_div_hide()">Hide Error Detail</a>
                          <div id="server_response_detail_div" style="display:none">
                          <br/>
                          <textarea id=server_response_textarea rows=7 cols=55 readonly>
@@ -1839,7 +1839,7 @@ Action: ${p_note}
 Server Response:
 ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                          </textarea>
-                         <button class="btn btn-primary mr-1" onclick="$mmria.save_error_500_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy Details to Clipboard</button>
+                         <button class="btn btn-primary mr-1" onclick="$mmria.save_error_500_dialog_copy_click()" style="font-family: 'Open-Sans';">Copy Details to Clipboard</button-->
                          </div>
                         </div>
 
