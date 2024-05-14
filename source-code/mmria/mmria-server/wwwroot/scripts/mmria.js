@@ -1859,7 +1859,7 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
         save_error_500_dialog_click: function ()
         {
             mmria_post_modal();
-            let el = document.getElementById("save_error_500-id");
+            let el = document.getElementById("save-error-500-id");
             el.close();
         },
         save_error_500_dialog_copy_click: function()

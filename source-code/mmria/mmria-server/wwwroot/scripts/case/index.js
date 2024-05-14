@@ -2289,7 +2289,7 @@ async function process_save_case()
     {
         console.log('save_case error case_response.ok != true');
         is_faulted = true;
-        $mmria.unstable_network_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
+        $mmria.save_error_500_dialog_show(`Prolem saving Please close case: is_faulted: true, g_data._id: ${g_data._id}\n case_response: ${case_response} please close case`, p_note);
     }
     
     save_queue.is_active = false;
