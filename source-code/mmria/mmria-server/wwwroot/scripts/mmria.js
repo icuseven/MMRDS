@@ -1818,7 +1818,8 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                          <p>Error Details: ${p_note}</p>
                          
                          <p>
-                         <b>Please copy the error details and notify mmriaIf this error occurs again, please do the following:</b> 
+                            <b>Please copy the error details and notify mmriaIf this error occurs again, please do the following:</b> 
+                         </p>
                          <ol>
                             <li>Select <u>Error Detail: above</u> below</li>
                             <li>Select <u>Copy Details to Clipboard</u> Ctl-C</li>
