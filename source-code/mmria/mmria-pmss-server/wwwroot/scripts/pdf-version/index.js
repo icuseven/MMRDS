@@ -1995,7 +1995,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: safe_decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
+									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}:  `, style: ['tableLabel'], alignment: 'right', },);
@@ -2063,7 +2063,7 @@ function print_pdf_render_content(ctx) {
 								case 'time':
 								case 'hidden':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
-									colData.push({ text: safe_decodeURI(dataChild[metaChild[i].name]) || '-', style: ['tableDetail'], },);
+									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
 									break;
 								default:
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
@@ -2146,7 +2146,7 @@ function print_pdf_render_content(ctx) {
 									break;
 								case 'string':
 								case 'textarea':
-									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'], },);
@@ -2240,7 +2240,7 @@ function print_pdf_render_content(ctx) {
 									break;
 								case 'string':
 								case 'textarea':
-									row.push({ text: safe_decodeURI(chkNull(dataChild[metaChild.name])), style: ['tableDetail'], },);
+									row.push({ text: chkNull(dataChild[metaChild.name]), style: ['tableDetail'], },);
 									break;
 								case 'date':
 									row.push({ text: reformatDate(dataChild[metaChild.name]), style: ['tableDetail'] },);
@@ -2284,7 +2284,7 @@ function print_pdf_render_content(ctx) {
 			// console.log('*************** type: ', ctx.metadata.type);
 			ctx.content.push([
 				{ text: `${ctx.metadata.prompt}: `, style: ['tableLabel'], alignment: 'right', },
-				{ text: safe_decodeURI(chkNull(ctx.data)), style: ['tableDetail'], },
+				{ text: chkNull(ctx.data), style: ['tableDetail'], },
 			]);
 			break;
 		case "date":
@@ -2425,7 +2425,7 @@ function print_pdf_render_content(ctx) {
 				],
 					[
 						{ 
-							text: `${(typeof ctx.data == 'string') ? safe_decodeURI(ctx.data) : safe_decodeURI(ctx.data.toString())}`, 
+							text: `${(typeof ctx.data == 'string') ? ctx.data : ctx.data.toString()}`, 
 							style: ['tableDetail'], 
 							colSpan: '2', 
 						},
@@ -2780,6 +2780,8 @@ function print_pdf_render_content(ctx) {
 	return ctx.content;
 }
 
+/*
+
 function safe_decodeURI(value)
 {
     let result = value;
@@ -2795,3 +2797,5 @@ function safe_decodeURI(value)
 
     return result;
 }
+
+*/

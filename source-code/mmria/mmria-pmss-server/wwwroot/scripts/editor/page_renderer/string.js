@@ -355,6 +355,8 @@ function convert_form_name(p_value)
 	return lookup[p_value.toLowerCase()];
 }
 
+/*
+
 function safe_decodeURI(value)
 {
     let result = value;
@@ -370,3 +372,4 @@ function safe_decodeURI(value)
 
     return result;
 }
+*/

@@ -541,7 +541,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
           result.push("</span>");
           result.push("<br/>");
           result.push("<textarea>");
-            result.push(safe_decodeURI(p_data));
+            result.push(p_data);
             //page_render_create_textarea(result, p_metadata, p_data, p_metadata_path, p_object_path);
           result.push("</textarea>");
 				result.push("</div>");
@@ -1327,7 +1327,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 	//page_render_create_onblur_event(p_result, p_metadata, p_metadata_path, p_object_path);
 
 	p_result.push(" >");
-	p_result.push(safe_decodeURI(p_data));
+	p_result.push(p_data);
 	p_result.push("</textarea>");
 	
 }

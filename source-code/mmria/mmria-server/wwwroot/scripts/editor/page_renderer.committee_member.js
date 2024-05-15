@@ -441,7 +441,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
     }
 
     p_result.push(" >");
-    p_result.push(safe_decodeURI(p_data));
+    p_result.push(p_data);
 	p_result.push("</textarea>");
 	
 }

@@ -714,8 +714,8 @@ function render_app_summary_result_item(item, i)
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.jurisdiction_id;
-    const firstName = safe_decodeURI(item.value.first_name);
-    const lastName = safe_decodeURI(item.value.last_name);
+    const firstName = item.value.first_name;
+    const lastName = item.value.last_name;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;
@@ -818,8 +818,8 @@ function render_app_pinned_summary_result(item, i)
     const caseID = item.id;
     const hostState = item.value.host_state;
     const jurisdictionID = item.value.jurisdiction_id;
-    const firstName = safe_decodeURI(item.value.first_name);
-    const lastName = safe_decodeURI(item.value.last_name);
+    const firstName = item.value.first_name;
+    const lastName = item.value.last_name;
     const recordID = item.value.record_id ? `- (${item.value.record_id})` : '';
     const agencyCaseID = item.value.agency_case_id;
     const createdBy = item.value.created_by;

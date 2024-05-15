@@ -701,7 +701,7 @@ d3.select('#chart svg').append('text')
         result.push('</p>');
         result.push('</h9>');
         result.push('<div>');
-        result.push(safe_decodeURI(p_data));
+        result.push(p_data);
         result.push('</div>');
       }
       else//if (p_metadata.name == 'case_opening_overview') 
@@ -714,7 +714,7 @@ d3.select('#chart svg').append('text')
           result.push('<br>');
         }
 
-        result.push(safe_decodeURI(p_data));
+        result.push(p_data);
         result.push('</div>');
       }
 
