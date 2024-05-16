@@ -2131,51 +2131,48 @@ async function process_save_case()
   if (p_data.is_data_analyst_mode == null) 
   {
 
-    if(p_data._id == g_data._id)
-
-    {
-        let save_case_request = { 
-            Change_Stack:{
-                _id: $mmria.get_new_guid(),
-                case_id: p_data._id,
-                case_rev: p_data._rev,
-                date_created: new Date().toISOString(),
-                user_name: g_user_name, 
-                items: g_change_stack,
-                metadata_version: g_release_version,
-                note: (p_note != null)? p_note : ""
-
-            },
-            Case_Data:p_data
-        };
-
-        if(g_case_narrative_is_updated)
-        {
-            save_case_request.Change_Stack.items.push({
-                _id: p_data._id,
-                _rev: p_data._rev,
-            object_path: "g_data.case_narrative.case_opening_overview",
-            metadata_path: "/case_narrative/case_opening_overview",
-            old_value: g_case_narrative_original_value,
-            new_value: g_data.case_narrative.case_opening_overview,
-            dictionary_path: "/case_narrative/case_opening_overview",
-            metadata_type: "textarea",
-            prompt: 'Case Narrative',
-            date_created: g_case_narrative_is_updated_date.toISOString(),
-            user_name: g_user_name
-            });
-        }
-
-    }
-    else
+    if(p_data._id != g_data._id)
     {
         const err = {
             status: 500,
-            responseText : "p_data._id != g_data._id "
+            responseText : "Save Logic Error: p_data._id != g_data._id "
         };
         $mmria.save_error_500_dialog_show(err, p_note);
+        save_queue.is_active = false;
+        return;
     }
 
+    let save_case_request = { 
+        Change_Stack:{
+            _id: $mmria.get_new_guid(),
+            case_id: p_data._id,
+            case_rev: p_data._rev,
+            date_created: new Date().toISOString(),
+            user_name: g_user_name, 
+            items: g_change_stack,
+            metadata_version: g_release_version,
+            note: (p_note != null)? p_note : ""
+
+        },
+        Case_Data:p_data
+    };
+
+    if(g_case_narrative_is_updated)
+    {
+        save_case_request.Change_Stack.items.push({
+            _id: p_data._id,
+            _rev: p_data._rev,
+        object_path: "g_data.case_narrative.case_opening_overview",
+        metadata_path: "/case_narrative/case_opening_overview",
+        old_value: g_case_narrative_original_value,
+        new_value: g_data.case_narrative.case_opening_overview,
+        dictionary_path: "/case_narrative/case_opening_overview",
+        metadata_type: "textarea",
+        prompt: 'Case Narrative',
+        date_created: g_case_narrative_is_updated_date.toISOString(),
+        user_name: g_user_name
+        });
+    }
     
 
 
