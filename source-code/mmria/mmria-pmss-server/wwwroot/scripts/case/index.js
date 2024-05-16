@@ -530,7 +530,7 @@ async function g_set_data_object_from_path
       eval(
         p_object_path +
           ' = "' +
-          encodeURI(value).replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+          value.replace(/"/g, '\\"').replace(/\n/g, '\\n') +
           '"'
       );
     }
