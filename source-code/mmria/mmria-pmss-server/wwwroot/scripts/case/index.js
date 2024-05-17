@@ -2244,8 +2244,8 @@ async function process_save_case()
             status: 500,
             responseText : case_response.error_description
         };
-        $mmria.unstable_network_dialog_show(err, p_note);
-        save_queue.is_active = false;
+        //$mmria.unstable_network_dialog_show(err, p_note);
+        //save_queue.is_active = false;
         return;
     } 
     else if(case_response.ok == true)
