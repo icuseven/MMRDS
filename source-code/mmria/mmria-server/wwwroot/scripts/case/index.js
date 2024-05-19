@@ -278,21 +278,7 @@ async function g_set_data_object_from_path
     if (g_validator_map[p_metadata_path](value)) 
     {
       var metadata = eval(p_metadata_path);
-/*
-      if
-      (
-            metadata.type.toLowerCase() == "string" &&
-            metadata.max_length != null &&
-            metadata.max_length != "" &&
-            !isNaN(metadata.max_length) && 
-            parseInt(Number(metadata.max_length)) == metadata.max_length && 
-            !isNaN(parseInt(metadata.max_length, 10))
-      )
-      {
-          p_result.push("max_length=");
-          p_result.push(p_metadata.max_length);
-      }
-*/
+
     if (metadata.type.toLowerCase() == 'boolean') 
     {
         eval(p_object_path + ' = ' + value);
@@ -327,11 +313,6 @@ async function g_set_data_object_from_path
       });
 
       window.setTimeout(async ()=> { await autorecalculate(p_dictionary_path) });
-      /*
-      if (g_ui.broken_rules.hasOwnProperty(p_object_path)) 
-      {
-        delete g_ui.broken_rules[p_object_path];
-      }*/
 
         set_local_case
         (
@@ -391,9 +372,6 @@ async function g_set_data_object_from_path
         }
         catch(e)
         {
-
-
-
             const el = document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '_control');
             let from = e.location.start.offset-5;
             
@@ -578,39 +556,15 @@ else if
             if(new_value != null && new_value != "")
             {
                 /*
-                if(new_value.indexOf("T"))
-                {
-                    const date_time_object = new Date(new_value);
-        
-                    date_part_display_value = 
-                    (date_time_object.getMonth() + 1) + "/" + 
-                    date_time_object.getDate() + "/" + 
-                    date_time_object.getFullYear();
-        
-                    time_part_display_value = ("00" + date_time_object.getHours()).slice(-2) + ":" 
-                    + ("00" + date_time_object.getMinutes()).slice(-2) 
-                    + ":" + ("00" + date_time_object.getSeconds()).slice(-2); 
-        
-                }*/
+                 do nothing
+                 
+                */
             }
             else
             {
                 document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').value = time_part_display_value;
             }
 
-            
-
-
-            /*
-            if(value == null || value == "")
-            {
-                document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').setAttribute('disabled', 'disabled');
-            }
-            else
-            {
-                document.getElementById(convert_object_path_to_jquery_id(p_object_path) + '-time').removeAttribute('disabled');
-            } 
-            */
             gui_remove_broken_rule_click(convert_object_path_to_jquery_id(p_object_path));
         }
     );
@@ -779,8 +733,6 @@ else
                   });
 
 
-                 // post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-date')).focus();`);
-
                  if (!isNullOrUndefined(p_date_object)) 
                  {
                   post_html_call_back.push(
@@ -790,36 +742,6 @@ else
                     );
                  }
                  
-                 /*
-                 else
-                 {
-                    post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-time')).focus();`);
-                 }
-*/
-
- /*
-                if(!is_valid_datetime(value))
-                {
-                    post_html_call_back.push(
-                        `$('#${convert_object_path_to_jquery_id(
-                            p_object_path
-                        )}-date').focus();`
-                        );
-                }
-                else 
-                if (!isNullOrUndefined(p_date_object)) 
-                {
-                    post_html_call_back.push(`findNextTabStop(document.getElementById('${p_object_path}-date')).focus();`);
-                } */
-/*               else if (!isNullOrUndefined(p_time_object)) 
-                {
-                    // console.log('b2', p_time_object.value);
-                    post_html_call_back.push(
-                    `$('#${convert_object_path_to_jquery_id(
-                        p_object_path
-                    )} input.datetime-time').focus();`
-                    );
-                }*/
                 break;
 
                 case 'date':
