@@ -36,7 +36,7 @@ var g_is_confirm_for_case_lock = false;
 var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
-var g_record_id_list = {};
+var g_record_id_list = new Set();
 const g_charts = new Map();
 const g_chart_data = new Map();
 const g_duplicate_path_set = new Set();
@@ -1156,12 +1156,14 @@ var g_ui = {
     {
         
         let new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
-        while(g_record_id_list[new_record_id] != null)
+        while(g_record_id_list.has(new_record_id))
         {
             new_record_id = reporting_state.trim() + '-' + result.home_record.date_of_death.year.trim() + '-' + $mmria.getRandomCryptoValue().toString().substring(2, 6);
         }
 
         result.home_record.record_id = new_record_id.toUpperCase();
+
+        g_record_id_list.add(new_record_id.toUpperCase());
     }
 
     var new_data = [];
@@ -1469,31 +1471,29 @@ $(function ()
 });
 
 
-function Get_Record_Id_List(p_call_back) 
+async function Get_Record_Id_List(p_call_back) 
 {
-  $.ajax
-  ({
-    url: location.protocol + '//' + location.host + '/api/case_view/record-id-list',
-  })
-  .done
-  (
-    function (response) 
-    {
-        if(response!= null)
-        {
-            for(var i = 0; i < response.length; i++)
-            {
-                let item = response[i];
-                g_record_id_list[item] = true;
-            }
+    const url = `${location.protocol}//${location.host}/api/case_view/record-id-list`;
 
-            if(p_call_back!= null)
-            {
-                p_call_back();
-            }
+    const response = await $.ajax
+    ({
+        url: url,
+    });
+
+    if(response!= null)
+    {
+        for(var i = 0; i < response.length; i++)
+        {
+            let item = response[i];
+            g_record_id_list.add(item.toUpperCase());
+        }
+
+        if(p_call_back!= null)
+        {
+            p_call_back();
         }
     }
-  );
+
 }
 
 async function load_and_set_data() 
@@ -3660,7 +3660,7 @@ function gui_remove_broken_rule(p_object_id)
 
 
 
-function add_new_case_button_click(p_input)
+async function add_new_case_button_click(p_input)
 {
     let state = document.getElementById("add_new_state");
 
@@ -3915,7 +3915,7 @@ function add_new_case_button_click(p_input)
             state.value = "generate_record";
             new_validation_message_area.innerHTML = "generate confirmed";
 
-            Get_Record_Id_List(
+            await Get_Record_Id_List(
 
             function () {
                 g_ui.add_new_case(
