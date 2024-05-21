@@ -1523,32 +1523,31 @@ $(function ()
 });
 
 
-function Get_Record_Id_List(p_call_back) 
+async function Get_Record_Id_List(p_call_back) 
 {
-  $.ajax
-  ({
-    url: location.protocol + '//' + location.host + '/api/case_view/record-id-list',
-  })
-  .done
-  (
-    function (response) 
-    {
-        if(response!= null)
-        {
-            for(var i = 0; i < response.length; i++)
-            {
-                let item = response[i];
-                g_record_id_list[item] = true;
-            }
+    const url = `${location.protocol}//${location.host}/api/case_view/record-id-list`;
 
-            if(p_call_back!= null)
-            {
-                p_call_back();
-            }
+    const response = await $.ajax
+    ({
+        url: url,
+    });
+
+    if(response!= null)
+    {
+        for(var i = 0; i < response.length; i++)
+        {
+            let item = response[i];
+            g_record_id_list.add(item.toUpperCase());
+        }
+
+        if(p_call_back!= null)
+        {
+            p_call_back();
         }
     }
-  );
+
 }
+
 
 async function load_and_set_data() 
 {
@@ -3921,16 +3920,18 @@ async function add_new_case_button_click(p_input)
         add_new_confirm_dialog.close();
         if(p_input == "yes")
         {
-            state.value = "generate_record";
+            //state.value = "generate_record";
+            state.value = "init";
             new_validation_message_area.innerHTML = "generate confirmed";
 
-            Get_Record_Id_List(
+            await Get_Record_Id_List(
 
             function () {
                 g_ui.add_new_case(
                 new_year_of_death.value,
                 new_state_of_death.value);
             });
+
         }
         else
         {

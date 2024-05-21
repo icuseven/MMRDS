@@ -3912,7 +3912,8 @@ async function add_new_case_button_click(p_input)
         add_new_confirm_dialog.close();
         if(p_input == "yes")
         {
-            state.value = "generate_record";
+            //state.value = "generate_record";
+            state.value = "init";
             new_validation_message_area.innerHTML = "generate confirmed";
 
             await Get_Record_Id_List(
@@ -3927,6 +3928,7 @@ async function add_new_case_button_click(p_input)
                 new_year_of_death.value,
                 new_state_of_death.value);
             });
+
         }
         else
         {
