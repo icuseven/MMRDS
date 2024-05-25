@@ -148,10 +148,7 @@ shape = SubResource("RectangleShape2D_2ldsk")
 
 [node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
 position = Vector2(286, 225)
-selected_color = Color(0.972549, 0.972549, 1, 1)
 dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
-is_drag_mode = false
-is_selected_mode = false
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2

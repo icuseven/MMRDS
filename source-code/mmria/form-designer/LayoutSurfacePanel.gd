@@ -12,6 +12,8 @@ var LassoCollisionShap:RectangleShape2D
 
 var SelectedItemList:Dictionary = {}
 
+var selected_mouse_position = Vector2.ZERO
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LassoArea = $LassoArea2D
@@ -71,12 +73,15 @@ func _input(event):
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				if !selection_is_dragging:
+					selected_mouse_position = get_local_mouse_position()
 					for item:GroupField in SelectedItemList.keys():
 						if !selection_is_dragging:
-							item.set_to_drag()
+							item.set_to_drag(get_global_mouse_position())
 						
 						item.set_drag_motion()
 						print(item.name)
+						
+					
 					selection_is_dragging = true
 				
 			else:
@@ -110,6 +115,9 @@ func _draw():
 		draw_line(point_array[3], point_array[0], lasso_color)
 	else:
 		pass
+		
+	if selected_mouse_position != Vector2.ZERO:
+		draw_circle(selected_mouse_position, 5, Color.CORAL)
 
 func _lasso_on_enter(area: Area2D):
 	#print("Lasso Area Enterd")

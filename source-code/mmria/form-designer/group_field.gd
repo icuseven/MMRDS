@@ -76,7 +76,13 @@ func _process(delta):
 		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
 		
 		#position = position.lerp(point_list[0] - drag_offset, delta)
-		position = position.lerp(point_list[0], t)
+		var gp = Vector2.ZERO
+		
+		gp.x = lerp (drag_offset.x, origin_drag_position.x, t)
+		gp.y = lerp (drag_offset.y, origin_drag_position.y, t)
+		
+		position = to_local(gp)
+		#position = position.lerp(point_list[0], t)
 
 func _calc_positions():
 	var x_diff = width / 2.0
@@ -166,8 +172,10 @@ func unset_to_selected():
 	is_selected_mode = false
 	queue_redraw()
 
-func set_to_drag():
-	#drag_offset = to_global(position) - get_global_mouse_position()
+func set_to_drag(target_position:Vector2):
+	#drag_offset = to_local(target_position) - position
+	drag_offset = target_position
+	origin_drag_position = to_global(position) 
 	draw_color = selected_color
 	is_selected_mode = true
 	queue_redraw()
@@ -180,13 +188,12 @@ func unset_to_drag():
 	
 func set_drag_motion():
 	is_drag_mode = true
-	drag_offset = Vector2.ZERO
+	#drag_offset = Vector2.ZERO
+
+	#origin_drag_position = get_global_mouse_position()
+	#drag_offset = origin_drag_position - to_global(position)
 	
-	
-	origin_drag_position = get_global_mouse_position()
-	drag_offset = origin_drag_position - to_global(position)
-	
-	point_list.append(get_global_mouse_position())
+	point_list.append(drag_offset)
 	draw_color = dragging_color
 	queue_redraw()
 	
