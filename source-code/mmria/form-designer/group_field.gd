@@ -71,7 +71,7 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if is_drag_mode:
+	if is_drag_mode and t < 1.0:
 		t += delta * 0.4
 		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
 		
@@ -122,6 +122,15 @@ func _draw():
 	draw_line(point_array[1], point_array[2], draw_color)
 	draw_line(point_array[2], point_array[3], draw_color)
 	draw_line(point_array[3], point_array[0], draw_color)
+	
+	
+	draw_circle(to_local(position), 5, Color.RED)
+	print("group_field local(position): %s width: %s height: %s" % [to_local(position), width, height])
+	
+	draw_circle(position, 5, Color.GREEN)
+	print("group_field position: %s width: %s height: %s" % [position, width, height])
+	
+	draw_circle(Vector2.ZERO, 5, Color.CORNFLOWER_BLUE)
 	
 	#draw_circle(Vector2.ZERO, 3, Color.ALICE_BLUE)
 
