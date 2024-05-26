@@ -74,6 +74,7 @@ func _input(event):
 			if event.pressed:
 				if !selection_is_dragging:
 					selected_mouse_position = get_local_mouse_position()
+					print("Selected Global Position: %s" % get_global_mouse_position())
 					for item:GroupField in SelectedItemList.keys():
 						if !selection_is_dragging:
 							item.set_to_drag(get_global_mouse_position())

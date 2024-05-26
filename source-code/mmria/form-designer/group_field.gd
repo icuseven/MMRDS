@@ -71,17 +71,19 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if is_drag_mode and t < 1.0:
+	if is_drag_mode:
 		t += delta * 0.4
 		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
-		
+		if t >= 1.0:
+			is_drag_mode = false
+			t = 0.0
 		#position = position.lerp(point_list[0] - drag_offset, delta)
 		var gp = Vector2.ZERO
 		
-		gp.x = lerp (drag_offset.x, origin_drag_position.x, t)
-		gp.y = lerp (drag_offset.y, origin_drag_position.y, t)
+		gp.x = lerp (origin_drag_position.x, origin_drag_position.x + drag_offset.x, t)
+		gp.y = lerp (origin_drag_position.y, origin_drag_position.y + drag_offset.y, t)
 		
-		position = to_local(gp)
+		position = gp
 		#position = position.lerp(point_list[0], t)
 
 func _calc_positions():
@@ -183,8 +185,8 @@ func unset_to_selected():
 
 func set_to_drag(target_position:Vector2):
 	#drag_offset = to_local(target_position) - position
-	drag_offset = target_position
-	origin_drag_position = to_global(position) 
+	drag_offset = target_position - position
+	origin_drag_position = position 
 	draw_color = selected_color
 	is_selected_mode = true
 	queue_redraw()
