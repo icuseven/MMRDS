@@ -51,9 +51,11 @@ func _input(event):
 			if event.pressed:
 				lasso_is_dragging = true
 				lasso_start = get_local_mouse_position()
+				lasso_end = get_local_mouse_position()
 				
 				#LassoArea.position = lasso_start
 				#LassoOffset = LassoStart - event.position
+				queue_redraw()
 			else:
 				#print("Left mouse button event at %s event_pressed: %s", event.position, event.pressed)
 				#for area in LassoArea.get_overlapping_areas():
@@ -84,6 +86,7 @@ func _input(event):
 						
 					
 					selection_is_dragging = true
+					queue_redraw()
 				
 			else:
 				pass
@@ -91,6 +94,7 @@ func _input(event):
 					#for item in SelectedItemList.keys():
 					#	item.set_drag_motion(false)
 					selection_is_dragging = false
+					queue_redraw()
 				
 			pass
 	if event is InputEventKey and event.pressed:
@@ -119,6 +123,9 @@ func _draw():
 		
 	if selected_mouse_position != Vector2.ZERO:
 		draw_circle(selected_mouse_position, 5, Color.CORAL)
+		
+	draw_circle(%GroupField.position, 5, Color.YELLOW)
+	draw_circle(%GroupField2.position, 5, Color.YELLOW)
 
 func _lasso_on_enter(area: Area2D):
 	#print("Lasso Area Enterd")

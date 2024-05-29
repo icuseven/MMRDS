@@ -132,10 +132,12 @@ position = Vector2(52, 18)
 shape = SubResource("RectangleShape2D_0pi5k")
 
 [node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
+unique_name_in_owner = true
 position = Vector2(452, 222)
 dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
 
 [node name="GroupField2" type="Node2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
+unique_name_in_owner = true
 position = Vector2(317, 316)
 script = ExtResource("4_uqoye")
 
