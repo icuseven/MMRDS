@@ -131,6 +131,10 @@ script = ExtResource("2_yorkv")
 position = Vector2(52, 18)
 shape = SubResource("RectangleShape2D_0pi5k")
 
+[node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
+position = Vector2(452, 222)
+dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
+
 [node name="GroupField2" type="Node2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
 position = Vector2(317, 316)
 script = ExtResource("4_uqoye")
@@ -145,10 +149,6 @@ position = Vector2(20, 10)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2/Area2D"]
 shape = SubResource("RectangleShape2D_2ldsk")
-
-[node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
-position = Vector2(286, 225)
-dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2

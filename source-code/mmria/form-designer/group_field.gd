@@ -125,6 +125,7 @@ func _draw():
 	draw_line(point_array[2], point_array[3], draw_color)
 	draw_line(point_array[3], point_array[0], draw_color)
 	
+	var zero_to_global = to_global(Vector2.ZERO)
 	
 	draw_circle(to_local(position), 5, Color.RED)
 	print("group_field local(position): %s width: %s height: %s" % [to_local(position), width, height])
@@ -133,6 +134,8 @@ func _draw():
 	print("group_field position: %s width: %s height: %s" % [position, width, height])
 	
 	draw_circle(Vector2.ZERO, 5, Color.CORNFLOWER_BLUE)
+	
+	print("Vector.ZERO to_global %s %s %s" % [zero_to_global, to_local(position) - zero_to_global, position - zero_to_global])
 	
 	#draw_circle(Vector2.ZERO, 3, Color.ALICE_BLUE)
 
@@ -185,7 +188,8 @@ func unset_to_selected():
 
 func set_to_drag(target_position:Vector2):
 	#drag_offset = to_local(target_position) - position
-	drag_offset = target_position - position
+	var red_position = to_local(position)
+	drag_offset = target_position - position + red_position
 	origin_drag_position = position 
 	draw_color = selected_color
 	is_selected_mode = true
