@@ -29,7 +29,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
     [HttpGet]
     public async System.Threading.Tasks.Task<IList<mmria.common.model.couchdb.user_role_jurisdiction>> Get(string p_urj_id)
     {
-        Log.Information  ("Recieved message.");
+        //Log.Information  ("Recieved message.");
         var result = new List<mmria.common.model.couchdb.user_role_jurisdiction>();
 
         try
