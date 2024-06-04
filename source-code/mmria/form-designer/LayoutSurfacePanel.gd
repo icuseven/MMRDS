@@ -1,5 +1,7 @@
 extends Panel
 
+var is_debug_mode = true
+
 var lasso_start:Vector2 = Vector2.ZERO
 var lasso_end:Vector2 = Vector2.ZERO
 var lasso_color:Color = Color.YELLOW
@@ -12,7 +14,8 @@ var LassoCollisionShap:RectangleShape2D
 
 var SelectedItemList:Dictionary = {}
 
-var selected_mouse_position = Vector2.ZERO
+var mouse_position = [Vector2.ZERO, Vector2.ZERO]
+var selected_differnce = Vector2.ZERO
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -38,10 +41,10 @@ func _input(event):
 			LassoArea.position = lasso_start - Vector2(size_x, size_y) /2
 			LassoCollisionShap.size = Vector2(abs(size_x), abs(size_y))
 		elif selection_is_dragging:
-			pass
+			mouse_position[1] = get_local_mouse_position()	
 			
 				
-			
+		
 		queue_redraw()	
 	elif event is InputEventMouseButton:
 		
@@ -75,7 +78,8 @@ func _input(event):
 		elif event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				if !selection_is_dragging:
-					selected_mouse_position = get_local_mouse_position()
+					mouse_position[0] = get_local_mouse_position()
+					mouse_position[1] = mouse_position[1]
 					print("Selected Global Position: %s" % get_global_mouse_position())
 					for item:GroupField in SelectedItemList.keys():
 						if !selection_is_dragging:
@@ -94,6 +98,10 @@ func _input(event):
 					#for item in SelectedItemList.keys():
 					#	item.set_drag_motion(false)
 					selection_is_dragging = false
+					mouse_position[1] = get_local_mouse_position()
+					selected_differnce = mouse_position[0] - mouse_position[1]
+					if not is_debug_mode:
+						print("selected_difference: %s" % selected_differnce)
 					queue_redraw()
 				
 			pass
@@ -121,11 +129,16 @@ func _draw():
 	else:
 		pass
 		
-	if selected_mouse_position != Vector2.ZERO:
-		draw_circle(selected_mouse_position, 5, Color.CORAL)
+	
 		
-	draw_circle(%GroupField.position, 5, Color.YELLOW)
-	draw_circle(%GroupField2.position, 5, Color.YELLOW)
+	if is_debug_mode:
+		draw_circle(%GroupField.position, 5, Color.YELLOW)
+		draw_circle(%GroupField2.position, 5, Color.YELLOW)
+
+		if mouse_position[0] != Vector2.ZERO and mouse_position[1] != Vector2.ZERO:
+			draw_circle(mouse_position[0], 5, Color.CORAL)
+			draw_circle(mouse_position[1], 5, Color.BLANCHED_ALMOND)
+			draw_line(mouse_position[0],mouse_position[1],Color.AQUA, 1.0)
 
 func _lasso_on_enter(area: Area2D):
 	#print("Lasso Area Enterd")

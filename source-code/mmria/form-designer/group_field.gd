@@ -2,6 +2,8 @@
 extends Node2D
 class_name GroupField
 
+var is_debug_mode = false
+
 @export var width:float = 40
 @export var height:float = 20
 @export var top:float = 20
@@ -78,13 +80,14 @@ func _process(delta):
 			is_drag_mode = false
 			t = 0.0
 		#position = position.lerp(point_list[0] - drag_offset, delta)
-		var gp = Vector2.ZERO
-		
-		gp.x = lerp (origin_drag_position.x, origin_drag_position.x + drag_offset.x, t)
-		gp.y = lerp (origin_drag_position.y, origin_drag_position.y + drag_offset.y, t)
-		
-		position = gp
-		#position = position.lerp(point_list[0], t)
+		if is_debug_mode:
+			var gp = Vector2.ZERO
+			
+			gp.x = lerp (origin_drag_position.x, origin_drag_position.x + drag_offset.x, t)
+			gp.y = lerp (origin_drag_position.y, origin_drag_position.y + drag_offset.y, t)
+			
+			position = gp
+			#position = position.lerp(point_list[0], t)
 
 func _calc_positions():
 	var x_diff = width / 2.0
