@@ -1,99 +1,141 @@
 ﻿@*page "/home"*@
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @using BurdenStatement
 
-@{ 
-  var is_guest = false;
-  var is_abstractor = true;
-  var is_authenticated = true;
-  var is_cdc_analyst = true;
-  var is_vital_importer = false;
-  var is_vital_importer_state = false;
-  var is_cdc_admin = false;
-  var is_committee_member = false;
-  var is_form_designer = true;
-  var userName = "ptr8";
-  var is_installation_admin = false;
-  var is_jurisdiction_admin = false;
-  var is_data_analyst = true;
-  var is_steve_mmria = false;
-  var is_steve_prams = false;
-  //ViewBag.Sidebar = false;
-  
-  @* if(User.Identity != null && User.Identity.IsAuthenticated)
-  {
-    userName = User.Identities.First(
-    u => u.IsAuthenticated && 
-    u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+@code {
 
-    foreach(var role in User.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+    bool is_guest = true;
+    bool is_abstractor = false;
+    bool is_authenticated = false;
+    bool is_cdc_analyst = false;
+    bool is_vital_importer = false;
+    bool is_vital_importer_state = false;
+    bool is_cdc_admin = false;
+    bool is_committee_member = false;
+    bool is_form_designer = false;
+    string userName = "Guest";
+    bool is_installation_admin = false;
+    bool is_jurisdiction_admin = false;
+    bool is_data_analyst = false;
+    bool is_steve_mmria = false;
+    bool is_steve_prams = false;
+
+    private string? authMessage;
+    private string? surname;
+    private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+    protected override async Task OnInitializedAsync()
     {
-      switch(role.Value)
-      {
-        case "abstractor":
-          is_abstractor = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "data_analyst":
-          is_data_analyst = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "form_designer":
-          is_form_designer = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "committee_member":
-          is_committee_member = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "jurisdiction_admin":
-          is_jurisdiction_admin = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "installation_admin":
-          is_installation_admin = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "cdc_analyst":
-          is_cdc_analyst = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "vital_importer":
-          is_vital_importer = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;
-        case "vital_importer_state":
-          is_vital_importer_state = true;
-          is_authenticated = true;
-          is_guest = false;
-          break;  
-        case "cdc_admin":
-            is_cdc_admin = true;
-            is_authenticated = true;
-            is_guest = false;
-            break;
-        case "steve_mmria":
-            is_steve_mmria = true;
-            is_authenticated = true;
-            is_guest = false;
-            break;
-        case "steve_prams":
-            is_steve_prams = true;
-            is_authenticated = true;
-            is_guest = false;
-            break;
-      }
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            authMessage = $"{user.Identity.Name} is authenticated.";
+            claims = user.Claims;
+            surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+
+            userName = user.Identities.First(
+            u => u.IsAuthenticated && 
+            u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+
+            foreach(var role in user.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
+            {
+                switch(role.Value)
+                {
+                    case "abstractor":
+                    is_abstractor = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "data_analyst":
+                    is_data_analyst = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "form_designer":
+                    is_form_designer = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "committee_member":
+                    is_committee_member = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "jurisdiction_admin":
+                    is_jurisdiction_admin = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "installation_admin":
+                    is_installation_admin = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "cdc_analyst":
+                    is_cdc_analyst = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "vital_importer":
+                    is_vital_importer = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;
+                    case "vital_importer_state":
+                    is_vital_importer_state = true;
+                    is_authenticated = true;
+                    is_guest = false;
+                    break;  
+                    case "cdc_admin":
+                        is_cdc_admin = true;
+                        is_authenticated = true;
+                        is_guest = false;
+                        break;
+                    case "steve_mmria":
+                        is_steve_mmria = true;
+                        is_authenticated = true;
+                        is_guest = false;
+                        break;
+                    case "steve_prams":
+                        is_steve_prams = true;
+                        is_authenticated = true;
+                        is_guest = false;
+                        break;
+                }
+            }
+
+        }
+        else
+        {
+            authMessage = "The user is NOT authenticated.";
+        }
+    }    
+
+    private async Task GetClaimsPrincipalData()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if (user.Identity is not null && user.Identity.IsAuthenticated)
+        {
+            authMessage = $"{user.Identity.Name} is authenticated.";
+            claims = user.Claims;
+            surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+        }
+        else
+        {
+            authMessage = "The user is NOT authenticated.";
+        }
     }
-  } *@
 }
+
+
 
 <PageTitle>Home</PageTitle>
 

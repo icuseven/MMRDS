@@ -9,42 +9,44 @@
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers-->
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\"/>
-    <Folder Include="util\"/>
+    <Folder Include="wwwroot\" />
+    <Folder Include="util\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Serilog" Version="2.12.0"/>
-    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0"/>
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0"/>
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0"/>
-    <PackageReference Include="Akka" Version="1.5.14"/>
-    <PackageReference Include="Akka.Quartz.Actor" Version="1.3.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.6" />
+    <PackageReference Include="Serilog" Version="2.12.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Akka" Version="1.5.14" />
+    <PackageReference Include="Akka.Quartz.Actor" Version="1.3.3" />
     <PackageReference Include="Akka.DI.Core" Version="1.4.51" />
     <PackageReference Include="Akka.DI.Extensions.DependencyInjection" Version="1.4.22" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0"/>
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="7.0.1"/>
-    <PackageReference Include="Quartz" Version="3.5.0"/>
-    <PackageReference Include="SharpZipLib" Version="1.4.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.1"/>
-    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0"/>
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0"/>
-    <PackageReference Include="NJsonSchema" Version="10.8.0"/>
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0"/>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0"/>
-    <PackageReference Include="FastExcel" Version="3.0.13"/>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.6" />
+    <PackageReference Include="Quartz" Version="3.5.0" />
+    <PackageReference Include="SharpZipLib" Version="1.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.1" />
+    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+    <PackageReference Include="NJsonSchema" Version="10.8.0" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
+    <PackageReference Include="FastExcel" Version="3.0.13" />
     <PackageReference Include="Akka.Cluster" Version="1.5.12" />
     <PackageReference Include="Akka.Hosting" Version="1.5.12.1" />
     <PackageReference Include="Akka.Management" Version="1.5.7" />
+   
 
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4"/>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\mmria.common\mmria.common.csproj"/>
-    <ProjectReference Include="..\mmria.getset\mmria.getset.csproj"/>
-    <ProjectReference Include="..\mmria.roslyn.extension\mmria.roslyn.extension.csproj"/>
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj" />
+    <ProjectReference Include="..\mmria.getset\mmria.getset.csproj" />
+    <ProjectReference Include="..\mmria.roslyn.extension\mmria.roslyn.extension.csproj" />
   </ItemGroup>
 </Project>
