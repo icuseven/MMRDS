@@ -125,7 +125,7 @@ function count_substances()
 function render_substance_list(p_id, p_value)
 {
     let html = [];
-    html.push(`<select id='${p_id}'>`);
+    html.push(`<select aria-label='Substance list' id='${p_id}'>`);
     for(let i = 0; i < g_value_list.length; i++)
     {
         let item = g_value_list[i];
@@ -166,7 +166,7 @@ function render_header()
 function render_messages()
 {
     var html = [];
-    html.push("<select size=3>");
+    html.push("<select aria-label='Message History' size=3>");
     for(let i = message_history.length - 1; i > -1; i--)
     {
         
@@ -206,7 +206,7 @@ function render()
             }
             html.push(`<tr id=item-${i} ${color}><td>${item.source_value}</td><td>=> ${item.target_value}</td><td><a href="javascript:select_row(${i})">edit</a> | <a href="javascript:confirm_delete(${i})">remove</a></td></tr>`)
         }
-        html.push(`<tr><td><input id=new-source-item type="text" value=""/></td><td>=> ${render_substance_list("new-target-item","")}</td><td> <a href="javascript:add_row()">Add New Mapping</a></td></tr>`);
+        html.push(`<tr><td><input aria-label="Enter new source item" id=new-source-item type="text" value=""/></td><td>=> ${render_substance_list("new-target-item","")}</td><td> <a href="javascript:add_row()">Add New Mapping</a></td></tr>`);
         html.push('</table>')
     }
 
