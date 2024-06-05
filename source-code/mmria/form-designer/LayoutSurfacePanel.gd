@@ -100,6 +100,12 @@ func _input(event):
 					selection_is_dragging = false
 					mouse_position[1] = get_local_mouse_position()
 					selected_differnce = mouse_position[0] - mouse_position[1]
+					
+					for item:GroupField in SelectedItemList.keys():
+						item.move_by(selected_differnce)
+						
+						
+					
 					if not is_debug_mode:
 						print("selected_difference: %s" % selected_differnce)
 					queue_redraw()

@@ -18,6 +18,8 @@ var is_debug_mode = false
 
 @export var is_selected_mode:bool = false
 
+var is_move_by:bool = false
+
 var draw_color:Color
 
 var Area:Area2D
@@ -32,6 +34,7 @@ var end:Vector2 = Vector2.ZERO
 
 var drag_offset:Vector2 = Vector2.ZERO
 var origin_drag_position:Vector2 = Vector2.ZERO
+var target_drag_position:Vector2 = Vector2.ZERO
 
 var point_list:PackedVector2Array = []
 var t:float = 0.0
@@ -73,6 +76,28 @@ func _ready():
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	
+	if is_move_by:
+		t += delta * 0.4
+		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
+		if t >= 1.0:
+			is_move_by = false
+			t = 0.0
+		#position = position.lerp(point_list[0] - drag_offset, delta)
+
+		var gp = Vector2.ZERO
+		
+		#gp.x = lerp (origin_drag_position.x, origin_drag_position.x + drag_offset.x, t)
+		#gp.y = lerp (origin_drag_position.y, origin_drag_position.y + drag_offset.y, t)
+		
+		gp.x = lerp (origin_drag_position.x, target_drag_position.x, t)
+		gp.y = lerp (origin_drag_position.y, target_drag_position.y, t)
+		
+		position = gp
+		#position = position.lerp(point_list[0], t)		
+		
+	"""
 	if is_drag_mode:
 		t += delta * 0.4
 		#position = to_local(get_global_mouse_position() - origin_drag_position + drag_offset)
@@ -88,6 +113,7 @@ func _process(delta):
 			
 			position = gp
 			#position = position.lerp(point_list[0], t)
+	"""
 
 func _calc_positions():
 	var x_diff = width / 2.0
@@ -197,6 +223,17 @@ func set_to_drag(target_position:Vector2):
 	draw_color = selected_color
 	is_selected_mode = true
 	queue_redraw()
+
+func move_by(difference_position:Vector2):
+	#drag_offset = to_local(target_position) - position
+	var red_position = to_local(position)
+	drag_offset = difference_position - position + red_position
+	origin_drag_position = position 
+	target_drag_position = origin_drag_position - difference_position
+	draw_color = selected_color
+	is_move_by = true
+	queue_redraw()
+
 	
 func unset_to_drag():
 	drag_offset = Vector2.ZERO
