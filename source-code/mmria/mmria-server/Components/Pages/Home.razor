@@ -1,10 +1,13 @@
-﻿@*page "/home"*@
+﻿@*page "/home" *@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @using BurdenStatement
 
 @code {
+
+    //[CascadingParameter]
+    //public HttpContext? HttpContext { get; set; }
 
     bool is_guest = true;
     bool is_abstractor = false;
@@ -25,6 +28,15 @@
     private string? authMessage;
     private string? surname;
     private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        var debug = parameters.ToDictionary();
+        return base.SetParametersAsync(parameters);
+    }
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -135,8 +147,8 @@
     }
 }
 
-
-
+<CascadingAuthenticationState>
+<AuthorizeView>
 <PageTitle>Home</PageTitle>
 
 <div class="row justify-content-between">
@@ -472,3 +484,5 @@ else
     </div>
   </div>
 }
+</AuthorizeView>
+</CascadingAuthenticationState>

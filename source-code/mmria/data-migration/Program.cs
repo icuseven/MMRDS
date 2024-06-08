@@ -84,12 +84,14 @@ fl
 //IA, MI, MO, PA, SC ,
 //AK, CO, KS, MS
 
-"co",
-"fl",
+"al",
+"ga",
+"ia",
 "ma",
-"mn",
 "ms",
+"ny",
 "wa",
+"wi",
 //"ny",
 /*"ma",
 "wa",
