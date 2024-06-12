@@ -502,11 +502,18 @@ public sealed partial class Program
                 }
             );
 
-            builder.Services.AddRazorComponents(
+
+            builder.Services.AddRazorComponents
+            (
+ 
                 
             )
-                .AddInteractiveServerComponents();
+                .AddInteractiveServerComponents
+                (
+
+                );
             //builder.Services.AddServerSideBlazor();
+           /* */
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

@@ -1,4 +1,10 @@
-﻿
+﻿@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<CascadingAuthenticationState>
+<AuthorizeView>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,3 +27,18 @@
 </body>
 
 </html>
+</AuthorizeView>
+</CascadingAuthenticationState>
+
+@code {
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (user.Identity is null || !user.Identity.IsAuthenticated)
+        //    return RedirectToPage("Account/Login");
+            NavigationManager.NavigateTo("Account/Login");
+    }
+}

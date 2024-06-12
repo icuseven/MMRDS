@@ -1,7 +1,8 @@
-﻿@*page "/home" *@
+﻿@page "/"
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
 @using BurdenStatement
 
 @code {
@@ -43,7 +44,11 @@
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
         var user = authState.User;
-
+        /*
+        if (user.Identity is null || !user.Identity.IsAuthenticated)
+        //    return RedirectToPage("Account/Login");
+            NavigationManager.NavigateTo("Account/Login");
+        */
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
             authMessage = $"{user.Identity.Name} is authenticated.";
@@ -147,8 +152,8 @@
     }
 }
 
-<CascadingAuthenticationState>
-<AuthorizeView>
+<!--CascadingAuthenticationState>
+<AuthorizeView-->
 <PageTitle>Home</PageTitle>
 
 <div class="row justify-content-between">
@@ -484,5 +489,5 @@ else
     </div>
   </div>
 }
-</AuthorizeView>
-</CascadingAuthenticationState>
+<!--/AuthorizeView>
+</CascadingAuthenticationState-->
