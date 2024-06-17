@@ -212,6 +212,9 @@ func move_by(difference_position:Vector2):
 	is_move_by = true
 	queue_redraw()
 
+func move_to(new_position:Vector2):
+	position = new_position
+	queue_redraw()
 	
 func unset_to_drag():
 	drag_offset = Vector2.ZERO
