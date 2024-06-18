@@ -4,10 +4,22 @@ class_name GroupField
 
 var is_debug_mode = false
 
+
+signal size_changed(
+	object_id,
+	old_width_value, 
+	new_width_value,
+	old_height_value, 
+	new_height_value
+)
+
 @export var width:float = 40
 @export var height:float = 20
 @export var top:float = 20
 @export var left:float = 20
+
+var old_width:float = 40
+var old_height:float = 20
 
 @export var color:Color = Color.RED
 @export var selected_color:Color = Color.GHOST_WHITE
@@ -156,6 +168,8 @@ func _area_on_exited(_area: Area2D):
 	
 	
 func top_handle_bar_start(_p_position:Vector2):
+	old_width = width
+	old_height = height
 	#print("top_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 	
@@ -166,9 +180,18 @@ func top_handle_bar_changed(p_position:Vector2):
 	
 func top_handle_bar_end(_p_position:Vector2):
 	#print("top_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
+	size_changed.emit(
+		self.get_instance_id(),
+		old_width, 
+		width,
+		old_height, 
+		height
+		)
 	pass
 	
 func bottom_handle_bar_start(_p_position:Vector2):
+	old_width = width
+	old_height = height
 	#print("bottom_handle_bar_start G:%s P:%s", get_global_mouse_position(), p_position)
 	pass
 
@@ -180,6 +203,14 @@ func bottom_handle_bar_changed(p_position:Vector2):
 	
 func bottom_handle_bar_end(_p_position:Vector2):
 	#print("bottom_handle_bar_end G:%s P:%s", get_global_mouse_position(), p_position)
+	size_changed.emit(
+		self.get_instance_id(),
+		old_width, 
+		width,
+		old_height, 
+		height
+		)
+
 	pass
 
 
