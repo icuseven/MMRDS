@@ -246,7 +246,22 @@ func move_by(difference_position:Vector2):
 func move_to(new_position:Vector2):
 	position = new_position
 	queue_redraw()
+
+func set_size(p_width: float, p_height: float):
+	width = p_width
+	height = p_height
 	
+	_calc_positions()
+	TopLeftHandleBar.update_position(start)
+	BottomRightHandleBar.update_position(end)
+	queue_redraw()
+	"""
+	var top_left_point = Vector2.ZERO
+	var bottom_right_point = Vector2.ZERO
+	
+	_calc_resize(top_left_point, bottom_right_point)
+	"""
+
 func unset_to_drag():
 	drag_offset = Vector2.ZERO
 	draw_color = color
