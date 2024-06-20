@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject mmria.common.couchdb.OverridableConfiguration configuration
 
 <CascadingAuthenticationState>
 <AuthorizeView>
@@ -38,7 +39,23 @@
             .GetAuthenticationStateAsync();
         var user = authState.User;
         if (user.Identity is null || !user.Identity.IsAuthenticated)
-        //    return RedirectToPage("Account/Login");
-            NavigationManager.NavigateTo("Account/Login");
+        {
+
+            var host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
+
+            var  sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
+
+            if(sams_is_enabled.HasValue && sams_is_enabled.Value)
+            {
+                NavigationManager.NavigateTo("Account/SignIn");
+            }
+            else
+
+            {
+                NavigationManager.NavigateTo("Account/Login");
+            }
+
+        }
+            
     }
 }
