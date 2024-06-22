@@ -18,6 +18,9 @@ signal size_changed(
 @export var top:float = 20
 @export var left:float = 20
 
+var start:Vector2 = Vector2.ZERO
+var end:Vector2 = Vector2.ZERO
+
 var old_width:float = 40
 var old_height:float = 20
 
@@ -41,8 +44,7 @@ var CollisionShap:RectangleShape2D
 var TopLeftHandleBar:HandleBar
 var BottomRightHandleBar:HandleBar
 
-var start:Vector2 = Vector2.ZERO
-var end:Vector2 = Vector2.ZERO
+
 
 var drag_offset:Vector2 = Vector2.ZERO
 var origin_drag_position:Vector2 = Vector2.ZERO
@@ -110,20 +112,62 @@ func _calc_positions():
 	start = Vector2(- x_diff, -y_diff)
 	end = Vector2(x_diff, y_diff)
 
-func _calc_resize(top_left:Vector2, bottom_right:Vector2):
+func _calc_resize(
+	target: int, 
+	top_left:Vector2, 
+	bottom_right:Vector2
+	):
 
 	var _width = abs(top_left.x - bottom_right.x)
 	var _height = abs(top_left.y - bottom_right.y)
+	
+	
 	
 	width = _width
 	height = _height
 	#var size_x = abs(top_left.x - bottom_right.x)
 	#var size_y = abs(top_left.y - bottom_right.y)
 
+	
+	
+	var x_diff = width / 2.0
+	var y_diff = height / 2.0
+	
+	"""
+	
+	var x_diff = width #/ 2.0
+	var y_diff = height #/ 2.0
+	
+	if target == 1:
+		#start = Vector2(- x_diff, -y_diff)
+		#end = Vector2(x_diff, y_diff)
+		start = Vector2(- x_diff, -y_diff)
+		#end = Vector2(x_diff, y_diff)
+	elif target == 2:
+		#start = Vector2(- x_diff, -y_diff)
+		end = Vector2(x_diff, y_diff)
+	"""
+	
+	
+	
+	start = Vector2(- x_diff, -y_diff)
+	end = Vector2(x_diff, y_diff)
+	
+	
+	"""
+		need to calculate these values:
+			
+		width	
+		height
+		start
+		end
+		CollisionShap.size = Vector2(_width, _height)
+		TopLeftHandleBar.update_position(start)
+		BottomRightHandleBar.update_position(end)
+	"""
+	
 	#Area.position = start - Vector2(size_x, size_y) /2
 	CollisionShap.size = Vector2(_width, _height)
-	
-	_calc_positions()
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
 	queue_redraw()
@@ -174,8 +218,9 @@ func top_handle_bar_start(_p_position:Vector2):
 	pass
 	
 func top_handle_bar_changed(p_position:Vector2):
+	var target_handlebar = 1
 	#print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
-	_calc_resize(to_local(p_position), BottomRightHandleBar.position)
+	_calc_resize(target_handlebar, to_local(p_position), BottomRightHandleBar.position)
 	pass	
 	
 func top_handle_bar_end(_p_position:Vector2):
@@ -196,8 +241,9 @@ func bottom_handle_bar_start(_p_position:Vector2):
 	pass
 
 func bottom_handle_bar_changed(p_position:Vector2):
+	var target_handlebar = 2
 	#print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
-	_calc_resize(TopLeftHandleBar.position, to_local(p_position))
+	_calc_resize(target_handlebar, TopLeftHandleBar.position, to_local(p_position))
 	
 	pass
 	
