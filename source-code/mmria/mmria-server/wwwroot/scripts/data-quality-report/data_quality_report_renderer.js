@@ -574,6 +574,18 @@ async function download_data_quality_report_button_click()
                         set_map_detail_data(i, "Current Quarter, Unknown", item._id);
                     }
 
+                    if
+                    ( 
+                        i > 43 &&
+                        item[fld].t != null &&
+                        item[fld].p != null &&
+                        item[fld].t == 1 &&
+                        item[fld].p == 0
+                    )
+                    {
+                        set_map_detail_data(i, "Current Quarter, Failed Logic Check", item._id);
+                    }
+
                     // 10-44
                     if(i < 44)
                     {
@@ -602,14 +614,14 @@ async function download_data_quality_report_button_click()
 
                     if
                     (
-                        item[fld].m == 1 ||
+                        item[fld].m == 1 /*||
                         (
                             i > 43 &&
                             item[fld].t != null &&
                             item[fld].p != null &&
                             item[fld].t == 1 &&
                             item[fld].p == 0
-                        )
+                        )*/
                     )
                     {
                         set_map_detail_data(i, "Previous 4 Quarters, Missing", item._id);
@@ -617,17 +629,31 @@ async function download_data_quality_report_button_click()
 
                     if
                     (
-                        item[fld].u == 1 ||
+                        item[fld].u == 1 /*||
                         (
                             i > 43 &&
                             item[fld].t != null &&
                             item[fld].p != null &&
                             item[fld].t == 1 &&
                             item[fld].p == 0
-                        )
+                        )*/
                     )
                     {
                         set_map_detail_data(i, "Previous 4 Quarters, Unknown", item._id);
+                    }
+
+                    if
+                    (
+                        
+                        i > 43 &&
+                        item[fld].t != null &&
+                        item[fld].p != null &&
+                        item[fld].t == 1 &&
+                        item[fld].p == 0
+                        
+                    )
+                    {
+                        set_map_detail_data(i, "Previous 4 Quarters, Failed Logic Check", item._id);
                     }
 
                     // 10-44
@@ -979,6 +1005,12 @@ async function download_data_quality_report_button_click()
                     typ: "Current Quarter, Unknown",
                     detail: []
                 }
+                const current_quarter_failed_logic_check = 
+                {
+                    qid: qid,
+                    typ: "Current Quarter, Failed Logic Check",
+                    detail: []
+                }
                 const previous_quarter_missing = 
                 {
                     qid: qid,
@@ -990,6 +1022,13 @@ async function download_data_quality_report_button_click()
                 {
                     qid: qid,
                     typ: "Previous 4 Quarters, Unknown",
+                    detail: []
+                }
+
+                const previous_quarter_failed_logic_check = 
+                {
+                    qid: qid,
+                    typ: "Previous 4 Quarters, Failed Logic Check",
                     detail: []
                 }
                 
@@ -1024,6 +1063,15 @@ async function download_data_quality_report_button_click()
                                             ia_id: header.ia_id.substring(4),
                                         });
                                         break;
+                                    case "Current Quarter, Failed Logic Check":
+                                        current_quarter_failed_logic_check.detail.push({
+                                            num: num_count,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
                                     case "Previous 4 Quarters, Missing":
                                         previous_quarter_missing.detail.push({
                                             num: num_count,
@@ -1035,6 +1083,15 @@ async function download_data_quality_report_button_click()
                                         break;
                                     case "Previous 4 Quarters, Unknown":
                                         previous_quarter_unknown.detail.push({
+                                            num: num_count,
+                                            rec_id: header.rec_id,
+                                            dt_death: header.dt_death,
+                                            dt_com_rev: header.dt_com_rev,
+                                            ia_id: header.ia_id.substring(4),
+                                        });
+                                        break;
+                                    case "Previous 4 Quarters, Failed Logic Check":
+                                        previous_quarter_failed_logic_check.detail.push({
                                             num: num_count,
                                             rec_id: header.rec_id,
                                             dt_death: header.dt_death,
@@ -1060,6 +1117,10 @@ async function download_data_quality_report_button_click()
                 {
                     detail_data.questions.push(current_quarter_unknown);
                 }
+                if(current_quarter_failed_logic_check.detail.length > 0)  
+                {
+                    detail_data.questions.push(current_quarter_failed_logic_check);
+                }
                 if(previous_quarter_missing.detail.length > 0) 
                 {
                     detail_data.questions.push(previous_quarter_missing);
@@ -1067,6 +1128,11 @@ async function download_data_quality_report_button_click()
                 if(previous_quarter_unknown.detail.length > 0) 
                 {
                     detail_data.questions.push(previous_quarter_unknown);
+                }
+
+                if(previous_quarter_failed_logic_check.detail.length > 0) 
+                {
+                    detail_data.questions.push(previous_quarter_failed_logic_check);
                 }
             }
         );
