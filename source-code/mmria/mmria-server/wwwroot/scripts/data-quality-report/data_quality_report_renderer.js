@@ -546,7 +546,14 @@ async function download_data_quality_report_button_click()
                     let fld = `n${i}`;
                     if
                     (
-                        item[fld].m == 1
+                        item[fld].m == 1 ||
+                        (
+                            i > 43 &&
+                            item[fld].t != null &&
+                            item[fld].p != null &&
+                            item[fld].t == 1 &&
+                            item[fld].p == 0
+                        )
                     )
                     {
                         set_map_detail_data(i, "Current Quarter, Missing", item._id);
@@ -554,7 +561,14 @@ async function download_data_quality_report_button_click()
 
                     if
                     (
-                        item[fld].u == 1
+                        item[fld].u == 1 ||
+                        ( 
+                            i > 43 &&
+                            item[fld].t != null &&
+                            item[fld].p != null &&
+                            item[fld].t == 1 &&
+                            item[fld].p == 0
+                        )
                     )
                     {
                         set_map_detail_data(i, "Current Quarter, Unknown", item._id);
@@ -588,7 +602,14 @@ async function download_data_quality_report_button_click()
 
                     if
                     (
-                        item[fld].m == 1
+                        item[fld].m == 1 ||
+                        (
+                            i > 43 &&
+                            item[fld].t != null &&
+                            item[fld].p != null &&
+                            item[fld].t == 1 &&
+                            item[fld].p == 0
+                        )
                     )
                     {
                         set_map_detail_data(i, "Previous 4 Quarters, Missing", item._id);
@@ -596,7 +617,14 @@ async function download_data_quality_report_button_click()
 
                     if
                     (
-                        item[fld].u == 1
+                        item[fld].u == 1 ||
+                        (
+                            i > 43 &&
+                            item[fld].t != null &&
+                            item[fld].p != null &&
+                            item[fld].t == 1 &&
+                            item[fld].p == 0
+                        )
                     )
                     {
                         set_map_detail_data(i, "Previous 4 Quarters, Unknown", item._id);
