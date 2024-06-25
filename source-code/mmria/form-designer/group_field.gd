@@ -122,52 +122,17 @@ func _calc_resize(
 	var _height = abs(top_left.y - bottom_right.y)
 	
 	
-	
 	width = _width
 	height = _height
-	#var size_x = abs(top_left.x - bottom_right.x)
-	#var size_y = abs(top_left.y - bottom_right.y)
-
 	
+	start = top_left
+	end = bottom_right
 	
-	var x_diff = width / 2.0
-	var y_diff = height / 2.0
+	CollisionShap.size = end - start
+	$Area2D.position = (start + end) / 2 
 	
-	"""
-	
-	var x_diff = width #/ 2.0
-	var y_diff = height #/ 2.0
-	
-	if target == 1:
-		#start = Vector2(- x_diff, -y_diff)
-		#end = Vector2(x_diff, y_diff)
-		start = Vector2(- x_diff, -y_diff)
-		#end = Vector2(x_diff, y_diff)
-	elif target == 2:
-		#start = Vector2(- x_diff, -y_diff)
-		end = Vector2(x_diff, y_diff)
-	"""
-	
-	
-	
-	start = Vector2(- x_diff, -y_diff)
-	end = Vector2(x_diff, y_diff)
-	
-	
-	"""
-		need to calculate these values:
-			
-		width	
-		height
-		start
-		end
-		CollisionShap.size = Vector2(_width, _height)
-		TopLeftHandleBar.update_position(start)
-		BottomRightHandleBar.update_position(end)
-	"""
-	
-	#Area.position = start - Vector2(size_x, size_y) /2
-	CollisionShap.size = Vector2(_width, _height)
+		
+	print("area 2d center: %s", $Area2D.position)
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
 	queue_redraw()
@@ -300,6 +265,8 @@ func set_size(p_width: float, p_height: float):
 	_calc_positions()
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
+	CollisionShap.size = end - start
+	$Area2D.position = (start + end) / 2 
 	queue_redraw()
 	"""
 	var top_left_point = Vector2.ZERO
