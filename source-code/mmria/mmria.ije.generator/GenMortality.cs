@@ -31,8 +31,8 @@ public class GenMortality
          { "DOB_DY", gen_DOB_DY},
          { "BPLACE_CNT", gen_BPLACE_CNT },
          { "BPLACE_ST", gen_BPLACE_ST},
-         /*"CITYC",
-         "COUNTYC",
+         { "CITYC",  gen_CITYC},
+         /*"COUNTYC",
          "STATEC",
          "COUNTRYC",
          "BLANK",
@@ -425,9 +425,12 @@ For Canadian Provinces:
    YT  YUKON"
  */
    }
-  /*
-5		CITYC	NCHS Instruction Manual Part 8A 
-3		COUNTYC	NCHS Instruction Manual Part 8A 
+   string gen_CITYC()
+   {
+      //5		CITYC	NCHS Instruction Manual Part 8A
+      return Context.Get(GenerationContext.a_z_blank).PadLeft(5,' ');
+   } 
+/*3		COUNTYC	NCHS Instruction Manual Part 8A 
 2		STATEC	"NCHS Instruction Manual Part 8A
    ZZ = UNKNOWN OR BLANK U.S. STATE OR TERRITORY OR UNKNOWN CANADIAN PROVINCE OR UNKNOWN/ UNCLASSIFIABLE COUNTRY
    XX = UNKNOWN STATE WHERE COUNTRY IS KNOWN, BUT NOT U.S. OR CANADA 
