@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\mmria.common\mmria.common.csproj" />
     <!--PackageReference Include="FastExcel" Version="3.0.13"/>
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" /-->
   </ItemGroup>
