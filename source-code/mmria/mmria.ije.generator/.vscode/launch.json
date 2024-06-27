@@ -9,11 +9,11 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/net7.0/mmria.iej.generator.dll",
+            "program": "${workspaceFolder}/bin/Debug/net8.0/mmria.iej.generator.dll",
             "args": [
                 "C:/Users/isu7/Downloads/vital-ga-test/more/2023_04_05_GA.MOR",
-                "213",
-                "2"
+                "216",
+                "5"
 
             ],
             "cwd": "${workspaceFolder}",

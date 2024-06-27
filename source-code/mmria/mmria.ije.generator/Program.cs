@@ -53,7 +53,7 @@ public class Program
         int length
     )
     {
-        var dictionary = new System.Collections.Generic.Dictionary<string,int>(StringComparer.OrdinalIgnoreCase);
+        var dictionary = new System.Collections.Generic.Dictionary<string,float>(StringComparer.OrdinalIgnoreCase);
 
 
         var file_contents = System.IO.File.ReadAllText(file_path);
@@ -69,12 +69,17 @@ public class Program
             dictionary[item]+=1;
         }
 
+        var sum = 0.0;
+        foreach(var kvp in dictionary.OrderByDescending( kvp=> kvp.Value))
+        {
+            sum+= kvp.Value;
+        }
 
         
         foreach(var kvp in dictionary.OrderByDescending( kvp=> kvp.Value))
         {
             
-            System.Console.WriteLine($"{kvp.Key}:{kvp.Value}");
+            System.Console.WriteLine($"{kvp.Key}:{kvp.Value} %{(kvp.Value / sum) * 100.0}");
         }
     }
 
