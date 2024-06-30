@@ -113,7 +113,6 @@ func _calc_positions():
 	end = Vector2(x_diff, y_diff)
 
 func _calc_resize(
-	target: int, 
 	top_left:Vector2, 
 	bottom_right:Vector2
 	):
@@ -185,7 +184,7 @@ func top_handle_bar_start(_p_position:Vector2):
 func top_handle_bar_changed(p_position:Vector2):
 	var target_handlebar = 1
 	#print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
-	_calc_resize(target_handlebar, to_local(p_position), BottomRightHandleBar.position)
+	_calc_resize(to_local(p_position), BottomRightHandleBar.position)
 	pass	
 	
 func top_handle_bar_end(_p_position:Vector2):
@@ -208,7 +207,7 @@ func bottom_handle_bar_start(_p_position:Vector2):
 func bottom_handle_bar_changed(p_position:Vector2):
 	var target_handlebar = 2
 	#print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
-	_calc_resize(target_handlebar, TopLeftHandleBar.position, to_local(p_position))
+	_calc_resize(TopLeftHandleBar.position, to_local(p_position))
 	
 	pass
 	

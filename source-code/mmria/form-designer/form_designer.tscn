@@ -1,11 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://dk66al0rtosgl"]
+[gd_scene load_steps=8 format=3 uid="uid://dk66al0rtosgl"]
 
 [ext_resource type="Script" path="res://DragMe.gd" id="1_58gxn"]
 [ext_resource type="Script" path="res://LayoutSurfacePanel.gd" id="1_gmjft"]
 [ext_resource type="Script" path="res://TextEditDrag.gd" id="2_yorkv"]
 [ext_resource type="PackedScene" uid="uid://vblwvnp6m6wd" path="res://group_field.tscn" id="4_skau2"]
-[ext_resource type="Script" path="res://group_field.gd" id="4_uqoye"]
-[ext_resource type="PackedScene" uid="uid://e8hdxg1ohuap" path="res://HandleBar.tscn" id="5_kv0d5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tgjku"]
 
@@ -14,9 +12,6 @@ size = Vector2(85, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0pi5k"]
 size = Vector2(124, 56)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2ldsk"]
-size = Vector2(40, 20)
 
 [node name="FormDesigner" type="Control"]
 layout_mode = 3
@@ -136,21 +131,9 @@ unique_name_in_owner = true
 position = Vector2(452, 222)
 dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
 
-[node name="GroupField2" type="Node2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
+[node name="GroupField2" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
 unique_name_in_owner = true
-position = Vector2(317, 316)
-script = ExtResource("4_uqoye")
-
-[node name="TopLeftHandleBar" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2" instance=ExtResource("5_kv0d5")]
-position = Vector2(-20, -10)
-
-[node name="BottomRightHandleBar" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2" instance=ExtResource("5_kv0d5")]
-position = Vector2(20, 10)
-
-[node name="Area2D" type="Area2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2/Area2D"]
-shape = SubResource("RectangleShape2D_2ldsk")
+position = Vector2(317, 322)
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]
 layout_mode = 2
