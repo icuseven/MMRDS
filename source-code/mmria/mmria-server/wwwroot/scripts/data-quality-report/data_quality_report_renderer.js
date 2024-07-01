@@ -848,9 +848,7 @@ async function download_data_quality_report_button_click()
         // 	total: 0,
         // };
 
-        
 
-        
        let detail_data = {
 			questions: [
 				/*{
@@ -989,6 +987,14 @@ async function download_data_quality_report_button_click()
 			total: 667,
 		};
 
+
+        let v_44_48 = new Set();
+        v_44_48.add("n44");
+        v_44_48.add("n45");
+        v_44_48.add("n46");
+        v_44_48.add("n47");
+        v_44_48.add("n48");
+
         question_detail_map.forEach
         (
             (qitem, qid) => 
@@ -1045,6 +1051,8 @@ async function download_data_quality_report_button_click()
                                 switch(type_id)
                                 {
                                     case "Current Quarter, Missing":
+
+                                        //if(v_44_48.has())
 
                                         current_quarter_missing.detail.push({
                                             num: num_count,
@@ -1143,11 +1151,12 @@ async function download_data_quality_report_button_click()
         detail_data.total = detail_data.questions.length;
 
 
+
+
         case_detail_map.forEach
         (
             (qitem, case_id) => 
             {
-
                 const header = case_header_map.get(case_id);
                 let new_item = {
                     rec_id: header.rec_id,

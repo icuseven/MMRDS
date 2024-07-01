@@ -521,6 +521,12 @@ function dqr_detail(ctx) {
 	}
 	else
 	{
+
+        
+
+
+        
+
 		// Add detail records
 		body = format_detail_questions(ctx);
 
@@ -622,7 +628,15 @@ function format_detail_no_data() {
 }
 
 // Case List by Data Quality Question
-function format_detail_questions(ctx) {
+function format_detail_questions(ctx) 
+{
+    let v_44_48 = new Set();
+    v_44_48.add("n44");
+    v_44_48.add("n45");
+    v_44_48.add("n46");
+    v_44_48.add("n47");
+    v_44_48.add("n48");
+
 	let retPage = [];
 	// ***
 	// *** q - the question constants array
@@ -669,6 +683,16 @@ function format_detail_questions(ctx) {
 		{
 			// Build the index to question constants
 			fld = ( d[i].qid < 10 ) ? 'n0' + d[i].qid : 'n' + d[i].qid;
+
+
+            if
+            (
+                v_44_48.has(fld) &&
+                d[i].typ.indexOf("Failed Logic Check") < 0
+            )
+            {
+                continue;
+            }
 		
 			// Show the question and type identifier
 			rows.push([
