@@ -179,72 +179,92 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Abstrator</div>
-            <div class="card-content">
-              <ul>
-                <li><a href="/Case">View or Modify Case Data</a></li>
-                <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
-                <li><a href="/export-queue">Export Data</a></li>
-                @*<li><a href="/recover-case">Recover-case</a></li>*@
-                <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-                <li><a href="/aggregate-report" >View Aggregate Report</a></li>        
-                <li><a href="/data-quality-report">View Data Quality Report</a></li>
-                <li><a href="/vital-import-history">View Vitals Import History</a></li>
-              </ul>
-            </div>
-          </div>                
-        </div>
-    }
-    @if(is_data_analyst)
-    {
-    <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
-      <div class="card-container-light col-md-12">
-        <div class="header">Analyst</div>
+          <div class="header">
+            <h2 class="h3">
+              Abstrator
+            </h2>
+          </div>
           <div class="card-content">
             <ul>
-              <li><a href="/analyst-case">View Case Data</a></li>
+              <li><a href="/Case">View or Modify Case Data</a></li>
+              <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
               <li><a href="/export-queue">Export Data</a></li>
+              @*<li><a href="/recover-case">Recover-case</a></li>*@
               <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-              <li><a href="/aggregate-report" >View Aggregate Report</a></li>
+              <li><a href="/aggregate-report" >View Aggregate Report</a></li>        
               <li><a href="/data-quality-report">View Data Quality Report</a></li>
-              <li><a href="/view-data-summary">View Data Summary Checks</a></li>
+              <li><a href="/vital-import-history">View Vitals Import History</a></li>
             </ul>
           </div>
         </div>                
       </div>
     }
+    @if(is_data_analyst)
+    {
+    <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
+      <div class="card-container-light col-md-12">
+        <div class="header">
+          <h2>
+            Analyst
+          </h2>
+        </div>
+        <div class="card-content">
+          <ul>
+            <li><a href="/analyst-case">View Case Data</a></li>
+            <li><a href="/export-queue">Export Data</a></li>
+            <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+            <li><a href="/aggregate-report" >View Aggregate Report</a></li>
+            <li><a href="/data-quality-report">View Data Quality Report</a></li>
+            <li><a href="/view-data-summary">View Data Summary Checks</a></li>
+          </ul>
+        </div>
+      </div>                
+    </div>
+    }
     @if(is_committee_member)
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Committee Member</div>
-            <div class="card-content">
-              <ul>
-                <li><a href="/de-identified">View De-identified Case Data</a></li>
-              </ul>
-            </div>
-          </div>                
-        </div>
+          <div class="header">
+            <h2 class="h3">
+              Committee Member
+            </h2>
+          </div>
+          <div class="card-content">
+            <ul>
+              <li><a href="/de-identified">View De-identified Case Data</a></li>
+            </ul>
+          </div>
+        </div>                
+      </div>
     }
     @if(is_cdc_analyst)
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">CDC Analyst</div>
-            <div class="card-content">
-              <ul>
-                <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
-                <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
-              </ul>
-            </div>
-          </div>                
-        </div>
+          <div class="header">
+            <h2 class="h3">
+              CDC Analyst              
+            </h2>
+          </div>
+          <div class="card-content">
+            <ul>
+              <li> <a href="/manage-substance-lists">Manage Substance Lists</a></li>
+              <li><a href="/data-dictionary/diff">View Metadata Change Log</a></li>
+            </ul>
+          </div>
+        </div>                
+      </div>
     }
     @if(is_steve_mmria)
     {
     <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
       <div class="card-container-light col-md-12">
-        <div class="header">STEVE - MMRIA</div>
+        <div class="header">
+            <h2 class="h3">
+              STEVE - MMRIA
+            </h2>
+          </div>
           <div class="card-content">
             <ul>
               <li> <a href="/steveMMRIA">Download Vital Records Data from STEVE</a></li>
@@ -257,7 +277,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">STEVE - PRAMS</div>
+          <div class="header">
+            <h2>
+              STEVE - PRAMS
+            </h2>
+            </div>
             <div class="card-content">
               <ul>
                 <li> <a href="/stevePRAMS">Download Natality Data from STEVE</a></li>
@@ -270,7 +294,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Vitals Import</div>
+          <div class="header">
+            <h2 class="h3">
+              Vitals Import
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
@@ -284,7 +312,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Vitals Import - State</div>
+          <div class="header">
+            <h2 class="h3">
+              Vitals Import - State
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li><a href="/vitals-state/FileUpload">Upload IJE Files</a></li>
@@ -297,7 +329,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">CDC Admin</div>
+          <div class="header">
+            <h2 class="h3">
+              CDC Admin
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li><a href="update_year_of_death?role=cdc_admin">Update Year of Death and/or MMRIA Record ID</a></li>
@@ -327,7 +363,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Form Designer</div>
+          <div class="header">
+            <h2 class="h3">
+              Form Designer
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li>
@@ -364,7 +404,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Jurisdiction Admin</div>
+          <div class="header">
+            <h2 class="h3">
+              Jurisdiction Admin
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li><a href="/_users">Manage Users & Case Folders</a></li>
@@ -383,7 +427,11 @@ else
     {
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Installation Admin</div>
+          <div class="header">
+            <h2 class="h3">
+              Installation Admin
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li><a href="/_users">Manage users & case folders</a></li>
@@ -398,7 +446,11 @@ else
     }
     <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
       <div class="card-container-light col-md-12">
-        <div class="header">General</div>
+        <div class="header">
+          <h2 class="h3">
+            General
+          </h2>
+        </div>
           <div class="card-content">
             <ul>
               @if(is_installation_admin)
@@ -415,7 +467,11 @@ else
       </div>
       <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
         <div class="card-container-light col-md-12">
-          <div class="header">Help</div>
+          <div class="header">
+            <h2 class="h3">
+              Help
+            </h2>
+          </div>
             <div class="card-content">
               <ul>
                 <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>

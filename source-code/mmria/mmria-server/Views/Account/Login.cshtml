@@ -10,6 +10,7 @@
   <link rel="stylesheet prefetch" href="/TemplatePackage/4.0/assets/css/app.min.css">
   <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
   <link rel="stylesheet" href="/styles/mmria-custom.css" />
+  <link rel="stylesheet" href="/css/index.css" />
 
   <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
   <script src="/scripts/jquery-ui.min.js"></script>
@@ -21,7 +22,66 @@
 
   @await Html.PartialAsync("_Header")
 
-  <main id="content"
+  <main
+    id="content"
+    role="main"
+    aria-label="Main Content Area"
+    >
+    <div class="app-main mt-4 purple-pattern">
+    <div class="row justify-content-center">
+      @model ApplicationUser
+      @{
+        <div class="primary-background mt-4 mb-4">
+        <form id="user_login" class="login module col-md-12" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
+          method="POST">
+          <div class="ml-3 mr-3">
+            <h1 class="login__title h3">
+                Welcome to MMRIA
+            </h1>
+            <p class="login__info">Please contact your jurisdiction administrator if you have issues accessing the application.</p>
+          </div>
+          <div class="vertical-control form-group ml-3 mr-3">
+            <label for="login_name" class="login__label">Username</label>
+            <div>
+              <input aria-required="true" required autocomplete="off" id="login_name" class="login__field form-control vertical-control col-md-12" name="username" type="text" />
+              <i class="login__icon"></i>
+            </div>
+          </div>
+          <div class="form-group vertical-control ml-3 mr-3">
+            <label for="login_value" class="login__label">Password</label>
+            <div>
+              <input aria-required="true" required autocomplete="off" id="login_value" class="login__field form-control vertical-control col-md-12" name="value" type="password" />
+              <i class="login__icon"></i>
+            </div>
+          </div>
+          <div class="form-controls horizontal-control col-md-12 justify-content-center">
+            <button name="submit" type="submit" class="login__btn primary-button col-md-12">Login</button>
+          </div>
+          <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" />
+        </form>
+        </div>
+      }
+
+      <div class="box container p-3" style="font-size: 14px">
+        <p><strong>Conditions of Use</strong></p>
+        <ul>
+          <li>This warning banner provides privacy and security notices consistent with applicable federal laws, directives, and other federal guidance for accessing this Government system, which includes (1) this computer network, (2) all computers connected to this network, and (3) all devices and storage media attached to this network or to a computer on this network.</li>
+          <li>This system is provided for Government-authorized use only.</li>
+          <li>Unauthorized or improper use of this system is prohibited and may result in disciplinary action and/or civil and criminal penalties.</li>
+          <li>Personal use of social media and networking sites on this system is limited as to not interfere with official work duties and is subject to monitoring.</li>
+          <li>By using this system, you understand and consent to the following:
+            <ul>
+              <li>The Government may monitor, record, and audit your system usage, including usage of personal devices and email systems for official duties or to conduct HHS business. Therefore, you have no reasonable expectation of privacy regarding any communication or data transiting or stored on this system. At any time, and for any lawful Government purpose, the government may monitor, intercept, and search and seize any communication or data transiting or stored on this system.</li>
+              <li>Any communication or data transiting or stored on this system may be disclosed or used for any lawful Government purpose.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+  </main>
+
+  @* <main id="content"
         class="container-fluid app-main"
         role="main"
         aria-label="Main Content Area"
@@ -71,7 +131,7 @@
         </ul>
       </div>
 
-  </main>
+  </main> *@
 
   @await Html.PartialAsync("_Footer")
   
