@@ -46,7 +46,7 @@ class Program
 
     static List<string> test_list = new List<string>()
     {
-
+"localhost",
 /*
 "as",
 "cnmi",
@@ -83,7 +83,7 @@ fl
 "ma",*/
 //IA, MI, MO, PA, SC ,
 //AK, CO, KS, MS
-
+/*"
 "al",
 "ga",
 "ia",
@@ -93,7 +93,7 @@ fl
 "wa",
 "wi",
 //"ny",
-/*"ma",
+ma",
 "wa",
 "ms",
 "mn"
@@ -314,7 +314,7 @@ fl
 
         bool is_test_list = true;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.OneTime;

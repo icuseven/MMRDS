@@ -512,7 +512,9 @@ return_label:
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetJurisdictionField");
+            var error = $"GetJurisdictionField error: {path} key: {key} value:{value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -548,13 +550,19 @@ return_label:
             }
             else
             {
-                System.Console.WriteLine($"GetHiddenField Not a string or number or boolean: {path} key: {key}");
+                //System.Console.WriteLine($"GetHiddenField Not a string or number or boolean: {path} key: {key}");
+                var error = $"GetHiddenField Not a string or number or boolean: {path} key: {key} value:{value}";
+                System.Console.WriteLine(error);
+                if(add_error != null) add_error(path,error);
             }
                 
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine($"GetHiddenField {path} key: {key}");
+
+            var error = $"GetHiddenField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -573,7 +581,9 @@ return_label:
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine($"GetTextAreaField {path} key: {key}");
+            var error = $"GetTextAreaField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -618,7 +628,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetNumberField {path} key: {key}");
+            var error = $"GetNumberField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -660,7 +672,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetDateField {path} key: {key}");
+            var error = $"GetDateField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         else
         {
@@ -720,7 +734,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetTimeField {path} key: {key}");
+            var error = $"GetTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -758,7 +774,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetDateTimeField {path} key: {key}");
+            var error = $"GetDateTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -799,7 +817,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetDateTimeField {path} key: {key}");
+            var error = $"GetBooleanield new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;

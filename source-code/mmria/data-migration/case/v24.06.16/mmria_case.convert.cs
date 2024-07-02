@@ -720,7 +720,10 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetTimeField {path} key: {key}");
+            
+            var error = $"GetTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
