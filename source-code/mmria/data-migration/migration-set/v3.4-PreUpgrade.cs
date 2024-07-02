@@ -79,8 +79,8 @@ public sealed class v3_4_PreUpgrade
 		//var path_to_val = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
 		try
 		{
-			string FromMetadataVersion = "23.07.25";
-			string ToMetadataVersion = "23.11.08";
+
+			string ToMetadataVersion = "24.06.16";
 
 			string metadata_url = $"{host_db_url}/metadata/version_specification-{ToMetadataVersion}/metadata";
 			
@@ -166,7 +166,7 @@ public sealed class v3_4_PreUpgrade
 
 
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
-                var result = new mmria.case_version.v231108.mmria_case();
+                var result = new mmria.case_version.v240616.mmria_case();
 				result.SetJsonErrorId(kv._id, kv.record_id);
 
 				//if(mmria.case_version.v231108.mmria_case.add_error != null)
