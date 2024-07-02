@@ -195,7 +195,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                   `<tr class="tr" path="${caseID}">
                       <td class="td"><a href="#/${i}/home_record">${hostState} ${jurisdictionID}: ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
                         ${checked_out_html}</td>
-                      <td class="td" scope="col">${currentCaseStatus}</td>
+                      <td class="td">${currentCaseStatus}</td>
                       <td class="td">${reviewDates}</td>
                       <td class="td">${createdBy} - ${dateCreated}</td>
                       <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>

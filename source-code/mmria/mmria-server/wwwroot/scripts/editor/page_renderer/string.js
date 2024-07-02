@@ -88,7 +88,6 @@ function render_data_analyst_dictionary_link
     {
         return `
         <button
-            tabindex="0"
             aria-label="Tooltip"
             class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1"
             data-toggle="tooltip" 
@@ -107,11 +106,11 @@ function render_data_analyst_dictionary_link
     {
         return `
         <button 
-            tabindex="0"
             class="info-icon anti-btn x20 fill-p cdc-icon-info-circle-solid ml-1"
             aria-label="Tooltip"
             data-toggle="tooltip" 
             data-placement="bottom"
+            onblur="g_set_data_object_from_path(null, null,'${p_dictionary_path}')"
             onclick="on_abstractor_committee_dictionary_lookup_click('${p_dictionary_path}')" >
         </button>
     `;

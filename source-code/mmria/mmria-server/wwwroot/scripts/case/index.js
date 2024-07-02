@@ -357,6 +357,9 @@ async function g_set_data_object_from_path
     var valid_date_or_datetime = true;
     var entered_date_or_datetime_value = value;
 
+    if(metadata === null)
+      return;
+
     if(metadata.type.toLowerCase() == 'html_area')
     {
         try
@@ -854,7 +857,7 @@ else
   }
 
   window.setTimeout(function() { update_charts(p_dictionary_path) }, 0);
- 
+ console.log('test');
 }
 
 
@@ -909,7 +912,7 @@ function set_focus_on_first_grid_item(p_metadata_path)
     var element = document.getElementById(p_metadata_path);
     let li_list = element.querySelectorAll("ul li");
     var lastchild = li_list[li_list.length-1];
-    lastchild.querySelector("input, select, textarea").focus();
+    lastchild.querySelector("input, select, textarea, button").focus();
 }
 
 function g_delete_grid_item

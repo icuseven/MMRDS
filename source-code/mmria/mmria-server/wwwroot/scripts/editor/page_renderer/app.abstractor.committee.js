@@ -731,7 +731,7 @@ function render_app_summary_result_item(item, i)
     `<tr class="tr" path="${caseID}">
         <td class="td"><a href="#/${i}/committee_review">${hostState} ${jurisdictionID}: ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
-        <td class="td" scope="col">${currentCaseStatus}</td>
+        <td class="td">${currentCaseStatus}</td>
         <td class="td">${reviewDates}</td>
         <td class="td">${createdBy} - ${dateCreated}</td>
         <td class="td">${lastUpdatedBy} - ${lastUpdatedDate}</td>
@@ -829,7 +829,7 @@ function render_app_pinned_summary_result(item, i)
     `<tr class="tr" path="${caseID}" style="background-color: #f7f2f7;">
         <td class="td"><a href="#/${i}/committee_review">${hostState} ${jurisdictionID}: ${recordID} ${agencyCaseID ? ` ac_id: ${agencyCaseID}` : ''}</a>
             ${checked_out_html}</td>
-        <td class="td" scope="col" ${border_bottom_color}>${currentCaseStatus}</td>
+        <td class="td" ${border_bottom_color}>${currentCaseStatus}</td>
         <td class="td" ${border_bottom_color}>${reviewDates}</td>
         <td class="td" ${border_bottom_color}>${createdBy} - ${dateCreated}</td>
         <td class="td" ${border_bottom_color}>${lastUpdatedBy} - ${lastUpdatedDate}</td>

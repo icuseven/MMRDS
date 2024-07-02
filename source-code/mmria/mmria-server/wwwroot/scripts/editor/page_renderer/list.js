@@ -91,7 +91,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     }
 
 
-    p_result.push(`<div class="list" id="${convert_object_path_to_jquery_id(p_object_path)}" mpath="${p_metadata_path}">`);
+    p_result.push(`<div tabindex="-1" class="list" id="${convert_object_path_to_jquery_id(p_object_path)}" mpath="${p_metadata_path}">`);
     
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
     p_result.push(`

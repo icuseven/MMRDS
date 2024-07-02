@@ -181,17 +181,17 @@ function renderCheckedOutCases(p_cases)
 
 						return (
 							`<tr class="tr" data-id="${caseID}">
-								<td class="td" scope="col">
+								<td class="td">
 									${jurisdictionID && `${jurisdictionID}: ` || ''}
 									${lastName && lastName || ''}, ${firstName && firstName || ''}
 									${recordID && ` - (${recordID})`}
 									${agencyCaseID && ` ac_id: ${agencyCaseID}`}
 								</td>
-								<td class="td" scope="col">${lastUpdatedDate && lastUpdatedDate || ''}</td>
-								<td class="td" scope="col">${timeLocked && `${timeLocked} minutes` || ''}</td>
-								<td class="td" scope="col">${lockedBy && lockedBy || ''}</td>
-								<td class="td" scope="col" data-current-status="${currentCaseStatus}">${currentCaseStatus == null ? '(blank)' : caseStatuses[currentCaseStatus.toString()]}</td>
-								<td class="td text-center" scope="col"><button class="anti-btn link" onclick="handleCaseRelease('${caseID}')">Release</button></td>
+								<td class="td">${lastUpdatedDate && lastUpdatedDate || ''}</td>
+								<td class="td">${timeLocked && `${timeLocked} minutes` || ''}</td>
+								<td class="td">${lockedBy && lockedBy || ''}</td>
+								<td class="td" data-current-status="${currentCaseStatus}">${currentCaseStatus == null ? '(blank)' : caseStatuses[currentCaseStatus.toString()]}</td>
+								<td class="td text-center"><button class="anti-btn link" onclick="handleCaseRelease('${caseID}')">Release</button></td>
 							</tr>`
 						)
 					}).join('')}
