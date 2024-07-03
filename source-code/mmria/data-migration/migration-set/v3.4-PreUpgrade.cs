@@ -168,11 +168,7 @@ public sealed class v3_4_PreUpgrade
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
                 var result = new mmria.case_version.v240616.mmria_case();
 				result.SetJsonErrorId(kv._id, kv.record_id);
-
-				//if(mmria.case_version.v231108.mmria_case.add_error != null)
-				//{
-					
-				//}
+				
 
 				void add_error(string path, string error)
 				{
@@ -180,18 +176,13 @@ public sealed class v3_4_PreUpgrade
 						ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
 
 					ErrorDictionary[path].Add($"id: {kv._id} record_id: {kv.record_id} error: {error}");
-
-
-
 				}
 
-
-				mmria.case_version.v231108.mmria_case.add_error += add_error;
-
-
-
+				mmria.case_version.v240616.mmria_case.add_error += add_error;
                 result.Convert(json_doc.RootElement);
-				mmria.case_version.v231108.mmria_case.add_error -= add_error;
+				mmria.case_version.v240616.mmria_case.add_error -= add_error;
+				
+
 				
 				continue;
 
