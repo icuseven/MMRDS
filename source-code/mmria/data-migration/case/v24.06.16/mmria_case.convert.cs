@@ -295,7 +295,7 @@ return_label:
                     }
                     else
                     {
-                        error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
+                        error = $"GetMultiSelectNumberListField TryParse Failed need a number Skipping Item in List path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
                         if(add_error != null) add_error(path, error);
                         //System.Console.WriteLine(error);
                     }
@@ -750,6 +750,46 @@ return_label:
                 if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine(error);
             }      
+        }
+        else if
+        (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
+        {
+            var is_item_set = false;
+
+            var value_string = string.Empty;
+
+            foreach(var json_element in  new_value.EnumerateArray())
+            {
+                if
+                (
+                    json_element.ValueKind != System.Text.Json.JsonValueKind.Object
+                )
+                break;
+
+                if(json_element.TryGetProperty("Item2", out var new_value_property))
+                {
+                    value_string = new_value_property.GetString();
+                    if(TimeOnly.TryParse(value_string, out var test))
+                    {
+                        result = test;
+                        //is_item_set = true;
+                    }
+                }
+
+                break;
+
+            }
+
+
+            if(! is_item_set)
+            {
+                var error = $"GetTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                System.Console.WriteLine(error);
+                if(add_error != null) add_error(path,error);
+            }
+
         }
         else if
         (
