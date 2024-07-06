@@ -21,6 +21,8 @@ position = Vector2(20, 10)
 shape = SubResource("RectangleShape2D_i48u7")
 
 [node name="Label" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = -20.0
+offset_top = -10.0
+offset_right = 120.0
+offset_bottom = 13.0
 text = "I am a group field:"

@@ -3,7 +3,7 @@ extends Node2D
 class_name GroupField
 
 var is_debug_mode = false
-
+var lable: Label 
 
 signal size_changed(
 	object_id,
@@ -62,6 +62,7 @@ func _ready():
 	#print("group field ready")
 	TopLeftHandleBar = $TopLeftHandleBar
 	BottomRightHandleBar = $BottomRightHandleBar
+	lable = $Label
 
 	Area = get_node("Area2D")
 	CollisionShap = $Area2D/CollisionShape2D.shape
@@ -81,6 +82,7 @@ func _ready():
 	
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
+	lable.position = start
 	
 	CollisionShap.size = Vector2(width, height)
 	
@@ -134,6 +136,7 @@ func _calc_resize(
 	print("area 2d center: %s", $Area2D.position)
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
+	lable.position = start
 	queue_redraw()
 	
 
@@ -264,6 +267,7 @@ func set_size(p_width: float, p_height: float):
 	_calc_positions()
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
+	lable.position = start
 	CollisionShap.size = end - start
 	$Area2D.position = (start + end) / 2 
 	queue_redraw()
