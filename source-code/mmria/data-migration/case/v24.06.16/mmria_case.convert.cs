@@ -145,6 +145,25 @@ return_label:
             )
             {
                 result = new_value.GetDouble().ToString();
+
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        metadata.value_to_display.ContainsKey(result) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {new_value.GetString()}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                }
             }
             else
             {
@@ -170,6 +189,24 @@ return_label:
         )
         {
             result =  new_value.GetDouble();
+            if
+            (
+                all_list_set != null &&
+                all_list_set.ContainsKey(path)
+            )
+            {
+                var metadata = all_list_set[path];
+                if
+                (
+                    metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                    add_error != null
+                ) 
+                {
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {new_value.GetString()}";
+                    add_error(path,error);
+                    System.Console.WriteLine(error);
+                }
+            }
         }
         else if
         (
@@ -184,6 +221,27 @@ return_label:
             else if(double.TryParse(val, out var test))
             {
                 result = test;
+
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetNumberListField value not on list: path: {path} key{key} value: {val}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                }
+
+
             }
             else
             {
@@ -230,7 +288,26 @@ return_label:
                     item.ValueKind ==  System.Text.Json.JsonValueKind.String
                 )
                 {
-                    result.Add(item.GetString());
+                    var item_string = item.GetString();
+                    result.Add(item_string);
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            var error = $"GetNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
                 }
                 else
                 {
@@ -277,7 +354,26 @@ return_label:
                     item.ValueKind ==  System.Text.Json.JsonValueKind.Number
                 )
                 {
+                    var item_string = item.ToString();
                     result.Add(item.GetDouble());
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
                 }
                 else if
                 (
@@ -291,7 +387,26 @@ return_label:
                     }
                     if(double.TryParse(item.GetString(), out var test))
                     {
-                         result.Add(test);
+                        var item_string = test.ToString();
+                        result.Add(test);
+                        if
+                        (
+                            all_list_set != null &&
+                            all_list_set.ContainsKey(path)
+                        )
+                        {
+                            var metadata = all_list_set[path];
+                            if
+                            (
+                                metadata.value_to_display.ContainsKey(item_string) &&
+                                add_error != null
+                            ) 
+                            {
+                                error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                                add_error(path,error);
+                                System.Console.WriteLine(error);
+                            }
+                        }
                     }
                     else
                     {
@@ -324,6 +439,28 @@ return_label:
                     {
                         new_double_value
                     };
+
+
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var item_string = new_double_value.ToString();
+
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
             
 
                 }
@@ -340,7 +477,27 @@ return_label:
                     {
                         new_value.GetDouble()
                     };
-            
+   
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var item_string = new_value.GetDouble().ToString();
+
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
 
                     error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
                     System.Console.WriteLine(error);
