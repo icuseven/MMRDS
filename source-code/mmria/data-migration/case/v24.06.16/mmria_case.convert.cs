@@ -155,11 +155,11 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        metadata.value_to_display.ContainsKey(result) &&
+                        !metadata.value_to_display.ContainsKey(result) &&
                         add_error != null
                     ) 
                     {
-                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {new_value.GetString()}";
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {result}";
                         add_error(path,error);
                         System.Console.WriteLine(error);
                     }
@@ -198,11 +198,11 @@ return_label:
                 var metadata = all_list_set[path];
                 if
                 (
-                    metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                    !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
                     add_error != null
                 ) 
                 {
-                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {new_value.GetString()}";
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {result.Value.ToString()}";
                     add_error(path,error);
                     System.Console.WriteLine(error);
                 }
@@ -231,7 +231,7 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                        !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
                         add_error != null
                     ) 
                     {
@@ -299,11 +299,11 @@ return_label:
                         var metadata = all_list_set[path];
                         if
                         (
-                            metadata.value_to_display.ContainsKey(item_string) &&
+                            !metadata.value_to_display.ContainsKey(item_string) &&
                             add_error != null
                         ) 
                         {
-                            var error = $"GetNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            var error = $"GetMultiSelectStringListField value not on list: path: {path} key{key} value: {item_string}";
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
@@ -365,7 +365,7 @@ return_label:
                         var metadata = all_list_set[path];
                         if
                         (
-                            metadata.value_to_display.ContainsKey(item_string) &&
+                            !metadata.value_to_display.ContainsKey(item_string) &&
                             add_error != null
                         ) 
                         {
@@ -398,7 +398,7 @@ return_label:
                             var metadata = all_list_set[path];
                             if
                             (
-                                metadata.value_to_display.ContainsKey(item_string) &&
+                                !metadata.value_to_display.ContainsKey(item_string) &&
                                 add_error != null
                             ) 
                             {
@@ -452,7 +452,7 @@ return_label:
                         var metadata = all_list_set[path];
                         if
                         (
-                            metadata.value_to_display.ContainsKey(item_string) &&
+                            !metadata.value_to_display.ContainsKey(item_string) &&
                             add_error != null
                         ) 
                         {
@@ -489,7 +489,7 @@ return_label:
                         var metadata = all_list_set[path];
                         if
                         (
-                            metadata.value_to_display.ContainsKey(item_string) &&
+                            !metadata.value_to_display.ContainsKey(item_string) &&
                             add_error != null
                         ) 
                         {

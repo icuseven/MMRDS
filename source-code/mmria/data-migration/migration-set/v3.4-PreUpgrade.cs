@@ -121,7 +121,13 @@ public sealed class v3_4_PreUpgrade
 
     		SortedDictionary<string,HashSet<string>> ErrorDictionary = new(StringComparer.OrdinalIgnoreCase);
 
-			Dictionary<string, Metadata_Node> all_list_dictionary = null;
+			Dictionary<string, Metadata_Node> all_list_dictionary = new Dictionary<string, Metadata_Node>(StringComparer.OrdinalIgnoreCase);
+
+			foreach(var item in all_list_set)
+			{
+				all_list_dictionary.Add(item.path, item);
+			}
+			mmria.case_version.v240616.mmria_case.all_list_set = all_list_dictionary;
 
 
 
@@ -178,6 +184,7 @@ public sealed class v3_4_PreUpgrade
 					ErrorDictionary[path].Add($"id: {kv._id} record_id: {kv.record_id} error: {error}");
 				}
 
+				
 				mmria.case_version.v240616.mmria_case.add_error += add_error;
                 result.Convert(json_doc.RootElement);
 				mmria.case_version.v240616.mmria_case.add_error -= add_error;
