@@ -3,7 +3,7 @@ extends Node2D
 class_name GroupField
 
 var is_debug_mode = false
-var lable: Label 
+var label: Label 
 
 signal size_changed(
 	object_id,
@@ -62,7 +62,7 @@ func _ready():
 	#print("group field ready")
 	TopLeftHandleBar = $TopLeftHandleBar
 	BottomRightHandleBar = $BottomRightHandleBar
-	lable = $Label
+	label = $Label
 
 	Area = get_node("Area2D")
 	CollisionShap = $Area2D/CollisionShape2D.shape
@@ -78,11 +78,14 @@ func _ready():
 	BottomRightHandleBar.connect("mouse_move", bottom_handle_bar_changed)
 	BottomRightHandleBar.connect("mouse_disengaged", bottom_handle_bar_end)
 
+	label.connect("mouse_entered", label_mouse_entered)
+
+
 	_calc_positions()
 	
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
-	lable.position = start
+	label.position = start
 	
 	CollisionShap.size = Vector2(width, height)
 	
@@ -109,6 +112,14 @@ func _process(delta):
 
 
 func _calc_positions():
+	var label_size = label.size
+	
+	if width < label_size.x:
+		width = label_size.x
+		
+	if height < label_size.y:
+		height = label_size.y
+	
 	var x_diff = width / 2.0
 	var y_diff = height / 2.0
 	start = Vector2(- x_diff, -y_diff)
@@ -121,6 +132,15 @@ func _calc_resize(
 
 	var _width = abs(top_left.x - bottom_right.x)
 	var _height = abs(top_left.y - bottom_right.y)
+	
+	var label_size = label.size
+	
+	if _width < label_size.x:
+		return
+		
+	if _height < label_size.y:
+		return
+
 	
 	
 	width = _width
@@ -136,7 +156,7 @@ func _calc_resize(
 	print("area 2d center: %s", $Area2D.position)
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
-	lable.position = start
+	label.position = start
 	queue_redraw()
 	
 
@@ -185,7 +205,6 @@ func top_handle_bar_start(_p_position:Vector2):
 	pass
 	
 func top_handle_bar_changed(p_position:Vector2):
-	var target_handlebar = 1
 	#print("top_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
 	_calc_resize(to_local(p_position), BottomRightHandleBar.position)
 	pass	
@@ -208,7 +227,6 @@ func bottom_handle_bar_start(_p_position:Vector2):
 	pass
 
 func bottom_handle_bar_changed(p_position:Vector2):
-	var target_handlebar = 2
 	#print("bottom_handle_bar_changed G:%s P:%s", get_global_mouse_position(), p_position)
 	_calc_resize(TopLeftHandleBar.position, to_local(p_position))
 	
@@ -267,7 +285,7 @@ func set_size(p_width: float, p_height: float):
 	_calc_positions()
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
-	lable.position = start
+	label.position = start
 	CollisionShap.size = end - start
 	$Area2D.position = (start + end) / 2 
 	queue_redraw()
@@ -299,6 +317,7 @@ func addpoint_list(value:Vector2):
 	point_list.append(value)
 	
 
-	
+func  label_mouse_entered():
+		print("******* label mouse entered *******")	
 
 	

@@ -16,7 +16,7 @@ size = Vector2(85, 25)
 size = Vector2(124, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i48u7"]
-size = Vector2(40, 20)
+size = Vector2(140, 23)
 
 [node name="FormDesigner" type="Control"]
 layout_mode = 3
@@ -134,18 +134,22 @@ shape = SubResource("RectangleShape2D_0pi5k")
 [node name="GroupField" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("4_skau2")]
 unique_name_in_owner = true
 position = Vector2(452, 222)
+width = 140.0
+height = 23.0
 dragging_color = Color(0.745098, 0.745098, 0.745098, 1)
 
 [node name="GroupField2" type="Node2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
 unique_name_in_owner = true
 position = Vector2(317, 322)
 script = ExtResource("5_0pg0l")
+width = 140.0
+height = 23.0
 
 [node name="TopLeftHandleBar" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2" instance=ExtResource("6_jsmfj")]
-position = Vector2(-20, -10)
+position = Vector2(-70, -11.5)
 
 [node name="BottomRightHandleBar" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2" instance=ExtResource("6_jsmfj")]
-position = Vector2(20, 10)
+position = Vector2(70, 11.5)
 
 [node name="Area2D" type="Area2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2"]
 
@@ -153,10 +157,10 @@ position = Vector2(20, 10)
 shape = SubResource("RectangleShape2D_i48u7")
 
 [node name="Label" type="Label" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel/GroupField2"]
-offset_left = -20.0
-offset_top = -10.0
-offset_right = 120.0
-offset_bottom = 13.0
+offset_left = -70.0
+offset_top = -11.5
+offset_right = 70.0
+offset_bottom = 11.5
 text = "I am a group field:"
 
 [node name="TabContainer" type="TabContainer" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer"]

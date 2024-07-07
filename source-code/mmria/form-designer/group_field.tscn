@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://group_field.gd" id="1_mt2ww"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i48u7"]
-size = Vector2(40, 20)
+size = Vector2(140, 23)
 
 [node name="GroupField" type="Node2D"]
 script = ExtResource("1_mt2ww")
