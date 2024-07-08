@@ -8,12 +8,14 @@ size = Vector2(140, 23)
 
 [node name="GroupField" type="Node2D"]
 script = ExtResource("1_mt2ww")
+width = 140.0
+height = 23.0
 
 [node name="TopLeftHandleBar" parent="." instance=ExtResource("1_dvp4h")]
-position = Vector2(-20, -10)
+position = Vector2(-70, -11.5)
 
 [node name="BottomRightHandleBar" parent="." instance=ExtResource("1_dvp4h")]
-position = Vector2(20, 10)
+position = Vector2(70, 11.5)
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -21,8 +23,9 @@ position = Vector2(20, 10)
 shape = SubResource("RectangleShape2D_i48u7")
 
 [node name="Label" type="Label" parent="."]
-offset_left = -20.0
-offset_top = -10.0
-offset_right = 120.0
-offset_bottom = 13.0
+offset_left = -70.0
+offset_top = -11.5
+offset_right = 70.0
+offset_bottom = 11.5
+mouse_filter = 0
 text = "I am a group field:"

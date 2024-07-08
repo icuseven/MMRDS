@@ -2,8 +2,10 @@
 extends Node2D
 class_name GroupField
 
-var is_debug_mode = false
+var is_debug_mode: bool = false
+
 var label: Label 
+var is_label_edit_mode: bool = false
 
 signal size_changed(
 	object_id,
@@ -79,7 +81,8 @@ func _ready():
 	BottomRightHandleBar.connect("mouse_disengaged", bottom_handle_bar_end)
 
 	label.connect("mouse_entered", label_mouse_entered)
-
+	label.connect("mouse_exited", label_mouse_exited)
+	label.connect("gui_input", label_gui_input)
 
 	_calc_positions()
 	
@@ -318,6 +321,26 @@ func addpoint_list(value:Vector2):
 	
 
 func  label_mouse_entered():
-		print("******* label mouse entered *******")	
+		#print("******* label mouse entered *******")	
+		label.modulate = Color.YELLOW
 
+func  label_mouse_exited():
+		#print("******* label mouse exited *******")	
+		label.modulate = Color.WHITE
+		
+func  label_gui_input(event: InputEvent):
+		#label.modulate = Color.WHITE
+		if not event is InputEventMouseButton:
+			return
 	
+		if event.button_index != MOUSE_BUTTON_LEFT:
+			return
+			
+		if event.pressed:	
+			print("******* group field label gui input  left click pressed *******")	
+		else:
+			print("******* group field label gui input  left click released *******")	
+			is_label_edit_mode = not is_label_edit_mode
+			
+		print("is_label_edit_mode: %s" % is_label_edit_mode)
+			
