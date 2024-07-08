@@ -3,8 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.SqlTypes;
+using System.Linq;
 using System.Windows.Markup;
-
+using migrate;
 using mmria.common.metadata;
 
 namespace mmria.case_version.v240616;
@@ -267,7 +268,7 @@ return_label:
 
     public static List<string>  GetMultiSelectStringListField(System.Text.Json.JsonElement value, string key, string path)
     {
-        List<string> result = null;
+        HashSet<string> result = null;
 
         if
         (
@@ -275,7 +276,7 @@ return_label:
             new_value.ValueKind == System.Text.Json.JsonValueKind.Array
         )
         {
-            result = new List<string>();
+            result = new HashSet<string>();
             var max_index = new_value.GetArrayLength();
             //for(int i = 0; i < max_index; i++)
             foreach (System.Text.Json.JsonElement item in new_value.EnumerateArray())
@@ -325,12 +326,15 @@ return_label:
             if(add_error != null) add_error(path,error);
         }
 
-        return result;
+        if (result != null)
+            return result.ToList();
+        
+        return new List<string>();
     }
 
     public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key, string path)
     {
-        List<double> result = null;
+        HashSet<double> result = null;
 
         var error = string.Empty;
 
@@ -341,7 +345,7 @@ return_label:
         )
         {
             
-            result = new List<double>();
+            result = new HashSet<double>();
             var max_index = new_value.GetArrayLength();
             int i = 0;
             var array_string = new_value.ToString();
@@ -435,7 +439,7 @@ return_label:
                 if(double.TryParse(new_value.GetString(), out var new_double_value))
                 {
 
-                    result = new List<double>()
+                    result = new HashSet<double>()
                     {
                         new_double_value
                     };
@@ -473,7 +477,7 @@ return_label:
                 break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    result = new List<double>()
+                    result = new HashSet<double>()
                     {
                         new_value.GetDouble()
                     };
@@ -521,7 +525,11 @@ return_label:
 
             
         }
-        return result;
+        
+        if (result != null)
+            return result.ToList();
+        
+        return new List<double>();
     }
 
 

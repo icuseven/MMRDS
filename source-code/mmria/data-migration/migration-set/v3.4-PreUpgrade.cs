@@ -68,7 +68,7 @@ public sealed class v3_4_PreUpgrade
 
 	public async Task execute()
 	{
-		this.output_builder.AppendLine($"v3.4.PreUpgrade Data Migration started at: {DateTime.Now.ToString("o")}");
+		this.output_builder.AppendLine($"v3.5.PreUpgrade Data Migration started at: {DateTime.Now.ToString("o")}");
 		DateTime begin_time = System.DateTime.Now;
 		
 		this.output_builder.AppendLine($"v3_4_PreUpgrade started at: {begin_time.ToString("o")}");
@@ -145,32 +145,6 @@ public sealed class v3_4_PreUpgrade
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 
-
-
-				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-				
-				/*
-				string get_doc_value(string p_path)
-				{
-					var result = String.Empty;
-
-
-					migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(doc, p_path);
-					if
-					(
-						! temp_result.is_error &&
-						temp_result.result != null
-					)
-					{
-						result = temp_result.result.ToString();
-					}
-
-					return result;
-				}
-				string mmria_record_id = get_doc_value("home_record/record_id");
-				string mmria_id = get_doc_value("_id");*/
-
-
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
                 var result = new mmria.case_version.v240616.mmria_case();
 				result.SetJsonErrorId(kv._id, kv.record_id);
@@ -190,170 +164,38 @@ public sealed class v3_4_PreUpgrade
 				mmria.case_version.v240616.mmria_case.add_error -= add_error;
 				
 
-				
-				continue;
-
-				//var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-				//var case_item in case_response.rows
-				var case_has_changed = false;
-				var case_change_count = 0;
-
-				//var doc = case_item.doc;
-				
-				if(doc != null)
+				if(!is_report_only_mode)
 				{
-
-					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-					//string mmria_id = value_result.result.ToString();
-					
-					string get_value(string p_path)
-					{
-						var result = String.Empty;
-
-
-						migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(doc, p_path);
-						if
-						(
-							! temp_result.is_error &&
-							temp_result.result != null
-						)
-						{
-							result = temp_result.result.ToString();
-						}
-
-						return result;
-					}
-
-					
-					bool set_value(string p_path, string p_value)
-
-					{
-						if(case_change_count == 0)
-						{
-							case_change_count += 1;
-							case_has_changed = true;
-						}
-
-						case_has_changed = case_has_changed &&  gs.set_value(p_path, p_value, doc);
-
-						return case_has_changed;
-					}
-
-
-					//bool set_grid_value(string p_path, List<(int, object)> p_value_list)
-					bool set_grid_value(string p_path, object p_value_list)
-
-					{
-						if(case_change_count == 0)
-						{
-							case_change_count += 1;
-							case_has_changed = true;
-						}
-
-						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
-
-						return case_has_changed;
-					}
-
-
-
-					//public delegate string? try_correct_list_string_delegate(System.Text.Json.JsonElement value, string path);
-					//public delegate double? try_correct_list_double_delegate(System.Text.Json.JsonElement value, string path);
-				
-					//public static event try_correct_list_string_delegate try_correct_list_string;
-					//public static event try_correct_list_double_delegate try_correct_list_double;
-				
-					string? try_correct_list_string_or_add_error(System.Text.Json.JsonElement value, string path, string error)
-					{
-						string? result = null;
-
-						if
-						(
-							all_list_dictionary == null ||
-							!all_list_dictionary.ContainsKey(path)
-						)
-						{
-							if(!ErrorDictionary.ContainsKey(path))
-								ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
-
-							ErrorDictionary[path].Add(error);
-
-							goto return_label;
-						}
-
-				return_label:
-/*
-						if(try_correct_list_string != null)
-						{
-							result = try_correct_list_string(value, path);
-						}*/
-
-						return result;
-					}
-
-					double? try_correct_list_double_or_add_error(System.Text.Json.JsonElement value, string path, string error)
-					{
-						double? result = default;
-
-						if
-						(
-							all_list_dictionary == null ||
-							!all_list_dictionary.ContainsKey(path)
-						)
-						{
-							if(!ErrorDictionary.ContainsKey(path))
-								ErrorDictionary.Add(path, new(StringComparer.OrdinalIgnoreCase));
-
-							ErrorDictionary[path].Add(error);
-
-							goto return_label;
-						}
-
-				return_label:
-
-/*
-						if(try_correct_list_double != null)
-						{
-							result = try_correct_list_double(value, path);
-						}
-						*/
-
-						return result;
-					}
-
-
-
-
-				if(!is_report_only_mode && case_has_changed)
-				{
-					var save_result = await new SaveRecord(this.host_db_url, this.db_name, this.config_timer_user_name, this.config_timer_value, this.output_builder).save_case(doc as IDictionary<string, object>,"v3.4 PreUpgrade");
+					var save_result = await save_case
+					(
+						result,
+						"v3.5 PreUpgrade"
+					);
 				}
 
 			}
 
-		
-		}
-
-		output_builder.AppendLine($"paths with data problems:");
-		foreach(var kvp in ErrorDictionary)
-		{
-			output_builder.AppendLine($"path: {kvp.Key}");
-		}
-		output_builder.AppendLine($"\n");
-
-		foreach(var kvp in ErrorDictionary)
-		{
-			output_builder.AppendLine($"\n\npath: {kvp.Key} details:");
-			foreach(var val in kvp.Value)
+			output_builder.AppendLine($"paths with data problems:");
+			foreach(var kvp in ErrorDictionary)
 			{
-				output_builder.AppendLine($"\t\t{val}");
+				output_builder.AppendLine($"path: {kvp.Key}");
 			}
+			output_builder.AppendLine($"\n");
+
+			foreach(var kvp in ErrorDictionary)
+			{
+				output_builder.AppendLine($"\n\npath: {kvp.Key} details:");
+				foreach(var val in kvp.Value)
+				{
+					output_builder.AppendLine($"\t\t{val}");
+				}
+			}
+			
 		}
-	}
-	catch(Exception ex)
-	{
-		Console.WriteLine(ex);
-	}
+		catch(Exception ex)
+		{
+			Console.WriteLine(ex);
+		}
 
 	Console.WriteLine($"v3_4_PreUpgrade Finished {DateTime.Now}");
 }
@@ -1024,5 +866,93 @@ public sealed class v3_4_PreUpgrade
 
 		return result;
 	}
+
+
+	public async Task<bool> save_case
+    (
+        mmria.case_version.v240616.mmria_case item, 
+        string p_migration_name, 
+        bool force_write = false
+    )
+    {
+        bool result = false;
+        var gsv = new C_Get_Set_Value(this.output_builder);
+
+        if(!p_migration_name.Equals("SubstanceMigration", StringComparison.OrdinalIgnoreCase))
+        {
+            gsv.set_value("version", p_migration_name, item);
+        }
+       
+        try
+        {
+
+            if(item.data_migration_history == null)
+            {
+                item.data_migration_history = new List<mmria.case_version.v240616._31525A784A20079888C887AC49E5D1B9>();
+			}
+
+            bool is_existing_migration = false;
+
+            foreach(var migration_item in item.data_migration_history)
+            {
+                if(migration_item.version.Equals(p_migration_name, StringComparison.OrdinalIgnoreCase))
+                {
+                    is_existing_migration = true;
+                }
+            }
+
+            if(is_existing_migration && !force_write)
+            {
+                return result;
+            }
+
+            item.data_migration_history.Add
+            (
+                new ()
+                {
+                    version = p_migration_name,
+                    datetime = DateTime.UtcNow.ToString("o"),
+                    is_forced_write = force_write.ToString()
+                }
+            );
+
+
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(item, settings);
+
+            string put_url = $"{host_db_url}/{db_name}/{item._id}";
+            cURL document_curl = new cURL ("PUT", null, put_url, object_string, this.config_timer_user_name, this.config_timer_value);
+
+
+            var responseFromServer = await document_curl.executeAsync();
+            
+            var	put_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+
+            if(put_result.ok)
+            {
+                result = true;
+            }
+            else
+
+            {
+                var output_text = $"item record_id: {item._id} error saving {p_migration_name}";
+                this.output_builder.AppendLine(output_text);
+                Console.WriteLine(output_text);
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            var output_text = $"item record_id: {item._id} error saving {p_migration_name}";
+            this.output_builder.AppendLine(output_text);
+            Console.WriteLine(output_text);
+            Console.WriteLine(ex);
+
+
+        }
+
+        return result;
+    }
 
 }
