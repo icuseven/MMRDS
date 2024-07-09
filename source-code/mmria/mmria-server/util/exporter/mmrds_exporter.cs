@@ -1145,22 +1145,39 @@ public sealed class mmrds_exporter
                     {
                     case "group":
 
+
+                        
+
                         int? month = null;
                         int? day = null;
                         int? year = null;
 
+                        object month_result =  null;
+                        object day_result =  null;
+                        object year_result =  null;
 
                         var dictionary = val as IDictionary<string,object>;
+
+                        if(dictionary == null) break;
+                        if(dictionary.ContainsKey("month"))
+                        {
+                            month_result = dictionary["month"];
+                        }
+
+                        if(dictionary.ContainsKey("day"))
+                        {
+                            day_result = dictionary["day"];
+                        }
+
+                        if(dictionary.ContainsKey("year"))
+                        {
+                            year_result = dictionary["year"];
+                        }
 
                         //var month_result =  dictionary["month"]get_value(case_doc as IDictionary<string, object>, $"{path}/month");
                         //var day_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/day");
                         //var year_result =  get_value(case_doc as IDictionary<string, object>, $"{path}/year");
                         
-                        var month_result =  dictionary["month"];
-                        var day_result =  dictionary["day"];
-                        var year_result =  dictionary["year"];
-                        
-
                         var new_val = "";
 
                         month = ConvertToInt(month_result);
