@@ -127,8 +127,7 @@ public sealed class caseController: ControllerBase
             {
                 byName.Add("last_updated_by", userName);
                 
-            }
-
+            }            
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

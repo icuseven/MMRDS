@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace mmria.case_version.v1;
+namespace mmria.case_version.v240616;
 
 public sealed class _03787BE62E53DBA5CE6F69EA96515700 : IConvertDictionary
 {
