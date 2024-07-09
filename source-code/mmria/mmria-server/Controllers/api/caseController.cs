@@ -47,7 +47,8 @@ public sealed class caseController: ControllerBase
     
     [Authorize(Roles  = "abstractor, data_analyst")]
     [HttpGet]
-    public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
+    //public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
+    public async Task<mmria.case_version.v240616.mmria_case> Get(string case_id) 
     { 
         try
         {
@@ -59,7 +60,7 @@ public sealed class caseController: ControllerBase
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v240616.mmria_case> (responseFromServer);
 
                 if(mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.ReadCase, result))
                 {
@@ -69,7 +70,6 @@ public sealed class caseController: ControllerBase
                 {
                     return null;
                 }
-
             } 
 
         }
@@ -82,14 +82,23 @@ public sealed class caseController: ControllerBase
     } 
 
 
+    public sealed class Save_Case_Request
+    {
+        public mmria.common.model.couchdb.Change_Stack Change_Stack {get;set;} = new();
 
+        public mmria.case_version.v240616.mmria_case Case_Data {get;set;}
+        public Save_Case_Request()
+        {
+
+        }
+    }
 
 
     [Authorize(Roles  = "abstractor")]
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (
-        [FromBody] mmria.common.model.couchdb.Save_Case_Request save_case_request
+        [FromBody] Save_Case_Request save_case_request
     ) 
     { 
 
@@ -112,37 +121,29 @@ public sealed class caseController: ControllerBase
                     u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
             }
 
-            var byName = (IDictionary<string,object>)case_post_request;
-            var created_by = byName["created_by"] as string;
-            if(string.IsNullOrWhiteSpace(created_by))
+            if(string.IsNullOrWhiteSpace(case_post_request.created_by))
             {
-                byName["created_by"] = userName;
+                case_post_request.created_by = userName;
             } 
 
-            if(byName.ContainsKey("last_updated_by"))
-            {
-                byName["last_updated_by"] = userName;
-            }
-            else
-            {
-                byName.Add("last_updated_by", userName);
-                
-            }            
+            case_post_request.last_updated_by = userName;
+          
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
             object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_post_request, settings);
 
             
-            var temp_id = byName["_id"]; 
+            var temp_id = case_post_request._id; 
             string id_val = null;
 
+            /*
             if(temp_id is DateTime)
             {
                 id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
             }
             else
-            {
+            {*/
                 id_val = temp_id.ToString();
 
                 var is_match = System.Text.RegularExpressions.Regex.IsMatch
@@ -156,26 +157,26 @@ public sealed class caseController: ControllerBase
                     result.error_description = $"No Match On Id Format: Id:{id_val}";
                     return result;
                 }
-            }
+            //}
 
-            var home_record = (IDictionary<string,object>)byName["home_record"];
-            if(!home_record.ContainsKey("jurisdiction_id"))
+    
+            if(string.IsNullOrWhiteSpace(case_post_request.home_record.jurisdiction_id))
             {
-                home_record.Add("jurisdiction_id", "/");
+                case_post_request.home_record.jurisdiction_id = "/";
             }
 
             if 
             (
-                home_record.ContainsKey("record_id")
+                !string.IsNullOrWhiteSpace(case_post_request.home_record.record_id)
             ) 
             {
-                mmria_record_id = home_record["record_id"].ToString();
+                mmria_record_id = case_post_request.home_record.record_id;
             }
 
-            if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteCase, home_record["jurisdiction_id"].ToString()))
+            if(!mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteCase, case_post_request.home_record.jurisdiction_id))
             {
-                result.error_description = $"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}";
-                Console.Write($"unauthorized PUT {home_record["jurisdiction_id"]}: {byName["_id"]}");
+                result.error_description = $"unauthorized PUT {case_post_request.home_record.jurisdiction_id}: {case_post_request._id}";
+                Console.Write($"unauthorized PUT {case_post_request.home_record.jurisdiction_id}: {case_post_request._id}");
                 return result;
             }
 

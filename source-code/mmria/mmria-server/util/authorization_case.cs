@@ -11,6 +11,47 @@ namespace mmria.server.utils;
 public sealed class authorization_case
 {
 
+public static bool is_authorized_to_handle_jurisdiction_id
+    (
+        mmria.common.couchdb.DBConfigurationDetail db_config,
+        System.Security.Claims.ClaimsPrincipal p_claims_principal, 
+        ResourceRightEnum p_resoure_right_enum,
+        mmria.case_version.v240616.mmria_case p_mmria_case
+    )
+    {
+
+        bool result = false;
+
+        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, p_claims_principal);
+        
+        if
+        (
+            p_mmria_case.home_record.jurisdiction_id == null
+        )
+        {
+            p_mmria_case.home_record.jurisdiction_id = "/";
+        }
+        
+        foreach(var jurisdiction_item in  jurisdiction_hashset)
+        {
+            var regex = new System.Text.RegularExpressions.Regex("^" + jurisdiction_item.jurisdiction_id);
+            if
+            (
+                regex.IsMatch(p_mmria_case.home_record.jurisdiction_id) && 
+                p_resoure_right_enum ==  jurisdiction_item.ResourceRight
+            )
+            {
+                
+                result = true;
+                break;
+            }
+        }
+        
+        
+
+        return result;
+    }
+
     public static bool is_authorized_to_handle_jurisdiction_id
     (
         mmria.common.couchdb.DBConfigurationDetail db_config,
