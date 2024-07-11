@@ -138,14 +138,41 @@ return_label:
                 new_value.ValueKind == System.Text.Json.JsonValueKind.String
             )
             {
-                result = new_value.GetString();
+                
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var test_string  = new_value.GetString();
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.value_to_display.ContainsKey(test_string) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {test_string}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                    else
+                    {
+                        result = test_string;
+                    }
+                }
+                else
+                {
+                    result = new_value.GetString();
+                }
             }
             else if
             (
                 new_value.ValueKind == System.Text.Json.JsonValueKind.Number
             )
             {
-                result = new_value.GetDouble().ToString();
+                var test_key = new_value.GetDouble().ToString();
 
                 if
                 (
@@ -156,14 +183,22 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        !metadata.value_to_display.ContainsKey(result) &&
+                        !metadata.value_to_display.ContainsKey(test_key) &&
                         add_error != null
                     ) 
                     {
-                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {result}";
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {test_key}";
                         add_error(path,error);
                         System.Console.WriteLine(error);
                     }
+                    else
+                    {
+                        result = test_key;
+                    }
+                }
+                else
+                {
+                    result = test_key;
                 }
             }
             else
@@ -189,24 +224,33 @@ return_label:
             new_value.ValueKind == System.Text.Json.JsonValueKind.Number
         )
         {
-            result =  new_value.GetDouble();
+            
             if
             (
                 all_list_set != null &&
                 all_list_set.ContainsKey(path)
             )
             {
+                var test_number = new_value.GetDouble();
                 var metadata = all_list_set[path];
                 if
                 (
-                    !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                    !metadata.value_to_display.ContainsKey(test_number.ToString()) &&
                     add_error != null
                 ) 
                 {
-                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {result.Value.ToString()}";
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {test_number}";
                     add_error(path,error);
                     System.Console.WriteLine(error);
                 }
+                else
+                {
+                    result =  test_number;
+                }
+            }
+            else
+            {
+                result =  new_value.GetDouble();
             }
         }
         else if
@@ -221,7 +265,7 @@ return_label:
             }
             else if(double.TryParse(val, out var test))
             {
-                result = test;
+                
 
                 if
                 (
@@ -232,7 +276,7 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                        !metadata.value_to_display.ContainsKey(val) &&
                         add_error != null
                     ) 
                     {
@@ -240,8 +284,15 @@ return_label:
                         add_error(path,error);
                         System.Console.WriteLine(error);
                     }
+                    else
+                    {
+                        result = test;
+                    }
                 }
-
+                else
+                {
+                    result = test;
+                }
 
             }
             else
@@ -290,7 +341,7 @@ return_label:
                 )
                 {
                     var item_string = item.GetString();
-                    result.Add(item_string);
+                    
                     if
                     (
                         all_list_set != null &&
@@ -308,6 +359,14 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result.Add(item_string);
+                        }
+                    }
+                    else
+                    {
+                        result.Add(item_string);
                     }
                 }
                 else
@@ -359,7 +418,7 @@ return_label:
                 )
                 {
                     var item_string = item.ToString();
-                    result.Add(item.GetDouble());
+                    
                     if
                     (
                         all_list_set != null &&
@@ -377,6 +436,14 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result.Add(item.GetDouble());
+                        }
+                    }
+                    else
+                    {
+                        result.Add(item.GetDouble());
                     }
                 }
                 else if
@@ -392,7 +459,7 @@ return_label:
                     if(double.TryParse(item.GetString(), out var test))
                     {
                         var item_string = test.ToString();
-                        result.Add(test);
+                        
                         if
                         (
                             all_list_set != null &&
@@ -410,6 +477,14 @@ return_label:
                                 add_error(path,error);
                                 System.Console.WriteLine(error);
                             }
+                            else
+                            {
+                                result.Add(test);
+                            }
+                        }
+                        else
+                        {
+                            result.Add(test);
                         }
                     }
                     else
@@ -438,13 +513,6 @@ return_label:
                 case System.Text.Json.JsonValueKind.String:
                 if(double.TryParse(new_value.GetString(), out var new_double_value))
                 {
-
-                    result = new HashSet<double>()
-                    {
-                        new_double_value
-                    };
-
-
                     if
                     (
                         all_list_set != null &&
@@ -464,6 +532,20 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_double_value
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_double_value
+                        };
                     }
             
 
@@ -477,10 +559,7 @@ return_label:
                 break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    result = new HashSet<double>()
-                    {
-                        new_value.GetDouble()
-                    };
+                    
    
                     if
                     (
@@ -501,6 +580,20 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_value.GetDouble()
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_value.GetDouble()
+                        };
                     }
 
                     error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
