@@ -15,6 +15,12 @@ signal size_changed(
 	new_height_value
 )
 
+
+signal edit_mode_changed(
+	object_id,
+	edit_mode_value
+)
+
 @export var width:float = 40
 @export var height:float = 20
 @export var top:float = 20
@@ -330,17 +336,62 @@ func  label_mouse_exited():
 		
 func  label_gui_input(event: InputEvent):
 		#label.modulate = Color.WHITE
-		if not event is InputEventMouseButton:
-			return
+		
+	if event is InputEventKey:
+		var iek = event as InputEventKey
+		print("group_field.gui_event_input(iek) = %s" % iek.as_text_key_label())        
 	
-		if event.button_index != MOUSE_BUTTON_LEFT:
+	if not event is InputEventMouseButton:
+		return
+
+	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
+		
+	if event.pressed:	
+		print("******* group field label gui input  left click pressed *******")	
+	else:
+		print("******* group field label gui input  left click released *******")	
+		is_label_edit_mode = not is_label_edit_mode
+		edit_mode_changed.emit(self.get_instance_id(), is_label_edit_mode)
+		
+	#print("is_label_edit_mode: %s" % is_label_edit_mode)
+		
+func set_input_key_event(iek:InputEventKey):
+	var is_shift = false
+	var value:String
+	var array = iek.as_text_key_label().split("+")
+	if array.size() < 1 or array.size() > 2: return
+	if array.size() == 1:
+		value = array[0]
+	else:
+		if array[0] != "Shift":
 			return
-			
-		if event.pressed:	
-			print("******* group field label gui input  left click pressed *******")	
 		else:
-			print("******* group field label gui input  left click released *******")	
-			is_label_edit_mode = not is_label_edit_mode
+			is_shift = true
+			value = array[1]
+	
+	if value == "Backspace":
+		if label.text.length() > 0:
+			label.text.erase(label.text.length() - 1, 1)
 			
-		print("is_label_edit_mode: %s" % is_label_edit_mode)
-			
+		return
+		
+	if value == "Escape" or (
+			value == "Enter" and 
+			is_shift
+		):
+		is_label_edit_mode = false
+		edit_mode_changed.emit(self.get_instance_id(), is_label_edit_mode)
+		return
+	
+	if value == "Tab":
+		label.text = label.text + "\t"
+	if value == "Space":
+		label.text = label.text + " "
+	elif value == "Enter":
+		label.text = label.text + "\n"
+	else:
+		label.text = label.text + value.to_lower()
+	
+	
+	
