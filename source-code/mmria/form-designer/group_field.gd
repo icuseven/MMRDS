@@ -298,12 +298,7 @@ func set_size(p_width: float, p_height: float):
 	CollisionShap.size = end - start
 	$Area2D.position = (start + end) / 2 
 	queue_redraw()
-	"""
-	var top_left_point = Vector2.ZERO
-	var bottom_right_point = Vector2.ZERO
-	
-	_calc_resize(top_left_point, bottom_right_point)
-	"""
+
 
 func unset_to_drag():
 	drag_offset = Vector2.ZERO
@@ -359,15 +354,27 @@ func  label_gui_input(event: InputEvent):
 func set_input_key_event(iek:InputEventKey):
 	var is_shift = false
 	var value:String
+	
+	#iek.as_text_key_label().split("+")
+	#"Shift"
+	#"A" => "a"
+	#"Shift+J"
+	#"Semicolon"
 	var array = iek.as_text_key_label().split("+")
 	if array.size() < 1 or array.size() > 2: return
+	if array[0] == "Ctrl":
+		return
+		
 	if array.size() == 1:
 		value = array[0]
+		if array[0] == "Shift":
+			return
+
 	else:
 		if array[0] != "Shift":
 			return
 		else:
-			is_shift = true
+			is_shift = true			
 			value = array[1]
 	
 	if value == "Backspace":
@@ -386,12 +393,31 @@ func set_input_key_event(iek:InputEventKey):
 	
 	if value == "Tab":
 		label.text = label.text + "\t"
-	if value == "Space":
+	elif value == "Space":
 		label.text = label.text + " "
 	elif value == "Enter":
 		label.text = label.text + "\n"
 	else:
 		label.text = label.text + value.to_lower()
 	
+	if width < label.size.x or height < label.size.y:
+		
+		var size_difference =Vector2(10,0)
+		BottomRightHandleBar.position = BottomRightHandleBar.position + size_difference
+		_calc_resize(TopLeftHandleBar.position, BottomRightHandleBar.position)
+		queue_redraw()
+		
+		#_calc_resize(top_left:Vector2, bottom_right:Vector2)
+		#_calc_resize(TopLeftHandleBar.position, to_local(p_position))
+		#_calc_resize(to_local(p_position), BottomRightHandleBar.position)
+		#_calc_resize(top_left, bottom_right)
 	
-	
+		#_calc_positions()
+		
+		#TopLeftHandleBar.update_position(start)
+		#BottomRightHandleBar.update_position(end)
+		#label.position = start
+		
+		#CollisionShap.size = Vector2(width, height)
+		#queue_redraw()
+		
