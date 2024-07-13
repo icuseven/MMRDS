@@ -62,7 +62,7 @@ func _input(event):
         var iek = event as InputEventKey
         if is_edit_mode == true:
             edit_mode_id.set_input_key_event(iek)
-        #print("_input(iek) key_lable: %s  key_code: %s" % [ iek.as_text_key_label(), iek.as_text_physical_keycode()])        
+        print("_input(iek) key_label: %s " % iek.as_text_key_label())        
     
     
     
@@ -164,11 +164,11 @@ func _input(event):
                 
             pass
     if event is InputEventKey and event.pressed:
-        if event.keycode == KEY_T:
-            if event.shift_pressed:
-                print("Shift+T was pressed")
-            else:
-                print("T was pressed")
+        #if event.keycode == KEY_T:
+         #   if event.shift_pressed:
+          #      print("Shift+T was pressed")
+           # else:
+            #    print("T was pressed")
                 
         if event.is_action_pressed("ui_undo"):
             if event_stack.stack.size() > 0:
