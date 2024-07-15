@@ -4,6 +4,8 @@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration configuration
+@inject IHttpClientFactory httpClientFactory
+@inject NavigationManager NavigationManager
 
 @using BurdenStatement
 
@@ -128,6 +130,9 @@
                 }
             }
 
+    
+            //var role_list = await GetUserRoles();
+
         }
         else
         {
@@ -135,7 +140,7 @@
         }
     }    
 
-    private async Task GetClaimsPrincipalData()
+    async Task GetClaimsPrincipalData()
     {
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
@@ -152,6 +157,33 @@
             authMessage = "The user is NOT authenticated.";
         }
     }
+
+    async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> GetUserRoles()
+    {
+        using HttpClient client = httpClientFactory.CreateClient();
+        mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> result = new();
+
+        try
+        {
+            var url = $"{NavigationManager.BaseUri}api/user_role_jurisdiction_view/my-roles";
+
+            result = await client.GetFromJsonAsync<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>
+                (
+                    url,
+                    new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
+                );
+
+            return result;
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine(ex);
+        }
+
+        return result;
+    }
+
+
 }
 
 <!--CascadingAuthenticationState>

@@ -554,6 +554,8 @@ public sealed partial class Program
             );
             */
 
+            builder.Services.AddHttpClient();
+
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
