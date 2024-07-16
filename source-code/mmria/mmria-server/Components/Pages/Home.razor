@@ -166,7 +166,7 @@
 
     string GetHostPrefix(string value)
     {
-        var result = value.Trim('/').Split("//")[1].Split(":")[0];
+        var result = value.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
 
         return result;
     }
