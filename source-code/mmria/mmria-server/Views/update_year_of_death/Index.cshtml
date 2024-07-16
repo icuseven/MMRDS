@@ -17,6 +17,7 @@
     bool is_cdc_admin = false;
 
     var roles = new List<string>();
+    var actionLink = "/update_year_of_death/FindRecord";
 
     if
     (
@@ -29,18 +30,24 @@
         .Select(c => c.Value).ToList();
     }
 
-    @if
+    if
     (
         Context.Request.QueryString.ToString().Contains("cdc_admin") && roles.Contains("cdc_admin")
         //roles.Contains("cdc_admin") && !roles.Contains("jurisdiction_admin")
     )
     {
         is_cdc_admin = true;
+        actionLink += "?role=cdc_admin";
 
         foreach(var kvp in Model.detail_list)
         {
             SortedDictionary.Add(kvp.Key, kvp.Value);
         }
+    }
+    else 
+    {
+      is_cdc_admin = false;
+      actionLink += "?role=jurisdiction_admin";
     }
 }
 
@@ -48,7 +55,7 @@
 
 <p class="mb-4">Enter the MMRIA Record ID.  Click the button to search for matching case(s).</p>
 
-<form method="post" action="/update_year_of_death/FindRecord">
+<form method="post" action="@actionLink">
     @if(is_cdc_admin)
     {
         <input type="hidden" name="Role" value="cdc_admin" /> 

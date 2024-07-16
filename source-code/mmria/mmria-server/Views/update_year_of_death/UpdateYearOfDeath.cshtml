@@ -11,6 +11,36 @@
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
     }
+    bool is_cdc_admin = false;
+
+    var roles = new List<string>();
+    var userRoleURLParameter = "";
+
+    if
+    (
+        User.Identity != null && 
+        User.Identity.IsAuthenticated
+    )
+    {
+        roles = ((ClaimsIdentity)User.Identity).Claims
+        .Where(c => c.Type == ClaimTypes.Role)
+        .Select(c => c.Value).ToList();
+    }
+
+    if
+    (
+        Context.Request.QueryString.ToString().Contains("cdc_admin") && roles.Contains("cdc_admin")
+        //roles.Contains("cdc_admin") && !roles.Contains("jurisdiction_admin")
+    )
+    {
+        is_cdc_admin = true;
+        userRoleURLParameter = "?role=cdc_admin";
+    }
+    else 
+    {
+      is_cdc_admin = false;
+      userRoleURLParameter = "?role=jurisdiction_admin";
+    }
 }
 
 @if
@@ -20,7 +50,7 @@
 )
 {
     <h1 class="h2" tabindex="-1">Update MMRIA Record ID</h1>
-    <a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
+    <a class="btn btn-secondary" href="@(String.Format("/update_year_of_death{0}", userRoleURLParameter))">Search Again</a>
 
     <h3 class="h4">MMRIA Record ID has been set to: <strong>@Model.RecordIdReplacement</strong></h3>
     <p><strong>Year of Death:</strong> @Model.YearOfDeath</p>
@@ -33,12 +63,12 @@
     <p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
 
 
-    <a class="btn btn-primary mb-3" href="/update_year_of_death">Search Again</a>
+    <a class="btn btn-primary mb-3" href="@(String.Format("/update_year_of_death{0}", userRoleURLParameter))">Search Again</a>
 }
 else
 {
     <h1 class="h2" tabindex="-1">Update Year Of Death and MMRIA Record ID</h1>
-    <a class="btn btn-secondary" href="/update_year_of_death">Search Again</a>
+    <a class="btn btn-secondary" href="@(String.Format("/update_year_of_death{0}", userRoleURLParameter))">Search Again</a>
 
     <h3 class="h4">Year of Death and MMRIA Record ID has been set to: Year of Death: <strong>@Model.YearOfDeathReplacement</strong> MMRIA Record ID: <strong>@Model.RecordIdReplacement</strong></h3>
     <p><strong>Year of Death:</strong> @Model.YearOfDeathReplacement</p>
@@ -50,6 +80,6 @@ else
     <p><strong>Last Updated By:</strong> @Model.LastUpdatedBy</p>
     <p><strong>Date/Time Last Updated:</strong> @Model.DateLastUpdated</p>
 
-    <a class="btn btn-primary mb-3" href="/update_year_of_death">Search Again</a>
+    <a class="btn btn-primary mb-3" href="@(String.Format("/update_year_of_death{0}", userRoleURLParameter))">Search Again</a>
 
 }
