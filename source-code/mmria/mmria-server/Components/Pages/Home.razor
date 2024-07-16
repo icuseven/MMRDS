@@ -8,6 +8,8 @@
 @inject NavigationManager NavigationManager
 
 @using BurdenStatement
+@using mmria.common.couchdb;
+@using mmria.server.extension;
 
 @code {
 
@@ -34,6 +36,8 @@
     private string? surname;
     private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
 
+    mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> user_role_list;
+
 
     public override Task SetParametersAsync(ParameterView parameters)
     {
@@ -45,6 +49,8 @@
 
     protected override async Task OnInitializedAsync()
     {
+        user_role_list = new();
+
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
         var user = authState.User;
@@ -131,7 +137,7 @@
             }
 
     
-            //var role_list = await GetUserRoles();
+            user_role_list = await GetUserRoles();
 
         }
         else
@@ -158,29 +164,143 @@
         }
     }
 
+    string GetHostPrefix(string value)
+    {
+        var result = value.Trim('/').Split("//")[1].Split(":")[0];
+
+        return result;
+    }
+
+    string GetFolderName(string value)
+    {
+        var result = value == "/" ? "Top Folder": value;
+        return result;
+    }
+
+    string GetDaysTilRoleExpires(DateTime? value)
+    {
+        if(value.HasValue)
+        {
+            var result = (value.Value - DateTime.Now).TotalDays;
+            return result.ToString();
+        }
+        else
+        {
+            return "Never";
+        }
+        
+    }
+
+
     async Task<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>> GetUserRoles()
     {
-        using HttpClient client = httpClientFactory.CreateClient();
         mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> result = new();
+
+        var host_prefix = GetHostPrefix(NavigationManager.BaseUri);
+        var db_config = configuration.GetDBConfig(host_prefix);
+
+        string search_key = null;
+
+                var authState = await AuthenticationStateProvider
+            .GetAuthenticationStateAsync();
+        var user = authState.User;
+
+        if 
+        (
+            user.Identity is null || 
+            !user.Identity.IsAuthenticated
+        )
+            return result;
+        
+
+        claims = user.Claims;
+        surname = user.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+
+        search_key = user.Identities.First(
+        u => u.IsAuthenticated && 
+        u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+
 
         try
         {
-            var url = $"{NavigationManager.BaseUri}api/user_role_jurisdiction_view/my-roles";
+            System.Text.StringBuilder request_builder = new System.Text.StringBuilder ();
+            request_builder.Append (db_config.url);
+            request_builder.Append ($"/{db_config.prefix}jurisdiction/_design/sortable/_view/by_date_last_updated?");
 
-            result = await client.GetFromJsonAsync<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>
+
+            request_builder.Append ("skip=0");
+
+            var user_role_jurisdiction_curl = new cURL("GET", null, request_builder.ToString(), null, db_config.user_name, db_config.user_value);
+            string response_from_server = await user_role_jurisdiction_curl.executeAsync ();
+
+            var case_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>(response_from_server);
+
+
+            result = new mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>();
+            result.offset = case_view_response.offset;
+            result.total_rows = case_view_response.total_rows;
+
+            foreach(mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction> cvi in case_view_response.rows)
+            {
+                if
                 (
-                    url,
-                    new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)
-                );
+                    cvi.value != null && 
+                    !string.IsNullOrWhiteSpace(cvi.value.user_id) && 
+                    cvi.value.user_id.Equals(search_key, StringComparison.OrdinalIgnoreCase)
+                )
+                {
+                    result.rows.Add (cvi);
+                }
+            }
+            result.total_rows = result.rows.Count;
 
+            if(result.total_rows == 0)
+            {
+
+                bool is_admin = false;
+
+                foreach(var c in claims.Where(c => c.Type == ClaimTypes.Role))
+                {
+                        if(c.Value == "installation_admin")
+                        {
+                            is_admin = true;
+                            break;
+                        }
+                }
+
+                if(is_admin)
+                {
+
+                    var svri = new mmria.common.model.couchdb.get_sortable_view_response_item<mmria.common.model.couchdb.user_role_jurisdiction>();
+                    var urj = new mmria.common.model.couchdb.user_role_jurisdiction();
+                    
+                    urj.effective_start_date = DateTime.Now;
+                    urj.role_name = "installation_admin";
+                    urj.user_id = search_key;
+                    urj.last_updated_by = "system";
+                    urj.created_by = "system";
+                    urj.date_created = DateTime.Now;
+                    urj.date_last_updated = DateTime.Now;
+
+                    result.total_rows = 1;
+                    svri.id = "id";
+                    svri.key = "key";
+                    svri.value = urj;
+                    result.rows.Add (svri);
+                }
+            }
             return result;
+
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
-            System.Console.WriteLine(ex);
-        }
+            Console.WriteLine (ex);
+
+        } 
 
         return result;
+
+
     }
 
 
@@ -540,42 +660,19 @@ else
           </tr>
         </thead>
         <tbody>
+        @foreach (var item in user_role_list.rows)
+        {
           <tr>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
+            <td>@item.value.role_name</td>
+            <td>@GetFolderName(item.value.jurisdiction_id) </td>
+            <td>@item.value.is_active</td>
+            <td>@item.value.effective_start_date</td>
+            <td>@item.value.effective_end_date</td>
+            <td>@GetDaysTilRoleExpires(item.value.effective_end_date)</td>
+            <td>@item.value.created_by</td>
           </tr>
-          <tr>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-          </tr>
-          <tr>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-          </tr>
-          <tr>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-            <td>Item</td>
-          </tr>
+          }
+
         </tbody>
       </table>
     </div>
