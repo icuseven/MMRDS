@@ -136,7 +136,7 @@ $font-family: 'Open Sans', sans-serif, 'cdciconfont';
 }
 
 @mixin banner() {
-  @extend .mb-3, .mt-3, .align-items-center, .row;
+  @extend .mb-3, .mt-0, .align-items-center, .row;
 }
 
 @mixin icon($size: 'small') {

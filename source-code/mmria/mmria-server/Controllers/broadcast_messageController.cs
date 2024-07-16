@@ -48,7 +48,7 @@ public sealed class broadcast_messageController : Controller
 
     [Authorize]
     [HttpGet]
-    public async Task<JsonResult> GetBroadcastMessageList()
+    public async Task<mmria.common.metadata.BroadcastMessageList> GetBroadcastMessageList()
     {
         var result = new mmria.common.metadata.BroadcastMessageList();
 
@@ -81,7 +81,7 @@ public sealed class broadcast_messageController : Controller
             Console.WriteLine(ex);
         }
 
-        return Json(result);
+        return result;
     }
 
     [Authorize(Roles  = "cdc_admin")]

@@ -969,42 +969,42 @@ var $mmria = function()
         },
         info_dialog_show: function (p_title, p_header, p_inner_html, p_message_type = "default")
         {
-            var publishedAlertTypeStyling= [];
+            // var publishedAlertTypeStyling= [];
             
-            if (p_message_type == "information")
-                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-alert_01", "btn-primary"]
-            else if (p_message_type == "warning")
-                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-alert_02", "btn-primary"]
-            else if (p_message_type == "error")
-                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-close-circle", "btn-primary"]
-            else
-                publishedAlertTypeStyling = ["bg-primary", "cdc-icon-close-circle", "btn-primary"]
+            // if (p_message_type == "information")
+            //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-alert_01 refresh-icon", "primary-button"]
+            // else if (p_message_type == "warning")
+            //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-alert_02 warning-icon", "primary-button"]
+            // else if (p_message_type == "error")
+            //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-close-circle error-icon", "primary-button"]
+            // else
+            //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-close-circle refresh-icon", "primary-button"]
             function get_header()
             {
                 switch(p_message_type.toLowerCase())
                 {
                     case "information":
-                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                        return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
+                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                        <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     case "warning":
-                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                        return `<div class="align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
+                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                        <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     case "error":
-                        return `<div class="${publishedAlertTypeStyling[0]} align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close" onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                        return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
+                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                        <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     default:
                         return `<div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title">${p_title}</span>
-                        <button type="button" class="ml-auto ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="close " onclick="$mmria.info_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                        <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
                     </div>`
                     break;
                 }
@@ -1015,6 +1015,8 @@ var $mmria = function()
                 element = document.createElement("dialog");
                 element.classList.add('p-0');
                 element.classList.add('set-radius');
+                element.classList.add('card-container-dark');
+                element.classList.add('col-md-4');
                 element.setAttribute("id", "case-progress-info-id");
                 element.setAttribute("aria-modal", "true");
                 document.firstElementChild.appendChild(element);
@@ -1028,7 +1030,7 @@ var $mmria = function()
                         ${p_inner_html}
                     </div>
                     <footer class="modal-footer">
-                        <button class="btn ${publishedAlertTypeStyling[2]} mr-1" onclick="$mmria.info_dialog_click()">OK</button>
+                        <button class="btn primary-button mr-1" onclick="$mmria.info_dialog_click()">OK</button>
                     </footer>
                 </div>
             `);

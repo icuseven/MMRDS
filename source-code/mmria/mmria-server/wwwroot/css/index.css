@@ -7233,7 +7233,7 @@ button.bg-dark:focus {
   margin: 0 !important;
 }
 
-.mt-0, h1, h2,
+.mt-0, .info-banner, .success-banner, .warning-banner, .error-banner, h1, h2,
 .my-0 {
   margin-top: 0 !important;
 }
@@ -7305,7 +7305,7 @@ button.bg-dark:focus {
   margin: 1rem !important;
 }
 
-.mt-3, .info-banner, .success-banner, .warning-banner, .error-banner,
+.mt-3,
 .my-3 {
   margin-top: 1rem !important;
 }

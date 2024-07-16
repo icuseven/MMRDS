@@ -135,18 +135,15 @@
                         break;
                 }
             }
-
-    
-            user_role_list = await GetUserRoles();
-
-        }
+            user_role_list = await GetUserRoles();     
+        }   
         else
         {
             authMessage = "The user is NOT authenticated.";
         }
+        //var broadcastMessages = await broadcastMessageController.GetBroadcastMessageList();
     }    
-
-    async Task GetClaimsPrincipalData()
+    private async Task GetClaimsPrincipalData()
     {
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
@@ -315,10 +312,7 @@
   <BurdenStatement />
 </div>
 @* <div class="row">Public report burden statement</div> *@
-<div class="row">
-    <div class="w-100 pl-3 pr-3 pt-0 pb-1" id="broadcast_published_message_one"></div>
-    <div class="w-100 pl-3 pr-3 pt-0 pb-1" id="broadcast_published_message_two"></div>
-</div>
+<BroadcastMessages />
 @if (is_guest)
 {
   <p>As a MMRIA user, you currently do not have any active role assignments.</p>
@@ -569,6 +563,7 @@ else
                   <li><a href="/manage-case-check-outs">Manage Case Check Outs</a></li>
                 }
                 <li><a href="/clear_case_status">Unlock and Clear Case Status</a></li>
+                <li><a href="update_year_of_death?role=jurisdication_admin">Update Year of Death and/or MMRIA Record ID</a></li>
                 <li><a href="/vital-import-history">View Vitals Import History</a></li>
               </ul>
             </div>

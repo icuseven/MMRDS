@@ -37,7 +37,7 @@ using mmria.server.authentication;
 using mmria.common.metadata;
 using Akka.Http;
 using System.Net;
-
+using mmria.server.Controllers;
 namespace mmria.server;
 
 public sealed partial class Program
@@ -61,6 +61,7 @@ public sealed partial class Program
         var builder = WebApplication.CreateBuilder(args);
 
         //builder.Services.AddHostedService<AkkaHostedService>();
+        builder.Services.AddSingleton<Controllers.broadcast_messageController>();
 
         configuration = builder.Configuration;
 
@@ -592,8 +593,8 @@ public sealed partial class Program
 
 
             app.UseRouting();
-            app.UseAntiforgery();
             app.UseAuthentication();
+                        app.UseAntiforgery();
             app.UseAuthorization();
 
             //app.MapRazorPages();
