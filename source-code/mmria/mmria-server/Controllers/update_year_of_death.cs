@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Http;
 using  mmria.server.extension; 
 namespace mmria.server.Controllers;
 
-[Authorize(Roles  = "cdc_admin")]
+[Authorize(Roles  = "cdc_admin,jurisdiction_admin")]
 public sealed class update_year_of_deathController : Controller
 {
     mmria.common.couchdb.OverridableConfiguration configuration;
@@ -72,7 +72,6 @@ public sealed class update_year_of_deathController : Controller
             }
             else
             {
-             
                 string request_string = $"{db_config.url}/{db_config.prefix}mmrds/_design/sortable/_view/by_date_last_updated?skip=0&limit=25000&descending=true";
                 var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();   
