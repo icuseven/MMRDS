@@ -26,7 +26,7 @@ func _ready():
     LassoArea = $LassoArea2D
     LassoCollisionShap = $LassoArea2D/CollisionShape2D.shape
     
-    print("event queue size %s" % event_stack.size())
+    #print("event queue size %s" % event_stack.size())
     
     %GroupField.connect("size_changed", handle_group_field_size_changed)
     %GroupField2.connect("size_changed", handle_group_field_size_changed)
@@ -56,13 +56,13 @@ func set_lasso_event_connection_to(value:bool):
         
 
 
-func _input(event):
+func _input(event:InputEvent):
     
     if event is InputEventKey:
         var iek = event as InputEventKey
-        if is_edit_mode == true:
+        if is_edit_mode == true and event.is_pressed():
             edit_mode_id.set_input_key_event(iek)
-        print("_input(iek) key_label: %s " % iek.as_text_key_label())        
+        #print("_input(iek) key_label: %s %s " % [ event.is_pressed(), iek.as_text_key_label() ] )        
     
     
     
@@ -111,19 +111,20 @@ func _input(event):
                     lasso_is_dragging = false
                 queue_redraw()
         elif event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
-            print("Wheel up")			
+            #print("Wheel up")
+            pass			
         elif event.button_index == MOUSE_BUTTON_LEFT:
             if event.pressed:
                 if !selection_is_dragging:
                     mouse_position[0] = get_local_mouse_position()
                     mouse_position[1] = mouse_position[1]
-                    print("Selected Global Position: %s" % get_global_mouse_position())
+                    #print("Selected Global Position: %s" % get_global_mouse_position())
                     for item:GroupField in SelectedItemList.keys():
                         if !selection_is_dragging:
                             item.set_to_drag(get_global_mouse_position())
                         
                         item.set_drag_motion()
-                        print(item.name)
+                        #print(item.name)
                         
                     
                     selection_is_dragging = true
@@ -159,7 +160,8 @@ func _input(event):
                         
                     
                     if not is_debug_mode:
-                        print("selected_difference: %s" % selected_differnce)
+                        pass
+                        #print("selected_difference: %s" % selected_differnce)
                     queue_redraw()
                 
             pass
@@ -174,7 +176,7 @@ func _input(event):
             if event_stack.stack.size() > 0:
                 
                 var last_event = event_stack.pop()
-                print("last_event.target_object_list.size() %s" % last_event.target_object_list.size())
+                #print("last_event.target_object_list.size() %s" % last_event.target_object_list.size())
                 for event_target_data in last_event.target_object_list:
                     var item = instance_from_id(event_target_data.object_id) 
                     if last_event is event_queue.move_event:
@@ -258,9 +260,9 @@ func handle_group_field_size_changed(
     resize_event.target_object_list.append(target_object)
     
 
-    print("before: event_stack.stack.size() %s" %event_stack.stack.size())
+    #print("before: event_stack.stack.size() %s" %event_stack.stack.size())
     event_stack.push_resize_event(resize_event)
-    print("after: event_stack.stack.size() %s" %event_stack.stack.size())
+    #print("after: event_stack.stack.size() %s" %event_stack.stack.size())
         
 func handle_group_field_edit_mode_changed(
     object_id,
