@@ -162,7 +162,7 @@ func _calc_resize(
 	$Area2D.position = (start + end) / 2 
 	
 		
-	print("area 2d center: %s", $Area2D.position)
+	#print("area 2d center: %s", $Area2D.position)
 	TopLeftHandleBar.update_position(start)
 	BottomRightHandleBar.update_position(end)
 	label.position = start
@@ -187,14 +187,14 @@ func _draw():
 		var zero_to_global = to_global(Vector2.ZERO)
 		
 		draw_circle(to_local(position), 5, Color.RED)
-		print("group_field local(position): %s width: %s height: %s" % [to_local(position), width, height])
+		#print("group_field local(position): %s width: %s height: %s" % [to_local(position), width, height])
 		
 		draw_circle(position, 5, Color.GREEN)
-		print("group_field position: %s width: %s height: %s" % [position, width, height])
+		#print("group_field position: %s width: %s height: %s" % [position, width, height])
 		
 		draw_circle(Vector2.ZERO, 5, Color.CORNFLOWER_BLUE)
 		
-		print("Vector.ZERO to_global %s %s %s" % [zero_to_global, to_local(position) - zero_to_global, position - zero_to_global])
+		#print("Vector.ZERO to_global %s %s %s" % [zero_to_global, to_local(position) - zero_to_global, position - zero_to_global])
 		
 	#draw_circle(Vector2.ZERO, 3, Color.ALICE_BLUE)
 
@@ -334,7 +334,7 @@ func  label_gui_input(event: InputEvent):
 		
 	if event is InputEventKey:
 		var iek = event as InputEventKey
-		print("group_field.gui_event_input(iek) = %s" % iek.as_text_key_label())        
+		#print("group_field.gui_event_input(iek) = %s" % iek.as_text_key_label())        
 	
 	if not event is InputEventMouseButton:
 		return
@@ -342,10 +342,11 @@ func  label_gui_input(event: InputEvent):
 	if event.button_index != MOUSE_BUTTON_LEFT:
 		return
 		
-	if event.pressed:	
-		print("******* group field label gui input  left click pressed *******")	
+	if event.pressed:
+		pass	
+		#print("******* group field label gui input  left click pressed *******")	
 	else:
-		print("******* group field label gui input  left click released *******")	
+		#print("******* group field label gui input  left click released *******")	
 		is_label_edit_mode = not is_label_edit_mode
 		edit_mode_changed.emit(self.get_instance_id(), is_label_edit_mode)
 		
@@ -362,26 +363,23 @@ func set_input_key_event(iek:InputEventKey):
 	#"Semicolon"
 	var array = iek.as_text_key_label().split("+")
 	if array.size() < 1 or array.size() > 2: return
-	if array[0] == "Ctrl":
-		return
-		
-	if array.size() == 1:
-		value = array[0]
-		if array[0] == "Shift":
-			return
 
-	else:
-		if array[0] != "Shift":
-			return
-		else:
-			is_shift = true			
-			value = array[1]
+	value = array[0]
+	if array.size() == 1:
+		if ! acceptable_input_dictionary.has(value): return
+		if value == "Shift": return
+		
+	if array.size() == 2:
+		if value != "Shift": return
+		is_shift = true
+		value = array[1]
+		if ! acceptable_input_dictionary.has(value): return
+		
 	
 	if value == "Backspace":
 		if label.text.length() > 0:
 			label.text.erase(label.text.length() - 1, 1)
 			
-		return
 		
 	if value == "Escape" or (
 			value == "Enter" and 
@@ -391,14 +389,11 @@ func set_input_key_event(iek:InputEventKey):
 		edit_mode_changed.emit(self.get_instance_id(), is_label_edit_mode)
 		return
 	
-	if value == "Tab":
-		label.text = label.text + "\t"
-	elif value == "Space":
-		label.text = label.text + " "
-	elif value == "Enter":
-		label.text = label.text + "\n"
+	if is_shift:
+		label.text = label.text + value	
 	else:
-		label.text = label.text + value.to_lower()
+		label.text = label.text + acceptable_input_dictionary[value]
+		
 	
 	if width < label.size.x or height < label.size.y:
 		
@@ -407,17 +402,51 @@ func set_input_key_event(iek:InputEventKey):
 		_calc_resize(TopLeftHandleBar.position, BottomRightHandleBar.position)
 		queue_redraw()
 		
-		#_calc_resize(top_left:Vector2, bottom_right:Vector2)
-		#_calc_resize(TopLeftHandleBar.position, to_local(p_position))
-		#_calc_resize(to_local(p_position), BottomRightHandleBar.position)
-		#_calc_resize(top_left, bottom_right)
-	
-		#_calc_positions()
+
 		
-		#TopLeftHandleBar.update_position(start)
-		#BottomRightHandleBar.update_position(end)
-		#label.position = start
-		
-		#CollisionShap.size = Vector2(width, height)
-		#queue_redraw()
-		
+var acceptable_input_dictionary = {
+	#"Some key name": "value1",
+	"A": "a",
+	"B": "b",
+	"C": "c",
+	"D": "d",
+	"E": "e",
+	"F": "f",
+	"G": "g",
+	"H": "h",
+	"I": "i",
+	"J": "j",
+	"K": "k",
+	"L": "l",
+	"M": "m",
+	"N": "n",
+	"O": "o",
+	"P": "p",
+	"Q": "q",
+	"R": "r",
+	"S": "s",
+	"T": "t",
+	"U": "u",
+	"V": "v",
+	"W": "w",
+	"X": "x",
+	"Y": "y",
+	"Z": "z",
+	"0": "0",
+	"1": "1",
+	"2": "2",
+	"3": "3",
+	"4": "4",
+	"5": "5",
+	"6": "6",
+	"7": "7",
+	"8": "8",
+	"9": "9",
+	"Space":" ",
+	"Semicolon": ";",
+	"Colon": ":",
+	"Period":".",
+	"Enter":"\n",
+	"Backspace":"",
+	"Escape":""
+}
