@@ -120,7 +120,25 @@ return_label:
         {
             result = new_value.GetString();
         }
-
+        else if
+        (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+        )
+        {
+            result = new_value.GetDouble().ToString();
+        }
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined
+        )
+        {
+            var error = $"GetStringField path: {path} key{key} value: {new_value}";
+            
+            
+            if(add_error != null) add_error(path,error);
+            System.Console.WriteLine(error);
+        }
         return result;
     }
 
