@@ -378,8 +378,9 @@ func set_input_key_event(iek:InputEventKey):
 	
 	if value == "Backspace":
 		if label.text.length() > 0:
-			label.text.erase(label.text.length() - 1, 1)
-			
+			label.text = label.text.erase(label.text.length() - 1, 1)
+	
+
 		
 	if value == "Escape" or (
 			value == "Enter" and 
@@ -395,12 +396,16 @@ func set_input_key_event(iek:InputEventKey):
 		label.text = label.text + acceptable_input_dictionary[value]
 		
 	
-	if width < label.size.x or height < label.size.y:
-		
-		var size_difference =Vector2(10,0)
-		BottomRightHandleBar.position = BottomRightHandleBar.position + size_difference
-		_calc_resize(TopLeftHandleBar.position, BottomRightHandleBar.position)
-		queue_redraw()
+	var size_difference =Vector2(0,0)
+	if width < label.size.x:
+		size_difference =Vector2(10, 0)	
+	
+	if value == "Enter" or height < label.size.y:
+		size_difference +=Vector2(0,30)
+	
+	BottomRightHandleBar.position = BottomRightHandleBar.position + size_difference
+	_calc_resize(TopLeftHandleBar.position, BottomRightHandleBar.position)
+	queue_redraw()
 		
 
 		
