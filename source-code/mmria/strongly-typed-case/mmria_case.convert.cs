@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Windows.Markup;
@@ -347,7 +348,7 @@ return_label:
 
     public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key, string path)
     {
-        List<double> result = null;
+        HashSet<double> result = null;
 
         var error = string.Empty;
 
@@ -358,7 +359,7 @@ return_label:
         )
         {
             
-            result = new List<double>();
+            result = new HashSet<double>();
             var max_index = new_value.GetArrayLength();
             int i = 0;
             var array_string = new_value.ToString();
@@ -372,7 +373,7 @@ return_label:
                 )
                 {
                     var item_string = item.ToString();
-                    result.Add(item.GetDouble());
+                    
                     if
                     (
                         all_list_set != null &&
@@ -390,6 +391,14 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result.Add(item.GetDouble());
+                        }
+                    }
+                    else
+                    {
+                        result.Add(item.GetDouble());
                     }
                 }
                 else if
@@ -405,7 +414,7 @@ return_label:
                     if(double.TryParse(item.GetString(), out var test))
                     {
                         var item_string = test.ToString();
-                        result.Add(test);
+                        
                         if
                         (
                             all_list_set != null &&
@@ -423,6 +432,14 @@ return_label:
                                 add_error(path,error);
                                 System.Console.WriteLine(error);
                             }
+                            else
+                            {
+                                result.Add(test);
+                            }
+                        }
+                        else
+                        {
+                            result.Add(test);
                         }
                     }
                     else
@@ -451,13 +468,6 @@ return_label:
                 case System.Text.Json.JsonValueKind.String:
                 if(double.TryParse(new_value.GetString(), out var new_double_value))
                 {
-
-                    result = new List<double>()
-                    {
-                        new_double_value
-                    };
-
-
                     if
                     (
                         all_list_set != null &&
@@ -477,6 +487,20 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_double_value
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_double_value
+                        };
                     }
             
 
@@ -490,10 +514,7 @@ return_label:
                 break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    result = new List<double>()
-                    {
-                        new_value.GetDouble()
-                    };
+                    
    
                     if
                     (
@@ -514,11 +535,25 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_value.GetDouble()
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_value.GetDouble()
+                        };
                     }
 
-                    error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
-                    System.Console.WriteLine(error);
-                    if(add_error != null) add_error(path,error);
+                    //error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    //System.Console.WriteLine(error);
+                    //if(add_error != null) add_error(path,error);
                 break;
 
                 case System.Text.Json.JsonValueKind.False:
@@ -538,7 +573,11 @@ return_label:
 
             
         }
-        return result;
+        
+        if (result != null)
+            return result.ToList();
+        
+        return new List<double>();
     }
 
 

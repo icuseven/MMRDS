@@ -614,9 +614,9 @@ return_label:
                         };
                     }
 
-                    error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
-                    System.Console.WriteLine(error);
-                    if(add_error != null) add_error(path,error);
+                    //error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    //System.Console.WriteLine(error);
+                    //if(add_error != null) add_error(path,error);
                 break;
 
                 case System.Text.Json.JsonValueKind.False:
