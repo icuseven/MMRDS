@@ -1,5 +1,6 @@
 {
     "_id": "2016-06-12T13:49:24.759Z",
+    "_rev": "1909-e22bf98a2410ba1ee4e3c4e7e679db43",
     "name": "mmria",
     "prompt": "mmria app (ned)",
     "type": "app",
@@ -595,7 +596,7 @@
             "is_not_selectable": false
           },
           {
-            "display": "Cardiovascular Conditions (Excluding Cardiomyopathy, HDP, and CVA)",
+            "display": "Other Cardiovascular Conditions (Excluding Cardiomyopathy, HDP, and CVA)",
             "description": "",
             "value": "90",
             "is_not_selectable": true
@@ -649,7 +650,7 @@
             "is_not_selectable": false
           },
           {
-            "display": "90.9 Other Cardiovascular Disease, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis/NOS",
+            "display": "90.9 Other Cardiovascular/NOS, including CHF, Cardiomegaly, Cardiac Hypertrophy, Cardiac Fibrosis, Non-Acute Myocarditis",
             "description": "",
             "value": "90.9",
             "is_not_selectable": false
@@ -1263,6 +1264,12 @@
             "display": "Yukon",
             "description": "",
             "value": "YT",
+            "is_not_selectable": false
+          },
+          {
+            "display": "Non-US State/Canadian Province",
+            "description": "",
+            "value": "XX",
             "is_not_selectable": false
           }
         ],
@@ -4257,6 +4264,12 @@
             "is_not_selectable": false
           },
           {
+            "display": "2025",
+            "description": "",
+            "value": "2025",
+            "is_not_selectable": false
+          },
+          {
             "display": "2024",
             "description": "",
             "value": "2024",
@@ -5650,6 +5663,12 @@
         "data_type": "number",
         "values": [
           {
+            "display": "(blank)",
+            "description": "",
+            "value": "9999",
+            "is_not_selectable": false
+          },
+          {
             "display": "No",
             "description": "",
             "value": "0",
@@ -5866,7 +5885,8 @@
                 "description": "The year in which the death occurred",
                 "tags": [
                   "COREVARIABLE",
-                  "REQUIRED"
+                  "REQUIRED",
+                  "FREQ"
                 ],
                 "sass_export_name": "hrdod_year"
               }
@@ -6570,6 +6590,12 @@
                     "is_not_selectable": false
                   },
                   {
+                    "display": "VRO confirmation not required (identified via keyword)",
+                    "description": "",
+                    "value": "6",
+                    "is_not_selectable": false
+                  },
+                  {
                     "display": "Not Applicable",
                     "description": "",
                     "value": "4",
@@ -6697,6 +6723,20 @@
                   "FREQ"
                 ],
                 "sass_export_name": "hr_cdc_literalcod"
+              },
+              {
+                "prompt": "CDC Other Identification Method",
+                "name": "hr_cdc_other",
+                "type": "list",
+                "data_type": "number",
+                "values": [],
+                "is_hidden": true,
+                "path_reference": "lookup/vital_yes_no_not_applicable",
+                "description": "CDC Other Identification Method. NOTE: This field is only populated for jurisdictions participating in the STEVE-NAPHSIS Project.",
+                "tags": [
+                  "FREQ"
+                ],
+                "sass_export_name": "hr_cdc_other"
               }
             ],
             "tags": []
@@ -7061,7 +7101,8 @@
                     "path_reference": "lookup/year",
                     "description": "Decedent's year of birth",
                     "tags": [
-                      "COREVARIABLE"
+                      "COREVARIABLE",
+                      "FREQ"
                     ],
                     "sass_export_name": "dcddob_year"
                   }
@@ -8666,7 +8707,7 @@
               {
                 "prompt": "Interval",
                 "name": "interval",
-                "type": "number",
+                "type": "string",
                 "description": "Approximate interval of onset to death- number",
                 "tags": [],
                 "sass_export_name": "dccod_inter"
@@ -8965,7 +9006,8 @@
                     "path_reference": "lookup/year",
                     "description": "The year of the delivery",
                     "tags": [
-                      "COREVARIABLE"
+                      "COREVARIABLE",
+                      "FREQ"
                     ],
                     "sass_export_name": "bfdcpfodddod_year"
                   }
@@ -13491,6 +13533,15 @@
                 "description": "Mental health care providers per 100,000 population",
                 "tags": [],
                 "sass_export_name": "cvs_mhproviderrate"
+              },
+              {
+                "prompt": "Community Mental Health Center's per capita in county",
+                "name": "cvs_rtmhpract_county",
+                "type": "hidden",
+                "data_type": "string",
+                "description": "A Community Mental Health Center provides outpatient and emergency services for behavioral health. There are many counties with zero Community Health Centers. These represent one part of the mental health service landscape.",
+                "tags": [],
+                "sass_export_name": "cvs_rtmhpract_county"
               }
             ],
             "is_hidden": true,
@@ -15808,7 +15859,9 @@
                     "values": [],
                     "path_reference": "lookup/year",
                     "description": "Year autopsy was performed",
-                    "tags": [],
+                    "tags": [
+                      "FREQ"
+                    ],
                     "sass_export_name": "arrcdoa_year"
                   }
                 ],
@@ -15979,7 +16032,7 @@
                   {
                     "prompt": "Estimate of Gestational Age (Weeks)",
                     "name": "gestational_age_estimate",
-                    "type": "Number",
+                    "type": "string",
                     "decimal_precision": "0",
                     "description": "Estimate of gestational age in weeks",
                     "tags": [
@@ -18598,7 +18651,7 @@
             "sort_order": "date_and_time asc"
           },
           {
-            "prompt": "Graph dates will be altered in Committee Member view to maintain decedent confidentiality.",
+            "prompt": "Dates will be altered in Committee Member view to maintain decedent confidentiality.",
             "name": "graph_label",
             "type": "label",
             "tags": []
@@ -21061,7 +21114,7 @@
                   {
                     "prompt": "Duration of Labor Prior to Arrival (hrs)",
                     "name": "duration_of_labor_prior_to_arrival",
-                    "type": "number",
+                    "type": "string",
                     "description": "Duration of labor prior to arrival in hours",
                     "tags": [],
                     "sass_export_name": "evahmrooldoool_dolpt_arriv"
@@ -21441,7 +21494,7 @@
             "tags": []
           },
           {
-            "prompt": "Graph dates will be altered in Committee Member view to maintain decedent confidentiality.",
+            "prompt": "Dates will be altered in Committee Member view to maintain decedent confidentiality.",
             "name": "graph_label",
             "type": "label",
             "tags": []
@@ -24680,7 +24733,7 @@
                 "other_specify_list": "5 mental_health_profile/documented_preexisting_mental_health_conditions/mhpdpmhc_condi_othsp"
               },
               {
-                "prompt": "Specify other condition",
+                "prompt": "Specify Other Condition",
                 "name": "mhpdpmhc_condi_othsp",
                 "type": "string",
                 "description": "Specify other condition",
@@ -25308,7 +25361,9 @@
                 "values": [],
                 "path_reference": "lookup/year",
                 "description": "Year of interview",
-                "tags": [],
+                "tags": [
+                  "FREQ"
+                ],
                 "sass_export_name": "iidoi_year"
               }
             ],
@@ -25764,7 +25819,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_dcawcod_certi"
+            "sass_export_name": "cr_dcawcod_certi",
+            "committee_description": "<B>Does Committee Agree with the <U>Underlying</U> Cause of Death Listed on Death Certificate?</B>\n<BR><BR>\n<B>Underlying:</B> Underlying cause refers to the disease or injury that initiated the chain of events leading to death or the circumstances of the accident or violence which produced the fatal injury."
           },
           {
             "prompt": "If Pregnancy-Related, Committee Determination of Primary Underlying Cause of Death (PMSS-MM)",
@@ -26246,7 +26302,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_p_mm"
+            "sass_export_name": "cr_p_mm",
+            "committee_description": "<B>If Pregnancy-Related, Committee Determination of Primary <U>Underlying</U> Cause of Death (PMSS-MM)?</B>\n<BR><BR>\n<B>Underlying:</B> Underlying cause refers to the disease or injury that initiated the chain of events leading to death or the circumstances of the accident or violence which produced the fatal injury."
           },
           {
             "prompt": "If Applicable: Committee Determination of Secondary Underlying Cause of Death (PMSS-MM)",
@@ -26728,7 +26785,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_pm_secon"
+            "sass_export_name": "cr_pm_secon",
+            "committee_description": "<B>If Applicable: Committee Determination of Secondary <U>Underlying</U> Cause of Death (PMSS-MM)?</B>\n<BR><BR>\n<B>Underlying:</B> Underlying cause refers to the disease or injury that initiated the chain of events leading to death or the circumstances of the accident or violence which produced the fatal injury."
           },
           {
             "prompt": "Committee Determination of Cause(s) of Death",
@@ -26754,7 +26812,7 @@
                     "is_not_selectable": false
                   },
                   {
-                    "display": "Led To",
+                    "display": "Contributing",
                     "description": "",
                     "value": "1",
                     "is_not_selectable": false
@@ -26776,7 +26834,8 @@
                 "tags": [
                   "FREQ"
                 ],
-                "sass_export_name": "crcdocod_type"
+                "sass_export_name": "crcdocod_type",
+                "committee_description": "<B>Committee Determination of Cause(s) of Death Grid - Type</B>\n<BR><BR>\n<B>Underlying:</B> Optional field, CDC does not use this data. Underlying cause refers to the disease or injury that initiated the chain of events leading to death or the circumstances of the accident or violence which produced the fatal injury.\n<BR><BR>\n<B>Contributing:</B> Optional field, CDC does not use this data. Add descriptions of contributors in the pathway between the immediate and underlying cause of death, as provided by the committee. Note that this is different from the contributing factors worksheet.\n<BR><BR>\n<B>Immediate:</B> Optional field, CDC does not use this data.\n<BR><BR>\n<B>Other Significant:</B> Optional field, CDC does not use this data."
               },
               {
                 "prompt": "Cause (Descriptive)",
@@ -26819,7 +26878,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_doctt_death"
+            "sass_export_name": "cr_doctt_death",
+            "committee_description": "<B>Did Obesity Contribute to the Death?</B>\n<BR><BR>\nIf \"Yes\" or \"Probably\" is selected for preventable deaths, then an aligned contributing factor class and description would be expected in the grid."
           },
           {
             "prompt": "Did Discrimination Contribute to the Death?",
@@ -26832,7 +26892,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_ddctt_death"
+            "sass_export_name": "cr_ddctt_death",
+            "committee_description": "<B>Did Discrimination Contribute to the Death?</B>\n<BR><BR>\nIf \"Yes\" or \"Probably\" is selected for preventable deaths, then an aligned contributing factor class and description would be expected in the grid.\n<BR><BR>\nDiscrimination encompasses Discrimination, Interpersonal Racism, and Structural Racism."
           },
           {
             "prompt": "Did Mental Health Conditions Other than Substance Use Disorder Contribute to the Death?",
@@ -26845,7 +26906,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_dmhcctt_death"
+            "sass_export_name": "cr_dmhcctt_death",
+            "committee_description": "<B>Did Mental Health Conditions Other than Substance Use Disorder Contribute to the Death?</B>\n<BR><BR>\nIf \"Yes\" or \"Probably\" is selected for preventable deaths, then an aligned contributing factor class and description would be expected in the grid."
           },
           {
             "prompt": "Did Substance Use Disorder Contribute to the Death?",
@@ -26858,7 +26920,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_dsudctt_death"
+            "sass_export_name": "cr_dsudctt_death",
+            "committee_description": "<B>Did Substance Use Disorder Contribute to the Death?</B>\n<BR><BR>\nIf \"Yes\" or \"Probably\" is selected for preventable deaths, then an aligned contributing factor class and description would be expected in the grid."
           },
           {
             "prompt": "Manner of Death",
@@ -27157,7 +27220,8 @@
             "tags": [
               "FREQ"
             ],
-            "sass_export_name": "cr_cta_outco"
+            "sass_export_name": "cr_cta_outco",
+            "committee_description": "<B>Chance to Alter Outcome?</B>\n<BR><BR>\nIf “Good Chance” or “Some Chance” are selected, then CDC considers this is a “Yes” in their analytic use of the preventability determination."
           },
           {
             "prompt": "Contributing Factors and Recommendations for Action",
@@ -27169,7 +27233,9 @@
                 "name": "description",
                 "type": "string",
                 "description": "Description of factor contributing to the death",
-                "tags": [],
+                "tags": [
+                  "FREQ"
+                ],
                 "sass_export_name": "crcfw_descr",
                 "max_length": "500"
               },
@@ -27432,7 +27498,9 @@
                 "name": "committee_recommendations",
                 "type": "textarea",
                 "description": "Committee recommendation: if there was at least some chance that the death could have been averted, what were the specific and feasible actions that, if implemented or altered, might have changed the course of events?",
-                "tags": [],
+                "tags": [
+                  "FREQ"
+                ],
                 "sass_export_name": "crcfw_c_recom",
                 "max_length": "31000"
               },
@@ -27703,5 +27771,21 @@
         ],
         "tags": []
       }
-    ]
+    ],
+    "_attachments": {
+      "validator.js": {
+        "content_type": "text/*",
+        "revpos": 1909,
+        "digest": "md5-blqd64CCkp0q5tOBl0U8oQ==",
+        "length": 499272,
+        "stub": true
+      },
+      "mmria-check-code.js": {
+        "content_type": "text/*",
+        "revpos": 1844,
+        "digest": "md5-oEA46K4zgeIp1sXHTecEUA==",
+        "length": 205901,
+        "stub": true
+      }
+    }
   }
