@@ -5906,7 +5906,7 @@ button.close {
   vertical-align: top !important;
 }
 
-.align-middle {
+.align-middle, td {
   vertical-align: middle !important;
 }
 
@@ -6086,7 +6086,7 @@ button.bg-dark:focus {
   border-color: #fff !important;
 }
 
-.rounded {
+.rounded, .info-banner, .success-banner, .warning-banner, .error-banner {
   border-radius: 0.25rem !important;
 }
 
@@ -7243,7 +7243,7 @@ button.bg-dark:focus {
   margin-right: 0 !important;
 }
 
-.mb-0, .horizontal-control label, .vertical-control label, h2,
+.mb-0, .horizontal-control label, .vertical-control label, .table, h2,
 .my-0 {
   margin-bottom: 0 !important;
 }
@@ -7253,7 +7253,7 @@ button.bg-dark:focus {
   margin-left: 0 !important;
 }
 
-.m-1 {
+.m-1, .card-container-dark .card-content ul, .card-container-light .card-content ul {
   margin: 0.25rem !important;
 }
 
@@ -7277,7 +7277,7 @@ button.bg-dark:focus {
   margin-left: 0.25rem !important;
 }
 
-.m-2, .info-icon, .refresh-icon, .success-icon, .warning-icon, .error-icon, .card-container-dark .card-content ul, .card-container-light .card-content ul {
+.m-2, .info-icon, .refresh-icon, .success-icon, .warning-icon, .error-icon {
   margin: 0.5rem !important;
 }
 
@@ -7286,7 +7286,7 @@ button.bg-dark:focus {
   margin-top: 0.5rem !important;
 }
 
-.mr-2, .horizontal-control label,
+.mr-2, .horizontal-control label, .card-container-dark .card-content li, .card-container-light .card-content li,
 .mx-2 {
   margin-right: 0.5rem !important;
 }
@@ -7411,7 +7411,7 @@ button.bg-dark:focus {
   padding-right: 0.25rem !important;
 }
 
-.pb-1, td,
+.pb-1,
 .py-1 {
   padding-bottom: 0.25rem !important;
 }
@@ -7425,7 +7425,7 @@ button.bg-dark:focus {
   padding: 0.5rem !important;
 }
 
-.pt-2, .bottom-nav,
+.pt-2, .info-banner, .success-banner, .warning-banner, .error-banner, td, .bottom-nav,
 .py-2 {
   padding-top: 0.5rem !important;
 }
@@ -7435,7 +7435,7 @@ button.bg-dark:focus {
   padding-right: 0.5rem !important;
 }
 
-.pb-2, .bottom-nav,
+.pb-2, .info-banner, .success-banner, .warning-banner, .error-banner, td, .bottom-nav,
 .py-2 {
   padding-bottom: 0.5rem !important;
 }
@@ -7449,7 +7449,7 @@ button.bg-dark:focus {
   padding: 1rem !important;
 }
 
-.pt-3, td,
+.pt-3,
 .py-3 {
   padding-top: 1rem !important;
 }
@@ -19023,12 +19023,12 @@ a.jumbotron-btn .btn:hover {
   height: auto;
 }
 
-.jumbotron .jumbotron-overlay.fullheight.m-1 {
+.jumbotron .jumbotron-overlay.fullheight.m-1, .jumbotron .card-container-dark .card-content ul.jumbotron-overlay.fullheight, .card-container-dark .card-content .jumbotron ul.jumbotron-overlay.fullheight, .jumbotron .card-container-light .card-content ul.jumbotron-overlay.fullheight, .card-container-light .card-content .jumbotron ul.jumbotron-overlay.fullheight {
   top: 0.25rem;
   bottom: 0.25rem;
 }
 
-.jumbotron .jumbotron-overlay.fullheight.m-2, .jumbotron .jumbotron-overlay.fullheight.info-icon, .jumbotron .jumbotron-overlay.fullheight.refresh-icon, .jumbotron .jumbotron-overlay.fullheight.success-icon, .jumbotron .jumbotron-overlay.fullheight.warning-icon, .jumbotron .jumbotron-overlay.fullheight.error-icon, .jumbotron .card-container-dark .card-content ul.jumbotron-overlay.fullheight, .card-container-dark .card-content .jumbotron ul.jumbotron-overlay.fullheight, .jumbotron .card-container-light .card-content ul.jumbotron-overlay.fullheight, .card-container-light .card-content .jumbotron ul.jumbotron-overlay.fullheight {
+.jumbotron .jumbotron-overlay.fullheight.m-2, .jumbotron .jumbotron-overlay.fullheight.info-icon, .jumbotron .jumbotron-overlay.fullheight.refresh-icon, .jumbotron .jumbotron-overlay.fullheight.success-icon, .jumbotron .jumbotron-overlay.fullheight.warning-icon, .jumbotron .jumbotron-overlay.fullheight.error-icon {
   top: 0.5rem;
   bottom: 0.5rem;
 }
@@ -37165,7 +37165,6 @@ input:disabled {
 .card-container-dark .card-content ul {
   list-style-type: circle;
 }
-
 .card-container-light {
   border-radius: 4px;
   overflow: hidden;
@@ -37182,7 +37181,6 @@ input:disabled {
 .card-container-light .card-content ul {
   list-style-type: circle;
 }
-
 .purple-icon-button {
   cursor: pointer;
   color: #722378;
@@ -37385,6 +37383,18 @@ thead {
     margin-bottom: 1rem;
     width: 675px;
   }
+}
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.alert {
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Open Sans", sans-serif, "cdciconfont";
 }
 
 /*# sourceMappingURL=index.css.map */

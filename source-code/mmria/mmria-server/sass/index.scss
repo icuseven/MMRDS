@@ -30,7 +30,7 @@
 
 // $color-white1: #ffffff;
 
-// $font-family: "Open Sans", sans-serif;
+$font-family: "Open Sans", sans-serif;
 
 // .background-purple
 // {
@@ -136,7 +136,7 @@ $font-family: 'Open Sans', sans-serif, 'cdciconfont';
 }
 
 @mixin banner() {
-  @extend .mb-3, .mt-0, .align-items-center, .row;
+  @extend .mb-3, .mt-0, .align-items-center, .row, .rounded, .pt-2, .pb-2;
 }
 
 @mixin icon($size: 'small') {
@@ -423,6 +423,7 @@ legend {
 }
 
 .table {
+  @extend .mb-0;
   tr.header-level-1 {
     border: none !important;
     background-color: $purple-header-level-2 !important;
@@ -485,7 +486,7 @@ legend {
 
 td {
   @include gray-border();
-  @extend .pt-3, .pb-1;
+  @extend .pt-2, .pb-2, .align-middle;
   div {
     input.big-checkbox[type="checkbox"] {
       top: 0rem !important;
@@ -656,8 +657,11 @@ input:disabled {
   }
   .card-content {
     ul {
-      @extend .m-2;
+      @extend .m-1;
       list-style-type:circle;
+    }
+    li {
+      @extend .mr-2;
     }
   }
   @include gray-border();
@@ -678,8 +682,11 @@ input:disabled {
   }
   .card-content {
     ul {
-      @extend .m-2;
+      @extend .m-1;
       list-style-type:circle;
+    }
+    li {
+      @extend .mr-2;
     }
   }
   @include gray-border();
@@ -908,4 +915,17 @@ h2 {
     margin-bottom: 1rem;
     width: 675px;
   }
+}
+
+.overflow-hidden {
+  overflow: hidden !important;
+}
+
+.alert {
+  padding-left: .8rem;
+  padding-right: .8rem;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: $font-family;
 }
