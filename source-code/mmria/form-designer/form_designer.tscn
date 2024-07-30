@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://dk66al0rtosgl"]
+[gd_scene load_steps=12 format=3 uid="uid://dk66al0rtosgl"]
 
 [ext_resource type="Script" path="res://DragMe.gd" id="1_58gxn"]
 [ext_resource type="Script" path="res://LayoutSurfacePanel.gd" id="1_gmjft"]
+[ext_resource type="PackedScene" uid="uid://cvot1bvdve3vq" path="res://label_field.tscn" id="2_taujo"]
 [ext_resource type="Script" path="res://TextEditDrag.gd" id="2_yorkv"]
 [ext_resource type="PackedScene" uid="uid://vblwvnp6m6wd" path="res://group_field.tscn" id="4_skau2"]
 [ext_resource type="Script" path="res://group_field.gd" id="5_0pg0l"]
@@ -75,6 +76,9 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1
 script = ExtResource("1_gmjft")
+
+[node name="LabelField1" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel" instance=ExtResource("2_taujo")]
+position = Vector2(156, 208)
 
 [node name="LassoArea2D" type="Area2D" parent="HSplitContainer/VSplitContainer/VBoxContainer/VBoxContainer/HSplitContainer/ScrollContainer/LayoutSurfacePanel"]
 position = Vector2(-112, -83)
