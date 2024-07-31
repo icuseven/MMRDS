@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace mmria.case_version.v240616;
+namespace mmria.case_version.v240301;
 
 public sealed class _03787BE62E53DBA5CE6F69EA96515700 : IConvertDictionary
 {
@@ -1095,14 +1095,14 @@ public sealed class _EA59C8E228397D9BF03803728F7ED2A3 : IConvertDictionary
 	public double? day { get; set; }
 	public double? year { get; set; }
 	public TimeOnly? time_of_onset_of_labor { get; set; }
-	public string duration_of_labor_prior_to_arrival { get; set; }
+	public double? duration_of_labor_prior_to_arrival { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		month = mmria_case.GetNumberListField(p_value, "month", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/month");
 		day = mmria_case.GetNumberListField(p_value, "day", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/day");
 		year = mmria_case.GetNumberListField(p_value, "year", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/year");
 		time_of_onset_of_labor = mmria_case.GetTimeField(p_value, "time_of_onset_of_labor", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/time_of_onset_of_labor");
-		duration_of_labor_prior_to_arrival = mmria_case.GetStringField(p_value, "duration_of_labor_prior_to_arrival", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival");
+		duration_of_labor_prior_to_arrival = mmria_case.GetNumberField(p_value, "duration_of_labor_prior_to_arrival", "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival");
 	}
 }
 
@@ -2371,7 +2371,7 @@ public sealed class _27CF95EB08CABBF46F4FF4422CE2FC55 : IConvertDictionary
 	public double? fetal_weight_ounce_value { get; set; }
 	public double? fetal_length_uom { get; set; }
 	public double? fetal_length { get; set; }
-	public string gestational_age_estimate { get; set; }
+	public double? gestational_age_estimate { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		fetal_weight_uom = mmria_case.GetNumberListField(p_value, "fetal_weight_uom", "autopsy_report/biometrics/fetus/fetal_weight_uom");
@@ -2379,7 +2379,7 @@ public sealed class _27CF95EB08CABBF46F4FF4422CE2FC55 : IConvertDictionary
 		fetal_weight_ounce_value = mmria_case.GetNumberField(p_value, "fetal_weight_ounce_value", "autopsy_report/biometrics/fetus/fetal_weight_ounce_value");
 		fetal_length_uom = mmria_case.GetNumberListField(p_value, "fetal_length_uom", "autopsy_report/biometrics/fetus/fetal_length_uom");
 		fetal_length = mmria_case.GetNumberField(p_value, "fetal_length", "autopsy_report/biometrics/fetus/fetal_length");
-		gestational_age_estimate = mmria_case.GetStringField(p_value, "gestational_age_estimate", "autopsy_report/biometrics/fetus/gestational_age_estimate");
+		gestational_age_estimate = mmria_case.GetNumberField(p_value, "gestational_age_estimate", "autopsy_report/biometrics/fetus/gestational_age_estimate");
 	}
 }
 
@@ -3836,14 +3836,14 @@ public sealed class _194FE6F9039297ED012FE605A81755D2 : IConvertDictionary
 	public double? cause_type { get; set; }
 	public string cause_descriptive { get; set; }
 	public string icd_code { get; set; }
-	public string interval { get; set; }
+	public double? interval { get; set; }
 	public double? interval_unit { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		cause_type = mmria_case.GetNumberListField(p_value, "cause_type", "death_certificate/causes_of_death/cause_type");
 		cause_descriptive = mmria_case.GetStringField(p_value, "cause_descriptive", "death_certificate/causes_of_death/cause_descriptive");
 		icd_code = mmria_case.GetStringField(p_value, "icd_code", "death_certificate/causes_of_death/icd_code");
-		interval = mmria_case.GetStringField(p_value, "interval", "death_certificate/causes_of_death/interval");
+		interval = mmria_case.GetNumberField(p_value, "interval", "death_certificate/causes_of_death/interval");
 		interval_unit = mmria_case.GetNumberListField(p_value, "interval_unit", "death_certificate/causes_of_death/interval_unit");
 	}
 }

@@ -63,7 +63,7 @@ internal class Program
             "24.06.16"
         };
 
-        var metadata_index = 1;
+        var metadata_index = 2;
 
         //var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
 

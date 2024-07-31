@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v240616;
+namespace mmria.case_version.v240301;
 
 public sealed partial class mmria_case
 {
@@ -980,10 +980,6 @@ public sealed partial class mmria_case
                 autopsy_report.reporter_characteristics.jurisdiction = value;
                 result = true;
             break;
-            case "autopsy_report/biometrics/fetus/gestational_age_estimate":
-                autopsy_report.biometrics.fetus.gestational_age_estimate = value;
-                result = true;
-            break;
             case "autopsy_report/icd_code_version":
                 autopsy_report.icd_code_version = value;
                 result = true;
@@ -1795,6 +1791,10 @@ public sealed partial class mmria_case
             break;
             case "autopsy_report/biometrics/fetus/fetal_length":
                 autopsy_report.biometrics.fetus.fetal_length = value;
+                result = true;
+            break;
+            case "autopsy_report/biometrics/fetus/gestational_age_estimate":
+                autopsy_report.biometrics.fetus.gestational_age_estimate = value;
                 result = true;
             break;
             case "autopsy_report/was_drug_toxicology_positive":

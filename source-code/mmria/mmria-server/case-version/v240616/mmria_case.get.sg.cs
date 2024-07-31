@@ -22,6 +22,7 @@ public sealed partial class mmria_case
          "data_migration_history/is_forced_write" => data_migration_history[index].is_forced_write,
          "death_certificate/causes_of_death/cause_descriptive" => death_certificate.causes_of_death[index].cause_descriptive,
          "death_certificate/causes_of_death/icd_code" => death_certificate.causes_of_death[index].icd_code,
+         "death_certificate/causes_of_death/interval" => death_certificate.causes_of_death[index].interval,
          "cvs/cvs_grid/cvs_api_request_url" => cvs.cvs_grid[index].cvs_api_request_url,
          "cvs/cvs_grid/cvs_api_request_date_time" => cvs.cvs_grid[index].cvs_api_request_date_time,
          "cvs/cvs_grid/cvs_api_request_c_geoid" => cvs.cvs_grid[index].cvs_api_request_c_geoid,
@@ -151,7 +152,6 @@ public sealed partial class mmria_case
             result = path.ToLower() switch
             {
              "death_certificate/causes_of_death/cause_type" => death_certificate.causes_of_death[index].cause_type,
-         "death_certificate/causes_of_death/interval" => death_certificate.causes_of_death[index].interval,
          "death_certificate/causes_of_death/interval_unit" => death_certificate.causes_of_death[index].interval_unit,
          "social_and_environmental_profile/members_of_household/relationship" => social_and_environmental_profile.members_of_household[index].relationship,
          "social_and_environmental_profile/members_of_household/gender" => social_and_environmental_profile.members_of_household[index].gender,

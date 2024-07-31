@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v240616;
+namespace mmria.case_version.v240301;
 
 public sealed partial class mmria_case
 {
@@ -257,7 +257,6 @@ public sealed partial class mmria_case
          "social_and_environmental_profile/reviewer_note" => social_and_environmental_profile.reviewer_note,
          "autopsy_report/reporter_characteristics/other_specify" => autopsy_report.reporter_characteristics.other_specify,
          "autopsy_report/reporter_characteristics/jurisdiction" => autopsy_report.reporter_characteristics.jurisdiction,
-         "autopsy_report/biometrics/fetus/gestational_age_estimate" => autopsy_report.biometrics.fetus.gestational_age_estimate,
          "autopsy_report/icd_code_version" => autopsy_report.icd_code_version,
          "autopsy_report/reviewer_note" => autopsy_report.reviewer_note,
          "prenatal/prenatal_care_record_no" => prenatal.prenatal_care_record_no,
@@ -474,6 +473,7 @@ public sealed partial class mmria_case
          "autopsy_report/biometrics/fetus/fetal_weight_ounce_value" => autopsy_report.biometrics.fetus.fetal_weight_ounce_value,
          "autopsy_report/biometrics/fetus/fetal_length_uom" => autopsy_report.biometrics.fetus.fetal_length_uom,
          "autopsy_report/biometrics/fetus/fetal_length" => autopsy_report.biometrics.fetus.fetal_length,
+         "autopsy_report/biometrics/fetus/gestational_age_estimate" => autopsy_report.biometrics.fetus.gestational_age_estimate,
          "autopsy_report/was_drug_toxicology_positive" => autopsy_report.was_drug_toxicology_positive,
          "prenatal/number_of_pnc_sources" => prenatal.number_of_pnc_sources,
          "prenatal/primary_prenatal_care_facility/place_type" => prenatal.primary_prenatal_care_facility.place_type,

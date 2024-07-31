@@ -324,6 +324,10 @@ public sealed partial class mmria_case
                 er_visit_and_hospital_medical_records[index].name_and_location_facility.origin_of_travel_other = value;
                 result = true;
             break;
+            case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival":
+                er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = value;
+                result = true;
+            break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial":
                 er_visit_and_hospital_medical_records[index].onset_of_labor.is_artificial = value;
                 result = true;
@@ -971,10 +975,6 @@ public sealed partial class mmria_case
             break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/year":
                 er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.year = value;
-                result = true;
-            break;
-            case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival":
-                er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = value;
                 result = true;
             break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/month":

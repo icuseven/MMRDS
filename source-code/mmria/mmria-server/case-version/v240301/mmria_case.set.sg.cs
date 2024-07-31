@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v240616;
+namespace mmria.case_version.v240301;
 
 public sealed partial class mmria_case
 {
@@ -34,10 +34,6 @@ public sealed partial class mmria_case
             break;
             case "death_certificate/causes_of_death/icd_code":
                     death_certificate.causes_of_death[index].icd_code = value;
-                    result = true;
-            break;
-            case "death_certificate/causes_of_death/interval":
-                    death_certificate.causes_of_death[index].interval = value;
                     result = true;
             break;
             case "cvs/cvs_grid/cvs_api_request_url":
@@ -492,6 +488,10 @@ public sealed partial class mmria_case
             {
                 case "death_certificate/causes_of_death/cause_type":
                     death_certificate.causes_of_death[index].cause_type = value;
+                    result = true;
+            break;
+            case "death_certificate/causes_of_death/interval":
+                    death_certificate.causes_of_death[index].interval = value;
                     result = true;
             break;
             case "death_certificate/causes_of_death/interval_unit":
