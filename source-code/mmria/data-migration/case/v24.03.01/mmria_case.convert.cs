@@ -200,6 +200,11 @@ return_label:
     {
         double? result = null;
 
+        if( path == "home_record/automated_vitals_group/hr_cdc_other")
+        {
+            System.Console.WriteLine("here");
+        }
+
         if
         (
             value.TryGetProperty(key, out var new_value) &&

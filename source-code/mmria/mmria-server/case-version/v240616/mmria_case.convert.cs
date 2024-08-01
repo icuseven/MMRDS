@@ -1,11 +1,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
 using System.Data.SqlTypes;
+using System.Linq;
 using System.Windows.Markup;
-
+using migrate;
 using mmria.common.metadata;
 
 namespace mmria.case_version.v240616;
@@ -107,6 +107,7 @@ return_label:
     }
 */
 
+
     public static string  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
         string result = null;
@@ -155,14 +156,41 @@ return_label:
                 new_value.ValueKind == System.Text.Json.JsonValueKind.String
             )
             {
-                result = new_value.GetString();
+                
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var test_string  = new_value.GetString();
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.value_to_display.ContainsKey(test_string) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {test_string}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                    else
+                    {
+                        result = test_string;
+                    }
+                }
+                else
+                {
+                    result = new_value.GetString();
+                }
             }
             else if
             (
                 new_value.ValueKind == System.Text.Json.JsonValueKind.Number
             )
             {
-                result = new_value.GetDouble().ToString();
+                var test_key = new_value.GetDouble().ToString();
 
                 if
                 (
@@ -173,14 +201,22 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        !metadata.value_to_display.ContainsKey(result) &&
+                        !metadata.value_to_display.ContainsKey(test_key) &&
                         add_error != null
                     ) 
                     {
-                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {result}";
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {test_key}";
                         add_error(path,error);
                         System.Console.WriteLine(error);
                     }
+                    else
+                    {
+                        result = test_key;
+                    }
+                }
+                else
+                {
+                    result = test_key;
                 }
             }
             else
@@ -206,24 +242,33 @@ return_label:
             new_value.ValueKind == System.Text.Json.JsonValueKind.Number
         )
         {
-            result =  new_value.GetDouble();
+            
             if
             (
                 all_list_set != null &&
                 all_list_set.ContainsKey(path)
             )
             {
+                var test_number = new_value.GetDouble();
                 var metadata = all_list_set[path];
                 if
                 (
-                    !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                    !metadata.value_to_display.ContainsKey(test_number.ToString()) &&
                     add_error != null
                 ) 
                 {
-                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {result.Value.ToString()}";
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {test_number}";
                     add_error(path,error);
                     System.Console.WriteLine(error);
                 }
+                else
+                {
+                    result =  test_number;
+                }
+            }
+            else
+            {
+                result =  new_value.GetDouble();
             }
         }
         else if
@@ -238,7 +283,7 @@ return_label:
             }
             else if(double.TryParse(val, out var test))
             {
-                result = test;
+                
 
                 if
                 (
@@ -249,7 +294,7 @@ return_label:
                     var metadata = all_list_set[path];
                     if
                     (
-                        !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                        !metadata.value_to_display.ContainsKey(val) &&
                         add_error != null
                     ) 
                     {
@@ -257,8 +302,15 @@ return_label:
                         add_error(path,error);
                         System.Console.WriteLine(error);
                     }
+                    else
+                    {
+                        result = test;
+                    }
                 }
-
+                else
+                {
+                    result = test;
+                }
 
             }
             else
@@ -285,7 +337,7 @@ return_label:
 
     public static List<string>  GetMultiSelectStringListField(System.Text.Json.JsonElement value, string key, string path)
     {
-        List<string> result = null;
+        HashSet<string> result = null;
 
         if
         (
@@ -293,7 +345,7 @@ return_label:
             new_value.ValueKind == System.Text.Json.JsonValueKind.Array
         )
         {
-            result = new List<string>();
+            result = new HashSet<string>();
             var max_index = new_value.GetArrayLength();
             //for(int i = 0; i < max_index; i++)
             foreach (System.Text.Json.JsonElement item in new_value.EnumerateArray())
@@ -307,7 +359,7 @@ return_label:
                 )
                 {
                     var item_string = item.GetString();
-                    result.Add(item_string);
+                    
                     if
                     (
                         all_list_set != null &&
@@ -325,6 +377,14 @@ return_label:
                             add_error(path,error);
                             System.Console.WriteLine(error);
                         }
+                        else
+                        {
+                            result.Add(item_string);
+                        }
+                    }
+                    else
+                    {
+                        result.Add(item_string);
                     }
                 }
                 else
@@ -343,7 +403,10 @@ return_label:
             if(add_error != null) add_error(path,error);
         }
 
-        return result;
+        if (result != null)
+            return result.ToList();
+        
+        return new List<string>();
     }
 
     public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key, string path)

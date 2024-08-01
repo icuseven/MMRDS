@@ -4255,6 +4255,8 @@ public sealed class _0E4A47EE2AB2DBA5C0DF22ECFE205A61 : IConvertDictionary
 		icd10_match = mmria_case.GetNumberListField(p_value, "icd10_match", "home_record/automated_vitals_group/icd10_match");
 		pregcb_match = mmria_case.GetNumberListField(p_value, "pregcb_match", "home_record/automated_vitals_group/pregcb_match");
 		literalcod_match = mmria_case.GetNumberListField(p_value, "literalcod_match", "home_record/automated_vitals_group/literalcod_match");
+
+		
 		hr_cdc_other = mmria_case.GetNumberListField(p_value, "hr_cdc_other", "home_record/automated_vitals_group/hr_cdc_other");
 	}
 }
