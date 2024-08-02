@@ -79,6 +79,31 @@ public sealed class versionController: ControllerBase
         return result;
     }
 
+    [Route("GetVersionSpecificationMetadata")]
+    [AllowAnonymous] 
+    [HttpGet]
+    public async System.Threading.Tasks.Task<mmria.common.metadata.Version_Specification> GetVersionSpecificationMetadata(string version_specification_id)
+    {
+        Log.Information  ("Recieved message.");
+        mmria.common.metadata.Version_Specification result = null;
+
+        try
+        {
+            string version_specification_url = db_config.url + $"/metadata/version_specification-{version_specification_id}";
+
+            var curl = new cURL("GET", null, version_specification_url, null, db_config.user_name, db_config.user_value);
+            string responseFromServer = await curl.executeAsync();
+
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.metadata.Version_Specification>(responseFromServer);
+        }
+        catch(Exception ex) 
+        {
+            Log.Information ($"{ex}");
+        }
+
+        return result;
+    }
+
     
     [AllowAnonymous] 
     [Route("release-version")]
