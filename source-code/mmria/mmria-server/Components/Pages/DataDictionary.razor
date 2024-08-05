@@ -1,0 +1,125 @@
+@page "/data-dictionary-redesign"
+@inherits ComponentBase
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using Newtonsoft.Json
+@using mmria
+@inject mmria.server.versionController versionController
+@inject mmria.server.metadataController metadataController
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+@code 
+{
+  private string? authMessage;
+  bool isLoading = false;
+  private List<mmria.common.metadata.Version_Specification> versionList = new List<mmria.common.metadata.Version_Specification>();
+  private mmria.common.metadata.Version_Specification versionSpecification = null;
+  private dynamic metadata = null;
+  private string currentVersion;
+  private string? userName;
+  private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
+
+  [CascadingParameter]
+  private Task<AuthenticationState> authenticationStateTask { get; set; }
+  protected override async Task OnInitializedAsync()
+  {
+      isLoading = true;
+      var authState = await AuthenticationStateProvider
+          .GetAuthenticationStateAsync();
+      var user = authState.User;
+      currentVersion = versionController.release_version();
+      versionSpecification = await versionController.GetVersionSpecificationMetadata(currentVersion);
+      metadata = JsonConvert.DeserializeObject(versionSpecification.metadata);
+      versionList = await versionController.List();
+      if (user.Identity is not null && user.Identity.IsAuthenticated)
+      {
+        authMessage = $"{user.Identity.Name} is authenticated.";
+        claims = user.Claims;
+        userName = user.Identity.Name;
+      }
+      else
+      {
+        authMessage = "The user is NOT authenticated.";
+      }
+      isLoading = false;
+  }
+}
+
+<h1 class="h2 no-print" tabindex="-1">MMRIA Data Dictionary</h1>
+<p class="mb-4 no-print">This webpage lists, describes, and defines the properties of all fields contained within the MMRIA application database.  The data dictionary, including the column names of your exported data, can be found in the exported data file titled “data-dictionary.csv”. This file was previously named “field_mapping”.</p>
+
+@if(isLoading) 
+{
+  <span class="spinner-container spinner-content spinner-active">
+    <span class="spinner-body text-primary">
+      <span class="spinner"></span>
+      <span class="spinner-info">Loading...</span>
+    </span>
+  </span>
+}
+else
+{
+  <div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
+    <div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+      <form class="row no-gutters align-items-center col-md-9" onsubmit="event.preventDefault()">
+        <label for="search_text" class="mr-2"> Search for:</label>
+        <input type="text"
+                class="form-control mr-2"
+                id="search_text"
+                value=""
+                style="width: 170px;"
+                onchange="search_text_change(this.value)" />
+        <select aria-label='form filter' id="form_filter" class="form-control pl-2 col-md-5 mr-2">
+          <option value="">(Any Form)</option>
+          @foreach (var item in metadata.children)
+          {
+            @if (item.type.ToString().ToLower() == "form")
+            {
+              <option value="@item.name">@item.prompt</option>
+            }
+          }
+        </select>
+        <select aria-label='metadata version filter' id="metadata_version_filter" class="form-control mr-2" onchange="metadata_version_filter_change(this.value)">
+          <option value="">(Select Version)</option>
+          @foreach (var item in versionList.Where(item => item._id.IndexOf("_design/auth") < 0 && item.name != null))
+          {
+            @if(currentVersion == item.name) 
+            {
+              <option value="@item._id" selected aria-selected="true">@item.name</option>
+            }
+            else
+            {
+              <option value="@item._id">@item.name</option>
+            }
+          }
+        </select>
+        <button
+          type="submit"
+          class="primary-button btn btn-secondary no-print"
+          alt="clear search"
+          onclick="init_inline_loader(search_click)">Search</button>
+          <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+      </form>
+      <div class="col-md-2">
+        <div class="row no-gutters justify-content-end">
+          <button class="primary-button btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()">
+            <span class="x16 pr-2 fill-p cdc-icon-download-light"></span>
+            Print
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="vertical-control col-md-12">
+    <table class="table">
+      <thead>
+        <tr class="header-level-top-white">
+          <th colspan="7">
+            
+          </th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+}
