@@ -134,6 +134,8 @@ public sealed partial class Program
 
             bool sams_is_enabled = false;
 
+            
+
 
             configuration["mmria_settings:config_id"].SetIfIsNotNullOrWhiteSpace(ref host_prefix);
             configuration["mmria_settings:shared_config_id"].SetIfIsNotNullOrWhiteSpace(ref shared_config_id);
@@ -243,6 +245,7 @@ public sealed partial class Program
 
 
             var sams_exists = overridable_config.GetBoolean("sams:is_enabled",host_prefix);
+            
 
             if
             (
@@ -273,6 +276,16 @@ public sealed partial class Program
                 Log.Information("sams:is_enabled: {0}", overridable_config.GetBoolean("sams:is_enabled", host_prefix));
             }
 
+            var is_pmss_enhanced_check = overridable_config.GetBoolean("is_pmss_enhanced",host_prefix);
+            bool is_pmss_enhanced = false;
+
+            if(is_pmss_enhanced_check.HasValue)
+            {
+                is_pmss_enhanced = is_pmss_enhanced_check.Value;
+            }
+
+
+            Log.Information($"is_pmss_enhanced = {is_pmss_enhanced}");
             Log.Information($"host_prefix = {host_prefix}");
             Log.Information("metadata_version: {0}", overridable_config.GetString("metadata_version", host_prefix));
           
