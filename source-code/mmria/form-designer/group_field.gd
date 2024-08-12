@@ -176,12 +176,30 @@ func _draw():
 	point_array.append(end)
 	point_array.append(Vector2(start.x, end.y))
 	
-	#raw_line(point_array[0], point_array[3], Color.BLUE)
+	var label_start: Vector2 = start
+	var label_end: Vector2 = start + label.size
+	var label_point_array:PackedVector2Array = []
+	label_point_array.append(label_start)
+	label_point_array.append(Vector2(label_end.x, label_start.y))
+	label_point_array.append(label_end)
+	label_point_array.append(Vector2(label_start.x, label_end.y))
 	
-	draw_line(point_array[0], point_array[1], draw_color)
-	draw_line(point_array[1], point_array[2], draw_color)
-	draw_line(point_array[2], point_array[3], draw_color)
-	draw_line(point_array[3], point_array[0], draw_color)
+	var box_start: Vector2 = start + Vector2(0.0, label.size.y)
+	var box_end: Vector2 = end
+	var box_point_array:PackedVector2Array = []
+	box_point_array.append(box_start)
+	box_point_array.append(Vector2(box_end.x, box_start.y))
+	box_point_array.append(box_end)
+	box_point_array.append(Vector2(box_start.x, box_end.y))
+	
+	#raw_line(point_array[0], point_array[3], Color.BLUE)
+	draw_square(point_array, draw_color)
+	draw_square(label_point_array, Color.WHITE)
+	draw_square(box_point_array, Color.WHITE)
+	#draw_line(point_array[0], point_array[1], draw_color)
+	#draw_line(point_array[1], point_array[2], draw_color)
+	#draw_line(point_array[2], point_array[3], draw_color)
+	#draw_line(point_array[3], point_array[0], draw_color)
 	
 	if is_debug_mode:
 		var zero_to_global = to_global(Vector2.ZERO)
@@ -197,6 +215,12 @@ func _draw():
 		#print("Vector.ZERO to_global %s %s %s" % [zero_to_global, to_local(position) - zero_to_global, position - zero_to_global])
 		
 	#draw_circle(Vector2.ZERO, 3, Color.ALICE_BLUE)
+
+func draw_square(point_array: PackedVector2Array, color: Color):
+	draw_line(point_array[0], point_array[1], color)
+	draw_line(point_array[1], point_array[2], color)
+	draw_line(point_array[2], point_array[3], color)
+	draw_line(point_array[3], point_array[0], color)
 
 func _area_on_enter(_area: Area2D):
 	#print("Lasso Area Enterd")
