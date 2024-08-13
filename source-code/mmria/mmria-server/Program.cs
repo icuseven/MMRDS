@@ -283,6 +283,14 @@ public sealed partial class Program
             {
                 is_pmss_enhanced = is_pmss_enhanced_check.Value;
             }
+            else
+            {
+                overridable_config.SetBoolean(host_prefix, "is_pmss_enhanced", false);
+            }
+
+            #if IS_PMSS_ENHANCED
+                Log.Information($"IS_PMSS_ENHANCED = true");
+            #endif
 
 
             Log.Information($"is_pmss_enhanced = {is_pmss_enhanced}");
