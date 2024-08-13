@@ -21,6 +21,7 @@ public sealed class versionController: ControllerBase
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
+    public Dictionary<string, string> formName = new Dictionary<string, string>();
     public versionController
 (
         IHttpContextAccessor httpContextAccessor, 
@@ -30,6 +31,23 @@ public sealed class versionController: ControllerBase
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
+        formName.Add("(none)", "(none)");
+        formName.Add("home_record", "Home Record");
+        formName.Add("death_certificate", "Death Certificate");
+        formName.Add("birth_fetal_death_certificate_parent", "Birth/Fetal Death Certificate - Parent Section");
+        formName.Add("birth_certificate_infant_fetal_section", "Birth/Fetal Death Certificate - Infant/Fetal Section");
+        formName.Add("autopsy_report", "Autopsy Report");
+        formName.Add("prenatal", "Prenatal Care Record");
+        formName.Add("er_visit_and_hospital_medical_records", "ER Visits & Hospitalizations");
+        formName.Add("other_medical_office_visits", "Other Medical Office Visits");
+        formName.Add("medical_transport", "Medical Transport");
+        formName.Add("social_and_environmental_profile", "Social & Environment Profile");
+        formName.Add("mental_health_profile", "Mental Health Profile");
+        formName.Add("informant_interviews", "Informant Interviews");
+        formName.Add("case_narrative", "Case Narrative");
+        formName.Add("committee_review", "Committee Decisions");
+        formName.Add("cvs", "Community Vital Signs");
+        formName.Add("data_migration_history", "Data Migration History");
     }
 
     [Route("list")]

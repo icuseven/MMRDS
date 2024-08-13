@@ -7243,7 +7243,7 @@ button.bg-dark:focus {
   margin-right: 0 !important;
 }
 
-.mb-0, .horizontal-control label, .vertical-control label, .table, h2,
+.mb-0, .horizontal-control label, .vertical-control label, .table, h2, ol.list-style-none,
 .my-0 {
   margin-bottom: 0 !important;
 }
@@ -7281,7 +7281,7 @@ button.bg-dark:focus {
   margin: 0.5rem !important;
 }
 
-.mt-2, .card-container .card-header-level-2,
+.mt-2, .card-container .card-header-level-2, ol.list-style-none,
 .my-2 {
   margin-top: 0.5rem !important;
 }
@@ -7296,7 +7296,7 @@ button.bg-dark:focus {
   margin-bottom: 0.5rem !important;
 }
 
-.ml-2,
+.ml-2, ul.list-style-none,
 .mx-2 {
   margin-left: 0.5rem !important;
 }
@@ -7344,7 +7344,7 @@ button.bg-dark:focus {
   margin-bottom: 1.5rem !important;
 }
 
-.ml-4,
+.ml-4, ul.list-style-decimal,
 .mx-4 {
   margin-left: 1.5rem !important;
 }
@@ -7392,7 +7392,7 @@ button.bg-dark:focus {
   padding-bottom: 0 !important;
 }
 
-.pl-0, .form-check, .bottom-nav,
+.pl-0, .form-check, .bottom-nav, ul.list-style-decimal, ul.list-style-none,
 .px-0 {
   padding-left: 0 !important;
 }
@@ -36479,11 +36479,15 @@ blockquote {
 }
 
 .info-icon {
-  color: #722378;
+  color: #722378 !important;
   margin: 0px;
   padding: 0px;
   background-color: transparent;
   border: none;
+}
+
+.italics {
+  font-style: italic;
 }
 
 .refresh-icon {
@@ -36950,6 +36954,14 @@ legend {
   cursor: pointer;
 }
 
+table.align-cell-top td {
+  vertical-align: top !important;
+}
+
+table.align-header-top th {
+  vertical-align: top !important;
+}
+
 .table tr.header-level-1 {
   border: none !important;
   background-color: #e3d3e4 !important;
@@ -36992,6 +37004,9 @@ legend {
   color: #333333 !important;
   border: none !important;
 }
+.table tr.align-middle th, .table tr.align-middle td {
+  vertical-align: middle !important;
+}
 .table tbody tr:nth-child(odd) {
   background-color: #FFFFFF;
 }
@@ -37009,6 +37024,7 @@ legend {
 
 td {
   border: 1px solid #cccccc !important;
+  word-wrap: break-word;
 }
 td div input.big-checkbox[type=checkbox] {
   top: 0rem !important;
@@ -37395,6 +37411,28 @@ thead {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: "Open Sans", sans-serif, "cdciconfont";
+}
+
+.table-layout-fixed {
+  table-layout: fixed;
+}
+
+ul.list-style-decimal {
+  list-style-type: decimal;
+  vertical-align: middle;
+}
+
+ul.list-style-none {
+  list-style-type: none;
+  vertical-align: middle;
+}
+
+ul.list-style-none.ml-0 {
+  margin-left: 0px !important;
+}
+
+ol.list-style-none {
+  list-style: none;
 }
 
 /*# sourceMappingURL=index.css.map */
