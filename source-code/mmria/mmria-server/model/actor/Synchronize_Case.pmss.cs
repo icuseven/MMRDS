@@ -1,12 +1,12 @@
-#if !IS_PMSS_ENHANCED
+#if IS_PMSS_ENHANCED
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using mmria.server.model.actor;
+using mmria.pmss.server.model.actor;
 
-namespace mmria.server.model.actor;
+namespace mmria.pmss.server.model.actor;
 public sealed class Sync_Document_Message
 {
     public Sync_Document_Message 
@@ -50,7 +50,7 @@ public sealed class Synchronize_Case : UntypedActor
 {
     //protected override void PreStart() => Console.WriteLine("Synchronize_Case started");
     //protected override void PostStop() => Console.WriteLine("Synchronize_Case stopped");
-	mmria.common.couchdb.DBConfigurationDetail db_config = null;
+    mmria.common.couchdb.DBConfigurationDetail db_config = null;
 
     public Synchronize_Case
     (
@@ -67,7 +67,7 @@ public sealed class Synchronize_Case : UntypedActor
             case Sync_Document_Message sync_document_message:
 
 
-            var sync_document = new mmria.server.utils.c_sync_document 
+            var sync_document = new mmria.pmss.server.utils.c_sync_document 
             (
                 sync_document_message.document_id, 
                 sync_document_message.document_json, 
@@ -89,7 +89,7 @@ public sealed class Synchronize_Case : UntypedActor
 
             case Sync_All_Documents_Message sync_all_documents_message:
 
-                mmria.server.utils.c_document_sync_all sync_all = new mmria.server.utils.c_document_sync_all 
+                mmria.pmss.server.utils.c_document_sync_all sync_all = new mmria.pmss.server.utils.c_document_sync_all 
                 (
                     db_config.url,
                     db_config.user_name,
