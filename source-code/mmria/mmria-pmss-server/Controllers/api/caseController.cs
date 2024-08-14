@@ -47,7 +47,7 @@ public sealed class caseController: ControllerBase
     
     [Authorize(Roles  = "abstractor, data_analyst, committee_member, vro")]
     [HttpGet]
-    public async Task<mmria.pmss.case_version.v230616.mmria_case> Get(string case_id) 
+    public async Task<mmria.case_version.pmss.v230616.mmria_case> Get(string case_id) 
     { 
         try
         {
@@ -59,7 +59,7 @@ public sealed class caseController: ControllerBase
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                //var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (responseFromServer);
+                //var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (responseFromServer);
 
                 var options = new System.Text.Json.JsonSerializerOptions
                 {
@@ -70,7 +70,7 @@ public sealed class caseController: ControllerBase
 
 
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer, options);
-                var result = new mmria.pmss.case_version.v230616.mmria_case();
+                var result = new mmria.case_version.pmss.v230616.mmria_case();
                 result.Convert(json_doc.RootElement);
                 
                 
@@ -103,7 +103,7 @@ public sealed class caseController: ControllerBase
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (
-        [FromBody] mmria.common.model.couchdb.Save_Case_Request<mmria.pmss.case_version.v230616.mmria_case> save_case_request
+        [FromBody] mmria.common.model.couchdb.Save_Case_Request<mmria.case_version.pmss.v230616.mmria_case> save_case_request
     ) 
     { 
 
@@ -186,7 +186,7 @@ public sealed class caseController: ControllerBase
             {
                 var check_document_curl = new cURL ("GET", null, db_config.Get_Prefix_DB_Url($"mmrds/{id_val}"), null,db_config.user_name, db_config.user_value);
                 string check_document_json = await check_document_curl.executeAsync ();
-                var case_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (check_document_json);
+                var case_object = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (check_document_json);
 
                 if
                 (
@@ -282,7 +282,7 @@ public sealed class caseController: ControllerBase
 
     [Authorize(Roles  = "abstractor")]
     [HttpDelete]
-    public async Task<mmria.pmss.case_version.v230616.mmria_case> Delete(string case_id = null, string rev = null) 
+    public async Task<mmria.case_version.pmss.v230616.mmria_case> Delete(string case_id = null, string rev = null) 
     { 
         try
         {
@@ -320,7 +320,7 @@ public sealed class caseController: ControllerBase
             {
                 
                 document_json = await check_document_curl.executeAsync ();
-                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (document_json);
+                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (document_json);
                 
                 if
                 (
@@ -354,7 +354,7 @@ public sealed class caseController: ControllerBase
             }
 
             string responseFromServer = await delete_report_curl.executeAsync ();;
-            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (responseFromServer);
+            var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (responseFromServer);
 
             var audit_data = new mmria.common.model.couchdb.Change_Stack()
             {

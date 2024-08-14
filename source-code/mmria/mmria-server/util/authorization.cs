@@ -1,3 +1,4 @@
+#if !IS_PMSS_ENHANCED
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -345,3 +346,4 @@ public sealed class authorization
     }
 
 }
+#endif

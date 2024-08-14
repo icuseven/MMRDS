@@ -1,3 +1,4 @@
+#if !IS_PMSS_ENHANCED
 using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ public static bool is_authorized_to_handle_jurisdiction_id
         mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
-        mmria.case_version.v240616.mmria_case p_mmria_case
+        mmria.case_version.mmria.v240616.mmria_case p_mmria_case
     )
     {
 
@@ -173,3 +174,4 @@ public static bool is_authorized_to_handle_jurisdiction_id
         return result;
     }
 }
+#endif

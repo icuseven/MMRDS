@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v240616;
+namespace mmria.case_version.mmria.v240301;
 
 public sealed partial class mmria_case
 {
@@ -322,10 +322,6 @@ public sealed partial class mmria_case
             break;
             case "er_visit_and_hospital_medical_records/name_and_location_facility/origin_of_travel_other":
                 er_visit_and_hospital_medical_records[index].name_and_location_facility.origin_of_travel_other = value;
-                result = true;
-            break;
-            case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival":
-                er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = value;
                 result = true;
             break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/is_artificial":
@@ -975,6 +971,10 @@ public sealed partial class mmria_case
             break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/year":
                 er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.year = value;
+                result = true;
+            break;
+            case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_onset_of_labor/duration_of_labor_prior_to_arrival":
+                er_visit_and_hospital_medical_records[index].onset_of_labor.date_of_onset_of_labor.duration_of_labor_prior_to_arrival = value;
                 result = true;
             break;
             case "er_visit_and_hospital_medical_records/onset_of_labor/date_of_rupture/month":

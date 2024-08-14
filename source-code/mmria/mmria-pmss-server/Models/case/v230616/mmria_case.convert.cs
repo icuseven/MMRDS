@@ -7,7 +7,7 @@ using System.Windows.Markup;
 
 using mmria.common.metadata;
 
-namespace mmria.pmss.case_version.v230616;
+namespace mmria.case_version.pmss.v230616;
 
 public interface IConvertDictionary
 {

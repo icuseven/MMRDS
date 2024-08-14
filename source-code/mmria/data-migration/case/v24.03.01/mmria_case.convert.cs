@@ -8,7 +8,7 @@ using System.Windows.Markup;
 
 using mmria.common.metadata;
 
-namespace mmria.case_version.v240301;
+namespace mmria.case_version.mmria.v240301;
 
 public interface IConvertDictionary
 {

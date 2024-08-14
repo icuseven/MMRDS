@@ -10,7 +10,7 @@ using mmria.pmss.server.Controllers;
 using mmria_pmss_client.Models.IJE;
 using TinyCsvParser;
 using mmria.common.model.couchdb;
-using mmria.pmss.case_version.v230616;
+using mmria.case_version.pmss.v230616;
 using System.Security.Policy;
 
 namespace mmria.pmss.services.vitalsimport;
@@ -185,7 +185,7 @@ public sealed class PMSS_ItemProcessor : ReceiveActor
 
 
         //var new_case = new System.Dynamic.ExpandoObject();
-        var new_case = new mmria.pmss.case_version.v230616.mmria_case();
+        var new_case = new mmria.case_version.pmss.v230616.mmria_case();
 
 /*
         new_case.data_migration_history = new();
@@ -1446,7 +1446,7 @@ private double? calc_number_of_years
     (
         migrate.C_Get_Set_Value gs, 
         GeocodeTuple geocode_data, 
-        mmria.pmss.case_version.v230616.mmria_case new_case
+        mmria.case_version.pmss.v230616.mmria_case new_case
     )
     {
         string urban_status = null;

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace mmria.case_version.v240301;
+namespace mmria.case_version.mmria.v240301;
 
 public sealed partial class mmria_case
 {

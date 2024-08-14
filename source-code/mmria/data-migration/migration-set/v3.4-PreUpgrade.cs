@@ -127,7 +127,7 @@ public sealed class v3_4_PreUpgrade
 			{
 				all_list_dictionary.Add(item.path, item);
 			}
-			mmria.case_version.v240616.mmria_case.all_list_set = all_list_dictionary;
+			mmria.case_version.mmria.v240616.mmria_case.all_list_set = all_list_dictionary;
 
 
 
@@ -147,7 +147,7 @@ public sealed class v3_4_PreUpgrade
 				
 
                 var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
-                var result = new mmria.case_version.v240616.mmria_case();
+                var result = new mmria.case_version.mmria.v240616.mmria_case();
 				result.SetJsonErrorId(kv._id, kv.record_id);
 				
 
@@ -160,9 +160,9 @@ public sealed class v3_4_PreUpgrade
 				}
 
 				
-				mmria.case_version.v240616.mmria_case.add_error += add_error;
+				mmria.case_version.mmria.v240616.mmria_case.add_error += add_error;
                 result.Convert(json_doc.RootElement);
-				mmria.case_version.v240616.mmria_case.add_error -= add_error;
+				mmria.case_version.mmria.v240616.mmria_case.add_error -= add_error;
 				
 
 				if(!is_report_only_mode)
@@ -871,7 +871,7 @@ public sealed class v3_4_PreUpgrade
 
 	public async Task<bool> save_case
     (
-        mmria.case_version.v240616.mmria_case item, 
+        mmria.case_version.mmria.v240616.mmria_case item, 
         string p_migration_name, 
         bool force_write = false
     )
@@ -889,7 +889,7 @@ public sealed class v3_4_PreUpgrade
 
             if(item.data_migration_history == null)
             {
-                item.data_migration_history = new List<mmria.case_version.v240616._31525A784A20079888C887AC49E5D1B9>();
+                item.data_migration_history = new List<mmria.case_version.mmria.v240616._31525A784A20079888C887AC49E5D1B9>();
 			}
 
             bool is_existing_migration = false;

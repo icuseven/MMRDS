@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 using  mmria.pmss.server.extension;
-using mmria.pmss.case_version.v230616;
+using mmria.case_version.pmss.v230616;
 namespace mmria.pmss.server;
 	
 [Route("api/[controller]")]
@@ -206,7 +206,7 @@ public sealed class vital_importController: ControllerBase
 
     [AllowAnonymous]
     [HttpGet]
-    public async Task<mmria.pmss.case_version.v230616.mmria_case> Get(string case_id) 
+    public async Task<mmria.case_version.pmss.v230616.mmria_case> Get(string case_id) 
     { 
         if ( !is_authorized() )
         {
@@ -223,7 +223,7 @@ public sealed class vital_importController: ControllerBase
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (responseFromServer);
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (responseFromServer);
 
                 if(mmria.pmss.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadCase, result))
                 {
@@ -252,7 +252,7 @@ public sealed class vital_importController: ControllerBase
     [HttpPost]
     public async Task<mmria.common.model.couchdb.document_put_response> Post
     (
-        [FromBody] mmria.pmss.case_version.v230616.mmria_case case_post_request
+        [FromBody] mmria.case_version.pmss.v230616.mmria_case case_post_request
     ) 
     { 
 
@@ -322,7 +322,7 @@ public sealed class vital_importController: ControllerBase
             {
                 var check_document_curl = new cURL ("GET", null, $"{db_config.url}/{db_config.prefix}mmrds/{id_val}", null, db_config.user_name, db_config.user_value);
                 string check_document_json = await check_document_curl.executeAsync ();
-                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (check_document_json);
+                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (check_document_json);
 
                 if
                 (
@@ -423,7 +423,7 @@ public sealed class vital_importController: ControllerBase
             {
                 
                 document_json = await check_document_curl.executeAsync ();
-                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.pmss.case_version.v230616.mmria_case> (document_json);
+                var mmria_case = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.pmss.v230616.mmria_case> (document_json);
                 
                 if
                 (
