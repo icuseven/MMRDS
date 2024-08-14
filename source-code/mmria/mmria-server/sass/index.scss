@@ -197,11 +197,15 @@ blockquote {
 
 .info-icon {
   @include icon('medium');
-  color: $purple;
+  color: $purple !important;
   margin: 0px;
   padding: 0px;
   background-color: transparent;
   border: none;
+}
+
+.italics {
+  font-style: italic;
 }
 
 .refresh-icon {
@@ -422,6 +426,18 @@ legend {
   }
 }
 
+table.align-cell-top {
+  td {
+    vertical-align: top !important;
+  }
+}
+
+table.align-header-top {
+  th {
+    vertical-align: top !important;
+  }
+}
+
 .table {
   @extend .mb-0;
   tr.header-level-1 {
@@ -466,6 +482,11 @@ legend {
       border: none !important;
     }
   }
+  tr.align-middle {
+    th, td {
+      vertical-align: middle !important;
+    }
+  }
   tbody tr:nth-child(odd) {
     background-color: $white;
   }
@@ -487,6 +508,7 @@ legend {
 td {
   @include gray-border();
   @extend .pt-2, .pb-2, .align-middle;
+  word-wrap: break-word;
   div {
     input.big-checkbox[type="checkbox"] {
       top: 0rem !important;
@@ -928,4 +950,29 @@ h2 {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: $font-family;
+}
+
+.table-layout-fixed {
+  table-layout: fixed;
+}
+
+ul.list-style-decimal {
+  @extend .ml-4, .pl-0;
+  list-style-type: decimal;
+  vertical-align: middle;
+}
+
+ul.list-style-none {
+  @extend .ml-2, .pl-0;
+  list-style-type: none;
+  vertical-align: middle;
+}
+
+ul.list-style-none.ml-0 {
+  margin-left: 0px !important;
+}
+
+ol.list-style-none {
+  @extend .mb-0, .mt-2;
+  list-style: none;
 }
