@@ -1004,7 +1004,35 @@ public sealed class BatchItemProcessor : ReceiveActor
             var VitalsImportStatusValue = "0";
             gs.set_value("home_record/case_status/overall_case_status", VitalsImportStatusValue, new_case);
 
-            gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
+            var test_vro_status = mor_field_set["VRO_STATUS"];
+            string vro_staus_value = "9999";
+            if
+            (
+                test_vro_status != null
+            )
+            {
+                var trimmed_value = test_vro_status.Trim();
+                if( int.TryParse(trimmed_value, out var test_vro_status_int))
+                {
+                    var list_values = new HashSet<int>()
+                    {
+                        0, 1,2,3,4,5,6
+                    };
+
+                    if(list_values.Contains(test_vro_status_int))
+                    {
+                        vro_staus_value = test_vro_status_int.ToString();
+                    }
+                    else if(test_vro_status_int == 9)
+                    {
+                        vro_staus_value = "5";
+                    }
+                }
+            }
+            //gs.set_value("home_record/automated_vitals_group/vro_status", mor_field_set["VRO_STATUS"], new_case);
+
+
+            gs.set_value("home_record/automated_vitals_group/vro_status", vro_staus_value, new_case);
 
             gs.set_value("home_record/record_id", message.record_id, new_case);
 
