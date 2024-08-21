@@ -237,6 +237,59 @@ return_label:
         double? result = null;
 
 
+        bool is_field_check = false;
+        var field_check = new HashSet<string>
+        {
+            "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy",
+            "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy",
+            "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy",
+            "social_and_environmental_profile/was_decedent_ever_arrested",
+            "social_and_environmental_profile/previous_or_current_incarcerations",
+            "social_and_environmental_profile/communications/barriers_to_communications_other_specify",
+            "social_and_environmental_profile/health_care_access/barriers_to_health_care_access",
+            "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments",
+            "social_and_environmental_profile/socio_economic_characteristics/homelessness",
+            "social_and_environmental_profile/socio_economic_characteristics/unstable_housing",
+            "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress",
+
+
+                                /*
+
+
+
+                        mhp_mhcatmr_pregn
+                        mhp_mhcdtmr_pregn
+                        mhp_mhcpttmr_pregn
+                        saep_poc_arrest
+                        saep_poc_incar
+                        saepc_bt_commu
+                        saephca_bthc_acces
+                        saephcs_rfm_appoi
+                        saepsec_homel
+                        saepsec_unstable_hs
+                        saepsoes_eosoe_stres
+
+/mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy
+/mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy
+/mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy
+/social_and_environmental_profile/was_decedent_ever_arrested
+/social_and_environmental_profile/previous_or_current_incarcerations
+/social_and_environmental_profile/communications/barriers_to_communications_other_specify
+/social_and_environmental_profile/health_care_access/barriers_to_health_care_access
+/social_and_environmental_profile/health_care_system/reasons_for_missed_appointments
+/social_and_environmental_profile/socio_economic_characteristics/homelessness
+/social_and_environmental_profile/socio_economic_characteristics/unstable_housing
+/social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress
+
+                        */
+        };
+
+
+        if(field_check.Contains(path))
+        {
+                is_field_check = true;
+        }
+
         if
         (
             value.TryGetProperty(key, out var new_value) &&
@@ -284,6 +337,8 @@ return_label:
         )
         {
             var val = new_value.GetString();
+
+
 
 
             if
@@ -433,6 +488,28 @@ return_label:
         HashSet<double> result = null;
 
         var error = string.Empty;
+        bool is_field_check = false;
+        var field_check = new HashSet<string>
+        {
+            
+            "birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father",
+            "birth_fetal_death_certificate_parent/race/race_of_mother"
+
+                /*
+                bfdcpdofr_ro_fathe
+                bfdcpr_ro_mothe
+
+                /birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
+                /birth_fetal_death_certificate_parent/race/race_of_mother
+
+
+                */
+        };
+
+        if(field_check.Contains(path))
+        {
+            is_field_check = true;
+        }
 
         if
         (
@@ -448,6 +525,17 @@ return_label:
             foreach (System.Text.Json.JsonElement item in new_value.EnumerateArray())
             
             {
+
+                if
+                (
+                    path == "home_record/automated_vitals_group/vro_status" //&&
+                    //val == "9"
+                )
+                {
+                    //val = "9999";
+                    System.Console.WriteLine("here");
+                }
+
 
                 if
                 (
