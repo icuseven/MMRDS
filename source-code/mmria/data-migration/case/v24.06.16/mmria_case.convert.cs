@@ -499,6 +499,10 @@ return_label:
                 bfdcpdofr_ro_fathe
                 bfdcpr_ro_mothe
 
+                "American Indian\\/Alaska Native" => 2
+                "American Indian\\/Alaska Native"
+                "52589344-A091-4D96-810D-57E060E9BBE2"
+
                 /birth_fetal_death_certificate_parent/demographic_of_father/race/race_of_father
                 /birth_fetal_death_certificate_parent/race/race_of_mother
 
@@ -535,6 +539,8 @@ return_label:
                     //val = "9999";
                     System.Console.WriteLine("here");
                 }
+
+
 
 
                 if
@@ -581,6 +587,20 @@ return_label:
                     {
                         // do nothing
                     }
+
+                    if
+                    (
+                        is_field_check && 
+                        val == "American Indian\\/Alaska Native" ||
+                        (
+                            val.Contains("American Indian") &&
+                            val.Contains("Alaska Native")
+                        )
+                    )
+                    {
+                        System.Console.WriteLine("here");
+                    }
+
                     if(double.TryParse(item.GetString(), out var test))
                     {
                         var item_string = test.ToString();
