@@ -39,6 +39,28 @@
 
     mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> user_role_list;
 
+    #if !IS_PMSS_Enhanced
+    Dictionary<string,string> title_map = new()
+        {
+            {"abstractor_panel_title","Abstrator"},
+            {"analyst_panel_title","Abstrator"},
+            {"cm_panel_title","Committee Member"},
+            {"j_admin_panel_title","Jurisdiction Admin"},
+            
+
+        };
+    #endif
+    #if IS_PMSS_Enhanced
+    Dictionary<string,string> title_map = new()
+        {
+            {"abstractor_panel_title","CDC Abstrator"},
+            {"analyst_panel_title","CDC Abstrator"},
+            {"cm_panel_title","CDC Committee Member"},
+            {"j_admin_panel_title","CDC Jurisdiction Admin"},
+            {"technical_assistance_panel_title","Technical Assistance"},
+
+        };
+    #endif
 
     public override Task SetParametersAsync(ParameterView parameters)
     {
@@ -333,7 +355,7 @@ else
         <div class="card-container-light col-md-12">
           <div class="header">
             <h2 class="h3">
-              Abstrator
+              @title_map["abstractor_panel_title"]
             </h2>
           </div>
           <div class="card-content">
@@ -357,7 +379,7 @@ else
       <div class="card-container-light col-md-12">
         <div class="header">
           <h2 class="h3">
-            Analyst
+            @title_map["analyst_panel_title"]
           </h2>
         </div>
         <div class="card-content">
@@ -379,7 +401,7 @@ else
         <div class="card-container-light col-md-12">
           <div class="header">
             <h2 class="h3">
-              Committee Member
+              @title_map["cm_panel_title"]
             </h2>
           </div>
           <div class="card-content">
@@ -558,7 +580,7 @@ else
         <div class="card-container-light col-md-12">
           <div class="header">
             <h2 class="h3">
-              Jurisdiction Admin
+              @title_map["j_admin_panel_title"]
             </h2>
           </div>
             <div class="card-content">
