@@ -31,6 +31,7 @@
     bool is_data_analyst = false;
     bool is_steve_mmria = false;
     bool is_steve_prams = false;
+    bool is_vro = false;
 
     private string? authMessage;
     private string? surname;
@@ -130,6 +131,11 @@
                         break;
                     case "steve_prams":
                         is_steve_prams = true;
+                        is_authenticated = true;
+                        is_guest = false;
+                        break;
+                    case "vro":
+                        is_vro = true;
                         is_authenticated = true;
                         is_guest = false;
                         break;
