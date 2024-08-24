@@ -1504,7 +1504,7 @@ public sealed class BatchItemProcessor : ReceiveActor
             gs.set_value(IJE_to_MMRIA_Path["OTHERCONDITION"], mor_field_set["OTHERCONDITION"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["DBPLACECITY"], mor_field_set["DBPLACECITY"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["STINJURY"], STINJURY_Rule(mor_field_set["STINJURY"]), new_case);
-            gs.set_value(IJE_to_MMRIA_Path["VRO_STATUS"], mor_field_set["VRO_STATUS"], new_case);
+            //gs.set_value(IJE_to_MMRIA_Path["VRO_STATUS"], mor_field_set["VRO_STATUS"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["BC_DET_MATCH"], mor_field_set["BC_DET_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["FDC_DET_MATCH"], mor_field_set["FDC_DET_MATCH"], new_case);
             gs.set_value(IJE_to_MMRIA_Path["BC_PROB_MATCH"], mor_field_set["BC_PROB_MATCH"], new_case);
