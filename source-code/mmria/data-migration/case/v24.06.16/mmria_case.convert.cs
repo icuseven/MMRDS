@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+
 using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Linq;
@@ -387,13 +388,108 @@ return_label:
                 }
 
             }
+            else if
+            (
+                all_list_set != null &&
+                all_list_set.ContainsKey(path)
+            )
+            {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.display_to_value.ContainsKey(val) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetNumberListField value not on list: path: {path} key{key} value: {val}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                        result = 9999;
+                    }
+                    else if(double.TryParse(metadata.display_to_value[val], out var new_double))
+                    {
+                        
+                        result = new_double;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("here");
+                    }
+            }
             else
             {
                 var error = $"GetNumberListField tryparse failed  path: {path} key:{key} val:{val}";
                 if(add_error != null) add_error(path,error);
                 //System.Console.WriteLine();
+                result = 9999;
             }
         }
+         else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.False ||
+            new_value.ValueKind != System.Text.Json.JsonValueKind.True
+        )
+        {
+            bool Json_Boolean = false;
+
+            if(new_value.ValueKind != System.Text.Json.JsonValueKind.True)
+            {
+                Json_Boolean = true;
+            } 
+
+            var boolean_to_value_dictionary = new Dictionary<bool,string>
+            {
+                { false, "0"},
+                { true, "1"}
+            };
+
+            if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.value_to_display.ContainsKey(boolean_to_value_dictionary[Json_Boolean]) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetNumberListField value not on list: path: {path} key{key} value: {boolean_to_value_dictionary[Json_Boolean]}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                        result = 9999;
+                    }
+                    else
+                    {
+                        if
+                        (
+                            double.TryParse
+                            (
+                            boolean_to_value_dictionary[Json_Boolean], 
+                            out var parse_double
+                            )
+                        )
+                        {
+                            result = parse_double;
+                        }
+                        else
+                        {
+                            var error = $"GetNumberListField value not on list: path: {path} key{key} value: FALSE";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
+                }
+                else
+                {
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: FALSE";
+                    add_error(path,error);
+                    System.Console.WriteLine(error);
+                }
+        }
+
         else if
         (
             new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
@@ -599,9 +695,10 @@ return_label:
                     )
                     {
                         System.Console.WriteLine("here");
+                        val = "2";
                     }
 
-                    if(double.TryParse(item.GetString(), out var test))
+                    if(double.TryParse(val, out var test))
                     {
                         var item_string = test.ToString();
                         
@@ -614,11 +711,11 @@ return_label:
                             var metadata = all_list_set[path];
                             if
                             (
-                                !metadata.value_to_display.ContainsKey(item_string) &&
+                                !metadata.value_to_display.ContainsKey(val) &&
                                 add_error != null
                             ) 
                             {
-                                error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                                error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {val}";
                                 add_error(path,error);
                                 System.Console.WriteLine(error);
                             }
@@ -631,6 +728,33 @@ return_label:
                         {
                             result.Add(test);
                         }
+                    }
+                    else if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                            var metadata = all_list_set[path];
+                            if
+                            (
+                                !metadata.display_to_value.ContainsKey(val) &&
+                                add_error != null
+                            ) 
+                            {
+                                error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {val}";
+                                add_error(path,error);
+                                System.Console.WriteLine(error);
+                            }
+                            else if(double.TryParse(metadata.display_to_value[val], out var new_double))
+                            {
+                                
+                                result.Add(new_double);
+                            }
+                            else
+                            {
+                                System.Console.WriteLine("here");
+                            }
                     }
                     else
                     {

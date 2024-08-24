@@ -174,6 +174,7 @@ public sealed class v3_4_PreUpgrade
 					);
 				}
 
+				await System.Threading.Tasks.Task.Delay(250);
 			}
 
 			output_builder.AppendLine($"paths with data problems:");
@@ -191,6 +192,7 @@ public sealed class v3_4_PreUpgrade
 					output_builder.AppendLine($"\t\t{val}");
 				}
 			}
+			
 			
 		}
 		catch(Exception ex)
