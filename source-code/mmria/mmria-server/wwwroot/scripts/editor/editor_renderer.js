@@ -360,6 +360,12 @@ function editor_render(p_metadata, p_path, p_ui, p_object_path)
 			result.push(child.value.length + 5);
 			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
 			result.push(p_path  + "/" + "values/" + i + "/value");
+            result.push('" />  parent_value: <input type="text" value="');
+			result.push(child.parent_value);
+			result.push('" size=');
+			result.push(child.value.length + 5);
+			result.push('  onBlur="editor_set_value(this, g_ui)" path="');
+			result.push(p_path  + "/" + "values/" + i + "/parent_value");
 			result.push('" /> display: <input type="text" value="');
 			result.push(child.display);
 			result.push('" size=');
