@@ -383,3 +383,52 @@ async function system_documentation_link_click()
         cancel
     )
 }
+
+
+async function erase_mm_link_click()
+{
+    function cancel()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+    }
+
+    function confirm()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            "https://www.erase-mm-cvsproject.org", 
+            "_blank"
+        );
+    }
+
+    $mmria.confirm_external_nav_dialog_show
+    (
+        confirm, 
+        cancel
+    )
+}
+
+async function external_link_click(p_url)
+{
+    function cancel()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+    }
+
+    function confirm()
+    {
+        $mmria.confirm_external_nav_dialog_confirm_close();
+        window.open
+        (
+            p_url, 
+            "_blank"
+        );
+    }
+
+    $mmria.confirm_external_nav_dialog_show
+    (
+        confirm, 
+        cancel
+    )
+}
