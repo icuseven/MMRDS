@@ -218,91 +218,61 @@ public sealed class update_year_of_deathController : Controller
             // var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
             var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.mmria.v240616.mmria_case>(responseFromServer);
 
-            case_response.home_record.date_of_death.year = model.YearOfDeathReplacement.ToString();
-            home_record["record_id"] = model.RecordIdReplacement;
+            if(model.YearOfDeathReplacement.HasValue)
+                case_response.home_record.date_of_death.year = model.YearOfDeathReplacement.Value;
 
-            dictionary["last_updated_by"] = userName;
-            dictionary["date_last_updated"] = DateTime.Now;
+            if(string.IsNullOrWhiteSpace(model.RecordIdReplacement))
+                    case_response.home_record.record_id = model.RecordIdReplacement;
+
+            case_response.last_updated_by = userName;
+            case_response.date_last_updated = DateTime.Now;
 
             Model.LastUpdatedBy = userName;
-            Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
+            Model.DateLastUpdated = case_response.date_last_updated;
 
             Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
 
-            
-            var dictionary = case_response as IDictionary<string,object>;
-            if(dictionary != null)
+            Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
+            settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response, settings);
+
+            cURL document_curl = null;
+
+            if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
             {
-                var home_record = dictionary["home_record"] as IDictionary<string,object>;
-                if(home_record != null)
-                {
-                    var date_of_death = home_record["date_of_death"] as IDictionary<string,object>;
-                    if(date_of_death != null)
-                    {
-                        date_of_death["year"] = model.YearOfDeathReplacement.ToString();
-                        home_record["record_id"] = model.RecordIdReplacement;
+                var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
+                string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
+                document_curl = new cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
+            }
+            else
+            {
+                string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
+                document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
+            }
 
-                        dictionary["last_updated_by"] = userName;
-                        dictionary["date_last_updated"] = DateTime.Now;
+            var document_put_response = new mmria.common.model.couchdb.document_put_response();
+            try
+            {
+                responseFromServer = await document_curl.executeAsync();
+                document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
+            }
+            catch(Exception ex)
+            {
+                model.StatusText = $"Problem Setting Status to (blank)\n{ex}";
+            }
 
-                        Model.LastUpdatedBy = userName;
-                        Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
-
-                        Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
-
-                        Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
-                        settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-                        var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response, settings);
-
-                        cURL document_curl = null;
-
-                        if(Model.Role.Equals("cdc_admin", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var db_info = _dbConfigSet.detail_list[Model.StateDatabase];
-                            string request_string = $"{db_info.url}/{db_info.prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, db_info.user_name, db_info.user_value);
-                        }
-                        else
-                        {
-                            string request_string = $"{db_config.url}/{db_config.prefix}mmrds/{Model._id}";
-                            document_curl = new cURL ("PUT", null, request_string, object_string, db_config.user_name, db_config.user_value);
-                        }
-
-                        var document_put_response = new mmria.common.model.couchdb.document_put_response();
-                        try
-                        {
-                            responseFromServer = await document_curl.executeAsync();
-                            document_put_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.document_put_response>(responseFromServer);
-                        }
-                        catch(Exception ex)
-                        {
-                            model.StatusText = $"Problem Setting Status to (blank)\n{ex}";
-                        }
-
-                        if(document_put_response.ok)
-                        {
-                            model.StatusText = "(blank)";
-                        }
-                        else
-                        {
-                            model.StatusText = "Problem Setting Status to (blank)";
-                        }
-
-                    }
-                    else
-                    {
-                        model.StatusText = "Problem Setting Status to (blank)";
-                    }   
-                }
-                else
-                {
-                    model.StatusText = "Problem Setting Status to (blank)";
-                }
+            if(document_put_response.ok)
+            {
+                model.StatusText = "(blank)";
             }
             else
             {
                 model.StatusText = "Problem Setting Status to (blank)";
             }
+
+ 
+
+            
             
         }
         catch(Exception ex)
