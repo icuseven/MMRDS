@@ -30,7 +30,7 @@
     }
 }
 <div class="page">
-   <div class="container-fluid header-wrapper site-header">
+   <div class="container-fluid header-wrapper site-header no-print">
       <div class="container">
         <header role="banner" aria-label="Header" class="pt-2 pb-2">
           <div class="row">
@@ -69,7 +69,7 @@
         </header>
       </div>
     </div>
-    <div role="navigation" class="container-fluid site-title app-header">
+    <div role="navigation" class="container-fluid site-title app-header no-print">
       <div class="container">
         <div class="row justify-content-between align-items-center">
           <div class="col col-md-7">
@@ -102,7 +102,7 @@
         </div>
       </div>
     </div>
-    <div class="container">
+    <div class="container no-print">
       @*TO-D0: logic for breadcrumb is working correctly but need to fix the styling*@
       @if(MyNavigationManager.Uri.Substring(MyNavigationManager.BaseUri.Length - 1) != "/")
       {
@@ -120,7 +120,7 @@
         </article>
       </main>
     </div>
-	<footer id="footer" aria-label="Footer" class="site-footer">
+	<footer id="footer" aria-label="Footer" class="site-footer no-print">
     <div class="container-fluid app-footer">
       <div class="container">
         <p>TO-DO: Version</p>
