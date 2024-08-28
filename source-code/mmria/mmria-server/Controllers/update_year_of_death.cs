@@ -215,7 +215,19 @@ public sealed class update_year_of_deathController : Controller
                 var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 responseFromServer = await case_view_curl.executeAsync();
             }
-            var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+            // var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+            var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.mmria.v240616.mmria_case>(responseFromServer);
+
+            case_response.home_record.date_of_death.year = model.YearOfDeathReplacement.ToString();
+            home_record["record_id"] = model.RecordIdReplacement;
+
+            dictionary["last_updated_by"] = userName;
+            dictionary["date_last_updated"] = DateTime.Now;
+
+            Model.LastUpdatedBy = userName;
+            Model.DateLastUpdated = (DateTime) dictionary["date_last_updated"];
+
+            Model.DateOfDeath = Model.DateOfDeath.Replace(Model.YearOfDeath.ToString(), Model.YearOfDeathReplacement.ToString());
 
             
             var dictionary = case_response as IDictionary<string,object>;
