@@ -46,7 +46,7 @@
 }
 
 
-@if(Model.YearOfDeathReplacement.Value == Model.YearOfDeath.Value)
+@if(Model.YearOfDeath.HasValue && (Model.YearOfDeathReplacement.Value == Model.YearOfDeath.Value))
 {
 
     <h1 class="h2" tabindex="-1">Update MMRIA Record ID</h1>
