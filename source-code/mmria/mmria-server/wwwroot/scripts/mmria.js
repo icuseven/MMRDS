@@ -1112,8 +1112,7 @@ var $mmria = function()
             if(element == null)
             {
                 element = document.createElement("dialog");
-                element.classList.add('p-0');
-                element.classList.add('set-radius');
+                element.classList.add(...['p-0', 'set-radius', 'card-container-dark', 'col-md-4']);
                 element.setAttribute("id", "confirm-dialog-id");
                 element.setAttribute("role", "dialog");
 
@@ -1123,12 +1122,12 @@ var $mmria = function()
 
             let html = [];
             html.push(`
-                <div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                    <span id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</span>
-                    <button id="modal_confirm_cancel_icon"="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_dialog_confirm_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                <div class="ui-dialog-titlebar modal-header ui-widget-header ui-helper-clearfix">
+                    <div id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</div>
+                    <span title="close exit confirm dialog" id="modal_confirm_cancel_icon"="button" tabindex="0" role="button" onclick="$mmria.confirm_dialog_confirm_close()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
                 </div>
                 <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
-                    <div class="modal-body">
+                    <div class="modal-body card-content">
                         <p><strong>Links with this icon<span class="sr-only">external icon</span>
                         <span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span> indicate that you are leaving the CDC website.</strong></p>
                         <ul>
@@ -1141,7 +1140,7 @@ var $mmria = function()
                     </div>
                     <footer class="modal-footer">
                         <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
-                        <button id="confirm-dialog-id-confirm-button" class="btn btn-primary mr-1" >Continue</button> 
+                        <button id="confirm-dialog-id-confirm-button" class="btn primary-button mr-1" >Continue</button> 
                     </footer>
                 </div>
             `);
