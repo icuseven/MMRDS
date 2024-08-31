@@ -209,22 +209,51 @@ user_role_jurisdiction
 	return result;
 }
 
+const g_is_pmss_enhanced = false;
 
 function get_role_list()
 {
     let result = [];
-    if(g_is_installation_admin && g_is_installation_admin.toLowerCase() == "true")
-	{
-		result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
-	}
-	else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+
+    if(g_is_pmss_enhanced)
     {
-        result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin', "vro"];
+        }
     }
     else
-	{
-		result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
-	}
+    {
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
+        }
+    }
+    
 
     return result;
 }

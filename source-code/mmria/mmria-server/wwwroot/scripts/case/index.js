@@ -1,4 +1,5 @@
 'use strict';
+const g_is_pmss_enhanced = false;
 
 var g_metadata = null;
 var g_user_name = null;
@@ -37,6 +38,8 @@ var g_target_case_status = null;
 var g_previous_case_status = null;
 var g_other_specify_lookup = {};
 var g_record_id_list = new Set();
+var g_form_access_list = new Map();
+var role_set = new Set();
 const g_charts = new Map();
 const g_chart_data = new Map();
 const g_duplicate_path_set = new Set();
@@ -52,6 +55,8 @@ var g_pinned_case_count = 0;
 var g_is_jurisdiction_admin = false;
 
 let save_start_time, save_end_time;
+
+const g_is_version_based = false;
 
 const g_cvs_api_request_data = new Map();
 
@@ -493,6 +498,15 @@ async function g_set_data_object_from_path
                 );
         }
       }
+    }
+    else if(typeof value == "number")
+    {
+        eval(
+            p_object_path +
+                ' = "' +
+                value +
+                '"'
+            );
     } 
     else 
     {
@@ -1209,6 +1223,12 @@ var g_ui = {
         g_data,
         async function () 
         {
+            let form_name = '/home_record';
+            if(g_is_pmss_enhanced)
+            {
+                form_name = '/tracking';
+            }
+
             await save_case(g_data, function () 
             {
                 var url =
@@ -1217,7 +1237,7 @@ var g_ui = {
                 location.host +
                 '/Case#/' +
                 g_ui.selected_record_index +
-                '/home_record';
+                form_name;
 
                 window.location = url;
             }, "add_new_case");
@@ -1238,6 +1258,10 @@ var g_ui = {
     search_key: null,
     descending: true,
     case_status: "all",
+    jurisdiction: "all",
+    year_of_death: "all",
+    status: "all",
+    classification: "all",
     field_selection: "all",
     pregnancy_relatedness:"all",
     get_query_string: function () {
@@ -1246,9 +1270,21 @@ var g_ui = {
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
       result.push('descending=' + this.descending);
-      result.push('case_status=' + this.case_status);
+      if(g_is_pmss_enhanced)
+      {
+        result.push('jurisdiction=' + this.jurisdiction);
+        result.push('year_of_death=' + this.year_of_death);
+        result.push('status=' + encodeURIComponent(this.status));
+        result.push('classification=' + this.classification);
+      }
+      else
+      {
+        result.push('case_status=' + this.case_status);
+        result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+      }
+      
       result.push('field_selection=' + this.field_selection);
-      result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
+      
 
       if(g_is_data_analyst_mode == null || g_is_data_analyst_mode !="da")
       {
@@ -1268,6 +1304,7 @@ var g_ui = {
     },
   },
 };
+
 
 var $$ = {
   is_id: function (value) {
@@ -3350,35 +3387,71 @@ function is_case_locked(p_case)
 
     let selected_value = 9999;
     
-    if
-    (
-        p_case.home_record &&
-        p_case.home_record.case_status &&
-        p_case.home_record.case_status.overall_case_status &&
-        p_case.home_record.case_status.overall_case_status != ""
-    )
+    if(g_is_pmss_enhanced)
     {
-        selected_value = new Number(p_case.home_record.case_status.overall_case_status);
-    }
-    
-    if
-    (
-        p_case.home_record != null &&
-        p_case.home_record.case_status != null  &&
-        p_case.home_record.case_status.overall_case_status != null &&
-        //p_case.home_record.case_status.case_locked_date != "" &&
+        if
         (
-            selected_value == 4 ||
-            selected_value == 5 ||
-            selected_value == 6
+            p_case.tracking &&
+            p_case.tracking.case_status &&
+            p_case.tracking.case_status.overall_case_status &&
+            p_case.tracking.case_status.overall_case_status != ""
         )
-    )
-    {
-        if (! g_is_confirm_for_case_lock)
         {
-            result = true;
+            selected_value = new Number(p_case.tracking.case_status.overall_case_status);
+        }
+        
+        if
+        (
+            p_case.tracking &&
+            p_case.tracking.case_status &&
+            p_case.tracking.case_status &&
+            p_case.tracking.case_status.case_locked_date != "" &&
+            (
+                selected_value == 4 ||
+                selected_value == 5 ||
+                selected_value == 6
+            )
+        )
+        {
+            if (! g_is_confirm_for_case_lock)
+            {
+                result = true;
+            }
         }
     }
+    else
+    {
+        if
+        (
+            p_case.home_record &&
+            p_case.home_record.case_status &&
+            p_case.home_record.case_status.overall_case_status &&
+            p_case.home_record.case_status.overall_case_status != ""
+        )
+        {
+            selected_value = new Number(p_case.home_record.case_status.overall_case_status);
+        }
+        
+        if
+        (
+            p_case.home_record != null &&
+            p_case.home_record.case_status != null  &&
+            p_case.home_record.case_status.overall_case_status != null &&
+            //p_case.home_record.case_status.case_locked_date != "" &&
+            (
+                selected_value == 4 ||
+                selected_value == 5 ||
+                selected_value == 6
+            )
+        )
+        {
+            if (! g_is_confirm_for_case_lock)
+            {
+                result = true;
+            }
+        }
+    }    
+    
 
     return result;
 }
