@@ -103,19 +103,43 @@ function navigation_render(p_metadata, p_level, p_ui)
                     var child = p_metadata.children[i];
                     var url = p_ui.url_state.path_array[0] + "/" + child.name;
                     
-                    if (child.type === 'form')
+                    if 
+                    (
+                      g_form_access_list.has(child.name)
+                    )
                     {
-                      if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
+
+                      let show_form = false;
+
+                      var form_access = g_form_access_list.get(child.name);
+
+                      for(const key of Object.keys(form_access))
                       {
-                        result.push('<option value="' + url + '" selected>');
+                        if
+                        (
+                          role_set.has(key) &&
+                          form_access[key]!= "no_access"
+                        )
+                        {
+                          show_form = true;
+                          break;
+                        }
                       }
-                      else
+                      
+                      if(show_form)
                       {
-                        result.push('<option value="' + url + '">');
-                      }
-                      result.push(child.prompt);
+                        if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
+                        {
+                          result.push('<option value="' + url + '" selected>');
+                        }
+                        else
+                        {
+                          result.push('<option value="' + url + '">');
+                        }
+                        result.push(child.prompt);
                     }
                     result.push('</option>');
+                    }
                   }
                 result.push('</select>');
               result.push('</div>');

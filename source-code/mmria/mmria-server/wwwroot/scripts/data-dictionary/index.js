@@ -45,23 +45,28 @@ var g_filter = 	{
 
 async function get_release_version()
 {
-	let response = await $.ajax({
-		url: `${location.protocol}//${location.host}/api/version/release-version`
-	});
+	const version_name_response_promise = await fetch
+    (		
+        `${location.protocol}//${location.host}/api/version/release-version`
+	);
     
+    const version_name_response = await version_name_response_promise.text();
     
-    g_release_version_name = response;
+    g_release_version_name = version_name_response;
     g_selected_version_name = g_release_version_name;
 	
-	response = await $.ajax({
-		url: `${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version_name}`
-	});
+	const g_metadata_response_promise = await fetch
+    (
+    	`${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version_name}`
+	);
 
-    g_metadata = JSON.parse(response.metadata);
-    g_release_version_specification = response;
+    const g_metadata_response = await g_metadata_response_promise.json();
+
+    g_metadata = JSON.parse(g_metadata_response.metadata);
+    g_release_version_specification = g_metadata_response;
 
 
-    g_release_version_specification = response;
+    g_release_version_specification = g_metadata_response;
     g_selected_version_specification = g_release_version_specification;
 	
 
@@ -90,12 +95,12 @@ async function load_metadata(p_version_id)
 
 async function get_version_list()
 {
-    const response = await $.ajax
-    ({
-            url: `${location.protocol}//${location.host}/api/version/list`,
-    });
+    const response_promise = await fetch
+    (
+        `${location.protocol}//${location.host}/api/version/list`,
+    );
     
-    g_version_list = response;
+    g_version_list = await response_promise.json();
 
     for(let i = 0; i < g_version_list.length; i++)
     {
