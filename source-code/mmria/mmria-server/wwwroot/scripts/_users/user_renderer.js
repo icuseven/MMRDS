@@ -209,7 +209,7 @@ user_role_jurisdiction
 	return result;
 }
 
-const g_is_pmss_enhanced = false;
+
 
 function get_role_list()
 {
