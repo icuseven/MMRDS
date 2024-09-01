@@ -109,37 +109,39 @@ function navigation_render(p_metadata, p_level, p_ui)
                     )
                     {
 
-                      let show_form = false;
+                        let show_form = false;
 
-                      var form_access = g_form_access_list.get(child.name);
+                        var form_access = g_form_access_list.get(child.name);
 
-                      for(const key of Object.keys(form_access))
-                      {
-                        if
-                        (
-                          role_set.has(key) &&
-                          form_access[key]!= "no_access"
-                        )
+                        for(const key of Object.keys(form_access))
                         {
-                          show_form = true;
-                          break;
+                            if
+                            (
+                            role_set.has(key) &&
+                            form_access[key]!= "no_access"
+                            )
+                            {
+                            show_form = true;
+                            break;
+                            }
                         }
-                      }
                       
-                      if(show_form)
-                      {
-                        if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
+                        if(show_form)
                         {
-                          result.push('<option value="' + url + '" selected>');
+                            if(p_ui.url_state.selected_id.toLowerCase() == child.name.toLowerCase())
+                            {
+                                result.push('<option value="' + url + '" selected>');
+                            }
+                            else
+                            {
+                                result.push('<option value="' + url + '">');
+                            }
+
+                            result.push(child.prompt);
                         }
-                        else
-                        {
-                          result.push('<option value="' + url + '">');
-                        }
-                        result.push(child.prompt);
                     }
                     result.push('</option>');
-                    }
+                    
                   }
                 result.push('</select>');
               result.push('</div>');
