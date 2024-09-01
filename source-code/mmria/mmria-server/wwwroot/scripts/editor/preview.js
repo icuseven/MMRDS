@@ -38,8 +38,17 @@ var g_ui = {
 
     var result = create_default_object(g_metadata, {});
 
-    result.home_record.last_name = "new-last-name";
-    result.home_record.first_name = "new-first-name";
+    if(g_is_pmss_enhanced)
+    {
+        result.tracking.last_name = "new-last-name";
+        result.tracking.first_name = "new-first-name";
+    }
+    else
+    {
+        result.home_record.last_name = "new-last-name";
+        result.home_record.first_name = "new-first-name";
+    }
+
 		var new_data = [];
 
 		for(var i in g_ui.data_list)
@@ -61,7 +70,11 @@ var g_ui = {
 		g_ui.selected_record_index = g_ui.data_list.length -1;
 
 
-    var url = location.protocol + '//' + location.host + '#/' + result._id + '/home_record';
+    let url = location.protocol + '//' + location.host + '#/' + result._id + '/home_record';
+    if(g_is_pmss_enhanced)
+    {
+        url = location.protocol + '//' + location.host + '#/' + result._id + '/tracking';
+    }
     window.location = url;
 
     return result;

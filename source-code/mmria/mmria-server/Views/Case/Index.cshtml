@@ -1,9 +1,10 @@
 @using System.Security.Claims;
 @{
     var index_file_include = "index.mmria.js";
-
+    var is_pmss_enhanced = "false";
     #if IS_PMSS_ENHANCED
         index_file_include = "index.pmss.js"
+        is_pmss_enhanced = "true";
     #endif
 
   Layout = "_LayoutBase";
@@ -28,6 +29,10 @@
 
 @section HeadScripts
 {
+    <script>
+        const g_is_pmss_enhanced = @is_pmss_enhanced;
+    </script>
+
   <link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />

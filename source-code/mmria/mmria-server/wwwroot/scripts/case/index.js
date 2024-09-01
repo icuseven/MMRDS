@@ -1,5 +1,4 @@
 'use strict';
-const g_is_pmss_enhanced = false;
 
 var g_metadata = null;
 var g_user_name = null;
@@ -1735,7 +1734,7 @@ function get_specific_case(p_id)
         {
             g_case_narrative_original_value = case_response.case_narrative.case_opening_overview;
         }
-        
+
         var local_data = get_local_case(p_id);
 
         if (local_data) 
