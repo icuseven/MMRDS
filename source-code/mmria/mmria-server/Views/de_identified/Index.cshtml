@@ -6,6 +6,19 @@
     ViewBag.BreadCrumbs = true;
     ViewBag.Sidebar = true;
 
+    #if !IS_PMSS_ENHANCED
+    var file_dictionary = new Dictionary<string, string>()
+    {
+        { "app.committee_member.js", "app.committee_member.mmria.js"}
+    };
+    #endif
+    #if IS_PMSS_ENHANCED
+    var file_dictionary = new Dictionary<string, string>()
+    {
+        { "app.committee_member.js", "app.committee_member.pmss.js"}
+    };
+    #endif
+
     if(User.Identity != null && User.Identity.IsAuthenticated)
     {
         userName = User.Identities.First(
@@ -44,7 +57,7 @@
   <script src="./scripts/d3/c3.min.js" type="text/javascript"></script>
   <script src="./scripts/metadata_summary.js" type="text/javascript"></script>
   <script src="./scripts/editor/navigation_renderer.committee_member.js" type="text/javascript"></script>
-  <script src="../scripts/editor/page_renderer/app.committee_member.js" type="text/javascript"></script>
+  <script src="../scripts/editor/page_renderer/@file_dictionary["app.committee_member.js"]" type="text/javascript"></script>
   <script src="../scripts/editor/page_renderer/boolean.js" type="text/javascript"></script>
   <script src="../scripts/editor/page_renderer/chart.js" type="text/javascript"></script>
   <script src="../scripts/editor/page_renderer/date.js" type="text/javascript"></script>
