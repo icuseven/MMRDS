@@ -2,9 +2,27 @@
 @{
     var index_file_include = "index.mmria.js";
     var is_pmss_enhanced = "false";
+
+    #if !IS_PMSS_ENHANCED
+    var file_dictionary = new Dictionary<string, string>()
+    {
+        { "app.js", "app.mmria.js"},
+        { "form.js", "form.mmria.js"}
+        
+        
+    };
+    #endif
     #if IS_PMSS_ENHANCED
-        index_file_include = "index.pmss.js"
-        is_pmss_enhanced = "true";
+    
+    index_file_include = "index.pmss.js"
+    is_pmss_enhanced = "true";
+
+    var file_dictionary = new Dictionary<string, string>()
+    {
+        { "app.js", "app.pmss.js"},
+        { "form.js", "form.pmss.js"},
+        
+    };
     #endif
 
   Layout = "_LayoutBase";
@@ -64,12 +82,12 @@
 <script src="./scripts/peg.js/0.10.0/peg.js" type="text/javascript"></script>
   <script src="./scripts/metadata_summary.js" type="text/javascript"></script>
   <script src="./scripts/editor/navigation_renderer.js" type="text/javascript"></script>
-  <script src="./scripts/editor/page_renderer/app.js" type="text/javascript"></script>
+  <script src="./scripts/editor/page_renderer/@file_dictionary["app.js"]" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/boolean.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/chart.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/date.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/datetime.js" type="text/javascript"></script>
-  <script src="./scripts/editor/page_renderer/form.js" type="text/javascript"></script>
+  <script src="./scripts/editor/page_renderer/@file_dictionary["form.js"]" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/grid.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/group.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/hidden.js" type="text/javascript"></script>
