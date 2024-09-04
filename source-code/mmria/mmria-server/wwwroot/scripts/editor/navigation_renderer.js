@@ -138,9 +138,10 @@ function navigation_render(p_metadata, p_level, p_ui)
                             }
 
                             result.push(child.prompt);
+                            result.push('</option>');
                         }
                     }
-                    result.push('</option>');
+                    
                     
                   }
                 result.push('</select>');

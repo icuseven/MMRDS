@@ -1312,6 +1312,13 @@ async function load_and_set_data()
         url: metadata_url,
     });
 
+    const form_access_response = await get_form_access_list();
+
+    for(const item of form_access_response.access_list)
+    {
+        
+        g_form_access_list.set(item.form_path.substr(1), item);
+    }
 
     g_jurisdiction_tree = jurisdiction_tree;
 
@@ -1342,6 +1349,7 @@ async function load_and_set_data()
     for (let i in my_role_list_response.rows) 
     {
         let value = my_role_list_response.rows[i].value;
+        role_set.add(value.role_name);
         if(value.role_name=="abstractor")
         {
             g_user_role_jurisdiction_list.push(value.jurisdiction_id);
@@ -1350,6 +1358,25 @@ async function load_and_set_data()
         {
             g_is_jurisdiction_admin = true;
         }
+    }
+
+    if
+    (
+        g_user_role_jurisdiction_list.length == 0 &&
+        my_role_list_response.rows.length == 1 &&
+        my_role_list_response.rows[0].value.role_name == "vro"
+    )
+    {
+        const value = my_role_list_response.rows[0].value;
+        g_user_role_jurisdiction_list.push(value.jurisdiction_id);
+
+        g_ui.case_view_request.status = "STEVE: Pending Vro Investigation";
+        g_ui.case_view_request.jurisdiction = value.jurisdiction_id.substr(1);
+    }
+
+    if(location.href.endsWith("/CaseVRO"))
+    {
+        g_ui.case_view_request.status = "STEVE: Pending Vro Investigation";
     }
 
     create_jurisdiction_list(g_jurisdiction_tree);
@@ -6919,3 +6946,16 @@ function arc_prenatal_care_dlnm_gestation()
 //mental_health_profile/were_there_documented_mental_health_conditions/gestational_days
 
 //mental_health_profile/were_there_documented_mental_health_conditions/days_postpartum
+
+
+async function get_form_access_list()
+{
+	var metadata_url = location.protocol + '//' + location.host + '/_users/GetFormAccess';
+
+	const response = await $.ajax
+	({
+			url: metadata_url
+	});
+
+	return response;
+}
