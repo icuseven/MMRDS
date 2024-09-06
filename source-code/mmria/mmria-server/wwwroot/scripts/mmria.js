@@ -2110,7 +2110,10 @@ function mmria_post_modal()
     }
 }
 
-
+function handle_print()
+{
+  window.print();
+}
 
 async function erase_mm_link_click()
 {

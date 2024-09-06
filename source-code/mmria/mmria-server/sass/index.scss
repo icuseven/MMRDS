@@ -1303,6 +1303,10 @@ tr.sticky {
   outline: auto 3px rgba(255, 102, 1, 0.9);
 }
 
+.table-caption {
+  @extend .sr-only;
+}
+
 @media print {
   body {
     /* IE4-8 and 9 */

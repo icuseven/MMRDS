@@ -9,6 +9,7 @@
 @inject mmria.server.versionController versionController
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime Js
 
 @code 
 {
@@ -59,6 +60,11 @@
         authMessage = "The user is NOT authenticated.";
       }
       isLoading = false;
+  }
+
+  private async Task Print()
+  {
+    await Js.InvokeVoidAsync("handle_print");
   }
   private async Task SearchByFilter()
   {
@@ -271,36 +277,38 @@
     if(metadata.type.ToString().Trim().ToLower() == "list")
     {
       List<dynamic> valueList;
+      var lookupPath = "";
       if(metadata.path_reference != null && metadata.path_reference.ToString() != "")
+        lookupPath = metadata.path_reference.ToString();
+      else
+        lookupPath = path;
+      valueList = GetLookupFromPath(lookupPath);
+      if(valueList == null)
       {
-        valueList = GetLookupFromPath(metadata.path_reference.ToString());
-        if(valueList == null)
+        foreach(dynamic item in metadata.values)
         {
-          foreach(dynamic item in metadata.values)
-          {
-            formListValues
-              .Add(
-                new mmria.common.metadata.ListValue {
-                  Value = item.value.ToString(),
-                  Display = item.display.ToString(),
-                  Description = item.description.ToString()
-                }
-              );
-          }
+          formListValues
+            .Add(
+              new mmria.common.metadata.ListValue {
+                Value = item.value.ToString(),
+                Display = item.display.ToString(),
+                Description = item.description.ToString()
+              }
+            );
         }
-        else
+      }
+      else
+      {
+        foreach(dynamic item in valueList)
         {
-          foreach(dynamic item in valueList)
-          {
-            formListValues
-              .Add(
-                new mmria.common.metadata.ListValue {
-                  Value = item.value.ToString(),
-                  Display = item.display.ToString(),
-                  Description = item.description.ToString()
-                }
-              );
-          }
+          formListValues
+            .Add(
+              new mmria.common.metadata.ListValue {
+                Value = item.value.ToString(),
+                Display = item.display.ToString(),
+                Description = item.description.ToString()
+              }
+            );
         }
       }
     }
@@ -410,7 +418,7 @@ else
       </form>
       <div class="col-md-2">
         <div class="row no-gutters justify-content-end">
-          <button class="primary-button btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()">
+          <button class="primary-button btn btn-secondary row no-gutters align-items-center no-print" @onclick="Print">
             <span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path style="fill: white;" d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/><path d="M0 0h24v24H0z" fill="none"/></svg></span>
             Print
           </button>
@@ -431,6 +439,10 @@ else
   {
     <div class="vertical-control pl-0 pr-0 col-md-12">
       <table class="table table-layout-fixed align-cell-top">
+        <caption class="table-caption">
+          Maternal Mortality Review Information Application (MMRIA) data dictionary table
+          with descriptions and properites of all fields contained in the MMRIA database.
+        </caption>
         @if(dataDictionaryItems.Count > 0)
         {
         foreach(mmria.common.metadata.DataDictionary item in dataDictionaryItems)
@@ -473,13 +485,16 @@ else
                       <td class="td" width="140"></td>
                       <td class="td p-0" colspan="5">
                         <table class="table table-fixed-layout align-cell-top">
+                          <caption class="table-caption">
+                            Table with all possible list values for the @(metadata.FormName)'s @(metadata.Prompt) field type.
+                          </caption>
                           <thead>
                             <tr class="header-level-top-black">
                               <th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
                             </tr>
                           </thead>
                           <thead>
-                            @if(metadata.ListValues.Count >= 10)
+                            @if(metadata.ListValues.Count > 15)
                             {
                               <tr class="header-level-2 sticky" style="top: 94px;">
                                 <th class="th" width="140" scope="col">Value</th>
@@ -537,6 +552,9 @@ else
     </div>
     <div class="vertical-control pl-0 pr-0 col-md-12 mt-3">
       <table id="system_generated_definition_list" class="table table-layout-fixed">
+        <caption class="table-caption">
+          Table containing information about system specific export fields
+        </caption>
         <thead class="thead">
           <tr class="header-level-top-white">
             <th class="th" colspan="2" scope="colgroup">
@@ -689,6 +707,9 @@ else
     </div>
     <div class="vertical-control pl-0 pr-0 col-md-12 mt-3">
       <table class="table table-fixed-layout align-cell-top">
+        <caption class="table-caption">
+          Table containing detailed information about MMRIA form and their corresponding export file names
+        </caption>
         <thead>
           <tr class="header-level-top-white">
             <th colspan="7">MMRIA Form and Export File Names</th>

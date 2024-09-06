@@ -7145,7 +7145,7 @@ button.bg-dark:focus {
     z-index: 1020;
   }
 }
-.sr-only {
+.sr-only, .table-caption {
   position: absolute;
   width: 1px;
   height: 1px;
