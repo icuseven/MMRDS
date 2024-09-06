@@ -13,8 +13,8 @@
 
 @code {
 
-    //[CascadingParameter]
-    //public HttpContext? HttpContext { get; set; }
+    
+
     record link_item(string text, string href);
 
     bool is_guest = true;
@@ -41,6 +41,7 @@
     mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> user_role_list;
 
     #if !IS_PMSS_Enhanced
+    bool is_pmss_enhanced = false;
     Dictionary<string,string> title_map = new()
         {
             {"abstractor_panel_title","Abstrator"},
@@ -66,10 +67,18 @@
                 new ("View Vitals Import History", "/vital-import-history")
                 
             }},
+           {"analyst_panel_title", new(){
+                new ("View or Modify Case Data", "/Case"),
+                new ("Export Data", "/export-queue"),
+                new ("View Overdose Data Summary", "/overdose-data-summary"),
+                new ("View Aggregate Report", "/aggregate-report"),
+                new ("View Data Quality Report", "/data-quality-report")
+            }},
         };
         
     #endif
     #if IS_PMSS_Enhanced
+    bool is_pmss_enhanced = true;
     Dictionary<string,string> title_map = new()
         {
             {"abstractor_panel_title","CDC Abstrator"},
@@ -85,6 +94,10 @@
     Dictionary<string,List<link_item>> link_item_map = new()
         {
             {"abstractor_panel_title", new(){
+                new ("View Case Data", "/analyst-case"),
+                new ("Export Data", "/export-queue")
+            }},
+             {"analyst_panel_title", new(){
                 new ("View or Modify Case Data", "/Case"),
                 new ("Export Data", "/export-queue")
             }},
@@ -107,11 +120,7 @@
         var authState = await AuthenticationStateProvider
             .GetAuthenticationStateAsync();
         var user = authState.User;
-        /*
-        if (user.Identity is null || !user.Identity.IsAuthenticated)
-        //    return RedirectToPage("Account/Login");
-            NavigationManager.NavigateTo("Account/Login");
-        */
+
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
             authMessage = $"{user.Identity.Name} is authenticated.";
@@ -393,14 +402,6 @@ else
                 {
                     <li><a href="@link_item.href">@link_item.text</a></li>
                 }
-              @*<li><a href="/Case">View or Modify Case Data</a></li>
-              <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
-              <li><a href="/export-queue">Export Data</a></li>
-              <li><a href="/recover-case">Recover-case</a></li>
-              <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-              <li><a href="/aggregate-report" >View Aggregate Report</a></li>        
-              <li><a href="/data-quality-report">View Data Quality Report</a></li>
-              <li><a href="/vital-import-history">View Vitals Import History</a></li>*@
             </ul>
           </div>
         </div>                
@@ -417,12 +418,10 @@ else
         </div>
         <div class="card-content">
           <ul>
-            <li><a href="/analyst-case">View Case Data</a></li>
-            <li><a href="/export-queue">Export Data</a></li>
-            <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-            <li><a href="/aggregate-report" >View Aggregate Report</a></li>
-            <li><a href="/data-quality-report">View Data Quality Report</a></li>
-            @*<li><a href="/view-data-summary">View Data Summary Checks</a></li>*@
+            @foreach (var link_item in link_item_map["analyst_panel_title"])
+                {
+                    <li><a href="@link_item.href">@link_item.text</a></li>
+                }
           </ul>
         </div>
       </div>                
@@ -463,6 +462,20 @@ else
         </div>                
       </div>
     }
+
+    @if(is_vro)
+    {
+      <li class="card grid-item grid-item--3">
+        <div class="card-header bg-secondary"><h4 class="h5">Technical Assistance</h4></div>
+        <div class="card-body">
+          <ul>
+            <li><a href="/CaseVRO">View Cases Pending VRO Investigation</a></li>
+            <li><a href="/vro_export">VRO Export All Cases</a></li>
+          </ul>
+        </div>
+      </li>
+    }
+
     @if(is_steve_mmria)
     {
     <div class="vertical-control pl-0 grid-item grid-item-3 mb-4">
@@ -508,8 +521,30 @@ else
           </div>
             <div class="card-content">
               <ul>
+                @if(is_pmss_enhanced)
+                {
+                    <li>
+                    <strong>CSV Import</strong>
+                    <ul>
+                    <li><a href="/pmss-import/FileUpload">PMSS CSV Import</a></li>
+                    <li><a href="/pmss-import">View PMSS CSV Import History</a></li>
+                    </ul>
+                    </li>
+
+                    <li>
+                    <strong>STEVE Import</strong>
+                    <ul>
+                    <li><a href="/vitals/FileUpload">STEVE Vitals Import</a></li>
+                    <li><a href="/vitals">View STEVE Vitals Import History</a></li>
+                    </ul>
+                </li>
+
+                }
+                else
+                {
                 <li><a href="/vitals/FileUpload">Upload IJE Files</a></li>
                 <li><a href="/vitals">View Vitals Import History</a></li>
+                }
               </ul>
             </div>
           </div>                
@@ -619,6 +654,12 @@ else
             <div class="card-content">
               <ul>
                 <li><a href="/_users">Manage Users & Case Folders</a></li>
+                
+                @if(is_pmss_enhanced)
+                {
+                    <li><a href="/_users/FormManager">Manage Role Form Access</a></li>
+                }
+
                 @if(is_abstractor)
                 {
                   <li><a href="/manage-case-check-outs">Manage Case Check Outs</a></li>
@@ -643,6 +684,7 @@ else
             <div class="card-content">
               <ul>
                 <li><a href="/_users">Manage users & case folders</a></li>
+                <li><a href="/_users/FormManager">Manage Role Form Access</a></li>
                 <li><a href="/_config">View configuration</a></li>
                 <li><a href="/backupManager">View backup manager</a></li>
                 <li><a href="/recover-case">Recover Case Data</a></li>
@@ -682,9 +724,19 @@ else
           </div>
             <div class="card-content">
               <ul>
-                <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>
-                <li>For MMRIA user roles or permissions, please contact your MMRIA Jurisdiction Administrator.</li>
-                <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901.</li>
+                @if(is_pmss_enhanced)
+                {
+                    <li>For PMSS application support, please email <a href="mailto:pmss@cdc.gov">pmss@cdc.gov</a>.</li>
+                    <li>For PMSS user roles or permissions, please contact your PMSS Jurisdiction Administrator.</li>
+                    <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901.</li>
+                }
+                else
+                {
+                    <li>For MMRIA application support, please email <a href="mailto:MMRIASupport@cdc.gov">MMRIASupport@cdc.gov</a>.</li>
+                    <li>For MMRIA user roles or permissions, please contact your MMRIA Jurisdiction Administrator.</li>
+                    <li>For SAMS login support, please email <a href="mailto:samshelp@cdc.gov">samshelp@cdc.gov</a> or call 877-681-2901.</li>
+                }
+                
                 @foreach (var item in configuration.GetExternalHomePageLinks())
                 {
                     <li>
