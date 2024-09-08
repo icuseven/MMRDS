@@ -283,7 +283,7 @@ public sealed class c_db_setup
                 Program.Last_Change_Sequence = latest_change_set.last_seq;
 
 
-
+                #if !IS_PMSS_ENHANCED
                 var Sync_All_Documents_Message = new mmria.server.model.actor.Sync_All_Documents_Message
                 (
                     DateTime.Now,
@@ -291,7 +291,16 @@ public sealed class c_db_setup
                 );
 
                 _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_All_Documents_Message);
+                #endif
+                #if IS_PMSS_ENHANCED
+                var Sync_All_Documents_Message = new mmria.pmss.server.model.actor.Sync_All_Documents_Message
+                (
+                    DateTime.Now,
+                    metadata_version
+                );
 
+                _actorSystem.ActorOf(Props.Create<mmria.pmss.server.model.actor.Synchronize_Case>(db_config)).Tell(Sync_All_Documents_Message);
+                #endif
 
                 //new System.Threading.Thread(() => 
                 //{

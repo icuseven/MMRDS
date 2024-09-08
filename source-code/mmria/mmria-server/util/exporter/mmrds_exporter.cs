@@ -244,9 +244,12 @@ public sealed class mmrds_exporter
 
         List<System.Dynamic.ExpandoObject> all_cases_rows = new List<System.Dynamic.ExpandoObject>();
 
-
+        #if !IS_PMSS_ENHANCED
         var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
-
+        #endif
+        #if IS_PMSS_ENHANCED
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, this.juris_user_name);
+        #endif
 
         if (queue_item.case_filter_type == "custom")
         {
@@ -349,12 +352,21 @@ public sealed class mmrds_exporter
                 foreach (var jurisdiction_item in jurisdiction_hashset)
                 {
                     var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
+                    #if !IS_PMSS_ENHANCED
                     if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
                     {
                         is_jurisdiction_ok = true;
                         break;
                     }
+                    #endif
+                    #if IS_PMSS_ENHANCED
+                    if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                    {
+                        is_jurisdiction_ok = true;
+                        break;
+                    }
+                    #endif
+                    
 
                 }
             }

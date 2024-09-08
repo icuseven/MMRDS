@@ -1327,14 +1327,17 @@ async function load_and_set_data()
         url: location.protocol + '//' + location.host + '/api/user/my-user',
     });
 
-    const duplicate_path_set_response = await $.ajax
-    ({
-        url: location.protocol + '//' + location.host + '/Case/GetDuplicateMultiFormList',
-    });
-
-    for(const i of duplicate_path_set_response.field_list)
+    if(!g_is_pmss_enhanced)
     {
-        g_duplicate_path_set.add(i);
+        const duplicate_path_set_response = await $.ajax
+        ({
+            url: location.protocol + '//' + location.host + '/Case/GetDuplicateMultiFormList',
+        });
+
+        for(const i of duplicate_path_set_response.field_list)
+        {
+            g_duplicate_path_set.add(i);
+        }
     }
     
     g_user_name = my_user_response.name;

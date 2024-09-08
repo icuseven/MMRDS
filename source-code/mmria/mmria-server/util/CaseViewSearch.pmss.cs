@@ -11,7 +11,8 @@ using System.Linq;
 using System.Net;
 using Microsoft.Extensions.Configuration;
 
-namespace mmria.server.utils;
+using mmria.server.utils;
+namespace mmria.pmss.server.utils;
 
 /*
 
@@ -46,7 +47,7 @@ public sealed class CaseViewSearch
 
     bool is_case_identified_data = false;
     bool is_include_pinned_cases = false;
-    mmria.server.utils.ResourceRightEnum ResourceRight;
+    mmria.pmss.server.utils.ResourceRightEnum ResourceRight;
 
     public CaseViewSearch
     (
@@ -64,11 +65,11 @@ public sealed class CaseViewSearch
 
         if(is_case_identified_data)
         {
-            ResourceRight = mmria.server.utils.ResourceRightEnum.ReadCase;
+            ResourceRight = mmria.pmss.server.utils.ResourceRightEnum.ReadCase;
         }
         else
         {
-            ResourceRight = mmria.server.utils.ResourceRightEnum.ReadDeidentifiedCase;
+            ResourceRight = mmria.pmss.server.utils.ResourceRightEnum.ReadDeidentifiedCase;
         }
         
     }
@@ -1789,7 +1790,7 @@ last_checked_out_by
     }
     
 
-    is_valid_predicate create_predicate_by_case_folder(HashSet<(string jurisdiction, mmria.server.utils.ResourceRightEnum ResourceRight)> ctx)
+    is_valid_predicate create_predicate_by_case_folder(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
         is_valid_predicate f = (mmria.common.model.couchdb.pmss_case_view_item cvi) => {
             bool result = false;
@@ -1820,7 +1821,7 @@ last_checked_out_by
 
     is_valid_predicate create_predicate_by_vro_role(HashSet<(string jurisdiction, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx)
     {
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, User.Identity.Name);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, User.Identity.Name);
 
         var status_set = new HashSet<string>()
         {
@@ -1931,7 +1932,7 @@ STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
     ) 
     {
 
-        var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 
         string sort_view = sort.ToLower ();
 
@@ -1988,7 +1989,7 @@ STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
             }
 
             string request_string = request_builder.ToString();
-            var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+            var case_view_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_view_curl.executeAsync();
 
             create_predicates
@@ -2122,7 +2123,7 @@ STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
 
     void create_predicates
     (
-        HashSet<(string jurisdiction_id, mmria.server.utils.ResourceRightEnum ResourceRight)> ctx,
+        HashSet<(string jurisdiction_id, mmria.pmss.server.utils.ResourceRightEnum ResourceRight)> ctx,
         string search_key,
         string field_selection,
         string jurisdiction,
@@ -2288,7 +2289,7 @@ STEVE: Pending VRO Investigation, Linkage Review Requested by CDC
         try
         {
             string request_string = $"{db_config.url}/jurisdiction/pinned-case-set";
-            var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
+            var case_curl = new mmria.server.cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             string responseFromServer = await case_curl.executeAsync();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.pinned_case_set>(responseFromServer);
         }
