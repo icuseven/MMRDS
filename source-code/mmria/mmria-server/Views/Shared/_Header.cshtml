@@ -1,3 +1,12 @@
+@{
+    #if !IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = false;
+    #endif
+    
+    #if IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = true;
+    #endif
+}
 <div class="site">
 
   <div class="container-fluid header-wrapper site-header">
@@ -45,7 +54,14 @@
       <div class="row align-items-center">
         <div class="col col-8">
           <div class="display-6 text-white fw-500 pt-1 pb-1">
-            <a href="/" class="site-title-link">Maternal Mortality Review Information Application (MMRIA)</a>
+            @if(is_pmss_enhanced)
+            {
+                <a href="/" class="site-title-link">Pregnancy Mortality Surveillance System (PMSS)</a>
+            }
+            else
+            {
+                <a href="/" class="site-title-link">Maternal Mortality Review Information Application (MMRIA)</a>
+            }
           </div>
         </div>                             
         <blockquote id="hostname" class="col col-2" style="font-size:24px;text-align:left;">

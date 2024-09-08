@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using mmria.pmss.server.model;
 
-
+using mmria.server.model;
 namespace mmria.server.Controllers;
 
 [Authorize(Roles = "vital_importer")]

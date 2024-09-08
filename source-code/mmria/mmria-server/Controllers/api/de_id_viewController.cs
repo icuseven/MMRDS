@@ -1,3 +1,5 @@
+#if !IS_PMSS_ENHANCED
+      
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -56,6 +58,7 @@ public sealed class de_id_viewController: ControllerBase
             User,
             is_identefied_case
         );
+        
 
         var result = await cvs.execute
         (
@@ -69,10 +72,10 @@ public sealed class de_id_viewController: ControllerBase
             field_selection,
             pregnancy_relatedness
         );
-
+        
 
         return result;
     }
 }
-
+#endif
 

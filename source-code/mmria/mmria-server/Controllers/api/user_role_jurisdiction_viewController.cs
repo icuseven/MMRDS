@@ -87,9 +87,12 @@ effective_end_date
 
 
 
-
+        #if !IS_PMSS_ENHANCED
         var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(db_config, User);
-
+        #endif
+        #if IS_PMSS_ENHANCED
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(db_config, User);
+        #endif
 
 
 
@@ -293,8 +296,14 @@ effective_end_date
                 u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
         }
 
-
+        #if !IS_PMSS_ENHANCED
         var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(db_config, User);
+        #endif
+        #if IS_PMSS_ENHANCED
+        var jurisdiction_hashset = mmria.pmss.server.utils.authorization_user.get_current_jurisdiction_id_set_for(db_config, User);
+        #endif
+        
+        
         string sort_view = sort.ToLower ();
         switch (sort_view)
         {

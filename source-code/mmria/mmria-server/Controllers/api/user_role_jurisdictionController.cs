@@ -44,6 +44,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
                 var user_role_list = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user_role_jurisdiction>> (responseFromServer);
 
+                #if !IS_PMSS_ENHANCED
                 foreach(var row in user_role_list.rows)
                 {
                     var user_role_jurisdiction = row.doc;
@@ -57,6 +58,22 @@ public sealed class user_role_jurisdictionController: ControllerBase
                         result.Add(user_role_jurisdiction);
                     }						
                 }
+                #endif
+                #if IS_PMSS_ENHANCED
+                foreach(var row in user_role_list.rows)
+                {
+                    var user_role_jurisdiction = row.doc;
+
+                    if
+                    (
+                        user_role_jurisdiction.data_type != null &&
+                        user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
+                        mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction))
+                    {
+                        result.Add(user_role_jurisdiction);
+                    }						
+                }
+                #endif
                     
             }
             else
@@ -67,7 +84,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
                 var user_role_jurisdiction = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (responseFromServer);
 
-
+                #if !IS_PMSS_ENHANCED
                 if
                 (
                     user_role_jurisdiction.data_type != null &&
@@ -77,7 +94,18 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 {
                     result.Add(user_role_jurisdiction);
                 }
-                
+                #endif
+                #if IS_PMSS_ENHANCED
+                if
+                (
+                    user_role_jurisdiction.data_type != null &&
+                    user_role_jurisdiction.data_type == mmria.common.model.couchdb.user_role_jurisdiction.user_role_jursidiction_const &&
+                    mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.ReadUser, user_role_jurisdiction)
+                )
+                {
+                    result.Add(user_role_jurisdiction);
+                }
+                #endif
 
             }
             
@@ -103,10 +131,18 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
         try
         {
+            #if !IS_PMSS_ENHANCED
             if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
             {
                 return null;
             }
+            #endif
+            #if IS_PMSS_ENHANCED
+            if(!mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteUser, user_role_jurisdiction))
+            {
+                return null;
+            }
+            #endif
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
@@ -169,6 +205,7 @@ public sealed class user_role_jurisdictionController: ControllerBase
                 var check_document_curl_result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user_role_jurisdiction> (document_json);
                 //IDictionary<string, object> result_dictionary = check_document_curl_result as IDictionary<string, object>;
 
+                #if !IS_PMSS_ENHANCED
                 if(!mmria.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
                 {
                     return null;
@@ -179,6 +216,19 @@ public sealed class user_role_jurisdictionController: ControllerBase
                     request_string = db_config.url + $"/{db_config.prefix}jurisdiction/" + _id + "?rev=" + check_document_curl_result._rev;
                     //System.Console.WriteLine ("json\n{0}", object_string);
                 }
+                #endif
+                #if IS_PMSS_ENHANCED
+                if(!mmria.pmss.server.utils.authorization_user.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.pmss.server.utils.ResourceRightEnum.WriteUser, check_document_curl_result))
+                {
+                    return null;
+                }
+
+                if (!string.IsNullOrWhiteSpace(check_document_curl_result._rev)) 
+                {
+                    request_string = db_config.url + $"/{db_config.prefix}jurisdiction/" + _id + "?rev=" + check_document_curl_result._rev;
+                    //System.Console.WriteLine ("json\n{0}", object_string);
+                }
+                #endif
 
             } 
             catch (Exception ex) 

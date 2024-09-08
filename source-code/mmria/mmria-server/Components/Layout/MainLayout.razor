@@ -6,6 +6,16 @@
 @inject mmria.common.couchdb.OverridableConfiguration configuration
 
 @code {
+
+
+    #if !IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = false;
+    #endif
+    
+    #if IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = true;
+    #endif
+
     private string? authMessage;
     private string? userName;
     private IEnumerable<Claim> claims = Enumerable.Empty<Claim>();
@@ -74,7 +84,15 @@
         <div class="row justify-content-between align-items-center">
           <div class="col col-md-7">
             <div class="display-6 text-white fw-500 pt-1 pb-1">
-              <a href="/" class="site-title-link">Maternal Mortality Review Information Application (MMRIA)</a>
+                @if(is_pmss_enhanced)
+                {
+                    <a href="/" class="site-title-link">Pregnancy Mortality Surveillance System (PMSS)</a>
+                }
+                else
+                {
+<a href="/" class="site-title-link">Maternal Mortality Review Information Application (MMRIA)</a>
+                }
+              
             </div>
           </div>                             
           @if(userName != null) 

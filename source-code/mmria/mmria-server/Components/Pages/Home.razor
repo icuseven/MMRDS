@@ -40,7 +40,7 @@
 
     mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction> user_role_list;
 
-    #if !IS_PMSS_Enhanced
+    #if !IS_PMSS_ENHANCED
     bool is_pmss_enhanced = false;
     Dictionary<string,string> title_map = new()
         {
@@ -68,7 +68,7 @@
                 
             }},
            {"analyst_panel_title", new(){
-                new ("View or Modify Case Data", "/Case"),
+                new ("View or Modify Case Data", "/analyst-case"),
                 new ("Export Data", "/export-queue"),
                 new ("View Overdose Data Summary", "/overdose-data-summary"),
                 new ("View Aggregate Report", "/aggregate-report"),
@@ -77,7 +77,7 @@
         };
         
     #endif
-    #if IS_PMSS_Enhanced
+    #if IS_PMSS_ENHANCED
     bool is_pmss_enhanced = true;
     Dictionary<string,string> title_map = new()
         {
@@ -94,11 +94,11 @@
     Dictionary<string,List<link_item>> link_item_map = new()
         {
             {"abstractor_panel_title", new(){
-                new ("View Case Data", "/analyst-case"),
+                new ("View Case Data", "/Case"),
                 new ("Export Data", "/export-queue")
             }},
              {"analyst_panel_title", new(){
-                new ("View or Modify Case Data", "/Case"),
+                new ("View or Modify Case Data", "/analyst-case"),
                 new ("Export Data", "/export-queue")
             }},
 
@@ -373,11 +373,20 @@
 <!--CascadingAuthenticationState>
 <AuthorizeView-->
 <PageTitle>Home</PageTitle>
-
+@if(is_pmss_enhanced)
+{
 <div class="row justify-content-between">
-  <h1>MMRIA Home</h1>
-  <BurdenStatement />
+  <h1>PMSS Home</h1>
 </div>
+}
+else
+{
+    <div class="row justify-content-between">
+    <h1>MMRIA Home</h1>
+    <BurdenStatement />
+    </div>
+}
+
 @* <div class="row">Public report burden statement</div> *@
 <BroadcastMessages />
 @if (is_guest)

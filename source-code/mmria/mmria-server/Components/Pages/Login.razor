@@ -1,15 +1,42 @@
 @page "/login"
-<title>Welcome to MMRIA - Login</title>
+@{
+    #if !IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = false;
+    #endif
+    
+    #if IS_PMSS_ENHANCED
+    bool is_pmss_enhanced = true;
+    #endif
+}
+@if(is_pmss_enhanced)
+{
+    <title>Welcome to PMSS - Login</title>
+}
+else
+{
+    <title>Welcome to MMRIA - Login</title>
+}
+
 <div class="container-fluid app-main mt-2 purple-pattern">
   <div class="row justify-content-center">
-    @{
+    
       <div class="primary-background">
 <form id="user_login" class="login module" asp-antiforgery="true" asp-controller="Account" asp-action="Login"
         method="POST">
         <div class="ml-3 mr-3">
+        @if(is_pmss_enhanced)
+        {
+            <h1 class="login__title h3">
+              Welcome to PMSS
+            </h1>
+        }
+        else
+        {
           <h1 class="login__title h3">
               Welcome to MMRIA
-          </h1>
+          </h1>  
+        }
+          
           <p class="login__info">Please contact your jurisdiction administrator if you have issues accessing the application.</p>
         </div>
         <div class="vertical-control form-group ml-3 mr-3">
@@ -32,7 +59,7 @@
         @* <input type="hidden" name="returnUrl" value="@TempData[" returnUrl"]" /> *@
       </form>
       </div>
-    }
+    
 
     <div class="box container p-3" style="font-size: 14px">
       <p><strong>Conditions of Use</strong></p>

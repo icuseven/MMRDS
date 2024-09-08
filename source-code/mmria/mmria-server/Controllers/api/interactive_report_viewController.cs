@@ -1,3 +1,4 @@
+#if !IS_PMSS_ENHANCED
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,5 +133,4 @@ public sealed class interactive_report_viewController: ControllerBase
         return result;
     }
 } 
-
-
+#endif

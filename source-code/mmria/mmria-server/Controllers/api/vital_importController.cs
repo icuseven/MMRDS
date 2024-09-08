@@ -1,3 +1,4 @@
+#if !IS_PMSS_ENHANCED
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -496,3 +497,4 @@ public sealed class vital_importController: ControllerBase
 } 
 
 
+#endif

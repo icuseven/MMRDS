@@ -274,12 +274,18 @@ public sealed partial class AccountController : Controller
                     }
                 }
 
-
+                #if !IS_PMSS_ENHANCED
                 foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, json_result.name).Select( jr => jr.role_name).Distinct())
                 {
                     claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
                 }
-
+                #endif
+                #if IS_PMSS_ENHANCED
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, json_result.name).Select( jr => jr.role_name).Distinct())
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+                }
+                #endif
 
                 //Response.Cookies.Append("uid", json_result.name);
                 //Response.Cookies.Append("roles", string.Join(",",json_result.roles));
@@ -301,11 +307,18 @@ public sealed partial class AccountController : Controller
                 this.HttpContext.User = userPrincipal;
                 System.Threading.Thread.CurrentPrincipal = userPrincipal;
         
-
+                #if !IS_PMSS_ENHANCED
                 foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, user.UserName).Select( jr => jr.role_name).Distinct())
                 {
                     role_list.Add(role);
                 }
+                #endif
+                #if IS_PMSS_ENHANCED
+                foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, user.UserName).Select( jr => jr.role_name).Distinct())
+                {
+                    role_list.Add(role);
+                }
+                #endif
 
                 var Session_Event_Message = new mmria.server.model.actor.Session_Event_Message
                 (
@@ -672,13 +685,20 @@ public sealed partial class AccountController : Controller
             }
         }
 
-
+        #if !IS_PMSS_ENHANCED
         foreach(var role in mmria.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, p_user_name).Select( jr => jr.role_name).Distinct())
         {
 
             claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
         }
+        #endif
+        #if IS_PMSS_ENHANCED
+        foreach(var role in mmria.pmss.server.utils.authorization.get_current_user_role_jurisdiction_set_for(db_config, p_user_name).Select( jr => jr.role_name).Distinct())
+        {
 
+            claims.Add(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String, Issuer));
+        }
+        #endif
 /*
         Response.Cookies.Append("uid", p_user_name, new CookieOptions{ HttpOnly = true });
         Response.Cookies.Append("roles", string.Join(",",p_role_list), new CookieOptions{ HttpOnly = true });

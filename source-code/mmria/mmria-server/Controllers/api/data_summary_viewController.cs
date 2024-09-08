@@ -1,3 +1,4 @@
+#if !IS_PMSS_ENHANCED
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -159,3 +160,4 @@ public sealed class data_summary_viewControllerController: ControllerBase
 } 
 
 
+#endif
