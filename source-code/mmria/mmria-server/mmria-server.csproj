@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
-    <!--UserSecretsId>mmria-secret-id</UserSecretsId-->
-    <UserSecretsId>mmria-pmss</UserSecretsId>
-    <DefineConstants>IS_PMSS_ENHANCED</DefineConstants>
+    <UserSecretsId>mmria-secret-id</UserSecretsId>
+    <!--UserSecretsId>mmria-pmss</UserSecretsId>
+    <DefineConstants>IS_PMSS_ENHANCED</DefineConstants-->
     <OutputType>Exe</OutputType>
     <DefaultItemExcludes>$(DefaultItemExcludes);MMRIA_Window_Service.cs;Program.service.cs;a\**\*.pattern</DefaultItemExcludes>
     <!--PublishAot>true</PublishAot>
