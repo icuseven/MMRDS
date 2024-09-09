@@ -63,6 +63,13 @@ echo "$footer"
 
 echo "---> Version Setup - End ..."
 
+if [ -n "${DEFINE_PMSS}" ]; then
+	echo "DEFINE_PMSS: TRUE"
+ else
+	echo "DEFINE_PMSS: FALSE"
+fi
+
+
 if [ -n "${DOTNET_VERBOSITY}" ]; then
   echo "---> Environment:"
   env | sort
