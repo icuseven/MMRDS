@@ -25,7 +25,8 @@
     var file_dictionary = new Dictionary<string, string>()
     {
         { "app.js", "app.mmria.js"},
-        { "form.js", "form.mmria.js"}
+        { "form.js", "form.mmria.js"},
+        { "date.js", "date.mmria.js"}
         
         
     };
@@ -39,6 +40,7 @@
     {
         { "app.js", "app.pmss.js"},
         { "form.js", "form.pmss.js"},
+        { "date.js", "date.pmss.js"}
         
     };
     #endif
@@ -83,7 +85,7 @@
   <script src="./scripts/editor/apply_sort.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/boolean.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/chart.js" type="text/javascript"></script>
-  <script src="./scripts/editor/page_renderer/date.js" type="text/javascript"></script>
+  <script src="./scripts/editor/page_renderer/@file_dictionary["date.js"]" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/datetime.js" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/@file_dictionary["form.js"]" type="text/javascript"></script>
   <script src="./scripts/editor/page_renderer/grid.js" type="text/javascript"></script>
