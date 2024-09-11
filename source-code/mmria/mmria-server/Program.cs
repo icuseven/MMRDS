@@ -621,7 +621,7 @@ public sealed partial class Program
                 "{controller=Home}/{action=Index}"
             );
                 
-            app.MapRazorComponents<mmria_server.Components.App>()
+            app.MapRazorComponents<mmria.server.Components.App>()
                 .AddInteractiveServerRenderMode();
             
 
