@@ -62,6 +62,11 @@
       isLoading = false;
   }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+   {
+      await Js.InvokeVoidAsync("set_title", "MMRIA Data Dictionary");        
+   }   
+
   private async Task Print()
   {
     await Js.InvokeVoidAsync("handle_print");
@@ -354,7 +359,7 @@
     return lookup;
   }
 }
-
+<PageTitle>MMRIA Data Dictionary</PageTitle>
 <h1 class="h2 no-print" tabindex="-1">MMRIA Data Dictionary</h1>
 <p class="mb-4 no-print">
   This webpage lists, describes, and defines the properties of all fields contained within the MMRIA application

@@ -157,8 +157,6 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                 <tr class='tr bg-tertiary'>
                     <th class='th h4' colspan='7' scope='colgroup'>Case Listing</th>
                 </tr>
-            </thead>
-            <thead class='thead'>
                 <tr class='tr'>
                     <th class='th' scope='col'>Case Information</th>
                     <th class='th' scope='col'>Case Status</th>

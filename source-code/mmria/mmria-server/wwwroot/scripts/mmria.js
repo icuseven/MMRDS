@@ -2115,6 +2115,11 @@ function handle_print()
   window.print();
 }
 
+function set_title(title)
+{
+  document.title = title;
+}
+
 async function erase_mm_link_click()
 {
     function cancel()
