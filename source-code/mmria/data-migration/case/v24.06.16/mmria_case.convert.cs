@@ -241,19 +241,10 @@ return_label:
         bool is_field_check = false;
         var field_check = new HashSet<string>
         {
-            "mental_health_profile/mental_health_conditions_after_the_most_recent_pregnancy",
-            "mental_health_profile/mental_health_conditions_during_the_most_recent_pregnancy",
-            "mental_health_profile/mental_health_conditions_prior_to_the_most_recent_pregnancy",
-            "social_and_environmental_profile/was_decedent_ever_arrested",
-            "social_and_environmental_profile/previous_or_current_incarcerations",
-            "social_and_environmental_profile/communications/barriers_to_communications_other_specify",
-            "social_and_environmental_profile/health_care_access/barriers_to_health_care_access",
-            "social_and_environmental_profile/health_care_system/reasons_for_missed_appointments",
-            "social_and_environmental_profile/socio_economic_characteristics/homelessness",
-            "social_and_environmental_profile/socio_economic_characteristics/unstable_housing",
-            "social_and_environmental_profile/social_or_emotional_stress/evidence_of_social_or_emotional_stress",
-
-
+            //"autopsy_report/was_there_an_autopsy_referral",
+            //"autopsy_report/is_toxicology_report_available",
+            "social_and_environmental_profile/health_care_system/no_prenatal_care"
+            
                                 /*
 
 
@@ -426,13 +417,13 @@ return_label:
         }
          else if
         (
-            new_value.ValueKind != System.Text.Json.JsonValueKind.False ||
-            new_value.ValueKind != System.Text.Json.JsonValueKind.True
+            new_value.ValueKind == System.Text.Json.JsonValueKind.False ||
+            new_value.ValueKind == System.Text.Json.JsonValueKind.True
         )
         {
             bool Json_Boolean = false;
 
-            if(new_value.ValueKind != System.Text.Json.JsonValueKind.True)
+            if(new_value.ValueKind == System.Text.Json.JsonValueKind.True)
             {
                 Json_Boolean = true;
             } 
@@ -499,6 +490,14 @@ return_label:
             var error = $"GetNumberListField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
             System.Console.WriteLine(error);
             if(add_error != null) add_error(path,error);
+        }
+        else if
+        (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Undefined ||
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Null
+        )
+        {
+            result = 9999;
         }
 
         return result;
