@@ -29,28 +29,16 @@ public sealed class export_list_managerController: ControllerBase
     }
 
     [HttpGet]
-    public System.Dynamic.ExpandoObject Get(string id) 
+    public async System.Threading.Tasks.Task<System.Dynamic.ExpandoObject> Get() 
     { 
         try
         {
             string request_string = $"{db_config.url}/metadata/export-standard-list";
 
-            System.Net.WebRequest request = System.Net.WebRequest.Create(new Uri(request_string));
+            var curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value,"text/*");
 
-            request.PreAuthenticate = false;
+            string responseFromServer = await curl.executeAsync ();
 
-
-            if (!string.IsNullOrWhiteSpace(this.Request.Cookies["AuthSession"]))
-            {
-                string auth_session_value = this.Request.Cookies["AuthSession"];
-                request.Headers.Add("Cookie", "AuthSession=" + auth_session_value);
-                request.Headers.Add("X-CouchDB-WWW-Authenticate", auth_session_value);
-            }
-
-            System.Net.WebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
-            System.IO.Stream dataStream = response.GetResponseStream ();
-            System.IO.StreamReader reader = new System.IO.StreamReader (dataStream);
-            string responseFromServer = reader.ReadToEnd ();
 
             var result = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (responseFromServer);
 
