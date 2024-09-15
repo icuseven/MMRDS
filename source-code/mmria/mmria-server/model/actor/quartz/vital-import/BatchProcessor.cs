@@ -591,18 +591,18 @@ public sealed class BatchProcessor : ReceiveActor
     {
         var result = new List<string>();
 
-        int mom_ssn_start = 2000-1;
+        int mom_i_d_start = 2000-1;
 
         for (var i = 0; i < p_array.Count; i++) 
         {
             var item = p_array[i];
-            if (item.Length > mom_ssn_start + 9) 
+            if (item.Length > mom_i_d_start + 9) 
             {
 
-                var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
-                if (!g_cdc_identifier_set.Contains(mom_ssn))
+                var mom_i_d = item.Substring(mom_i_d_start, 9).Trim();
+                if (!g_cdc_identifier_set.Contains(mom_i_d))
                 {
-                    result.Add($"Missing Id in NAT file Line: {i+1}  id: {mom_ssn}");
+                    result.Add($"Missing Id in NAT file Line: {i+1}  id: {mom_i_d}");
                 }
                 
             }
@@ -615,17 +615,17 @@ public sealed class BatchProcessor : ReceiveActor
     {
         var result = new List<string>();
 
-        int mom_ssn_start = 4039-1;
+        int mom_i_d_start = 4039-1;
 
         for (var i = 0; i < p_array.Count; i++) 
         {
             var item = p_array[i];
-            if (item.Length > mom_ssn_start + 9) 
+            if (item.Length > mom_i_d_start + 9) 
             {
-                var mom_ssn = item.Substring(mom_ssn_start, 9).Trim();
-                if (!g_cdc_identifier_set.Contains(mom_ssn))
+                var mom_i_d = item.Substring(mom_i_d_start, 9).Trim();
+                if (!g_cdc_identifier_set.Contains(mom_i_d))
                 {
-                    result.Add($"Missing Id in FET file Line: {i+1}  id: {mom_ssn}");
+                    result.Add($"Missing Id in FET file Line: {i+1}  id: {mom_i_d}");
                 }
             }
         }
@@ -734,14 +734,14 @@ result.Add("SSN",row.Substring(191-1, 9)?.Trim());
     private List<string> GetAssociatedNat(string[] p_nat_list, string p_cdc_unique_id)
     {
         var result = new List<string>();
-        int mom_ssn_start = 2000-1;
+        int mom_i_d_start = 2000-1;
         if (p_nat_list != null)
             foreach (var item in p_nat_list)
             {
-                if (item.Length > mom_ssn_start + 9)
+                if (item.Length > mom_i_d_start + 9)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                    if (mom_ssn == p_cdc_unique_id)
+                    var mom_i_d = item.Substring(mom_i_d_start, 9)?.Trim();
+                    if (mom_i_d == p_cdc_unique_id)
                     {
                         result.Add(item);
                     }
@@ -754,14 +754,14 @@ result.Add("SSN",row.Substring(191-1, 9)?.Trim());
     private List<string> GetAssociatedFet(string[] p_fet_list, string p_cdc_unique_id)
     {
         var result = new List<string>();
-        int mom_ssn_start = 4039-1;
+        int mom_i_d_start = 4039-1;
         if(p_fet_list != null)
             foreach(var item in p_fet_list)
             {
-                if(item.Length > mom_ssn_start + 9)
+                if(item.Length > mom_i_d_start + 9)
                 {
-                    var mom_ssn = item.Substring(mom_ssn_start, 9)?.Trim();
-                    if(mom_ssn == p_cdc_unique_id)
+                    var mom_i_d = item.Substring(mom_i_d_start, 9)?.Trim();
+                    if(mom_i_d == p_cdc_unique_id)
                     {
                         result.Add(item);
                     }
