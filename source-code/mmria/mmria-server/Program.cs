@@ -640,8 +640,8 @@ public sealed partial class Program
     static async Task middleware(HttpContext context, Func<Task> next)
     {
         var resetFeature = context.Features.Get<Microsoft.AspNetCore.Http.Features.IHttpResetFeature>();
-
-        switch (context.Request.Method.ToLower())
+        var current_method = context.Request.Method.ToLower();
+        switch (current_method)
         {
             case "get":
             case "put":
@@ -649,6 +649,21 @@ public sealed partial class Program
             case "head":
             case "delete":
 
+            if
+            (
+                current_method == "post" &&  
+                context.Request.Headers.ContainsKey("Content-Length") &&
+                context.Request.Headers["Content-Length"].Count == 1 &&
+                context.Request.ContentLength.HasValue &&
+                context.Request.ContentLength.Value < 1
+
+            )
+            {
+                context.Response.StatusCode = 400;
+                context.Response.Headers.Add("Connection", "close");
+                resetFeature.Reset(errorCode: 4);
+            }
+            
             if
             (
                 (
