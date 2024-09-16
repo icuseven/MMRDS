@@ -1703,7 +1703,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                         field_set["MRACE14"],
                         field_set["MRACE15"]));
 
-                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_NAT_Rule(field_set["MRACE16"], field_set["MRACE16"]), new_case);
+                    gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_NAT_Rule(field_set["MRACE16"], field_set["MRACE17"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE18_19"], MRACE18_19_NAT_Rule(field_set["MRACE18"], field_set["MRACE19"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE20_21"], MRACE20_21_NAT_Rule(field_set["MRACE20"], field_set["MRACE21"]), new_case);
                     gs.set_value(Parent_NAT_IJE_to_MMRIA_Path["MRACE22_23"], MRACE22_23_NAT_Rule(field_set["MRACE22"], field_set["MRACE23"]), new_case);
@@ -2035,7 +2035,7 @@ public sealed class BatchItemProcessor : ReceiveActor
                         field_set["MRACE14"],
                         field_set["MRACE15"]));
 
-                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_FET_Rule(field_set["MRACE16"], field_set["MRACE16"]), new_case);
+                    gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE16_17"], MRACE16_17_FET_Rule(field_set["MRACE16"], field_set["MRACE17"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE18_19"], MRACE18_19_FET_Rule(field_set["MRACE18"], field_set["MRACE19"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE20_21"], MRACE20_21_FET_Rule(field_set["MRACE20"], field_set["MRACE21"]), new_case);
                     gs.set_value(Parent_FET_IJE_to_MMRIA_Path["MRACE22_23"], MRACE22_23_FET_Rule(field_set["MRACE22"], field_set["MRACE23"]), new_case);
@@ -7001,15 +7001,19 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. If both MRACE16 and MRACE17 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value16) || string.IsNullOrWhiteSpace(value17)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value16) && 
+            !string.IsNullOrWhiteSpace(value17)
+        )
         {
-            value = $"{value16}|{value17}";
+            value = $"{value16}, {value17}";
         }
         else if (!string.IsNullOrWhiteSpace(value16))
         {
             value = $"{value16}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value17))
         {
             value = $"{value17}";
         }
@@ -7026,15 +7030,19 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. If both MRACE18 and MRACE19 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value18) || string.IsNullOrWhiteSpace(value19)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value18) && 
+            !string.IsNullOrWhiteSpace(value19)
+        )
         {
-            value = $"{value18}|{value19}";
+            value = $"{value18}, {value19}";
         }
         else if (!string.IsNullOrWhiteSpace(value18))
         {
             value = $"{value18}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value19))
         {
             value = $"{value19}";
         }
@@ -7051,15 +7059,19 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. If both MRACE20 and MRACE21 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value20) || string.IsNullOrWhiteSpace(value21)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value20) && 
+            !string.IsNullOrWhiteSpace(value21)
+        )
         {
-            value = $"{value20}|{value21}";
+            value = $"{value20}, {value21}";
         }
         else if (!string.IsNullOrWhiteSpace(value20))
         {
             value = $"{value20}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value21))
         {
             value = $"{value21}";
         }
@@ -7076,15 +7088,19 @@ If every one of the 6 IJE fields [GON, SYPH, HSV, CHAM, HEPB, HEPC] is equal to 
         3. If both MRACE22 and MRACE23 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value22) || string.IsNullOrWhiteSpace(value23)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value22) && 
+            !string.IsNullOrWhiteSpace(value23)
+        )
         {
-            value = $"{value22}|{value23}";
+            value = $"{value22}, {value23}";
         }
         else if (!string.IsNullOrWhiteSpace(value22))
         {
             value = $"{value22}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value23))
         {
             value = $"{value23}";
         }
@@ -10173,15 +10189,19 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         3. If both MRACE16 and MRACE17 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value16) || string.IsNullOrWhiteSpace(value17)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value16) && 
+            !string.IsNullOrWhiteSpace(value17)
+        )
         {
-            value = $"{value16}|{value17}";
+            value = $"{value16}, {value17}";
         }
         else if (!string.IsNullOrWhiteSpace(value16))
         {
             value = $"{value16}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value17))
         {
             value = $"{value17}";
         }
@@ -10198,21 +10218,25 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         3. If both MRACE18 and MRACE19 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value18) || string.IsNullOrWhiteSpace(value19)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value18) && 
+            !string.IsNullOrWhiteSpace(value19)
+        )
         {
-            value = $"{value18}|{value19}";
+            value = $"{value18}, {value19}";
         }
         else if (!string.IsNullOrWhiteSpace(value18))
         {
             value = $"{value18}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value19))
         {
             value = $"{value19}";
         }
 
         return value;
-        return value;
+       
     }
     
     private string MRACE20_21_FET_Rule(string value20, string value21)
@@ -10224,15 +10248,19 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         3. If both MRACE20 and MRACE21 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value20) || string.IsNullOrWhiteSpace(value21)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value20) && 
+            !string.IsNullOrWhiteSpace(value21)
+        )
         {
-            value = $"{value20}|{value21}";
+            value = $"{value20}, {value21}";
         }
         else if (!string.IsNullOrWhiteSpace(value20))
         {
             value = $"{value20}";
         }
-        else
+        else if(!string.IsNullOrWhiteSpace(value21))
         {
             value = $"{value21}";
         }
@@ -10249,15 +10277,19 @@ If every one of the 4 IJE fields [CERV, TOC, ECVS, ECVF] is equal to "U" then bf
         3. If both MRACE22 and MRACE23 are empty, leave MMRIA field empty (blank).*/
         string value = string.Empty;
 
-        if (!(string.IsNullOrWhiteSpace(value22) || string.IsNullOrWhiteSpace(value23)))
+        if 
+        (
+            !string.IsNullOrWhiteSpace(value22) &&
+            !string.IsNullOrWhiteSpace(value23)
+        )
         {
-            value = $"{value22}|{value23}";
+            value = $"{value22}, {value23}";
         }
         else if (!string.IsNullOrWhiteSpace(value22))
         {
             value = $"{value22}";
         }
-        else
+        else if (!string.IsNullOrWhiteSpace(value23))
         {
             value = $"{value23}";
         }
