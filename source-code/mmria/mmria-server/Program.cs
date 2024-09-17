@@ -655,7 +655,7 @@ public sealed partial class Program
                 context.Request.Headers.ContainsKey("Content-Length") &&
                 context.Request.Headers["Content-Length"].Count == 1 &&
                 context.Request.ContentLength.HasValue &&
-                context.Request.ContentLength.Value < 1
+                context.Request.ContentLength.Value < 0
 
             )
             {

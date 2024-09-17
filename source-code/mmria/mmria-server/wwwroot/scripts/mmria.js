@@ -2120,6 +2120,82 @@ function set_title(title)
   document.title = title;
 }
 
+function info_dialog_show(p_title, p_header, p_inner_html, p_message_type = "default")
+{
+    // var publishedAlertTypeStyling= [];
+    
+    // if (p_message_type == "information")
+    //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-alert_01 refresh-icon", "primary-button"]
+    // else if (p_message_type == "warning")
+    //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-alert_02 warning-icon", "primary-button"]
+    // else if (p_message_type == "error")
+    //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-close-circle error-icon", "primary-button"]
+    // else
+    //     publishedAlertTypeStyling = ["info-banner", "cdc-icon-close-circle refresh-icon", "primary-button"]
+    function get_header()
+    {
+        switch(p_message_type.toLowerCase())
+        {
+            case "information":
+                return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
+                <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+            </div>`
+            break;
+            case "warning":
+                return `<div class="align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
+                <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+            </div>`
+            break;
+            case "error":
+                return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
+                <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+            </div>`
+            break;
+            default:
+                return `<div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
+                <span tabindex="0" role="button" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+            </div>`
+            break;
+        }
+    }
+    let element = document.getElementById("case-progress-info-id");
+        if(element == null)
+        {
+            element = document.createElement("dialog");
+            element.classList.add('p-0');
+            element.classList.add('set-radius');
+            element.classList.add('card-container-dark');
+            element.classList.add('col-md-4');
+            element.setAttribute("id", "case-progress-info-id");
+            element.setAttribute("aria-modal", "true");
+            document.firstElementChild.appendChild(element);
+        }
+        let html = [];
+        html.push(`
+            ${get_header()}
+            <div id="mmria_dialog2" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                <div class="modal-body">
+                    <p><strong>${p_header}</strong></p>
+                    ${p_inner_html}
+                </div>
+                <footer class="modal-footer">
+                    <button class="btn primary-button mr-1" onclick="$mmria.info_dialog_click()">OK</button>
+                </footer>
+            </div>
+        `);
+        // html.push(`<h3 class="mt-0">${p_title}</h3>`);
+        // html.push(`<p><strong>${p_header}</p>`);
+        // html.push(`${p_inner_html}`);
+        // html.push('<button class="btn btn-primary mr-1" onclick="$mmria.info_dialog_click()">OK</button>');
+        element.innerHTML = html.join("");
+        mmria_pre_modal("case-progress-info-id");
+        element.showModal();
+    }
+
 async function erase_mm_link_click()
 {
     function cancel()

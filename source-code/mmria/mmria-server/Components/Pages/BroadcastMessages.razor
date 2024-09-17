@@ -2,9 +2,11 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @using mmria
+@rendermode InteractiveServer
 @inject mmria.server.Controllers.broadcast_messageController broadcast_messageController
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
+@inject IJSRuntime Js
 
 @code
 {
@@ -17,6 +19,17 @@
       await base.OnInitializedAsync();
       await Load();
     }
+
+    private async Task ShowMessageOneDetails()
+    {
+      await Js.InvokeVoidAsync("info_dialog_show", "System Message 1", "", (string)broadcastMessageOne.published.body.ToString(), (string)broadcastMessageOne.published.type.ToString());
+    }
+
+    private async Task ShowMessageTwoDetails()
+    {
+      await Js.InvokeVoidAsync("info_dialog_show", "System Message 2", "", (string)broadcastMessageTwo.published.body, (string)broadcastMessageTwo.published.type);
+    }
+
     private async Task Load()
     {
       var broadcastMessages = await broadcast_messageController.GetBroadcastMessageList();
@@ -60,7 +73,7 @@
             </div>
             @if(broadcastMessageOne.published.body.Length > 0)
             {
-              <div class="col flex-grow-0"><input class="btn @messageOneAlertStyling[2]" type="button" onclick="$mmria.info_dialog_show('System Message 1', '', '@broadcastMessageOne.published.body', '@broadcastMessageOne.published.type')" value="Details" /></div>
+              <div class="col flex-grow-0"><input class="btn @messageOneAlertStyling[2]" type="button" @onclick="ShowMessageOneDetails" value="Details" /></div>
             }
         </div>
       </div>
@@ -79,7 +92,7 @@
           </div>
           @if(broadcastMessageTwo.published.body.Length > 0)
           {
-            <div class="col flex-grow-0"><input class="btn @messageTwoAlertStyling[2]" type="button" onclick="$mmria.info_dialog_show('System Message 2', '', '@broadcastMessageTwo.published.body', '@broadcastMessageTwo.published.type')" value="Details" /></div>
+            <div class="col flex-grow-0"><input class="btn @messageTwoAlertStyling[2]" type="button" @onclick="ShowMessageTwoDetails" value="Details" /></div>
           }
       </div>
     </div>

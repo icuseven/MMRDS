@@ -13,13 +13,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
-    @* <meta
-  http-equiv="Content-Security-Policy"
-  content="default-src 'self'; img-src https://*; child-src 'none';" /> *@
-    <meta http-equiv="refresh" content="0; url=/Home" />
-    <!--link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'unsafe-inline' 'self'; style-src 'unsafe-inline' 'self'; img-src https://*; child-src 'none';" 
+    />
+    @* <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="app.css" />
-    <link rel="stylesheet" href="BlazorSSR.styles.css" /-->
+    <link rel="stylesheet" href="BlazorSSR.styles.css" /> *@
     <link rel="stylesheet" href="css/index.css" type="text/css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
@@ -29,11 +29,11 @@
     <Routes />
     <script src="scripts/mmria.js"></script>
     <script src="_framework/blazor.web.js"></script>
-    @*<script src="../scripts/mmria.js" type="text/javascript"></script>
-    <script src="../scripts/data-dictionary/dictionary_renderer.js" type="text/javascript"></script>
-    <script src="../scripts/create_default_object.js" type="text/javascript"></script>
-    <script src="../scripts/url_monitor.js" type="text/javascript"></script>
-    <!--script src="../scripts/data-dictionary/index.js" type="text/javascript"></script-->*@
+    @* <script src="scripts/mmria.js" type="text/javascript"></script> *@
+    @* <script src="scripts/data-dictionary/dictionary_renderer.js" type="text/javascript"></script>
+    <script src="scripts/create_default_object.js" type="text/javascript"></script>
+    <script src="scripts/url_monitor.js" type="text/javascript"></script> *@
+    <!--script src="../scripts/data-dictionary/index.js" type="text/javascript"></script-->
 </body>
 
 </html>
