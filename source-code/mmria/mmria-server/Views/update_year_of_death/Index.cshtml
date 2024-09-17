@@ -3,7 +3,8 @@
 @model mmria.common.couchdb.ConfigurationSet
 @{ 
     Layout = "_LayoutBase";
-    ViewBag.BreadCrumbs = true;   
+    ViewBag.BreadCrumbs = true;
+    ViewBag.Title = "Search for Record ID = Update Year of Death";   
 
     var SortedDictionary  = new SortedDictionary<string, mmria.common.couchdb.DBConfigurationDetail>();
     var jurisdicationLocation = Context.Request.Host.Host.Trim();
