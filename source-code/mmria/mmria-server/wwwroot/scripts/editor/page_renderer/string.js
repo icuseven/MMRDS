@@ -20,26 +20,56 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         let other_data = eval(object_path);
 
 
+        const check_is_number = parseInt(other_specify.value);
         if(Array.isArray(other_data))
         {
-            if(other_data.indexOf(other_specify.value) > -1)
+            if(isNaN(check_is_number))
             {
-                visibility_html = 'display:block;';
+                if(other_data.indexOf(other_specify.value) > -1)
+                    {
+                        visibility_html = 'display:block;';
+                    }
+                    else
+                    {
+                        visibility_html = 'display:none;';
+                    }
             }
             else
             {
-                visibility_html = 'display:none;';
+                if(other_data.indexOf(check_is_number) > -1)
+                {
+                    visibility_html = 'display:block;';
+                }
+                else
+                {
+                    visibility_html = 'display:none;';
+                }
             }
+            
         }
         else
         {
-            if(other_specify.value == other_data)
+            if(isNaN(check_is_number))
             {
-                visibility_html = 'display:block;';
+                if(other_specify.value == other_data)
+                {
+                    visibility_html = 'display:block;';
+                }
+                else
+                {
+                    visibility_html = 'display:none;';
+                }
             }
             else
             {
-                visibility_html = 'display:none;';
+                if(check_is_number == other_data)
+                {
+                    visibility_html = 'display:block;';
+                }
+                else
+                {
+                    visibility_html = 'display:none;';
+                }
             }
         }
     }
