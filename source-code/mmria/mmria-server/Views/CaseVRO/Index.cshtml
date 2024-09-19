@@ -1,5 +1,11 @@
 @using System.Security.Claims;
 @{
+    #if !IS_PMSS_ENHANCED
+    var is_pmss_enhanced = "false";
+    #endif
+    #if IS_PMSS_ENHANCED
+    var is_pmss_enhanced = "true";
+    #endif
   Layout = "_LayoutBase";
 
   ViewBag.BreadCrumbs = true;
@@ -20,6 +26,9 @@
 
 @section HeadScripts
 {
+    <script>
+        const g_is_pmss_enhanced = @is_pmss_enhanced;
+    </script>
   <link href="./styles/jquery/jquery.timepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/jquery/jquery.datetimepicker.css" type="text/css" rel="stylesheet" />
   <link href="./styles/bootstrap/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />

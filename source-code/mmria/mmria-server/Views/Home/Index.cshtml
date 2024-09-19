@@ -3,6 +3,13 @@
 @{ 
   Layout = "_LayoutBase";
   ViewBag.Title = "Home";
+
+  bool is_pmss_enhanced = false;
+
+  #if IS_PMSS_ENHANCED
+    is_pmss_enhanced = true;
+  #endif
+
   var is_guest = true;
   var is_abstractor = false;
   var is_authenticated = false;
@@ -153,7 +160,15 @@
 }
 
 <div class="row no-gutters justify-content-between mb-3">
-  <h1 class="h2 d-block" tabindex="-1">MMRIA Home</h1>
+    @if(is_pmss_enhanced)
+    {
+        <h1 class="h2 d-block" tabindex="-1">PMMSS Home</h1>
+    }
+    else
+    {
+        <h1 class="h2 d-block" tabindex="-1">MMRIA Home</h1>
+    }
+  
 
   @await Html.PartialAsync("_BurdenStatement")
 </div>
