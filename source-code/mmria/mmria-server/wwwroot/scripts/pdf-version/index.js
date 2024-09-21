@@ -2361,7 +2361,7 @@ function print_pdf_render_content(ctx) {
 		case "textarea":
 			// console.log('*************** type: ', ctx.metadata.type);
 			if (ctx.metadata.name == 'case_opening_overview') {
-				let narrative = convert_html_to_pdf((typeof ctx.data == 'string') ? ctx.data : ctx.data.toString());
+				let narrative = convert_html_to_pdf(pdf_version_index_to_string(ctx));
 				// Loop thru and handle the ul (bullet list) & ol (ordered list) differently
 				for (let i = 0; i < narrative.length; i++) {
 					if (narrative[i].hasOwnProperty('ul') == true) {
@@ -2429,7 +2429,7 @@ function print_pdf_render_content(ctx) {
 				],
 					[
 						{ 
-							text: `${(typeof ctx.data == 'string') ? ctx.data : ctx.data.toString()}`, 
+							text: `${pdf_version_index_to_string(ctx)}`, 
 							style: ['tableDetail'], 
 							colSpan: '2', 
 						},
@@ -2784,6 +2784,26 @@ function print_pdf_render_content(ctx) {
 	return ctx.content;
 }
 
+
+function pdf_version_index_to_string(ctx)
+{
+    if(typeof ctx.data == 'string') 
+        {
+        return ctx.data;
+    }
+    else
+    {
+        
+        if (typeof ctx.data.toString === "function") 
+        { 
+            return ctx.data.toString();
+        }
+        else
+        {
+            return '';
+        }
+    }
+}
 
 /*
 function safe_decodeURI(value)
