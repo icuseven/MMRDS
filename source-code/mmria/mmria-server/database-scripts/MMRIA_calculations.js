@@ -604,8 +604,11 @@ function abstrator_assigned_status_value_change(p_control)
         || value === 1
         || value === 4
         || value === 88
-    ) {
+    ) 
+    {
+        document.getElementById(controlId).value = '';
         $('label[for=' + controlId + '], #' + controlId).hide();
+        g_data.home_record.overall_assessment_of_timing_of_death.number_of_days_after_end_of_pregnancey = null;
     }
     else {
         $('label[for=' + controlId + '], #' + controlId).show();

@@ -2787,8 +2787,16 @@ function print_pdf_render_content(ctx) {
 
 function pdf_version_index_to_string(ctx)
 {
-    if(typeof ctx.data == 'string') 
-        {
+    if(ctx == null)
+    {
+        return '';
+    }
+    else if(ctx.data == null)
+    {
+        return '';
+    }
+    else if(typeof ctx.data == 'string') 
+    {
         return ctx.data;
     }
     else
