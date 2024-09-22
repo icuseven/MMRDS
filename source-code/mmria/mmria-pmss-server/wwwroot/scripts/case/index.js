@@ -3786,6 +3786,8 @@ function build_other_specify_lookup(p_result, p_metadata, p_path = "")
                         let path = kvp[1].trim();
 
                         p_result[path] = { list: `${p_path}`, value: key }
+
+                        g_dependent_parent_to_child.set(p_path, path);
                         
                     }
                 }

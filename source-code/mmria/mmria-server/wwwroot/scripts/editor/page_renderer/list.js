@@ -1568,6 +1568,17 @@ async function list_checkbox_mutually_exclusive_input_click(p_object_path, p_met
 
     let data_value_list = metadata.values;
 
+    if
+    (
+        metadata.data_type != null &&
+        metadata.data_type == 'number'
+    )
+    {
+        let test_value = parseInt(p_data);
+        if(! isNaN(test_value))
+            p_data = test_value;
+    }
+
     if(metadata.path_reference && metadata.path_reference != "")
     {
         data_value_list = eval(convert_dictionary_path_to_lookup_object(metadata.path_reference));
@@ -1632,7 +1643,18 @@ for(let i = 0; i < other_specify_list_key.length; i++)
     let object_path = `g_data.${other_specify_list_path[i].replace(/\//g,".")}`;
     let current_data = eval(p_object_path);
 
-    
+    if
+    (
+        metadata.data_type != null &&
+        metadata.data_type == 'number'
+    )
+    {
+        let test_value = parseInt(item);
+        if(! isNaN(test_value))
+            item = test_value;
+    }
+
+
     if(p_data == item)
     {
         if(current_data.indexOf(item) > -1)
@@ -2004,4 +2026,22 @@ function list_apply_dependent_change_cancel
 
     $mmria.confirm_dialog_confirm_close();
         
+}
+
+function list_create_number_set(p_list)
+{
+    const result = new Set();
+
+    for(let i = 0; i < p_list.length; i++)
+    {
+        const test_value = parseInt(p_list[i]);
+        if(!isNaN(test_value))
+        {
+            result.add(test_value);
+        }
+    }
+
+
+
+    return result;
 }

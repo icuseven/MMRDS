@@ -417,16 +417,49 @@ async function g_set_data_object_from_path
       metadata.is_multiselect == true
     ) 
     {
-      var item = eval(p_object_path);
+      let item = eval(p_object_path);
+      
 
-      if (item.indexOf(value) > -1) 
+      if
+      (
+        metadata.data_type=='number' && 
+        !isNaN(parseInt(value))
+      )
       {
-        item.splice(item.indexOf(value), 1);
-      } 
-      else 
-      {
-        item.push(value);
+        const number_value = parseInt(value);
+
+        item = list_create_number_set(item);
+        
+        if 
+        (
+
+           item.has(number_value)
+        ) 
+        {
+            item.delete(number_value);
+        } 
+        else 
+        {
+            item.add(number_value);
+        }
+
       }
+      else
+      {
+        item = new Set(item);
+        if (item.has(value)) 
+        {
+            item.delete(value);
+        } 
+        else 
+        {
+            item.add(value);
+        }
+      }
+
+      const new_list = Array.from(item);
+      eval(p_object_path + ' = ' + JSON.stringify(new_list));
+      
     } 
     else if (metadata.type.toLowerCase() == 'boolean') 
     {
@@ -870,7 +903,7 @@ else
   }
 
   window.setTimeout(function() { update_charts(p_dictionary_path) }, 0);
- console.log('test');
+ //console.log('test');
 }
 
 
@@ -1424,8 +1457,10 @@ async function load_and_set_data()
       g_value_to_display_lookup,
       g_value_to_index_number_lookup,
       g_metadata,
-      ''
+      '',
+      'g_metadata'
     );
+
 
     for (let i in g_metadata.lookup) 
     {
