@@ -1597,10 +1597,26 @@ async function list_checkbox_mutually_exclusive_input_click(p_object_path, p_met
         if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
         {
             has_mutually_exclusive_items = true;
-            mutually_exclusive_items.push(data_value_list[i].value);
+
+            if
+            (
+                metadata.data_type != null &&
+                metadata.data_type == 'number'
+            )
+            {
+                const test_value = parseInt(data_value_list[i].value);
+                if(! isNaN(test_value))
+                    mutually_exclusive_items.push(test_value);
+            }
+            else
+            {
+                mutually_exclusive_items.push(data_value_list[i].value);
+            }
+            
             mutually_exclusive_display_items.push(data_value_list[i].display);
         }
     }
+
 
 
 // other specify - end
