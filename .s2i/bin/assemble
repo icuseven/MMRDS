@@ -377,7 +377,9 @@ if [ "$DOTNET_RM_SRC" == "true" ]; then
 fi
 
 rm -rf /opt/app-root/app/mmria-server.deps.json
-rm -rf /opt/app-root/src/source-code/mmria/mmria-server/bin/Release/net8.0/mmria-server.deps.json
+rm -rf /opt/app-root/src/source-code/mmria/mmria-server/bin/Release/net8.0/mmria-pmss-server.deps.json
+rm -rf /opt/app-root/app/mmria-pmss-server.deps.json
+rm -rf /opt/app-root/src/source-code/mmria/mmria-server/bin/Release/net8.0/mmria-pmss-server.deps.json
 
 
 # fix permissions
