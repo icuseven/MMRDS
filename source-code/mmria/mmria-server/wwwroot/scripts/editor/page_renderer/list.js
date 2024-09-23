@@ -1053,7 +1053,21 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
         if(item.is_mutually_exclusive!=null && item.is_mutually_exclusive == true)
         {
             has_mutually_exclusive_items = true;
-            mutually_exclusive_items.push(data_value_list[i].value);
+            if
+            (
+                p_metadata.data_type != null &&
+                p_metadata.data_type == 'number'
+            )
+            {
+                const test_value = parseInt(data_value_list[i].value);
+                if(! isNaN(test_value))
+                    mutually_exclusive_items.push(test_value);
+            }
+            else
+            {
+                mutually_exclusive_items.push(data_value_list[i].value);
+            }
+            
         }
     }
 
