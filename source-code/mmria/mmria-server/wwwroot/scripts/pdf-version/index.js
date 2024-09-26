@@ -500,9 +500,17 @@ function getTodayFormatted() {
 }
 
 // Format the month or day to always have 2 digits
-function fmt2Digits(val) {
-	if (val == null || val == '9999') return '  ';
-	return ((val < 10) ? '0' : '') + val;
+function fmt2Digits(val) 
+{
+	if (val == null) return '  ';
+    
+    const compare_value = parseInt(val);
+
+    if(isNaN(compare_value)) return '  ';
+
+    if(compare_value == 9999) return '  ';
+
+	return ((compare_value < 10) ? '0' : '') + compare_value;
 }
 
 // Format the year to always have 4 digits, check for 9999
