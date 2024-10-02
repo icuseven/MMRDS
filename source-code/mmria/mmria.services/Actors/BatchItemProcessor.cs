@@ -5534,7 +5534,7 @@ If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT
         if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
             && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                 && value9 == "U")
-            determinedValues.Add("777");
+            determinedValues.Add("7777");
         else
         {
             if (int.TryParse(value1, out int result))
@@ -8942,7 +8942,7 @@ If every one of the 9 IJE fields [INDL, AUGL, NVPR, STER, ANTB, CHOR, MECS, FINT
         if (value1 == "U" && value2 == "U" && value3 == "U" && value4 == "U"
             && value5 == "U" && value6 == "U" && value7 == "U" && value8 == "U"
                 && value9 == "U")
-            determinedValues.Add("777");
+            determinedValues.Add("7777");
         else
         {
             if (int.TryParse(value1, out int result))

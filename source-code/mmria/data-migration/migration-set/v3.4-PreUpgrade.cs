@@ -139,6 +139,8 @@ public sealed class v3_4_PreUpgrade
 					continue;
 				}
 
+
+
 				//if(!id_set.Contains(existing_id)) continue;
 
 				string url = $"{host_db_url}/{db_name}/{kv._id}";
@@ -150,7 +152,6 @@ public sealed class v3_4_PreUpgrade
                 var result = new mmria.case_version.mmria.v240616.mmria_case();
 				result.SetJsonErrorId(kv._id, kv.record_id);
 				
-
 				void add_error(string path, string error)
 				{
 					if(!ErrorDictionary.ContainsKey(path))
