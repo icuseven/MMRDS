@@ -662,6 +662,7 @@ public sealed partial class Program
                 context.Response.StatusCode = 400;
                 context.Response.Headers.Add("Connection", "close");
                 resetFeature.Reset(errorCode: 4);
+                break;
             }
             
             if
