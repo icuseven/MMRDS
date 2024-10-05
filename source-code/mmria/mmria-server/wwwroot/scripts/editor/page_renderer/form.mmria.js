@@ -1039,9 +1039,12 @@ function form_render(
 			for (var i = 0; i < p_metadata.children.length; i++) {
 				var child = p_metadata.children[i];
 
-				if (p_data[child.name] || p_data[child.name] == 0) {
+				if (p_data[child.name] || p_data[child.name] == 0) 
+                {
 					// do nothing
-				} else {
+				} 
+                else 
+                {
 					p_data[child.name] = create_default_object(child, {})[child.name];
 				}
 				Array.prototype.push.apply(

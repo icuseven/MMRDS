@@ -233,6 +233,17 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     let how_many_added = 0;
 
+    if
+    (
+        p_metadata.data_type != null &&
+        p_metadata.data_type == 'number'
+    )
+    {
+        const test_value = parseInt(p_data);
+        if(! isNaN(test_value))
+            p_data = test_value;
+    }
+
     for(let i = 0; i < metadata_value_list.length; i++)
     {
         let item = metadata_value_list[i];
@@ -574,6 +585,17 @@ function list_editable_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             {
                 metadata_value_list = p_metadata.values;
             }
+        }
+
+        if
+        (
+            p_metadata.data_type != null &&
+            p_metadata.data_type == 'number'
+        )
+        {
+            const test_value = parseInt(p_data);
+            if(! isNaN(test_value))
+                p_data = test_value;
         }
 
         for(var i = 0; i < metadata_value_list.length; i++)
