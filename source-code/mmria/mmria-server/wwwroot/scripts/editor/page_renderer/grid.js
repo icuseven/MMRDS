@@ -73,7 +73,7 @@ function grid_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
                         {
                            continue; 
                         }
-                        else if(p_data[i][child.name] || p_data[child.name] == 0)
+                        else if(p_data[i][child.name] || p_data[i][child.name] == 0)
                         {
                             // do nothing 
                         }
