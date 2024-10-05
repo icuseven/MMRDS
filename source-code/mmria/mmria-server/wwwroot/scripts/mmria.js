@@ -1806,7 +1806,7 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
         save_error_500_dialog_show: async function (p_error, p_note)
         {
 
-            let element = document.getElementById("save_error_500-id");
+            let element = document.getElementById("save-error-500-id");
                 if(element == null)
                 {
                     element = document.createElement("dialog");
@@ -1826,28 +1826,27 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                 let html = [];
                 html.push(`
                     <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Error 500 when trying to  Save to the server</span>
-                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Error occurred when trying to save to the MMRIA server</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.save_error_500_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
                     <div id="mmria_dialog5" class="ui-dialog-content ui-widget-content">
                         <div class="modal-body">
                          <p>An error occured while saving.</p>
-                         <p>Error Details: ${p_note}</p>
+                         <p>Error Summary: ${p_note}</p>
                          
                          <p>
-                            <b>Please copy the error details and notify mmriaIf this error occurs again, please do the following:</b> 
+                            Try navigating back to <b>MMRIA Home</b> and then to <b>View or Modify Data</b> and select your case again.<br/>
+                         <br/>
+                         If the problem persists, send an email to MMRIA Support  <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>
                          </p>
-                         <ol>
-                            <li>Select <u>Error Detail: above</u> below</li>
-                            <li>Select <u>Copy Details to Clipboard</u> Ctl-C</li>
-                            <li>Send an email to MMRIA Support with the following details:
-                            <ul>
-                            <li>Email To: <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a> </li>
-                            <li>Subject: MMRIA Save Error</li>
-                            <li>Body: Paste (Ctl-v) the contents of the Clipboard in the email (by pressing CTRL + V together on the keyboard).</li>
-                            </ul>
-                         </li>
-                        </ol>
+                       
+                         <br/>
+                         <textarea id=server_response_textarea2 rows=7 cols=55 readonly>
+Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
+Action: ${p_note}
+Server Response:
+${p_error.responseText== undefined ? "offline" : p_error.responseText }
+                         </textarea>
                         </div>
 
                     </div>
@@ -1878,22 +1877,8 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
             mmria_post_modal();
             let el = document.getElementById("save-error-500-id");
             el.close();
-        },
-        save_error_500_dialog_copy_click: function()
-        {
-            const element = document.getElementById("server_response_textarea");
-            navigator.clipboard.writeText(element.value);
-        },
-        server_response_detail_div_show:function()
-        {
-            const el = document.getElementById('server_response_detail_div');
-            el.style.display = 'block';
-        },
-        server_response_detail_div_hide:function()
-        {
-            const el = document.getElementById('server_response_detail_div');
-            el.style.display = 'none';
         }
+        
 
 
     };

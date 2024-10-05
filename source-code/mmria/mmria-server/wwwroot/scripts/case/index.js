@@ -2021,11 +2021,31 @@ async function process_save_case()
         if
         (
             case_response != null &&
-            case_response.error_description != null &&
-            case_response.error_description.indexOf("(409) Conflict") > -1
+            case_response.error_description != null //&&
+            //case_response.error_description.indexOf("(409) Conflict") > -1
         ) 
         {
             save_queue.is_active = false;
+
+            const err_object = { "status": 500, "responseText": case_response.error_description }
+            if(err_object.responseText.indexOf("(409) Conflict") > -1)
+            {
+                err_object.responseText ="Unable to save document Conflict";
+                $mmria.save_error_500_dialog_show
+                (
+                    err_object, 
+                    p_note + " (409) Conflict"
+                );
+            }
+            else
+            {
+                $mmria.save_error_500_dialog_show
+                (
+                    err_object, 
+                    p_note
+                );
+            }
+            
             return;
         }
 
