@@ -782,7 +782,7 @@ function form_render(
 				var child = p_metadata.children[i];
 				//var item = p_data[data_index][child.name];
 
-				if (form_item[child.name]) 
+				if (form_item[child.name] || form_item[child.name] == 0) 
                 {
 
 				} 
