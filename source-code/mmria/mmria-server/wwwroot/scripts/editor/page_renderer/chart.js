@@ -347,7 +347,8 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
                     else
                     {
                         // '2017-06-01T07:30:00-04:00'
-                        const res3 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d-\d\d:\d\d$/)
+                        // '2017-06-01T11:30:00+00:00'
+                        const res3 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d[-+]\d\d:\d\d$/)
                         if(res3)
                         {
                             //let date_time = new Date(val);
