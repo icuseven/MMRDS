@@ -115,7 +115,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		p_post_html_render.push("height: 55");
 		p_post_html_render.push("        }");
 
-		if (p_metadata.name === "temperature_graph") {
+		if (p_metadata.name == "temperature_graph") {
 			p_post_html_render.push(",y: {");
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.1f'),");
@@ -344,10 +344,21 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_ui)
 						//result.push("'" + date_time.toISOString() + "'");
 						result.push("'" + make_c3_date(val) +"'");
 					}
-					else
-					{
-						result.push(parseFloat(val));
-					}
+                    else
+                    {
+                        // '2017-06-01T07:30:00-04:00'
+                        const res3 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d-\d\d:\d\d$/)
+                        if(res3)
+                        {
+                            //let date_time = new Date(val);
+                            //result.push("'" + date_time.toISOString() + "'");
+                            result.push("'" + make_c3_date(val) +"'");
+                        }
+                        else
+                        {
+                            result.push(parseFloat(val));
+                        }
+                    }
 				}
 			}
 			else
@@ -535,7 +546,7 @@ function chart_switch_to_table(p_ui_div_id)
 
     const data_table_header_html = [];
     const data_table_body_html = [];
-    let xTypeLabel = metadata.x_type.indexOf("time") === -1 ? "Date" : "Date / Time";
+    let xTypeLabel = metadata.x_type.indexOf("time") == -1 ? "Date" : "Date / Time";
     data_table_header_html.push(`<tr><th style="background-color: #E3D3E4; padding-left: 5px;">${xTypeLabel}</th>`)
     y_axis.forEach(element => {
         let header_string = "";
@@ -551,7 +562,7 @@ function chart_switch_to_table(p_ui_div_id)
     data.forEach(row => {
       let date_string = "";
       let temp_date_data = row[x_axis.replace(graph_prefix, "")];
-      if (metadata.x_type.indexOf("time") === -1)
+      if (metadata.x_type.indexOf("time") == -1)
         date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
       else
         date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
