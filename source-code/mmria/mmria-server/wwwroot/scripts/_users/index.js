@@ -325,7 +325,7 @@ function server_save(p_user)
 
 function add_new_user_click()
 {
-	var new_user_name = document.getElementById('new_user_name').value;
+	var new_user_name = document.getElementById('new_user_name').value.trim();
 	var new_user_password = null;
 	var new_user_verify= null;
 
