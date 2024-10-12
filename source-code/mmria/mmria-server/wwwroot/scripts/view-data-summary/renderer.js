@@ -11,18 +11,21 @@ function dictionary_render(p_metadata, p_path)
 		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
 			
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-                <table class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+                <table border=1 class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
                 <tr>
                 <td>
-                <label for="search_text"> Search for:</label>
-                </td><td>
-                <input type="text"
-								 class="form-control mr-2"
-								 id="search_text"
-								 value=""
-								 style="width: 170px;"
-								 onchange="search_text_change(this.value)" />
-                </td><td>
+                <label for="search_text" style="text-align:left">Search for or MMRIA ID:</label>
+                </td><td colspan=4>
+                <input type="text" 
+                        placeholder="Enter field name or MMRIA ID"
+                        class="form-control mr-2"
+                        id="search_text"
+                        value=""
+                        style="width: 570px;"
+                        onchange="search_text_change(this.value)" />
+                </td>
+                </tr>
+                <tr><td>
 					<select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
 						${render_form_filter(g_filter)}
 					</select>
@@ -31,7 +34,7 @@ function dictionary_render(p_metadata, p_path)
 					<select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
 						${render_field_filter(g_filter)}
 					</select>
-                    </td><td>
+                    </td><td colspan=3>
 					<button
 						type="submit"
 						class="btn btn-secondary no-print"

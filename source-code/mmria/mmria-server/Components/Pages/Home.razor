@@ -68,7 +68,7 @@
                 
             }},
            {"analyst_panel_title", new(){
-                new ("View or Modify Case Data", "/analyst-case"),
+                new ("View Case Data", "/analyst-case"),
                 new ("Export Data", "/export-queue"),
                 new ("View Overdose Data Summary", "/overdose-data-summary"),
                 new ("View Aggregate Report", "/aggregate-report"),
@@ -94,11 +94,11 @@
     Dictionary<string,List<link_item>> link_item_map = new()
         {
             {"abstractor_panel_title", new(){
-                new ("View Case Data", "/Case"),
+                new ("View or Mofify Case Data", "/Case"),
                 new ("Export Data", "/export-queue")
             }},
              {"analyst_panel_title", new(){
-                new ("View or Modify Case Data", "/analyst-case"),
+                new ("View Case Data", "/analyst-case"),
                 new ("Export Data", "/export-queue")
             }},
 
@@ -694,10 +694,19 @@ else
               {
                 <li><a href="/Account/Profile" >View Account Profile</a></li>
               }
-              <li><a href="/data-dictionary" target="_blank">View MMRIA Data Dictionary</a></li>
-              <li>
-                <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
-              </li>
+
+              @if(is_pmss_enhanced)
+              {
+                <li><a href="/data-dictionary" target="_blank">View PMSS Data Dictionary</a></li>
+              }
+              else
+              {
+                <li><a href="/data-dictionary" target="_blank">View MMRIA Data Dictionary</a></li>
+                <li>
+                    <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
+                </li>
+              }
+              
             </ul>
           </div>
         </div>                
