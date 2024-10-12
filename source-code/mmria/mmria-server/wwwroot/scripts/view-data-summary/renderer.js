@@ -72,6 +72,9 @@ function dictionary_render(p_metadata, p_path)
                 ${render_pregnancy_filter(g_case_view_request)}
                 </td></tr>
 
+                <tr><td colspan=4 style="margin:10px">
+                <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" checked value=true name="display_zero_values" style="text-align:left;justify-content:left">&nbsp;Do not display values with frequency count = 0</label>
+                </td></tr>
 
             </table> 
             </form>
