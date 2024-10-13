@@ -30,10 +30,18 @@ function dictionary_render(p_metadata, p_path)
 						${render_form_filter(g_filter)}
 					</select>
                     </td><td>
-
-					<select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
-						${render_field_filter(g_filter)}
-					</select>
+                        <div class="multiselect">
+                            <div class="selectBox" onclick="showCheckboxes()">
+					            <select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
+                                    <option>(Any Field)</option>
+						
+					            </select>
+                                <div class="overSelect"></div>
+                            </div>
+                            <div id="checkboxes">
+                                ${render_field_filter(g_filter)}
+                            </div>
+                        </div>
                     </td><td colspan=3>
 					<button
 						type="submit"
@@ -157,8 +165,8 @@ function on_form_filter_changed(value)
     g_filter.field_selection = [];
     g_filter.field_selection.push(value);
 
-    const html = render_field_filter_options(value);
-    const el = document.getElementById("field_filter");
+    const html = render_field_filter(value);
+    const el = document.getElementById("checkboxes");
 
     el.innerHTML = html;
 
@@ -174,11 +182,46 @@ function on_field_filter_changed(value)
     }
 }
 
-function render_field_filter_options(value)
+function render_field_filter(p_filter)
 {
 	let result = [];
     
+/*
+    <div id="checkboxes">
+      <label for="one">
+        <input type="checkbox" id="one" />First checkbox</label>
+      <label for="two">
+        <input type="checkbox" id="two" />Second checkbox</label>
+      <label for="three">
+        <input type="checkbox" id="three" />Third checkbox</label>
+    </div>
 
+    */
+
+	//result.push(`<div id="checkboxes">`)
+
+    for(const [k, v] of g_form_field_map)
+    {
+        if(p_filter.field_selection && p_filter.field_selection[0] == "all")
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<label>`);
+                result.push(`<input type="checkbox" id="${v2.data_name}"  checked value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+            }
+        }
+        else if(k == p_filter)
+        {
+            for(const [k2, v2] of v)
+            {
+                result.push(`<label>`);
+                result.push(`<input type="checkbox" id="${v2.data_name}" value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+            }
+        }
+    }
+    //result.push(`</div>`)
+
+/*
 	result.push(`<option value="">(Any Field)</option>`)
 
     for(const [k, v] of g_form_field_map)
@@ -198,9 +241,10 @@ function render_field_filter_options(value)
             }
         }
     }
-
+*/
 	return result.join("");
 }
+/*
 
 function render_field_filter(p_filter)
 {
@@ -229,6 +273,7 @@ function render_field_filter(p_filter)
 
 	return result.join("");
 }
+    */
 
 
 function search_click()
@@ -1404,5 +1449,23 @@ function show_needs_apply_id(value)
     else
     {
         el.style.visibility = "hidden";
+    }
+}
+
+
+let is_field_list_expanded = false;
+
+function showCheckboxes() 
+{
+    const checkboxes = document.getElementById("checkboxes");
+    if (!is_field_list_expanded) 
+    {
+        checkboxes.style.display = "block";
+        is_field_list_expanded = true;
+    }
+    else
+    {
+        checkboxes.style.display = "none";
+        is_field_list_expanded = false;
     }
 }
