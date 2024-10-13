@@ -48,6 +48,11 @@ function dictionary_render(p_metadata, p_path)
 						class="btn btn-secondary no-print"
 						alt="clear search"
 						onclick="init_inline_loader(search_click)">Apply Filters</button>
+                    <button
+						type="button"
+						class="btn btn-secondary no-print"
+						alt="reset search"
+						onclick="init_inline_loader(reset_click)">Reset</button>
                         <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
                         
@@ -222,31 +227,10 @@ function render_field_filter(p_filter)
             }
         }
     }
-    //result.push(`</div>`)
 
-/*
-	result.push(`<option value="">(Any Field)</option>`)
-
-    for(const [k, v] of g_form_field_map)
-    {
-        if(value == "all")
-        {
-            for(const [k2, v2] of v)
-            {
-                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
-            }
-        }
-        else if(k == value)
-        {
-            for(const [k2, v2] of v)
-            {
-                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
-            }
-        }
-    }
-*/
 	return result.join("");
 }
+
 /*
 
 function render_field_filter(p_filter)
@@ -276,10 +260,40 @@ function render_field_filter(p_filter)
 
 	return result.join("");
 }
-    */
+
+*/
 
 
 function search_click()
+{
+
+    last_form = null;
+
+    show_needs_apply_id(false);
+
+    if(document.getElementById("form_filter").value != "")
+    {
+	    g_filter.selected_form = document.getElementById("form_filter").value;
+    }
+
+	let search_result_list = document.getElementById("search_result_list");
+	let result = [];
+	
+	render_search_result(result, g_filter);
+
+    if(result.length == 0)
+    {
+        search_result_list.innerHTML = `<tr><td align=center>No matching results found for these filter settings. Please adjust filter settings and select “Apply Filters” to search again.</td></tr>`
+    }
+    else
+    {
+	    search_result_list.innerHTML = result.join("");
+    }
+
+    window.setTimeout(build_report,0);
+}
+
+function reset_click()
 {
 
     last_form = null;
