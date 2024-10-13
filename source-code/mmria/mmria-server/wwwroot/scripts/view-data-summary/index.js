@@ -36,6 +36,7 @@ var g_filter = {
     search_text: '',
     include_blank_date_of_reviews :true,
     include_blank_date_of_deaths: true,
+    display_frequencies_equal_to_zero: true,
       date_of_review: { begin: new Date(1900,0,1), end: new Date() },
       date_of_death: { begin: new Date(1900,0,1), end: new Date() }
   };

@@ -73,7 +73,7 @@ function dictionary_render(p_metadata, p_path)
                 </td></tr>
 
                 <tr><td colspan=4 style="margin:10px">
-                <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" checked value=true name="display_zero_values" style="text-align:left;justify-content:left">&nbsp;Do not display values with frequency count = 0</label>
+                ${render_display_frequency_check_box(g_filter)}
                 </td></tr>
 
             </table> 
@@ -161,8 +161,6 @@ function on_form_filter_changed(value)
     const el = document.getElementById("field_filter");
 
     el.innerHTML = html;
-
-    render_field_filter_options(value);
 
     show_needs_apply_id(true)
 }
@@ -975,6 +973,20 @@ function renderPregnancyRelatedness(p_case_view)
     });
 
 	return sortCaseStatusList.join(''); 
+}
+
+function render_display_frequency_check_box(p_filter)
+{
+    let is_checked_string = '';
+
+    if(p_filter.display_frequencies_equal_to_zero == true)
+    {
+        is_checked_string = 'checked'
+    }
+
+    return `
+    <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" ${is_checked_string} value=true name="display_zero_values" style="text-align:left;justify-content:left">&nbsp;Do not display values with frequency count = 0</label>
+    `
 }
 
 function render_pregnancy_filter(p_case_view)

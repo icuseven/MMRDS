@@ -20,7 +20,7 @@ using  mmria.server.extension;
 namespace mmria.server;
 
 [Authorize(Roles  = "abstractor, data_analyst")]
-[Route("api/data-summary/{skip}")]
+[Route("/api/data-summary/{skip}")]
 public sealed class data_summary_viewControllerController: ControllerBase 
 {  
 
