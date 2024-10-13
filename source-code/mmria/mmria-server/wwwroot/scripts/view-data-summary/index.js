@@ -28,6 +28,7 @@ var g_filter = {
         to: 'all',
       },
     ],
+    seleceted_record_id: null,
     field_selection: ['all'],
     case_status: ['all'],
     case_jurisdiction: ['/'],

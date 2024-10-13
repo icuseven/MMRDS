@@ -30,7 +30,7 @@ function dictionary_render(p_metadata, p_path)
 						${render_form_filter(g_filter)}
 					</select>
                     </td><td>
-                        <div class="multiselect">
+                        <div class="multiselect" style="width:410px;">
                             <div class="selectBox" onclick="showCheckboxes()">
 					            <select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
                                     <option>(Any Field)</option>
@@ -38,7 +38,7 @@ function dictionary_render(p_metadata, p_path)
 					            </select>
                                 <div class="overSelect"></div>
                             </div>
-                            <div id="checkboxes">
+                            <div id="checkboxes" style="height:200px;overflow-y:scroll;">
                                 ${render_field_filter(g_filter)}
                             </div>
                         </div>
@@ -198,7 +198,10 @@ function render_field_filter(p_filter)
 
     */
 
-	//result.push(`<div id="checkboxes">`)
+    const style = `style="width:23px;height:23px;background-color:#712177;"`;
+
+    //const style = ``;
+	result.push(`<label>All Fields</label>`)
 
     for(const [k, v] of g_form_field_map)
     {
@@ -207,7 +210,7 @@ function render_field_filter(p_filter)
             for(const [k2, v2] of v)
             {
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" id="${v2.data_name}"  checked value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.data_name}"  value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
             }
         }
         else if(k == p_filter)
@@ -215,7 +218,7 @@ function render_field_filter(p_filter)
             for(const [k2, v2] of v)
             {
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" id="${v2.data_name}" value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.data_name}" value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
             }
         }
     }
