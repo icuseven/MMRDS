@@ -388,6 +388,7 @@ async function build_report()
         let min = 99999999;
         let min_value = "";
 
+
         if(type == "STAT_D")
         {
             max = Date.parse("1900-01-01");
@@ -463,6 +464,67 @@ async function build_report()
         g_report_stat_map.get(k).set("min", `${min_value} @${min}`);
         g_report_stat_map.get(k).set("max", `${max_value} @${max}`);
         g_report_stat_map.get(k).set("mode", `${mode_value} @${mode}`);
+
+
+        g_path_to_value_map.get(k).set("min", new Set());
+        g_path_to_value_map.get(k).set("max", new Set());
+       
+
+        for(const data_item of data_list)
+        {
+            const compare_data_item = data_item.path_to_detail[k];
+            if(compare_data_item != null)
+            {
+                  
+                if(Array.isArray(compare_data_item))
+                {
+                    compare_data_item.forEach(element => {
+                        if
+                        (
+                            element.count > 0 && 
+                            element.value == min_value
+                        )
+                        {
+                            g_path_to_value_map.get(k).get("min").add(data_item.record_id)
+                        }
+
+                        if
+                        (
+                            element.count > 0 && 
+                            element.value == max_value
+                        )
+                        {
+                            g_path_to_value_map.get(k).get("max").add(data_item.record_id)
+                        }
+                    });
+
+                }
+                else
+                { 
+                    if
+                    (
+                        compare_data_item.count > 0 && 
+                        compare_data_item.value == min_value
+                    )
+                    {
+                        g_path_to_value_map.get(k).get("min").add(data_item.record_id)
+                    }
+
+                    if
+                    (
+                        compare_data_item.count > 0 && 
+                        compare_data_item.value == max_value
+                    )
+                    {
+                        g_path_to_value_map.get(k).get("max").add(data_item.record_id)
+                    }
+                }
+                
+            }
+            
+        }
+
+
         
         
         function stat_n_sort(a, b) 
@@ -674,14 +736,16 @@ async function build_report()
                 el = document.getElementById(`${k}-min`);
                 let date = new Date(current_stat.get("min").split(' @')[0]);
 
-                el.innerHTML = formatDate(date);
+                //el.innerHTML = formatDate(date);
+                el.innerHTML = render_link(k, "min",  formatDate(date));
 
                 
 
                 el = document.getElementById(`${k}-max`);
                 date = new Date(current_stat.get("max").split(' @')[0]);
 
-                el.innerHTML = formatDate(date);
+                //el.innerHTML = formatDate(date);
+                el.innerHTML = render_link(k, "min",  formatDate(date));
             }
         }
         else if(type == "STAT_N")
@@ -696,10 +760,10 @@ async function build_report()
                 el.innerHTML = current_stat.get("missing");
 
                 el = document.getElementById(`${k}-min`);
-                el.innerHTML = current_stat.get("min").split(' @')[0];
+                el.innerHTML = render_link(k, "min", current_stat.get("min").split(' @')[0]);
 
                 el = document.getElementById(`${k}-max`);
-                el.innerHTML = current_stat.get("max").split(' @')[0];
+                el.innerHTML = render_link(k, "max", current_stat.get("max").split(' @')[0]);
 
                 el = document.getElementById(`${k}-mean`);
                 el.innerHTML = current_stat.get("mean").toFixed(2);
@@ -1094,6 +1158,7 @@ async function data_dictionary_dialog_show(p_title, p_inner_html)
         </div>
         <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
             <div class="modal-body">
+                <p>${p_title}</p>
                 ${p_inner_html}
             </div>
 
