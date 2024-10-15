@@ -620,7 +620,12 @@ async function build_report()
                     {
                         const el2 = document.getElementById(`${k}-9999`);
                         if(el2 != null)
-                        el2.innerHTML = parseInt(el2.innerHTML) + v2;
+                        el2.innerHTML = render_link
+                            (
+                                k,
+                                n,
+                                parseInt(el2.innerHTML) + v2
+                            );
                     }
                     else
                     {
@@ -629,7 +634,12 @@ async function build_report()
                             n.forEach(element => {
                                 const el2 = document.getElementById(`${k}-${element}`);
                                 if(el2 != null)
-                                el2.innerHTML = v2;
+                                el2.innerHTML = render_link
+                                (
+                                    k,
+                                    n,
+                                    v2
+                                );
                                 
                             });
                         }
@@ -637,7 +647,12 @@ async function build_report()
                         {
                             const el2 = document.getElementById(`${k}-${n}`);
                             if(el2 != null)
-                                el2.innerHTML = v2;
+                                el2.innerHTML = render_link
+                                (
+                                    k,
+                                    n,
+                                    v2
+                                );
                         }
                         //const el2 = document.getElementById(`${k}-${n}`);
                         //el2.innerHTML = v2;
@@ -1016,4 +1031,105 @@ function toFixed_2(p_value)
     }
 
     return result;
+}
+
+
+async function on_show_case_list_click
+(
+    p_path,
+    p_value
+)
+{
+    if(g_release_version_specification == null)
+    {
+
+        response = await $.ajax({
+            url: `${location.protocol}//${location.host}/api/metadata/version_specification-${g_release_version}`
+        });
+
+        g_release_version_specification = response;
+    }
+	
+
+    const result = []
+    result.push(`<ol>`);
+    for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+    {
+        result.push(`<li>${record_id}</li>`)
+    }
+    result.push(`</ol>`)
+
+    await data_dictionary_dialog_show
+    (
+        `${p_path} - ${p_value}`,
+        result.join("")
+    );
+}
+
+async function data_dictionary_dialog_show(p_title, p_inner_html)
+{
+
+    let element = document.getElementById("dictionary-lookup-id");
+    if(element == null)
+    {
+        element = document.createElement("dialog");
+        element.classList.add('p-0');
+        element.classList.add('set-radius');
+        element.setAttribute("id", "dictionary-lookup-id");
+        element.setAttribute("role", "dialog");
+
+        document.firstElementChild.appendChild(element);
+    }
+
+    element.style.maxWidth = "1024px";
+    element.style.transform = "translateY(0%)";
+    element.style.maxHeight = "600px";
+    element.style.overflow = "hidden";
+
+    let html = [];
+    html.push(`
+        <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+            <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,97) + "..." : p_title}</span>
+            <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+        </div>
+        <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+            <div class="modal-body">
+                ${p_inner_html}
+            </div>
+
+        </div>
+        <div>
+        <footer class="modal-footer">
+            <button id="data_dictionary_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+        </footer>
+        </div>
+    `);
+
+    element.innerHTML = html.join("");
+
+    mmria_pre_modal("dictionary-lookup-id");
+    
+    window.setTimeout(()=> { const data_dictionary_dialog_close_button = document.getElementById("data_dictionary_dialog_close_button"); data_dictionary_dialog_close_button.focus(); }, 0);
+    element.showModal();
+}
+ 
+function data_dictionary_dialog_click()
+{
+    mmria_post_modal();
+    let el = document.getElementById("dictionary-lookup-id");
+    el.close();
+}
+
+function render_link
+(
+    p_path,
+    p_value,
+    p_count
+)
+{
+    return `
+        <a href="javascript:on_show_case_list_click('${p_path}','${p_value}','${p_count}')">${p_count}</a>
+    `;
+
+    
 }
