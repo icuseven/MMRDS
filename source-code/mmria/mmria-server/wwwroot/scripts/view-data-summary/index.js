@@ -13,6 +13,9 @@ const g_path_to_stat_type = new Map();
 
 const g_form_field_map = new Map();
 
+
+const g_path_to_value_map = new Map();
+
 var g_data_is_loaded = false;
 
 
@@ -297,6 +300,11 @@ async function build_report()
                     g_report_map.set(s, new Map());
                 }
 
+                if(!g_path_to_value_map.has(s))
+                {
+                    g_path_to_value_map.set(s, new Map());
+                }
+
                 if(!g_report_stat_map.has(s))
                 {
                     g_report_stat_map.set(s, new Map());
@@ -333,11 +341,23 @@ async function build_report()
                         g_report_map.get(s).set(detail_item[v].value, 0);
                     }
 
-                    const entry_value = g_report_map.get(s).get(detail_item[v].value)
-                    g_report_map.get(s).set(detail_item[v].value, entry_value + detail_item[v].count);
+                    if(!g_path_to_value_map.get(s).has(detail_item[v].value))
+                    {
+                        g_path_to_value_map.get(s).set(detail_item[v].value, new Set());
+                    }
+
+                    const entry_value = g_report_map.get(s).get(detail_item[v].value);
+                    const entry_count = detail_item[v].count;
+                    g_report_map.get(s).set(detail_item[v].value, entry_value + entry_count);
 
                     const total_value = g_report_stat_map.get(s).get("count");
-                    g_report_stat_map.get(s).set("count", total_value + detail_item[v].count);
+
+                    g_report_stat_map.get(s).set("count", total_value + entry_count);
+
+                    if(entry_count > 0)
+                    {
+                        g_path_to_value_map.get(s).get(detail_item[v].value).add(item.record_id);
+                    }
 
 
                 }

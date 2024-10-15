@@ -338,6 +338,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
     {
         return;
     }
+
+    
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":
@@ -402,7 +404,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 		case "group":
                 if(p_metadata.tags.includes("CALC_DATE"))
                 {
-                   
+                    g_path_to_value_map.set(p_path.substr(1), new Map());
                 }
 
                 for(let i = 0; i < p_metadata.children.length; i++)
@@ -451,6 +453,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             {
                 break;
             }
+
+            g_path_to_value_map.set(p_path.substr(1), new Map());
 
             let form_data_name = "";
 			let form_name = "(none)";
