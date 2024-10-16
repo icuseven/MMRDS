@@ -1874,6 +1874,7 @@ async function save_case(p_data, p_call_back, p_note)
 
     if(is_found)
     { 
+        alert("found case")
         return;
     }
 

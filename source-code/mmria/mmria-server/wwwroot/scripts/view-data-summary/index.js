@@ -1116,21 +1116,29 @@ async function on_show_case_list_click
 	
 
     const result = []
-    result.push(`<ol>`);
+    render_search_result2(result, "/" + p_path);
+    const result2 = []
+
+
+
+
+    result2.push(`<ol>`);
     for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
     {
-        result.push(`<li>${record_id}</li>`)
+        result2.push(`<li>${record_id}</li>`)
     }
-    result.push(`</ol>`)
+    result2.push(`</ol>`)
 
     await data_dictionary_dialog_show
     (
-        `${p_path} - ${p_value}`,
-        result.join("")
+        `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
+        result.join(""),
+        `<b>${p_path} - ${p_value}</b>`,
+        result2.join("")
     );
 }
 
-async function data_dictionary_dialog_show(p_title, p_inner_html)
+async function data_dictionary_dialog_show(p_title, p_inner_html, p_sub_title, p_detail_html)
 {
 
     let element = document.getElementById("dictionary-lookup-id");
@@ -1158,8 +1166,22 @@ async function data_dictionary_dialog_show(p_title, p_inner_html)
         </div>
         <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
             <div class="modal-body">
-                <p>${p_title}</p>
+                <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
+                            
+                <tr class="tr bg-gray-l1 font-weight-bold">
+                    <th class="th" width="140" scope="col">MMRIA Form</th>
+                    <th class="th" width="140" scope="col">Export File Name</th>
+                    <th class="th" width="120" scope="col">Export Field</th>
+                    <th class="th" width="180" scope="col">Prompt</th>
+                    <th class="th" width="380" scope="col">Description</th>
+                    <th class="th" width="260" scope="col">Path</th>
+                    <th class="th" width="110" scope="col">Data Type</th>
+                </tr>
+                
                 ${p_inner_html}
+                </table>
+                ${p_sub_title}<br/><br/>
+                ${p_detail_html}
             </div>
 
         </div>
@@ -1197,4 +1219,248 @@ function render_link
     `;
 
     
+}
+
+function render_search_result2(p_result, p_path)
+{
+	selected_dictionary_info = {};
+	render_search_result_item2(p_result, g_metadata, "", null, p_path.toLowerCase(), false);
+}
+
+
+//let last_form = null;
+let selected_dictionary_info = {};
+
+function render_search_result_item2(p_result, p_metadata, p_path, p_selected_form, p_search_text, p_is_abstractor_committee)
+{
+
+    if(p_metadata.mirror_reference != null && p_metadata.mirror_reference != "")
+    {
+        return;
+    }
+	switch(p_metadata.type.toLowerCase())
+	{
+		case "form":			
+			if(p_selected_form== null || p_selected_form=="")
+			{
+				for(let i = 0; i < p_metadata.children.length; i++)
+				{
+					let item = p_metadata.children[i];
+
+					render_search_result_item2(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
+				}
+			}
+			else
+			{
+				if(p_metadata.name.toLowerCase() == p_selected_form.toLowerCase())
+				{
+					for(let i = 0; i < p_metadata.children.length; i++)
+					{
+						let item = p_metadata.children[i];
+
+						render_search_result_item2(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
+					}
+				}
+			}
+			break;
+
+		case "app":
+			let form_filter = "(any form)";
+			let el = document.getElementById("form_filter");
+
+			if(el)
+			{
+				form_filter = el.value;
+			}
+
+			for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let item = p_metadata.children[i];
+
+				if(form_filter.toLowerCase() == "(any form)")
+				{
+					render_search_result_item2(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
+				}
+				else if(item.type.toLowerCase() == "form")
+				{
+					render_search_result_item2(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
+				}
+				
+			}
+			break;
+
+		case "group":
+		case "grid":
+			for(let i = 0; i < p_metadata.children.length; i++)
+			{
+				let item = p_metadata.children[i];
+				render_search_result_item2(p_result, item, p_path + "/" + item.name.toLowerCase(), p_selected_form, p_search_text, p_is_abstractor_committee);
+			}
+			break;
+
+        case "chart":
+        case "label":
+        case "button":
+            break;
+
+		default:
+			let file_name = "";
+			let field_name = "";
+			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
+
+			if(file_field_item)
+			{
+				file_name = file_field_item.file_name;
+				field_name = file_field_item.field_name;
+			}
+
+			if(p_path != p_search_text)
+			{
+                return;
+			}
+
+			let form_name = "(none)";
+			let path_array = p_path.split('/');
+			let description = "";
+			let list_values = [];
+			let data_type = p_metadata.type.toLowerCase();
+
+			if
+			(
+				p_metadata.data_type != null &&
+				p_metadata.data_type != ""
+			)
+			{
+				data_type = p_metadata.data_type
+			}
+
+			if(path_array.length > 2)
+			{
+				form_name = path_array[1];
+				form_name = convert_form_name(form_name);
+			}
+
+
+            selected_dictionary_info.form_name = form_name;
+            selected_dictionary_info.field_name = p_metadata.prompt;
+
+			if(p_metadata.description != null)
+			{
+				description = p_metadata.description;
+			}
+
+
+			if(p_metadata.type.toLowerCase() == "list")
+			{
+				let value_list = p_metadata.values;
+
+				if(p_metadata.path_reference && p_metadata.path_reference != "")
+				{
+					value_list = eval(convert_dictionary_path_to_lookup_object(p_metadata.path_reference));
+			
+					if(value_list == null)	
+					{
+						value_list = p_metadata.values;
+					}
+				}
+
+
+
+
+				list_values.push(`
+					<tr class="tr">
+						<td class="td" width="140"></td>
+						<td class="td p-0" colspan="5">
+							<table class="table table--standard rounded-0 m-0">
+								<thead class="thead">
+									<tr class="tr bg-gray-l2">
+										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
+									</tr>
+								</thead>
+								<thead class="thead">
+									<tr class="tr bg-gray-l2">
+										<th class="th" width="140" scope="col">Value</th>
+										<th class="th" width="680" scope="col">Display</th>
+										<th class="th" width="260" scope="col">Description</th>
+									</tr>
+								</thead>
+								<tbody class="tbody">	
+				`);
+                    
+					for(let i= 0; i < value_list.length; i++)
+					{
+						list_values.push(`
+									<tr class="tr">
+										<td class="td" width="140">${value_list[i].value}</td>
+										<td class="td" width="680">${value_list[i].display}</td>
+										<td class="td" width="260">${value_list[i].description}</td>
+									</tr>
+						`);
+					}
+				
+				list_values.push(`
+								</tbody>
+							</table>
+						</td>
+						<td class="td" colspan="2"></td>
+					</tr>
+				`);
+			}
+
+			// Remove fields who do not have a form_name or if it doesn't exist
+			// if (!form_name || form_name == '(none)' || form_name == '(blank)') {
+			// if (!form_name || form_name.includes('none') || form_name.includes('blank')) {
+			if (
+				!form_name ||
+				 form_name.indexOf('none') !== -1 ||
+				 form_name == '(none)' ||
+				 form_name.indexOf('blank') !== -1 ||
+				 form_name == '(blank)'
+			) 
+            {
+				return;
+			}
+
+
+			p_result.push(`
+				<tr class="tr">
+					<td class="td" width="140">${form_name}</td>
+					<td class="td" width="140">${file_name}</td>
+					<td class="td" width="120">${field_name}</td>
+					<td class="td" width="180">${p_metadata.prompt}</td>
+					<td class="td" width="380">${description}</td>
+					<td class="td" width="260">${p_path}</td>
+					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+				</tr>
+				
+			`);
+
+			break;
+
+	}
+}
+
+
+function convert_form_name(p_value)
+{
+	let lookup = {
+		'(none)': '(none)',
+		'home_record': 'Home Record',
+		'death_certificate': 'Death Certificate',
+		'birth_fetal_death_certificate_parent': 'Birth/Fetal Death Certificate - Parent Section',
+		'birth_certificate_infant_fetal_section': 'Birth/Fetal Death Certificate - Infant/Fetal Section',
+		'autopsy_report': 'Autopsy Report',
+		'prenatal': 'Prenatal Care Record',
+		'er_visit_and_hospital_medical_records': 'ER Visits & Hospitalizations',
+		'other_medical_office_visits': 'Other Medical Office Visits',
+		'medical_transport': 'Medical Transport',
+		'social_and_environmental_profile': 'Social & Environment Profile',
+		'mental_health_profile': 'Mental Health Profile',
+		'informant_interviews': 'Informant Interviews',
+		'case_narrative': 'Case Narrative',
+		'committee_review': 'Committee Decisions',
+        'cvs':'Community Vital Signs'
+	}
+
+	return lookup[p_value.toLowerCase()];
 }
