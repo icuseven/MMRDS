@@ -389,6 +389,8 @@ async function build_report()
         let min_value = "";
 
 
+        
+
         if(type == "STAT_D")
         {
             max = Date.parse("1900-01-01");
@@ -398,6 +400,7 @@ async function build_report()
 
         for(const [k2, v2] of v)
         {
+
             if
             (
                 k2 == "(-)" ||
@@ -407,7 +410,7 @@ async function build_report()
 
                 g_report_stat_map.get(k).set("missing", v2 + g_report_stat_map.get(k).get("missing"));
                 
-
+                
             }
             else if(type == "STAT_N")
             {
@@ -468,6 +471,7 @@ async function build_report()
 
         g_path_to_value_map.get(k).set("min", new Set());
         g_path_to_value_map.get(k).set("max", new Set());
+        g_path_to_value_map.get(k).set("missing", new Set());
        
 
         for(const data_item of data_list)
@@ -496,6 +500,16 @@ async function build_report()
                         {
                             g_path_to_value_map.get(k).get("max").add(data_item.record_id)
                         }
+
+                        if
+                        (
+                            element.count == 0 ||
+                            element.value == "(-)" ||
+                            element.value.trim().length == 0
+                        )
+                        {
+                            g_path_to_value_map.get(k).get("missing").add(data_item.record_id)
+                        }
                     });
 
                 }
@@ -517,6 +531,16 @@ async function build_report()
                     )
                     {
                         g_path_to_value_map.get(k).get("max").add(data_item.record_id)
+                    }
+
+                    if
+                    (
+                        compare_data_item.count == 0 ||
+                        compare_data_item.value == "(-)" ||
+                        compare_data_item.value.trim().length == 0
+                    )
+                    {
+                        g_path_to_value_map.get(k).get("missing").add(data_item.record_id)
                     }
                 }
                 
@@ -732,6 +756,14 @@ async function build_report()
 
                 el = document.getElementById(`${k}-missing`);
                 el.innerHTML = current_stat.get("missing");
+                /*
+                el.innterHTML = render_link
+                (
+                    k,
+                    "n",
+                    current_stat.get("missing")
+                );
+                */
 
                 el = document.getElementById(`${k}-min`);
                 let date = new Date(current_stat.get("min").split(' @')[0]);
@@ -758,6 +790,14 @@ async function build_report()
 
                 el = document.getElementById(`${k}-missing`);
                 el.innerHTML = current_stat.get("missing");
+                /*
+                el.innterHTML = render_link
+                (
+                    k,
+                    "missing",
+                    current_stat.get("missing")
+                );
+                */
 
                 el = document.getElementById(`${k}-min`);
                 el.innerHTML = render_link(k, "min", current_stat.get("min").split(' @')[0]);

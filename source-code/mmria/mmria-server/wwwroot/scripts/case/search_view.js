@@ -418,7 +418,7 @@ function renderSearchDateControl(p_ctx)
     </label>`);
 
     result.push(`<input style="${style_object && style_object.control && style_object.control.style ? control_string : ''}" id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_input" class="form-control date ${!is_valid && 'is-invalid'}" type="date" min="1900-01-01" max="2100-12-31"`);
-      result.push(` data-value="${p_ctx.data}" value="${p_ctx.data}" `); 
+      result.push(` value="${p_ctx.data}" `); 
       if (is_readonly) {
         result.push(" readonly=true disabled=true ");
       } else {
@@ -513,7 +513,7 @@ function renderSearchDateTimeControl(p_ctx)
     
     result.push(`<div class="datetime-control row no-gutters ${!is_valid && 'is-invalid'}" style="${style_object && style_object.control && style_object.control.style ? control_string : ''}">`);
       result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_dateinput" class="form-control datetime-date form-control w-50 h-100" type="date" min="1900-01-01" max="2100-12-31"`);
-        result.push(` data-value="${p_ctx.data}" value="${p_ctx.data.split('T')[0]}" `); 
+        result.push(` value="${p_ctx.data.split('T')[0]}" `); 
         if (is_readonly) {
           result.push(" readonly=true disabled=true ");
         } else {
@@ -540,7 +540,7 @@ function renderSearchDateTimeControl(p_ctx)
       const newData = p_ctx.data;
       const newDateValue = newData.split('T')[0];
       const newTimeValue = newData.indexOf('.') !== -1 ? newData.substring(newData.indexOf('T')+1, newData.indexOf('.')) : newData.substring(newData.indexOf('T')+1, newData.indexOf('Z'));
-      result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_timeinput" class="form-control datetime-time form-control w-50 h-100" type="text" data-value="${newData}" value="${newDateValue ? newTimeValue : '00:00:00'}"`);
+      result.push(`<input id="${convert_object_path_to_jquery_id(p_ctx.object_path)}_timeinput" class="form-control datetime-time form-control w-50 h-100" type="text" value="${newDateValue ? newTimeValue : '00:00:00'}"`);
         if (is_readonly) {
           result.push(" readonly=true disabled=true ");
         } else {

@@ -525,7 +525,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
             p_result.push(p_metadata.name);
             p_result.push("' ");
 
-            p_result.push(`data-value='${p_data}'`);
+            //p_result.push(`data-value='${p_data}'`);
       
 			p_result.push(" value='");
             if(p_data || p_data == 0)

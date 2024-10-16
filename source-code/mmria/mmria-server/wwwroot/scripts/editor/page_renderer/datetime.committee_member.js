@@ -93,7 +93,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
         type="text"
         name="${p_metadata.name}"
-        data-value="${p_data}"
+        
         maxlength="10"
         value="${date_part_display_value}"
         placeholder="mm/dd/yyyy"
@@ -143,7 +143,7 @@ function datetime_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
                 ${p_ctx && p_ctx.form_index != null ? `form_index="${p_ctx.form_index && p_ctx.form_index}"` : ''}
         ${p_ctx && p_ctx.grid_index != null ? `grid_index="${p_ctx.grid_index && p_ctx.grid_index}"` : ''}
         type="text" name="${p_metadata.name}"
-        data-value="${p_data}"
+        
         placeholder="hh:mm:ss"
         maxlength="8"
         value="${time_part_display_value}"
