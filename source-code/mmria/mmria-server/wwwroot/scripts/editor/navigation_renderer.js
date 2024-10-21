@@ -97,7 +97,7 @@ function navigation_render(p_metadata, p_level, p_ui)
               result.push('<label for="selected_form">Select case form</label>');
               result.push('<div class="form-control-wrap">');
                 result.push('<select id="selected_form" class="form-control" onChange="updateUrlFromSelectValue(event,this.value);">');
-                  result.push('<option value=""></option>');
+                  // result.push('<option value=""></option>');
                   for(var i = 0; i < p_metadata.children.length; i++)
                   {
                     var child = p_metadata.children[i];
