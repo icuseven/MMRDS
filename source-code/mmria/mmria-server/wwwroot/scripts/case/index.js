@@ -1859,25 +1859,6 @@ function get_specific_case(p_id)
 
 async function save_case(p_data, p_call_back, p_note)
 {
-
-    let is_found = false;
-
-    for(let i = 0; i < save_queue.item_list.length; i++)
-    {
-        const item = save_queue.item_list[i];
-        if(item.data._rev == p_data._rev)
-        {
-            is_found = true;
-            break;
-        }
-    }
-
-    if(is_found)
-    { 
-        console.log("save_case found case exit early")
-        return;
-    }
-
     const queue_item = get_new_save_queue_item(p_data, p_call_back, p_note);
     save_queue.item_list.push(queue_item);
 }
@@ -2102,6 +2083,16 @@ async function process_save_case()
             console.log('save_case info data._id != case_response.id');
         }
 
+        for(let i = 0; i < save_queue.item_list.length; i++)
+        {
+            const item = save_queue.item_list[i];
+            if(item._id == p_data._id)
+            {
+                item.data._rev == p_data._rev
+                //break;
+            }
+        }
+    
         //save_queue.is_active = false;
 
     }
