@@ -985,26 +985,26 @@ var $mmria = function()
                 {
                     case "information":
                         return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
-                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
-                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+                        <div id="ui-id-1" class="ui-dialog-title modal-header">${p_title}</div>
+                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     case "warning":
                         return `<div class="align-items-center justify-content-start  modal-header ui-widget-header ui-helper-clearfix">
-                        <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
-                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+                        <div id="ui-id-1" class="ui-dialog-title modal-header">${p_title}</div>
+                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     case "error":
                         return `<div class="align-items-center justify-content-start modal-header ui-widget-header ui-helper-clearfix">
                         <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
-                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 cdc-icon-times-solid"></span>
                     </div>`
                     break;
                     default:
                         return `<div class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
                         <div id="ui-id-1" class="ui-dialog-title">${p_title}</div>
-                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+                        <span id="ui-id-1-close" tabindex="0" role="button" onkeypress="info_dialog_keyboard_click(event)" onclick="$mmria.info_dialog_click()" title="close" class="ml-auto x24 cdc-icon-times-solid"></span>
                     </div>`
                     break;
                 }
