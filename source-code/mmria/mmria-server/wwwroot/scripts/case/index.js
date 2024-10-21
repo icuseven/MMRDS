@@ -2086,9 +2086,9 @@ async function process_save_case()
         for(let i = 0; i < save_queue.item_list.length; i++)
         {
             const item = save_queue.item_list[i];
-            if(item._id == p_data._id)
+            if(item._id == case_response.id)
             {
-                item.data._rev == p_data._rev
+                item.data._rev == case_response.rev
                 //break;
             }
         }
