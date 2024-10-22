@@ -550,7 +550,7 @@ async function g_set_data_object_from_path
         eval(
             p_object_path +
               ' = "' +
-              value.trim().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+              value.trim().replace(/\\/g, '/').replace(/"/g, '\\"').replace(/\n/g, '\\n') +
               '"'
           );
 
