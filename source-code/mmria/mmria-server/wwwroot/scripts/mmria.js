@@ -1877,6 +1877,78 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
             mmria_post_modal();
             let el = document.getElementById("save-error-500-id");
             el.close();
+        },
+        field_save_error_dialog_show: async function (p_error, p_note)
+        {
+
+            let element = document.getElementById("field-save-error-id");
+                if(element == null)
+                {
+                    element = document.createElement("dialog");
+                    element.classList.add('p-0');
+                    element.classList.add('set-radius');
+                    element.setAttribute("id", "field-save-error-id");
+                    element.setAttribute("role", "dialog");
+    
+                    document.firstElementChild.appendChild(element);
+                }
+
+                element.style.maxWidth = "512px";
+                element.style.transform = "translateY(0%)";
+                element.style.maxHeight = "600px";
+                element.style.overflow = "hidden";
+    
+                let html = [];
+                html.push(`
+                    <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                        <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Unable to save field data</span>
+                        <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.field_save_error_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    </div>
+                    <div id="mmria_dialog6" class="ui-dialog-content ui-widget-content">
+                        <div class="modal-body">
+                         <p>Unable to save field data</p><br/>
+                         <p>Error Summary: ${p_note}</p>
+                         <br/>
+                         If the problem persists, send an email to MMRIA Support  <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>
+                         </p>
+                       
+                         <br/>
+                         <textarea id=server_response_textarea2 rows=7 cols=55 readonly>
+Status: ${p_error.status === 0 ? "Unsent" : p_error.status }
+Action: ${p_note}
+Server Response:
+${p_error.responseText== undefined ? "offline" : p_error.responseText }
+                         </textarea>
+                        </div>
+
+                    </div>
+                    <div style="display:block">
+                    <footer class="modal-footer">
+                        <button id="field_save_error_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.field_save_error_dialog_click()" style="font-family: 'Open-Sans';">OK</button>
+                    </footer>
+                    </div>
+                `);
+    
+                element.innerHTML = html.join("");
+
+                mmria_pre_modal("field-save-error-id");
+                
+                window.setTimeout
+                (
+                    ()=> { 
+                        const field_save_error_dialog_close_button = document.getElementById("field_save_error_dialog_close_button"); 
+                        field_save_error_dialog_close_button.focus(); 
+                    }, 
+                    0
+                );
+
+                if(!element.open) element.showModal();
+        },
+        field_save_error_dialog_click: function ()
+        {
+            mmria_post_modal();
+            let el = document.getElementById("field-save-error-id");
+            el.close();
         }
         
 
