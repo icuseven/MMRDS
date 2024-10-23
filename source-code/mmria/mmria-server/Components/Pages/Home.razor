@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration configuration
@@ -16,6 +18,8 @@
     
 
     record link_item(string text, string href);
+
+    bool? is_sams_enabled;
 
     bool is_guest = true;
     bool is_abstractor = false;
@@ -115,6 +119,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+
+        var host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+
+        is_sams_enabled = configuration.GetBoolean(host_prefix, "sams:is_enabled");
+
         user_role_list = new();
 
         var authState = await AuthenticationStateProvider
@@ -690,7 +699,8 @@ else
         </div>
           <div class="card-content">
             <ul>
-              @if(is_installation_admin)
+
+              @if(!is_sams_enabled.HasValue || !is_sams_enabled.Value)
               {
                 <li><a href="/Account/Profile" >View Account Profile</a></li>
               }
@@ -702,6 +712,7 @@ else
               else
               {
                 <li><a href="/data-dictionary" target="_blank">View MMRIA Data Dictionary</a></li>
+                <li><a href="/data-dictionary-old" target="_blank">View Historical MMRIA Data Dictionary</a></li>
                 <li>
                     <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
                 </li>
