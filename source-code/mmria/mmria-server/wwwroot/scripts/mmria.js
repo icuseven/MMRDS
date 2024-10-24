@@ -1833,11 +1833,11 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
                         <div class="modal-body">
                          <p>An error occured while saving.</p>
                          <p>Error Summary: ${p_note}</p>
-                         
+                         <p>1. Press "Save and Continue" and confirm that you see a green "Case information has been saved." message.</p>
                          <p>
-                            Try navigating back to <b>MMRIA Home</b> and then to <b>View or Modify Data</b> and select your case again.<br/>
+                            2. If no confirmation message try navigating back to <b>MMRIA Home</b> and then to <b>View or Modify Data</b> and select your case again.<br/>
                          <br/>
-                         If the problem persists, send an email to MMRIA Support  <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>
+                          3. If the problem persists, send an email to MMRIA Support  <a href="mailto:mmriasupport@cdc.gov">mmriasupport@cdc.gov</a>
                          </p>
                        
                          <br/>
