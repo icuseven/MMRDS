@@ -1,0 +1,141 @@
+@page "/SearchUserList"
+@using mmria.common.couchdb;
+@using Microsoft.AspNetCore.Http;
+@using  mmria.server.extension;
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor; 
+@inject mmria.common.couchdb.OverridableConfiguration _configuration;
+
+<PageTitle>Manage Users</PageTitle>
+
+<h1>Manage Users</h1>
+<h2>User List</h2>
+
+<br/>
+
+<table>
+    <tr>
+        <td>
+            <select>
+                <option>Abstractor</option>
+                <option>Analyst</option>
+                <option>Committee Member</option>
+                
+            </select> 
+        </td>
+        <td><input type="text" placeholder="Search" /></td>
+        <td>Showing 1-20 of 200 users &lt;&lt; | &lt; | 1 | &gt; | &gt;&gt; </td>
+        <td><input type="button" value="Add New User" /></td>
+    </tr>
+</table>
+
+
+<table border=1>
+    <tr style="background-color: #b890bb;">
+        <th>Username (Email Address) (down arrow)</th>
+        <th>Role(s)</th>
+        <th>Actions</th>
+    </tr>
+
+
+    @foreach(var user in user_list)
+    {
+        <tr>
+            <td>@user.name</td>
+            <td>Abstractor / Case Folder / Active</td>
+            <td>
+                <input type="button" value="Set All Roles to inactive" /><br/>
+                <input type="button" value="Delete" />
+            </td>
+        </tr>
+    }
+
+
+</table>
+
+<table>
+    <tr>
+        <td>
+            &nbsp;
+        </td>
+        <td>&nbsp;</td>
+        <td>Showing 1-20 of 200 users &lt;&lt; | &lt; | 1 | &gt; | &gt;&gt; </td>
+        <td><input type="button" value="Add New User" /></td>
+    </tr>
+</table>
+
+@code{
+    /*
+
+3 main 
+    mmria.common.couchdb.jurisdiction
+    mmria.common.couchdb.user
+    mmria.common.couchdb.user-role-jurisdiction
+*/
+
+mmria.common.couchdb.OverridableConfiguration configuration;
+mmria.common.couchdb.DBConfigurationDetail db_config;
+string host_prefix = null;
+string userName = "";
+
+List<mmria.common.model.couchdb.user> user_list = new();
+
+protected override async Task OnInitializedAsync() 
+{
+
+    user_list.Add
+    (
+        new()
+        {
+            _id = "org.couchdb.user:user1",
+            name = "user1",
+            type = "user"
+        }
+    );
+
+    user_list.Add
+    (
+        new()
+        {
+            _id = "org.couchdb.user:efgh@cdc.gov",
+            name = "efgh@cdc.gov",
+            type = "user"
+        }
+    );
+
+    user_list.Add
+    (
+        new()
+        {
+            _id = "org.couchdb.user:abcd@cdc.gov",
+            name = "abcd@cdc.gov",
+            type = "user"
+        }
+    );
+
+
+    configuration = _configuration;
+    host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+    db_config = configuration.GetDBConfig(host_prefix);
+
+
+    var authState = await AuthenticationStateProvider
+        .GetAuthenticationStateAsync();
+    var user = authState.User;
+    if (user.Identity is not null && user.Identity.IsAuthenticated)
+    {
+
+        host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
+
+
+        userName = user.Identity.Name;
+
+    }
+}
+
+
+
+}
