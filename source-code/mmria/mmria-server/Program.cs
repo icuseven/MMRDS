@@ -496,9 +496,8 @@ public sealed partial class Program
                 options.AddPolicy("jurisdiction_admin", policy => policy.RequireRole("jurisdiction_admin"));
                 options.AddPolicy("installation_admin", policy => policy.RequireRole("installation_admin"));
                 options.AddPolicy("guest", policy => policy.RequireRole("guest"));
+                if(is_pmss_enhanced) options.AddPolicy("vro", policy => policy.RequireRole("vro"));
             });
-
-            //builder.RootComponents.Add<App>("app");
 
             builder.Services.AddMvc
             (
@@ -521,17 +520,9 @@ public sealed partial class Program
             );
 
 
-            builder.Services.AddRazorComponents
-            (
- 
-                
-            )
-                .AddInteractiveServerComponents
-                (
+            builder.Services.AddRazorComponents()
+                .AddInteractiveServerComponents();
 
-                );
-            //builder.Services.AddServerSideBlazor();
-           /* */
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -588,7 +579,6 @@ public sealed partial class Program
             app.Use(middleware);
 
             app.UseDefaultFiles();
-            //app.UseStaticFiles();
 
             var file_type_provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
             // Add new mappings
@@ -611,10 +601,10 @@ public sealed partial class Program
 
             app.UseRouting();
             app.UseAuthentication();
-                        app.UseAntiforgery();
+            app.UseAntiforgery();
             app.UseAuthorization();
 
-            //app.MapRazorPages();
+
             app.MapControllerRoute
             (
                 "default", 

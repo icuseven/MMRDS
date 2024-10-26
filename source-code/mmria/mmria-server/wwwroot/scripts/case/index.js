@@ -542,12 +542,28 @@ async function g_set_data_object_from_path
     } 
     else 
     {
-      eval(
-        p_object_path +
-          ' = "' +
-          value.trim().replace(/"/g, '\\"').replace(/\n/g, '\\n') +
-          '"'
-      );
+
+
+      try
+      {
+          
+        eval(
+            p_object_path +
+              ' = "' +
+              value.trim().replace(/\\/g, '/').replace(/"/g, '\\"').replace(/\n/g, '\\n') +
+              '"'
+          );
+
+      }
+      catch(e)
+      {
+          const err = {
+              status: 500,
+              responseText : `unable to save field: ${p_dictionary_path}\n${e}`
+          };
+          $mmria.field_save_error_dialog_show(err, `unable to save field: ${p_dictionary_path} `);
+      }
+
     }
 
     g_change_stack.push({
@@ -2063,18 +2079,21 @@ async function process_save_case()
             
             set_local_case(g_data);
 
-            const el = document.getElementById('last_updated_span')
-            if(el != null)
+            const node_list = document.querySelectorAll("#last_updated_span");
+            for(const el of node_list)
             {
-                const date_part_display_value = convert_datetime_to_local_display_value(
-					g_data.date_last_updated
-				);
+                if(el != null)
+                {
+                    const date_part_display_value = convert_datetime_to_local_display_value(
+                        g_data.date_last_updated
+                    );
 
-                const save_text = `${
-                    g_data.last_updated_by
-                } ${date_part_display_value}`
-                
-                el.innerHTML = save_text;
+                    const save_text = `${
+                        g_data.last_updated_by
+                    } ${date_part_display_value}`
+                    
+                    el.innerHTML = save_text;
+                }
             }
             //console.log('set_value save finished');
         }
@@ -2086,7 +2105,7 @@ async function process_save_case()
         for(let i = 0; i < save_queue.item_list.length; i++)
         {
             const item = save_queue.item_list[i];
-            if(item._id == case_response.id)
+            if(item.data._id == case_response.id)
             {
                 item.data._rev == case_response.rev
                 //break;
@@ -3360,13 +3379,27 @@ function g_textarea_oninput
     g_case_narrative_is_updated = true;
     g_case_narrative_is_updated_date = new Date()
 
-    eval
-    (
-        `${p_object_path}="${value.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`
-    );
+    try
+    {
+        
+
+        eval
+        (
+            `${p_object_path}="${value.replace(/"/g, '\\"').replace(/\n/g, '\\n')}"`
+        );
   
 
-    set_local_case(g_data, null);
+        set_local_case(g_data, null);
+    }
+    catch(e)
+    {
+        const err = {
+            status: 500,
+            responseText : `unable to save field: ${p_dictionary_path}\n${e}`
+        };
+        $mmria.field_save_error_dialog_show(err, `unable to save field: ${p_dictionary_path} `);
+    }
+
 }
 
 function navigation_away(e) 
