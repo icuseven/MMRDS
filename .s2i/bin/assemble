@@ -299,7 +299,8 @@ if [ "$BUILD_TYPE" == "source" ]; then
   done
 
   # publish application
-  DOTNET_PUBLISH_OPTIONS="--self-contained false --no-restore"
+  #DOTNET_PUBLISH_OPTIONS="--self-contained false --no-restore"
+  DOTNET_PUBLISH_OPTIONS=""
   if [ "$DOTNET_PUBLISH_READYTORUN" = true ]; then
     # we need to restore with an rid to aquire crossgen
     RESTORE_OPTIONS="$RESTORE_OPTIONS -r linux-x64"
