@@ -46,6 +46,7 @@ class Program
 
     static List<string> test_list = new List<string>()
     {
+        //"qa"
 //"localhost",
 "fl_dev",
 //"test"
@@ -170,7 +171,9 @@ ma",
 /**/
     static HashSet<string> prefix_list = new HashSet<string>()
     {
-
+            "mp",
+            "mh",
+            "pw",
             "as",
             "cnmi",
             "vi",
@@ -210,7 +213,7 @@ ma",
         //"cdc",
         "co",
         "de",
-        //"demo",
+        "demo",
         "fl",
         "hi",
         "ia",
@@ -314,7 +317,7 @@ ma",
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = true;
+        bool is_test_list = false;
         
         bool is_report_only_mode = false;
 
