@@ -84,6 +84,9 @@ if [ -d /tmp/src ]; then
 fi
 
 
+dotnet workload install wasm-tools
+dotnet workload install wasm-experimental
+
 # if [[ -f "/opt/app-root/src/source-code/mmria/pmss/pmss.csproj" ]]
 # then
 	# dotnet workload install wasm-tools
