@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -521,7 +522,8 @@ public sealed partial class Program
 
 
             builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
+                .AddInteractiveServerComponents()
+                .AddInteractiveWebAssemblyComponents();
 
             builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
@@ -570,6 +572,7 @@ public sealed partial class Program
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebAssemblyDebugging();
             }
             else
             {
@@ -580,12 +583,16 @@ public sealed partial class Program
 
             app.UseDefaultFiles();
 
+            app.UseStaticFiles();
+
+/*
             var file_type_provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
             // Add new mappings
             file_type_provider.Mappings[".dll"] = "application/octet-stream";
             file_type_provider.Mappings[".blat"] = "application/octet-stream";
             file_type_provider.Mappings[".dat"] = "application/octet-stream";
             file_type_provider.Mappings[".css"] = "text/css";
+
 
             app.UseStaticFiles(
                 
@@ -597,7 +604,7 @@ public sealed partial class Program
                 RequestPath = "",
                 ContentTypeProvider = file_type_provider
             });
-
+*/
 
             app.UseRouting();
             app.UseAuthentication();
@@ -612,7 +619,9 @@ public sealed partial class Program
             );
                 
             app.MapRazorComponents<mmria.server.Components.App>()
-                .AddInteractiveServerRenderMode();
+                .AddInteractiveServerRenderMode()
+                .AddInteractiveWebAssemblyRenderMode()
+                .AddAdditionalAssemblies(typeof(mmria.server.Client._Imports).Assembly);
             
 
             //app.MapFallbackToPage("/_Host");
