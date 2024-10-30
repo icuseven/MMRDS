@@ -1,12 +1,19 @@
 @page "/SearchUserList"
 @using mmria.common.couchdb;
+
+@*
+
 @using Microsoft.AspNetCore.Http;
 @using  mmria.server.extension;
 @using Microsoft.AspNetCore.Components.Authorization
-@using System.Security.Claims;
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager NavigationManager
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor; 
+
+*@
+
+
+@using System.Security.Claims;
+@inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration _configuration;
 
 <PageTitle>Manage Users</PageTitle>
@@ -121,6 +128,9 @@ protected override async Task OnInitializedAsync()
         }
     );
 
+    /*
+
+    var a = "this \n is a string";
 
     configuration = _configuration;
     host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
@@ -139,6 +149,7 @@ protected override async Task OnInitializedAsync()
         userName = user.Identity.Name;
 
     }
+    */
 }
 
 
