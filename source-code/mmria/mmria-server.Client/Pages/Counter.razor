@@ -33,7 +33,7 @@
 
         //todoItems = await Http.GetFromJsonAsync<TodoItem[]>("todoitems");
 
-        HttpResponseMessage response = await Http.GetAsync($"{NavigationManager.BaseUri}api/user/my-user");
+        HttpResponseMessage response = await Http.GetAsync($"{NavigationManager.BaseUri.Replace("https:", "http:")}api/user/my-user");
 
         response.EnsureSuccessStatusCode();
         result_text = await response.Content.ReadAsStringAsync();
