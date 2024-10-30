@@ -1,5 +1,9 @@
 ﻿@page "/counter"
 @rendermode InteractiveWebAssembly
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+@using System.Net.Http
+@inject HttpClient Http
 
 <PageTitle>Counter</PageTitle>
 
@@ -9,11 +13,57 @@
 
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
-@code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+<button class="btn btn-primary" @onclick="IncrementCount">Get Bubba</button>
+
+<textarea @bind=result_text></textarea>
+
+
+
+@code {
+
+    ElementReference span;
+    int currentCount = 0;
+
+    string result_text = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitializedAsync();
+
+
+        //todoItems = await Http.GetFromJsonAsync<TodoItem[]>("todoitems");
+
+        HttpResponseMessage response = await Http.GetAsync($"{NavigationManager.BaseUri}api/user/my-user");
+
+        response.EnsureSuccessStatusCode();
+        result_text = await response.Content.ReadAsStringAsync();
+
+        
+    
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        return base.OnAfterRenderAsync(firstRender);
+
+        if(firstRender)
+        {
+            //span. = result_text;
+        }
+    }
+
+
+
+    
+
+    
+
+    void IncrementCount()
     {
         currentCount++;
     }
 }
+
+
+
+

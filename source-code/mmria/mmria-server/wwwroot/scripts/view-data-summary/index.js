@@ -15,6 +15,7 @@ const g_form_field_map = new Map();
 
 
 const g_path_to_value_map = new Map();
+const g_path_and_value_to_display = new Map();
 
 var g_data_is_loaded = false;
 
@@ -303,6 +304,7 @@ async function build_report()
                 if(!g_path_to_value_map.has(s))
                 {
                     g_path_to_value_map.set(s, new Map());
+                    
                 }
 
                 if(!g_report_stat_map.has(s))
@@ -340,6 +342,7 @@ async function build_report()
                     {
                         g_report_map.get(s).set(detail_item[v].value, 0);
                     }
+
 
                     if(!g_path_to_value_map.get(s).has(detail_item[v].value))
                     {
@@ -1144,6 +1147,7 @@ async function on_show_case_list_click
     p_value
 )
 {
+    
     if(g_release_version_specification == null)
     {
 
@@ -1154,6 +1158,10 @@ async function on_show_case_list_click
         g_release_version_specification = response;
     }
 	
+
+    // shou display value
+    // Option Selected: 
+    // nan/nan/nan
 
     const result = []
     render_search_result2(result, "/" + p_path);
@@ -1201,7 +1209,7 @@ async function data_dictionary_dialog_show(p_title, p_inner_html, p_sub_title, p
     let html = [];
     html.push(`
         <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
-            <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">${p_title.length > 100 ? p_title.slice(0,97) + "..." : p_title}</span>
+            <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Matching MMRIA ID#'s</span>
             <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
         </div>
         <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
