@@ -2334,3 +2334,56 @@ async function external_link_click(p_url)
     )
 }
 
+
+async function mmria_api_get_url(p_url)
+{
+    /*
+    const response = await $.ajax
+    ({
+        url: `${location.protocol}//${location.host}/${p_url}`,
+    });
+
+    return response*/
+
+
+    let response = {};
+
+    try
+    {
+        const case_response_promise = await fetch
+        (
+            `${location.protocol}//${location.host}/${p_url}`, {
+            method: "GET",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            },
+        
+            //make sure to serialize your JSON body
+            //body: JSON.stringify(save_case_request)
+        });
+
+        response = await case_response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        /*
+        //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
+
+        $mmria.unstable_network_dialog_show(xhr, p_note);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+            */
+    }
+
+    return response;
+}

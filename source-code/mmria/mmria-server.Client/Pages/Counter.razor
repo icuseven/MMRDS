@@ -7,6 +7,7 @@
 
 <PageTitle>Counter</PageTitle>
 
+
 <h1>Counter</h1>
 
 <p role="status">Current count: @currentCount</p>
@@ -14,7 +15,7 @@
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 
-<button class="btn btn-primary" @onclick="IncrementCount">Get Bubba</button>
+<button class="btn btn-primary" @onclick="IncrementCount">Get User</button>
 
 <textarea @bind=result_text></textarea>
 
@@ -25,35 +26,36 @@
     ElementReference span;
     int currentCount = 0;
 
+    string url;
+    mmria.common.model.couchdb.user user;
+
     string result_text = string.Empty;
     protected override async Task OnInitializedAsync()
     {
         base.OnInitializedAsync();
 
 
-        //todoItems = await Http.GetFromJsonAsync<TodoItem[]>("todoitems");
-
-        HttpResponseMessage response = await Http.GetAsync($"{NavigationManager.BaseUri.Replace("https:", "http:")}api/user/my-user");
-
-        response.EnsureSuccessStatusCode();
-        result_text = await response.Content.ReadAsStringAsync();
-
-        
-    
     }
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        return base.OnAfterRenderAsync(firstRender);
 
         if(firstRender)
         {
-            //span. = result_text;
+            user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
+
+
+            result_text = $"The user:\n{user.name} {user._id}";
+
+            //result_text = await JSRuntime.InvokeAsync<string>("mmria_api_get_url", "api/user/my-user");
         }
     }
 
-
-
+    public class ClientMovieService(HttpClient http, string url) 
+    {
+        public async Task<mmria.common.model.couchdb.user> GetUserAsync() => 
+            await http.GetFromJsonAsync<mmria.common.model.couchdb.user>($"{url}api/user/my-user") ?? new ();
+    }
     
 
     
