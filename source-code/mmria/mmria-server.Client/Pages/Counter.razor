@@ -3,8 +3,9 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @using System.Net.Http
-@inject mmria.common.couchdb.OverridableConfiguration OverridableConfig
+@*inject mmria.common.couchdb.OverridableConfiguration OverridableConfig*@
 @inject IConfiguration config
+@inject HttpClient http_client
 
 
 <PageTitle>Counter</PageTitle>
@@ -17,7 +18,7 @@
 
 
 <button class="btn btn-primary" @onclick="IncrementCount">Get User</button>
-
+<br/>
 <textarea @bind=result_text></textarea>
 
 
@@ -29,37 +30,52 @@
     int currentCount = 0;
 
     string url;
-    mmria.common.model.couchdb.user user;
+    mmria.common.model.couchdb.user user = new ();
 
     string result_text = string.Empty;
 
 
     protected override async Task OnInitializedAsync()
     {
-        /*
-        var client =new HttpClient
-        ()
-            {
-                
-                BaseAddress = new Uri(HostAddress.BaseAddress)
-            }
-        ;
+        try
+        {
+            
 
-       user = await client.GetFromJsonAsync<mmria.common.model.couchdb.user>("api/user/my-user");
+
+        var url = $"{NavigationManager.BaseUri}api/user/my-user";
+        http_client.DefaultRequestHeaders.Accept
+            .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+        var response = await http_client.GetAsync(url);
+        response.EnsureSuccessStatusCode();
+
+        var json = await response.Content.ReadAsStringAsync();
+
+      
+
+        user = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.user>(json);
+       /*user = await http_client.GetFromJsonAsync<mmria.common.model.couchdb.user>(url);
         result_text = $"The user:\n{user.name} {user._id}";
-        */
+        
+*/
+        result_text = $"{json} \n\nThe user:\n{user.name} {user._id}\nNavigationManager: {NavigationManager.BaseUri}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
+    
+        }
+        catch(System.Exception ex)
+        {
 
-        result_text = $"NavigationManager: {NavigationManager.BaseUri}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
+        }
+
     }
 
 
     [JSInvokable]
     public async Task DocumentLoad()
     {
-        user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
+        //user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
 
 
-        result_text = $"The user:\n{user.name} {user._id}";
+        //result_text = $"The user:\n{user.name} {user._id}";
 
     }
 
@@ -77,12 +93,13 @@
         }
     }
 
+/*
     public class ClientMovieService(HttpClient http, string url) 
     {
         public async Task<mmria.common.model.couchdb.user> GetUserAsync() => 
             await http.GetFromJsonAsync<mmria.common.model.couchdb.user>($"{url}api/user/my-user") ?? new ();
     }
-    
+    */
 
     
 
