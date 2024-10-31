@@ -3,10 +3,11 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @using System.Net.Http
-@inject HttpClient Http
+@inject mmria.common.couchdb.OverridableConfiguration OverridableConfig
+@inject IConfiguration config
+
 
 <PageTitle>Counter</PageTitle>
-
 
 <h1>Counter</h1>
 
@@ -23,6 +24,7 @@
 
 @code {
 
+    
     ElementReference span;
     int currentCount = 0;
 
@@ -30,10 +32,34 @@
     mmria.common.model.couchdb.user user;
 
     string result_text = string.Empty;
+
+
     protected override async Task OnInitializedAsync()
     {
-        base.OnInitializedAsync();
+        /*
+        var client =new HttpClient
+        ()
+            {
+                
+                BaseAddress = new Uri(HostAddress.BaseAddress)
+            }
+        ;
 
+       user = await client.GetFromJsonAsync<mmria.common.model.couchdb.user>("api/user/my-user");
+        result_text = $"The user:\n{user.name} {user._id}";
+        */
+
+        result_text = $"BaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
+    }
+
+
+    [JSInvokable]
+    public async Task DocumentLoad()
+    {
+        user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
+
+
+        result_text = $"The user:\n{user.name} {user._id}";
 
     }
 
@@ -42,10 +68,10 @@
 
         if(firstRender)
         {
-            user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
+            //user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
 
 
-            result_text = $"The user:\n{user.name} {user._id}";
+            //result_text = $"The user:\n{user.name} {user._id}";
 
             //result_text = await JSRuntime.InvokeAsync<string>("mmria_api_get_url", "api/user/my-user");
         }

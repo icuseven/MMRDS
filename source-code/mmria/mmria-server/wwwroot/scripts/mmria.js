@@ -2350,7 +2350,7 @@ async function mmria_api_get_url(p_url)
 
     try
     {
-        const case_response_promise = await fetch
+        const response_promise = await fetch
         (
             `${location.protocol}//${location.host}/${p_url}`, {
             method: "GET",
@@ -2364,7 +2364,11 @@ async function mmria_api_get_url(p_url)
             //body: JSON.stringify(save_case_request)
         });
 
-        response = await case_response_promise.json();
+        if (!response_promise.ok) {
+            throw new Error(`Response status: ${response.status}`);
+          }
+
+        response = await response_promise.json();
     }  
     catch(xhr) 
     {
@@ -2387,3 +2391,8 @@ async function mmria_api_get_url(p_url)
 
     return response;
 }
+
+
+window.sayHello2 = (dotNetHelper, name) => {
+    return DotNet.invokeMethodAsync('mmria.server','DocumentLoad');
+  };

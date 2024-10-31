@@ -520,7 +520,6 @@ public sealed partial class Program
                 }
             );
 
-
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
