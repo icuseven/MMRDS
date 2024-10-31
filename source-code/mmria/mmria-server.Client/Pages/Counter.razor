@@ -3,7 +3,8 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @using System.Net.Http
-@*inject mmria.common.couchdb.OverridableConfiguration OverridableConfig*@
+@*using mmria.common.couchdb
+@inject mmria.common.couchdb.OverridableConfiguration overridable_config*@
 @inject IConfiguration config
 @inject HttpClient http_client
 
@@ -29,80 +30,48 @@
     ElementReference span;
     int currentCount = 0;
 
-    string url;
+    string base_url;
     mmria.common.model.couchdb.user user = new ();
 
     string result_text = string.Empty;
 
-
     protected override async Task OnInitializedAsync()
     {
-        try
-        {
-            
+        base_url = NavigationManager.BaseUri;
 
+        user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
 
-        var url = $"{NavigationManager.BaseUri}api/user/my-user";
-        http_client.DefaultRequestHeaders.Accept
-            .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+    }
 
-        var response = await http_client.GetAsync(url);
-        response.EnsureSuccessStatusCode();
+    public async Task<T> GetFromAPI<T>(string p_url)
+    {
+            var result = default(T);
 
-        var json = await response.Content.ReadAsStringAsync();
+            try
+            {
+                var url = $"{NavigationManager.BaseUri}{p_url}";
+                //http_client.DefaultRequestHeaders.Accept
+                //    .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-      
+                var response = await http_client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
 
-        user = System.Text.Json.JsonSerializer.Deserialize<mmria.common.model.couchdb.user>(json);
-       /*user = await http_client.GetFromJsonAsync<mmria.common.model.couchdb.user>(url);
-        result_text = $"The user:\n{user.name} {user._id}";
+                var json = await response.Content.ReadAsStringAsync();
+
+                result = System.Text.Json.JsonSerializer.Deserialize<T>(json);
+
+                result_text = $"{json} \n\nThe user:\n{user.name} {user._id}\nNavigationManager: {base_url}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
         
-*/
-        result_text = $"{json} \n\nThe user:\n{user.name} {user._id}\nNavigationManager: {NavigationManager.BaseUri}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
-    
-        }
-        catch(System.Exception ex)
-        {
+            }
+            catch(System.Exception ex)
+            {
 
-        }
+            }
 
+            return result;
     }
-
-
-    [JSInvokable]
-    public async Task DocumentLoad()
-    {
-        //user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
-
-
-        //result_text = $"The user:\n{user.name} {user._id}";
-
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-
-        if(firstRender)
-        {
-            //user = await JSRuntime.InvokeAsync<mmria.common.model.couchdb.user>("mmria_api_get_url", "api/user/my-user");
-
-
-            //result_text = $"The user:\n{user.name} {user._id}";
-
-            //result_text = await JSRuntime.InvokeAsync<string>("mmria_api_get_url", "api/user/my-user");
-        }
-    }
-
-/*
-    public class ClientMovieService(HttpClient http, string url) 
-    {
-        public async Task<mmria.common.model.couchdb.user> GetUserAsync() => 
-            await http.GetFromJsonAsync<mmria.common.model.couchdb.user>($"{url}api/user/my-user") ?? new ();
-    }
-    */
 
     
-
     void IncrementCount()
     {
         currentCount++;
