@@ -12,9 +12,10 @@
 *@
 
 
-@using System.Security.Claims;
+@using System.Net.Http
 @inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration _configuration;
+@inject HttpClient http_client
 
 <PageTitle>Manage Users</PageTitle>
 
@@ -93,64 +94,59 @@ mmria.common.couchdb.DBConfigurationDetail db_config;
 string host_prefix = null;
 string userName = "";
 
+
+string base_url = null;
+
 List<mmria.common.model.couchdb.user> user_list = new();
+List<mmria.common.model.couchdb.user_role_jurisdiction> user_role_juridiction_list = new();
+List<mmria.common.model.couchdb.jurisdiction_tree> case_folder_list = new();
+List<string> role_list = new();
 
-protected override async Task OnInitializedAsync() 
-{
+mmria.common.model.couchdb.user user;
 
-    user_list.Add
-    (
-        new()
-        {
-            _id = "org.couchdb.user:user1",
-            name = "user1",
-            type = "user"
-        }
-    );
-
-    user_list.Add
-    (
-        new()
-        {
-            _id = "org.couchdb.user:efgh@cdc.gov",
-            name = "efgh@cdc.gov",
-            type = "user"
-        }
-    );
-
-    user_list.Add
-    (
-        new()
-        {
-            _id = "org.couchdb.user:abcd@cdc.gov",
-            name = "abcd@cdc.gov",
-            type = "user"
-        }
-    );
-
-    /*
-
-    var a = "this \n is a string";
-
-    configuration = _configuration;
-    host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
-    db_config = configuration.GetDBConfig(host_prefix);
-
-
-    var authState = await AuthenticationStateProvider
-        .GetAuthenticationStateAsync();
-    var user = authState.User;
-    if (user.Identity is not null && user.Identity.IsAuthenticated)
+    protected override async Task OnInitializedAsync()
     {
+        base_url = NavigationManager.BaseUri;
 
-        host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
+/*
+/api/policyvalues
+/api/user_role_jurisdiction_view/my-roles
+/api/user
 
-
-        userName = user.Identity.Name;
+*/
+        user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
+        user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
+        user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
 
     }
-    */
-}
+
+    public async Task<T> GetFromAPI<T>(string p_url)
+    {
+            var result = default(T);
+
+            try
+            {
+                var url = $"{NavigationManager.BaseUri}{p_url}";
+                //http_client.DefaultRequestHeaders.Accept
+                //    .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await http_client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                result = System.Text.Json.JsonSerializer.Deserialize<T>(json);
+
+                //result_text = $"{json} \n\nThe user:\n{user.name} {user._id}\nNavigationManager: {base_url}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
+        
+            }
+            catch(System.Exception ex)
+            {
+
+            }
+
+            return result;
+    }
 
 
 
