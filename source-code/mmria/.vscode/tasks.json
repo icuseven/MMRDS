@@ -22,6 +22,16 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "build-case-version",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/mmria.case_version/mmria.case_version.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "build-console",
             "command": "dotnet",
             "type": "process",

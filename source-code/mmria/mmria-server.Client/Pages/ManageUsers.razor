@@ -1,26 +1,37 @@
 @page "/SearchUserList"
+@rendermode InteractiveWebAssembly
+
+
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+
 @using mmria.common.couchdb;
+@inject IConfiguration config
 
 @*
-
+@using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http;
 @using  mmria.server.extension;
 @using Microsoft.AspNetCore.Components.Authorization
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor httpContextAccessor; 
 
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@inject HttpClient http_client
 *@
 
 
 @using System.Net.Http
 @inject NavigationManager NavigationManager
-@inject mmria.common.couchdb.OverridableConfiguration _configuration;
-@inject HttpClient http_client
+@inject CookieStorageAccessor CookieAccessor
+@inject IHttpClientFactory _httpClientFactory
+
 
 <PageTitle>Manage Users</PageTitle>
 
-<h1>Manage Users</h1>
-<h2>User List</h2>
+<h1>Manage Users: @user</h1>
+<h2>User List:  @currentCount</h2>
 
 <br/>
 
@@ -34,9 +45,9 @@
                 
             </select> 
         </td>
-        <td><input type="text" placeholder="Search" /></td>
+        <td><input type="text" placeholder="Search" value="@sid" /></td>
         <td>Showing 1-20 of 200 users &lt;&lt; | &lt; | 1 | &gt; | &gt;&gt; </td>
-        <td><input type="button" value="Add New User" /></td>
+        <td><input type="button" value="Add New User" @onclick="IncrementCount"/></td>
     </tr>
 </table>
 
@@ -76,7 +87,7 @@
         </td>
         <td>&nbsp;</td>
         <td>Showing 1-20 of 200 users &lt;&lt; | &lt; | 1 | &gt; | &gt;&gt; </td>
-        <td><input type="button" value="Add New User" /></td>
+        <td><input type="button" value="Add New User" @onclick="SearchOnBlur"/></td>
     </tr>
 </table>
 
@@ -96,28 +107,82 @@ string userName = "";
 
 
 string base_url = null;
+string sid = null;
 
-List<mmria.common.model.couchdb.user> user_list = new();
+[Parameter]
+public List<mmria.common.model.couchdb.user> user_list { get;set;}= new();
 List<mmria.common.model.couchdb.user_role_jurisdiction> user_role_juridiction_list = new();
 List<mmria.common.model.couchdb.jurisdiction_tree> case_folder_list = new();
 List<string> role_list = new();
 
 mmria.common.model.couchdb.user user;
 
+int currentCount = 0;
+
+    protected override bool ShouldRender() => true;
+
+    void IncrementCount()
+    {
+        currentCount++;
+    }
+
+    async Task SearchOnBlur()
+    {
+        user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
+        user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
+        user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
+
+        if (user == null) user = new();
+        if (user_list == null) user_list = new();
+        if (user_role_juridiction_list == null) user_role_juridiction_list = new(); 
+
+        StateHasChanged();
+    }
+    
     protected override async Task OnInitializedAsync()
     {
         base_url = NavigationManager.BaseUri;
 
+  
+        
+        //sid = await CookieAccessor.GetValueAsync<string>("sid");
+        
+
+  
+
+    }
+
+    protected override void OnParametersSet()
+    {
+        var message = $"The start date in the URL was used ";
+        
+    }
+
+
+
+         
+    protected override async Task OnAfterRenderAsync(bool is_first)
+    {
+        
+        if(!is_first) return;
 /*
+        
 /api/policyvalues
 /api/user_role_jurisdiction_view/my-roles
 /api/user
 
 */
+
+        //var  needParameter = httpContextAccessor.HttpContext.Request.Headers["sid"];
         user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
         user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
         user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
 
+        if (user == null) user = new();
+        if (user_list == null) user_list = new();
+        if (user_role_juridiction_list == null) user_role_juridiction_list = new(); 
+
+        StateHasChanged();
     }
 
     public async Task<T> GetFromAPI<T>(string p_url)
@@ -126,10 +191,22 @@ mmria.common.model.couchdb.user user;
 
             try
             {
-                var url = $"{NavigationManager.BaseUri}{p_url}";
+                var url = $"{base_url}{p_url}";
+/*
+                var curl = new cURL("GET", null, url, null, config["mmria_settings:timer_user_name"], config["mmria_settings:timer_value"]);
+                
+                //curl.AddHeader("sid",sid);
+                string responseFromServer = curl.execute();
+                result =  System.Text.Json.JsonSerializer.Deserialize<T> (responseFromServer);
+
+*/
+                using HttpClient http_client = _httpClientFactory.CreateClient("API");
+
+
+  
                 //http_client.DefaultRequestHeaders.Accept
                 //    .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-
+                //http_client.DefaultRequestHeaders.Add("sid", sid);
                 var response = await http_client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
 

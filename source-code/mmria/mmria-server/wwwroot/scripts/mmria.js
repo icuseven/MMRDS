@@ -2393,6 +2393,9 @@ async function mmria_api_get_url(p_url)
 }
 
 
-window.sayHello2 = (dotNetHelper, name) => {
-    return DotNet.invokeMethodAsync('mmria.server','DocumentLoad');
-  };
+function getSSCookie() 
+{
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; sid`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}

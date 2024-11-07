@@ -57,6 +57,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
 
         }
         
+
         if
         (
             Request.Cookies.ContainsKey("sid") && 

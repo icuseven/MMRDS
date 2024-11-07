@@ -344,19 +344,6 @@ public sealed partial class Program
             configuration["mmria_settings:is_schedule_enabled"] = overridable_config.GetString("is_schedule_enabled", host_prefix);
             configuration["mmria_settings:db_prefix"] = overridable_config.GetString("db_prefix", host_prefix);
 
-/*
-            var collection = new ServiceCollection();
-
-            collection.AddSingleton<mmria.common.couchdb.ConfigurationSet>(DbConfigSet);
-            collection.AddSingleton<IConfiguration>(configuration);
-            collection.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(overridable_config);
-
-            collection.AddLogging();
-
-            var provider = collection.BuildServiceProvider();
-            */
-
-
             // ******* To Be removed end
 
             const string mmria_actor_system_name = "mmria-actor-system";
@@ -524,7 +511,8 @@ public sealed partial class Program
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents();
 
-            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+
+            //builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             if 
@@ -546,25 +534,10 @@ public sealed partial class Program
                     }
                 ));
             }
-/*
-            builder.Services.AddCors
-            (
-                policy =>
-                {
-                    policy.AddPolicy
-                    (
-                        "_myAllowSpecificOrigins", 
-                        builder => builder
-                        .WithOrigins("http://localhost:5000/")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                    );
-                }
-            );
-            */
+
 
             builder.Services.AddHttpClient();
+            builder.Services.AddScoped<CookieStorageAccessor>();
 
             var app = builder.Build();
 
@@ -584,26 +557,7 @@ public sealed partial class Program
 
             app.UseStaticFiles();
 
-/*
-            var file_type_provider = new Microsoft.AspNetCore.StaticFiles.FileExtensionContentTypeProvider();
-            // Add new mappings
-            file_type_provider.Mappings[".dll"] = "application/octet-stream";
-            file_type_provider.Mappings[".blat"] = "application/octet-stream";
-            file_type_provider.Mappings[".dat"] = "application/octet-stream";
-            file_type_provider.Mappings[".css"] = "text/css";
 
-
-            app.UseStaticFiles(
-                
-                new StaticFileOptions
-            {
-                
-                FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-                    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
-                RequestPath = "",
-                ContentTypeProvider = file_type_provider
-            });
-*/
 
             app.UseRouting();
             app.UseAuthentication();
@@ -611,18 +565,21 @@ public sealed partial class Program
             app.UseAuthorization();
 
 
+
+
+            app.MapRazorComponents<mmria.server.Components.App>()
+                .AddInteractiveServerRenderMode()
+                .AddInteractiveWebAssemblyRenderMode()
+                .AddAdditionalAssemblies(typeof(mmria.server.Client._Imports).Assembly);
+           
+            
+
+            //app.MapControllerRoute("Api","api/{controller}/{action}/{id?}");
             app.MapControllerRoute
             (
                 "default", 
                 "{controller=Home}/{action=Index}"
             );
-                
-            app.MapRazorComponents<mmria.server.Components.App>()
-                .AddInteractiveServerRenderMode()
-                .AddInteractiveWebAssemblyRenderMode()
-                .AddAdditionalAssemblies(typeof(mmria.server.Client._Imports).Assembly);
-            
-
             //app.MapFallbackToPage("/_Host");
 
             app.Run(overridable_config.GetString("web_site_url", host_prefix));
@@ -662,8 +619,7 @@ public sealed partial class Program
                 resetFeature.Reset(errorCode: 4);
                 break;
             }
-            
-            if
+            else if
             (
                 (
                     context.Request.Headers.ContainsKey("Content-Length") &&

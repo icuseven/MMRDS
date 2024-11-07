@@ -30,7 +30,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.10" />
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.1" />
+    <!--PackageReference Include="Microsoft.AspNetCore.Hosting.WindowsServices" Version="7.0.1" /-->
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
     
     <PackageReference Include="Quartz" Version="3.5.0" />

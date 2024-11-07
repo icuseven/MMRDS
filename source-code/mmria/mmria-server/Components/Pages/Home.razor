@@ -1,13 +1,19 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Http
+@using Microsoft.Extensions.Configuration
 @inject IHttpContextAccessor httpContextAccessor
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration configuration
 @inject IHttpClientFactory httpClientFactory
 @inject NavigationManager NavigationManager
+@inject CookieStorageAccessor CookieAccessor
+@inject IConfiguration config
+@inject IJSRuntime JS
 
 @using BurdenStatement
 @using mmria.common.couchdb;
@@ -262,6 +268,28 @@
             return "Never";
         }
         
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool is_first)
+    {
+        
+        if(!is_first) return;
+        /*
+
+        var cookie_string = await CookieAccessor.GetValueAsync<string>("aid");
+
+
+        var sid = cookie_string.Split("; aid=");
+        if(sid.Length > 1)
+        {
+            config["mmria_settings:sid"] = sid[1];
+        }*/
+
+        
+            //"mmria-application-browser-tab=; aid=28763129-aecb-4b0e-bdd5-862444920921"
+
+        //config["mmria_settings:sid"] = await JS.InvokeAsync<string>("getSSCookie");
     }
 
 
