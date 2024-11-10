@@ -821,6 +821,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
             case "committee_description":
 			case "description":
             case "other_specify_list":
+            case "disable_on_selected_item_list":
             case "parent_list":     
 			case "grid_template_areas":
 			case "pre_fill":
@@ -1108,6 +1109,7 @@ function render_attribute_add_control(p_path, node_type)
     result.push('<option>description</option>');
     result.push('<option>committee_description</option>');
     result.push('<option>other_specify_list</option>');
+    result.push('<option>disable_on_selected_item_list</option>')
     result.push('<option>parent_list</option>');
     result.push('<option>is_hidden</option>');
 
@@ -1767,6 +1769,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "default_value":
 			case "description":
             case "other_specify_list":
+            case "disable_on_selected_item_list":
             case "parent_list":
             case "sort_order":
 			case "regex_pattern":
