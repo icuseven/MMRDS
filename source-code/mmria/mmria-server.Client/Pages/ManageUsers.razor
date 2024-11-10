@@ -1,6 +1,6 @@
 @page "/SearchUserList"
-@rendermode InteractiveWebAssembly
 
+@rendermode @(new InteractiveAutoRenderMode(prerender: false))
 
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
@@ -9,6 +9,9 @@
 @inject IConfiguration config
 
 @*
+
+
+@rendermode InteractiveWebAssembly
 @using Microsoft.AspNetCore.Http
 @using Microsoft.AspNetCore.Http;
 @using  mmria.server.extension;
@@ -26,6 +29,7 @@
 @inject NavigationManager NavigationManager
 @inject CookieStorageAccessor CookieAccessor
 @inject IHttpClientFactory _httpClientFactory
+
 
 
 <PageTitle>Manage Users</PageTitle>
@@ -128,13 +132,6 @@ int currentCount = 0;
 
     async Task SearchOnBlur()
     {
-        user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
-        user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
-        user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
-
-        if (user == null) user = new();
-        if (user_list == null) user_list = new();
-        if (user_role_juridiction_list == null) user_role_juridiction_list = new(); 
 
         StateHasChanged();
     }
@@ -143,9 +140,16 @@ int currentCount = 0;
     {
         base_url = NavigationManager.BaseUri;
 
-  
-        
-        //sid = await CookieAccessor.GetValueAsync<string>("sid");
+ 
+        user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
+        user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
+        user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
+
+        if (user == null) user = new();
+        if (user_list == null) user_list = new();
+        if (user_role_juridiction_list == null) user_role_juridiction_list = new(); 
+ 
+      /*   */
         
 
   
@@ -165,6 +169,21 @@ int currentCount = 0;
     {
         
         if(!is_first) return;
+
+        if(user != null) return;
+        
+        /*
+        var sid_result = await CookieAccessor.GetValueAsync<string>("sid");
+        if(string.IsNullOrWhiteSpace(sid) && !string.IsNullOrWhiteSpace(sid_result))
+        {
+            var split = sid_result.Split("aid=");
+            if(split.Length > 1)
+            {
+                sid = split[1].Trim();
+            }
+        }*/
+
+
 /*
         
 /api/policyvalues
@@ -174,6 +193,8 @@ int currentCount = 0;
 */
 
         //var  needParameter = httpContextAccessor.HttpContext.Request.Headers["sid"];
+
+        
         user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");
         user_list = await GetFromAPI<List<mmria.common.model.couchdb.user>>("api/user");
         user_role_juridiction_list= await GetFromAPI<List<mmria.common.model.couchdb.user_role_jurisdiction>>("api/user");
@@ -183,6 +204,7 @@ int currentCount = 0;
         if (user_role_juridiction_list == null) user_role_juridiction_list = new(); 
 
         StateHasChanged();
+       /* */
     }
 
     public async Task<T> GetFromAPI<T>(string p_url)
@@ -202,6 +224,11 @@ int currentCount = 0;
 */
                 using HttpClient http_client = _httpClientFactory.CreateClient("API");
 
+                
+                if(http_client.DefaultRequestHeaders.Count() == 0 && !string.IsNullOrWhiteSpace(sid))
+                {
+                    http_client.DefaultRequestHeaders.Add("sid", sid);
+                }
 
   
                 //http_client.DefaultRequestHeaders.Accept
