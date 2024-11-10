@@ -85,6 +85,8 @@ public sealed class node
 
     public string other_specify_list { get;set;}
 
+    public string disable_on_selected_item_list { get; set; }
+
 
     /*
      position":"absolute",
