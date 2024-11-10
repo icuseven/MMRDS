@@ -2055,7 +2055,7 @@ async function list_apply_dependent_change
         child_control.setAttribute("disabled","disabled");
     }
 
-    //await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
+    await g_set_data_object_from_path(p_object_path,p_metadata_path, p_parent_path,p_data);
 
 
     $mmria.confirm_dialog_confirm_close();
