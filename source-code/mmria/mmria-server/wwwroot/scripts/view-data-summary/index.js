@@ -304,7 +304,6 @@ async function build_report()
                 if(!g_path_to_value_map.has(s))
                 {
                     g_path_to_value_map.set(s, new Map());
-                    
                 }
 
                 if(!g_report_stat_map.has(s))
@@ -475,6 +474,7 @@ async function build_report()
         g_path_to_value_map.get(k).set("min", new Set());
         g_path_to_value_map.get(k).set("max", new Set());
         g_path_to_value_map.get(k).set("missing", new Set());
+        g_path_to_value_map.get(k).set("count", new Set());
        
 
         for(const data_item of data_list)
@@ -513,6 +513,10 @@ async function build_report()
                         {
                             g_path_to_value_map.get(k).get("missing").add(data_item.record_id)
                         }
+                        else
+                        {
+                            g_path_to_value_map.get(k).get("count").add(data_item.record_id)
+                        }
                     });
 
                 }
@@ -544,6 +548,10 @@ async function build_report()
                     )
                     {
                         g_path_to_value_map.get(k).get("missing").add(data_item.record_id)
+                    }
+                    else
+                    {
+                        g_path_to_value_map.get(k).get("count").add(data_item.record_id)
                     }
                 }
                 
@@ -699,9 +707,19 @@ async function build_report()
         if(type == "FREQ")
         {
             const el = document.getElementById(`${k}-count`);
+
+
+
+
             if(el != null)
             {
-                el.innerHTML = current_stat.get("count");
+                //el.innerHTML = current_stat.get("count");
+                el.innerHTML = render_link
+                (
+                    k,
+                    "count",
+                    current_stat.get("count")
+                );
 
                 for(const [n, v2] of v)
                 {
@@ -709,12 +727,20 @@ async function build_report()
                     {
                         const el2 = document.getElementById(`${k}-9999`);
                         if(el2 != null)
+                            /*
                         el2.innerHTML = render_link
                             (
                                 k,
                                 n,
                                 parseInt(el2.innerHTML) + v2
+                            );*/
+                            el2.innerHTML = render_link
+                            (
+                                k,
+                                "missing",
+                                current_stat.get("missing")
                             );
+
                     }
                     else
                     {
@@ -755,18 +781,21 @@ async function build_report()
 
             if(el != null)
             {
-                el.innerHTML = current_stat.get("count");
-
-                el = document.getElementById(`${k}-missing`);
-                el.innerHTML = current_stat.get("missing");
-                /*
-                el.innterHTML = render_link
+                el.innerHTML = render_link
                 (
                     k,
-                    "n",
+                    "count",
+                    current_stat.get("count")
+                );
+
+                el = document.getElementById(`${k}-missing`);                
+                el.innerHTML = render_link
+                (
+                    k,
+                    "missing",
                     current_stat.get("missing")
                 );
-                */
+        
 
                 el = document.getElementById(`${k}-min`);
                 let date = new Date(current_stat.get("min").split(' @')[0]);
@@ -789,18 +818,21 @@ async function build_report()
 
             if(el != null)
             {
-                el.innerHTML = current_stat.get("count");
+                el.innerHTML = render_link
+                (
+                    k,
+                    "count",
+                    current_stat.get("count")
+                );
 
-                el = document.getElementById(`${k}-missing`);
-                el.innerHTML = current_stat.get("missing");
-                /*
-                el.innterHTML = render_link
+                el = document.getElementById(`${k}-missing`);                
+                el.innerHTML = render_link
                 (
                     k,
                     "missing",
                     current_stat.get("missing")
                 );
-                */
+                /**/
 
                 el = document.getElementById(`${k}-min`);
                 el.innerHTML = render_link(k, "min", current_stat.get("min").split(' @')[0]);
