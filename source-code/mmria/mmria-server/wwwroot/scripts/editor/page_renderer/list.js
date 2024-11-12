@@ -5,14 +5,20 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
     let is_parent_depended_upon = false;
 
-    if(g_dependent_parent_to_child.has(p_dictionary_path.substr(1)))
+    let trimmed_dictionary_path = p_dictionary_path;
+    if(p_dictionary_path.indexOf("/") == 0)
+    {
+        trimmed_dictionary_path = p_dictionary_path.substr(1);
+    }
+
+    if(g_dependent_parent_to_child.has(trimmed_dictionary_path))
     {
         is_parent_depended_upon = true;
     }
 
-    if(g_dependent_child_to_parent.has(p_dictionary_path.substr(1)))
+    if(g_dependent_child_to_parent.has(trimmed_dictionary_path))
     {
-        const parent_path = g_dependent_child_to_parent.get(p_dictionary_path.substr(1));
+        const parent_path = g_dependent_child_to_parent.get(trimmed_dictionary_path);
 
         parent_list_path = `g_data.${parent_path.replace(/\//g,".")}`;
         const el = document.getElementById(convert_object_path_to_jquery_id(parent_list_path) + "_control");
@@ -207,7 +213,7 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
 
                 if(is_parent_depended_upon)
                 {
-                    p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${p_dictionary_path.substr(1)}", "${p_data}")';`);
+                    p_result.push(`onchange='list_check_for_dependent_change(this, "${p_metadata_path}", "${p_object_path}", "${trimmed_dictionary_path}", this.value)';`);
 
                 }
                 else 
@@ -1990,8 +1996,8 @@ async function list_check_for_dependent_change
             "Confirm Selection", 
             "",
             `Are you sure you want to change the <strong>${metadata.prompt}</strong> list box? selection? The text in the <strong>${child_metadata.prompt}</strong> child list will be cleared.`,
-            new Function(`list_apply_dependent_change("${p_metadata_path}","${p_object_path}","${p_parent_path}","${current_value}");`),
-            new Function(`list_apply_dependent_change_cancel("${p_metadata_path}","${p_object_path}","${p_parent_path}","${p_data}");`)
+            new Function(`list_apply_dependent_change("${p_metadata_path}","${p_object_path}","${p_parent_path}","${p_data}");`),
+            new Function(`list_apply_dependent_change_cancel("${p_metadata_path}","${p_object_path}","${p_parent_path}","${current_value}");`)
             //new Function(`list_apply_dependent_change_cancel("${p_object_path}","${p_parent_path}","${p_data}");`)
         
         );
