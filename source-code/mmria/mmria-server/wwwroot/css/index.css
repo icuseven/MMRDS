@@ -37780,5 +37780,24 @@ tr.sticky th, tr.sticky td {
     z-index: initial;
   }
 }
+.case-folder-padding {
+  padding-left: var(--dynamic-padding) !important;
+}
+
+#components-reconnect-modal {
+  display: none !important;
+}
+
+.transparent-button {
+  border: none;
+  background-color: transparent;
+  margin: 0px;
+  padding-right: 0.5rem !important;
+  margin-bottom: 0.25rem;
+}
+
+.primary-color {
+  color: #722378;
+}
 
 /*# sourceMappingURL=index.css.map */

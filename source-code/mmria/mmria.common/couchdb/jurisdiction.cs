@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace mmria.common.model.couchdb;
 
@@ -13,13 +14,13 @@ public sealed class jurisdiction
     public bool is_active { get; set; } 
     public bool is_enabled { get; set; } 
 
-    public jurisdiction[] children { get; set; } 
+    public List<jurisdiction> children { get; set; } 
 
     public string parent_id { get; set; }
 
     public jurisdiction()
     {
-        this.children = new jurisdiction[]{};
+        this.children = new List<jurisdiction>();
     }
 
 }

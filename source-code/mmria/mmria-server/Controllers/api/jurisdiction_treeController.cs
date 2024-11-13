@@ -21,6 +21,12 @@ public sealed class jurisdiction_treeController: ControllerBase
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
+    public class case_folder_metadata
+    {
+      public string Name { get; set; }
+      public string ParentName { get; set; }
+      public int NestedLevel { get; set; }
+    }
     public jurisdiction_treeController
     (
         IHttpContextAccessor httpContextAccessor, 
@@ -56,6 +62,30 @@ public sealed class jurisdiction_treeController: ControllerBase
         return result;
     }
 
+    [Route("new_case_folder")]
+    [HttpGet]
+    public async System.Threading.Tasks.Task<mmria.common.model.couchdb.jurisdiction_tree> GetJurisdictionTree()
+    {
+        Log.Information  ("Recieved message.");
+        mmria.common.model.couchdb.jurisdiction_tree result = null;
+
+        try
+        {
+            string jurisdiction_tree_url = db_config.Get_Prefix_DB_Url("jurisdiction/jurisdiction_tree");
+
+            var jurisdiction_curl = new cURL("GET", null, jurisdiction_tree_url, null, db_config.user_name, db_config.user_value);
+            string response_from_server = await jurisdiction_curl.executeAsync ();
+
+            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
+
+        }
+        catch(Exception ex) 
+        {
+            Log.Information ($"{ex}");
+        }
+
+        return result;
+    }
 
     [Authorize(Roles  = "jurisdiction_admin,installation_admin")]
     [HttpPost]
