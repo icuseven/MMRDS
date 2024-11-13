@@ -25,4 +25,17 @@ public sealed class jurisdiction_tree
 
 }
 
+public sealed class case_folder_metadata
+{
+  public string Id { get; set; }
+  public string Name { get; set; }
+  public string ParentName { get; set; }
+  public string ParentId { get; set; }
+  public int NestedLevel { get; set; }
+  public bool HasChildren {get; set; }
+  public bool ShowChildren { get; set; }
+  public bool ShouldDisplay { get; set; }
+  public string NewCaseFolderNameToAdd { get; set; }
+}
+
 

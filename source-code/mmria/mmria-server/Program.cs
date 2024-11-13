@@ -66,6 +66,7 @@ public sealed partial class Program
         builder.Services.AddSingleton<Controllers.broadcast_messageController>();
         builder.Services.AddSingleton<Controllers.data_dictionaryController>();
         builder.Services.AddSingleton<mmria.server.versionController>();
+        builder.Services.AddSingleton<mmria.server.jurisdiction_treeController>();
 
         configuration = builder.Configuration;
 

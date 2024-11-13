@@ -1334,3 +1334,22 @@ tr.sticky {
   //   background-color: $gray-disabled;
   // }
 }
+.case-folder-padding {
+  padding-left: var(--dynamic-padding) !important;
+}
+
+#components-reconnect-modal {
+  display: none !important;
+}
+
+.transparent-button {
+  border: none;
+  background-color: transparent;
+  margin: 0px;
+  padding-right: .5rem !important;
+  margin-bottom: .25rem;
+}
+
+.primary-color {
+  color: $purple;
+}
