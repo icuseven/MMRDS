@@ -264,7 +264,7 @@ function render_field_filter(p_filter)
 */
 
 
-function search_click()
+async function search_click()
 {
 
     last_form = null;
@@ -290,10 +290,12 @@ function search_click()
 	    search_result_list.innerHTML = result.join("");
     }
 
-    window.setTimeout(build_report,0);
+    //window.setTimeout(build_report,0);
+    await build_report()
+
 }
 
-function reset_click()
+async function reset_click()
 {
 
     last_form = null;
@@ -319,7 +321,9 @@ function reset_click()
 	    search_result_list.innerHTML = result.join("");
     }
 
-    window.setTimeout(build_report,0);
+
+    //window.setTimeout(build_report,0);
+    await build_report()
 }
 
 
