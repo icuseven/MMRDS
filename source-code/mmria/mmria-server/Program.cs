@@ -619,7 +619,7 @@ public sealed partial class Program
             )
             {
                 context.Response.StatusCode = 400;
-                context.Response.Headers.Add("Connection", "close");
+                context.Response.Headers.Append("Connection", "close");
                 resetFeature.Reset(errorCode: 4);
                 break;
             }
@@ -637,7 +637,7 @@ public sealed partial class Program
             )
             {
                 context.Response.StatusCode = 400;
-                context.Response.Headers.Add("Connection", "close");
+                context.Response.Headers.Append("Connection", "close");
                 resetFeature.Reset(errorCode: 4);
                 //context.Abort();
                 //context.RequestAborted.Session
@@ -649,7 +649,7 @@ public sealed partial class Program
             )
             {
                 context.Response.StatusCode = 400;
-                context.Response.Headers.Add("Connection", "close");
+                context.Response.Headers.Append("Connection", "close");
                 resetFeature.Reset(errorCode: 4);
                 // context.Abort();
             }
@@ -660,12 +660,12 @@ public sealed partial class Program
                 context.Request.Headers.ContainsKey("X-METHOD-OVERRIDE")
             )
             {
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors  'none';");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
-                context.Response.Headers.Add("Connection", "close");
+                context.Response.Headers.Append("X-Frame-Options", "DENY");
+                context.Response.Headers.Append("Content-Security-Policy", "frame-ancestors  'none';");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.Append("Connection", "close");
                 context.Response.StatusCode = 400;
                 //resetFeature.Reset(errorCode: 4);
                 //context.Abort();
@@ -673,16 +673,16 @@ public sealed partial class Program
             else if(next is null)
             {
                 context.Response.StatusCode = 400;
-                context.Response.Headers.Add("Connection", "close");
+                context.Response.Headers.Append("Connection", "close");
                 resetFeature.Reset(errorCode: 4);
             }
             else
             {
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("Content-Security-Policy","frame-ancestors  'none'");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("Cache-Control", "no-cache, no-store");
-                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block");
+                context.Response.Headers.Append("X-Frame-Options", "DENY");
+                context.Response.Headers.Append("Content-Security-Policy","frame-ancestors  'none'");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("Cache-Control", "no-cache, no-store");
+                context.Response.Headers.Append("X-XSS-Protection", "1; mode=block");
 
                 await next();
             }
