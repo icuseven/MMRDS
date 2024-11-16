@@ -51,12 +51,12 @@
 
 
     <PackageReference Include="Quartz" Version="3.13.1" />
-    <PackageReference Include="SharpZipLib" Version="1.4.1" />
+    <PackageReference Include="SharpZipLib" Version="1.4.2" />
     
     
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
-    <PackageReference Include="NJsonSchema" Version="10.8.0" />
-    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="10.8.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="9.0.0" />
+    <PackageReference Include="NJsonSchema" Version="11.0.2" />
+    <PackageReference Include="NJsonSchema.CodeGeneration.CSharp" Version="11.0.2" />
     <PackageReference Include="FastExcel" Version="3.0.13" />
 
     <PackageReference Include="TinyCsvParser" Version="2.7.0" />
