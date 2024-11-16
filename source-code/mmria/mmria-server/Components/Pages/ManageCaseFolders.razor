@@ -27,6 +27,7 @@
   private Task<AuthenticationState> authenticationStateTask { get; set; }
   protected override async Task OnInitializedAsync()
   {
+        System.Console.WriteLine("ManageCaseFolders.OnInitializedAsync");
       isLoading = true;
       var authState = await AuthenticationStateProvider
           .GetAuthenticationStateAsync();
@@ -185,8 +186,10 @@
   }
   private async Task SaveFolderChanges()
   {
-    await Task.Delay(100);
+    //await Task.Delay(100);
     savedJuridictionTree.children = jurisdictionTree.children.ToArray();
+
+    var post_response = await jurisdictionTreeController.Post(savedJuridictionTree);
     //await JSRuntime.InvokeAsync<mmria.common.model.couchdb.document_put_response>("mmria_api_get_url", "api/user/my-user");
   }
 

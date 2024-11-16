@@ -1245,16 +1245,46 @@ async function on_show_case_list_click
     render_search_result2(result, "/" + p_path);
     const result2 = []
 
+    const sorted_list = [];
+    /*
+    if(p_value == "count")
+    {
+        for(const item in g_path_to_value_map.get(p_path))
+        {
+            if(item != "(-)")
+            for(const record_id of item)
+            {
+                sorted_list.push(record_id)
+            }
+        }
+    }
+    else
+    {
+        for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+        {
+            sorted_list.push(record_id)
+        }
+    }
+    */
 
-    let display_value = g_value_to_display_lookup["/" + p_path][p_value];
-    if(display_value == undefined) display_value = "";
+    for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+    {
+        sorted_list.push(record_id)
+    }
 
     result2.push(`<ol>`);
-    for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+    for(const record_id of sorted_list)
     {
         result2.push(`<li>${record_id}</li>`)
     }
     result2.push(`</ol>`)
+
+
+
+    let display_value = g_value_to_display_lookup["/" + p_path][p_value];
+    if(display_value == undefined) display_value = "";
+
+
 
     let v_delimiter = "-"
     if(p_value == display_value)

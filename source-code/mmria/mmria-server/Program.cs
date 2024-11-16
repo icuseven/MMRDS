@@ -434,6 +434,9 @@ public sealed partial class Program
 
             quartzSupervisor.Tell("init");
 
+            builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
+
+
             bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
 
             
@@ -556,7 +559,7 @@ public sealed partial class Program
 
             app.UseDefaultFiles();
 
-            app.UseStaticFiles();
+            app.MapStaticAssets();
 
 
 

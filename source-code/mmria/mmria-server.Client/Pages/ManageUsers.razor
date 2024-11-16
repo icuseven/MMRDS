@@ -34,6 +34,11 @@
 
 <PageTitle>Manage Users</PageTitle>
 
+<AuthorizeView>
+    <NotAuthorized>
+        You are not authorised!
+    </NotAuthorized>
+    <Authorized>
 <h1>Manage Users: @user</h1>
 <h2>User List:  @currentCount</h2>
 
@@ -94,6 +99,8 @@
         <td><input type="button" value="Add New User" @onclick="SearchOnBlur"/></td>
     </tr>
 </table>
+</Authorized>
+</AuthorizeView>
 
 @code{
     /*
