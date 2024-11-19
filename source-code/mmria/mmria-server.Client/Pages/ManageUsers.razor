@@ -1,6 +1,6 @@
 @page "/SearchUserList"
 
-@rendermode @(new InteractiveAutoRenderMode(prerender: false))
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: true))
 
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
@@ -111,6 +111,10 @@
     mmria.common.couchdb.user-role-jurisdiction
 */
 
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
 mmria.common.couchdb.OverridableConfiguration configuration;
 mmria.common.couchdb.DBConfigurationDetail db_config;
 string host_prefix = null;
@@ -128,8 +132,7 @@ List<string> role_list = new();
 
 mmria.common.model.couchdb.user user;
 
-int currentCount = 0;
-
+    int currentCount = 0;
     protected override bool ShouldRender() => true;
 
     void IncrementCount()
@@ -146,6 +149,38 @@ int currentCount = 0;
     protected override async Task OnInitializedAsync()
     {
         base_url = NavigationManager.BaseUri;
+
+        base_url = NavigationManager.BaseUri;
+
+        var host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
+
+        //is_sams_enabled = configuration.GetBoolean(host_prefix, "sams:is_enabled");
+        //is_sams_enabled = false;
+
+        //user_role_list = new();
+
+        var authState = await authenticationStateTask;
+            //.GetAuthenticationStateAsync();
+        var user_id = authState.User;
+
+
+        System.Console.WriteLine($"authenticationStateTask is null: {authenticationStateTask is null}");
+        System.Console.WriteLine($"user.Identity.Name is null: {user_id.Identity.Name is null}");
+        System.Console.WriteLine($"user.Identity.IsAuthenticated: {user_id.Identity.IsAuthenticated}");
+        System.Console.WriteLine($"user.Claims.Count: {user_id.Claims.Count()}");
+
+        if (user_id.Identity is not null && user_id.Identity.IsAuthenticated)
+        {
+            var authMessage = $"{user_id.Identity.Name} is authenticated.";
+            var claims = user_id.Claims;
+            var surname = user_id.FindFirst(c => c.Type == ClaimTypes.Surname)?.Value;
+
+            userName = user_id.Identities.First(
+            u => u.IsAuthenticated && 
+            u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+            System.Console.WriteLine("narls");
+        }
+
 
  
         user = await GetFromAPI<mmria.common.model.couchdb.user>("api/user/my-user");

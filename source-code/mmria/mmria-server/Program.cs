@@ -437,6 +437,8 @@ public sealed partial class Program
             builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
 
 
+            builder.Services.AddCascadingAuthenticationState();
+
             bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
 
             
@@ -560,6 +562,7 @@ public sealed partial class Program
             app.UseDefaultFiles();
 
             app.MapStaticAssets();
+            //app.UseStaticFiles();
 
 
 

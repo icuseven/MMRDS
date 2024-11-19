@@ -2,8 +2,10 @@
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @using mmria
-@rendermode InteractiveServer
-@inject mmria.server.Controllers.broadcast_messageController broadcast_messageController
+@rendermode InteractiveWebAssembly
+@*
+inject mmria.server.Controllers.broadcast_messageController broadcast_messageController
+*@
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject IJSRuntime Js
@@ -32,6 +34,7 @@
 
     private async Task Load()
     {
+        /*
       var broadcastMessages = await broadcast_messageController.GetBroadcastMessageList();
       broadcastMessageOne = broadcastMessages.message_one;
       broadcastMessageOne.published.body = broadcastMessageOne.published.body.Length > 0
@@ -43,6 +46,7 @@
         : "";
       messageOneAlertStyling = SetPublishedAlertType(broadcastMessageOne);
       messageTwoAlertStyling = SetPublishedAlertType(broadcastMessageTwo);
+      */
     }
 
     private string[] SetPublishedAlertType(dynamic message)

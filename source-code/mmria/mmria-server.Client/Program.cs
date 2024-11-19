@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,9 +10,10 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddAuthenticationStateDeserialization();
 builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
-
-//builder.Services.AddAuthenticationStateDeserialization();
+builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(new mmria.common.couchdb.OverridableConfiguration());
+//
 
 //builder.Configuration["BaseAddress"] = builder.HostEnvironment.BaseAddress;
 

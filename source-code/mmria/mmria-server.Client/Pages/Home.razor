@@ -1,11 +1,11 @@
 ﻿@page "/"
-@rendermode InteractiveWebAssembly
+@rendermode @(new InteractiveWebAssemblyRenderMode(prerender: true))
 
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Http
+
 @using Microsoft.Extensions.Configuration
-@inject IHttpContextAccessor httpContextAccessor
+
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager NavigationManager
 @inject mmria.common.couchdb.OverridableConfiguration configuration
@@ -14,14 +14,36 @@
 @inject CookieStorageAccessor CookieAccessor
 @inject IConfiguration config
 @inject IJSRuntime JS
+@inject IHttpClientFactory _httpClientFactory
+
+@inject PersistentComponentState ApplicationState
 
 @using BurdenStatement
 @using mmria.common.couchdb;
-@using mmria.server.extension;
+@*
+@implements IDisposable
+using mmria.server.extension;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor httpContextAccessor
+*@
 
 @code {
 
-    
+    PersistingComponentStateSubscription persistingSubscription;
+    /*
+
+    Task PersistData()
+    {
+        ApplicationState.PersistAsJson("{TOKEN}", data);
+
+        return Task.CompletedTask;
+    }
+
+    void IDisposable.Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+    */
 
     record link_item(string text, string href);
 
@@ -43,6 +65,8 @@
     bool is_steve_mmria = false;
     bool is_steve_prams = false;
     bool is_vro = false;
+
+    string base_url;
 
     private string? authMessage;
     private string? surname;
@@ -126,15 +150,24 @@
     protected override async Task OnInitializedAsync()
     {
 
-        var host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        base_url = NavigationManager.BaseUri;
 
-        is_sams_enabled = configuration.GetBoolean(host_prefix, "sams:is_enabled");
+        var host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
+
+        //is_sams_enabled = configuration.GetBoolean(host_prefix, "sams:is_enabled");
+        is_sams_enabled = false;
 
         user_role_list = new();
 
-        var authState = await AuthenticationStateProvider
-            .GetAuthenticationStateAsync();
+        var authState = await authenticationStateTask;
+            //.GetAuthenticationStateAsync();
         var user = authState.User;
+
+
+        System.Console.WriteLine($"authenticationStateTask is null: {authenticationStateTask is null}");
+        System.Console.WriteLine($"user.Identity.Name is null: {user.Identity.Name is null}");
+        System.Console.WriteLine($"user.Identity.IsAuthenticated: {user.Identity.IsAuthenticated}");
+        System.Console.WriteLine($"user.Claims.Count: {user.Claims.Count()}");
 
         if (user.Identity is not null && user.Identity.IsAuthenticated)
         {
@@ -145,9 +178,10 @@
             userName = user.Identities.First(
             u => u.IsAuthenticated && 
             u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
+        System.Console.WriteLine("narls");
             foreach(var role in user.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
             {
+
                 switch(role.Value)
                 {
                     case "abstractor":
@@ -221,6 +255,7 @@
         }   
         else
         {
+            System.Console.WriteLine("2narls");
             authMessage = "The user is NOT authenticated.";
         }
         //var broadcastMessages = await broadcastMessageController.GetBroadcastMessageList();
@@ -320,7 +355,7 @@
         search_key = user.Identities.First(
         u => u.IsAuthenticated && 
         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-
+/*
 
         try
         {
@@ -398,10 +433,56 @@
             Console.WriteLine (ex);
 
         } 
-
+*/
         return result;
 
 
+    }
+
+    public async Task<T> GetFromAPI<T>(string p_url)
+    {
+            var result = default(T);
+
+            try
+            {
+                var url = $"{base_url}{p_url}";
+/*
+                var curl = new cURL("GET", null, url, null, config["mmria_settings:timer_user_name"], config["mmria_settings:timer_value"]);
+                
+                //curl.AddHeader("sid",sid);
+                string responseFromServer = curl.execute();
+                result =  System.Text.Json.JsonSerializer.Deserialize<T> (responseFromServer);
+
+*/
+                using HttpClient http_client = _httpClientFactory.CreateClient("API");
+
+/*
+                
+                if(http_client.DefaultRequestHeaders.Count() == 0 && !string.IsNullOrWhiteSpace(sid))
+                {
+                    http_client.DefaultRequestHeaders.Add("sid", sid);
+                }
+*/
+  
+                //http_client.DefaultRequestHeaders.Accept
+                //    .Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                //http_client.DefaultRequestHeaders.Add("sid", sid);
+                var response = await http_client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                result = System.Text.Json.JsonSerializer.Deserialize<T>(json);
+
+                //result_text = $"{json} \n\nThe user:\n{user.name} {user._id}\nNavigationManager: {base_url}\nBaseAddress: {config["BaseAddress"]} \nmmria_settings:couchdb_url = {config["mmria_settings:couchdb_url"]}";
+        
+            }
+            catch(System.Exception ex)
+            {
+
+            }
+
+            return result;
     }
 
 
