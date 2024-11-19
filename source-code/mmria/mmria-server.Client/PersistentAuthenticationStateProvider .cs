@@ -9,6 +9,7 @@ public class PersistentAuthenticationStateProvider : AuthenticationStateProvider
     {
         public required string UserId { get; set; }
         public required string Name { get; set; }
+
     }
 
     private static readonly Task<AuthenticationState> DefaultUnauthenticatedTask =

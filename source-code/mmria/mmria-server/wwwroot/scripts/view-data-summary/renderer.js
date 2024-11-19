@@ -47,12 +47,12 @@ function dictionary_render(p_metadata, p_path)
 						type="submit"
 						class="btn btn-secondary no-print"
 						alt="clear search"
-						onclick="init_inline_loader(search_click)">Apply Filters</button>
+						onclick="search_click()">Apply Filters</button>
                     <button
 						type="button"
 						class="btn btn-secondary no-print"
 						alt="reset search"
-						onclick="init_inline_loader(reset_click)">Reset</button>
+						onclick="reset_click()">Reset</button>
                         <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
 						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
                         
@@ -206,7 +206,7 @@ function render_field_filter(p_filter)
     const style = `style="width:23px;height:23px;background-color:#712177;"`;
 
     //const style = ``;
-	result.push(`<label>All Fields</label>`)
+	result.push(`<label><input type="checkbox" id="ff-All" value="all" title="All Fields"  checked />All Fields</label>`)
 
     for(const [k, v] of g_form_field_map)
     {
@@ -215,7 +215,7 @@ function render_field_filter(p_filter)
             for(const [k2, v2] of v)
             {
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.data_name}"  value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.field_name}"  value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
             }
         }
         else if(k == p_filter)
@@ -223,7 +223,7 @@ function render_field_filter(p_filter)
             for(const [k2, v2] of v)
             {
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.data_name}" value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.data_name}" title="${v2.title_prompt}" />${v2.display_prompt}</label>`);
             }
         }
     }
@@ -264,7 +264,7 @@ function render_field_filter(p_filter)
 */
 
 
-async function search_click()
+function search_click()
 {
 
     last_form = null;
@@ -276,11 +276,11 @@ async function search_click()
 	    g_filter.selected_form = document.getElementById("form_filter").value;
     }
 
-	let search_result_list = document.getElementById("search_result_list");
-	let result = [];
 	
+	const result = [];
 	render_search_result(result, g_filter);
 
+    const search_result_list = document.getElementById("search_result_list");
     if(result.length == 0)
     {
         search_result_list.innerHTML = `<tr><td align=center>No matching results found for these filter settings. Please adjust filter settings and select “Apply Filters” to search again.</td></tr>`
@@ -290,8 +290,8 @@ async function search_click()
 	    search_result_list.innerHTML = result.join("");
     }
 
-    //window.setTimeout(build_report,0);
-    await build_report()
+    window.setTimeout(build_report,0);
+    //await build_report()
 
 }
 

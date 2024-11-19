@@ -154,8 +154,8 @@ using mmria.server.extension;
 
         var host_prefix = NavigationManager.BaseUri.Trim('/').Split("//")[1].Split(":")[0].Split("-")[0];
 
-        //is_sams_enabled = configuration.GetBoolean(host_prefix, "sams:is_enabled");
-        is_sams_enabled = false;
+        is_sams_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
+
 
         user_role_list = new();
 
@@ -178,7 +178,10 @@ using mmria.server.extension;
             userName = user.Identities.First(
             u => u.IsAuthenticated && 
             u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-        System.Console.WriteLine("narls");
+
+            //var sid = claims.Where( c => c.Type == "sid").First().Value;
+            var sid = "nunca";
+        System.Console.WriteLine($"narls: {sid}");
             foreach(var role in user.Identities.First(u => u.IsAuthenticated &&  u.HasClaim(c => c.Type == ClaimTypes.Name)).Claims.Where(c=> c.Type == ClaimTypes.Role))
             {
 
@@ -251,7 +254,9 @@ using mmria.server.extension;
                         break;
                 }
             }
-            user_role_list = await GetUserRoles();     
+            //user_role_list = await GetUserRoles();   
+
+            //user_role_list = await GetFromAPI<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.user_role_jurisdiction>>("api/my-roles");
         }   
         else
         {

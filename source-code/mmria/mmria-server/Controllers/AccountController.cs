@@ -50,13 +50,13 @@ public sealed partial class AccountController : Controller
         db_config = _configuration.GetDBConfig(host_prefix);
         use_sams = _configuration.GetBoolean("sams:is_enabled", host_prefix);
     }
-
+/*
     public List<ApplicationUser> Users => new List<ApplicationUser>() 
     {
         new ApplicationUser { UserName = "user1", Value = "password" },
         new ApplicationUser{ UserName = "user2", Value = "password" }
     };
-
+*/
 
     [AllowAnonymous] 
     public IActionResult Locked(string user_name, DateTime grace_period_date)
@@ -295,6 +295,10 @@ public sealed partial class AccountController : Controller
                 //claims.Add(new Claim(ClaimTypes.DateOfBirth, "1970-06-08", ClaimValueTypes.Date));
                 //var userIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
+                var Session_Message_id = Guid.NewGuid().ToString();
+                //claims.Add(new Claim(ClaimTypes.Sid, Session_Message_id, ClaimValueTypes.String, Issuer));
+
+
                 var session_idle_timeout_minutes = 30;
                 
                 _configuration.GetInteger("session_idle_timeout_minutes",host_prefix).SetIfIsNotNullOrWhiteSpace(ref session_idle_timeout_minutes);
@@ -335,7 +339,7 @@ public sealed partial class AccountController : Controller
                 var session_expiration_datetime =  DateTime.Now.AddMinutes(session_idle_timeout_minutes);
                 var Session_Message = new mmria.server.model.actor.Session_Message
                 (
-                    Guid.NewGuid().ToString(), //_id = 
+                    Session_Message_id, //_id = 
                     null, //_rev = 
                     DateTime.Now, //date_created = 
                     DateTime.Now, //date_last_updated = 
@@ -352,6 +356,7 @@ public sealed partial class AccountController : Controller
                 var config_couchdb_url = db_config.url;
                 var config_timer_user_name = db_config.user_name;
                 var config_timer_password = db_config.user_value;
+
 
 
                 Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
