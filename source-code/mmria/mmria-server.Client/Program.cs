@@ -11,8 +11,8 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Services.AddAuthorizationCore();
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddAuthenticationStateDeserialization();
-//builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
-//builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(new mmria.common.couchdb.OverridableConfiguration());
+builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticationStateProvider>();
+////builder.Services.AddSingleton<mmria.common.couchdb.OverridableConfiguration>(new mmria.common.couchdb.OverridableConfiguration());
 
 
 //builder.Configuration["BaseAddress"] = builder.HostEnvironment.BaseAddress;

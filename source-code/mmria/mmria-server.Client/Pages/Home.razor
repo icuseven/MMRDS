@@ -149,6 +149,7 @@ using mmria.server.extension;
 
     protected override async Task OnInitializedAsync()
     {
+        await GetClaimsPrincipalData();
 
         base_url = NavigationManager.BaseUri;
 
