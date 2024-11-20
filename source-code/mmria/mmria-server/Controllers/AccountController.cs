@@ -379,7 +379,7 @@ public sealed partial class AccountController : Controller
                     {
                         _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>(db_config)).Tell(Session_Message);
                         Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });        
-                        Response.Cookies.Append("aid", Session_Message._id, new CookieOptions{ HttpOnly = false });
+                        //Response.Cookies.Append("aid", Session_Message._id, new CookieOptions{ HttpOnly = false });
                         //Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
                     /*
