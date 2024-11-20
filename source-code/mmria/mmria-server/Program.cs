@@ -61,6 +61,8 @@ public sealed partial class Program
 
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddScoped<StateContainer>();
+
         //builder.Services.AddHostedService<AkkaHostedService>();
         builder.Services.AddSingleton<mmria.server.metadataController>();
         builder.Services.AddSingleton<Controllers.broadcast_messageController>();

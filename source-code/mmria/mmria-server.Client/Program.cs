@@ -19,6 +19,7 @@ builder.Services.AddSingleton<AuthenticationStateProvider, PersistentAuthenticat
 
 var configuration = builder.Configuration;
 
+builder.Services.AddSingleton<StateContainer>();
 
 builder.Services
     .AddTransient<CookieHandler>()

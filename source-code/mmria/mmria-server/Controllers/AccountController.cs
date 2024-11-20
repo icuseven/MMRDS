@@ -29,6 +29,7 @@ public sealed partial class AccountController : Controller
     IHttpContextAccessor _accessor;
     ActorSystem _actorSystem;
 
+    StateContainer _StateContainer;
     mmria.common.couchdb.OverridableConfiguration _configuration;
     mmria.common.couchdb.DBConfigurationDetail db_config;
 
@@ -37,11 +38,13 @@ public sealed partial class AccountController : Controller
 
     public AccountController
     (
+        StateContainer StateContainer,
         IHttpContextAccessor httpContextAccessor, 
         ActorSystem actorSystem, 
         mmria.common.couchdb.OverridableConfiguration configuration
     )
     {
+        _StateContainer = StateContainer;
         _accessor = httpContextAccessor;
         _actorSystem = actorSystem;
         _configuration = configuration;
@@ -375,7 +378,8 @@ public sealed partial class AccountController : Controller
                     if(put_session_result.ok)
                     {
                         _actorSystem.ActorOf(Props.Create<mmria.server.model.actor.Post_Session>(db_config)).Tell(Session_Message);
-                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });
+                        Response.Cookies.Append("sid", Session_Message._id, new CookieOptions{ HttpOnly = true });        
+                        Response.Cookies.Append("aid", Session_Message._id, new CookieOptions{ HttpOnly = false });
                         //Response.Cookies.Append("expires_at", unix_time.ToString(), new CookieOptions{ HttpOnly = true });
                     
                     /*
