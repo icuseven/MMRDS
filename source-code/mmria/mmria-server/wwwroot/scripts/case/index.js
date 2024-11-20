@@ -3011,7 +3011,7 @@ function create_local_storage_index()
 
   for (let key in window.localStorage) 
   {
-    if (key == 'case_index') 
+    if (key == 'case_index' || key.indexOf("blazor-resource") == 0) 
     {
       continue;
     }
