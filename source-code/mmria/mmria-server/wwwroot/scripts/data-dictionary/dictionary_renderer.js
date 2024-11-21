@@ -6,8 +6,8 @@ function dictionary_render(p_metadata, p_path)
 	render_search_result(search_result, g_filter);
 
 	result.push(`
-		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
-			<div class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+		<div id="filter" class="sticky-section mt-2" data-prop="selection_type">
+			<div style="position: sticky !important; top: 0px !important; background-color: white !important; z-index: 10;" class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
 					<label for="search_text" class="mr-2"> Search for:</label>
 					<input type="text"
@@ -36,8 +36,12 @@ function dictionary_render(p_metadata, p_path)
 				</div>
 			</div>
 
-			<div class="mt-2">
-				<table id="search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+			<div class="vertical-control pl-0 pr-0 col-md-12">
+				<table id="search_result_list" class="table table-layout-fixed align-cell-top" style="font-size: 14px">
+                    <caption class="table-caption">
+                        Maternal Mortality Review Information Application (MMRIA) data dictionary table
+                        with descriptions and properites of all fields contained in the MMRIA database.
+                    </caption>
 					${search_result.join("")}
 				</table>
 			</div>
@@ -342,21 +346,40 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					<tr class="tr">
 						<td class="td" width="140"></td>
 						<td class="td p-0" colspan="5">
-							<table class="table table--standard rounded-0 m-0">
+							<table class="table table-fixed-layout align-cell-top">
+                                <caption class="table-caption">
+                                    Table with all possible list values for the ${form_name}'s ${p_metadata.prompt} field type.
+                                </caption>
 								<thead class="thead">
-									<tr class="tr bg-gray-l2">
+									<tr class="header-level-top-black">
 										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
-									<tr class="tr bg-gray-l2">
+									<tr class="header-level-2 
+                `);
+
+                if(value_list.length > 15)
+                {
+                    list_values.push(` sticky z-index-middle" style="top: 98px;">
 										<th class="th" width="140" scope="col">Value</th>
 										<th class="th" width="680" scope="col">Display</th>
 										<th class="th" width="260" scope="col">Description</th>
 									</tr>
 								</thead>
-								<tbody class="tbody">	
-				`);
+								<tbody class="tbody">`);
+                }
+                else
+                {
+                    list_values.push(`">
+                            <th class="th" width="140" scope="col">Value</th>
+                            <th class="th" width="680" scope="col">Display</th>
+                            <th class="th" width="260" scope="col">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody class="tbody">
+                    `);
+                }
 
 					for(let i= 0; i < value_list.length; i++)
 					{
@@ -396,35 +419,35 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				last_form = form_name;
 				p_result.push(`
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
-							<th class="th" colspan="7" scope="colgroup">
+						<tr class="header-level-top-white" style="font-size: 17px">
+							<th colspan="7" scope="colgroup" width="1350">
 								${form_name}
 							</th>
 						</tr>
 					</thead>
-					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
-							<th class="th" width="140" scope="col">MMRIA Form</th>
-							<th class="th" width="140" scope="col">Export File Name</th>
-							<th class="th" width="120" scope="col">Export Field</th>
-							<th class="th" width="180" scope="col">Prompt</th>
-							<th class="th" width="380" scope="col">Description</th>
-							<th class="th" width="260" scope="col">Path</th>
-							<th class="th" width="110" scope="col">Data Type</th>
+					<thead class="thead" style="border-bottom: 1px solid #dee2e6;">
+						<tr class="header-level-2 sticky z-index-middle" style="top: 57px;">
+							<th width="140" scope="col">MMRIA Form</th>
+							<th width="140" scope="col">Export File Name</th>
+							<th width="120" scope="col">Export Field</th>
+							<th width="80" scope="col">Prompt</th>
+							<th width="180" scope="col">Description</th>
+							<th width="260" scope="col">Path</th>
+							<th width="110" scope="col">Data Type</th>
 						</tr>
 					</thead>
 				`);
 			}
 
 			p_result.push(`
-				<tr class="tr">
-					<td class="td" width="140">${form_name}</td>
-					<td class="td" width="140">${file_name}</td>
-					<td class="td" width="120">${field_name}</td>
-					<td class="td" width="180">${p_metadata.prompt}</td>
-					<td class="td" width="380">${description}</td>
-					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+				<tr>
+					<td width="140">${form_name}</td>
+					<td width="140">${file_name}</td>
+					<td width="120">${field_name}</td>
+					<td width="80">${p_metadata.prompt}</td>
+					<td width="180">${description}</td>
+					<td width="260">${p_path}</td>
+					<td style="border-right: none;" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
 				</tr>
 				${list_values.join("")}
 			`);
@@ -566,20 +589,39 @@ function render_group_item
 						<td class="td" width="140"></td>
 						<td class="td p-0" colspan="5">
 							<table class="table table--standard rounded-0 m-0">
+                                <caption class="table-caption">
+                                    Table with all possible list values for the ${form_name}'s ${p_metadata.prompt} field type.
+                                </caption>
 								<thead class="thead">
 									<tr class="tr bg-gray-l2">
 										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
-									<tr class="tr bg-gray-l2">
-										<th class="th" width="140" scope="col">Value</th>
-										<th class="th" width="680" scope="col">Display</th>
-										<th class="th" width="260" scope="col">Description</th>
-									</tr>
-								</thead>
-								<tbody class="tbody">	
+									<tr class="header-level-2	
 				`);
+
+                if(value_list.length > 15)
+                    {
+                        list_values.push(` sticky z-index-middle" style="top: 98px;">
+                                            <th class="th" width="140" scope="col">Value</th>
+                                            <th class="th" width="680" scope="col">Display</th>
+                                            <th class="th" width="260" scope="col">Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">`);
+                    }
+                    else
+                    {
+                        list_values.push(`">
+                                <th class="th" width="140" scope="col">Value</th>
+                                <th class="th" width="680" scope="col">Display</th>
+                                <th class="th" width="260" scope="col">Description</th>
+                            </tr>
+                            </thead>
+                            <tbody class="tbody">
+                        `);
+                    }
 
 					for(let i= 0; i < value_list.length; i++)
 					{
@@ -618,15 +660,15 @@ function render_group_item
 			if (last_form !== form_name) {
 				last_form = form_name;
 				p_result.push(`
-					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
-							<th class="th" colspan="7" scope="colgroup">
+                    <thead class="thead">
+						<tr class="header-level-top-white" style="font-size: 17px">
+							<th colspan="7" scope="colgroup" width="1350">
 								${form_name}
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+						<tr class="header-level-2 sticky z-index-middle" style="top: 57px;">
 							<th class="th" width="140" scope="col">MMRIA Form</th>
 							<th class="th" width="140" scope="col">Export File Name</th>
 							<th class="th" width="120" scope="col">Export Field</th>
@@ -647,7 +689,7 @@ function render_group_item
 					<td class="td" width="180">${p_metadata.prompt}</td>
 					<td class="td" width="380">${description}</td>
 					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+					<td style="border-right: none;" class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
 				</tr>
 				${list_values.join("")}
 			`);
@@ -708,17 +750,21 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function generate_system_generated_definition_list_table()
 {
 	return `
-			<div class="mt-2">
-				<table id="system_generated_definition_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+			<div class="vertical-control pl-0 pr-0 col-md-12">
+				<table id="system_generated_definition_list" class="table table-layout-fixed align-cell-top" style="font-size: 14px">
+                    <caption class="table-caption">
+                        Maternal Mortality Review Information Application (MMRIA) data dictionary table
+                        with descriptions and properites of all fields contained in the MMRIA database.
+                    </caption>
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<tr class="header-level-top-white" style="font-size: 17px">
 							<th class="th" colspan="2" scope="colgroup">
 								SYSTEM
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+						<tr class="header-level-2">
 							<th class="th" width="266" scope="col">Export Field</th>
 							<th class="th" width="1064" scope="col">Description</th>
 						</tr>
@@ -776,14 +822,14 @@ function generate_system_generated_definition_list_table()
                     </tr>
 					</tbody>
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<tr class="header-level-top-white" style="font-size: 17px">
 							<th class="th" colspan="2" scope="colgroup">
 								SYSTEM - Grid
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+						<tr class="header-level-2">
 							<th class="th" width="266"  scope="col">Export Field</th>
 							<th class="th" width="1064" scope="col">Description</th>
 						</tr>
@@ -803,14 +849,14 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</tbody>
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<tr class="header-level-top-white" style="font-size: 17px">
 							<th class="th" colspan="2" scope="colgroup">
 								SYSTEM - Multiform
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+						<tr class="header-level-2">
 							<th class="th" width="266"  scope="col">Export Field</th>
 							<th class="th" width="1064" scope="col">Description</th>
 						</tr>
@@ -830,14 +876,14 @@ function generate_system_generated_definition_list_table()
 						</tr>
 					</tbody>
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<tr class="header-level-top-white" style="font-size: 17px">
 							<th class="th" colspan="2" scope="colgroup">
 								SYSTEM - Grid on a Multiform
 							</th>
 						</tr>
 					</thead>
 					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+						<tr class="header-level-2">
 							<th class="th" width="266"  scope="col">Export Field</th>
 							<th class="th" width="1064" scope="col">Description</th>
 						</tr>
@@ -862,5 +908,568 @@ function generate_system_generated_definition_list_table()
 					</tbody>
 				</table>
 			</div>
+            <div class="vertical-control pl-0 pr-0 col-md-12 mt-3">
+                <table class="table table-fixed-layout align-cell-top">
+                    <caption class="table-caption">
+                    Table containing detailed information about MMRIA form and their corresponding export file names
+                    </caption>
+                    <thead>
+                    <tr class="header-level-top-white">
+                        <th colspan="7">MMRIA Form and Export File Names</th>
+                    </tr>
+                    </thead>
+                    <thead>
+                    <tr class="header-level-2 align-middle sticky z-index-top" style="top: 45px;">
+                        <th class="text-center">#</th>
+                        <th>MMRIA Form Name</th>
+                        <th width="60" class="text-center">Repeated Form</th>
+                        <th>Export Filename</th>
+                        <th>Grid Filename</th>
+                        <th>Grid Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="align-top">
+                        <td>01)</td>
+                        <td>Home Record (HR)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>02)</td>
+                        <td>Death Certificate (DC)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            dc_causes_of_death.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Causes of Death
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>03)</td>
+                        <td>Birth/Fetal Death Cert. - Parent (BCDC-P)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>04)</td>
+                        <td>Birth/Fetal Death Cert. - Infant/Fetal</td>
+                        <td class="text-center">
+                        <span class="x24 info-icon  fill-p cdc-icon-check-square-light"></span>
+                        </td>
+                        <td>certificate_infant_fetal_section.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            bcifs_causes_of_death.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Causes of Fetal Death
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>05)</td>
+                        <td>Community Vital Signs (CVS)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            c_cvs_grid.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Community Vital Signs Hidden Grid
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>06)</td>
+                        <td>Social and Environmental Profile Form (SEP)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            saep_members_of_household.csv
+                            </li>
+                            <li>
+                            saep_details_of_incarcerations.csv
+                            </li>
+                            <li>
+                            saep_details_of_arrests.csv
+                            </li>
+                            <li>
+                            aep_social_and_medical_referrals.csv
+                            </li>
+                            <li>
+                            ices_information_for_this_record.csv
+                            </li>
+                            <li>
+                            saep_if_yes_specify_substances.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Members of Household
+                            </li>
+                            <li>
+                            Details of Incarcerations
+                            </li>
+                            <li>
+                            Details of Arrests
+                            </li>
+                            <li>
+                            Social and Medical Referrals
+                            </li>
+                            <li>
+                            Sources of Social Services Information
+                            </li>
+                            <li>
+                            If Yes, Specify Substance(s)
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>07)</td>
+                        <td>Autopsy Report (AR)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            arrmdf_gross_findings.csv
+                            </li>
+                            <li>
+                            arrmdf_microscopic_findings.csv
+                            </li>
+                            <li>
+                            ar_toxicology.csv
+                            </li>
+                            <li>
+                            ar_causes_of_death.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Gross Findings
+                            </li>
+                            <li>
+                            Microscopic Findings
+                            </li>
+                            <li>
+                            Toxicology Findings
+                            </li>
+                            <li>
+                            Coroner/Medical Examiner Causes of Death
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>08)</td>
+                        <td>Prenatal Care Record (PCR)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            ical_procedures_before_pregnancy.csv
+                            </li>
+                            <li>
+                            p_pre_existing_conditions_grid.csv
+                            </li>
+                            <li>
+                            p_family_medical_history.csv
+                            </li>
+                            <li>
+                            p_substance_use_grid.csv
+                            </li>
+                            <li>
+                            pph_details_grid.csv
+                            </li>
+                            <li>
+                            p_routine_monitoring.csv
+                            </li>
+                            <li>
+                            p_other_lab_tests.csv
+                            </li>
+                            <li>
+                            p_diagnostic_procedures.csv
+                            </li>
+                            <li>
+                            p_problems_identified_grid.csv
+                            </li>
+                            <li>
+                            tions_and_drugs_during_pregnancy.csv
+                            </li>
+                            <li>
+                            elivery_hospitalizations_details.csv
+                            </li>
+                            <li>
+                            p_medical_referrals.csv
+                            </li>
+                            <li>
+                            p_other_sources_of_prenatal_care.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Prior Surgical Procedures Before this Pregnancy
+                            </li>
+                            <li>
+                            Pre-existing Conditions
+                            </li>
+                            <li>
+                            Family Medical History
+                            </li>
+                            <li>
+                            Evidence of Substance Use
+                            </li>
+                            <li>
+                            Pregnancy History Details
+                            </li>
+                            <li>
+                            Routine Monitoring
+                            </li>
+                            <li>
+                            Other Laboratory Tests
+                            </li>
+                            <li>
+                            Diagnostic Procedures
+                            </li>
+                            <li>
+                            Problems Identified During the Sentinel Pregnancy
+                            </li>
+                            <li>
+                            Prescribed Medications/Drugs
+                            </li>
+                            <li>
+                            Pre-Delivery Hospitalization Details
+                            </li>
+                            <li>
+                            Medical Referral Details
+                            </li>
+                            <li>
+                            Sources of Prenatal Care Information
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>09)</td>
+                        <td>ER Visits and Hospitalizations (ERH)</td>
+                        <td class="text-center">
+                        <span class="x24 info-icon  fill-p cdc-icon-check-square-light"></span>
+                        </td>
+                        <td>sit_and_hospital_medical_records.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            evahmr_internal_transfers.csv
+                            </li>
+                            <li>
+                            mr_physical_exam.csv
+                            </li>
+                            <li>
+                            sychological_exam_and_assesments.csv
+                            </li>
+                            <li>
+                            evahmr_labratory_tests.csv
+                            </li>
+                            <li>
+                            evahmr_pathology.csv
+                            </li>
+                            <li>
+                            evahmr_vital_signs.csv
+                            </li>
+                            <li>
+                            evahmr_birth_attendant.csv
+                            </li>
+                            <li>
+                            evahmr_anesthesia.csv
+                            </li>
+                            <li>
+                            evahmr_list_of_medications.csv
+                            </li>
+                            <li>
+                            evahmr_surgical_procedures.csv
+                            </li>
+                            <li>
+                            evahmr_blood_product_grid.csv
+                            </li>
+                            <li>
+                            evahmr_diagnostic_imaging_grid.csv
+                            </li>
+                            <li>
+                            ahmr_referrals_and_consultations.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Internal Transfers
+                            </li>
+                            <li>
+                            Physical Examinations and Evaluations
+                            </li>
+                            <li>
+                            Psychological Examinations and Evaluations
+                            </li>
+                            <li>
+                            Labratory Tests
+                            </li>
+                            <li>
+                            Pathology
+                            </li>
+                            <li>
+                            Vital Signs
+                            </li>
+                            <li>
+                            Birth Attendant(s)
+                            </li>
+                            <li>
+                            Anesthesia
+                            </li>
+                            <li>
+                            Prescribed Medications/Drugs
+                            </li>
+                            <li>
+                            Surgical Procedures
+                            </li>
+                            <li>
+                            Blood Products
+                            </li>
+                            <li>
+                            Daignostic Imaging and Other Technology
+                            </li>
+                            <li>
+                            Referrals and Consultations
+                            </li>
+                        </ul>            
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>10)</td>
+                        <td>Other Medical Office Visits (OMV)</td>
+                        <td class="text-center">
+                        <span class="x24 info-icon  fill-p cdc-icon-check-square-light"></span>
+                        </td>
+                        <td>other_medical_office_visits.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                                        <li>
+                            omov_relevant_medical_history.csv
+                            </li>
+                            <li>
+                            omov_relevant_family_history.csv
+                            </li>
+                            <li>
+                            omov_relevant_social_history.csv
+                            </li>
+                            <li>
+                            omov_vital_signs.csv
+                            </li>
+                            <li>
+                            omov_labratory_tests.csv
+                            </li>
+                            <li>
+                            tic_imaging_and_other_technology.csv
+                            </li>
+                            <li>
+                            omov_physical_exam.csv
+                            </li>
+                            <li>
+                            omov_referrals_and_consultations.csv
+                            </li>
+                            <li>
+                            omov_medications.csv
+                            </li>
+                            <li>
+                            omov_new_grid.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Relevant Medical History
+                            </li>
+                            <li>
+                            Relevant Family History
+                            </li>
+                            <li>
+                            Relevant Social History
+                            </li>
+                            <li>
+                            Vital Signs
+                            </li>
+                            <li>
+                            Labratory Tests
+                            </li>
+                            <li>
+                            Daignostic Imaging and Other Technology
+                            </li>
+                            <li>
+                            Physical Examinations
+                            </li>
+                            <li>
+                            Referrals and Consultations
+                            </li>
+                            <li>
+                            Prescribed Medications/Drugs
+                            </li>
+                            <li>
+                            Visit Summary
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>11)</td>
+                        <td>Medical Transport (MT)</td>
+                        <td class="text-center">
+                        <span class="x24 info-icon fill-p cdc-icon-check-square-light"></span>
+                        </td>
+                        <td>medical_transport.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            mt_transport_vital_signs.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>Transport Vital Signs</li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>12)</td>
+                        <td>Mental Health Profile Form (MHP)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            xisting_mental_health_conditions.csv
+                            </li>
+                            <li>
+                            unmented_mental_health_conditions.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Documented Preexisting Mental Health Conditions
+                            </li>
+                            <li>
+                            Were There Documented Screenings and Referrals
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>13)</td>
+                        <td>Informant Interviews (II)</td>
+                        <td class="text-center">
+                        <span class="x24 info-icon fill-p cdc-icon-check-square-light"></span>
+                        </td>
+                        <td>informant_interviews.csv</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>14)</td>
+                        <td>Case Narrative Form (CN)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="align-top">
+                        <td>15)</td>
+                        <td>Committee Decisions Form (CDF)</td>
+                        <td></td>
+                        <td>mmria_case_export.csv</td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            determination_of_causes_of_death.csv
+                            </li>
+                            <li>
+                            cr_critical_factors_worksheet.csv
+                            </li>
+                            <li>
+                            cr_recommendations_of_committee.csv
+                            </li>
+                        </ul>
+                        </td>
+                        <td>
+                        <ul class="list-style-decimal">
+                            <li>
+                            Committee Determination of Cause(s) of Death
+                            </li>
+                            <li>
+                            Contributing Factors and Recommendations for Action
+                            </li>
+                            <li>
+                            Recommendations for Action
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td class="td" colspan="7">
+                        <span style="font-weight: 600">Please Note:</span>
+                        <ul style="margin-left: 0px;" class="list-style-decimal">
+                            <li>
+                            MMRIA primary data export file: [mmria_case_export.csv], includes fields from ALL non-repeated forms.
+                            </li>
+                            <li>
+                            Repeated Forms and Grids are exported as separate files, for example [medical_transport.csv, informant_interviews.csv, etc.].
+                            </li>
+                        </ul>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
 			`;
 }

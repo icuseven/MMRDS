@@ -37769,6 +37769,9 @@ tr.sticky th, tr.sticky td {
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%); /* future-proof */
   }
+  table tr.header-level-top-white th {
+    color: #000000 !important;
+  }
   .no-print {
     display: none !important;
     visibility: hidden !important;
@@ -37798,6 +37801,10 @@ tr.sticky th, tr.sticky td {
 
 .primary-color {
   color: #722378;
+}
+
+.table {
+  overflow: unset;
 }
 
 /*# sourceMappingURL=index.css.map */
