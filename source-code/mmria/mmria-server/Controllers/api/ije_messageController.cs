@@ -12,8 +12,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
 
-using  mmria.server.extension;  
+using  mmria.server.extension;
+using Akka.Streams.Implementation.Fusing;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System.Reflection.Metadata;
 namespace mmria.server;
+
+public sealed class VitalImportPanelItem
+{
+    public string status_detail {get; set; }
+
+    public string mmria_record_id {get; set; }
+    public string cdc_unique_id{get; set; }
+    public string last_name{get; set; }
+    public string first_name{get; set; }
+    public string date_of_birth{get; set; }
+    public string date_of_death{get; set; }
+    public string reporting_state{get; set; }
+    public string state_of_death_record{get; set; }
+}
+
 
 [Authorize]
 [Route("api/[controller]")]
@@ -140,6 +159,131 @@ public sealed class ije_messageController: ControllerBase
 
         return result;
     } 
+
+    [Authorize(Roles  = "vital_importer,vital_importer_state")]
+    [Route("DownloadVitalImportExcel")]
+    [HttpPost]
+    public async Task<FileContentResult> DownloadVitalImportExcel([FromBody] dynamic[] vital_panel_list_json)
+    {
+        List<VitalImportPanelItem> vitalImportPanelItems = new List<VitalImportPanelItem>();
+        foreach(dynamic jsonItem in vital_panel_list_json)
+        {
+            dynamic deserializedJson = JsonConvert.DeserializeObject<dynamic>(jsonItem.ToString());
+            JObject vitalPanelItem = JObject.Parse(deserializedJson.ToString());
+            vitalImportPanelItems.Add(
+            new VitalImportPanelItem
+            {
+                status_detail = vitalPanelItem["statusDetail"].ToString(),
+                mmria_record_id = vitalPanelItem["mmria_record_id"].ToString(),
+                cdc_unique_id = vitalPanelItem["cdcUniqueID"].ToString(),
+                last_name = vitalPanelItem["lastName"].ToString(),
+                first_name = vitalPanelItem["firstName"].ToString(),
+                date_of_birth = vitalPanelItem["dateOfBirth"].ToString().Split("-")[1] + "/" + vitalPanelItem["dateOfBirth"].ToString().Split("-")[2] + "/" + vitalPanelItem["dateOfBirth"].ToString().Split("-")[0],
+                date_of_death = vitalPanelItem["dateOfDeath"].ToString().Split("-")[1] + "/" + vitalPanelItem["dateOfDeath"].ToString().Split("-")[2] + "/" + vitalPanelItem["dateOfDeath"].ToString().Split("-")[0],
+                reporting_state = vitalPanelItem["reportingState"].ToString(),
+                state_of_death_record = vitalPanelItem["stateOfDeathRecord"].ToString()
+            }
+            );
+        }
+        await Task.CompletedTask;
+        FastExcel.Row ConvertToDetail(int p_row_number, VitalImportPanelItem item)
+        {
+            var cells = new List<FastExcel.Cell>();
+
+            cells.Add(new FastExcel.Cell(1, item.status_detail));
+            cells.Add(new FastExcel.Cell(2, item.mmria_record_id));
+            cells.Add(new FastExcel.Cell(3, item.cdc_unique_id));
+            cells.Add(new FastExcel.Cell(4, item.last_name));
+            cells.Add(new FastExcel.Cell(5, item.first_name));
+            cells.Add(new FastExcel.Cell(6, item.date_of_birth));
+            cells.Add(new FastExcel.Cell(7, item.date_of_death));
+            cells.Add(new FastExcel.Cell(8, item.reporting_state));
+            cells.Add(new FastExcel.Cell(9, item.state_of_death_record));
+            return new FastExcel.Row(p_row_number, cells);
+        }   
+
+        var Template_xlsx = "database-scripts/Template.xlsx";
+        var Output_xlsx = System.IO.Path.Combine (configuration.GetString("export_directory", host_prefix), "Output.xlsx");
+
+        if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
+        {
+            Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
+        }
+/*
+
+        var Template_xlsx = "Template.xlsx";
+        var Output_xlsx = "Output.xlsx";
+*/
+        if(System.IO.File.Exists(Output_xlsx))
+            System.IO.File.Delete(Output_xlsx);
+
+        using (FastExcel.FastExcel fastExcel = new FastExcel.FastExcel(new System.IO.FileInfo(Template_xlsx), new System.IO.FileInfo(Output_xlsx)))
+        {
+            //Create a worksheet with some rows
+            var worksheet = new FastExcel.Worksheet();
+            var rows = new List<FastExcel.Row>();
+
+            var row_number = 1;
+            var total = new mmria.server.utils.JurisdictionSummaryItem();
+
+/*
+            var header1 = new List<FastExcel.Cell>();
+            header1.Add(new FastExcel.Cell(1, "MMRIA Jurisdiction Summary Report"));
+            header1.Add(new FastExcel.Cell(2, ""));
+            header1.Add(new FastExcel.Cell(3, ""));
+            header1.Add(new FastExcel.Cell(4, ""));
+            header1.Add(new FastExcel.Cell(5, ""));
+            header1.Add(new FastExcel.Cell(6, ""));
+            header1.Add(new FastExcel.Cell(7, ""));
+            header1.Add(new FastExcel.Cell(8, ""));
+            header1.Add(new FastExcel.Cell(9, ""));
+            rows.Add(new FastExcel.Row(row_number, header1));
+            row_number+=1;
+*/
+
+            var header = new List<FastExcel.Cell>();
+            header.Add(new FastExcel.Cell(1, "Status Detail"));
+            header.Add(new FastExcel.Cell(2, "MMRIA Record ID"));
+            header.Add(new FastExcel.Cell(3, "CDC Unique ID"));
+            header.Add(new FastExcel.Cell(4, "Last Name"));
+            header.Add(new FastExcel.Cell(5, "First Name"));
+            header.Add(new FastExcel.Cell(6, "Date of Birth"));
+            header.Add(new FastExcel.Cell(7, "Date of Death"));
+            header.Add(new FastExcel.Cell(8, "Reporting State"));
+            header.Add(new FastExcel.Cell(9, "State of Death Record"));
+            rows.Add(new FastExcel.Row(row_number, header));
+
+    
+
+            foreach (var item in vitalImportPanelItems)
+            {
+                row_number+=1;
+                rows.Add(ConvertToDetail(row_number, item));
+            }
+            worksheet.Rows = rows;
+            fastExcel.Write(worksheet, "sheet1");
+        }
+
+        byte[] fileBytes = GetFile(Output_xlsx);
+        string exportDate = DateTime.Now.ToString("yyyy/MM/dd");
+        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"xlVitalsImportHistory_{exportDate.Split("/")[0]}-{exportDate.Split("/")[1]}-{exportDate.Split("/")[2]}.xlsx");
+    }
+    byte[] GetFile(string s)
+    {
+        byte[] data;
+        int br;
+        int fs_length;
+
+        using(System.IO.FileStream fs = new System.IO.FileStream (s, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        {
+            fs_length = (int) fs.Length;
+            data = new byte[fs.Length];
+            br = fs.Read(data, 0, data.Length);
+        }
+        if (br != (int) fs_length)
+            throw new System.IO.IOException(s);
+        return data;
+    }
 
 } 
 

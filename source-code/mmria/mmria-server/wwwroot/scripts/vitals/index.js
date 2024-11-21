@@ -1,10 +1,13 @@
 'use strict';
 
 var g_batch_list = [];
+var g_batch_list_state = [];
 var g_batch_item_list = [];
 var g_state_list = [];
 var g_state_date_list = {};
+var g_state_year_of_death_list = {};
 var g_date_list = [];
+var g_year_of_death_list = new Set();
 
 
 var batch_item_status = [
@@ -90,7 +93,7 @@ async function get_batch_set()
         return;
     }
 
-
+    g_year_of_death_list.clear();
     g_batch_list = [];
     for(let i = 0; i < response.rows.length; i++)
     {
@@ -109,6 +112,11 @@ async function get_batch_set()
         {
             g_state_date_list[reporting_state] = [];
         }
+
+        if(g_state_year_of_death_list[reporting_state] == null)
+        {
+            g_state_year_of_death_list[reporting_state]  = new Set();
+        }    
 
         let import_date = `${item.importDate.substr(5, 2)}/${item.importDate.substr(8, 2)}/${item.importDate.substr(0, 4)}`
 
@@ -169,6 +177,13 @@ async function get_batch_set()
         for(let j = 0; j < item.record_result.length; j++)
         {
             let batch_item = item.record_result[j];
+            
+            if (batch_item.dateOfDeath != null || batch_item.dateOfDeath.length > 0)
+            {
+                let year_of_death_to_add = batch_item.dateOfDeath.split('-')[0];
+                g_state_year_of_death_list[reporting_state].add(year_of_death_to_add);
+                g_year_of_death_list.add(year_of_death_to_add);
+            }
 
             batch_item.import_date = import_date;
             batch_item.reporting_state = reporting_state;
@@ -232,6 +247,7 @@ var g_current_state_batch = '';
 function render_batch_list()
 {
     let html_builder = [];
+    g_batch_list_state = [];
 
     if(g_batch_list == null)
     {
@@ -271,13 +287,24 @@ function render_batch_list()
                     ${g_state_list.map(state => `<option value="${state}">${state}</option>`)}
                 </select>
             </div>
-
-            <div class="form-inline mt-3">
-                <label class="justify-content-start" style="width: 130px" for="date-list"><strong>Import Date:</strong></label>
-                <select id="date-list" class="form-control" style="width: 300px" onchange="javascript:date_list_onchange(this.value)">
-                    <option value="all" selected>All</option>
-                    ${g_date_list.map(date => `<option value="${date}">${date}</option>`)}
-                </select>
+            <div class="d-flex">
+                <div class="form-inline mt-3 mr-3">
+                    <label class="justify-content-start" style="width: 130px" for="date-list"><strong>Import Date:</strong></label>
+                    <select id="date-list" class="form-control" style="width: 300px" onchange="javascript:date_list_onchange(this.value)">
+                        <option value="all" selected>All</option>
+                        ${g_date_list.map(date => `<option value="${date}">${date}</option>`)}
+                    </select>
+                </div>
+                <div class="form-inline mt-3 mr-3">
+                    <label class="justify-content-start" style="width: 130px" for="date-list"><strong>Year of Death:</strong></label>
+                    <select id="year-of-death-list" class="form-control" style="width: 300px" onchange="javascript:year_of_death_date_list_onchange(this.value)">
+                        <option value="all" selected>All</option>
+                        ${[...g_year_of_death_list].map(year => `<option value="${year}">${year}</option>`)}
+                    </select>
+                </div>
+                <div class="mt-4 ml-2">
+                    <button id="vital-import-excel-download" aria-disabled="true" disabled type="button" class="btn btn-link" onclick="javascript:download_excel()">Download Excel</button>
+                </div>
             </div>
         `);
     }
@@ -297,50 +324,115 @@ function render_batch_list()
     el.innerHTML = html_builder.join("");
 }
 
+async function download_excel()
+{
+    await $.ajax({
+        url: location.protocol + '//' + location.host + '/api/ije_message/DownloadVitalImportExcel',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(g_batch_list_state),
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(blob, status, xhr) {
+            // check for a filename
+            var filename = "";
+            var disposition = xhr.getResponseHeader('Content-Disposition');
+            if (disposition && disposition.indexOf('attachment') !== -1) {
+                var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                var matches = filenameRegex.exec(disposition);
+                if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+            }
+    
+            if (typeof window.navigator.msSaveBlob !== 'undefined') {
+                // IE workaround for "HTML7007: One or more blob URLs were revoked by closing the blob for which they were created. These URLs will no longer resolve as the data backing the URL has been freed."
+                window.navigator.msSaveBlob(blob, filename);
+            } else {
+                var URL = window.URL || window.webkitURL;
+                var downloadUrl = URL.createObjectURL(blob);
+    
+                if (filename) {
+                    // use HTML5 a[download] attribute to specify filename
+                    var a = document.createElement("a");
+                    // safari doesn't support this yet
+                    if (typeof a.download === 'undefined') {
+                        window.location.href = downloadUrl;
+                    } else {
+                        a.href = downloadUrl;
+                        a.download = filename;
+                        document.body.appendChild(a);
+                        a.click();
+                    }
+                } else {
+                    window.location.href = downloadUrl;
+                }
+    
+                setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100); // cleanup
+            }
+        }
+    }).catch(function(e) {
+        console.log(e);
+    });
+}
+
 function state_list_onchange(p_value)
 {
-    const el = document.getElementById('date-list');
-    const html = [];
-    
-    html.push(`<option value="all">All</option>`);
-
+    const date_select = document.getElementById('date-list');
+    const year_of_death_select = document.getElementById('year-of-death-list');
+    const excel_download_button = document.getElementById('vital-import-excel-download');
+    if(excel_download_button.disabled == true)
+    {
+        excel_download_button.disabled = false;
+        excel_download_button.setAttribute('aria-disabled', 'false');
+    }
     if(p_value == 'all' || p_value == '')
     { 
-        for (let i = 0; i < g_date_list.length; i++) 
-        {
-            const item = g_date_list[i];
-            html.push(`<option value="${item}">${item}</option>`);
-        }
+        date_select.innerHTML = create_new_option_list_html(p_value, g_date_list);
+        year_of_death_select.innerHTML = create_new_option_list_html(p_value, [...g_year_of_death_list]);
     }
     else
     {
-        const list = g_state_date_list[p_value];
-        for (let i = 0; i < list.length; i++) 
-        {
-            const item = list[i];
-            html.push(`<option value="${item}">${item}</option>`);
-        }
+        date_select.innerHTML = create_new_option_list_html(p_value, g_state_date_list);
+        year_of_death_select.innerHTML = create_new_option_list_html(p_value, g_state_year_of_death_list);
     }
-
-    el.innerHTML = html.join("");
     prepare_batch();
+}
 
+function create_new_option_list_html(state_list_value, new_list)
+{
+    const html = [];
+    html.push(`<option value="all">All</option>`);
+    const list = new_list[state_list_value];
+    let listArray = list.length == undefined ? [...list].sort().reverse() : list;
+    for (let i = 0; i < listArray.length; i++) 
+    {
+        const item = listArray[i];
+        html.push(`<option value="${item}">${item}</option>`);
+    }
+    return html.join("");
 }
 
 
 
 function date_list_onchange(p_value) 
 {
-
+    if(p_value != 'all')
+        document.getElementById('year-of-death-list').value = 'all';
     prepare_batch();
+}
 
+function year_of_death_date_list_onchange(p_value)
+{
+    if(p_value != 'all')
+        document.getElementById('date-list').value = 'all';
+    prepare_batch();
 }
 
 function prepare_batch()
 {
     let state_value = document.getElementById('state-list').value;
     let date_value = document.getElementById('date-list').value;
-
+    let year_of_death_value = document.getElementById('year-of-death-list').value;
     let batch = [];
     for (let i = 0; i < g_batch_item_list.length; i++) 
     {
@@ -348,6 +440,7 @@ function prepare_batch()
 
         let is_valid_state = false;
         let is_valid_date = false;
+        let is_valid_year_of_death = false;
 
         if(state_value == "all")
         {
@@ -368,15 +461,22 @@ function prepare_batch()
             is_valid_date = true;
         }
 
-        if(is_valid_state && is_valid_date)
+        if(year_of_death_value == "all")
+        {
+            is_valid_year_of_death = true;
+        }
+        else if (item.dateOfDeath.split('-')[0] == year_of_death_value)
+        {
+            is_valid_year_of_death = true;
+        }
+
+        if(is_valid_state && is_valid_date && is_valid_year_of_death)
         {
             batch.push(item);
         }
 
         
     }
-
-
     render_batch(batch);
 }
 
@@ -427,8 +527,8 @@ function render_batch(p_batch)
 
     function renderVitalsReportTable(index, items) 
     {
-
         const sortedItems = items.slice().sort((a,b) => new Date(b.importDate) - new Date(a.importDate));
+        g_batch_list_state = sortedItems;
         //Build out the table
         html_builder.push(`<div class="report-section">`);
             html_builder.push(`<p>Total Records: <strong>${sortedItems.length}</strong></p>`);
