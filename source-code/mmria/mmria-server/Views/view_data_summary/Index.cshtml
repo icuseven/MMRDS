@@ -4,7 +4,13 @@
 
   ViewBag.BreadCrumbs = true;
   ViewBag.Title = "Data Summary Checks";
-  
+  var is_pmss_enhanced = "false";
+
+    #if IS_PMSS_ENHANCED
+        is_pmss_enhanced = "true";
+    #endif
+
+
   var userName = "";
   
   if (User.Identities.Any(u => u.IsAuthenticated))
@@ -17,6 +23,9 @@
 
 @section HeadScripts
 {
+    <script>
+        const g_is_pmss_enhanced = @is_pmss_enhanced;
+    </script>
     <style>
         .multiselect {
         width: 200px;

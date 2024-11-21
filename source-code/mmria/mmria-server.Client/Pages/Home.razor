@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿
 @rendermode @(new InteractiveWebAssemblyRenderMode(prerender: true))
 @using Microsoft.AspNetCore.Authorization
 
@@ -25,6 +25,8 @@
 @using BurdenStatement
 @using mmria.common.couchdb;
 @*
+@page "/"
+
 @implements IDisposable
 using mmria.server.extension;
 @using Microsoft.AspNetCore.Http
@@ -879,7 +881,7 @@ else
 
               @if(is_pmss_enhanced)
               {
-                <li><a href="/data-dictionary" target="_blank">View PMSS Data Dictionary</a></li>
+                <li><a href="/data-dictionary-old" target="_blank">View PMSS Data Dictionary</a></li>
               }
               else
               {
