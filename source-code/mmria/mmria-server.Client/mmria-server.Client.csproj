@@ -11,6 +11,8 @@
 
   <ItemGroup>
 
+  <PackageReference Include="System.ServiceModel.Primitives" Version="8.1.0" />
+
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.0" />
