@@ -34,11 +34,10 @@
 
 
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="9.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.0" />
+    <!--PackageReference Include="Microsoft.AspNetCore.Authorization" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.0" /-->
     
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" />
 
@@ -68,7 +67,7 @@
   <ItemGroup>
     <ProjectReference Include="..\mmria.common\mmria.common.csproj" />
     <ProjectReference Include="..\mmria.getset\mmria.getset.csproj" />
-    <ProjectReference Include="..\mmria-server.Client\mmria-server.Client.csproj" />
+    <!--ProjectReference Include="..\mmria-server.Client\mmria-server.Client.csproj" /-->
     <ProjectReference Include="..\mmria.roslyn.extension\mmria.roslyn.extension.csproj" />
   </ItemGroup>
 
