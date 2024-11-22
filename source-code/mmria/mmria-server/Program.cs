@@ -516,13 +516,14 @@ public sealed partial class Program
                 }
             );
 
+/*
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents()
                 .AddAuthenticationStateSerialization();
+*/
 
-
-            //builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             if 
@@ -554,7 +555,7 @@ public sealed partial class Program
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseWebAssemblyDebugging();
+                //app.UseWebAssemblyDebugging();
             }
             else
             {
