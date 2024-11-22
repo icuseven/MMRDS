@@ -29,7 +29,6 @@ public sealed partial class AccountController : Controller
     IHttpContextAccessor _accessor;
     ActorSystem _actorSystem;
 
-    StateContainer _StateContainer;
     mmria.common.couchdb.OverridableConfiguration _configuration;
     mmria.common.couchdb.DBConfigurationDetail db_config;
 
@@ -38,13 +37,11 @@ public sealed partial class AccountController : Controller
 
     public AccountController
     (
-        StateContainer StateContainer,
         IHttpContextAccessor httpContextAccessor, 
         ActorSystem actorSystem, 
         mmria.common.couchdb.OverridableConfiguration configuration
     )
     {
-        _StateContainer = StateContainer;
         _accessor = httpContextAccessor;
         _actorSystem = actorSystem;
         _configuration = configuration;

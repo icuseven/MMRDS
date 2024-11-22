@@ -60,7 +60,7 @@ public sealed partial class Program
         currentDomain.UnhandledException += new UnhandledExceptionEventHandler(AppDomain_UnhandledExceptionHandler);
 
         var builder = WebApplication.CreateBuilder(args);
-
+/*
         builder.Services.AddScoped<StateContainer>();
 
         //builder.Services.AddHostedService<AkkaHostedService>();
@@ -69,7 +69,7 @@ public sealed partial class Program
         builder.Services.AddSingleton<Controllers.data_dictionaryController>();
         builder.Services.AddSingleton<mmria.server.versionController>();
         builder.Services.AddSingleton<mmria.server.jurisdiction_treeController>();
-
+*/
         configuration = builder.Configuration;
 
         //string config_export_directory = "/workspace/export";
@@ -438,8 +438,8 @@ public sealed partial class Program
 
 
 
-            builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
-            builder.Services.AddCascadingAuthenticationState();
+            //builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
+            //builder.Services.AddCascadingAuthenticationState();
             
 
             bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
@@ -546,8 +546,8 @@ public sealed partial class Program
             }
 
 
-            builder.Services.AddHttpClient();
-            builder.Services.AddScoped<CookieStorageAccessor>();
+            //builder.Services.AddHttpClient();
+            //builder.Services.AddScoped<CookieStorageAccessor>();
 
             var app = builder.Build();
 
@@ -576,13 +576,13 @@ public sealed partial class Program
             app.UseAuthorization();
 
 
-
+/*
 
             app.MapRazorComponents<mmria.server.Components.App>()
                 .AddInteractiveServerRenderMode()
                 .AddInteractiveWebAssemblyRenderMode()
                 .AddAdditionalAssemblies(typeof(mmria.server.Client._Imports).Assembly);
-           
+           */
             
 
             //app.MapControllerRoute("Api","api/{controller}/{action}/{id?}");
