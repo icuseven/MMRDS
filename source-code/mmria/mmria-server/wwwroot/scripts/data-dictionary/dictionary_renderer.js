@@ -46,7 +46,7 @@ function dictionary_render(p_metadata, p_path)
 				</table>
 			</div>
 
-			${generate_system_generated_definition_list_table()}
+			${g_is_pmss_enhanced ? "" : generate_system_generated_definition_list_table()}
 			
 	`);
 
@@ -413,7 +413,10 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			) {
 				return;
 			}
+            var mmria_label = "MMRIA";
 
+            if(g_is_pmss_enhanced)
+                mmria_label = "PMSS"
 			// Adding a header per section
 			if (last_form !== form_name) {
 				last_form = form_name;
@@ -427,7 +430,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					</thead>
 					<thead class="thead" style="border-bottom: 1px solid #dee2e6;">
 						<tr class="header-level-2 sticky z-index-middle" style="top: 57px;">
-							<th width="140" scope="col">MMRIA Form</th>
+							<th width="140" scope="col">${mmria_label} Form</th>
 							<th width="140" scope="col">Export File Name</th>
 							<th width="120" scope="col">Export Field</th>
 							<th width="80" scope="col">Prompt</th>
