@@ -261,6 +261,41 @@ function server_save(p_user)
 
 }
 
+function jurisdiction_show_children(p_parent_id)
+{
+    var hide_button_element = document.getElementById(p_parent_id + "_hide_children");
+    var show_button_element = document.getElementById(p_parent_id + "_show_children");
+    var parent_children = document.getElementsByClassName(p_parent_id + "-child");
+    show_button_element.setAttribute('aria-hidden', 'true');
+    show_button_element.hidden = true;
+    hide_button_element.setAttribute('aria-hidden', 'false');
+    hide_button_element.hidden = false;
+    for(let i = 0;  i < parent_children.length; i++)
+        {
+            var parent_child = parent_children.item(i);
+            parent_child.style.removeProperty('display');
+            parent_child.setAttribute('aria-hidden', 'false');
+        }
+}
+
+function jurisdiction_hide_children(p_parent_id)
+{
+    var hide_button_element = document.getElementById(p_parent_id + "_hide_children");
+    var show_button_element = document.getElementById(p_parent_id + "_show_children");
+    var parent_children = document.getElementsByClassName(p_parent_id + "-child");
+    show_button_element.setAttribute('aria-hidden', 'false');
+    show_button_element.hidden = false;
+    hide_button_element.setAttribute('aria-hidden', 'true');
+    hide_button_element.hidden = true;
+    for(let i = 0;  i < parent_children.length; i++)
+    {
+        var parent_child = parent_children.item(i);
+        parent_child.setAttribute('style', 'display: none !important;');
+        parent_child.setAttribute('aria-hidden', 'true');
+    }
+}
+
+
 function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 {
 	var parent = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
@@ -298,11 +333,11 @@ function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 			node_to_add_to.children.push(new_child);
 			g_jurisdiction_tree.date_last_updated = new Date();
 			g_jurisdiction_tree.last_updated_by = p_user_id;
-			var x = jurisdiction_render(node_to_add_to);
+			document.getElementById('form_content_id').innerHTML = jurisdiction_render(g_jurisdiction_tree).join("");
 
-			var y=document.getElementById(p_parent_id.replace("/","_"));
+			// var y=document.getElementById(p_parent_id.replace("/","_"));
 
-			y.outerHTML = x.join("");
+			// y.outerHTML = x.join("");
 			
 		}
 
@@ -321,11 +356,12 @@ function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)
 		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
 		if(node_to_add_to)
 		{
-			var x = jurisdiction_render(node_to_add_to);
+            document.getElementById('form_content_id').innerHTML = jurisdiction_render(g_jurisdiction_tree).join("");
+			// var x = jurisdiction_render(g_jurisdiction_tree);
 
-			var y=document.getElementById(p_parent_id.replace("/","_"));
+			// var y=document.getElementById(p_parent_id.replace("/","_"));
 
-			y.outerHTML = x.join("");
+			// y.outerHTML = x.join("");
 			
 		}
 
