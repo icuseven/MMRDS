@@ -17,7 +17,7 @@ public static bool is_authorized_to_handle_jurisdiction_id
         mmria.common.couchdb.DBConfigurationDetail db_config,
         System.Security.Claims.ClaimsPrincipal p_claims_principal, 
         ResourceRightEnum p_resoure_right_enum,
-        mmria.case_version.mmria.v240616.mmria_case p_mmria_case
+        mmria.case_version.v241001.mmria_case p_mmria_case
     )
     {
 

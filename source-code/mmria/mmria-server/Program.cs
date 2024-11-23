@@ -521,9 +521,33 @@ public sealed partial class Program
                 .AddInteractiveServerComponents()
                 .AddInteractiveWebAssemblyComponents()
                 .AddAuthenticationStateSerialization();
+            builder.Services.Configure<Newtonsoft.Json.JsonSerializer>( options =>
+            {
+                options.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
+            }
+            );
+            
+            
+            builder.Services.AddControllersWithViews()
+                .AddNewtonsoftJson
+                (
+                    x => 
+                    {
+                        x.SerializerSettings.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
+                        x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    }
+                );
+
 */
 
-            builder.Services.AddControllersWithViews().AddNewtonsoftJson();
+            /*    */
+
+            builder.Services.AddControllersWithViews()
+                .AddNewtonsoftJson(x => 
+                    {
+                        x.SerializerSettings.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
+                        x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                    });
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             if 

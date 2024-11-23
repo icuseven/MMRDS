@@ -50,7 +50,7 @@ public sealed class caseController: ControllerBase
     [Authorize(Roles  = "abstractor, data_analyst")]
     [HttpGet]
     //public async Task<System.Dynamic.ExpandoObject> Get(string case_id) 
-    public async Task<mmria.case_version.mmria.v240616.mmria_case> Get(string case_id) 
+    public async Task<mmria.case_version.v241001.mmria_case> Get(string case_id) 
     { 
         try
         {
@@ -61,8 +61,14 @@ public sealed class caseController: ControllerBase
                 request_string = db_config.Get_Prefix_DB_Url($"mmrds/{case_id}");
                 var case_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
                 string responseFromServer = await case_curl.executeAsync();
+/*
+                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v241001.mmria_case> (responseFromServer);
+*/
 
-                var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.mmria.v240616.mmria_case> (responseFromServer);
+                var json_doc = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonDocument>(responseFromServer);
+
+                mmria.case_version.v241001.mmria_case result =  new ();
+                result.Convert(json_doc.RootElement);
 
                 if(mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.ReadCase, result))
                 {
@@ -88,7 +94,7 @@ public sealed class caseController: ControllerBase
     {
         public mmria.common.model.couchdb.Change_Stack Change_Stack {get;set;} = new();
 
-        public mmria.case_version.mmria.v240616.mmria_case Case_Data {get;set;}
+        public mmria.case_version.v241001.mmria_case Case_Data {get;set;}
         public Save_Case_Request()
         {
 
