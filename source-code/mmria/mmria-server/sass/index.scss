@@ -708,6 +708,7 @@ input:disabled {
     ul {
       @extend .m-1;
       list-style-type:circle;
+      padding-left: 40px !important;
     }
     li {
       @extend .mr-2;

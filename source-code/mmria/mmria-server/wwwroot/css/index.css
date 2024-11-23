@@ -37197,6 +37197,7 @@ input:disabled {
 }
 .card-container-light .card-content ul {
   list-style-type: circle;
+  padding-left: 40px !important;
 }
 .purple-icon-button {
   cursor: pointer;

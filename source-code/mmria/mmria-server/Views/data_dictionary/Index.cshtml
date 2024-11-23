@@ -3,11 +3,13 @@
   Layout = "_LayoutBase";
 
   ViewBag.BreadCrumbs = true;
+  ViewBag.Title = "MMRIA Data Dictionary";
   
   var is_pmss_enhanced = "false";
 
     #if IS_PMSS_ENHANCED
         is_pmss_enhanced = "true";
+        ViewBag.Title = "PMSS Data Dictionary";
     #endif
 
   var userName = "";
