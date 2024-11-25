@@ -13,7 +13,7 @@ public sealed class data_dictionaryController : Controller
 ;
     }
 
-    [Route("data-dictionary-old")]
+    [Route("data-dictionary")]
     public IActionResult Index()
     {
         return View();
