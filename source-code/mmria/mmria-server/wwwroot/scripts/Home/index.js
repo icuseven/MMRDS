@@ -19,7 +19,7 @@ $(function ()
 
   //set_session_warning_interval();
   //$.datetimepicker.setLocale('en');
-  get_metadata();
+  //get_metadata();
 });
 
 
