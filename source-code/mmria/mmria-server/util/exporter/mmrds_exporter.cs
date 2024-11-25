@@ -10,6 +10,14 @@ namespace mmria.server.utils;
 
 public sealed class mmrds_exporter
 {
+
+
+    #if !IS_PMSS_ENHANCED
+    const string main_export_file_name = "mmria_case_export.csv";
+    #endif
+    #if IS_PMSS_ENHANCED
+    const string main_export_file_name = "pmss_case_export.csv";
+    #endif
     private string auth_token = null;
     private string user_name = null;
 
@@ -153,7 +161,7 @@ public sealed class mmrds_exporter
         System.Collections.Generic.Dictionary<string, WriteCSV> path_to_csv_writer = new Dictionary<string, WriteCSV>();
 
         generate_path_map
-        (metadata, "", "mmria_case_export.csv", "",
+        (metadata, "", main_export_file_name, "",
             path_to_int_map,
             path_to_file_name_map,
             path_to_node_map,
@@ -207,7 +215,7 @@ public sealed class mmrds_exporter
             path_to_int_map,
             path_to_flat_map,
             path_to_node_map,
-            path_to_csv_writer["mmria_case_export.csv"].Table,
+            path_to_csv_writer[main_export_file_name].Table,
             true,
             false,
             false
@@ -216,12 +224,12 @@ public sealed class mmrds_exporter
         var grantee_column = new System.Data.DataColumn("export_jurisdiction_name", typeof(string));
 
         grantee_column.DefaultValue = queue_item.grantee_name;
-        path_to_csv_writer["mmria_case_export.csv"].Table.Columns.Add(grantee_column);
+        path_to_csv_writer[main_export_file_name].Table.Columns.Add(grantee_column);
 
-        if(! is_header_written.ContainsKey("mmria_case_export.csv"))
+        if(! is_header_written.ContainsKey(main_export_file_name))
         {
-            is_header_written.Add("mmria_case_export.csv", true);
-            path_to_csv_writer["mmria_case_export.csv"].WriteHeadersToStream();
+            is_header_written.Add(main_export_file_name, true);
+            path_to_csv_writer[main_export_file_name].WriteHeadersToStream();
         }
 
 
@@ -335,6 +343,7 @@ public sealed class mmrds_exporter
             var is_jurisdiction_ok = false;
             string HR_R_ID = null;
 
+            #if !IS_PMSS_ENHANCED
             var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
             if (home_record != null)
@@ -352,24 +361,55 @@ public sealed class mmrds_exporter
                 foreach (var jurisdiction_item in jurisdiction_hashset)
                 {
                     var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-                    #if !IS_PMSS_ENHANCED
+                    
                     if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
                     {
                         is_jurisdiction_ok = true;
                         break;
                     }
-                    #endif
-                    #if IS_PMSS_ENHANCED
-                    if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                    
+                }
+            }
+            #endif
+            #if IS_PMSS_ENHANCED
+            var tracking_record = case_doc["tracking"] as IDictionary<string, object>;
+            if (tracking_record == null) continue;
+
+            var home_record = tracking_record["admin_info"] as IDictionary<string, object>;
+
+            if (home_record != null)
+            {
+                if (!home_record.ContainsKey("jurisdiction"))
+                {
+                    home_record.Add("jurisdiction", "/");
+                }
+
+                if(home_record.ContainsKey("pmssno"))
+                {
+                    HR_R_ID = home_record["pmssno"].ToString();
+                }
+
+                foreach (var jurisdiction_item in jurisdiction_hashset)
+                {
+                    var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+                    /*
+                    if(jurisdiction_item.jurisdiction_id == "/")
+                    {
+                        is_jurisdiction_ok = true;
+                        break;
+                    }*/
+
+                    if (regex.IsMatch("/" + home_record["jurisdiction"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
                     {
                         is_jurisdiction_ok = true;
                         break;
                     }
-                    #endif
+                    
                     
 
                 }
             }
+            #endif
 
             if (!is_jurisdiction_ok)
             {
@@ -377,7 +417,7 @@ public sealed class mmrds_exporter
             }
 
 
-            System.Data.DataRow row = path_to_csv_writer["mmria_case_export.csv"].Table.NewRow();
+            System.Data.DataRow row = path_to_csv_writer[main_export_file_name].Table.NewRow();
             string mmria_case_id = case_doc["_id"].ToString();
             row["hr_r_id"] = HR_R_ID;
             row["_id"] = mmria_case_id;
@@ -705,11 +745,11 @@ public sealed class mmrds_exporter
             }
             if(is_excel_file_type)
             {
-                path_to_csv_writer["mmria_case_export.csv"].Table.Rows.Add(row);
+                path_to_csv_writer[main_export_file_name].Table.Rows.Add(row);
             }
             else
             {
-                path_to_csv_writer["mmria_case_export.csv"].WriteToStream(row);
+                path_to_csv_writer[main_export_file_name].WriteToStream(row);
             }
 
         //System.Console.WriteLine("flat grid-star 621");
