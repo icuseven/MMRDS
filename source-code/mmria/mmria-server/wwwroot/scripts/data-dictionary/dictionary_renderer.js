@@ -948,7 +948,7 @@ function generate_system_generated_definition_list_table()
                         <th class="text-center">#</th>
                         <th>MMRIA Form Name</th>
                         <th width="60" class="text-center">Repeated Form</th>
-                        <th>Export Filename</th>
+                        <th>Export Filename(s)</th>
                         <th>Grid Filename</th>
                         <th>Grid Name</th>
                     </tr>
@@ -1434,7 +1434,7 @@ function generate_system_generated_definition_list_table()
                         <td class="text-center">
                         <span class="x24 info-icon fill-p cdc-icon-check-square-light"></span>
                         </td>
-                        <td>informant_interviews.csv</td>
+                        <td><ul class='pl-0' style='list-style-type: none;'><li>informant_interviews.csv</li><li>informant-interview-plaintext.txt</li></ul></td>
                         <td></td>
                         <td></td>
                     </tr>
@@ -1442,7 +1442,7 @@ function generate_system_generated_definition_list_table()
                         <td>14)</td>
                         <td>Case Narrative Form (CN)</td>
                         <td></td>
-                        <td>mmria_case_export.csv</td>
+                        <td><ul class='pl-0' style='list-style-type: none;'><li>mmria_case_export.csv</li><li>case-narrative-plaintext.txt</li></ul></td>
                         <td></td>
                         <td></td>
                     </tr>
