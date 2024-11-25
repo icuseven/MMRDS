@@ -8,6 +8,7 @@ var g_state_date_list = {};
 var g_state_year_of_death_list = {};
 var g_date_list = [];
 var g_year_of_death_list = new Set();
+var g_batch_list_excel_export = [];
 
 
 var batch_item_status = [
@@ -392,18 +393,17 @@ function state_list_onchange(p_value)
     }
     else
     {
-        date_select.innerHTML = create_new_option_list_html(p_value, g_state_date_list);
+        date_select.innerHTML = create_new_option_list_html(g_state_date_list[p_value]);
         year_of_death_select.innerHTML = create_new_option_list_html(p_value, g_state_year_of_death_list);
     }
     prepare_batch();
 }
 
-function create_new_option_list_html(state_list_value, new_list)
+function create_new_option_list_html(new_list)
 {
     const html = [];
     html.push(`<option value="all">All</option>`);
-    const list = new_list[state_list_value];
-    let listArray = list.length == undefined ? [...list].sort().reverse() : list;
+    let listArray = new_list.length == undefined ? [...new_list].sort().reverse() : new_list;
     for (let i = 0; i < listArray.length; i++) 
     {
         const item = listArray[i];
@@ -528,7 +528,10 @@ function render_batch(p_batch)
     function renderVitalsReportTable(index, items) 
     {
         const sortedItems = items.slice().sort((a,b) => new Date(b.importDate) - new Date(a.importDate));
-        g_batch_list_state = sortedItems;
+        if(g_batch_list_state.length == 0)
+            g_batch_list_state = sortedItems;
+        else
+            g_batch_list_state = g_batch_list_state.concat(sortedItems);
         //Build out the table
         html_builder.push(`<div class="report-section">`);
             html_builder.push(`<p>Total Records: <strong>${sortedItems.length}</strong></p>`);
