@@ -781,6 +781,58 @@ var $mmria = function()
                 //console.log("control not found: " + p_dictionary_path);
             }
         },
+        set_enable: function(p_dictionary_path, p_form_index, p_grid_index)
+        {
+            let form_string = "";
+            let grid_string = "";
+
+            let jq = [ '[dpath="' + p_dictionary_path + '"]' ];
+
+            if(p_form_index != null)
+            {
+                jq.push('[form_index="' + p_form_index +  '"]');
+            }
+
+            if(p_grid_index != null)
+            {
+                jq.push('[grid_index="' + p_grid_index +  '"]');
+            }
+            var control = document.querySelector(jq.join(""));
+            if(control != null)
+            {
+                control.disabled = false;
+            }
+            else
+            {
+                //console.log("control not found: " + p_dictionary_path);
+            }
+        },
+        set_disable: function(p_dictionary_path, p_form_index, p_grid_index)
+        {
+            let form_string = "";
+            let grid_string = "";
+
+            let jq = [ '[dpath="' + p_dictionary_path + '"]' ];
+
+            if(p_form_index != null)
+            {
+                jq.push('[form_index="' + p_form_index +  '"]');
+            }
+
+            if(p_grid_index != null)
+            {
+                jq.push('[grid_index="' + p_grid_index +  '"]');
+            }
+            var control = document.querySelector(jq.join(""));
+            if(control != null)
+            {
+                control.disabled = true;
+            }
+            else
+            {
+                //console.log("control not found: " + p_dictionary_path);
+            }
+        },
         set_control_visibility: function(p_element_id, p_value)
         {
             switch(p_value.toLowerCase())
