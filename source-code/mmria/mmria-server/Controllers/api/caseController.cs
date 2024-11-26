@@ -66,6 +66,8 @@ public sealed class caseController: ControllerBase
             var settings = new Newtonsoft.Json.JsonSerializerSettings
             {
                 Converters = { new mmria.server.utils.TimeOnlyJsonConverter() }
+
+                // HH:MM
             };
                 //settings.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
 
@@ -152,27 +154,20 @@ public sealed class caseController: ControllerBase
             var temp_id = case_post_request._id; 
             string id_val = null;
 
-            /*
-            if(temp_id is DateTime)
+            id_val = temp_id.ToString();
+
+            var is_match = System.Text.RegularExpressions.Regex.IsMatch
+            (
+                id_val, 
+                @"^[0-9a-fA-F][0-9a-fA-F/-]+[0-9a-fA-F]$"
+            );	
+
+            if(! is_match)
             {
-                id_val = string.Concat(((DateTime)temp_id).ToString("s"), "Z");
+                result.error_description = $"No Match On Id Format: Id:{id_val}";
+                return result;
             }
-            else
-            {*/
-                id_val = temp_id.ToString();
 
-                var is_match = System.Text.RegularExpressions.Regex.IsMatch
-                (
-                    id_val, 
-                    @"^[0-9a-fA-F][0-9a-fA-F/-]+[0-9a-fA-F]$"
-                );	
-
-                if(! is_match)
-                {
-                    result.error_description = $"No Match On Id Format: Id:{id_val}";
-                    return result;
-                }
-            //}
 
     
             if(string.IsNullOrWhiteSpace(case_post_request.home_record.jurisdiction_id))

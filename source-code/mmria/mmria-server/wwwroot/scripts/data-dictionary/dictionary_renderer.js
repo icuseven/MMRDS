@@ -1,5 +1,13 @@
 function dictionary_render(p_metadata, p_path)
 {
+    let long_name = "Maternal Mortality Review Information Application";
+    let acronym = "MMRIA"
+
+    if(g_is_pmss_enhanced)
+    {
+        long_name = "Pregnancy Mortality Surveillance System";
+        acronym = "PMSS"
+    }
 	var result = [];
 	let search_result = [];
 
@@ -39,14 +47,14 @@ function dictionary_render(p_metadata, p_path)
 			<div class="vertical-control pl-0 pr-0 col-md-12">
 				<table id="search_result_list" class="table table-layout-fixed align-cell-top" style="font-size: 14px">
                     <caption class="table-caption">
-                        Maternal Mortality Review Information Application (MMRIA) data dictionary table
+                        ${long_name} (${acronym}) data dictionary table
                         with descriptions and properites of all fields contained in the MMRIA database.
                     </caption>
 					${search_result.join("")}
 				</table>
 			</div>
 
-			${g_is_pmss_enhanced ? "" : generate_system_generated_definition_list_table()}
+			${generate_system_generated_definition_list_table()}
 			
 	`);
 
@@ -774,11 +782,22 @@ function convert_dictionary_path_to_lookup_object(p_path)
 
 function generate_system_generated_definition_list_table()
 {
+
+    let long_name = "Maternal Mortality Review Information Application";
+    let acronym = "MMRIA"
+
+    if(g_is_pmss_enhanced)
+    {
+        long_name = "Pregnancy Mortality Surveillance System";
+        acronym = "PMSS"
+    }
+
+
 	return `
 			<div class="vertical-control pl-0 pr-0 col-md-12">
 				<table id="system_generated_definition_list" class="table table-layout-fixed align-cell-top" style="font-size: 14px">
                     <caption class="table-caption">
-                        Maternal Mortality Review Information Application (MMRIA) data dictionary table
+                        ${long_name} (${acronym}) data dictionary table
                         with descriptions and properites of all fields contained in the MMRIA database.
                     </caption>
 					<thead class="thead">
@@ -805,7 +824,7 @@ function generate_system_generated_definition_list_table()
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >_versi</td>
-							<td class="td" width="1064">MMRIA application release number</td>
+							<td class="td" width="1064">${acronym} application release number</td>
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >d_creat</td>
@@ -833,17 +852,17 @@ function generate_system_generated_definition_list_table()
 						</tr>
 						<tr class="tr">
 							<td class="td" width="266" >h_state</td>
-							<td class="td" width="1064">MMRIA host site</td>
+							<td class="td" width="1064">>${acronym} host site</td>
 						</tr>
                            
                         <tr class="tr">
 							<td class="td" width="266" >addquarter</td>
-							<td class="td" width="1064">MMRIA record added in Quarter-Year</td>
+							<td class="td" width="1064">>${acronym} record added in Quarter-Year</td>
 						</tr>
                           
                         <tr class="tr">
                         <td class="td" width="266" >cmpquarter</td>
-                        <td class="td" width="1064">MMRIA record reviewed by committee in Quarter-Year</td>
+                        <td class="td" width="1064">>${acronym} record reviewed by committee in Quarter-Year</td>
                     </tr>
 					</tbody>
 					<thead class="thead">
