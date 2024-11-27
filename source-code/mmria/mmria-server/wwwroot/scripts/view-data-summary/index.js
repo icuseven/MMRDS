@@ -157,7 +157,7 @@ async function main()
 
 	$('.spinner-content').removeClass('spinner-active');
 
-    //window.setTimeout(get_all_report_data,0);
+    window.setTimeout(get_all_report_data,0);
 }
 
 async function load_metadata(p_version_id)
@@ -297,8 +297,8 @@ async function get_all_report_data()
 
     //window.setTimeout(build_report,0);
 
-    await build_report();
-    
+    //await build_report();
+
     return result;
 }
 
@@ -1688,6 +1688,12 @@ function set_list_lookup
 
             break;        
         case "form":
+
+            if(!g_form_field_map.has(p_metadata.name))
+            {
+                g_form_field_map.set(p_metadata.name, new Map());
+            }	
+
             let is_multiform = p_is_multiform;
             if
             (
@@ -1737,6 +1743,8 @@ function set_list_lookup
             break;
 
         default:
+
+
             if(p_is_multiform && p_is_grid)
             {
                 multiform_grid_set.add(p_path);
@@ -1779,6 +1787,86 @@ function set_list_lookup
                 p_name_to_value_lookup[p_path] = {};
                 p_value_to_index_number_lookup[p_path] = {};
             }
+
+            let file_name = "";
+			let field_name = "";
+			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
+
+			if(file_field_item)
+			{
+				file_name = file_field_item.file_name;
+				field_name = file_field_item.field_name;
+			}
+
+            if(p_metadata.tags.length == 0)
+            {
+                break;
+            } 
+                
+            if
+            (
+                !p_metadata.tags.includes("FREQ") &&
+                !p_metadata.tags.includes("STAT_N") &&
+                !p_metadata.tags.includes("STAT_D") &&
+                !p_metadata.tags.includes("CALC_DATE")
+            )
+            {
+                break;
+            }
+
+            g_path_to_value_map.set(p_path.substr(1), new Map());
+
+            let form_data_name = "";
+            let form_name = "(none)";
+            let path_array = p_path.split('/');
+            let description = "";
+            let list_values = [];
+            let data_type = p_metadata.type.toLowerCase();
+
+            if
+			(
+				p_metadata.data_type != null &&
+				p_metadata.data_type != ""
+			)
+			{
+				data_type = p_metadata.data_type
+			}
+
+			if(path_array.length > 2)
+			{
+				form_data_name = path_array[1];
+				form_name = convert_form_name(form_data_name);
+			}
+
+            if
+            (
+                g_form_field_map.has(form_data_name) &&
+                !g_form_field_map.get(form_data_name).has(field_name)
+            )
+            {
+                const max_length = 40;
+
+                let display_prompt = `${p_metadata.prompt} [${field_name}]`;
+                if(display_prompt.length> max_length)
+                {
+                    display_prompt = p_metadata.prompt.substring(0, max_length);
+                }
+
+
+                let title_prompt = `[${field_name}] ${p_metadata.prompt}`;
+                g_form_field_map.get(form_data_name).set
+                (
+                    field_name, 
+                    { 
+                        field_name: field_name, 
+                        data_name: p_metadata.name,
+                        display_prompt: display_prompt,
+                        title_prompt: title_prompt
+                    }
+                );
+            }
+
             break;
     }
 }
+

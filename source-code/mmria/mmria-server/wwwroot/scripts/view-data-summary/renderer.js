@@ -293,7 +293,8 @@ async function search_click()
     }
 
     //window.setTimeout(build_report,0);
-    await build_report()
+    //await build_report()
+    await get_all_report_data();
 
 }
 
