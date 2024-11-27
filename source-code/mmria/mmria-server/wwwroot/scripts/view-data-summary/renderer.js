@@ -169,10 +169,11 @@ function render_form_filter(p_filter)
 
 function on_form_filter_changed(value)
 {
-    g_filter.field_selection = new Set();
-    g_filter.field_selection.add(value);
+    //g_filter.field_selection = new Set(['all']);
+    //g_filter.field_selection.add(value);
 
-    const html = render_field_filter(value);
+    g_filter.selected_form = value;
+    const html = render_field_filter(g_filter);
     const el = document.getElementById("checkboxes");
 
     el.innerHTML = html;
@@ -182,17 +183,28 @@ function on_form_filter_changed(value)
 
 function on_field_filter_changed(value)
 {
-    if(value == "all")
+
+    if(g_form_field_map.has(value)) 
+    {
+        // do nothing
+    }
+    else if(value == "all")
     {
         if(g_filter.field_selection.has(value))
         {
-            g_filter.field_selection.delete(value);
+            g_filter.field_selection.clear();
+
+
         }
         else
         {
             g_filter.field_selection.add(value);
         }
         
+
+        const html = render_field_filter(g_filter);
+        const el = document.getElementById("checkboxes");
+        el.innerHTML = html;
     }
     else if(g_filter.field_selection.has(value))
     {
@@ -205,6 +217,10 @@ function on_field_filter_changed(value)
     else
     {
         g_filter.field_selection.add(value);
+        if(g_filter.field_selection.has("all"))
+        {
+            g_filter.field_selection.delete("all");
+        }
     }
 
     show_needs_apply_id(true);
@@ -226,29 +242,54 @@ function render_field_filter(p_filter)
 
     */
 
-    let all_is_checked = "checked";
+    let is_checked = "";
+    if(p_filter.field_selection.has("all"))
+    {
+        is_checked = 'checked';
+    }
 
     const style = `style="width:23px;height:23px;background-color:#712177;"`;
 
     //const style = ``;
-	result.push(`<label><input type="checkbox" id="ff-All" value="all" title="All Fields"  onclick="on_field_filter_changed(this.value)" ${all_is_checked} />All Fields</label>`)
+	result.push(`<label><input type="checkbox" id="ff-All" value="all" title="All Fields"  onclick="on_field_filter_changed(this.value)" ${is_checked} />All Fields</label>`)
 
     for(const [k, v] of g_form_field_map)
     {
         if(p_filter.field_selection && p_filter.field_selection.has("all"))
         {
+            is_checked = 'checked';
             for(const [k2, v2] of v)
             {
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.field_name}"  value="${v2.data_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)"/>${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.field_name}"  value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
             }
         }
-        else if(k == p_filter)
+        else if(p_filter.selected_form == '' || p_filter.selected_form == 'all')
         {
+            
             for(const [k2, v2] of v)
             {
+                is_checked = '';
+                if(g_filter.field_selection.has(v2.field_name))
+                {
+                    is_checked = "checked";
+                }
                 result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.data_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" />${v2.display_prompt}</label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
+            }
+        }
+        else if(k == p_filter.selected_form)
+        {
+            
+            for(const [k2, v2] of v)
+            {
+                is_checked = '';
+                if(g_filter.field_selection.has(v2.field_name))
+                {
+                    is_checked = "checked";
+                }
+                result.push(`<label>`);
+                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
             }
         }
     }
