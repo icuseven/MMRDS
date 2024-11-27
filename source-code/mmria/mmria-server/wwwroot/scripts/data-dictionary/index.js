@@ -37,13 +37,10 @@ var g_filter = 	{
 	search_text: ""
 };
 
-(async function() {
 
-	await get_release_version();
-})()
+window.onload = main;
 
-
-async function get_release_version()
+async function main()
 {
 	const version_name_response_promise = await fetch
     (		

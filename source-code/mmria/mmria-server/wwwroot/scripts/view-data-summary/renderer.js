@@ -1,3 +1,5 @@
+let g_is_initial_search = false;
+
 let last_form = null;
 
 function dictionary_render(p_metadata, p_path)
@@ -264,7 +266,7 @@ function render_field_filter(p_filter)
 */
 
 
-function search_click()
+async function search_click()
 {
 
     last_form = null;
@@ -290,8 +292,8 @@ function search_click()
 	    search_result_list.innerHTML = result.join("");
     }
 
-    window.setTimeout(build_report,0);
-    //await build_report()
+    //window.setTimeout(build_report,0);
+    await build_report()
 
 }
 
@@ -329,7 +331,21 @@ async function reset_click()
 
 function render_search_result(p_result, p_filter)
 {
-	render_search_result_item(p_result, g_metadata, "", p_filter.selected_form, p_filter.search_text.toLowerCase());
+    if(g_is_initial_search == false)
+    {
+        g_is_initial_search = true;
+    }
+    else
+    {
+        render_search_result_item
+            (
+                p_result, g_metadata, 
+                "", 
+                p_filter.selected_form, 
+                p_filter.search_text.toLowerCase()
+            );     
+    }
+
 }
 
 

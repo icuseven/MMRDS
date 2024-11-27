@@ -112,13 +112,11 @@ var g_case_view_request = {
     },
   };
 
-(async function() {
 
-	await get_release_version();
-})()
+window.onload = main;
 
 
-async function get_release_version()
+async function main()
 {
 	let response = await $.ajax({
 		url: `${location.protocol}//${location.host}/api/version/release-version`
@@ -135,8 +133,7 @@ async function get_release_version()
     g_metadata = JSON.parse(response.metadata);
     g_release_version_specification = response;
 
-    document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
-
+   
 
     set_list_lookup
     (
@@ -155,9 +152,12 @@ async function get_release_version()
         g_look_up['lookup/' + child.name] = child.values;
     }
 
+
+    document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
+
 	$('.spinner-content').removeClass('spinner-active');
 
-    window.setTimeout(get_all_report_data,0);
+    //window.setTimeout(get_all_report_data,0);
 }
 
 async function load_metadata(p_version_id)
@@ -295,7 +295,10 @@ async function get_all_report_data()
 
     g_data_is_loaded = true;
 
-    window.setTimeout(build_report,0);
+    //window.setTimeout(build_report,0);
+
+    await build_report();
+    
     return result;
 }
 
