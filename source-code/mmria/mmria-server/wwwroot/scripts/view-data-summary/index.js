@@ -44,7 +44,7 @@ var g_filter = {
       },
     ],
     seleceted_record_id: null,
-    field_selection: ['all'],
+    field_selection: new Set(['all']),
     case_status: ['all'],
     case_jurisdiction: ['/'],
     pregnancy_relatedness: ['all'],
@@ -74,7 +74,7 @@ var g_case_view_request = {
       result.push('take=' + this.take);
       result.push('sort=' + this.sort);
       result.push('case_status=' + this.case_status);
-        result.push('field_selection=' + this.field_selection);
+        result.push('field_selection=' + Array.from(this.field_selection));
         result.push('pregnancy_relatedness=' + this.pregnancy_relatedness);
   
         
