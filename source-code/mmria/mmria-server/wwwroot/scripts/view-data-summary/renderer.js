@@ -619,28 +619,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     
                 }
 
-
-                /*
-                const filtered_field_name_el = document.getElementById("field_filter");
-                if(filtered_field_name_el != null)
-                {
-                    const filtered_field_name = filtered_field_name_el.value;
-                    if
-                    (
-                        filtered_field_name != "all" &&
-                        filtered_field_name != ""
-                    )
-                    {
-                        is_single_field_filter = true;
-
-                        if (filtered_field_name != p_metadata.name)
-                        {
-                            console.log("field bubba: " + p_result.length);
-                            return;
-                        }
-                            
-                    }
-                }*/
             }
 
 			if(p_search_text != null && p_search_text !="")

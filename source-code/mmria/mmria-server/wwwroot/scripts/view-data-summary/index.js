@@ -1241,31 +1241,13 @@ async function on_show_case_list_click
     // Option Selected: 
     // nan/nan/nan
 
-    const result = []
+    const result = [];
     render_search_result2(result, "/" + p_path);
-    const result2 = []
+    const result2 = [];
+
+    const json_array = [];
 
     const sorted_list = [];
-    /*
-    if(p_value == "count")
-    {
-        for(const item in g_path_to_value_map.get(p_path))
-        {
-            if(item != "(-)")
-            for(const record_id of item)
-            {
-                sorted_list.push(record_id)
-            }
-        }
-    }
-    else
-    {
-        for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
-        {
-            sorted_list.push(record_id)
-        }
-    }
-    */
 
     for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
     {
@@ -1276,6 +1258,7 @@ async function on_show_case_list_click
     for(const record_id of sorted_list)
     {
         result2.push(`<li>${record_id}</li>`)
+        json_array.push(`${record_id}`);
     }
     result2.push(`</ol>`)
 
@@ -1315,18 +1298,26 @@ async function on_show_case_list_click
     }
     else p_value = "N (Count): " + p_value;
 
-
+    const link_field_name = `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name} ${p_path}`;
+    const link_field_summary =  `${p_value} ${v_delimiter} ${display_value}: ${p_count}`;
+    const link_field_data = json_array.join(",")
 
     await data_dictionary_dialog_show
     (
         `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
         result.join(""),
-        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count}`,
+        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count} <label><input type="button" onclick="download_data_click('${link_field_name}','${link_field_summary}','${link_field_data}')" value="Download"/></label>`,
         result2.join("")
     );
 }
 
-async function data_dictionary_dialog_show(p_title, p_inner_html, p_sub_title, p_detail_html)
+async function data_dictionary_dialog_show
+(
+    p_title, 
+    p_inner_html, 
+    p_sub_title, 
+    p_detail_html
+)
 {
 
     let element = document.getElementById("dictionary-lookup-id");
@@ -1867,3 +1858,12 @@ function set_list_lookup
     }
 }
 
+async function download_data_click
+(
+    link_field_name,
+    link_field_summary,
+    link_field_data
+)
+{
+    console.log("here");
+}
