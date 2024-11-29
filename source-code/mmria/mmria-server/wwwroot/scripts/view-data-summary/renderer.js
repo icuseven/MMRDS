@@ -1,4 +1,4 @@
-let g_is_initial_search = false;
+let g_is_initial_search = true;
 
 let last_form = null;
 
@@ -7,7 +7,11 @@ function dictionary_render(p_metadata, p_path)
 	var result = [];
 	let search_result = [];
 
-	render_search_result(search_result, g_filter);
+    if(!g_is_initial_search)
+    {
+        g_is_initial_search = false;
+	    render_search_result(search_result);
+    }
 
 	result.push(`
 		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
@@ -330,21 +334,25 @@ function render_field_filter(p_filter)
 */
 
 
-async function search_click()
+function search_click()
 {
 
     last_form = null;
 
     show_needs_apply_id(false);
 
+
+  
+
     if(document.getElementById("form_filter").value != "")
     {
 	    g_filter.selected_form = document.getElementById("form_filter").value;
     }
 
-	
+    build_report();	
+
 	const result = [];
-	render_search_result(result, g_filter);
+	render_search_result(result);
 
     const search_result_list = document.getElementById("search_result_list");
     if(result.length == 0)
@@ -358,11 +366,13 @@ async function search_click()
 
     //window.setTimeout(build_report,0);
     //await build_report()
-    await get_all_report_data();
+
+
+
 
 }
 
-async function reset_click()
+function reset_click()
 {
 
     last_form = null;
@@ -377,7 +387,7 @@ async function reset_click()
 	let search_result_list = document.getElementById("search_result_list");
 	let result = [];
 	
-	render_search_result(result, g_filter);
+	render_search_result(result);
 
     if(result.length == 0)
     {
@@ -390,26 +400,21 @@ async function reset_click()
 
 
     //window.setTimeout(build_report,0);
-    await build_report()
+    build_report()
 }
 
 
-function render_search_result(p_result, p_filter)
+function render_search_result(p_result)
 {
-    if(g_is_initial_search == false)
-    {
-        g_is_initial_search = true;
-    }
-    else
-    {
-        render_search_result_item
-            (
-                p_result, g_metadata, 
-                "", 
-                p_filter.selected_form, 
-                p_filter.search_text.toLowerCase()
-            );     
-    }
+
+    render_search_result_item
+        (
+            p_result, g_metadata, 
+            "", 
+            g_filter.selected_form, 
+            g_filter.search_text.toLowerCase()
+        );     
+    
 
 }
 
@@ -419,7 +424,8 @@ function render_search_result(p_result, p_filter)
 function render_search_result_item(p_result, p_metadata, p_path, p_selected_form, p_search_text)
 {
 
-    if(p_metadata.mirror_reference != null && p_metadata.mirror_reference != "")
+    
+    if(p_metadata.mirror_reference != undefined && p_metadata.mirror_reference != "")
     {
         return;
     }
@@ -428,6 +434,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 	switch(p_metadata.type.toLowerCase())
 	{
 		case "form":
+
             if(!g_form_field_map.has(p_metadata.name))
             {
                 g_form_field_map.set(p_metadata.name, new Map());
@@ -439,7 +446,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 p_selected_form=="" ||
                 p_selected_form=="all" 
             )
-			{
+			{   
+                 //console.log("form bubba");
 				for(let i = 0; i < p_metadata.children.length; i++)
 				{
 					let item = p_metadata.children[i];
@@ -513,6 +521,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             break;
 
 		default:
+            
 			let file_name = "";
 			let field_name = "";
 			let file_field_item = g_release_version_specification.path_to_csv_all[p_path];
@@ -592,20 +601,32 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             }
 
             let is_single_field_filter = false;
-            const filtered_field_name_el = document.getElementById("field_filter");
-            if(filtered_field_name_el != null)
+            if
+            (
+                g_filter.field_selection.size != 1 &&
+                !g_filter.field_selection.has("all")
+            )
             {
-                const filtered_field_name = filtered_field_name_el.value;
-                if
-                (
-                    filtered_field_name != "all" &&
-                    filtered_field_name != ""
-                )
+                
+                const filtered_field_name_el = document.getElementById("field_filter");
+                if(filtered_field_name_el != null)
                 {
-                    is_single_field_filter = true;
+                    const filtered_field_name = filtered_field_name_el.value;
+                    if
+                    (
+                        filtered_field_name != "all" &&
+                        filtered_field_name != ""
+                    )
+                    {
+                        is_single_field_filter = true;
 
-                    if (filtered_field_name != p_metadata.name)
-                        return;
+                        if (filtered_field_name != p_metadata.name)
+                        {
+                            console.log("field bubba: " + p_result.length);
+                            return;
+                        }
+                            
+                    }
                 }
             }
 
@@ -765,6 +786,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				 form_name.indexOf('blank') !== -1 ||
 				 form_name == '(blank)'
 			) {
+                console.log("reject bubba");
 				return;
 			}
 
@@ -1136,7 +1158,7 @@ function render_display_frequency_check_box(p_filter)
     }
 
     return `
-    <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" ${is_checked_string} value=true name="display_zero_values" style="text-align:left;justify-content:left">&nbsp;Do not display values with frequency count = 0</label>
+    <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" ${is_checked_string} value=true name="display_zero_values" style="text-align:left;justify-content:left" onclick="on_display_zero_values_click(this)" />&nbsp;Do not display values with frequency count = 0</label>
     `
 }
 
@@ -1574,4 +1596,10 @@ function showCheckboxes()
         checkboxes.style.display = "none";
         is_field_list_expanded = false;
     }
+}
+
+
+async function on_display_zero_values_click(p_value)
+{
+    g_filter.display_frequencies_equal_to_zero = p_value.checked;
 }

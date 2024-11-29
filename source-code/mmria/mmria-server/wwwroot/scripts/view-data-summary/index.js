@@ -295,11 +295,8 @@ async function get_all_report_data()
 
     g_data_is_loaded = true;
 
-    //window.setTimeout(build_report,0);
 
-    //await build_report();
-
-    return result;
+    //return result;
 }
 
 function set_zero()
@@ -332,7 +329,7 @@ async function get_report_data_page(p_skip = 0)
     return result;
 }
 
-async function build_report()
+function build_report()
 {
     g_report_stat_map.clear();
     g_report_map.clear();
