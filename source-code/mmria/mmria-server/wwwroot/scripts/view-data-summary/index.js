@@ -1866,4 +1866,7 @@ async function download_data_click
 )
 {
     console.log("here");
+
+   // `<a target="_new" href="steveMMRIA/GetFileResult?FileName=${q.items[i].fileName}"></a>`
+   // <a href="view-data-summary/GenerateReport" target="_report" >Excel</a>
 }
