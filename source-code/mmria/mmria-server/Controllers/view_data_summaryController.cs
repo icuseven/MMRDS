@@ -38,36 +38,31 @@ public sealed class view_data_summaryController : Controller
         return View();
     }
 
+    public class ReportParams
+    {
+        public string fn { get; set;}
+        public string fs { get; set;}
+        public string fd { get; set;}
+    }
+
+    [Route("view-data-summary/GenerateReport")]
+    [HttpPost]
     public async Task<IActionResult> GenerateReport
     (
         [FromBody]
-        string fn,
-        string fs,
-        string fd,
-        System.Threading.CancellationToken cancellationToken
+        ReportParams rp
     )
     {
 
-        var summary_list = new mmria.server.utils.JurisdictionSummary(ConfigDB);
+        var summary_row_list = rp.fd.Split(",");
 
-        var summary_row_list = await summary_list.execute(cancellationToken);
-
-        FastExcel.Row ConvertToDetail(int p_row_number, mmria.server.utils.JurisdictionSummaryItem item)
+        FastExcel.Row ConvertToDetail(int p_row_number, string item)
         {
-            cancellationToken.ThrowIfCancellationRequested();
 
             var cells = new List<FastExcel.Cell>();
 
             cells.Add(new FastExcel.Cell(1, p_row_number));
-            cells.Add(new FastExcel.Cell(2, item.host_name));
-            cells.Add(new FastExcel.Cell(3, item.rpt_date));
-            cells.Add(new FastExcel.Cell(4, item.num_recs));
-            cells.Add(new FastExcel.Cell(5, item.num_users_unq));
-            cells.Add(new FastExcel.Cell(6, item.num_users_ja));
-            cells.Add(new FastExcel.Cell(7, item.num_users_abs));
-            cells.Add(new FastExcel.Cell(8, item.num_user_anl));
-            cells.Add(new FastExcel.Cell(9, item.num_user_cm));
-
+            cells.Add(new FastExcel.Cell(2, item));
 
             return new FastExcel.Row(p_row_number, cells);
 
@@ -84,6 +79,9 @@ public sealed class view_data_summaryController : Controller
 
 /*
 
+    fn = 'Home Record - Year home_record/date_of_death/year'
+    fs = 'N (Total Count)  : 721'
+
         var Template_xlsx = "Template.xlsx";
         var Output_xlsx = "Output.xlsx";
 */
@@ -97,77 +95,17 @@ public sealed class view_data_summaryController : Controller
             var rows = new System.Collections.Generic.List<FastExcel.Row>();
 
             var row_number = 1;
-            var total = new mmria.server.utils.JurisdictionSummaryItem();
-
-/*
-            var header1 = new List<FastExcel.Cell>();
-            header1.Add(new FastExcel.Cell(1, "MMRIA Jurisdiction Summary Report"));
-            header1.Add(new FastExcel.Cell(2, ""));
-            header1.Add(new FastExcel.Cell(3, ""));
-            header1.Add(new FastExcel.Cell(4, ""));
-            header1.Add(new FastExcel.Cell(5, ""));
-            header1.Add(new FastExcel.Cell(6, ""));
-            header1.Add(new FastExcel.Cell(7, ""));
-            header1.Add(new FastExcel.Cell(8, ""));
-            header1.Add(new FastExcel.Cell(9, ""));
-            rows.Add(new FastExcel.Row(row_number, header1));
-            row_number+=1;
-*/
 
             var header = new List<FastExcel.Cell>();
-            header.Add(new FastExcel.Cell(1, "#"));
-            header.Add(new FastExcel.Cell(2, "Jurisdiction Abbreviation"));
-            header.Add(new FastExcel.Cell(3, "Report Date"));
-            header.Add(new FastExcel.Cell(4, "# of Records"));
-            header.Add(new FastExcel.Cell(5, "# of Unique MMRIA Users"));
-            header.Add(new FastExcel.Cell(6, "Jurisdiction Admin"));
-            header.Add(new FastExcel.Cell(7, "Abstractor"));
-            header.Add(new FastExcel.Cell(8, "Analyst"));
-            header.Add(new FastExcel.Cell(9, "Committee Member"));
+            header.Add(new FastExcel.Cell(1, $"View Data Summary {rp.fn} {rp.fs}"));
             rows.Add(new FastExcel.Row(row_number, header));
-
-    
 
             foreach (var item in summary_row_list)
             {
-                cancellationToken.ThrowIfCancellationRequested();
-
                 row_number+=1;
-                
-                if(total.num_recs > -1)
-                total.num_recs += item.num_recs;
-
-                if(total.num_users_unq > -1)
-                total.num_users_unq += item.num_users_unq;
-                
-                if(total.num_users_ja > -1)
-                total.num_users_ja += item.num_users_ja;
-                
-                if(total.num_users_abs > -1)
-                total.num_users_abs += item.num_users_abs;
-                
-                if(total.num_user_anl > -1)
-                total.num_user_anl += item.num_user_anl;
-                
-                if(total.num_user_cm > -1)
-                total.num_user_cm += item.num_user_cm;
-
                 rows.Add(ConvertToDetail(row_number, item));
 
             }
-
-            row_number+=1;
-            var footer = new List<FastExcel.Cell>();
-            footer.Add(new FastExcel.Cell(1, ""));
-            footer.Add(new FastExcel.Cell(2, "Total"));
-            footer.Add(new FastExcel.Cell(3, ""));
-            footer.Add(new FastExcel.Cell(4, total.num_recs));
-            footer.Add(new FastExcel.Cell(5, total.num_users_unq));
-            footer.Add(new FastExcel.Cell(6, total.num_users_ja));
-            footer.Add(new FastExcel.Cell(7, total.num_users_abs));
-            footer.Add(new FastExcel.Cell(8, total.num_user_anl));
-            footer.Add(new FastExcel.Cell(9, total.num_user_cm));
-            rows.Add(new FastExcel.Row(row_number, footer));
 
             worksheet.Rows = rows;
 

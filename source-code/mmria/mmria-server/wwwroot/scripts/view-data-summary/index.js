@@ -1865,8 +1865,52 @@ async function download_data_click
     link_field_data
 )
 {
-    console.log("here");
+    //console.log("here");
+    const rp = {
+        "fn" : link_field_name,
+        "fs" : link_field_summary,
+        "fd" : link_field_data
+    }
+
+    myFetch(rp);
 
    // `<a target="_new" href="steveMMRIA/GetFileResult?FileName=${q.items[i].fileName}"></a>`
    // <a href="view-data-summary/GenerateReport" target="_report" >Excel</a>
 }
+
+function myFetch(p_data) 
+{
+    let file_name = `View Data Summary-${p_data.fn} ${p_data.fs.replace("/","-")}.xlsx`;
+    if(file_name.length > 50)
+    {
+        `View Data Summary-${p_data.fn.substr(0, 10)}...${p_data.fs.substr(0, 10).replace("/","-")}.xlsx`
+    }
+
+    fetch(`${location.protocol}//${location.host}/view-data-summary/GenerateReport`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(p_data),
+    })
+      .then((response) => {
+        return response.blob();
+      })
+      .then((blob) => {
+        downloadFile(blob, file_name);
+      });
+  }
+
+  function downloadFile(blob, name = "file.pdf") {
+    const href = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement("a"), {
+      href,
+      style: "display:none",
+      download: name,
+    });
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(href);
+    a.remove();
+  }
