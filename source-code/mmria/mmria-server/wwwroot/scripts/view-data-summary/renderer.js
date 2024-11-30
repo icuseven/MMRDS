@@ -216,6 +216,10 @@ function on_field_filter_changed(value)
         if(g_filter.field_selection.size == 0)
         {
             g_filter.field_selection.add("all");
+
+            const html = render_field_filter(g_filter);
+            const el = document.getElementById("checkboxes");
+            el.innerHTML = html;
         }
     }
     else
@@ -224,6 +228,10 @@ function on_field_filter_changed(value)
         if(g_filter.field_selection.has("all"))
         {
             g_filter.field_selection.delete("all");
+
+            const html = render_field_filter(g_filter);
+            const el = document.getElementById("checkboxes");
+            el.innerHTML = html;
         }
     }
 
@@ -753,7 +761,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					for(let i= 0; i < value_list.length; i++)
 					{
 						list_values.push(`
-									<tr class="tr">
+									<tr class="tr"  id="tr-${p_path.substr(1)}-${value_list[i].value}">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
 										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"  align=right>0</td>
@@ -1143,7 +1151,7 @@ function render_display_frequency_check_box(p_filter)
 {
     let is_checked_string = '';
 
-    if(p_filter.display_frequencies_equal_to_zero == true)
+    if(p_filter.do_not_display_frequencies_equal_to_zero == true)
     {
         is_checked_string = 'checked'
     }
@@ -1592,5 +1600,5 @@ function showCheckboxes()
 
 async function on_display_zero_values_click(p_value)
 {
-    g_filter.display_frequencies_equal_to_zero = p_value.checked;
+    g_filter.do_not_display_frequencies_equal_to_zero = p_value.checked;
 }

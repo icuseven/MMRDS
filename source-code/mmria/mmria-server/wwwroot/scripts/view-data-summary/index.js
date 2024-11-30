@@ -52,7 +52,7 @@ var g_filter = {
     search_text: '',
     include_blank_date_of_reviews :true,
     include_blank_date_of_deaths: true,
-    display_frequencies_equal_to_zero: true,
+    do_not_display_frequencies_equal_to_zero: true,
       date_of_review: { begin: new Date(1900,0,1), end: new Date() },
       date_of_death: { begin: new Date(1900,0,1), end: new Date() }
   };
@@ -302,19 +302,35 @@ async function get_all_report_data()
 function set_zero()
 {
     for(const td of document.querySelectorAll('td'))
+    {
+        
+        if(td.id == null || td.id.trim() == '') continue;
+
+        const tr = document.getElementById("tr-" + td.id)
+
+        if(tr == null) continue;
+
+        if(g_filter.do_not_display_frequencies_equal_to_zero)
         {
-            if(td.id == null || td.id.trim() == '') continue;
             if(td.innerText == '0')
             {
-                td.parentElement.style.display = 'none';
-                //console.log(td.id);
+                tr.style.display = 'none';
             }
             else
             {
-                td.parentElement.style.display = 'block';
-            }
-    
+                tr.style.display = 'table-row';
+            }             
         }
+        else
+        { 
+            tr.style.display = 'table-row';
+           
+        }
+
+ 
+
+
+    }
 }
 
 async function get_report_data_page(p_skip = 0)
@@ -908,7 +924,9 @@ function build_report()
         
     }
 
-    //window.setTimeout(set_zero,0);
+    //set_zero();
+
+    window.setTimeout(set_zero,0);
     
 }
 
