@@ -364,6 +364,7 @@ async function search_click()
 
 async function reset_click()
 {
+    $('.spinner-content').addClass('spinner-active');
 
     last_form = null;
 
