@@ -1270,6 +1270,8 @@ async function on_show_case_list_click
     // Option Selected: 
     // nan/nan/nan
 
+    const type = g_report_stat_map.get(p_path).get("type");
+
     const result = [];
     render_search_result2(result, "/" + p_path);
     const result2 = [];
@@ -1278,10 +1280,31 @@ async function on_show_case_list_click
 
     const sorted_list = [];
 
-    for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+
+/*
+    if(type =="STAT_N" && p_value == "count")
     {
-        sorted_list.push(record_id)
+        const compare = [ "(-)", "count", "missing" ]
+        for(const [k, v] of g_path_to_value_map.get(p_path))
+        {
+
+            if(compare.indexOf(k) < 0)
+            for(const record_id of v)
+            {
+                sorted_list.push(record_id)
+            }
+        
+        }
+
     }
+    else
+    {*/
+        for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
+        {
+            sorted_list.push(record_id)
+        }
+    
+    //}
 
     result2.push(`<ol>`);
     for(const record_id of sorted_list)
@@ -1289,8 +1312,7 @@ async function on_show_case_list_click
         result2.push(`<li>${record_id}</li>`)
         json_array.push(`${record_id}`);
     }
-    result2.push(`</ol>`)
-
+    result2.push(`</ol>`)   
 
 
     let display_value = g_value_to_display_lookup["/" + p_path][p_value];
@@ -1912,7 +1934,7 @@ function myFetch(p_data)
     let file_name = `View Data Summary-${p_data.fn} ${p_data.fs.replace("/","-")}.xlsx`;
     if(file_name.length > 50)
     {
-        `View Data Summary-${p_data.fn.substr(0, 10)}...${p_data.fs.substr(0, 10).replace("/","-")}.xlsx`
+        file_name = `View Data Summary-${p_data.fn.substr(0, 10)}-${p_data.fs.substr(0, 10).replace("/","-")}.xlsx`
     }
 
     fetch(`${location.protocol}//${location.host}/view-data-summary/GenerateReport`, {
