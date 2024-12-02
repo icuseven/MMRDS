@@ -17,11 +17,12 @@ function dictionary_render(p_metadata, p_path)
 		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
 			
 				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-                <table border=1 class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
+                <table border=0 class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
                 <tr>
                 <td>
-                <label for="search_text" style="text-align:left">Search for or MMRIA ID:</label>
-                </td><td colspan=4>
+                <label for="search_text" style="text-align:left">Search text or MMRIA ID:</label>
+                </td>
+                <td colspan=4>
                 <input type="text" 
                         placeholder="Enter field name or MMRIA ID"
                         class="form-control mr-2"
@@ -31,7 +32,7 @@ function dictionary_render(p_metadata, p_path)
                         onchange="search_text_change(this.value)" />
                 </td>
                 </tr>
-                <tr><td>
+                <tr><td colspan=4 valign=top>
 					<select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
 						${render_form_filter(g_filter)}
 					</select>
@@ -48,22 +49,7 @@ function dictionary_render(p_metadata, p_path)
                                 ${render_field_filter(g_filter)}
                             </div>
                         </div>
-                    </td><td colspan=3>
-					<button
-						type="submit"
-						class="btn btn-secondary no-print"
-						alt="clear search"
-						onclick="search_click()">Apply Filters</button>
-                    <button
-						type="button"
-						class="btn btn-secondary no-print"
-						alt="reset search"
-						onclick="reset_click()">Reset</button>
-                        <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
-						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-                        
-
-				</td></tr>
+                    </td></tr>
                 <tr><td colspan=5 align=right id="needs_apply_id" style="visibility:hidden">
                     <b>Click the Apply Filters button to apply changes</b>
                 </td></tr>
@@ -95,6 +81,24 @@ function dictionary_render(p_metadata, p_path)
                 ${render_display_frequency_check_box(g_filter)}
                 </td></tr>
 
+                <tr>
+                <td colspan=4>
+					<button
+						type="submit"
+						class="btn btn-secondary no-print"
+						alt="clear search"
+						onclick="search_click()">Apply Filters</button>
+                    <button
+						type="button"
+						class="btn btn-secondary no-print"
+						alt="reset search"
+						onclick="reset_click()">Reset</button>
+                    <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
+                        
+
+				</td>
+                </tr>
             </table> 
             </form>
 			       
