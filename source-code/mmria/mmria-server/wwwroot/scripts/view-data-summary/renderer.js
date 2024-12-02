@@ -309,40 +309,8 @@ function render_field_filter(p_filter)
 	return result.join("");
 }
 
-/*
 
-function render_field_filter(p_filter)
-{
-	let result = [];
-    
-
-	result.push(`<option value="">(Any Field)</option>`)
-
-    for(const [k, v] of g_form_field_map)
-    {
-        if(p_filter.field_selection == "all")
-        {
-            for(const [k2, v2] of v)
-            {
-                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
-            }
-        }
-        else if(k == p_filter.field_selection)
-        {
-            for(const [k2, v2] of v)
-            {
-                result.push(`<option value="${v2.data_name}" title="${v2.title_prompt}">${v2.display_prompt}</option>`);
-            }
-        }
-    }
-
-	return result.join("");
-}
-
-*/
-
-
-function search_click()
+async function search_click()
 {
 
     last_form = null;
@@ -357,6 +325,18 @@ function search_click()
 	    g_filter.selected_form = document.getElementById("form_filter").value;
     }
 
+
+    const search_text_control = document.getElementById("search_text");
+    const regex = /\w+-\d\d\d\d-\d\d\d\d/;
+    if(regex.test(search_text_control.value))
+    {
+        g_filter.selected_record_id = search_text_control.value;
+        g_filter.search_text = '';
+    }
+    else
+    {
+        g_filter.selected_record_id = null;
+    }
     
 
 	const result = [];
@@ -372,25 +352,31 @@ function search_click()
 	    search_result_list.innerHTML = result.join("");
     }
 
-    //window.setTimeout(build_report,0);
+    window.setTimeout(build_report,0);
     //await build_report()
 
 
-    build_report();	
+    //build_report();	
 
 }
 
-function reset_click()
+async function reset_click()
 {
 
     last_form = null;
 
     show_needs_apply_id(false);
 
+    const search_text_control = document.getElementById("search_text");
+    search_text_control.value = ""
+    g_filter.search_text = "";
+
     if(document.getElementById("form_filter").value != "")
     {
 	    g_filter.selected_form = document.getElementById("form_filter").value;
     }
+
+    g_filter.selected_record_id = null;
 
 	let search_result_list = document.getElementById("search_result_list");
 	let result = [];
@@ -407,8 +393,8 @@ function reset_click()
     }
 
 
-    //window.setTimeout(build_report,0);
-    build_report()
+    window.setTimeout(build_report,0);
+    //build_report()
 }
 
 

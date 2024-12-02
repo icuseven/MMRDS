@@ -43,7 +43,7 @@ var g_filter = {
         to: 'all',
       },
     ],
-    seleceted_record_id: null,
+    selected_record_id: null,
     field_selection: new Set(['all']),
     case_status: ['all'],
     case_jurisdiction: ['/'],
@@ -984,6 +984,8 @@ function Can_Pass_Filter(p_value)
     let date_of_death_begin = true;
     let date_of_death_end = true;
     let case_status = true;
+    let selected_record_id = true;
+
     /*
     {
         "case_id": "0190e93e-a359-441e-b27d-43f83d946de4",
@@ -1071,12 +1073,19 @@ function Can_Pass_Filter(p_value)
         case_status = g_filter.case_status == p_value.case_status;
     }
 
+    if(g_filter.selected_record_id != null && g_filter.selected_record_id.length > 0)
+    {
+        selected_record_id = p_value.record_id.toLowerCase() == g_filter.selected_record_id.toLowerCase();
+
+    }
+
     return pregnancy_relatedness && 
         case_status &&
         date_of_review_begin && 
         date_of_review_end && 
         date_of_death_begin && 
-        date_of_death_end;
+        date_of_death_end &&
+        selected_record_id;
 
 }
 
