@@ -331,6 +331,8 @@ function set_zero()
 
 
     }
+
+    $('.spinner-content').removeClass('spinner-active');
 }
 
 async function get_report_data_page(p_skip = 0)

@@ -313,6 +313,8 @@ function render_field_filter(p_filter)
 async function search_click()
 {
 
+    $('.spinner-content').addClass('spinner-active');
+
     last_form = null;
 
     show_needs_apply_id(false);
