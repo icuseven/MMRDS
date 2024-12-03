@@ -176,10 +176,12 @@
     else
     {
         <h1 class="h2 d-block" tabindex="-1">MMRIA Home</h1>
+
+         @await Html.PartialAsync("_BurdenStatement")
     }
   
 
-  @await Html.PartialAsync("_BurdenStatement")
+ 
 </div>
 <div class="row">
     <div class="w-100 pl-3 pr-3 pt-0 pb-1" id="broadcast_published_message_one"></div>
@@ -203,18 +205,34 @@ else
                     </div>
                     <div class="card-content">
                         <ul>
-                            <li><a href="/Case">View or Modify Case Data</a></li>
-                            <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
-                            
-                            <li><a href="/export-queue">Export Data</a></li>
-                            @*<li><a href="/recover-case">Recover-case</a></li>*@
 
-                            <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-                            <li><a href="/aggregate-report" >View Aggregate Report</a></li>
-                            
-                            <li><a href="/data-quality-report">View Data Quality Report</a></li>
+                            @if(is_pmss_enhanced)
+                            {
+                                <li><a href="/Case">View or Modify Case Data</a></li>
 
-                            <li><a href="/vital-import-history">View Vitals Import History</a></li>                           
+                                <li><a href="/export-queue">Export Data</a></li>
+
+                                <li><a href="/vital-import-history">View Vitals Import History</a></li>
+
+                            }
+                            else
+                            {
+                                <li><a href="/Case">View or Modify Case Data</a></li>
+                                <li><a href="/abstractorDeidentifiedCase">View De-Identified Committee Decisions Form</a></li>
+                                
+                                <li><a href="/export-queue">Export Data</a></li>
+                                @*<li><a href="/recover-case">Recover-case</a></li>*@
+
+
+                                <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+                                <li><a href="/aggregate-report" >View Aggregate Report</a></li>
+                                
+                                <li><a href="/data-quality-report">View Data Quality Report</a></li>
+
+                                <li><a href="/vital-import-history">View Vitals Import History</a></li>                                  
+                            }
+
+                         
                         </ul>
                     </div>
                 </div>
@@ -231,10 +249,16 @@ else
                         <ul>
                             <li><a href="/analyst-case">View Case Data</a></li>
                             <li><a href="/export-queue">Export Data</a></li>
+                            
+                            @if(!is_pmss_enhanced)
+                            {
+                                <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
+                                <li><a href="/aggregate-report" >View Aggregate Report</a></li>
+                                <li><a href="/data-quality-report">View Data Quality Report</a></li>                                
+                                    
+                            }
 
-                            <li><a href="/overdose-data-summary" >View Overdose Data Summary</a></li>
-                            <li><a href="/aggregate-report" >View Aggregate Report</a></li>
-                            <li><a href="/data-quality-report">View Data Quality Report</a></li>
+
                             <!--li><a href="/view-data-summary">View Data Summary Checks</a></li-->
                         </ul>
                     </div>
@@ -250,7 +274,15 @@ else
                     </div>
                     <div class="card-content">
                         <ul>
-                            <li><a href="/de-identified">View De-identified Case Data</a></li>
+                            @if(is_pmss_enhanced)
+                            {
+                                <li><a href="/de-identified">View or Modify Case Data</a></li>
+                            }
+                            else
+                            {
+                                <li><a href="/de-identified">View De-identified Case Data</a></li>
+                            }
+                            
                         </ul>
                     </div>
                 </div>
@@ -505,10 +537,11 @@ else
                         else
                         {
                             <li><a href="/data-dictionary" target="_blank">View MMRIA Data Dictionary</a></li>
+                        
+                            <li>
+                                <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
+                            </li>
                         }
-                         <li>
-                            <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
-                        </li>
                     </ul>
                 </div>
             </div>
