@@ -1,5 +1,6 @@
 using System;
 using Akka.Util;
+using mmria.common.metadata;
 
 namespace mmria.server.utils;
 public class TimeOnlyJsonConverter : Newtonsoft.Json.JsonConverter<System.Nullable<TimeOnly>>
@@ -24,4 +25,32 @@ public class TimeOnlyJsonConverter : Newtonsoft.Json.JsonConverter<System.Nullab
         if(value.HasValue)
         writer.WriteValue(value.Value.ToString(TimeFormat, System.Globalization.CultureInfo.InvariantCulture));
     }
+}
+
+
+public class DateOnlyJsonConverter : Newtonsoft.Json.JsonConverter<System.Nullable<DateOnly>>
+{
+    const string Format = "yyyy-MM-dd";
+
+    public override DateOnly? ReadJson(Newtonsoft.Json.JsonReader reader,
+        Type objectType,
+        DateOnly? existingValue,
+        bool hasExistingValue,
+        Newtonsoft.Json.JsonSerializer serializer)
+        {
+            //DateOnly.Parse((string)reader.Value, Format, System.Globalization.CultureInfo.InvariantCulture);
+            DateOnly? result = null;
+
+            if(DateOnly.TryParse((string)reader.Value, out var temp))
+            {
+                result = temp;
+            }
+
+            return result;
+        }
+    public override void WriteJson(Newtonsoft.Json.JsonWriter writer, DateOnly? value, Newtonsoft.Json.JsonSerializer serializer)
+    {
+        if(value.HasValue)
+        writer.WriteValue(value.Value.ToString(Format,System.Globalization.CultureInfo.InvariantCulture));
+    }        
 }

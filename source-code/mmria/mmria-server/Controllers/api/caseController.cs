@@ -120,7 +120,6 @@ public sealed class caseController: ControllerBase
     { 
 
         var case_post_request = save_case_request.Case_Data;
-
         string auth_session_token = null;
 
         string object_string = null;
