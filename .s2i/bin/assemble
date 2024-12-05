@@ -20,7 +20,10 @@ rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.html
 rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.js
 #rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test2.html
 
-echo "---> Remove unneeded files - End ..."
+echo "---> Remove unneeded files 
+- End ..."
+sudo dnf install clang zlib-devel
+
 
 #echo "---> changing ChakraCore version from windows to linux"
 #sed -i "s,ChakraCore.Native.win,ChakraCore.Native.linux,g" /tmp/src/source-code/mmria/mmria-server/mmria-server.csproj
