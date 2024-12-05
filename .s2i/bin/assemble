@@ -22,7 +22,7 @@ rm -rf /tmp/src/source-code/mmria/mmria-server/wwwroot/test.js
 
 echo "---> Remove unneeded files 
 - End ..."
-dnf install clang zlib-devel
+yum install clang zlib-devel
 
 
 #echo "---> changing ChakraCore version from windows to linux"
