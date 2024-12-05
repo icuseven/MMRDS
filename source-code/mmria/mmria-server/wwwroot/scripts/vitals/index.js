@@ -8,6 +8,7 @@ var g_state_date_list = {};
 var g_state_year_of_death_list = {};
 var g_date_list = [];
 var g_year_of_death_list = new Set();
+var g_state_to_year_of_death_map = new Map();
 var g_batch_list_excel_export = [];
 
 
@@ -376,7 +377,7 @@ async function download_excel()
     });
 }
 
-function state_list_onchange(p_value)
+async function state_list_onchange(p_value)
 {
     const date_select = document.getElementById('date-list');
     const year_of_death_select = document.getElementById('year-of-death-list');
@@ -389,21 +390,43 @@ function state_list_onchange(p_value)
     if(p_value == 'all' || p_value == '')
     { 
         date_select.innerHTML = create_new_option_list_html(p_value, g_date_list);
-        year_of_death_select.innerHTML = create_new_option_list_html(p_value, [...g_year_of_death_list]);
+        year_of_death_select.innerHTML = render_year_of_death_option_list_html(p_value);
     }
     else
     {
-        date_select.innerHTML = create_new_option_list_html(g_state_date_list[p_value]);
-        year_of_death_select.innerHTML = create_new_option_list_html(p_value, g_state_year_of_death_list);
+        date_select.innerHTML = create_new_option_list_html(p_value);
+        year_of_death_select.innerHTML = render_year_of_death_option_list_html(p_value);
     }
     prepare_batch();
 }
 
-function create_new_option_list_html(new_list)
+function create_new_option_list_html(p_state)
 {
+    let subset = []
+    
+    if
+    (
+        p_state != null &&         
+        p_state.trim().length != 0 &&
+        p_state.toLowerCase() != "all"
+        
+        
+    )
+    {
+        subset = g_state_date_list[p_state];
+    }
+    else
+    {
+        subset = g_date_list
+    }
+    const year_data = new Set();
+    for(const item of subset)
+    {
+        year_data.add(item)
+    }
     const html = [];
     html.push(`<option value="all">All</option>`);
-    let listArray = new_list.length == undefined ? [...new_list].sort().reverse() : new_list;
+    let listArray = Array.from(year_data);
     for (let i = 0; i < listArray.length; i++) 
     {
         const item = listArray[i];
@@ -412,6 +435,41 @@ function create_new_option_list_html(new_list)
     return html.join("");
 }
 
+
+function render_year_of_death_option_list_html(p_state)
+{
+    let subset = []
+    
+    if
+    (
+        p_state != null &&         
+        p_state.trim().length != 0 &&
+        p_state.toLowerCase() != "all"
+        
+        
+    )
+    {
+        subset = g_state_date_list[p_state];
+    }
+    else
+    {
+        subset = g_date_list
+    }
+    const year_data = new Set();
+    for(const item of subset)
+    {
+        year_data.add(item.substring(6,10))
+    }
+    const html = [];
+    html.push(`<option value="all">All</option>`);
+    let listArray = Array.from(year_data);
+    for (let i = 0; i < listArray.length; i++) 
+    {
+        const item = listArray[i];
+        html.push(`<option value="${item}">${item}</option>`);
+    }
+    return html.join("");
+}
 
 
 function date_list_onchange(p_value) 
