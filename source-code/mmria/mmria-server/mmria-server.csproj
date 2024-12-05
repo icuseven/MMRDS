@@ -6,8 +6,8 @@
     <DefineConstants>IS_PMSS_ENHANCED</DefineConstants-->
     <OutputType>Exe</OutputType>
     <DefaultItemExcludes>$(DefaultItemExcludes);MMRIA_Window_Service.cs;Program.service.cs;a\**\*.pattern</DefaultItemExcludes>
-    <!--PublishAot>true</PublishAot>
-    <Nullable>enable</Nullable>
+    <PublishAot>true</PublishAot>
+    <!--Nullable>enable</Nullable>
     <PublishReadyToRun>true</PublishReadyToRun>
     <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers-->
     <NuGetAuditMode>all</NuGetAuditMode>
