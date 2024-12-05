@@ -125,6 +125,8 @@ public sealed class caseController: ControllerBase
         string object_string = null;
         mmria.common.model.couchdb.document_put_response result = new mmria.common.model.couchdb.document_put_response ();
 
+
+        var write_case_folder_set = new List<string>();
         try
         {
             var mmria_record_id = "";
@@ -135,6 +137,22 @@ public sealed class caseController: ControllerBase
                 userName = User.Identities.First(
                     u => u.IsAuthenticated && 
                     u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)).FindFirst(System.Security.Claims.ClaimTypes.Name).Value;
+
+
+
+                if(string.IsNullOrWhiteSpace(case_post_request._rev))
+                {
+                    var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
+
+                    foreach(var jurisdiction_item in jurisdiction_hashset)
+                    {
+                        if(jurisdiction_item.ResourceRight == utils.ResourceRightEnum.WriteCase)
+                        {
+                            write_case_folder_set.Add(jurisdiction_item.jurisdiction_id);
+                        }
+                    }
+                }
+
             }
 
             if(string.IsNullOrWhiteSpace(case_post_request.created_by))
@@ -171,7 +189,17 @@ public sealed class caseController: ControllerBase
     
             if(string.IsNullOrWhiteSpace(case_post_request.home_record.jurisdiction_id))
             {
-                case_post_request.home_record.jurisdiction_id = "/";
+
+
+                if(string.IsNullOrWhiteSpace(case_post_request._rev))
+                {
+                    System.Console.WriteLine("here");
+                }
+                else
+                {
+                    case_post_request.home_record.jurisdiction_id = "/";
+                }
+                
             }
 
             if 
