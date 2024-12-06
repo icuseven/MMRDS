@@ -387,10 +387,19 @@ async function state_list_onchange(p_value)
         excel_download_button.disabled = false;
         excel_download_button.setAttribute('aria-disabled', 'false');
     }
+
     if(p_value == 'all' || p_value == '')
     { 
         date_select.innerHTML = create_new_option_list_html(p_value, g_date_list);
         year_of_death_select.innerHTML = render_year_of_death_option_list_html(p_value);
+
+        if(p_value == '')
+        {
+            excel_download_button.disabled = true;
+            excel_download_button.setAttribute('aria-disabled', 'true');      
+        }
+
+
     }
     else
     {

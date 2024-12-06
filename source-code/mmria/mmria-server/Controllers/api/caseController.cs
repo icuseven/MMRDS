@@ -189,11 +189,11 @@ public sealed class caseController: ControllerBase
     
             if(string.IsNullOrWhiteSpace(case_post_request.home_record.jurisdiction_id))
             {
-
+                System.Console.WriteLine("missing jurisdiction api/Case POST");
 
                 if(string.IsNullOrWhiteSpace(case_post_request._rev))
                 {
-                    System.Console.WriteLine("here");
+                    
                 }
                 else
                 {
@@ -232,8 +232,8 @@ public sealed class caseController: ControllerBase
                     !mmria.server.utils.authorization_case.is_authorized_to_handle_jurisdiction_id(db_config, User, mmria.server.utils.ResourceRightEnum.WriteCase, check_document_expando_object)
                 )
                 {
-                    result.error_description = $"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
-                    Console.Write($"unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
+                    result.error_description = $"2nd unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}";
+                    Console.Write($"2nd unauthorized PUT {result_dictionary["jurisdiction_id"]}: {result_dictionary["_id"]}");
                     return result;
                 }
 
