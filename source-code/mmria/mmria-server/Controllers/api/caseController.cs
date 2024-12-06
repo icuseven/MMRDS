@@ -190,15 +190,16 @@ public sealed class caseController: ControllerBase
             if(string.IsNullOrWhiteSpace(case_post_request.home_record.jurisdiction_id))
             {
                 System.Console.WriteLine("missing jurisdiction api/Case POST");
-
+                /*
                 if(string.IsNullOrWhiteSpace(case_post_request._rev))
                 {
                     
                 }
                 else
                 {
+                    */
                     case_post_request.home_record.jurisdiction_id = "/";
-                }
+                //}
                 
             }
 
