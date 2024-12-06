@@ -28,13 +28,18 @@ function jurisdiction_render(p_data, p_path, p_nested_level = 0)
             {
                 if(p_data.name.indexOf(key) == 0)
                 {
-                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data._id.replace("/", "_") + "' placeholder='Enter node name' required aria-label='Add child for " + p_data._id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data._id.replace("/","_") + "' /><button style='margin-right: 350px;' style='margin-right: 215px;' value='Add Folder' class='secondary-button' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })'>Add Folder</button>");
+                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data._id.replace("/", "_") + "' placeholder='Enter node name*' aria-label='Add child for " + p_data._id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data._id.replace("/","_") + "' /><button style='margin-right: 350px;' style='margin-right: 215px;' value='Add Folder' class='secondary-button' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })'>Add Folder</button>");
                     //result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+                    $('#add_child_of_' + p_data._id.replace("/", "_").replace(/\//g, '\\/')).on('change', function(e) {
+                        if($(e.target).attr('is-invalid') === 'true')
+                            set_jurisdiction_add_child_control_valid_state(p_data._id, true);
+                    });
                     break;
                 }
             }
         }
 		result.push("</div>");
+        result.push("<div class='horizontal-control errorMessage' style='margin-left: 545px;' id='error_add_child_of_" + p_data._id.replace("/","_") + "'></div>");
 	}
 	else
 	{
@@ -66,13 +71,19 @@ function jurisdiction_render(p_data, p_path, p_nested_level = 0)
             {
                 if(new_path.indexOf(key) == 0)
                 {
-                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data.id.replace("/", "_") + "' placeholder='Enter node name' required aria-label='Add child for " + p_data.id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data.id.replace("/","_") + "' /><button value='Add Folder' class='secondary-button mr-3' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })'>Add Folder</button></label><input style='margin-right: 215px;' class='delete-button' type='button' value='Delete Folder' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
+                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data.id.replace("/", "_") + "' placeholder='Enter node name*' aria-label='Add child for " + p_data.id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data.id.replace("/","_") + "' /><button value='Add Folder' class='secondary-button mr-3' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })'>Add Folder</button></label><input style='margin-right: 215px;' class='delete-button' type='button' value='Delete Folder' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
                     //result.push(`<div style='margin-right: 215px;'><span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></div></span>`);
+                    $('#add_child_of_' + p_data.id.replace("/", "_").replace(/\//g, '\\/')).on('change', function(e) {
+                        if($(e.target).attr('is-invalid') === 'true')
+                            set_jurisdiction_add_child_control_valid_state(p_data.id, true);
+                    });
                     break;
                 }
             }
         }
         result.push("</div>");
+        result.push("<div class='horizontal-control errorMessage' style='margin-left: 545px;' id='error_add_child_of_" + p_data.id.replace("/","_") + "'></div>");
+
 
 	}
     result.push("</form>");
@@ -92,7 +103,7 @@ function jurisdiction_render(p_data, p_path, p_nested_level = 0)
 	
 	if(p_data._id)
 	{
-		result.push("<br/><input class='primary-button mr-3' type='button' value='Save Folder Changes' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
+		result.push("<br id='case_folder_break'/><input class='primary-button mr-3' type='button' value='Save Folder Changes' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
 		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
 	}
 
@@ -129,13 +140,18 @@ function render_new_case_folder(p_data, p_path, p_nested_level)
             {
                 if(p_data.name.indexOf(key) == 0)
                 {
-                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data._id.replace("/", "_") + "' placeholder='Enter node name' required aria-label='Add child for " + p_data._id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data._id.replace("/","_") + "' /><button style='margin-right: 350px;' style='margin-right: 215px;' value='Add Folder' class='secondary-button' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })'>Add Folder</button>");
+                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data._id.replace("/", "_") + "' placeholder='Enter node name*' aria-label='Add child for " + p_data._id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data._id.replace("/","_") + "' /><button style='margin-right: 350px;' style='margin-right: 215px;' value='Add Folder' class='secondary-button' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data._id + "\", document.getElementById(\"add_child_of_" + p_data._id.replace("/","_") + "\").value, \"\") })'>Add Folder</button>");
                     //result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+                    $('#add_child_of_' + p_data._id.replace("/", "_").replace(/\//g, '\\/')).on('change', function(e) {
+                        if($(e.target).attr('is-invalid') === 'true')
+                            set_jurisdiction_add_child_control_valid_state(p_data._id, true);
+                    });
                     break;
                 }
             }
         }
 		result.push("</div>");
+        result.push("<div class='horizontal-control errorMessage' style='margin-left: 545px;' id='error_add_child_of_" + p_data._id.replace("/","_") + "'></div>");
 	}
 	else
 	{
@@ -166,17 +182,22 @@ function render_new_case_folder(p_data, p_path, p_nested_level)
             {
                 if(new_path.indexOf(key) == 0)
                 {
-                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data.id.replace("/", "_") + "' placeholder='Enter node name' required aria-label='Add child for " + p_data.id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data.id.replace("/","_") + "' /><button value='Add Folder' class='secondary-button mr-3' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })'>Add Folder</button></label><input style='margin-right: 215px;' class='delete-button' type='button' value='Delete Folder' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
+                    result.push("<input aria-invalid='false' aria-describedby='add_child_of_" + p_data.id.replace("/", "_") + "' placeholder='Enter node name*' aria-label='Add child for " + p_data.id.replace("/","_") + "' class='form-control ml-auto mr-3 mt-2 col-3' id='add_child_of_" + p_data.id.replace("/","_") + "' /><button value='Add Folder' class='secondary-button mr-3' onclick='init_small_loader(function(){ jurisdiction_add_child_click(\"" + p_data.id + "\", document.getElementById(\"add_child_of_" + p_data.id.replace("/","_") + "\").value, \"\") })'>Add Folder</button></label><input style='margin-right: 215px;' class='delete-button' type='button' value='Delete Folder' onclick='init_small_loader(function(){ jurisdiction_remove_child_click(\"" + p_data.parent_id + "\", \"" + p_data.id + "\", \"\") })' />");
                     //result.push(`<div style='margin-right: 215px;'><span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></div></span>`);
+                    $('#add_child_of_' + p_data.id.replace("/", "_").replace(/\//g, '\\/')).on('change', function(e) {
+                        if($(e.target).attr('is-invalid') === 'true')
+                            set_jurisdiction_add_child_control_valid_state(p_data._id, true);
+                    });
                     break;
                 }
             }
         }
         result.push("</div>");
+        result.push("<div class='horizontal-control errorMessage' style='margin-left: 545px;' id='error_add_child_of_" + p_data.id.replace("/","_") + "'></div>");
 
 	}
     var new_case_form_element = document.createElement('form');
-    new_case_form_element.classList.add(p_data._id ? p_data._id : p_data.id + '-child');
+    new_case_form_element.classList.add(p_data.parent_id + '-child');
     new_case_form_element.id = p_data._id ? ('add-node-form-' + p_data._id.replace("/", "_")) : ('add-node-form-' + p_data.id.replace("/", "_"));
     new_case_form_element.dataset.nestedLevel = p_nested_level;
     new_case_form_element.onsubmit = function(e) {
@@ -195,7 +216,7 @@ function render_show_hide_buttons(p_data, indent_level)
     var new_label_element = document.createElement('label');
     new_label_element.classList.add('mr-3');
     new_label_element.id = p_data.id + '-label';
-    new_label_element.setAttribute('style', 'left-padding: ' + indent_level * 25);
+    new_label_element.setAttribute('style', 'padding-left: ' + indent_level * 25 + 'px;');
     new_label_element.innerHTML = result.join("");
     return new_label_element;
 }

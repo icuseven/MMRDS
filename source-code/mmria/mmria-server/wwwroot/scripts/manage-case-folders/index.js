@@ -270,6 +270,10 @@ function set_jurisdiction_show_hide_children_state(p_parent_id, shouldShow, is_n
     show_button_element.hidden = shouldShow;
     hide_button_element.setAttribute('aria-hidden', '' + !shouldShow + '');
     hide_button_element.hidden = !shouldShow;
+    if(!is_nested && hide_button_element.hidden)
+        show_button_element.focus();
+    else if(!is_nested && !hide_button_element.hidden)
+        hide_button_element.focus();
     for(let i = 0; i < case_folders.length; i++)
     {
         var parent_child = case_folders.item(i);
@@ -348,13 +352,13 @@ function set_show_hide_folders_state(case_folders, shouldShow, p_parent_id)
 
 function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 {
-    if(p_name == "")
+    if(p_name == "" || p_name == null)
     {
-        //set_jurisdiction_add_child_control_valid_state(p_parent_id, false);
+        set_jurisdiction_add_child_control_valid_state(p_parent_id, false, 'Node name is required');
     }
     else
     {
-        //set_jurisdiction_add_child_control_valid_state(p_parent_id, true);
+        set_jurisdiction_add_child_control_valid_state(p_parent_id, true);
         var parent = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
         var new_child  = null;
     
@@ -395,7 +399,7 @@ function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
                 var x = render_new_case_folder(new_child, null, parseInt(y.dataset.nestedLevel));
                 if(y.dataset.nestedLevel == '0')
                 {
-                    case_folders_parent.appendChild(x);
+                    $('#case_folder_break').before(x);
                 }
                 else
                 {
@@ -403,12 +407,20 @@ function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
                     case_folders_parent.insertBefore(x, case_folders_parent.children.namedItem('add-node-form-' + p_parent_id.replace("/", "_")).nextSibling);
                 }
             }
-    
-        }       
+            document.getElementById('add_child_of_' + p_parent_id.replace("/", "_")).value = "";
+        }
+        else if (get_jurisdiction(new_child.id, g_jurisdiction_tree) != null)
+        {
+            set_jurisdiction_add_child_control_valid_state(p_parent_id, false, 'Child node name already exists.');
+        }
+        else if (p_name.match(/\W/) != null)
+        {
+            set_jurisdiction_add_child_control_valid_state(p_parent_id, false, 'Node name cannot contain spaces.');
+        }
     }
 }
 
-function set_jurisdiction_add_child_control_valid_state(p_parent_id, is_valid)
+function set_jurisdiction_add_child_control_valid_state(p_parent_id, is_valid, message = "")
 {
     var control_id = p_parent_id.replace("/", "_");
     var add_child_form_control = document.getElementById('add_child_of_' + control_id);
@@ -417,7 +429,7 @@ function set_jurisdiction_add_child_control_valid_state(p_parent_id, is_valid)
     {
         add_child_form_control.setAttribute('aria-invalid', true);
         add_child_form_control.classList.add('is-invalid');
-        add_child_form_control_error.innerHTML = 'Node name is required';
+        add_child_form_control_error.innerHTML = message;
     }
     else
     {
@@ -439,11 +451,12 @@ function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)
 		if(node_to_add_to)
 		{
             document.getElementById('form_content_id').innerHTML = jurisdiction_render(g_jurisdiction_tree).join("");
-			// var x = jurisdiction_render(g_jurisdiction_tree);
-
-			// var y=document.getElementById(p_parent_id.replace("/","_"));
-
-			// y.outerHTML = x.join("");
+            //TO-DO: Deleting child case folders does not work correctly, currently it will rerender entire case folder tree, losing expand/collapse state ^^^
+                // var case_folders_parent = document.getElementById('form_content_id');
+                // //case_folders_parent.children.namedItem('add-node-form-' + p_parent_id.replace("/", "_")).nextSibling.firstChild.children[1].focus();
+                // $('#' + p_node_id.replace('/', '_').replace(/\//g, '\\/')).remove();
+                // $('.' + p_node_id + '-child').remove();
+            
 			
 		}
 
