@@ -1509,25 +1509,25 @@ async function load_and_set_data()
 }
   
 
-function create_jurisdiction_list(p_data) 
+function create_jurisdiction_list(p_case_folder) 
 {
   for (var i = 0; i < g_user_role_jurisdiction_list.length; i++) 
   {
     var jurisdiction_regex = new RegExp('^' + g_user_role_jurisdiction_list[i]);
-    var match = p_data.name.match(jurisdiction_regex);
+    var match = p_case_folder.name.match(jurisdiction_regex);
 
     if (match) 
     {
-      g_jurisdiction_list.push(p_data.name);
+      g_jurisdiction_list.push(p_case_folder.name);
       break;
     }
   }
 
-  if (p_data.children != null) 
+  if (p_case_folder.children != null) 
   {
-    for (var i = 0; i < p_data.children.length; i++) 
+    for (var i = 0; i < p_case_folder.children.length; i++) 
     {
-      var child = p_data.children[i];
+      var child = p_case_folder.children[i];
 
       create_jurisdiction_list(child);
     }
