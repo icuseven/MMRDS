@@ -1,6 +1,24 @@
 let g_is_initial_search = true;
-
 let last_form = null;
+let is_field_list_expanded = false;
+
+$(document).on('click', function(e) {
+    var checkboxes = document.getElementById("checkboxes");
+    var field_filter_control = document.getElementById('field_filter');
+    if ((!$(e.target).closest('.overSelect').length && !$(e.target).closest('.filter-field-checkbox').length && !$(e.target).closest('.filter-field-checkbox-label').length) && is_field_list_expanded)
+    {
+        checkboxes.style.display = "none";
+        is_field_list_expanded = false;
+        field_filter_control.setAttribute('aria-expanded', 'false');
+    }
+    else if ($(e.target).closest('.overSelect').length)
+    {
+        checkboxes.style.display = "block";
+        is_field_list_expanded = true;
+        document.getElementById('ff-All').focus();
+        field_filter_control.setAttribute('aria-expanded', 'true');
+    }
+});
 
 function dictionary_render(p_metadata, p_path)
 {
@@ -14,104 +32,83 @@ function dictionary_render(p_metadata, p_path)
     }
 
 	result.push(`
-		<div id="filter" class="sticky-section mt-2" data-prop="selection_type" style="">
-			
-				<form class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-                <table border=0 class="sticky-header form-inline mb-2 row no-gutters align-items-center justify-content-between no-print">
-                <tr>
-                <td>
-                <label for="search_text" style="text-align:left">Search text or MMRIA ID:</label>
-                </td>
-                <td colspan=4>
-                <input type="text" 
-                        placeholder="Enter field name or MMRIA ID"
-                        class="form-control mr-2"
-                        id="search_text"
-                        value=""
-                        style="width: 570px;"
-                        onchange="search_text_change(this.value)" />
-                </td>
-                </tr>
-                <tr><td colspan=4 valign=top>
-					<select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
-						${render_form_filter(g_filter)}
-					</select>
-                    </td><td>
-                        <div class="multiselect" style="width:410px;">
-                            <div class="selectBox" onclick="showCheckboxes()">
-					            <select aria-label='field filter' id="field_filter" class="custom-select mr-2" onchange="on_field_filter_changed(this.value)">
+		<div id="filter" class="sticky-header z-index-top mt-2" data-prop="selection_type" style="background: white;">
+            <form id="view-data-filter-form" class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
+                <div class="d-flex flex-column mb-2 row no-gutters justify-content-between no-print">
+                    <div class="d-flex mb-3">
+                        <label class="mr-3" for="search_text" style="text-align:left; margin-top: 5px;">Search text or MMRIA ID:</label>
+                        <input type="text" 
+                            placeholder="Enter field name or MMRIA ID"
+                            class="form-control mr-2"
+                            id="search_text"
+                            value=""
+                            style="width: 570px;"
+                            onchange="search_text_change(this.value)" 
+                        />
+                    </div>
+                    <div class="d-flex mb-3">
+                        <div class="align-text-top pl-0 col-6">
+                            <select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
+                                ${render_form_filter(g_filter)}
+                            </select>
+                        </div>
+                        <div class="multiselect pl-0 col-5" style="width:410px;">
+                            <div aria-label='field filter' aria-owns="checkboxes" aria-expanded="false" role="combobox" tabindex="0" class="selectBox" onkeyup="showCheckboxes(event)" id="field_filter" onclick="showCheckboxes(event)">
+                                <select aria-hidden="true" tabindex="-1"  class="custom-select mr-2" >
                                     <option>(Any Field)</option>
-						
-					            </select>
+                                </select>
                                 <div class="overSelect"></div>
                             </div>
                             <div id="checkboxes" style="height:200px;overflow-y:scroll;">
                                 ${render_field_filter(g_filter)}
                             </div>
                         </div>
-                    </td></tr>
-                <tr><td colspan=5 align=right id="needs_apply_id" style="visibility:hidden">
+                        <div class="pl-0 col-4">
+                            <button
+                                id="apply_filters"
+                                type="button"
+                                class="btn primary-button no-print mt-0 mr-2"
+                                alt="clear search"
+                                onclick="search_click()">Apply Filters</button>
+                            <button
+                                type="button"
+                                class="btn primary-button no-print mt-0 mr-2"
+                                alt="reset search"
+                                onclick="reset_click()">Reset</button>
+                            <button type="button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+                            <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>                                
+                        </div>
+                    </div>
+                    <div class="form-inline mb-3">
+                        <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
+                        <select style="flex: 0 0 57.5%; max-width: 58.333333%;" id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                            ${renderSortCaseStatus(g_case_view_request)}
+                        </select>
+                    </div>
+                    <div class="form-inline mb-3">
+                        <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                        <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+                            ${renderPregnancyRelatedness(g_case_view_request)}
+                        </select>
+                    </div>
+                    <div>
+                        ${render_pregnancy_filter(g_case_view_request)}
+                    </div>
+                    <div class="no-print">
+                        ${render_display_frequency_check_box(g_filter)}
+                    </div>
+                </div> 
+                <div id="needs_apply_id" style="visibility:hidden">
                     <b>Click the Apply Filters button to apply changes</b>
-                </td></tr>
-                
-                <tr><td colspan=5>
-                <div class="form-inline mb-2">
-                    <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
-                    <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                        ${renderSortCaseStatus(g_case_view_request)}
-                    </select>
                 </div>
-                </td></tr>
-
-                <tr><td colspan=5>
-                <div class="form-inline mb-2">
-                    <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
-                    <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
-                        ${renderPregnancyRelatedness(g_case_view_request)}
-                    </select>
-                
-                </div>
-                </td></tr>
- 
-                <tr><td colspan=4>
-                ${render_pregnancy_filter(g_case_view_request)}
-                </td></tr>
-
-                <tr><td colspan=4 style="margin:10px">
-                ${render_display_frequency_check_box(g_filter)}
-                </td></tr>
-
-                <tr>
-                <td colspan=4>
-					<button
-						type="submit"
-						class="btn btn-secondary no-print"
-						alt="clear search"
-						onclick="search_click()">Apply Filters</button>
-                    <button
-						type="button"
-						class="btn btn-secondary no-print"
-						alt="reset search"
-						onclick="reset_click()">Reset</button>
-                    <button class="btn btn-secondary row no-gutters align-items-center no-print" onclick="handle_print()"><span class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
-						<span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>
-                        
-
-				</td>
-                </tr>
-            </table> 
             </form>
-			       
-            
-
-			<div class="mt-2">
-				<table id="search_result_list" class="table table--standard rounded-0 mb-3" style="font-size: 14px">
+			<div class="mt-2 vertical-control pl-0 pr-0 col-md-12">
+				<table id="search_result_list" class="table table-layout-fixed align-cell-top mb-3" style="font-size: 14px">
 					${search_result.join("")}
 				</table>
 			</div>
 			
-	`);
-
+	`);1
 	return result;
 }
 
@@ -189,57 +186,95 @@ function on_form_filter_changed(value)
     show_needs_apply_id(true)
 }
 
-function on_field_filter_changed(value)
+function on_field_filter_changed(event, value)
 {
-
-    if(g_form_field_map.has(value)) 
+    if(event.key == "Escape" || event.key == "Tab")
     {
-        // do nothing
+        event.preventDefault();
+        show_needs_apply_id(false);
+        showCheckboxes(event);
     }
-    else if(value == "all")
+    else if (event.key == 'Enter' || event.key == undefined)
     {
-        if(g_filter.field_selection.has(value))
+        if(value == "all")
         {
-            g_filter.field_selection.clear();
-
-
+            if(g_filter.field_selection.has(value))
+            {
+                g_filter.field_selection.clear();
+            }
+            else
+            {
+                g_filter.field_selection.add(value);
+            }
+            const html = render_field_filter(g_filter);
+            const el = document.getElementById("checkboxes");
+            el.innerHTML = html;
+        }
+        else if(g_filter.field_selection.has(value))
+        {
+            g_filter.field_selection.delete(value);
+            document.getElementById(value).checked = false;
+            if(g_filter.field_selection.size == 0)
+            {
+                g_filter.field_selection.add("all");
+    
+                const html = render_field_filter(g_filter);
+                const el = document.getElementById("checkboxes");
+                el.innerHTML = html;
+            }
         }
         else
         {
             g_filter.field_selection.add(value);
+            document.getElementById(value).checked = true;
+            if(g_filter.field_selection.has("all"))
+            {
+                g_filter.field_selection.delete("all");
+    
+                const html = render_field_filter(g_filter);
+                const el = document.getElementById("checkboxes");
+                el.innerHTML = html;
+            }
         }
-        
-
-        const html = render_field_filter(g_filter);
-        const el = document.getElementById("checkboxes");
-        el.innerHTML = html;
+    
+        show_needs_apply_id(true);
     }
-    else if(g_filter.field_selection.has(value))
+    document.getElementById(value == 'all' ? 'ff-All' : value).focus();
+    //event.preventDefault();
+    event.stopPropagation();
+}
+
+function on_arrow_keys_filter_field(event, value)
+{
+    if (event.key == 'ArrowUp')
     {
-        g_filter.field_selection.delete(value);
-        if(g_filter.field_selection.size == 0)
+        event.preventDefault();
+        var filter_field_checkboxes = [...document.getElementsByClassName('filter-field-checkbox')]; 
+        var index = filter_field_checkboxes.indexOf(document.getElementById(value == 'all' ? 'ff-All' : value));
+        if(index == 0)
         {
-            g_filter.field_selection.add("all");
-
-            const html = render_field_filter(g_filter);
-            const el = document.getElementById("checkboxes");
-            el.innerHTML = html;
+            document.getElementById('ff-All').focus();
+        }
+        else
+        {
+            document.getElementsByClassName('filter-field-checkbox').item(index - 1).focus();
         }
     }
-    else
+    else if (event.key == 'ArrowDown')
     {
-        g_filter.field_selection.add(value);
-        if(g_filter.field_selection.has("all"))
+        event.preventDefault();
+        var filter_field_checkboxes = [...document.getElementsByClassName('filter-field-checkbox')]; 
+        var index = filter_field_checkboxes.indexOf(document.getElementById(value == 'all' ? 'ff-All' : value));
+        if(index >= filter_field_checkboxes.length)
         {
-            g_filter.field_selection.delete("all");
-
-            const html = render_field_filter(g_filter);
-            const el = document.getElementById("checkboxes");
-            el.innerHTML = html;
+            document.getElementsByClassName('filter-field-checkbox').item(filter_field_checkboxes.length - 1).focus();
+        }
+        else
+        {
+            document.getElementsByClassName('filter-field-checkbox').item(index + 1).focus();
+            
         }
     }
-
-    show_needs_apply_id(true);
 }
 
 function render_field_filter(p_filter)
@@ -267,7 +302,8 @@ function render_field_filter(p_filter)
     const style = `style="width:23px;height:23px;background-color:#712177;"`;
 
     //const style = ``;
-	result.push(`<label><input type="checkbox" id="ff-All" value="all" title="All Fields"  onclick="on_field_filter_changed(this.value)" ${is_checked} />All Fields</label>`)
+	result.push(`<label class="d-flex align-items-center filter-field-checkbox-label"><input aria-controls="field_filter" class="m-2 filter-field-checkbox" type="checkbox" id="ff-All" value="all" title="All Fields" onkeyup="on_field_filter_changed(event, this.value)" onkeydown="on_arrow_keys_filter_field(event, this.value)"  onclick="on_field_filter_changed(event, this.value)" ${is_checked} /><span>All Fields</span></label>`)
+    result.push('<hr />');
 
     for(const [k, v] of g_form_field_map)
     {
@@ -276,8 +312,8 @@ function render_field_filter(p_filter)
             is_checked = 'checked';
             for(const [k2, v2] of v)
             {
-                result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.field_name}"  value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
+                result.push(`<label class="d-flex align-items-center filter-field-checkbox-label">`);
+                result.push(`<input aria-controls="field_filter" class="m-2 filter-field-checkbox" type="checkbox" ${style} id="${v2.field_name}"  value="${v2.field_name}" title="${v2.title_prompt}" onkeydown="on_arrow_keys_filter_field(event, this.value)" onkeyup="on_field_filter_changed(event, this.value)" onclick="on_field_filter_changed(event, this.value)" ${is_checked} /><span>${v2.display_prompt}</span></label>`);
             }
         }
         else if(p_filter.selected_form == '' || p_filter.selected_form == 'all')
@@ -290,8 +326,8 @@ function render_field_filter(p_filter)
                 {
                     is_checked = "checked";
                 }
-                result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
+                result.push(`<label class="d-flex align-items-center filter-field-checkbox-label">`);
+                result.push(`<input aria-controls="field_filter"  class="m-2 filter-field-checkbox" type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onkeydown="on_arrow_keys_filter_field(event, this.value)" onkeyup="on_field_filter_changed(event, this.value)" onclick="on_field_filter_changed(event, this.value)" ${is_checked} /><span>${v2.display_prompt}</span></label>`);
             }
         }
         else if(k == p_filter.selected_form)
@@ -304,8 +340,8 @@ function render_field_filter(p_filter)
                 {
                     is_checked = "checked";
                 }
-                result.push(`<label>`);
-                result.push(`<input type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onclick="on_field_filter_changed(this.value)" ${is_checked} />${v2.display_prompt}</label>`);
+                result.push(`<label class="d-flex align-items-center filter-field-checkbox-label">`);
+                result.push(`<input aria-controls="field_filter"  class="m-2 filter-field-checkbox" type="checkbox" ${style} id="${v2.field_name}" value="${v2.field_name}" title="${v2.title_prompt}" onkeydown="on_arrow_keys_filter_field(event, this.value)" onkeyup="on_field_filter_changed(event, this.value)" onclick="on_field_filter_changed(event, this.value)" ${is_checked} /><span>${v2.display_prompt}</span></label>`);
             }
         }
     }
@@ -702,17 +738,17 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 case "FREQ":
                     //console.log('FREQ');
                     if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "FREQ");
-                    list_values.push(render_FREQ(context));
+                    list_values.push(render_FREQ(context, p_metadata.prompt));
                     break;
                 case "STAT_D":
                    //console.log('STAT_D');
                    if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_D");
-                    list_values.push(render_STAT_D(context));
+                    list_values.push(render_STAT_D(context, p_metadata.prompt));
                     break;
                 case "STAT_N":
                     //console.log('STAT_N');
                     if(!g_path_to_stat_type.has(p_path)) g_path_to_stat_type.set(p_path.substr(1), "STAT_N");
-                    list_values.push(render_STAT_N(context));
+                    list_values.push(render_STAT_N(context, p_metadata.prompt));
                 break;
             }
 
@@ -733,23 +769,42 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 				list_values.push(`
 					<tr class="tr">
-						<td class="td" width="140" style="border:white"></td>
+						<td class="td" width="140"></td>
 						<td class="td p-0" colspan="5">
-							<table class="table table--standard rounded-0 m-0">
+							<table class="table table-fixed-layout align-cell-top m-0">
+                                <caption class="table-caption">
+                                    Table with all possible list values for the ${form_name}'s ${p_metadata.prompt} field type.
+                                </caption>
 								<thead class="thead">
-									<tr class="tr bg-gray-l2">
+									<tr class="header-level-top-black">
 										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
-									<tr class="tr bg-gray-l2">
-										<th class="th" width="140" scope="col">Value</th>
-										<th class="th" width="680" scope="col">Display</th>
-										<th class="th" width="260" scope="col" style="text-align:right">N (Counts)</th>
-									</tr>
-								</thead>
-								<tbody class="tbody">	
+									<tr class="header-level-2
 				`);
+                
+                if(value_list.length > 15)
+                    {
+                        list_values.push(` sticky z-index-middle" style="top: 355px;">
+                                            <th class="th" width="140" scope="col">Value</th>
+                                            <th class="th" width="680" scope="col">Display</th>
+                                            <th class="th" width="260" scope="col">N (Counts)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">`);
+                    }
+                    else
+                    {
+                        list_values.push(`">
+                                <th class="th" width="140" scope="col">Value</th>
+                                <th class="th" width="680" scope="col">Display</th>
+                                <th class="th" width="260" scope="col">N (Counts)</th>
+                            </tr>
+                            </thead>
+                            <tbody class="tbody">
+                        `);
+                    }
 
 					for(let i= 0; i < value_list.length; i++)
 					{
@@ -766,7 +821,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 								</tbody>
 							</table>
 						</td>
-						<td class="td" colspan="2" style="border:white"></td>
+						<td class="td" colspan="1"></td>
 					</tr>
 				`);
 			}
@@ -792,14 +847,14 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				last_form = form_name;
 				p_result.push(`
 					<thead class="thead">
-						<tr class="tr bg-gray font-weight-bold" style="font-size: 17px">
+						<tr class="header-level-top-white" style="font-size: 17px">
 							<th class="th" colspan="7" scope="colgroup">
 								${form_name}
 							</th>
 						</tr>
 					</thead>
-					<thead class="thead">
-						<tr class="tr bg-gray-l1 font-weight-bold">
+					<thead class="thead" style="border-bottom: 1px solid #dee2e6;">
+						<tr class="header-level-2 sticky z-index-middle font-weight-bold" style-"top: 57px;">
 							<th class="th" width="140" scope="col">MMRIA Form</th>
 							<th class="th" width="140" scope="col">Export File Name</th>
 							<th class="th" width="120" scope="col">Export Field</th>
@@ -813,14 +868,14 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 			}
 
 			p_result.push(`
-				<tr class="tr">
-					<td class="td" width="140">${form_name}</td>
-					<td class="td" width="140">${file_name}</td>
-					<td class="td" width="120">${field_name}</td>
-					<td class="td" width="180">${p_metadata.prompt}</td>
-					<td class="td" width="380">${description}</td>
-					<td class="td" width="260">${p_path}</td>
-					<td class="td" width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
+				<tr>
+					<td width="140">${form_name}</td>
+					<td width="140">${file_name}</td>
+					<td width="120">${field_name}</td>
+					<td width="180">${p_metadata.prompt}</td>
+					<td width="380">${description}</td>
+					<td width="260">${p_path}</td>
+					<td width="110">${(data_type.toLowerCase() == "textarea" || data_type.toLowerCase() == "jurisdiction")? "string": data_type}</td>
 				</tr>
 				${list_values.join("")}
 			`);
@@ -1150,7 +1205,7 @@ function render_display_frequency_check_box(p_filter)
     }
 
     return `
-    <label style="text-align:left;justify-content:left;margin:10px"><input type="checkbox" ${is_checked_string} value=true name="display_zero_values" style="text-align:left;justify-content:left" onclick="on_display_zero_values_click(this)" />&nbsp;Do not display values with frequency count = 0</label>
+    <label style="text-align:left;justify-content:left;"><input type="checkbox" ${is_checked_string} value=true name="display_zero_values" style="text-align:left;justify-content:left" onclick="on_display_zero_values_click(this)" />&nbsp;Do not display values with frequency count = 0</label>
     `
 }
 
@@ -1162,82 +1217,83 @@ function render_pregnancy_filter(p_case_view)
 
     if(g_filter.include_blank_date_of_reviews == false)
     {
-        display_date_of_reviews_html = "display:inline;";
+        display_date_of_reviews_html = "display:flex;";
     }
     
     if(g_filter.include_blank_date_of_deaths == false)
     {
-        display_date_of_deaths_html = "display:inline;";
+        display_date_of_deaths_html = "display:flex;";
     }
     
     return `
 
     <div class="row" style="display:block;margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
-        <table style="margin-top:-15px;margin-bottom:10px;">
-        <tr style="margin-bottom:20px;height:50px;">
-            <td class="font-weight-normal mr-2">
+        <div>
+        <div class="d-flex align-items-center mb-2">
+            <div class="font-weight-normal mr-2 align-items-center">
                 Review Dates:
-            </td>
-            <td style="padding-left:15px">
-                <label for="all_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            </div>
+            <div style="padding-left:15px">
+                <label for="all_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
                 <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" ${g_filter.include_blank_date_of_reviews == true ? 'checked="true"' : '' } />
                 &nbsp;All cases</label>
-            </td>
-            <td>
-            <label for="select_review_dates_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            </div>
+            <div>
+            <label for="select_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
             <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select"  ${g_filter.include_blank_date_of_reviews == false ? 'checked="true"' : '' }/>
             &nbsp;Select dates</label>
-            </td>
-            
-            <td>
-                <span id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
-                <label for="review_begin_date" class="font-weight-normal mr-2">Begin
-                    &nbsp;<input id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
-                </label>
-                </span>
-            </td>
-            <td>
-                <span id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
-                    <label for="review_end_date" class="font-weight-normal mr-2">End
-                        &nbsp;<input  id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+            </div>
+            <div>
+                <span class="mr-3" id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
+                    <label for="review_begin_date" class="font-weight-normal mt-2 mr-2">
+                        Begin
                     </label>
+                    <input class="form-control" id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
                 </span>
-            </td>
+            </div>
+            <div>
+                <span class="mr-3" id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
+                    <label for="review_end_date" class="font-weight-normal mt-2 mr-2">
+                        End
+                    </label>
+                    <input class="form-control" id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                </span>
+            </div>
             
-            </td>
-        </tr>
-        <tr style="margin-top:20px;">
-            <td class="font-weight-normal mr-2">
+            </div>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="font-weight-normal mr-2">
                 Dates of Death:
-            </td>
-            <td style="padding-left:15px">
-                <label for="all_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            </div>
+            <div style="padding-left:4px">
+                <label for="all_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
                 <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all" ${g_filter.include_blank_date_of_deaths == true ? 'checked="true"' : '' } />
                 &nbsp;All cases</label>
-            </td>
-            <td>
-            <label for="select_date_of_death_radio" class="font-weight-normal mr-2" style="justify-content:left">
+            </div>
+            <div>
+            <label for="select_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
             <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select"  ${g_filter.include_blank_date_of_deaths == false ? 'checked="true"' : '' }/>
             &nbsp;Select dates</label>      
-            </td>
-            <td>
-                <span id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
-                <label for="death_begin_date" class="font-weight-normal mr-2">Begin
-                    &nbsp;<input id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
-                </label>
+            </div>
+            <div>
+                <span class="mr-3" id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
+                    <label for="death_begin_date" class="font-weight-normal mt-2 mr-2">
+                        Begin
+                    </label>
+                    <input class="form-control" id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
                 </span>
-            </td>
-            <td>
-                <span id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
-                <label for="death_end_date" class="font-weight-normal mr-2">End
-                    &nbsp;<input  id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
+            </div>
+            <div>
+                <span class="mr-3" id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
+                <label for="death_end_date" class="font-weight-normal mt-2 mr-2">
+                    End
                 </label>
+                <input class="form-control" id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
                 </span>
-            </td>
-            
-        </tr>
-        </table>
-        <br/>
+            </div>
+        </div>
+        </div>
     </div>
 
 `;
@@ -1260,8 +1316,8 @@ function render_pregnancy_filter(p_case_view)
     else
     {
         g_filter.include_blank_date_of_reviews = false;
-        begin.style["display"] = "";
-        end.style["display"] = "";
+        begin.style["display"] = "flex";
+        end.style["display"] = "flex";
     }
 }
 
@@ -1279,8 +1335,8 @@ function date_of_death_panel_select(p_value)
     else
     {
         g_filter.include_blank_date_of_deaths = false;
-        begin.style["display"] = "";
-        end.style["display"] = "";
+        begin.style["display"] = "flex";
+        end.style["display"] = "flex";
     }
 
 
@@ -1460,16 +1516,19 @@ function death_end_date_change(p_value)
 }
 
 
-function render_FREQ(p_context)
+function render_FREQ(p_context, prompt)
 {
     const detail = "FREQ";
 
     return `<tr class="tr">
     <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
-        <table class="table table--standard rounded-0 m-0">
+        <table class="table table-fixed-layout align-cell-top m-0">
+            <caption class="table-caption">
+                Total Frequency distribution for ${prompt} field type.
+            </caption>
             <thead class="thead">
-                <tr class="tr bg-gray-l2">
+                <tr class="header-level-top-black">
                     <th class="th" scope="col" colspan=2>Summary Type</th>
                     <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
                 </tr>
@@ -1483,20 +1542,23 @@ function render_FREQ(p_context)
             </tbody>
             </table>
         </td>
-        <td class="td" colspan="2" style="border:white"></td>
+        <td class="td" colspan="1"></td>
     </tr>`;
 
 }
 
-function render_STAT_D(p_context)
+function render_STAT_D(p_context, prompt)
 {
     const detail = "STAT_D";
     return `<tr class="tr">
     <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
-        <table class="table table--standard rounded-0 m-0">
+        <table class="table table-fixed-layout align-cell-top m-0">
+            <caption class="table-caption">
+                Date summary for ${prompt} field type.
+            </caption>
             <thead class="thead">
-            <tr class="tr bg-gray-l2">
+            <tr class="header-level-top-black">
                 <th class="th" width="170" scope="col">Summary Type</th>
                 <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
                 <th class="th" width="260" scope="col" style="text-align:right">Missing Count</th>
@@ -1515,19 +1577,22 @@ function render_STAT_D(p_context)
         </tbody>
             </table>
         </td>
-        <td class="td" colspan="2" style="border:white"></td>
+        <td class="td" colspan="1"></td>
     </tr>`;
 }
 
-function render_STAT_N(p_context)
+function render_STAT_N(p_context, prompt)
 {
     const detail = "STAT_N";
     return `<tr class="tr">
     <td class="td" width="140" style="border:white"></td>
     <td class="td p-0" colspan="5">
-        <table class="table table--standard rounded-0 m-0">
+        <table class="table table-fixed-layout align-cell-top m-0">
+            <caption class="table-caption">
+                Numeric summary for ${prompt} field type.
+            </caption>
             <thead class="thead">
-                <tr class="tr bg-gray-l2">
+                <tr class="header-level-top-black">
                     <th class="th" width="170" scope="col">Summary Type</th>
                     <th class="th" width="260" scope="col" style="text-align:right">N (Total Count)</th>
                     <th class="th" width="260" scope="col" style="text-align:right">Missing Count</th>
@@ -1554,7 +1619,7 @@ function render_STAT_N(p_context)
             </tbody>
             </table>
         </td>
-        <td class="td" colspan="2" style="border:white"></td>
+        <td class="td" colspan="1"></td>
     </tr>`;
 }
 
@@ -1572,24 +1637,32 @@ function show_needs_apply_id(value)
     }
 }
 
-
-let is_field_list_expanded = false;
-
-function showCheckboxes() 
+function showCheckboxes(event) 
 {
+    event.preventDefault();
     const checkboxes = document.getElementById("checkboxes");
-    if (!is_field_list_expanded) 
+    const field_filter_control = document.getElementById('field_filter');
+    if (!is_field_list_expanded && (event.key == 'Enter' || event.key == 'Space' || event.key == undefined)) 
     {
         checkboxes.style.display = "block";
         is_field_list_expanded = true;
+        document.getElementById('ff-All').focus();
+        field_filter_control.setAttribute('aria-expanded', 'true');
     }
-    else
+    else if (event.key == 'Escape' || event.key == 'Tab')
     {
         checkboxes.style.display = "none";
         is_field_list_expanded = false;
+        document.getElementById('field_filter').focus();
+        field_filter_control.setAttribute('aria-expanded', 'false');
+    }
+    else if (is_field_list_expanded && (event.key == 'Enter' || event.key == 'Space' || event.key == undefined)) 
+    {
+        checkboxes.style.display = "none";
+        is_field_list_expanded = false;
+        field_filter_control.setAttribute('aria-expanded', 'false');
     }
 }
-
 
 async function on_display_zero_values_click(p_value)
 {

@@ -783,7 +783,8 @@ function build_report()
                 (
                     k,
                     "count",
-                    current_stat.get("count")
+                    current_stat.get("count"),
+                    "Frequency Distribution"
                 );
 
                 for(const [n, v2] of v)
@@ -803,7 +804,8 @@ function build_report()
                             (
                                 k,
                                 "missing",
-                                current_stat.get("missing")
+                                current_stat.get("missing"),
+                                "Missing List Values"
                             );
 
                     }
@@ -819,7 +821,8 @@ function build_report()
                                     (
                                         k,
                                         n,
-                                        v2
+                                        v2,
+                                        "List Values"
                                     );
                                 }
                                 
@@ -834,7 +837,8 @@ function build_report()
                                 (
                                     k,
                                     n,
-                                    v2
+                                    v2,
+                                    "List Values"
                                 );
                             }
                         }
@@ -854,7 +858,8 @@ function build_report()
                 (
                     k,
                     "count",
-                    current_stat.get("count")
+                    current_stat.get("count"),
+                    "Date Summary Count"
                 );
 
                 el = document.getElementById(`${k}-missing`);                
@@ -862,7 +867,8 @@ function build_report()
                 (
                     k,
                     "missing",
-                    current_stat.get("missing")
+                    current_stat.get("missing"),
+                    "Missing Date Summary"
                 );
         
 
@@ -870,7 +876,7 @@ function build_report()
                 let date = new Date(current_stat.get("min").split(' @')[0]);
 
                 //el.innerHTML = formatDate(date);
-                el.innerHTML = render_link(k, "min",  formatDate(date));
+                el.innerHTML = render_link(k, "min",  formatDate(date), "Min Date Summary");
 
                 
 
@@ -878,7 +884,7 @@ function build_report()
                 date = new Date(current_stat.get("max").split(' @')[0]);
 
                 //el.innerHTML = formatDate(date);
-                el.innerHTML = render_link(k, "max",  formatDate(date));
+                el.innerHTML = render_link(k, "max",  formatDate(date), "Max Date Summary");
             }
         }
         else if(type == "STAT_N")
@@ -891,7 +897,8 @@ function build_report()
                 (
                     k,
                     "count",
-                    current_stat.get("count")
+                    current_stat.get("count"),
+                    "Numeric Summary Count"
                 );
 
                 el = document.getElementById(`${k}-missing`);                
@@ -899,15 +906,16 @@ function build_report()
                 (
                     k,
                     "missing",
-                    current_stat.get("missing")
+                    current_stat.get("missing"),
+                    "Missing Numeric Summary"
                 );
                 /**/
 
                 el = document.getElementById(`${k}-min`);
-                el.innerHTML = render_link(k, "min", current_stat.get("min").split(' @')[0]);
+                el.innerHTML = render_link(k, "min", current_stat.get("min").split(' @')[0], "Min Numeric Summary");
 
                 el = document.getElementById(`${k}-max`);
-                el.innerHTML = render_link(k, "max", current_stat.get("max").split(' @')[0]);
+                el.innerHTML = render_link(k, "max", current_stat.get("max").split(' @')[0], "Max Numeric Summary");
 
                 el = document.getElementById(`${k}-mean`);
                 el.innerHTML = current_stat.get("mean").toFixed(2);
@@ -1357,7 +1365,7 @@ async function on_show_case_list_click
     (
         `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
         result.join(""),
-        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count} <label><input type="button" onclick="download_data_click('${link_field_name}','${link_field_summary}','${link_field_data}')" value="Download"/></label>`,
+        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count} <label><input class="btn primary-button" type="button" onclick="download_data_click('${link_field_name}','${link_field_summary}','${link_field_data}')" value="Download"/></label>`,
         result2.join("")
     );
 }
@@ -1394,19 +1402,23 @@ async function data_dictionary_dialog_show
             <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Matching MMRIA ID#'s</span>
             <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.data_dictionary_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
         </div>
-        <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 500px;" class="ui-dialog-content ui-widget-content">
+        <div id="mmria_dialog5" style="overflow-y: scroll;width: 1000; height: 450px;" class="ui-dialog-content ui-widget-content">
             <div class="modal-body">
-                <table class="table table--standard rounded-0 mb-3" style="font-size: 14px"  >
-                            
-                <tr class="tr bg-gray-l1 font-weight-bold">
-                    <th class="th" width="140" scope="col">MMRIA Form</th>
-                    <th class="th" width="140" scope="col">Export File Name</th>
-                    <th class="th" width="120" scope="col">Export Field</th>
-                    <th class="th" width="180" scope="col">Prompt</th>
-                    <th class="th" width="380" scope="col">Description</th>
-                    <th class="th" width="260" scope="col">Path</th>
-                    <th class="th" width="110" scope="col">Data Type</th>
-                </tr>
+                <table class="table table-fixed-layout align-cell-top mb-3" style="font-size: 14px"  >
+                <caption class="table-caption">
+                    Matching MMRIA ID Numbers for ${p_title}.
+                </caption>
+                <thead>
+                    <tr class="header-level-top-black font-weight-bold">
+                        <th class="th" width="140" scope="col">MMRIA Form</th>
+                        <th class="th" width="140" scope="col">Export File Name</th>
+                        <th class="th" width="120" scope="col">Export Field</th>
+                        <th class="th" width="180" scope="col">Prompt</th>
+                        <th class="th" width="380" scope="col">Description</th>
+                        <th class="th" width="260" scope="col">Path</th>
+                        <th class="th" width="110" scope="col">Data Type</th>
+                    </tr>
+                </thead>
                 
                 ${p_inner_html}
                 </table>
@@ -1417,7 +1429,7 @@ async function data_dictionary_dialog_show
         </div>
         <div>
         <footer class="modal-footer">
-            <button id="data_dictionary_dialog_close_button" class="btn btn-primary mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
+            <button id="data_dictionary_dialog_close_button" class="btn secondary-button mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
         </footer>
         </div>
     `);
@@ -1441,11 +1453,12 @@ function render_link
 (
     p_path,
     p_value,
-    p_count
+    p_count,
+    p_prompt,
 )
 {
     return `
-        <a href="javascript:on_show_case_list_click('${p_path}','${p_value}','${p_count}')">${p_count}</a>
+        <a aria-label="Show ${p_count} ${p_value} case list for ${p_path.split("/").pop()} field" href="javascript:on_show_case_list_click('${p_path}','${p_value}','${p_count}')">${p_count}</a>
     `;
 
     

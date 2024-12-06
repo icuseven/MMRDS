@@ -37808,4 +37808,12 @@ tr.sticky th, tr.sticky td {
   overflow: unset;
 }
 
+.errorMessage {
+  color: #dc3545;
+}
+
+.is-invalid {
+  outline: 2px solid #dc3545;
+}
+
 /*# sourceMappingURL=index.css.map */

@@ -107,6 +107,7 @@ $red: #AF4448;
 $red-dark: #842547;
 $red-light: #FFC2C2;
 $red-disabled: #ffe7e7;
+$red-invalid: #dc3545;
 
 $gray: #555555;
 $gray-dark: #333333;
@@ -1360,4 +1361,12 @@ tr.sticky {
 
 .table {
     overflow: unset;
+}
+
+.errorMessage {
+    color: $red-invalid;
+}
+
+.is-invalid {
+    outline: 2px solid $red-invalid;
 }

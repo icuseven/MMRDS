@@ -261,88 +261,170 @@ function server_save(p_user)
 
 }
 
-function jurisdiction_show_children(p_parent_id)
+function set_jurisdiction_show_hide_children_state(p_parent_id, shouldShow, is_nested = false, parent_should_show)
 {
     var hide_button_element = document.getElementById(p_parent_id + "_hide_children");
     var show_button_element = document.getElementById(p_parent_id + "_show_children");
-    var parent_children = document.getElementsByClassName(p_parent_id + "-child");
-    show_button_element.setAttribute('aria-hidden', 'true');
-    show_button_element.hidden = true;
-    hide_button_element.setAttribute('aria-hidden', 'false');
-    hide_button_element.hidden = false;
-    for(let i = 0;  i < parent_children.length; i++)
+    var case_folders = document.getElementById('form_content_id').children;
+    show_button_element.setAttribute('aria-hidden', '' + shouldShow + '');
+    show_button_element.hidden = shouldShow;
+    hide_button_element.setAttribute('aria-hidden', '' + !shouldShow + '');
+    hide_button_element.hidden = !shouldShow;
+    for(let i = 0; i < case_folders.length; i++)
+    {
+        var parent_child = case_folders.item(i);
+        if(parent_child.classList.length > 0 && parent_child.classList[0].includes(p_parent_id + '-child'))
         {
-            var parent_child = parent_children.item(i);
-            parent_child.style.removeProperty('display');
-            parent_child.setAttribute('aria-hidden', 'false');
+            var label_child = parent_child.children[0].children[0];
+            if(label_child.children.length > 0 && label_child.children[0].hidden == true)
+            {
+                set_jurisdiction_show_hide_children_state(label_child.children[0].id.split('_show_children')[0], true, true, parent_should_show);
+            }
+            else if(label_child.children.length > 0 && label_child.children[0].hidden == false)
+            {
+                set_jurisdiction_show_hide_children_state(label_child.children[0].id.split('_show_children')[0], false, true, parent_should_show == true ? false : parent_should_show);
+            }
+            if(!is_nested)
+            {
+                if(shouldShow)
+                {
+                    parent_child.removeAttribute('style');
+                    parent_child.setAttribute('aria-hidden', 'false');
+                }
+                else
+                {
+                    parent_child.setAttribute('style', 'display: none !important;');
+                    parent_child.setAttribute('aria-hidden', 'true');
+                }
+            }
+            else
+            {
+                if(shouldShow && !parent_should_show)
+                {
+                    parent_child.setAttribute('style', 'display: none !important;');
+                    parent_child.setAttribute('aria-hidden', 'true');
+                }
+                else if(!shouldShow && parent_should_show)
+                {
+                    parent_child.setAttribute('style', 'display: none !important;');
+                    parent_child.setAttribute('aria-hidden', 'true');
+                }
+                else if(!shouldShow && !parent_should_show)
+                {
+                    parent_child.setAttribute('style', 'display: none !important;');
+                    parent_child.setAttribute('aria-hidden', 'true');
+                }
+                else
+                {
+                    parent_child.removeAttribute('style');
+                    parent_child.setAttribute('aria-hidden', 'false');
+                }
+            }
         }
+    }
+    //set_show_hide_folders_state(case_folders, shouldShow, p_parent_id);
 }
 
-function jurisdiction_hide_children(p_parent_id)
+function set_show_hide_folders_state(case_folders, shouldShow, p_parent_id)
 {
-    var hide_button_element = document.getElementById(p_parent_id + "_hide_children");
-    var show_button_element = document.getElementById(p_parent_id + "_show_children");
-    var parent_children = document.getElementsByClassName(p_parent_id + "-child");
-    show_button_element.setAttribute('aria-hidden', 'false');
-    show_button_element.hidden = false;
-    hide_button_element.setAttribute('aria-hidden', 'true');
-    hide_button_element.hidden = true;
-    for(let i = 0;  i < parent_children.length; i++)
+    for(let i = 0; i < case_folders.length; i++)
     {
-        var parent_child = parent_children.item(i);
-        parent_child.setAttribute('style', 'display: none !important;');
-        parent_child.setAttribute('aria-hidden', 'true');
+        var parent_child = case_folders.item(i);
+        if(parent_child.classList.length > 0 && parent_child.classList[0].includes(p_parent_id + '-child'))
+        {
+            if(shouldShow)
+            {
+                parent_child.removeAttribute('style');
+                parent_child.setAttribute('aria-hidden', 'false');
+            }
+            else
+            {
+                parent_child.setAttribute('style', 'display: none !important;');
+                parent_child.setAttribute('aria-hidden', 'true');
+            }
+        }
     }
 }
 
-
 function jurisdiction_add_child_click(p_parent_id, p_name, p_user_id)
 {
-	var parent = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
-	var new_child  = null;
+    if(p_name == "")
+    {
+        //set_jurisdiction_add_child_control_valid_state(p_parent_id, false);
+    }
+    else
+    {
+        //set_jurisdiction_add_child_control_valid_state(p_parent_id, true);
+        var parent = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
+        var new_child  = null;
+    
+        if(parent)
+        {
+            if(parent.name == "/")
+            {
+                new_child  = jurisdiction_add(p_parent_id, "/" + p_name, p_user_id);
+            }
+            else
+            {
+                new_child  = jurisdiction_add(p_parent_id, parent.name + "/" + p_name, p_user_id);
+            }
+            
+        }
+        else
+        {
+            new_child  = jurisdiction_add(p_parent_id, p_name, p_user_id);
+        }
+        
+        
+        if
+        (
+            p_name != null && 
+            p_name != "" && 
+            p_name.match(/\W/) == null && 
+            get_jurisdiction(new_child.id, g_jurisdiction_tree) == null
+        )
+        {
+            var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
+            if(node_to_add_to)
+            {
+                node_to_add_to.children.push(new_child);
+                g_jurisdiction_tree.date_last_updated = new Date();
+                g_jurisdiction_tree.last_updated_by = p_user_id;
+                var case_folders_parent = document.getElementById('form_content_id');
+                var y = document.getElementById('add-node-form-' + p_parent_id.replace("/", "_"));
+                var x = render_new_case_folder(new_child, null, parseInt(y.dataset.nestedLevel));
+                if(y.dataset.nestedLevel == '0')
+                {
+                    case_folders_parent.appendChild(x);
+                }
+                else
+                {
+                    document.getElementById(p_parent_id + '-label').replaceWith(render_show_hide_buttons(node_to_add_to, parseInt(y.dataset.nestedLevel)));
+                    case_folders_parent.insertBefore(x, case_folders_parent.children.namedItem('add-node-form-' + p_parent_id.replace("/", "_")).nextSibling);
+                }
+            }
+    
+        }       
+    }
+}
 
-	if(parent)
-	{
-		if(parent.name == "/")
-		{
-			new_child  = jurisdiction_add(p_parent_id, "/" + p_name, p_user_id);
-		}
-		else
-		{
-			new_child  = jurisdiction_add(p_parent_id, parent.name + "/" + p_name, p_user_id);
-		}
-		
-	}
-	else
-	{
-		new_child  = jurisdiction_add(p_parent_id, p_name, p_user_id);
-	}
-	
-	
-	if
-	(
-		p_name != null && 
-		p_name != "" && 
-		p_name.match(/\W/) == null && 
-		get_jurisdiction(new_child.id, g_jurisdiction_tree) == null
-	)
-	{
-		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
-		if(node_to_add_to)
-		{
-			node_to_add_to.children.push(new_child);
-			g_jurisdiction_tree.date_last_updated = new Date();
-			g_jurisdiction_tree.last_updated_by = p_user_id;
-			document.getElementById('form_content_id').innerHTML = jurisdiction_render(g_jurisdiction_tree).join("");
-
-			// var y=document.getElementById(p_parent_id.replace("/","_"));
-
-			// y.outerHTML = x.join("");
-			
-		}
-
-	}
-	
+function set_jurisdiction_add_child_control_valid_state(p_parent_id, is_valid)
+{
+    var control_id = p_parent_id.replace("/", "_");
+    var add_child_form_control = document.getElementById('add_child_of_' + control_id);
+    var add_child_form_control_error = document.getElementById('error_add_child_of_' + control_id);
+    if(!is_valid)
+    {
+        add_child_form_control.setAttribute('aria-invalid', true);
+        add_child_form_control.classList.add('is-invalid');
+        add_child_form_control_error.innerHTML = 'Node name is required';
+    }
+    else
+    {
+        add_child_form_control.setAttribute('aria-invalid', false);
+        add_child_form_control.classList.remove('is-invalid');
+        add_child_form_control_error.innerHTML = '';
+    }
 }
 
 function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)

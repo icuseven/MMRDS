@@ -298,7 +298,7 @@ function render_batch_list()
                     </select>
                 </div>
                 <div class="form-inline mt-3 mr-3">
-                    <label class="justify-content-start" style="width: 130px" for="date-list"><strong>Year of Death:</strong></label>
+                    <label class="justify-content-start" style="width: 130px" for="year-of-death-list"><strong>Year of Death:</strong></label>
                     <select id="year-of-death-list" class="form-control" style="width: 300px" onchange="javascript:year_of_death_date_list_onchange(this.value)">
                         <option value="all" selected>All</option>
                         ${[...g_year_of_death_list].map(year => `<option value="${year}">${year}</option>`)}

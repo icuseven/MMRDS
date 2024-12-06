@@ -2202,7 +2202,7 @@ function mmria_pre_modal(p_id)
 {
 
     const body = document.getElementsByTagName("body")[0];
-    body.setAttribute("aria-hidden", "true");
+    //body.setAttribute("aria-hidden", "true");
     for(var i = 0; i < body.children.length; i++)
     {
         const item = body.children[i];
@@ -2227,7 +2227,7 @@ function mmria_pre_modal(p_id)
 function mmria_post_modal()
 {
     const body = document.getElementsByTagName("body")[0];
-    body.removeAttribute("aria-hidden");
+    //body.removeAttribute("aria-hidden");
     for(var i = 0; i < body.children.length; i++)
     {
         const item = body.children[i];
