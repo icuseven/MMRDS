@@ -1220,22 +1220,18 @@ public sealed class _2A437E681C1808FE4ACB2536CF0FAAE5 : IConvertDictionary
 	public _2A437E681C1808FE4ACB2536CF0FAAE5()
 	{
 	}
-	public double? pregcb_match { get; set; }
-	public double? literalcod_match { get; set; }
-	public double? icd10_match { get; set; }
-	public double? bc_det_match { get; set; }
-	public double? fdc_det_match { get; set; }
-	public double? bc_prob_match { get; set; }
-	public double? fdc_prob_match { get; set; }
+	public double? preg_cb_match_mirror { get; set; }
+	public double? literal_cod_match_mirror { get; set; }
+	public double? icd10_match_mirror { get; set; }
+	public double? bc_match { get; set; }
+	public double? fdc_match { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
-		pregcb_match = mmria_case.GetNumberListField(p_value, "pregcb_match", "vro_case_determination/cdc_case_matching_results/pregcb_match");
-		literalcod_match = mmria_case.GetNumberListField(p_value, "literalcod_match", "vro_case_determination/cdc_case_matching_results/literalcod_match");
-		icd10_match = mmria_case.GetNumberListField(p_value, "icd10_match", "vro_case_determination/cdc_case_matching_results/icd10_match");
-		bc_det_match = mmria_case.GetNumberListField(p_value, "bc_det_match", "vro_case_determination/cdc_case_matching_results/bc_det_match");
-		fdc_det_match = mmria_case.GetNumberListField(p_value, "fdc_det_match", "vro_case_determination/cdc_case_matching_results/fdc_det_match");
-		bc_prob_match = mmria_case.GetNumberListField(p_value, "bc_prob_match", "vro_case_determination/cdc_case_matching_results/bc_prob_match");
-		fdc_prob_match = mmria_case.GetNumberListField(p_value, "fdc_prob_match", "vro_case_determination/cdc_case_matching_results/fdc_prob_match");
+		preg_cb_match_mirror = mmria_case.GetNumberListField(p_value, "preg_cb_match_mirror", "vro_case_determination/cdc_case_matching_results/preg_cb_match_mirror");
+		literal_cod_match_mirror = mmria_case.GetNumberListField(p_value, "literal_cod_match_mirror", "vro_case_determination/cdc_case_matching_results/literal_cod_match_mirror");
+		icd10_match_mirror = mmria_case.GetNumberListField(p_value, "icd10_match_mirror", "vro_case_determination/cdc_case_matching_results/icd10_match_mirror");
+		bc_match = mmria_case.GetNumberListField(p_value, "bc_match", "vro_case_determination/cdc_case_matching_results/bc_match");
+		fdc_match = mmria_case.GetNumberListField(p_value, "fdc_match", "vro_case_determination/cdc_case_matching_results/fdc_match");
 	}
 }
 
@@ -1597,6 +1593,7 @@ public sealed class _CCB1613E511CB7D633D8C1204A54BE73 : IConvertDictionary
 	public TimeOnly? dterm_tm { get; set; }
 	public DateOnly? dterm { get; set; }
 	public double? daydif { get; set; }
+	public DateOnly? dterm_est { get; set; }
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		dterm_mo = mmria_case.GetNumberListField(p_value, "dterm_mo", "outcome/dterm_grp/dterm_mo");
@@ -1605,6 +1602,7 @@ public sealed class _CCB1613E511CB7D633D8C1204A54BE73 : IConvertDictionary
 		dterm_tm = mmria_case.GetTimeField(p_value, "dterm_tm", "outcome/dterm_grp/dterm_tm");
 		dterm = mmria_case.GetDateField(p_value, "dterm", "outcome/dterm_grp/dterm");
 		daydif = mmria_case.GetNumberField(p_value, "daydif", "outcome/dterm_grp/daydif");
+		dterm_est = mmria_case.GetDateField(p_value, "dterm_est", "outcome/dterm_grp/dterm_est");
 	}
 }
 
@@ -1839,6 +1837,26 @@ public sealed class _125E8E9BBE92C992689F82460866FEE3 : IConvertDictionary
 	}
 }
 
+public sealed class _7333B2136067574C87E59C086A46C60E : IConvertDictionary
+{
+	public _7333B2136067574C87E59C086A46C60E()
+	{
+	}
+	public double? preg_cb_match { get; set; }
+	public double? literal_cod_match { get; set; }
+	public double? icd10_match { get; set; }
+	public double? bc_match { get; set; }
+	public double? fdc_match { get; set; }
+	public void Convert(System.Text.Json.JsonElement p_value)
+	{
+		preg_cb_match = mmria_case.GetNumberListField(p_value, "preg_cb_match", "tracking/cdc_case_matching_results/preg_cb_match");
+		literal_cod_match = mmria_case.GetNumberListField(p_value, "literal_cod_match", "tracking/cdc_case_matching_results/literal_cod_match");
+		icd10_match = mmria_case.GetNumberListField(p_value, "icd10_match", "tracking/cdc_case_matching_results/icd10_match");
+		bc_match = mmria_case.GetNumberListField(p_value, "bc_match", "tracking/cdc_case_matching_results/bc_match");
+		fdc_match = mmria_case.GetNumberListField(p_value, "fdc_match", "tracking/cdc_case_matching_results/fdc_match");
+	}
+}
+
 public sealed class _8B0E34BF041F56AC0E459B9B50A63B22 : IConvertDictionary
 {
 	public _8B0E34BF041F56AC0E459B9B50A63B22()
@@ -1984,6 +2002,7 @@ public sealed class _1879966223C3E382E14C6524C84942F1 : IConvertDictionary
 		date_of_death = new ();
 		q7 = new ();
 		q9 = new ();
+		cdc_case_matching_results = new ();
 	}
 	public _1DCADE918C1D24A0E4B29F438833775E admin_info{ get;set;}
 	public _419E7777D6D3FC43E91EB066203CA08D q1{ get;set;}
@@ -1995,6 +2014,7 @@ public sealed class _1879966223C3E382E14C6524C84942F1 : IConvertDictionary
 	public _33C3CE3D9BD28A364510360F29828553 q7{ get;set;}
 	public string statdth { get; set; }
 	public _8B0E34BF041F56AC0E459B9B50A63B22 q9{ get;set;}
+	public _7333B2136067574C87E59C086A46C60E cdc_case_matching_results{ get;set;}
 	public void Convert(System.Text.Json.JsonElement p_value)
 	{
 		admin_info = mmria_case.GetGroupField<_1DCADE918C1D24A0E4B29F438833775E>(p_value, "admin_info", "tracking/admin_info");
@@ -2007,6 +2027,7 @@ public sealed class _1879966223C3E382E14C6524C84942F1 : IConvertDictionary
 		q7 = mmria_case.GetGroupField<_33C3CE3D9BD28A364510360F29828553>(p_value, "q7", "tracking/q7");
 		statdth = mmria_case.GetStringListField(p_value, "statdth", "tracking/statdth");
 		q9 = mmria_case.GetGroupField<_8B0E34BF041F56AC0E459B9B50A63B22>(p_value, "q9", "tracking/q9");
+		cdc_case_matching_results = mmria_case.GetGroupField<_7333B2136067574C87E59C086A46C60E>(p_value, "cdc_case_matching_results", "tracking/cdc_case_matching_results");
 	}
 }
 

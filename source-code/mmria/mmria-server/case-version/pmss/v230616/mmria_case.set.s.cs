@@ -2201,6 +2201,26 @@ public sealed partial class mmria_case
                 tracking.q9.cntysrce = value;
                 result = true;
             break;
+            case "tracking/cdc_case_matching_results/preg_cb_match":
+                tracking.cdc_case_matching_results.preg_cb_match = value;
+                result = true;
+            break;
+            case "tracking/cdc_case_matching_results/literal_cod_match":
+                tracking.cdc_case_matching_results.literal_cod_match = value;
+                result = true;
+            break;
+            case "tracking/cdc_case_matching_results/icd10_match":
+                tracking.cdc_case_matching_results.icd10_match = value;
+                result = true;
+            break;
+            case "tracking/cdc_case_matching_results/bc_match":
+                tracking.cdc_case_matching_results.bc_match = value;
+                result = true;
+            break;
+            case "tracking/cdc_case_matching_results/fdc_match":
+                tracking.cdc_case_matching_results.fdc_match = value;
+                result = true;
+            break;
             case "demographic/mage":
                 demographic.mage = value;
                 result = true;
@@ -2397,32 +2417,24 @@ public sealed partial class mmria_case
                 committee_review.rev_assessment_grp.mmria_used = value;
                 result = true;
             break;
-            case "vro_case_determination/cdc_case_matching_results/pregcb_match":
-                vro_case_determination.cdc_case_matching_results.pregcb_match = value;
+            case "vro_case_determination/cdc_case_matching_results/preg_cb_match_mirror":
+                vro_case_determination.cdc_case_matching_results.preg_cb_match_mirror = value;
                 result = true;
             break;
-            case "vro_case_determination/cdc_case_matching_results/literalcod_match":
-                vro_case_determination.cdc_case_matching_results.literalcod_match = value;
+            case "vro_case_determination/cdc_case_matching_results/literal_cod_match_mirror":
+                vro_case_determination.cdc_case_matching_results.literal_cod_match_mirror = value;
                 result = true;
             break;
-            case "vro_case_determination/cdc_case_matching_results/icd10_match":
-                vro_case_determination.cdc_case_matching_results.icd10_match = value;
+            case "vro_case_determination/cdc_case_matching_results/icd10_match_mirror":
+                vro_case_determination.cdc_case_matching_results.icd10_match_mirror = value;
                 result = true;
             break;
-            case "vro_case_determination/cdc_case_matching_results/bc_det_match":
-                vro_case_determination.cdc_case_matching_results.bc_det_match = value;
+            case "vro_case_determination/cdc_case_matching_results/bc_match":
+                vro_case_determination.cdc_case_matching_results.bc_match = value;
                 result = true;
             break;
-            case "vro_case_determination/cdc_case_matching_results/fdc_det_match":
-                vro_case_determination.cdc_case_matching_results.fdc_det_match = value;
-                result = true;
-            break;
-            case "vro_case_determination/cdc_case_matching_results/bc_prob_match":
-                vro_case_determination.cdc_case_matching_results.bc_prob_match = value;
-                result = true;
-            break;
-            case "vro_case_determination/cdc_case_matching_results/fdc_prob_match":
-                vro_case_determination.cdc_case_matching_results.fdc_prob_match = value;
+            case "vro_case_determination/cdc_case_matching_results/fdc_match":
+                vro_case_determination.cdc_case_matching_results.fdc_match = value;
                 result = true;
             break;
             case "ije_dc/file_info/void_dc":
@@ -2640,6 +2652,10 @@ public sealed partial class mmria_case
             break;
             case "outcome/dterm_grp/dterm":
                 outcome.dterm_grp.dterm = value;
+                result = true;
+            break;
+            case "outcome/dterm_grp/dterm_est":
+                outcome.dterm_grp.dterm_est = value;
                 result = true;
             break;
             case "preparer_remarks/preparer_grp/review_1_on":

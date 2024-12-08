@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel;
 using System.Data.SqlTypes;
 using System.Windows.Markup;
@@ -16,7 +17,14 @@ public interface IConvertDictionary
 
 public sealed partial class mmria_case
 {
+    string data_migration_json_mmria_id = null;
+    string data_migration_json_record_id = null;
 
+    public void SetJsonErrorId(string id, string record_id)
+    {
+        data_migration_json_mmria_id = id;
+        data_migration_json_record_id = record_id;
+    }
 
     public static Dictionary<string, Metadata_Node> all_list_set = null;
 
@@ -99,7 +107,6 @@ return_label:
     }
 */
 
-
     public static string  GetStringField(System.Text.Json.JsonElement value, string key, string path)
     {
         string result = null;
@@ -112,7 +119,25 @@ return_label:
         {
             result = new_value.GetString();
         }
-
+        else if
+        (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Number
+        )
+        {
+            result = new_value.GetDouble().ToString();
+        }
+        else if
+        (
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Null &&
+            new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined
+        )
+        {
+            var error = $"GetStringField path: {path} key{key} value: {new_value}";
+            
+            
+            if(add_error != null) add_error(path,error);
+            System.Console.WriteLine(error);
+        }
         return result;
     }
 
@@ -138,6 +163,25 @@ return_label:
             )
             {
                 result = new_value.GetDouble().ToString();
+
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.value_to_display.ContainsKey(result) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetStringListField value not on list: path: {path} key{key} value: {result}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                }
             }
             else
             {
@@ -163,6 +207,24 @@ return_label:
         )
         {
             result =  new_value.GetDouble();
+            if
+            (
+                all_list_set != null &&
+                all_list_set.ContainsKey(path)
+            )
+            {
+                var metadata = all_list_set[path];
+                if
+                (
+                    !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                    add_error != null
+                ) 
+                {
+                    var error = $"GetNumberListField value not on list: path: {path} key{key} value: {result.Value.ToString()}";
+                    add_error(path,error);
+                    System.Console.WriteLine(error);
+                }
+            }
         }
         else if
         (
@@ -177,6 +239,27 @@ return_label:
             else if(double.TryParse(val, out var test))
             {
                 result = test;
+
+                if
+                (
+                    all_list_set != null &&
+                    all_list_set.ContainsKey(path)
+                )
+                {
+                    var metadata = all_list_set[path];
+                    if
+                    (
+                        !metadata.value_to_display.ContainsKey(result.Value.ToString()) &&
+                        add_error != null
+                    ) 
+                    {
+                        var error = $"GetNumberListField value not on list: path: {path} key{key} value: {val}";
+                        add_error(path,error);
+                        System.Console.WriteLine(error);
+                    }
+                }
+
+
             }
             else
             {
@@ -191,7 +274,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine("GetNumberListField");
+            var error = $"GetNumberListField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -221,18 +306,41 @@ return_label:
                     item.ValueKind ==  System.Text.Json.JsonValueKind.String
                 )
                 {
-                    result.Add(item.GetString());
+                    var item_string = item.GetString();
+                    result.Add(item_string);
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            !metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            var error = $"GetMultiSelectStringListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                    }
                 }
                 else
                 {
-                    System.Console.WriteLine($"GetMultiSelectStringListField need a string  path: {path}");
+                    var error = $"GetMultiSelectStringListField need a string new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 }
             }
 
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetMultiSelectStringListField");
+            var error = $"GetMultiSelectStringListField need a string new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -240,7 +348,9 @@ return_label:
 
     public static List<double>  GetMultiSelectNumberListField(System.Text.Json.JsonElement value, string key, string path)
     {
-        List<double> result = null;
+        HashSet<double> result = null;
+
+        var error = string.Empty;
 
         if
         (
@@ -249,7 +359,7 @@ return_label:
         )
         {
             
-            result = new List<double>();
+            result = new HashSet<double>();
             var max_index = new_value.GetArrayLength();
             int i = 0;
             var array_string = new_value.ToString();
@@ -262,7 +372,34 @@ return_label:
                     item.ValueKind ==  System.Text.Json.JsonValueKind.Number
                 )
                 {
-                    result.Add(item.GetDouble());
+                    var item_string = item.ToString();
+                    
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
+                    {
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            !metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                        else
+                        {
+                            result.Add(item.GetDouble());
+                        }
+                    }
+                    else
+                    {
+                        result.Add(item.GetDouble());
+                    }
                 }
                 else if
                 (
@@ -276,18 +413,47 @@ return_label:
                     }
                     if(double.TryParse(item.GetString(), out var test))
                     {
-                         result.Add(test);
+                        var item_string = test.ToString();
+                        
+                        if
+                        (
+                            all_list_set != null &&
+                            all_list_set.ContainsKey(path)
+                        )
+                        {
+                            var metadata = all_list_set[path];
+                            if
+                            (
+                                !metadata.value_to_display.ContainsKey(item_string) &&
+                                add_error != null
+                            ) 
+                            {
+                                error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                                add_error(path,error);
+                                System.Console.WriteLine(error);
+                            }
+                            else
+                            {
+                                result.Add(test);
+                            }
+                        }
+                        else
+                        {
+                            result.Add(test);
+                        }
                     }
                     else
                     {
-                        var error = $"GetMultiSelectNumberListField TryParse Failed need a number  path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
+                        error = $"GetMultiSelectNumberListField TryParse Failed need a number Skipping Item in List path: {path} array_incoming:{array_string} item_index: {i} val: {val}";
                         if(add_error != null) add_error(path, error);
                         //System.Console.WriteLine(error);
                     }
                 }
                 else 
                 {
-                    System.Console.WriteLine("GetMultiSelectNumberListField need a number");
+                    error = $"GetMultiSelectNumberListField need a number new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 }
                 i++;
             }
@@ -302,43 +468,116 @@ return_label:
                 case System.Text.Json.JsonValueKind.String:
                 if(double.TryParse(new_value.GetString(), out var new_double_value))
                 {
-
-                    result = new List<double>()
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
                     {
-                        new_double_value
-                    };
+                        var item_string = new_double_value.ToString();
+
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            !metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_double_value
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_double_value
+                        };
+                    }
             
 
                 }
                 else
                 {
-                     System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                    error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 }
                 break;
 
                 case System.Text.Json.JsonValueKind.Number:
-                    result = new List<double>()
+                    
+   
+                    if
+                    (
+                        all_list_set != null &&
+                        all_list_set.ContainsKey(path)
+                    )
                     {
-                        new_value.GetDouble()
-                    };
-            
-                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                        var item_string = new_value.GetDouble().ToString();
+
+                        var metadata = all_list_set[path];
+                        if
+                        (
+                            !metadata.value_to_display.ContainsKey(item_string) &&
+                            add_error != null
+                        ) 
+                        {
+                            error = $"GetMultiSelectNumberListField value not on list: path: {path} key{key} value: {item_string}";
+                            add_error(path,error);
+                            System.Console.WriteLine(error);
+                        }
+                        else
+                        {
+                            result = new HashSet<double>()
+                            {
+                                new_value.GetDouble()
+                            };
+                        }
+                    }
+                    else
+                    {
+                        result = new HashSet<double>()
+                        {
+                            new_value.GetDouble()
+                        };
+                    }
+
+                    //error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    //System.Console.WriteLine(error);
+                    //if(add_error != null) add_error(path,error);
                 break;
 
                 case System.Text.Json.JsonValueKind.False:
                 case System.Text.Json.JsonValueKind.True:
-                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                    error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 break;
 
                 default:
-                System.Console.WriteLine($"GetMultiSelectNumberListField  path: {path} array_incoming:{value.ToString()} ");
+                    error = $"GetMultiSelectNumberListField array_incoming:{value.ToString()} new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} ";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 break;
             }
 
 
             
         }
-        return result;
+        
+        if (result != null)
+            return result.ToList();
+        
+        return new List<double>();
     }
 
 
@@ -476,7 +715,9 @@ return_label:
                 }
                 else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
                 {
-                    System.Console.WriteLine($"GetGridField path: {path} key: {key}");
+                    var error = $"GetGridField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                    System.Console.WriteLine(error);
+                    if(add_error != null) add_error(path,error);
                 }
             }
             
@@ -484,6 +725,9 @@ return_label:
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
             System.Console.WriteLine($"GetGridField {path} key: {key}");
+            var error = $"GetGridField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
 
@@ -505,7 +749,9 @@ return_label:
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine("GetJurisdictionField");
+            var error = $"GetJurisdictionField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -541,13 +787,18 @@ return_label:
             }
             else
             {
-                System.Console.WriteLine($"GetHiddenField Not a string or number or boolean: {path} key: {key}");
+                var error = $"GetHiddenField Not a string or number or boolean new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                System.Console.WriteLine(error);
+                if(add_error != null) add_error(path,error);
+                
             }
                 
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine($"GetHiddenField {path} key: {key}");
+            var error = $"GetHiddenField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -566,7 +817,9 @@ return_label:
         }
         else if(new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined)
         {
-            System.Console.WriteLine($"GetTextAreaField {path} key: {key}");
+            var error = $"GetTextAreaField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         return result;
     }
@@ -611,7 +864,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetNumberField {path} key: {key}");
+            var error = $"GetNumberField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
@@ -653,7 +908,9 @@ return_label:
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetDateField {path} key: {key}");
+            var error = $"GetDateField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
         else
         {
@@ -709,11 +966,54 @@ return_label:
         }
         else if
         (
+            new_value.ValueKind == System.Text.Json.JsonValueKind.Array
+        )
+        {
+            var is_item_set = false;
+
+            var value_string = string.Empty;
+
+            foreach(var json_element in  new_value.EnumerateArray())
+            {
+                if
+                (
+                    json_element.ValueKind != System.Text.Json.JsonValueKind.Object
+                )
+                break;
+
+                if(json_element.TryGetProperty("Item2", out var new_value_property))
+                {
+                    value_string = new_value_property.GetString();
+                    if(TimeOnly.TryParse(value_string, out var test))
+                    {
+                        result = test;
+                        //is_item_set = true;
+                    }
+                }
+
+                break;
+
+            }
+
+
+            if(! is_item_set)
+            {
+                var error = $"GetTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+                System.Console.WriteLine(error);
+                if(add_error != null) add_error(path,error);
+            }
+
+        }
+        else if
+        (
             new_value.ValueKind != System.Text.Json.JsonValueKind.Undefined &&
             new_value.ValueKind != System.Text.Json.JsonValueKind.Null
         )
         {
-            System.Console.WriteLine($"GetTimeField {path} key: {key}");
+            
+            var error = $"GetTimeField new_value.ValueKind {path} key: {key} valueKind:{new_value.ValueKind} value:{new_value}";
+            System.Console.WriteLine(error);
+            if(add_error != null) add_error(path,error);
         }
 
         return result;
