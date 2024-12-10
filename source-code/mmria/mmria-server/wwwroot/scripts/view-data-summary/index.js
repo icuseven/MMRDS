@@ -474,10 +474,7 @@ function build_report()
                 k2.trim().length == 0
             )
             {
-
                 g_report_stat_map.get(k).set("missing", v2 + g_report_stat_map.get(k).get("missing"));
-                
-                
             }
             else if(type == "STAT_N")
             {
@@ -580,44 +577,27 @@ function build_report()
                         }
                         else
                         {
-                            g_path_to_value_map.get(k).get("count").add(data_item.record_id)
+                            if
+                            (
+                                data_item.record_id == undefined ||
+                                data_item.record_id == null ||
+                                data_item.record_id.length == 0
+                            )
+                            {
+                                g_path_to_value_map.get(k).get("count").add(data_item._id)
+                            }
+                            else
+                            {
+                                g_path_to_value_map.get(k).get("count").add(data_item.record_id)
+                            }
+                            
                         }
                     });
 
                 }
                 else
                 { 
-                    if
-                    (
-                        compare_data_item.count > 0 && 
-                        compare_data_item.value == min_value
-                    )
-                    {
-                        g_path_to_value_map.get(k).get("min").add(data_item.record_id)
-                    }
-
-                    if
-                    (
-                        compare_data_item.count > 0 && 
-                        compare_data_item.value == max_value
-                    )
-                    {
-                        g_path_to_value_map.get(k).get("max").add(data_item.record_id)
-                    }
-
-                    if
-                    (
-                        compare_data_item.count == 0 ||
-                        compare_data_item.value == "(-)" ||
-                        compare_data_item.value.trim().length == 0
-                    )
-                    {
-                        g_path_to_value_map.get(k).get("missing").add(data_item.record_id)
-                    }
-                    else
-                    {
-                        g_path_to_value_map.get(k).get("count").add(data_item.record_id)
-                    }
+                    console.log("This should NOT happen.")
                 }
                 
             }
@@ -658,7 +638,7 @@ function build_report()
     
             return parseFloat(a[0]) -parseFloat(b[0]);
             
-          }
+        }
 
 
         if(type == "STAT_N")
@@ -737,7 +717,6 @@ function build_report()
         g_report_stat_map.get(k).set("mean", g_report_stat_map.get(k).get("total") / (g_report_stat_map.get(k).get("count") - g_report_stat_map.get(k).get("missing")))
         
         const mean = g_report_stat_map.get(k).get("mean"); 
-        //const total = g_report_stat_map.get(k).get("count"); 
 
         let observation_number = 0;
         let sum = 0;
@@ -772,9 +751,6 @@ function build_report()
         if(type == "FREQ")
         {
             const el = document.getElementById(`${k}-count`);
-
-
-
 
             if(el != null)
             {
@@ -1289,10 +1265,10 @@ async function on_show_case_list_click
     const sorted_list = [];
 
 
-/*
+
     if(type =="STAT_N" && p_value == "count")
     {
-        const compare = [ "(-)", "count", "missing" ]
+        const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
         for(const [k, v] of g_path_to_value_map.get(p_path))
         {
 
@@ -1305,14 +1281,29 @@ async function on_show_case_list_click
         }
 
     }
+    else if(p_value == "count")
+        {
+            const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
+            for(const [k, v] of g_path_to_value_map.get(p_path))
+            {
+    
+                if(compare.indexOf(k) < 0)
+                for(const record_id of v)
+                {
+                    sorted_list.push(record_id)
+                }
+            
+            }
+    
+        }
     else
-    {*/
+    {
         for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
         {
             sorted_list.push(record_id)
         }
     
-    //}
+    }
 
     result2.push(`<ol>`);
     for(const record_id of sorted_list)

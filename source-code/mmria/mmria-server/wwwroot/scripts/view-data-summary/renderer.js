@@ -1639,7 +1639,7 @@ function show_needs_apply_id(value)
 
 function showCheckboxes(event) 
 {
-    event.preventDefault();
+    
     const checkboxes = document.getElementById("checkboxes");
     const field_filter_control = document.getElementById('field_filter');
     if (!is_field_list_expanded && (event.key == 'Enter' || event.key == 'Space' || event.key == undefined)) 
@@ -1658,9 +1658,11 @@ function showCheckboxes(event)
     }
     else if (is_field_list_expanded && (event.key == 'Enter' || event.key == 'Space' || event.key == undefined)) 
     {
+        event.preventDefault();
         checkboxes.style.display = "none";
         is_field_list_expanded = false;
         field_filter_control.setAttribute('aria-expanded', 'false');
+        
     }
 }
 
