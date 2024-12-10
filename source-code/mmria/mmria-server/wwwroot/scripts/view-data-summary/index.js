@@ -388,6 +388,8 @@ function build_report()
                 }
 
                 const detail_item = detail[s];
+                const list_lookup = g_value_to_display_lookup["/" + s];
+
                 for(const v of Object.keys(detail_item))
                 {
 
@@ -413,18 +415,29 @@ function build_report()
                         g_path_to_value_map.get(s).set(detail_item[v].value, new Set());
                     }
 
-                    const entry_value = g_report_map.get(s).get(detail_item[v].value);
-                    const entry_count = detail_item[v].count;
-                    g_report_map.get(s).set(detail_item[v].value, entry_value + entry_count);
+                    const current_entry_value = g_report_map.get(s).get(detail_item[v].value);
+                    const detail_entry_count = detail_item[v].count;
+                    g_report_map.get(s).set(detail_item[v].value, current_entry_value + detail_entry_count);
 
-                    const total_value = g_report_stat_map.get(s).get("count");
+                    const current_total = g_report_stat_map.get(s).get("count");
 
-                    g_report_stat_map.get(s).set("count", total_value + entry_count);
-
-                    if(entry_count > 0)
+                    if
+                    (
+                        detail_item[v].value != "(-)" &&
+                        (
+                            list_lookup == undefined ||
+                            detail_item[v].value != "9999"
+                        )
+                    )
                     {
-                        g_path_to_value_map.get(s).get(detail_item[v].value).add(item.record_id);
+                       g_report_stat_map.get(s).set("count", current_total + detail_entry_count); 
                     }
+                    
+
+                    //if(entry_count > 0)
+                    //{
+                        g_path_to_value_map.get(s).get(detail_item[v].value).add(item.record_id);
+                    //}
 
 
                 }
@@ -538,7 +551,7 @@ function build_report()
         g_path_to_value_map.get(k).set("missing", new Set());
         g_path_to_value_map.get(k).set("count", new Set());
        
-
+        const list_lookup = g_value_to_display_lookup["/" + k];
         for(const data_item of data_list)
         {
             const compare_data_item = data_item.path_to_detail[k];
@@ -548,6 +561,8 @@ function build_report()
                 if(Array.isArray(compare_data_item))
                 {
                     compare_data_item.forEach(element => {
+
+
                         if
                         (
                             element.count > 0 && 
@@ -570,6 +585,7 @@ function build_report()
                         (
                             element.count == 0 ||
                             element.value == "(-)" ||
+                            (list_lookup != undefined && element.value == "9999") ||
                             element.value.trim().length == 0
                         )
                         {
@@ -1268,7 +1284,7 @@ async function on_show_case_list_click
 
     if(type =="STAT_N" && p_value == "count")
     {
-        const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
+        const compare = [ "(-)", "count", "missing", "min", "max", "total", "9999" ]
         for(const [k, v] of g_path_to_value_map.get(p_path))
         {
 
@@ -1283,7 +1299,7 @@ async function on_show_case_list_click
     }
     else if(p_value == "count")
         {
-            const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
+            const compare = [ "(-)", "count", "missing", "min", "max", "total", "9999" ]
             for(const [k, v] of g_path_to_value_map.get(p_path))
             {
     
