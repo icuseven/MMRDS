@@ -459,6 +459,27 @@ prenatal/routine_monitoring/date_and_time
 	{
         var path = $"{p_path}/{p_node.name}";
 
+        var gs = new migrate.C_Get_Set_Value(new ());
+
+        int? Get_List_Number_Value(string _path)
+        {
+            int? result = null;
+            var value_result = gs.get_value(Context.source_object, _path);
+            if(!value_result.is_error)
+            {
+                if(value_result.result != null)
+                { 
+                    if(int.TryParse(value_result.result.ToString(), out var temp))
+                    {
+                        result = temp;
+                    }
+                    
+                }
+            }
+
+            return result;
+        }
+
         switch(p_node.type.ToLower())
         {
             /*case "group":
@@ -503,20 +524,63 @@ prenatal/routine_monitoring/date_and_time
 
 
             case "group":
-            default:
 
-                 if
-                (
-                    p_node.type.ToLower() == "group" 
-                )
+                if(p_node.tags.Contains("CALC_DATE"))
                 {
-                    for(var i = 0; i < p_node.children.Count(); i++)
-                    {
-                        var item = p_node.children[i];
-                        process(item,  p_is_multiform, p_is_grid, path, Context);
+                    var year = Get_List_Number_Value($"{path}/year");
+                    var month = Get_List_Number_Value($"{path}/month");
+                    var day = Get_List_Number_Value($"{path}/day");
+
+                    var item = new mmria.server.model.SummaryReport.Detail();
+
+                    if
+                    (
+                        !year.HasValue ||
+                        !month.HasValue ||
+                        !day.HasValue ||
                         
+                        year.Value == 9999 ||
+                        month.Value == 9999 ||
+                        day.Value == 9999 
+                                
+                              
+                    )
+                    {
+                        item.value = "(-)";
+                        item.count = 1;
                     }
+                    else
+                    {
+                        try
+                        {
+                            var date_only = new DateOnly(year.Value, month.Value, day.Value);
+                            item.value = $"{date_only}";
+                            item.count = 1;
+                        }
+                        catch(Exception ex)
+                        {
+                            System.Console.WriteLine(ex);
+                        }
+
+                    }
+
+
+                    
+                    if(!Context.FrequencySummaryDocument.path_to_detail.ContainsKey(path))
+                    {
+                        Context.FrequencySummaryDocument.path_to_detail.Add(path, new());
+                    }
+                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                 }
+
+                for(var i = 0; i < p_node.children.Count(); i++)
+                {
+                    var item = p_node.children[i];
+                    process(item,  p_is_multiform, p_is_grid, path, Context);
+                    
+                }
+                break;
+            default:
                 
                 
                 if(p_node.tags.Length == 0) break;
@@ -535,7 +599,10 @@ prenatal/routine_monitoring/date_and_time
                     break;
                 }
 
-                var gs = new migrate.C_Get_Set_Value(new ());
+               
+
+
+
 
                 List<mmria.server.model.SummaryReport.Detail> set_single_value_detail()
                 {
