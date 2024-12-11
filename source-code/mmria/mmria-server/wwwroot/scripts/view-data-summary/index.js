@@ -423,11 +423,7 @@ function build_report()
 
                     if
                     (
-                        detail_item[v].value != "(-)" &&
-                        (
-                            list_lookup == undefined ||
-                            detail_item[v].value != "9999"
-                        )
+                        detail_item[v].value != "(-)" 
                     )
                     {
                        g_report_stat_map.get(s).set("count", current_total + detail_entry_count); 
@@ -1284,7 +1280,7 @@ async function on_show_case_list_click
 
     if(type =="STAT_N" && p_value == "count")
     {
-        const compare = [ "(-)", "count", "missing", "min", "max", "total", "9999" ]
+        const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
         for(const [k, v] of g_path_to_value_map.get(p_path))
         {
 
@@ -1299,7 +1295,7 @@ async function on_show_case_list_click
     }
     else if(p_value == "count")
         {
-            const compare = [ "(-)", "count", "missing", "min", "max", "total", "9999" ]
+            const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
             for(const [k, v] of g_path_to_value_map.get(p_path))
             {
     
