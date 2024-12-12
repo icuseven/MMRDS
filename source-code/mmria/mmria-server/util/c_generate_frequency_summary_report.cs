@@ -525,52 +525,65 @@ prenatal/routine_monitoring/date_and_time
 
             case "group":
 
-                if(p_node.tags.Contains("CALC_DATE"))
+
+                try
                 {
-                    var year = Get_List_Number_Value($"{path}/year");
-                    var month = Get_List_Number_Value($"{path}/month");
-                    var day = Get_List_Number_Value($"{path}/day");
+                    if(p_node.tags.Contains("CALC_DATE"))
+                    {
 
-                    var item = new mmria.server.model.SummaryReport.Detail();
 
-                    if
-                    (
-                        !year.HasValue ||
-                        !month.HasValue ||
-                        !day.HasValue ||
-                        
-                        year.Value == 9999 ||
-                        month.Value == 9999 ||
-                        day.Value == 9999 
+
+                        var year = Get_List_Number_Value($"{path}/year");
+                        var month = Get_List_Number_Value($"{path}/month");
+                        var day = Get_List_Number_Value($"{path}/day");
+
+                        var item = new mmria.server.model.SummaryReport.Detail();
+
+                        if
+                        (
+                            !year.HasValue ||
+                            !month.HasValue ||
+                            !day.HasValue ||
+                            
+                            year.Value == 9999 ||
+                            month.Value == 9999 ||
+                            day.Value == 9999 
+                                    
                                 
-                              
-                    )
-                    {
-                        item.value = "(-)";
-                        item.count = 1;
-                    }
-                    else
-                    {
-                        try
+                        )
                         {
-                            var date_only = new DateOnly(year.Value, month.Value, day.Value);
-                            item.value = $"{date_only}";
+                            item.value = "(-)";
                             item.count = 1;
                         }
-                        catch(Exception ex)
+                        else
                         {
-                            System.Console.WriteLine(ex);
+                            try
+                            {
+                                var date_only = new DateOnly(year.Value, month.Value, day.Value);
+                                item.value = $"{date_only}";
+                                item.count = 1;
+                            }
+                            catch(Exception ex)
+                            {
+                                System.Console.WriteLine($"Calc_Date setting DateOnly error \n{ex}");
+                            }
+
                         }
 
+
+                        
+                        if(!Context.FrequencySummaryDocument.path_to_detail.ContainsKey(path))
+                        {
+                            Context.FrequencySummaryDocument.path_to_detail.Add(path, new());
+                        }
+                        Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                     }
 
-
-                    
-                    if(!Context.FrequencySummaryDocument.path_to_detail.ContainsKey(path))
-                    {
-                        Context.FrequencySummaryDocument.path_to_detail.Add(path, new());
-                    }
-                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                
+                }
+                catch(Exception ex)
+                {
+                    System.Console.WriteLine($"Calc_Date on Group Field error \n{ex}");
                 }
 
                 for(var i = 0; i < p_node.children.Count(); i++)

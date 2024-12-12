@@ -53,7 +53,7 @@ public sealed partial class C_Get_Set_Value
                                 for(var list_index = 0; list_index < index_list.Count; list_index++)
                                 {
                                     var grid_row = index_list[list_index] as IDictionary<string,object>;
-                                    if(grid_row != null)
+                                    if(grid_row != null && grid_row.ContainsKey(path[i]))
                                     {
                                         result.Add((form_index, list_index, grid_row[path[i]]));
                                     }
