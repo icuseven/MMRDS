@@ -1192,7 +1192,7 @@ var $mmria = function()
             html.push(`
                 <div class="ui-dialog-titlebar modal-header ui-widget-header ui-helper-clearfix">
                     <div id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</div>
-                    <span title="close exit confirm dialog" id="modal_confirm_cancel_icon"="button" tabindex="0" role="button" onclick="$mmria.confirm_dialog_confirm_close()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid"></span>
+                    <span title="close exit confirm dialog" id="modal_confirm_cancel_icon"="button" tabindex="0" role="button" onclick="$mmria.confirm_dialog_confirm_close()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid" style="cursor:pointer;text-align:center;padding-left:0px;margin:5px">X&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 </div>
                 <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body card-content">

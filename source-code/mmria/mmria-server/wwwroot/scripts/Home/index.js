@@ -251,41 +251,6 @@ function open_blank_version(p_section)
 	}, 1000);	
 }
 
-/*
-
-confirm-dialog-id
-
-confirm_dialog_show
-(
-    p_title, 
-    p_header, 
-    p_inner_html, 
-    p_confirm_dialog_confirm_callback, 
-    p_confirm_dialog_cancel_callback
-)
-
-
-http://www.erase-mm-cvsproject.org/
-https://reviewtoaction.org/tools/resource-center
-https://cdcpartners.sharepoint.com/sites/NCCDPHP/MMRIA
-
-
-Exit Notification / Disclaimer Policy
-
-
-Links with this icon  indicate that you are leaving the CDC website.
-
-
-The Centers for Disease Control and Prevention (CDC) cannot attest to the accuracy of a non-federal website.
-Linking to a non-federal website does not constitute an endorsement by CDC or any of its employees of the sponsors or the information and products presented on the website.
-You will be subject to the destination website's privacy policy when you follow the link.
-CDC is not responsible for Section 508 compliance (accessibility) on other federal or private website.
-
-For more information on CDC's web notification policies, see Website Disclaimers.
-
-
-*/
-
 
 async function external_link_click(p_url)
 {
@@ -384,51 +349,3 @@ async function system_documentation_link_click()
     )
 }
 
-
-async function erase_mm_link_click()
-{
-    function cancel()
-    {
-        $mmria.confirm_external_nav_dialog_confirm_close();
-    }
-
-    function confirm()
-    {
-        $mmria.confirm_external_nav_dialog_confirm_close();
-        window.open
-        (
-            "https://www.erase-mm-cvsproject.org", 
-            "_blank"
-        );
-    }
-
-    $mmria.confirm_external_nav_dialog_show
-    (
-        confirm, 
-        cancel
-    )
-}
-
-async function external_link_click(p_url)
-{
-    function cancel()
-    {
-        $mmria.confirm_external_nav_dialog_confirm_close();
-    }
-
-    function confirm()
-    {
-        $mmria.confirm_external_nav_dialog_confirm_close();
-        window.open
-        (
-            p_url, 
-            "_blank"
-        );
-    }
-
-    $mmria.confirm_external_nav_dialog_show
-    (
-        confirm, 
-        cancel
-    )
-}
