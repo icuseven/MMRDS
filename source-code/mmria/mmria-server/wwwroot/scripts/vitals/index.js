@@ -328,11 +328,67 @@ function render_batch_list()
 
 async function download_excel()
 {
+    function select_cases()
+    {
+        let state_value = document.getElementById('state-list').value;
+        let date_value = document.getElementById('date-list').value;
+        let year_of_death_value = document.getElementById('year-of-death-list').value;
+        let result = [];
+        for (let i = 0; i < g_batch_item_list.length; i++) 
+        {
+            let item = g_batch_item_list[i];
+    
+            let is_valid_state = false;
+            let is_valid_date = false;
+            let is_valid_year_of_death = false;
+    
+            if(state_value == "all")
+            {
+                is_valid_state = true;
+            }
+            else if(item.reporting_state == state_value)
+            {
+                is_valid_state = true;
+            }
+    
+    
+            if(date_value == "all")
+            {
+                is_valid_date = true;
+            }
+            else if(item.import_date == date_value)
+            {
+                is_valid_date = true;
+            }
+    
+            if(year_of_death_value == "all")
+            {
+                is_valid_year_of_death = true;
+            }
+            else if (item.dateOfDeath.split('-')[0] == year_of_death_value)
+            {
+                is_valid_year_of_death = true;
+            }
+    
+            if(is_valid_state && is_valid_date && is_valid_year_of_death)
+            {
+                result.push(item);
+            }
+    
+            
+        }
+        return result;
+    }
+
+
+    const case_set = select_cases();
+
+
     await $.ajax({
         url: location.protocol + '//' + location.host + '/api/ije_message/DownloadVitalImportExcel',
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify(g_batch_list_state),
+        data: JSON.stringify(case_set),
         xhrFields: {
             responseType: 'blob'
         },
