@@ -825,6 +825,44 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 					</tr>
 				`);
 			}
+            else if(stat_type == "FREQ")
+            {
+				list_values.push(`
+					<tr class="tr">
+						<td class="td" width="140"></td>
+						<td class="td p-0" colspan="5">
+							<table class="table table-fixed-layout align-cell-top m-0">
+                                <caption class="table-caption">
+                                    Table with all possible list values for the ${form_name}'s ${p_metadata.prompt} field type.
+                                </caption>
+								<thead class="thead">
+									<tr class="header-level-top-black">
+										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
+									</tr>
+								</thead>
+								<thead class="thead">
+									<tr class="header-level-2
+				`);
+                
+             
+                list_values.push(`">
+                        <th class="th" width="140" scope="col">Value</th>
+                        <th class="th" width="680" scope="col">Display</th>
+                        <th class="th" width="260" scope="col">N (Counts)</th>
+                    </tr>
+                    </thead>
+                    <tbody class="tbody" id="tr-${p_path.substr(1)}-body">
+                `);
+             
+				
+				list_values.push(`
+								</tbody>
+							</table>
+						</td>
+						<td class="td" colspan="1"></td>
+					</tr>
+				`);
+            }
 
 			if (
 				!form_name ||
