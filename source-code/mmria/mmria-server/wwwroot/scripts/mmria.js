@@ -1176,12 +1176,12 @@ var $mmria = function()
             p_confirm_dialog_cancel_callback
         )
         {
-            let element = document.getElementById("confirm-dialog-id");
+            let element = document.getElementById("confirm-external-nav-dialog-id");
             if(element == null)
             {
                 element = document.createElement("dialog");
                 element.classList.add(...['p-0', 'set-radius', 'card-container-dark', 'col-md-4']);
-                element.setAttribute("id", "confirm-dialog-id");
+                element.setAttribute("id", "confirm-external-nav-dialog-id");
                 element.setAttribute("role", "dialog");
 
                 document.firstElementChild.appendChild(element);
@@ -1192,7 +1192,7 @@ var $mmria = function()
             html.push(`
                 <div class="ui-dialog-titlebar modal-header ui-widget-header ui-helper-clearfix">
                     <div id="ui-id-1" class="ui-dialog-title">Exit Notification / Disclaimer Policy</div>
-                    <span title="close exit confirm dialog" id="modal_confirm_cancel_icon"="button" tabindex="0" role="button" onclick="$mmria.confirm_dialog_confirm_close()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid" style="cursor:pointer;text-align:center;padding-left:0px;margin:5px">X&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    <!--span title="close exit confirm dialog" id="modal_confirm_external_cancel_icon"="button" tabindex="0" role="button" onclick="$mmria.confirm_dialog_confirm_close()" title="close" class="ml-auto x24 fill-p cdc-icon-times-solid" style="cursor:pointer;text-align:center;padding-left:0px;margin:5px">X&nbsp;&nbsp;&nbsp;&nbsp;</span-->
                 </div>
                 <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body card-content">
@@ -1207,8 +1207,8 @@ var $mmria = function()
                         <p>For more information on CDC's web notification policies, see <a href="https://www.cdc.gov/Other/disclaimer.html" target="_blank">Website Disclaimers</a>.</p>
                     </div>
                     <footer class="modal-footer">
-                        <button id="confirm-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" >Cancel</button>
-                        <button id="confirm-dialog-id-confirm-button" class="btn primary-button mr-1" >Continue</button> 
+                        <button id="confirm-external-nav-dialog-id-cancel-button"  class="btn modal-cancel btn-outline-secondary  mr-1" autofocus >Cancel</button>
+                        <button id="confirm-external-nav-dialog-id-confirm-button" class="btn primary-button mr-1" >Continue</button> 
                     </footer>
                 </div>
             `);
@@ -1219,24 +1219,24 @@ var $mmria = function()
             //element.style.left = ((window.innerWidth/2) - (element.offsetWidth/2))+'px';
             
 
-            let confirm_button = document.getElementById("confirm-dialog-id-confirm-button");
-            let canel_button = document.getElementById("confirm-dialog-id-cancel-button");
-            let modal_confirm_cancel_icon = document.getElementById("modal_confirm_cancel_icon");
+            let confirm_button = document.getElementById("confirm-external-nav-dialog-id-confirm-button");
+            let canel_button = document.getElementById("confirm-external-nav-dialog-id-cancel-button");
+            //let modal_confirm_cancel_icon = document.getElementById("modal_confirm_external_cancel_icon");
 
             
             confirm_button.onclick =  p_confirm_dialog_confirm_callback;
             canel_button.onclick = p_confirm_dialog_cancel_callback;
-            modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
+            //modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
 
 
-            mmria_pre_modal("confirm-dialog-id");
+            mmria_pre_modal("confirm-external-nav-dialog-id");
 
             element.showModal();
         },
         confirm_external_nav_dialog_confirm_close: function ()
         {
             mmria_post_modal();
-            let el = document.getElementById("confirm-dialog-id");
+            let el = document.getElementById("confirm-external-nav-dialog-id");
             el.close();
         },
         get_year_and_quarter: function (p_value)
