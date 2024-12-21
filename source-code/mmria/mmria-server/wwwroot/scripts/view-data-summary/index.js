@@ -835,6 +835,10 @@ function build_report()
                     }
                 }
             }
+            else
+            {
+                console.log("here");
+            }
         }
         else if(type == "STAT_D")
         {

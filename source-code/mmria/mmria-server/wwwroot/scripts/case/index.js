@@ -64,6 +64,81 @@ const g_dependent_child_to_parent = new Map();
 const g_dependent_child_metadata = new Map();
 
 
+const  disable_on_selected_item_list = new Map()
+disable_on_selected_item_list.add("tracking/admin_info/steve_transfer", new Map());
+disable_on_selected_item_list.get("tracking/admin_info/steve_transfer").add(1, new Set());
+disable_on_selected_item_list.get("tracking/admin_info/steve_transfer").get(1).add("");
+
+/*
+const event = new Event("build");
+
+// Listen for the event.
+elem.addEventListener(
+  "build",
+  (e) => {
+    /* … * /
+},
+false,
+);
+
+// Dispatch the event.
+elem.dispatchEvent(event);
+
+
+const event = new Event("steve_transfer_changed");
+
+
+// drop down = elem
+
+*/
+
+
+function calc_index_is_disabled(p_path, p_value)
+{
+    const dictionary = disable_on_selected_item_list.get("tracking/admin_info/steve_transfer");
+    var result = false;
+    var compare = false;
+
+    for(const [k, v] of dictionary)
+    {
+        if(p_path.indexOf(p_path) == 0)
+        {
+            compare = true;
+            break;
+        }
+
+    }
+
+    if(!compare)
+        return result;
+
+
+    if(p_value == 1)
+    {
+       result = true;
+    }
+    
+    return result;
+}
+
+function perform_index_enable_disable
+(
+    p_value, 
+    p_dictionary_path, 
+    p_form_index, 
+    p_grid_index
+)
+{
+    if(p_value == 1)
+    {
+       $mmria.set_disable(p_dictionary_path, p_form_index, p_grid_index) 
+    }
+    else
+    {
+        $mmria.set_enable(p_dictionary_path, p_form_index, p_grid_index)
+    }
+}
+
 var is_faulted = false;
 
 const peg_parser = peg.generate(`
