@@ -1814,5 +1814,20 @@ function disable_on_selected_item_list(p_control)
 
     */
 
+    if(p_value == 1)
+    {
+
+        tracking/cdc_case_matching_results/preg_cb_match
+        tracking/cdc_case_matching_results/literal_cod_match
+        tracking/cdc_case_matching_results/icd10_match
+        tracking/cdc_case_matching_results/bc_match
+        tracking/cdc_case_matching_results/fdc_match
+        $mmria.set_disable(p_dictionary_path, p_form_index, p_grid_index) 
+    }
+    else
+    {
+        $mmria.set_enable(p_dictionary_path, p_form_index, p_grid_index)
+    }
+
 
 }
