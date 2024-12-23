@@ -203,8 +203,18 @@ public sealed class update_year_of_deathController : Controller
         var case_view_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
         responseFromServer = await case_view_curl.executeAsync();
       }
+
+        var settings = new Newtonsoft.Json.JsonSerializerSettings
+        {
+            Converters = { 
+                new mmria.server.utils.TimeOnlyJsonConverter(), 
+                new mmria.server.utils.DateOnlyJsonConverter() 
+            }
+
+            // HH:MM
+        };
       // var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-      var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v241001.mmria_case>(responseFromServer);
+      var case_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v241001.mmria_case>(responseFromServer, settings);
 
       if (model.YearOfDeathReplacement.HasValue)
         case_response.home_record.date_of_death.year = model.YearOfDeathReplacement.Value;
@@ -231,7 +241,7 @@ public sealed class update_year_of_deathController : Controller
 
       Model.DateOfDeath = String.Join("/", date_of_death_sections);
 
-      Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings();
+      settings = new Newtonsoft.Json.JsonSerializerSettings();
       settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
       var object_string = Newtonsoft.Json.JsonConvert.SerializeObject(case_response, settings);
 

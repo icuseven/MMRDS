@@ -64,12 +64,12 @@ const g_dependent_child_to_parent = new Map();
 const g_dependent_child_metadata = new Map();
 
 
-const  disable_on_selected_item_list = new Map()
+const  disable_on_selected_item_list = new Map()/*
 disable_on_selected_item_list.set("tracking/admin_info/steve_transfer", new Map());
 disable_on_selected_item_list.get("tracking/admin_info/steve_transfer").set(1, new Set());
 //disable_on_selected_item_list.get("tracking/admin_info/steve_transfer").get(1).set("");
 
-/*
+
 const event = new Event("build");
 
 // Listen for the event.

@@ -63,12 +63,15 @@ public sealed class caseController: ControllerBase
                 string responseFromServer = await case_curl.executeAsync();
 
 
-            var settings = new Newtonsoft.Json.JsonSerializerSettings
-            {
-                Converters = { new mmria.server.utils.TimeOnlyJsonConverter() }
+                var settings = new Newtonsoft.Json.JsonSerializerSettings
+                {
+                    Converters = { 
+                        new mmria.server.utils.TimeOnlyJsonConverter(), 
+                        new mmria.server.utils.DateOnlyJsonConverter() 
+                    }
 
-                // HH:MM
-            };
+                    // HH:MM
+                };
                 //settings.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
 
                 var result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.case_version.v241001.mmria_case> (responseFromServer, settings);
