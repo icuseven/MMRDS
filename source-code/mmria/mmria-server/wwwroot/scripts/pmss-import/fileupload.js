@@ -333,7 +333,7 @@ function send_ije_set()
     };
 
     $.ajax({
-        url: location.protocol + '//' + location.host + '/api/ije_message',
+        url: location.protocol + '//' + location.host + '/api/pmss_csv_import',
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         data: JSON.stringify(data),
