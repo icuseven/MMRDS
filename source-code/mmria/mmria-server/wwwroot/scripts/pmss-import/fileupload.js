@@ -345,7 +345,7 @@ function send_ije_set()
 
         if (response_obj.ok) 
         {
-            out.value = `CSV File successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
+            out.value = `CSV File successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the CSV Import Notification Report in a few minutes to get the results of the process.`;
 
             let button = document.getElementById('process_next');
             buttonNext.style.display = 'inline-block';
