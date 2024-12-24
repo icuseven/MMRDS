@@ -136,11 +136,12 @@ public sealed class mmrds_exporter
         }
 
         this.qualitativeStreamWriter[0] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "over-the-qualitative-limit.txt"), true);
-        this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
-        this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
-        this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
-        this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
-
+        #if !IS_PMSS_ENHANCED
+            this.qualitativeStreamWriter[1] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "case-narrative.txt"), true);
+            this.qualitativeStreamWriter[2] = new System.IO.StreamWriter(System.IO.Path.Combine(export_directory, "informant-interview.txt"), true);
+            this.qualitativeStreamWriter[3] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "case-narrative-plaintext.txt"), true);
+            this.qualitativeStreamWriter[4] = new System.IO.StreamWriter(System.IO.Path.Combine(export_root_directory, "informant-interview-plaintext.txt"), true);
+        #endif
 
 
         string metadata_url = db_config.url + $"/metadata/version_specification-{this.Configuration.version_number}/metadata";
@@ -1657,6 +1658,8 @@ public sealed class mmrds_exporter
 
         for (int i_index = 0; i_index < this.qualitativeStreamWriter.Length; i_index++)
         {
+            if(qualitativeStreamWriter[i_index] == null) continue;
+
             this.qualitativeStreamWriter[i_index].Flush();
             this.qualitativeStreamWriter[i_index].Close();
             this.qualitativeStreamWriter[i_index] = null;
