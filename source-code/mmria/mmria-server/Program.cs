@@ -436,6 +436,19 @@ public sealed partial class Program
 
             quartzSupervisor.Tell("init");
 
+            #if IS_PMSS_ENHANCED
+            actorSystem.ActorOf
+            (
+                Props.Create<mmria.pmss.services.vitalsimport.BatchSupervisor>
+                (
+                    overridable_config,
+                    host_prefix
+                ),
+                "batch-supervisor"
+            );
+
+            #endif
+
 
 
             //builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
