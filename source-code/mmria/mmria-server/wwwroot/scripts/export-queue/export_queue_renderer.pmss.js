@@ -16,7 +16,8 @@ function export_queue_render(p_queue_data, p_answer_summary, p_filter) {
 
   let filter_decending = '';
 
-  if (g_case_view_request.descending) {
+  if (g_case_view_request.descending) 
+  {
     filter_decending = 'checked=true';
   }
 
@@ -2166,14 +2167,18 @@ function render_export_report_type(p_value)
     }
     
 
-    if(p_value == "core")
+    if(!g_is_pmss_enhanced)
     {
-        result.push(`<option value='core' selected>Core</option>`)
+        if(p_value == "core")
+        {
+            result.push(`<option value='core' selected>Core</option>`)
+        }
+        else
+        {
+            result.push(`<option value='core'>Core</option>`)
+        }  
     }
-    else
-    {
-        result.push(`<option value='core'>Core</option>`)
-    }
+    
 
     for(const sort_index in g_standard_export_report_set.sort_order)
     {

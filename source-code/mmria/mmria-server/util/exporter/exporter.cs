@@ -443,42 +443,81 @@ if(multiform_field_list.Count > 0)
 
         var is_jurisdiction_ok = false;
 
+        #if !IS_PMSS_ENHANCED
         var home_record = case_doc["home_record"] as IDictionary<string, object>;
 
         if (home_record != null)
         {
-        if (!home_record.ContainsKey("jurisdiction_id"))
-        {
-            home_record.Add("jurisdiction_id", "/");
-        }
-
-        foreach (var jurisdiction_item in jurisdiction_hashset)
-        {
-            var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
-
-
-            #if !IS_PMSS_ENHANCED
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+            if (!home_record.ContainsKey("jurisdiction_id"))
             {
-                is_jurisdiction_ok = true;
-                break;
+                home_record.Add("jurisdiction_id", "/");
             }
-            #endif
-            #if IS_PMSS_ENHANCED
-            if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
-            {
-                is_jurisdiction_ok = true;
-                break;
-            }
-            #endif
-            
 
+            foreach (var jurisdiction_item in jurisdiction_hashset)
+            {
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+                #if !IS_PMSS_ENHANCED
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                {
+                    is_jurisdiction_ok = true;
+                    break;
+                }
+                #endif
+                #if IS_PMSS_ENHANCED
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                {
+                    is_jurisdiction_ok = true;
+                    break;
+                }
+                #endif
+                
+
+            }
         }
+        #endif
+        #if IS_PMSS_ENHANCED
+        var tracking_record = case_doc["tracking"] as IDictionary<string, object>;
+        if (tracking_record == null) continue;
+        
+        var home_record = tracking_record["admin_info"] as IDictionary<string, object>;
+
+        if (home_record != null)
+        {
+            if (!home_record.ContainsKey("jurisdiction_id"))
+            {
+                home_record.Add("jurisdiction_id", "/");
+            }
+
+            foreach (var jurisdiction_item in jurisdiction_hashset)
+            {
+                var regex = new System.Text.RegularExpressions.Regex("^" + @jurisdiction_item.jurisdiction_id);
+
+
+                #if !IS_PMSS_ENHANCED
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.server.utils.ResourceRightEnum.ReadCase)
+                {
+                    is_jurisdiction_ok = true;
+                    break;
+                }
+                #endif
+                #if IS_PMSS_ENHANCED
+                if (regex.IsMatch(home_record["jurisdiction_id"].ToString()) && jurisdiction_item.ResourceRight == mmria.pmss.server.utils.ResourceRightEnum.ReadCase)
+                {
+                    is_jurisdiction_ok = true;
+                    break;
+                }
+                #endif
+                
+
+            }
         }
+        #endif
 
         if (!is_jurisdiction_ok)
         {
-        continue;
+            continue;
         }
 
 
