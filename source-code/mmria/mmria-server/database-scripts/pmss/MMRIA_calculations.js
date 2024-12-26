@@ -755,12 +755,13 @@ function  tracking_q1_amsssno_onchange(p_control)
     {
         // Show field: tracking/q1/amssrel
         // $('label[for=' + controlId + '], #' + controlId).show();
+        $mmria.set_disable('tracking/q1/amssrel', null, null) 
     }
     else
     {
         g_data.tracking.q1.rel = 9999;
         $mmria.set_control_value('tracking/q1/amssrel', 9999);
-
+        $mmria.set_enable('tracking/q1/amssrel', null, null) 
         // Hide field: tracking/death_certificate_number
         // $('label[for=' + controlId + '], #' + controlId).hide();    
     }
