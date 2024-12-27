@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
-using Akka.DI.Core;
-using Akka.DI.Extensions;
 using Akka.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using mmria.server.model.actor.quartz;
