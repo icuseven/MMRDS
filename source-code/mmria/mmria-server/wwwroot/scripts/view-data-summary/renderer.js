@@ -854,16 +854,25 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     <tbody class="tbody" id="tr-${p_path.substr(1)}-body">
                 `);
              
-                if(g_report_map.has(p_path.substr(1)))
-                for(const [ki, vi] of g_report_map.get(p_path.substr(1)))
+                const current_path = p_path.substr(1);
+                if(g_report_map.has(current_path))
                 {
-                    list_values.push(`
-                        <tr class="tr"  id="tr-${p_path.substr(1)}-${ki}">
-                            <td class="td" width="820" colspan=2>${ki}</td>
-                            <td class="td" width="260" id="${p_path.substr(1)}-${ki}"  align=right>${vi}</td>
-                        </tr>
-                    `);
+                    const vi_map = g_report_map.get(current_path);
+
+                    let keys = Array.from( vi_map.keys() ).sort();
+                    for(const ki of keys)
+                    {
+                        const vi = vi_map[ki];
+
+                        list_values.push(`
+                            <tr class="tr"  id="tr-${current_path}-${ki}">
+                                <td class="td" width="820" colspan=2>${ki}</td>
+                                <td class="td" width="260" id="${current_path}-${ki}"  align=right>${vi}</td>
+                            </tr>
+                        `);
+                    }   
                 }
+                
 				
 				list_values.push(`
 								</tbody>
