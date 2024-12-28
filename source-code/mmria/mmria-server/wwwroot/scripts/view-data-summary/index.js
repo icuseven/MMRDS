@@ -241,7 +241,7 @@ const data_list = [];
 
 async function get_all_report_data()
 {
-  
+    $('.spinner-content').addClass('spinner-active');
 //http://localhost:5984/report/_design/data_summary_view_report/_view/year_of_death?skip=10000&limit=100
 /*
 {"total_rows":1558,"offset":1558,"rows":[
@@ -296,8 +296,9 @@ async function get_all_report_data()
     g_data_is_loaded = true;
 
 
-    window.setTimeout(build_report,0);
+    await build_report();
 
+    $('.spinner-content').removeClass('spinner-active');
     //return result;
 }
 
