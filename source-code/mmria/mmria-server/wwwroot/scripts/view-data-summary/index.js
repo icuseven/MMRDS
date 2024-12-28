@@ -296,6 +296,8 @@ async function get_all_report_data()
     g_data_is_loaded = true;
 
 
+    window.setTimeout(build_report,0);
+
     //return result;
 }
 

@@ -837,7 +837,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                                 </caption>
 								<thead class="thead">
 									<tr class="header-level-top-black">
-										<th class="th" colspan="5" width="1080" scope="colgroup">List Values</th>
+										<th class="th" colspan="5" width="1080" scope="colgroup">Field Values</th>
 									</tr>
 								</thead>
 								<thead class="thead">
@@ -846,14 +846,24 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                 
              
                 list_values.push(`">
-                        <th class="th" width="140" scope="col">Value</th>
-                        <th class="th" width="680" scope="col">Display</th>
+                        <th class="th" width="820" scope="col" colspan=2>Value</th>
+                        <!--th class="th" width="680" scope="col">Display</th-->
                         <th class="th" width="260" scope="col">N (Counts)</th>
                     </tr>
                     </thead>
                     <tbody class="tbody" id="tr-${p_path.substr(1)}-body">
                 `);
              
+                if(g_report_map.has(p_path.substr(1)))
+                for(const [ki, vi] of g_report_map.get(p_path.substr(1)))
+                {
+                    list_values.push(`
+                        <tr class="tr"  id="tr-${p_path.substr(1)}-${ki}">
+                            <td class="td" width="820" colspan=2>${ki}</td>
+                            <td class="td" width="260" id="${p_path.substr(1)}-${ki}"  align=right>${vi}</td>
+                        </tr>
+                    `);
+                }
 				
 				list_values.push(`
 								</tbody>
