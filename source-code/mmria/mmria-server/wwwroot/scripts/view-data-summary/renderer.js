@@ -753,6 +753,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
             }
 
 
+            
+
 			if(p_metadata.type.toLowerCase() == "list")
 			{
 				let value_list = p_metadata.values;
@@ -766,6 +768,8 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 						value_list = p_metadata.values;
 					}
 				}
+
+                
 
 				list_values.push(`
 					<tr class="tr">
@@ -808,11 +812,13 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 					for(let i= 0; i < value_list.length; i++)
 					{
+                        const value_list_value = value_list[i].value.trim().toLowerCase();
+
 						list_values.push(`
-									<tr class="tr"  id="tr-${p_path.substr(1)}-${value_list[i].value}">
+									<tr class="tr"  id="tr-${p_path.substr(1)}-${value_list_value}">
 										<td class="td" width="140">${value_list[i].value}</td>
 										<td class="td" width="680">${value_list[i].display}</td>
-										<td class="td" width="260" id="${p_path.substr(1)}-${value_list[i].value}"  align=right>0</td>
+										<td class="td" width="260" id="${p_path.substr(1)}-${value_list_value}"  align=right>0</td>
 									</tr>
 						`);
 					}
@@ -844,15 +850,16 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									<tr class="header-level-2
 				`);
                 
-             
-                list_values.push(`">
-                        <th class="th" width="820" scope="col" colspan=2>Value</th>
-                        <!--th class="th" width="680" scope="col">Display</th-->
-                        <th class="th" width="260" scope="col">N (Counts)</th>
-                    </tr>
-                    </thead>
-                    <tbody class="tbody" id="tr-${p_path.substr(1)}-body">
-                `);
+
+                        list_values.push(` sticky z-index-middle" style="top: 355px;">
+                                            <th class="th" width="820" scope="col" colspan=2>Value - ${p_metadata.sass_export_name}</th>
+                                            <th class="th" width="260" scope="col" align=right>N (Counts)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbody">`);
+
+
+
              
                 const current_path = p_path.substr(1);
                 if(g_report_map.has(current_path))
