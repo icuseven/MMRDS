@@ -362,8 +362,10 @@ function build_report()
 
             const detail = item.path_to_detail;
 
-            for(const s of Object.keys(detail))
+            for(const sp of Object.keys(detail))
             {
+                const s = sp.trim();
+                
                 if(!g_report_map.has(s))
                 {
                     g_report_map.set(s, new Map());

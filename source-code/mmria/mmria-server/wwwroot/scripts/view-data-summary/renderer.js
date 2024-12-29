@@ -862,7 +862,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     let keys = Array.from( vi_map.keys() ).sort();
                     for(const ki of keys)
                     {
-                        const vi = vi_map[ki];
+                        const vi = vi_map.get(ki);
 
                         list_values.push(`
                             <tr class="tr"  id="tr-${current_path}-${ki}">
