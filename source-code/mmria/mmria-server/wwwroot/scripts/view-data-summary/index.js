@@ -365,7 +365,7 @@ function build_report()
             for(const sp of Object.keys(detail))
             {
                 const s = sp.trim();
-                
+
                 if(!g_report_map.has(s))
                 {
                     g_report_map.set(s, new Map());
@@ -409,26 +409,28 @@ function build_report()
                     }
                     */
 
-                    if(!g_report_map.get(s).has(detail_item[v].value))
+                    const detail_item_value = detail_item[v].value.trim().toLowerCase();
+
+                    if(!g_report_map.get(s).has(detail_item_value))
                     {
-                        g_report_map.get(s).set(detail_item[v].value, 0);
+                        g_report_map.get(s).set(detail_item_value, 0);
                     }
 
 
-                    if(!g_path_to_value_map.get(s).has(detail_item[v].value))
+                    if(!g_path_to_value_map.get(s).has(detail_item_value))
                     {
-                        g_path_to_value_map.get(s).set(detail_item[v].value, new Set());
+                        g_path_to_value_map.get(s).set(detail_item_value, new Set());
                     }
 
-                    const current_entry_value = g_report_map.get(s).get(detail_item[v].value);
+                    const current_entry_value = g_report_map.get(s).get(detail_item_value);
                     const detail_entry_count = detail_item[v].count;
-                    g_report_map.get(s).set(detail_item[v].value, current_entry_value + detail_entry_count);
+                    g_report_map.get(s).set(detail_item_value, current_entry_value + detail_entry_count);
 
                     const current_total = g_report_stat_map.get(s).get("count");
 
                     if
                     (
-                        detail_item[v].value != "(-)" 
+                        detail_item_value != "(-)" 
                     )
                     {
                        g_report_stat_map.get(s).set("count", current_total + detail_entry_count); 
@@ -437,7 +439,7 @@ function build_report()
 
                     //if(entry_count > 0)
                     //{
-                        g_path_to_value_map.get(s).get(detail_item[v].value).add(item.record_id);
+                        g_path_to_value_map.get(s).get(detail_item_value).add(item.record_id);
                     //}
 
 
