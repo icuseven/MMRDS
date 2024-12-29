@@ -428,13 +428,13 @@ function build_report()
 
                     const current_total = g_report_stat_map.get(s).get("count");
 
-                    if
+                    /*if
                     (
                         detail_item_value != "(-)" 
                     )
-                    {
+                    {*/
                        g_report_stat_map.get(s).set("count", current_total + detail_entry_count); 
-                    }
+                    //}
                     
 
                     //if(entry_count > 0)
