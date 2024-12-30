@@ -870,13 +870,34 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     for(const ki of keys)
                     {
                         const vi = vi_map.get(ki);
+                        if(ki == "(-)")
+                        {
 
-                        list_values.push(`
-                            <tr class="tr"  id="tr-${current_path}-${ki}">
-                                <td class="td" width="820" colspan=2>${ki}</td>
-                                <td class="td" width="260" id="${current_path}-${ki}"  align=right>${vi}</td>
-                            </tr>
-                        `);
+                            const html_link = render_link
+                            (
+                                current_path,
+                                "missing",
+                                vi,
+                                "Missing List Values"
+                            );
+
+                            list_values.push(`
+                                <tr class="tr"  id="tr-${current_path}-${ki}">
+                                    <td class="td" width="820" colspan=2>${ki} &lt;- missing</td>
+                                    <td class="td" width="260" id="${current_path}-${ki}"  align=right>${html_link}</td>
+                                </tr>
+                            `);
+                        }
+                        else
+                        {
+                            list_values.push(`
+                                <tr class="tr"  id="tr-${current_path}-${ki}">
+                                    <td class="td" width="820" colspan=2>${ki}</td>
+                                    <td class="td" width="260" id="${current_path}-${ki}"  align=right>${vi}</td>
+                                </tr>
+                            `);
+                        }
+                        
                     }   
                 }
                 

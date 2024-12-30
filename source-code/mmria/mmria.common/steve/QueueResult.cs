@@ -4,7 +4,7 @@ using System.IO;
 
 namespace mmria.common.steve;
 
-public class QueueItem
+public sealed class QueueItem
 {
     public DateTime DateCreated { get;set;}
     public string CreatedBy	 { get;set;}
@@ -14,7 +14,7 @@ public class QueueItem
     public string ExportType	 { get;set;}
     public string Status { get;set;}
 }
-public class QueueResult
+public sealed class QueueResult
 {
     public QueueResult() 
     {
