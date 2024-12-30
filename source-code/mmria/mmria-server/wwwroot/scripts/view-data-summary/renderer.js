@@ -792,7 +792,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     {
                         list_values.push(` sticky z-index-middle" style="top: 355px;">
                                             <th class="th" width="140" scope="col">Value</th>
-                                            <th class="th" width="680" scope="col">Display</th>
+                                            <th class="th" width="680" scope="col">Display - ${p_metadata.sass_export_name}</th>
                                             <th class="th" width="260" scope="col">N (Counts)</th>
                                         </tr>
                                     </thead>
@@ -802,7 +802,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     {
                         list_values.push(`">
                                 <th class="th" width="140" scope="col">Value</th>
-                                <th class="th" width="680" scope="col">Display</th>
+                                <th class="th" width="680" scope="col">Display - ${p_metadata.sass_export_name}</th>
                                 <th class="th" width="260" scope="col">N (Counts)</th>
                             </tr>
                             </thead>
