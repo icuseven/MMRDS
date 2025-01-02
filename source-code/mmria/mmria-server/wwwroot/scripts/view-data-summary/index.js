@@ -409,7 +409,7 @@ function build_report()
                     }
                     */
 
-                    const detail_item_value = detail_item[v].value.trim().toLowerCase();
+                    const detail_item_value = detail_item[v].value == null ? "(-)" : detail_item[v].value.trim().toLowerCase();
 
                     if(!g_report_map.get(s).has(detail_item_value))
                     {

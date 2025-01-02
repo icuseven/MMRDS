@@ -911,14 +911,16 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 				`);
             }
 
-			if (
+			if 
+            (
 				!form_name ||
 				 form_name.indexOf('none') !== -1 ||
 				 form_name == '(none)' ||
 				 form_name.indexOf('blank') !== -1 ||
 				 form_name == '(blank)'
-			) {
-                console.log("reject bubba");
+			) 
+            {
+                //console.log("reject bubba");
 				return;
 			}
 
