@@ -36,7 +36,22 @@ let TitleMap = {
 	"committee_review": "Decision",
 	"all": "ALL",
 	"core-summary": "Core",
+    "tracking": "Tracking",
+    "demographic": "Demographic",
+    "outcome": "Outcome",
+    "cause_of_death": "Cause of Death",
+    "preparer_remarks": "Preparer Remarks",
+    //
+    "vro_case_determination": "VRO Case Determination",
+    "ije_dc": "IJE Death Certificate",
+    "ije_bc": "IJE Birth Certificate",
+    "ije_fetaldc": "IJE Fetal Death Certificate",
+    "amss_tracking": "AMSS Tracking",
+    "attachments": "Attatchments",
+
+
 };
+
 
 function clone(obj) 
 {
@@ -235,8 +250,10 @@ async function print_pdf(ctx) {
         reportTabName = `MMRIA #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
 
     if(g_d.tracking != null)
+    {
         reportTabName = `PMSS #:  ${g_d.tracking.admin_info.pmssno}/${TitleMap[ctx.section_name]}`;
-
+        TitleMap["committee_review"]= "Committee Review";
+    }
 
 
 	// Get the logoUrl for Header
@@ -965,7 +982,14 @@ async function formatContent(p_ctx, arrMap) {
 						body = await print_pdf_render_content(new_context);
 
 						// If not the Home Record and is all records, then do a page break
-						if (p_ctx.section_name == 'all' && child.name != 'home_record') {
+						if 
+                        (
+                            p_ctx.section_name == 'all' && 
+                            child.name != 'home_record' &&
+                            child.name != 'tracking'
+                            
+                        ) 
+                        {
 							body.unshift([{ text: '', pageBreak: 'before', colSpan: '2', }, {},]);
 						}
 						// Get the page header
