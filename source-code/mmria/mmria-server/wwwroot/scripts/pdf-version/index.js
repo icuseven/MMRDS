@@ -228,7 +228,16 @@ async function print_pdf(ctx) {
 	let pdfTitle = getHeaderName();
 
 	// Get report tab name
-	let reportTabName = `MMRIA #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
+	let reportTabName = ``;
+
+
+    if(g_d.home_record != null)
+        reportTabName = `MMRIA #:  ${g_d.home_record.record_id}/${TitleMap[ctx.section_name]}`;
+
+    if(g_d.tracking != null)
+        reportTabName = `PMSS #:  ${g_d.tracking.admin_info.pmssno}/${TitleMap[ctx.section_name]}`;
+
+
 
 	// Get the logoUrl for Header
 	let logoUrl = await getBase64ImageFromURL("/images/mmria-secondary.png");
@@ -480,7 +489,11 @@ function getBase64ImageFromURL(url) {
 // create a unique PDF name based on datetime
 function createNamePDF() {
 	let utcDate = new Date().toISOString();
-	return `${g_d.home_record.record_id}` + '_' + utcDate + '.pdf';
+    if(g_d.home_record != null)
+	    return `${g_d.home_record.record_id}` + '_' + utcDate + '.pdf';
+
+    if(g_d.tracking != null)
+	    return `${g_d.tracking.admin_info.pmssno}` + '_' + utcDate + '.pdf';
 }
 
 // check field for null
@@ -629,10 +642,24 @@ function fmtStrDate(dt) {
 }
 
 // Get the header name
-function getHeaderName() {
-	let headerStr = `MMRIA Record ID#:  ${g_d.home_record.record_id}\t--\t` +
-		`Agency ID#: ${g_d.home_record.agency_case_id}`;
-	return headerStr;
+function getHeaderName() 
+{
+    if(g_d.home_record != null)
+    {	
+        let headerStr = `MMRIA Record ID#:  ${g_d.home_record.record_id}\t--\t` +
+        `Agency ID#: ${g_d.home_record.agency_case_id}`;
+        return headerStr;
+
+    }
+
+    if(g_d.tracking != null)
+    {	
+        let headerStr = `PMSS #:  ${g_d.tracking.admin_info.pmssno}\t--\t` +
+        `Jurisdiction: ${g_d.tracking.admin_info.jurisdiction}`;
+        return headerStr;
+
+    }
+
 }
 
 // Get Report Tab Name
@@ -687,6 +714,22 @@ function getReportTabName(section) {
 		case 'all':
 			nm = 'All Case Forms';
 			break;
+        default:
+            nm = section;
+            /*
+            /tracking	
+            /deographic	
+            /outcome	
+            /cause_of_death	
+            /preparer_remarks	
+            /committee_review	
+            /vro_case_determination	
+            /ije_dc	
+            /ije_bc	
+            /ije_fetaldc	
+            /amss_tracking	
+            /attachments
+            */
 	}
 
 	return nm;
