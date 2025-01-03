@@ -276,6 +276,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
                     }
                 }
             }
+
         }
     }
 }

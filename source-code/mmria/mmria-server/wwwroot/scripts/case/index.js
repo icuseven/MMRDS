@@ -2305,46 +2305,46 @@ function g_render()
 
   var section_list = document.getElementsByTagName('section');
 
-  if (g_ui.url_state.path_array[0] == 'summary') 
-  {
+if (g_ui.url_state.path_array[0] == 'summary') 
+{
     for (var i = 0; i < section_list.length; i++) 
     {
-      var section = section_list[i];
+        var section = section_list[i];
 
-      if (section.id == 'app_summary') 
-      {
+        if (section.id == 'app_summary') 
+        {
         section.style.display = 'block';
         //section.style.display = "grid";
         //section.style["grid-template-columns"] = "1fr 1fr 1fr";
-      } 
-      else 
-      {
+        } 
+        else 
+        {
         section.style.display = 'none';
-      }
+        }
     }
-  } 
-  else if 
-  (
+} 
+else if 
+(
     g_ui.url_state.path_array.length >= 2 &&
     g_ui.url_state.path_array[1] == 'field_search'
-  ) 
-  {
+) 
+{
     for (var i = 0; i < section_list.length; i++) 
     {
-      var section = section_list[i];
+        var section = section_list[i];
 
-      if (section.id == 'field_search_id') 
-      {
-        section.style.display = 'block';
-        //section.style.display = "grid";
-        //section.style["grid-template-columns"] = "1fr 1fr 1fr";
-      } 
-      else 
-      {
-        section.style.display = 'none';
-      }
+        if (section.id == 'field_search_id') 
+        {
+            section.style.display = 'block';
+            //section.style.display = "grid";
+            //section.style["grid-template-columns"] = "1fr 1fr 1fr";
+        } 
+        else 
+        {
+            section.style.display = 'none';
+        }
     }
-  } 
+} 
   else 
   {
     if 
@@ -2780,7 +2780,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2797,7 +2797,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
+				//unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
 
         if(section_name == "all_hidden")
         {

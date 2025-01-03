@@ -142,8 +142,22 @@ function navigation_render(p_metadata, p_level, p_ui)
                         }
                     }
                     
-                    
+
                   }
+
+                if(g_is_pmss_enhanced)
+                {
+                    if(p_ui.url_state.selected_id.toLowerCase() == "attachment")
+                    {
+                        result.push(`<option value="${p_ui.url_state.path_array[0]}/attachment" selected>Attached Documents</option>`)
+                    }
+                    else
+                    {
+                        result.push(`<option value="${p_ui.url_state.path_array[0]}/attachment">Attached Documents</option>`)    
+                    }
+                    
+                }
+
                 result.push('</select>');
               result.push('</div>');
             result.push('</div>');
