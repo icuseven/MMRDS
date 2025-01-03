@@ -243,6 +243,17 @@ function attachment_render(
         
         <h3>Attachment Area:</h3>
         
+        <ul>
+            <li>Document One <input type="button" value="download" /> | <input type="button" value="delete"></li>
+            <li>Document Two <input type="button" value="download" /> | <input type="button" value="delete"></li>
+            <li>Document Three <input type="button" value="download" /> | <input type="button" value="delete"></li>
+            <li>
+                <label for="files" class="sr-only">Upload files</label>
+                <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
+  
+                <input type="button" value="upload" />
+            </li>
+        </ul>
         
         `);
     
@@ -512,4 +523,306 @@ function get_header_name(p_value)
 	}	
 	
 	return `${display_name} - ${g_data.tracking.admin_info.track_year} - ${g_data.tracking.death_certificate_number}`;
+}
+
+let g_file_stat_list = []
+var attachment_openFile = function (event) 
+{
+
+    var input = event.target;
+
+
+    var reader = new FileReader();
+    reader.onload = function () {
+        var dataURL = reader.result;
+        var output = document.getElementById('output');
+        output.value = dataURL;
+    };
+    reader.readAsText(input.files[0]);
+};
+
+function readmultifiles(event, files) 
+{
+    const self = $(event.target);
+    let ul_list = [];
+    g_file_stat_list = [];
+
+    self.next('.spinner-inline').fadeIn();
+
+    for (let i = 0; i < files.length; i++) 
+    {
+        let item = files[i];
+        readFile(i);
+        g_file_stat_list.push({ name: item.name, index: i })
+
+    }
+
+    function readFile(index) 
+    {
+        if (index >= files.length) return;
+
+        var file = files[index];
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // get file content  
+            g_content_list[index] = e.target.result;
+            // do sth with bin
+            readFile(index + 1)
+        }
+        reader.readAsText(file);
+
+        window.setTimeout(attachment_setup_file_list, 9000);
+    }
+}
+
+async function attachment_setup_file_list() 
+{
+
+    if(g_is_setup_started) return;
+
+    g_is_setup_started = true;
+
+    var el = document.getElementById("files");
+    el.disabled = "disabled";
+
+    g_host_state = null;
+
+    let result = false;
+
+    let is_mor = false;
+    let is_nat = false;
+    let is_fet = false;
+
+    let temp = [];
+    let temp_contents = [];
+
+    if (g_file_stat_list.length < 2) 
+    {
+        //g_validation_errors.add("need at least 2 IJE files. MOR and NAT or FET");
+    }
+
+    // process mor file 1st
+    for (let i = 0; i < g_file_stat_list.length; i++) 
+    {
+        let item = g_file_stat_list[i];
+        if (typeof item !== "undefined") 
+        {
+            if (item.name.toLowerCase().endsWith(".mor")) 
+            {
+                g_cdc_identifier_set = {};
+                
+                is_mor = true;
+                temp[0] = item;
+                temp_contents[0] = g_content_list[i];
+
+                var patt = new RegExp("^[0-9]{4}_20[0-9]{2}_[0-2][0-9]_[0-3][0-9]_[A-Z,a-z]{2,9}.[mM][oO][rR]$");
+
+                if (!patt.test(item.name.toLowerCase())) 
+                {
+                    g_validation_errors.add(`mor file name format incorrect. File name must be in ####_20##_Year_Month_Day_StateCode[2-9] format.\n(e.g. 2021_01_01_KS.mor)\nfound ${item.name}`);
+                }
+
+                if (!validate_length(g_content_list[i].split("\n"), mor_max_length)) 
+                {
+                    g_validation_errors.add("mor File Length !=" + mor_max_length);
+                }
+                else 
+                {
+                    var copy = g_content_list[i];
+                    var morRows = copy.split("\n");
+                    var listOfCdcIdentifier = [];
+                    
+
+                    for (var j = 0; morRows.length > j; j++) 
+                    {
+                        var cdcIdentifier = morRows[j].substring(190, 199);
+
+                        listOfCdcIdentifier.push(cdcIdentifier.trim());
+                        g_cdc_identifier_set[cdcIdentifier.trim()] = true;
+                    }
+
+                    let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
+                    var duplicates = findDuplicates(listOfCdcIdentifier)
+
+
+
+                    if (duplicates.length > 0) 
+                    {
+                        var counts = {};
+                        var duplicatesMessage = "";
+                        duplicates.forEach(function (x) { counts[x] = (counts[x] || 0) + 1; });
+
+                        for (var k = 0; k < Object.keys(counts).length; k++) 
+                        {
+                            duplicatesMessage += "\n" + Object.keys(counts)[k] + ', ' + Object.values(counts)[k]
+                        }
+
+                        g_validation_errors.add("Duplicate CDC Identifier detected " + duplicatesMessage);
+                    }
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < g_file_stat_list.length; i++) 
+    {
+        let item = g_file_stat_list[i];
+        if (typeof item !== "undefined") 
+        {
+            if (item.name.toLowerCase().endsWith(".mor")) 
+            {
+                continue;
+            }
+            else if (item.name.toLowerCase().endsWith(".nat")) 
+            {
+                is_nat = true;
+                temp[1] = item;
+                temp_contents[1] = g_content_list[i];
+
+                g_content_list_array = g_content_list[i].split("\n");
+                if (!validate_length(g_content_list_array, nat_max_length)) 
+                {
+                    g_validation_errors.add("nat File Length !=" + nat_max_length);
+                }
+
+               let Nat_Ids = validate_AssociatedNAT(g_content_list_array);
+               for(let _i = 0;_i < Nat_Ids.length; _i++)
+               {
+                    let text = Nat_Ids[_i];
+
+                    g_validation_errors.add(text);
+                    
+               }
+            }
+            else if (item.name.toLowerCase().endsWith(".fet")) 
+            {
+                is_fet = true;
+                temp[2] = item;
+                temp_contents[2] = g_content_list[i];
+
+                g_content_list_array = g_content_list[i].split("\n");
+
+                if (!validate_length(g_content_list_array, fet_max_length)) 
+                {
+                    g_validation_errors.add("fet File Length !=" + fet_max_length);
+                }
+
+                let Fet_Ids = validate_AssociatedFET(g_content_list_array);
+                for(let _i = 0;_i < Fet_Ids.length; _i++)
+                {
+                    let text = Fet_Ids[_i];
+
+                    g_validation_errors.add(text);
+                    
+                }
+            }
+        }
+    }
+
+    if (is_mor && (is_nat || is_fet)) 
+    {
+        if
+            (!(
+
+                get_state_from_file_name(g_file_stat_list[0].name) &&
+                (typeof g_file_stat_list[1] === "undefined" || get_state_from_file_name(g_file_stat_list[1].name)) &&
+                (typeof g_file_stat_list[2] === "undefined" || get_state_from_file_name(g_file_stat_list[2].name))
+            )
+
+        ) 
+        {
+            g_validation_errors.add("all IJE files must have same state");
+        }
+        else 
+        {
+            g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
+        }
+
+
+    }
+    else
+    {
+        g_host_state = get_state_from_file_name(g_file_stat_list[0].name);
+        //g_validation_errors.add("need at least 2 IJE files. MOR and NAT or FET");
+    }
+
+    if (!is_mor) 
+    {
+        g_validation_errors.add("missing .MOR IJE file")
+    }
+
+    //if(!is_nat)
+    //{
+    //    g_validation_errors.add("missing .NAT IJE file")
+    //}
+
+    //if(!is_fet)
+    //{
+    //    g_validation_errors.add("missing .FET IJE file")
+    //}
+	g_my_roles = await $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
+            headers: {          
+            Accept: "text/plain; charset=utf-8",         
+            "Content-Type": "text/plain; charset=utf-8"   
+            } 
+	    }
+    )
+
+    for(const i of g_my_roles.rows)
+    {
+        const role = i.value;
+        if(role.is_active !== true) continue;
+        if(role.role_name != "vital_importer") continue;
+        
+        highest_folder = role.jurisdiction_id;
+
+        break;
+
+    }
+
+
+    g_jurisdiction_tree = await $.ajax
+    (
+        {
+            url: location.protocol + '//' + location.host + '/vitals/GetJurisdictionTree?j=' + g_host_state,
+            type: "GET"
+        }
+    );
+
+
+    const case_folder_el = document.getElementById("case-folder");
+    case_folder_el.remove(0);
+    case_folder_el.removeAttribute("disabled");
+    case_folder_el.removeAttribute("aria-disabled");
+
+    if(highest_folder == "/")
+    {
+        g_case_folder_list.push("Top Folder")
+        let newOption = new Option('Top Folder','/', true);
+        case_folder_el.add(newOption);
+    }
+
+    for (let i = 0; i < g_jurisdiction_tree.children.length; i++) 
+    {
+        const val = g_jurisdiction_tree.children[i].name;
+        if(val.startsWith(highest_folder))
+        {
+            g_case_folder_list.push(val);
+            newOption = new Option(val,val);
+            case_folder_el.add(newOption);
+        }
+
+    }
+    
+    g_file_stat_list = temp;
+    g_content_list = temp_contents;
+
+
+    render_file_list()
+
+    return result;
+
 }
