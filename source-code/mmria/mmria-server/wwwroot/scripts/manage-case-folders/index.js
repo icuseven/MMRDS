@@ -202,10 +202,7 @@ function load_curent_user_role_jurisdiction()
                     }
                 }
             }
-
-
           }
-            
         }
         load_jurisdictions()
 	});
@@ -450,14 +447,37 @@ function jurisdiction_remove_child_click(p_parent_id, p_node_id, p_user_id)
 		var node_to_add_to = get_jurisdiction(p_parent_id, g_jurisdiction_tree);
 		if(node_to_add_to)
 		{
-            document.getElementById('form_content_id').innerHTML = jurisdiction_render(g_jurisdiction_tree).join("");
-            //TO-DO: Deleting child case folders does not work correctly, currently it will rerender entire case folder tree, losing expand/collapse state ^^^
-                // var case_folders_parent = document.getElementById('form_content_id');
-                // //case_folders_parent.children.namedItem('add-node-form-' + p_parent_id.replace("/", "_")).nextSibling.firstChild.children[1].focus();
-                // $('#' + p_node_id.replace('/', '_').replace(/\//g, '\\/')).remove();
-                // $('.' + p_node_id + '-child').remove();
-            
-			
+            var case_folders_parent = document.getElementById('form_content_id');
+            var current_case_folder = case_folders_parent.children.namedItem('add-node-form-' + p_node_id.replace('/', '_'));
+            var current_case_folder_parent = document.getElementById('add-node-form-' + p_parent_id.replace('/', '_'));
+            var current_nested_level = parseInt(current_case_folder.dataset.nestedLevel);
+            var case_folders = [...case_folders_parent.children];
+            for(var child_case of case_folders.slice(case_folders.indexOf(current_case_folder)))
+            {
+                child_case_nested_level = parseInt(child_case.dataset.nestedLevel);
+                if((child_case_nested_level === current_nested_level) && child_case.id === current_case_folder.id)
+                {
+                    $(child_case).remove();
+                }
+                else if(child_case_nested_level > current_nested_level)
+                {
+                    $(child_case).remove();
+                }
+                else if (child_case_nested_level <= current_nested_level)
+                {
+                    child_case.focus();
+                    break;
+                }
+            }
+            if(parseInt(current_case_folder_parent.dataset.nestedLevel) === parseInt(current_case_folder_parent.nextSibling.dataset.nestedLevel))
+            {
+                var hide_button_element = document.getElementById(p_parent_id + "_hide_children");
+                var show_button_element = document.getElementById(p_parent_id + "_show_children");
+                show_button_element.setAttribute('aria-hidden', 'true');
+                show_button_element.hidden = true;
+                hide_button_element.setAttribute('aria-hidden', 'true');
+                hide_button_element.hidden = true;
+            }
 		}
 
 	}
