@@ -240,20 +240,11 @@ function attachment_render(
 
 
        p_result.push(`
+            
         
         <h3>Attachment Area:</h3>
-        
-        <ul>
-            <li>Document One <input type="button" value="download" /> | <input type="button" value="delete"></li>
-            <li>Document Two <input type="button" value="download" /> | <input type="button" value="delete"></li>
-            <li>Document Three <input type="button" value="download" /> | <input type="button" value="delete"></li>
-            <li>
-                <label for="files" class="sr-only">Upload files</label>
-                <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
-  
-                <input type="button" value="upload" />
-            </li>
-        </ul>
+        ${render_file_info_list()}
+
         
         `);
     
@@ -825,4 +816,48 @@ async function attachment_setup_file_list()
 
     return result;
 
+}
+
+let g_file_info_list = []
+async function Attachment_GetFileList(p_id)
+{
+    const url = `${location.protocol}//${location.host}/attachment/GetDocumentList?id=${p_id}`;
+    const response = await $.ajax
+    (
+        {
+            url: url,
+            type: "GET"
+        }
+    );
+
+    g_file_info_list = response;
+
+
+    //document.getElementById("Attachment-List").innerHTML = render_file_info_list();
+
+}
+
+function render_file_info_list()
+{
+    const result = [];
+    
+    for( const i in g_file_info_list)
+    {
+        result.push
+        (`
+            <li>Document One <input type="button" value="download" /> | <input type="button" value="delete"></li>    
+        `);
+    }
+
+    result.push
+    (`
+        <li>
+            <label for="files" class="sr-only">Upload files</label>
+            <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
+
+            <input type="button" value="upload" />
+        </li>
+    `);
+
+    return result.join("");
 }

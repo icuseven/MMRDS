@@ -1777,16 +1777,16 @@ async function window_on_hash_change(e)
             g_chart_data.clear();
             if(g_data_is_checked_out)
             {
-                await save_case(g_data, function () 
+                await save_case(g_data, async function () 
                 {
-                get_specific_case(
+                await get_specific_case(
                     g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
                 );
                 }, "hash_change");
             }
             else
             {
-                get_specific_case(
+                await get_specific_case(
                     g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
                 );
             }
@@ -1855,7 +1855,7 @@ async function window_on_hash_change(e)
         chart_function_params_map.clear();
         g_charts.clear();
         g_chart_data.clear();
-        get_specific_case
+        await get_specific_case
         (
           g_ui.case_view_list[parseInt(g_ui.url_state.path_array[0])].id
         );
@@ -1878,70 +1878,91 @@ async function window_on_hash_change(e)
   }
 }
 
-function get_specific_case(p_id) 
+async function get_specific_case(p_id) 
 {
-  var case_url =
-    location.protocol + '//' + location.host + '/api/case?case_id=' + p_id;
+  const case_url = `${location.protocol}//${location.host}/api/case?case_id=${p_id}`;
 
-  $.ajax({
-    url: case_url,
-  })
-    .done(function (case_response) 
+  try
+  {
+    const case_response = await $.ajax({
+        url: case_url,
+    });   
+
+    if (case_response) 
     {
-      if (case_response) 
-      {
+        if(g_is_pmss_enhanced)
+        {
+            await Attachment_GetFileList(p_id);
+        }
+    
         if(!g_is_pmss_enhanced)
         {
             g_case_narrative_original_value = case_response.case_narrative.case_opening_overview;
         }
 
-        var local_data = get_local_case(p_id);
+        let local_data = get_local_case(p_id);
 
         if (local_data) 
         {
-          if (local_data._rev && local_data._rev == case_response._rev) 
-          {
+        if (local_data._rev && local_data._rev == case_response._rev) 
+        {
             g_data = local_data;
             g_data_is_checked_out = is_case_checked_out(g_data);
-          } 
-          else 
-          {
+        } 
+        else 
+        {
             local_data = case_response;
             set_local_case(local_data);
             g_data = local_data;
             g_data_is_checked_out = is_case_checked_out(g_data);
-          }
+        }
 
-          if (g_autosave_interval != null && g_data_is_checked_out == false) 
-          {
+        if (g_autosave_interval != null && g_data_is_checked_out == false) 
+        {
             window.clearInterval(g_autosave_interval);
             g_autosave_interval = null;
-          }
+        }
 
-
-          g_render();
+            // do nothing
+            //g_render();
         } 
         else 
         {
-          g_data = case_response;
-          g_data_is_checked_out = is_case_checked_out(g_data);
+            g_data = case_response;
+            g_data_is_checked_out = is_case_checked_out(g_data);
 
-          if (g_autosave_interval != null && g_data_is_checked_out == false) 
-          {
-            window.clearInterval(g_autosave_interval);
-            g_autosave_interval = null;
-          }
+            if (g_autosave_interval != null && g_data_is_checked_out == false) 
+            {
+                window.clearInterval(g_autosave_interval);
+                g_autosave_interval = null;
+            }
 
 
         }
 
-        
+
         g_render();
-      } 
-      else 
-      {
+    } 
+    else 
+    {
         g_render();
-      }
+    }
+
+
+  }
+  catch(e)
+  {
+    console.log('get_specific_case:', e);
+    g_data = get_local_case(p_id);
+    g_data_is_checked_out = is_case_checked_out(g_data);
+  }
+
+
+
+/*
+    .done(function (case_response) 
+    {
+      
     })
     .fail(function (jqXHR, textStatus, errorThrown) 
     {
@@ -1949,6 +1970,10 @@ function get_specific_case(p_id)
       g_data = get_local_case(p_id);
       g_data_is_checked_out = is_case_checked_out(g_data);
     });
+    */
+
+
+
 }
 
 

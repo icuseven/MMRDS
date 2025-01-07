@@ -1,6 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System.IO;
+using System;
+using System.Linq;
 
 using Microsoft.AspNetCore.Authorization;
 using mmria.server.model;
@@ -8,11 +11,14 @@ using Microsoft.AspNetCore.Http;
 
 using  mmria.server.extension; 
 using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.FileProviders;
 
 
 namespace mmria.server.Controllers;
 
 [Authorize(Roles = "abstractor")]
+
 public sealed class attachmentController : Controller
 {
     private readonly ILogger<attachmentController> _logger;
@@ -20,6 +26,9 @@ public sealed class attachmentController : Controller
     mmria.common.couchdb.OverridableConfiguration configuration;
     mmria.common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
+
+    string _userName = null;
+    string _download_directory = null;
 
     public attachmentController
     (
@@ -34,7 +43,40 @@ public sealed class attachmentController : Controller
         db_config = configuration.GetDBConfig(host_prefix);
     }
 
-    
+    string userName
+    {
+        get
+        {
+            if (_userName == null)
+            {
+                if (User.Identities.Any(u => u.IsAuthenticated))
+                {
+                    _userName = User.Identities.First
+                    (
+                        u => u.IsAuthenticated && 
+                        u.HasClaim(c => c.Type == System.Security.Claims.ClaimTypes.Name)
+                    )
+                    .FindFirst(System.Security.Claims.ClaimTypes.Name)
+                    .Value.Replace("@","-").Replace("'","-");
+                }
+            }
+            return _userName;
+        }
+    }
+
+    string download_directory
+    {
+        get
+        {
+            if (_download_directory == null)
+            {
+
+                _download_directory = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), userName);
+            }
+            return _download_directory;
+        }
+    }
+
     public IActionResult Index()
     {
         var model = new FileUploadModel();
@@ -48,27 +90,21 @@ public sealed class attachmentController : Controller
         return View(model);
     }
 
-    /*
+    
 
     [HttpGet]
-    public async Task<JsonResult> GetFolderList(string h)
+    public async Task<JsonResult> GetDocumentList(string id)
     {
-        mmria.common.model.couchdb.jurisdiction_tree result = null;
+        List<FileInfo> result = new ();
 
         try
         {
-            
-            string jurisdiction_tree_url = $"{db_config.url}/jurisdiction/jurisdiction_tree";
-            if(!string.IsNullOrWhiteSpace(db_config.prefix))
+            var path = System.IO.Path.Combine("/document-set", id);
+            if(System.IO.Directory.Exists(path))
             {
-                jurisdiction_tree_url = $"{db_config.url}/{db_config.prefix}jurisdiction/jurisdiction_tree";
+                var di = new DirectoryInfo(path);
+                result.AddRange(di.GetFiles());
             }
-
-            var jurisdiction_curl = new mmria.server.cURL("GET", null, jurisdiction_tree_url, null, db_config.user_name, db_config.user_value);
-            string response_from_server = await jurisdiction_curl.executeAsync ();
-
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
-
         }
         catch(Exception ex) 
         {
@@ -77,7 +113,7 @@ public sealed class attachmentController : Controller
 
 
         return Json(result);
-    }*/
+    }
 
     [HttpGet]
     public async Task<JsonResult> GetJurisdictionTree(string j)
@@ -111,6 +147,64 @@ public sealed class attachmentController : Controller
 
         return Json(result);
     }
+
+        [HttpGet]
+    public  async Task<FileResult> GetFileResult(string FileName)
+    {
+        var queue_Result = new mmria.common.steve.QueueResult();
+        var path = System.IO.Path.Combine (download_directory, FileName);
+
+        byte[] fileBytes = GetFile(path);
+        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
+
+    }
+/*
+    [HttpGet]
+    public  async Task<JsonResult> DeleteFileResult(string FileName)
+    {
+        var path = System.IO.Path.Combine (download_directory, FileName);
+
+        if(System.IO.File.Exists(path))
+        {
+            System.IO.File.Delete(path);
+        }
+
+        return await GetQueueResult();
+    }
+*/
+
+    byte[] GetFile(string s)
+    {
+        byte[] data;
+        int br;
+        int fs_length;
+
+        using(FileStream fs = new FileStream (s, FileMode.Open, FileAccess.Read))
+        {
+            fs_length = (int) fs.Length;
+            data = new byte[fs.Length];
+            br = fs.Read(data, 0, data.Length);
+        }
+        if (br != (int) fs_length)
+            throw new System.IO.IOException(s);
+        return data;
+    }
+
+    string GetFileName(string p_file_name)
+    {
+        DateTime value = DateTime.Now;
+
+        var year = value.Year.ToString();
+        var month = value.Month.ToString().PadLeft(2,'0');
+        var day = value.Day.ToString().PadLeft(2,'0');
+        var hour = value.Hour.ToString().PadLeft(2,'0');
+        var minute = value.Minute.ToString().PadLeft(2,'0');
+        var second = value.Second.ToString().PadLeft(2,'0');
+        var milli_second = value.Millisecond.ToString().PadLeft(4,'0');
+
+        return $"steveMMRIA-{p_file_name}-{year}-{month}-{day}T{hour}-{minute}-{second}-{milli_second}";
+    }
+
 
 }
 
