@@ -2780,7 +2780,7 @@ function pdf_case_onclick(event, type_output)
   // get value of selected option
   let section_name = dropdown.value;
 
-  unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
+  unique_tab_name = '_pdf_tab_' + Math.random().toString(36).substring(2, 9);
 
   if (section_name) 
   {
@@ -2797,7 +2797,7 @@ function pdf_case_onclick(event, type_output)
         // data-record of selected option
         const selectedOption = dropdown.options[dropdown.options.selectedIndex];
         const record_number = selectedOption.dataset.record;
-				//unique_tab_name = '_pdf_tab_' //+ Math.random().toString(36).substring(2, 9);
+				
 
         if(section_name == "all_hidden")
         {
