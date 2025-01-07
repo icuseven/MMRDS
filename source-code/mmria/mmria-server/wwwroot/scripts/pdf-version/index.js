@@ -476,7 +476,7 @@ async function print_pdf(ctx) {
 		window.setTimeout
 		(
 			async function () { await pdfMake.createPdf(doc).open(window); },
-			// async function () { await pdfMake.createPdf(doc).open(); },
+			//async function () { await pdfMake.createPdf(doc).open(); },
 			3000
 		);
 	}
@@ -2133,7 +2133,7 @@ function print_pdf_render_content(ctx) {
 						// Create a two column table for the Medical Info column - exclude the first (datetime) and last (comments)  
 						let colPrompt = new Array();
 						let colData = new Array();
-						for (let i = 1; i < metaChild.length - 1; i++) {
+						for (let i = 2; i < metaChild.length - 1; i++) {
 							switch (metaChild[i].type.toLowerCase()) {
 								case 'list':
 									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
