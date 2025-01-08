@@ -4,16 +4,18 @@ function user_render(p_ui, p_created_by)
 {
 	var result = [];
     let role_set = get_role_list();
-    result.push("<div class='d-flex'>");
-    result.push("<select class='form-control col-3'>");
+
+
+    const temp_result = [];
+
     role_set.forEach(role => {
         if(role === "")
         {
-            result.push("<option selected>Filter by Role</option>");
+            temp_result.push("<option selected>Filter by Role</option>");
         }
         else
         {
-            result.push("<option value ='" + role + "'>");
+            temp_result.push("<option value ='" + role + "'>");
             var role_name = role.split('_');
             role_name = role_name.map(section => {
                 if (section === 'steve' || section === 'mmria' || section === 'prams')
@@ -21,26 +23,32 @@ function user_render(p_ui, p_created_by)
                 else
                     return section[0].toUpperCase() + section.slice(1);
             });
-            result.push(role_name.join(" "));
-            result.push("</option>");
+            temp_result.push(role_name.join(" "));
+            temp_result.push("</option>");
         }
 
     });
-    result.push("</select>");
-    result.push("<div class='vertical-control col-md-3'><div class='input-group'>");
-    result.push("<input autocomplete='off' class='form-control' type='text' placeholder='Search'>");
-    result.push("<div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg'></button></div>");
-    result.push("</div></div>");
-    result.push("</div>");
-    result.push(render_user_table_navigation());
-	result.push("<div style='clear:both;'>");
-	result.push("<table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User management table</caption>");
-    result.push("<thead><tr class='header-level-2'>");
-    result.push("<th width='250' scope='colgroup'>Username (Email Address)</th>");
-    result.push("<th scope='colgroup;'>Role(s)</th>");
-    result.push("<th width='250' scope='colgroup;'>Actions</th>");
-    result.push("</tr></thead><tbody>");
-	
+    result.push
+    (`
+        <div class='d-flex'>
+            <select class='form-control col-3'>
+                ${temp_result.join("")}
+            </select>
+        <div class='vertical-control col-md-3'><div class='input-group'>
+        <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
+        <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg'></button></div>
+        </div></div>
+        </div>
+        ${render_user_table_navigation()}
+        <div style='clear:both;'>
+        <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User management table</caption>
+        <thead><tr class='header-level-2'>
+        <th width='250' scope='colgroup'>Username (Email Address)</th>
+        <th scope='colgroup;'>Role(s)</th>
+        <th width='250' scope='colgroup;'>Actions</th>
+        </tr></thead><tbody>
+	`);
+
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
 	{
 		var item = p_ui.user_summary_list[i];
@@ -49,20 +57,7 @@ function user_render(p_ui, p_created_by)
 			Array.prototype.push.apply(result, user_entry_render(item, i, p_created_by, role_set));
 		}
 	}
-	// result.push("<tr><td colspan='6' align='right'>&nbsp;</tr>");
-	// result.push("<tr><td colspan='6' align='right' style>");
-	// result.push("<label>Enter new user name:<input type='text' id='new_user_name' value=''/></label><br/>");
 
-	// if(g_policy_values.sams_is_enabled.toLowerCase() != "true")
-	// {
-	// 	result.push("<label>Password: <input type='password' id='new_user_password' value=''/></label><br/>");
-	// 	result.push("<label>Verify password: <input type='password' id='new_user_verify' value=''/></label><br/>");
-	// }
-	
-	// result.push(`<span class="spinner-container spinner-small mr-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
-	// result.push("<input type='button' value='add new user' onclick='init_small_loader(add_new_user_click)' /><br/>");
-	// result.push("<span id='new_user_status_area'>");
-	// result.push("</span></tr>");
 	result.push("</tbody></table></div>");
     result.push(render_user_table_navigation());
 
@@ -71,31 +66,33 @@ function user_render(p_ui, p_created_by)
 
 function render_user_table_navigation()
 {
-    var nagivation_result = [];
-    nagivation_result.push("<div class='d-flex mb-3 mt-2'>");
-	nagivation_result.push("<button class='btn secondary-button' aria-label='View Audit Log' value='View Audit Log' onclick='view_audit_log()'>");
-    nagivation_result.push("<span class='x20 fill-p cdc-icon-clipboard-list-check-solid'><span class='ml-1'>View Audit Log</span></span>");
-    nagivation_result.push("</button>");
-    nagivation_result.push("<div class='ml-auto mr-3 d-flex'>")
-    nagivation_result.push("<div class='d-flex align-items-center'>");
-    nagivation_result.push("<div>Showing 1-10 of 30 cases</div>");
-    nagivation_result.push("<div class='row ml-2'>");
-    nagivation_result.push("<button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>");
-    nagivation_result.push("<button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>");
-    nagivation_result.push("<button class='icon-button btn-tab-navigation'>1</button>");
-    nagivation_result.push("<button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>");
-    nagivation_result.push("<button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>");
-    nagivation_result.push("</div>");
-    nagivation_result.push("</div>");
-    nagivation_result.push("</div>");
-	nagivation_result.push("<button class='btn primary-button ml-1' aria-label='Add New User' value='View Audit Log' onclick='add_new_user()'>");
-    nagivation_result.push("<span class='x20 cdc-icon-plus'><span class='ml-1'>Add New User</span></span>");
-    nagivation_result.push("</button>");
-    nagivation_result.push("<button class='btn primary-button ml-1' aria-label='Export User list' value='Export User List' onclick='export_user_list()'>");
-    nagivation_result.push("<span class='x18 cdc-icon-share'><span class='ml-1'>Export User List</span></span>");
-    nagivation_result.push("</button>");
-    nagivation_result.push("</div>");
-    return nagivation_result.join("");
+    const result = [`
+        <div class='d-flex mb-3 mt-2'>
+	    <button class='btn secondary-button' aria-label='View Audit Log' value='View Audit Log' onclick='view_audit_log()'>
+        <span class='x20 fill-p cdc-icon-clipboard-list-check-solid'><span class='ml-1'>View Audit Log</span></span>
+        </button>
+        <div class='ml-auto mr-3 d-flex'>
+        <div class='d-flex align-items-center'>
+        <div>Showing 1-10 of 30 cases</div>
+        <div class='row ml-2'>
+        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
+        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
+        <button class='icon-button btn-tab-navigation'>1</button>
+        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
+        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
+        </div>
+        </div>
+        </div>
+	    <button class='btn primary-button ml-1' aria-label='Add New User' value='View Audit Log' onclick='add_new_user()'>
+        <span class='x20 cdc-icon-plus'><span class='ml-1'>Add New User</span></span>
+        </button>
+        <button class='btn primary-button ml-1' aria-label='Export User list' value='Export User List' onclick='export_user_list()'>
+        <span class='x18 cdc-icon-share'><span class='ml-1'>Export User List</span></span>
+        </button>
+        </div>
+    `];
+
+    return result.join("");
 }
 
 function user_entry_render(p_user, p_i, p_created_by, role_set)
@@ -105,45 +102,10 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
 	result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' valign=top><td>");
 	result.push('<div>' + p_user.name + '</div>');
     result.push('</td>');
-	// if(p_user._rev)
-	// {
-	// 	result.push("<br/><input type='button' value='remove user' onclick='init_small_loader(function(){ remove_user_click(\"" + p_user._id + "\", \"" + p_user._rev + "\") })'/>");
-	// 	result.push(`<span class="spinner-container spinner-small mt-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
-	// 	result.push("<br/><span id='");
-	// 	result.push(convert_to_jquery_id(p_user._id));
-	// 	result.push("_status_area'></span>");
-	// }
-	
-	// result.push("</td>");
 
-	// result.push("<td>");
-
-	// // if(g_policy_values.sams_is_enabled.toLowerCase() != "true")
-	// // {
-	// // 	result.push("<strong>");
-	// // 	result.push(p_user.name);
-	// // 	result.push("</strong><br/>");
-	// // 	result.push("<label>New Password <input type='password' value='' path='" + p_user._id + "' /></label>");
-	// // 	result.push("<br/><label>Verify Password<input type='password' value='' path='" + p_user._id + "' /></label>");
-	// // 	result.push("<br/><input type='button' value='Update password' onclick='init_small_loader(function(){ change_password_user_click(\"" + p_user._id + "\") })'/>");
-	// // 	result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
-	// // }
-	// // else
-	// // {
-	// // 	result.push("&nbsp;")
-	// // }
-
-	// result.push("</td>");
 
 	result.push("<td>");
-	// result.push("<label>Current Role List:<br/><select size='7' id='role_list_for_");
-	// result.push(p_user.name);
-	// result.push("' onchange='user_role_list_change(this, \"");
-	// result.push(p_user._id);
-	// result.push("\", \"");
-	// result.push(p_created_by);
-	// result.push("\")'");
-	// result.push("'>");
+
     result.push('<div style="overflow-x: hidden; overflow-y: auto; height: 100px;">')
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
@@ -184,57 +146,21 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
 		}
 	}
     result.push('</div>');
-	// result.push("</select></label>");
-	// result.push("<br/><input type='button' value='Add New Role' onclick='init_small_loader(function(){ add_role(\"" + p_user._id + "\", \"" + p_created_by + "\") })' />");
-	// result.push(`<span class="spinner-container spinner-small"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+
 	result.push("</td>");	
 
 
 	// Role edit -start 
 	var temp_user_role = user_role_jurisdiction_add
-(
-	"",
-	p_user.name,
-	"",
-	new Date(),
-	new Date(new Date().getTime() + 90*24*60*60*1000),
-	true,
-	p_created_by
-);
-
-
-	//g_user_role_jurisdiction.push(temp_user_role);
-
-	//Array.prototype.push.apply(result, user_role_edit_render(null, temp_user_role, p_created_by));
-
-
-
-
-
-	/*
-
-user_role_jurisdiction
-{
-	_id { get; set; }
-	_rev { get; set; }
-	parent_id { get; set; }
-	role_name { get; set; }
-	user_id { get; set; }
-	jurisdiction_id { get; set; }
-
-	effective_start_date { get; set; } 
-	effective_end_date { get; set; } 
-
-	is_active { get; set; } 
-	date_created { get; set; } 
-	created_by { get; set; } 
-	date_last_updated { get; set; } 
-	last_updated_by { get; set; } 
-
-	data_type : "user_role_jursidiction";
-	
-}
-	*/	
+    (
+        "",
+        p_user.name,
+        "",
+        new Date(),
+        new Date(new Date().getTime() + 90*24*60*60*1000),
+        true,
+        p_created_by
+    );
 
 
 	result.push("<td>")

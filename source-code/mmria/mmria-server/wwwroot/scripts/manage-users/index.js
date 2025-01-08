@@ -85,7 +85,7 @@ async function load_values()
         url: location.protocol + '//' + location.host + '/manage-users/GetInitialData',
     });
 
-    console.log(get_initial_data_response);
+    //onsole.log(get_initial_data_response);
 
 
     g_policy_values = get_initial_data_response.policy_values;
