@@ -21,14 +21,18 @@ public sealed class user_role_jurisdiction_viewController: ControllerBase
 
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
+
+
+    IHttpContextAccessor httpContextAccessor;
     string host_prefix = null;
 
     public user_role_jurisdiction_viewController
 	(
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor p_httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
+        httpContextAccessor = p_httpContextAccessor;
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
@@ -69,6 +73,7 @@ effective_start_date
 effective_end_date
 
 */
+        var User = httpContextAccessor.HttpContext.User;
 
         int skip = 0;
         int take = 25;
@@ -287,6 +292,8 @@ effective_start_date
 effective_end_date
 
 */
+
+    var User = httpContextAccessor.HttpContext.User;
 
         search_key = "";
         if (User.Identities.Any(u => u.IsAuthenticated))

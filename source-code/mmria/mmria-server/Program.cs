@@ -69,7 +69,10 @@ public sealed partial class Program
         builder.Services.AddSingleton<Controllers.data_dictionaryController>();
         builder.Services.AddSingleton<mmria.server.versionController>();
         builder.Services.AddSingleton<mmria.server.jurisdiction_treeController>();
+        builder.Services.AddSingleton<user_role_jurisdiction_viewController>();
 */
+
+        
         configuration = builder.Configuration;
 
         //string config_export_directory = "/workspace/export";

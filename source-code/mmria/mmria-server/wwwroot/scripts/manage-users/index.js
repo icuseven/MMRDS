@@ -73,47 +73,39 @@ async function on_hash_change(e)
         var new_url = e.newURL || window.location.href;
 
         g_ui.url_state = url_monitor.get_url_state(new_url);
+        
     }
 }
 
 
 async function load_values()
 {
-	const policy_response = await $.ajax({
-			url: location.protocol + '//' + location.host + '/api/policyvalues',
-	});
 
-    g_policy_values = policy_response;
+    const get_initial_data_response = await $.ajax({
+        url: location.protocol + '//' + location.host + '/manage-users/GetInitialData',
+    });
+
+    console.log(get_initial_data_response);
 
 
-    const my_roles_response = await $.ajax
-	(
-		{
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',
-			headers: {          
-				Accept: "text/plain; charset=utf-8",         
-				"Content-Type": "text/plain; charset=utf-8"   
-			} 
-		}
-	);
+    g_policy_values = get_initial_data_response.policy_values;
 
-    
-    for(let i = 0; i < my_roles_response.rows.length; i++)
+    for(let i = 0; i < get_initial_data_response.my_roles.rows.length; i++)
     {
         
-        let value = my_roles_response.rows[i].value;
+        let value = get_initial_data_response.my_roles.rows[i].value;
         g_current_u_id = value.user_id
         break;
     }
 
     g_jurisdiction_list = []
-    for(let i in my_roles_response.rows)
+    for(let i in get_initial_data_response.my_roles.rows)
     {
 
         var current_date = new Date();
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
 
-        var value = my_roles_response.rows[i].value;
+        var value = get_initial_data_response.my_roles.rows[i].value;
 
         var diffDays = 0;
         var effective_start_date = "";
@@ -164,38 +156,18 @@ async function load_values()
 
     }  
     
-    metadata_url = location.protocol + '//' + location.host + '/api/jurisdiction_tree';
 
-	const jurisdiction_tree_response = await $.ajax
-	({
-			url: metadata_url
-	});
-
-    g_jurisdiction_tree = jurisdiction_tree_response;
-
-	metadata_url = location.protocol + '//' + location.host + '/api/user_role_jurisdiction';
-
-	const user_role_jurisdiction_response = await $.ajax
-	({
-			url: metadata_url
-	});
+    g_jurisdiction_tree = get_initial_data_response.jurisdiction_tree;
 
     g_user_role_jurisdiction = [];
 
-    g_user_role_jurisdiction = user_role_jurisdiction_response;
+    g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
 
-    //init_content_loader(load_users);
-    
-    metadata_url = location.protocol + '//' + location.host + '/api/user';
-
-	const user_response = await $.ajax({
-			url: metadata_url
-	});
 
     var temp = [];
-    for(var i = 0; i < user_response.rows.length; i++)
+    for(var i = 0; i < get_initial_data_response.user_list.rows.length; i++)
     {
-        temp.push(user_response.rows[i].doc);
+        temp.push(get_initial_data_response.user_list.rows[i].doc);
     }
 
     g_ui.user_summary_list = temp;

@@ -22,14 +22,17 @@ public sealed class userController: ControllerBase
 
     mmria.common.couchdb.OverridableConfiguration configuration;
     mmria.common.couchdb.DBConfigurationDetail db_config;
+
+    IHttpContextAccessor httpContextAccessor;
     string host_prefix = null;
 
     public userController
 	(
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor p_httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
+        httpContextAccessor = p_httpContextAccessor; 
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
@@ -42,6 +45,8 @@ public sealed class userController: ControllerBase
     { 
         try
         {
+
+            var User = httpContextAccessor.HttpContext.User;
 
             var userName = "";
 
@@ -78,8 +83,11 @@ public sealed class userController: ControllerBase
     [HttpGet]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>> Get() 
     { 
+
         try
         {
+            var User = httpContextAccessor.HttpContext.User;
+
             #if !IS_PMSS_ENHANCED
             var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
 

@@ -9,32 +9,74 @@ using  mmria.server.extension;
 
 namespace mmria.server.Controllers;
     
-
+[Authorize(Roles = "installation_admin,jurisdiction_admin")]
+[Route("/manage-users/{action=Index}")]
 public sealed class manage_usersController : Controller
 {
  mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
 
+    IHttpContextAccessor httpContextAccessor;
+
+    user_role_jurisdiction_viewController user_role_jurisdiction_view;
+
     public manage_usersController
     ( 
-        IHttpContextAccessor httpContextAccessor,
+        IHttpContextAccessor p_httpContextAccessor,
         mmria.common.couchdb.OverridableConfiguration p_configuration
     )
     {
+
+        httpContextAccessor = p_httpContextAccessor;
+
          configuration = p_configuration;
 
-        host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
+        host_prefix = p_httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
         db_config = configuration.GetDBConfig(host_prefix);
     }
 
-    [Authorize(Roles = "installation_admin,jurisdiction_admin")]
-    [Route("/manage-users")]
+    
+    [HttpGet]
     public IActionResult Index()
     {
         return View();
     }
+
+
+    [HttpGet]
+
+    public async Task<JsonResult> GetInitialData()
+    {
+        var result = new Dictionary<string,object>();
+
+        var policyValues = new policyValuesController(httpContextAccessor, configuration);
+        var user_role_jurisdiction_view = new user_role_jurisdiction_viewController(httpContextAccessor, configuration);
+        var jurisdiction_treeController = new jurisdiction_treeController(httpContextAccessor, configuration);
+        var user_role_jurisdictionController = new user_role_jurisdictionController(httpContextAccessor, configuration);
+        var userController = new userController(httpContextAccessor, configuration);
+        /*
+            /api/policyvalues
+            /api/user_role_jurisdiction_view/my-roles
+            /api/jurisdiction_tree
+            /api/user_role_jurisdiction
+            /api/user       
+        */
+
+// policyvalues
+
+
+        result["policy_values"] = policyValues.Get();
+        result["my_roles"] = await user_role_jurisdiction_view.Get();
+        result["jurisdiction_tree"] = await jurisdiction_treeController.Get();
+        result["user_role_jurisdiction"] = await user_role_jurisdictionController.Get(null);
+        result["user_list"] = await userController.Get();
+
+        return Json(result);
+    }
+
+
 
 
     [Authorize(Roles = "installation_admin,jurisdiction_admin")]

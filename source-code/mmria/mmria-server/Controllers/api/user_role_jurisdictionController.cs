@@ -12,15 +12,17 @@ namespace mmria.server;
 [Route("api/[controller]")]
 public sealed class user_role_jurisdictionController: ControllerBase 
 { 
+     IHttpContextAccessor httpContextAccessor;
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
     string host_prefix = null;
     public user_role_jurisdictionController
     (
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor p_httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
+        httpContextAccessor = p_httpContextAccessor;
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
@@ -34,6 +36,8 @@ public sealed class user_role_jurisdictionController: ControllerBase
 
         try
         {
+            var User = httpContextAccessor.HttpContext.User;
+            
             string jurisdiction_url = db_config.url + $"/{db_config.prefix}jurisdiction/" + p_urj_id;
             if(string.IsNullOrWhiteSpace(p_urj_id))
             {
