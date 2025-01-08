@@ -87,98 +87,6 @@ async function main()
 }
 
 
-
-
-function load_curent_user_role_jurisdiction()
-{
-
-  /*            
-  int skip = 0,
-  int take = 25,
-  string sort = "by_date_created",
-  string search_key = null,
-  bool descending = false
-  */
-
-	$.ajax
-    ({
-    url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction_view/my-roles',//&search_key=' + g_uid,
-    headers: {          
-      Accept: "text/plain; charset=utf-8",         
-      "Content-Type": "text/plain; charset=utf-8"   
-    } 
-	})
-    .done(function(response) 
-    {
-        g_jurisdiction_list = []
-
-        if(response)
-        {
-          for(var i in response.rows)
-          {
-
-            var current_date = new Date();
-            var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
-            var value = response.rows[i].value;
-
-            var diffDays = 0;
-            var effective_start_date = "";
-            var effective_end_date = "never";
-
-            if(value.effective_start_date && value.effective_start_date != "")
-            {
-                effective_start_date = value.effective_start_date.split('T')[0];
-            }
-
-            if(value.effective_end_date && value.effective_end_date != "")
-            {
-                effective_end_date = value.effective_end_date.split('T')[0];
-                diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
-            }
-
-
-            if(diffDays < 0)
-            {
-                role_list_html.push("<td class='td'>false</td>");
-            }
-            else
-            {
-                g_jurisdiction_list.push(value);
-                if
-                (
-                    value.role_name == "jurisdiction_admin" 
-                )
-                {
-                    g_managed_jurisdiction_set[value.jurisdiction_id] = true;
-                }
-                else if
-                (
-                    value.role_name == "installation_admin"
-                )
-                {
-                    if(value.jurisdiction_id == null)
-                    {
-                        g_managed_jurisdiction_set["/"] = true;
-                    }
-                    else
-                    {
-                        g_managed_jurisdiction_set[value.jurisdiction_id] = true;
-                    }
-                }
-            }
-
-
-          }
-            
-        }
-      
-
-        load_jurisdictions()
-	});
-}
-
-
 async function load_values()
 {
 
@@ -226,7 +134,7 @@ async function load_values()
 
         if(diffDays < 0)
         {
-            role_list_html.push("<td class='td'>false</td>");
+            //role_list_html.push("<td class='td'>false</td>");
         }
         else
         {
@@ -298,62 +206,6 @@ function load_jurisdictions()
 
 	});
 }
-
-
-function load_user_jurisdictions()
-{
-	var metadata_url = location.protocol + '//' + location.host + '/api/user_role_jurisdiction';
-
-	$.ajax
-	({
-			url: metadata_url
-	}).done(function(response) 
-	{
-	
-		g_user_role_jurisdiction = [];
-		if(response)
-		{
-			g_user_role_jurisdiction = response;
-
-			init_content_loader(load_users);
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_jurisdiction_list, 0, g_uid).join("");
-		}
-
-	});
-}
-
-
-
-
-
-function load_users()
-{
-	var metadata_url = location.protocol + '//' + location.host + '/api/user';
-
-	$.ajax({
-			url: metadata_url
-	}).done(function(response) {
-			
-			var temp = [];
-			for(var i = 0; i < response.rows.length; i++)
-			{
-				temp.push(response.rows[i].doc);
-			}
-			//console.log(temp);
-			g_ui.user_summary_list = temp;
-			//console.log(g_ui.user_summary_list);
-			g_ui.url_state = url_monitor.get_url_state(window.location.href);
-
-			//document.getElementById('navigation_id').innerHTML = navigation_render(g_user_list, 0, g_uid).join("");
-
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("")
-			+ "" + jurisdiction_render(g_jurisdiction_tree).join("");
-			;
-
-	});
-}
-
-
 
 
 function load_user_name()
