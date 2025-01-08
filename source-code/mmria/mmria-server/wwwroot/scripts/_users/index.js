@@ -49,8 +49,10 @@ var $$ = {
 };
 
 
+window.onload = main;
 
-$(function ()
+
+async function main()
 {
     //http://www.w3schools.com/html/html_layout.asp
   'use strict';
@@ -59,7 +61,7 @@ $(function ()
     };*/
 	//profile.initialize_profile();
 
-	load_values();
+
 
 	$(document).keydown(function(evt){
 		if (evt.keyCode==83 && (evt.ctrlKey)){
@@ -79,21 +81,13 @@ $(function ()
 			g_ui.url_state = url_monitor.get_url_state(new_url);
 		}
 	};
-});
 
 
-
-function load_values()
-{
-	$.ajax({
-			url: location.protocol + '//' + location.host + '/api/policyvalues',
-	}).done(function(response) {
-			g_policy_values = response;
-			load_user_name();
-			
-	});
-
+    await load_values();
 }
+
+
+
 
 function load_curent_user_role_jurisdiction()
 {
@@ -184,6 +178,108 @@ function load_curent_user_role_jurisdiction()
 	});
 }
 
+
+async function load_values()
+{
+
+    const get_initial_data_response = await $.ajax({
+        url: location.protocol + '//' + location.host + '/_users/GetInitialData',
+    });
+
+    console.log(get_initial_data_response);
+
+
+    g_policy_values = get_initial_data_response.policy_values;
+
+    for(let i = 0; i < get_initial_data_response.my_roles.rows.length; i++)
+    {
+        
+        let value = get_initial_data_response.my_roles.rows[i].value;
+        g_current_u_id = value.user_id
+        break;
+    }
+
+    g_jurisdiction_list = []
+    for(let i in get_initial_data_response.my_roles.rows)
+    {
+
+        var current_date = new Date();
+        var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
+
+        var value = get_initial_data_response.my_roles.rows[i].value;
+
+        var diffDays = 0;
+        var effective_start_date = "";
+        var effective_end_date = "never";
+
+        if(value.effective_start_date && value.effective_start_date != "")
+        {
+            effective_start_date = value.effective_start_date.split('T')[0];
+        }
+
+        if(value.effective_end_date && value.effective_end_date != "")
+        {
+            effective_end_date = value.effective_end_date.split('T')[0];
+            diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
+        }
+
+
+        if(diffDays < 0)
+        {
+            role_list_html.push("<td class='td'>false</td>");
+        }
+        else
+        {
+            g_jurisdiction_list.push(value);
+            if
+            (
+                value.role_name == "jurisdiction_admin" 
+            )
+            {
+                g_managed_jurisdiction_set[value.jurisdiction_id] = true;
+            }
+            else if
+            (
+                value.role_name == "installation_admin"
+            )
+            {
+                if(value.jurisdiction_id == null)
+                {
+                    g_managed_jurisdiction_set["/"] = true;
+                }
+                else
+                {
+                    g_managed_jurisdiction_set[value.jurisdiction_id] = true;
+                }
+            }
+        }
+
+
+    }  
+    
+
+    g_jurisdiction_tree = get_initial_data_response.jurisdiction_tree;
+
+    g_user_role_jurisdiction = [];
+
+    g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
+
+
+    var temp = [];
+    for(var i = 0; i < get_initial_data_response.user_list.rows.length; i++)
+    {
+        temp.push(get_initial_data_response.user_list.rows[i].doc);
+    }
+
+    g_ui.user_summary_list = temp;
+
+    g_ui.url_state = url_monitor.get_url_state(window.location.href);
+
+
+    document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+
+
+}
 
 function load_jurisdictions()
 {
