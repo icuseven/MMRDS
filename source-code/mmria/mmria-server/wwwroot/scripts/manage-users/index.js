@@ -125,7 +125,7 @@ async function load_values()
 
         if(diffDays < 0)
         {
-            role_list_html.push("<td class='td'>false</td>");
+            //role_list_html.push("<td class='td'>false</td>");
         }
         else
         {
