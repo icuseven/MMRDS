@@ -516,7 +516,10 @@ function get_header_name(p_value)
 	return `${display_name} - ${g_data.tracking.admin_info.track_year} - ${g_data.tracking.death_certificate_number}`;
 }
 
-let g_file_stat_list = []
+const g_file_stat_list = []
+const g_file_content_list = []
+let g_is_setup_started = false;
+
 var attachment_openFile = function (event) 
 {
 
@@ -532,11 +535,11 @@ var attachment_openFile = function (event)
     reader.readAsText(input.files[0]);
 };
 
-function readmultifiles(event, files) 
+function attachment_readmultifiles(event, files) 
 {
     const self = $(event.target);
     let ul_list = [];
-    g_file_stat_list = [];
+    g_file_stat_list.length = 0;
 
     self.next('.spinner-inline').fadeIn();
 
@@ -556,7 +559,7 @@ function readmultifiles(event, files)
         var reader = new FileReader();
         reader.onload = function (e) {
             // get file content  
-            g_content_list[index] = e.target.result;
+            g_file_content_list[index] = e.target.result;
             // do sth with bin
             readFile(index + 1)
         }
@@ -833,15 +836,23 @@ async function Attachment_GetFileList(p_id)
     g_file_info_list = response;
 
 
-    //document.getElementById("Attachment-List").innerHTML = render_file_info_list();
+
 
 }
 
 function render_file_info_list()
 {
-    const result = [];
-    
-    for( const i in g_file_info_list)
+    const result = [`<ul style="list-style-type: none;">`];
+
+
+    if(g_file_info_list.length == 0)
+    {
+        result.push
+        (`
+            <li> No attacthments found.  Use controls below to upload new attachments.</li>    
+        `);
+    }
+    else for( const i in g_file_info_list)
     {
         result.push
         (`
@@ -851,12 +862,13 @@ function render_file_info_list()
 
     result.push
     (`
-        <li>
+        <li style="text-align:center;">
             <label for="files" class="sr-only">Upload files</label>
-            <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="readmultifiles(event, this.files)" multiple />
+            <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="attachment_readmultifiles(event, this.files)" multiple />
 
             <input type="button" value="upload" />
         </li>
+        </ul>
     `);
 
     return result.join("");

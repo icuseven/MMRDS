@@ -1,5 +1,3 @@
-//http://stackoverflow.com/questions/5558873/changing-user-name-and-password-in-couchdb-user-database
-
 function user_render(p_ui, p_created_by)
 {
 	var result = [];
@@ -34,19 +32,22 @@ function user_render(p_ui, p_created_by)
             <select class='form-control col-3'>
                 ${temp_result.join("")}
             </select>
-        <div class='vertical-control col-md-3'><div class='input-group'>
-        <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
-        <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg'></button></div>
-        </div></div>
+            <div class='vertical-control col-md-3'><div class='input-group'>
+                <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
+                <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg'></button></div>
+                </div>
+            </div>
         </div>
         ${render_user_table_navigation()}
         <div style='clear:both;'>
-        <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User management table</caption>
-        <thead><tr class='header-level-2'>
-        <th width='250' scope='colgroup'>Username (Email Address)</th>
-        <th scope='colgroup;'>Role(s)</th>
-        <th width='250' scope='colgroup;'>Actions</th>
-        </tr></thead><tbody>
+            <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User management table</caption>
+                <thead>
+                    <tr class='header-level-2'>
+                        <th width='250' scope='colgroup'>Username (Email Address)</th>
+                        <th scope='colgroup;'>Role(s)</th>
+                        <th width='250' scope='colgroup;'>Actions</th>
+                    </tr>
+                </thead><tbody>
 	`);
 
 	for(var i = 0; i < p_ui.user_summary_list.length; i++)
