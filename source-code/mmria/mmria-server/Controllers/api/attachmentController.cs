@@ -21,6 +21,8 @@ namespace mmria.server.Controllers;
 
 public sealed class attachmentController : Controller
 {
+
+
     private readonly ILogger<attachmentController> _logger;
 
     mmria.common.couchdb.OverridableConfiguration configuration;
@@ -77,17 +79,69 @@ public sealed class attachmentController : Controller
         }
     }
 
+
+    public class PostFileRequest
+    {
+        public string case_id { set;get; }
+        public string[] file_name_list { set;get; }
+        public string[] file_data_list { set; get; }
+    }
+
+    public class PostFileResponse
+    {
+        public bool ok { set;get; }
+        public string error_message  { set; get; }
+    }
+
+    public class DirectoryListResponseItem
+    {
+
+        public string case_id { set;get; }
+        public string name { set;get; }
+        public string path  { set; get; }
+    }
+
     public IActionResult Index()
     {
         var model = new FileUploadModel();
         return View(model);
-    }
+    } 
 
-    [HttpGet]
-    public IActionResult FileUpload()
+    [HttpPost]
+    public async Task<JsonResult> FileUpload([FromBody] PostFileRequest model)
     {
-        var model = new FileUploadModel();
-        return View(model);
+        var result = new PostFileResponse();
+
+        try
+        {
+            for(var i = 0; i < model.file_name_list.Length; i++)
+            {
+                var file_name = model.file_name_list[i];
+                var file_data = model.file_data_list[i];
+                if (file_data != null)
+                {
+                    var directory_path = Path.Combine("/document-set", model.case_id);
+                    System.IO.Directory.CreateDirectory(directory_path);
+                
+                    var filePath = Path.Combine(directory_path, file_name);
+                    if(System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    await System.IO.File.WriteAllBytesAsync(filePath, Convert.FromBase64String(file_data.Substring(28))); 
+
+                    
+                } 
+            } 
+            result.ok = true;           
+        }
+        catch(Exception ex)
+        {
+            result.error_message = ex.ToString();
+        }
+
+        
+        return Json(result);
     }
 
     
@@ -95,7 +149,7 @@ public sealed class attachmentController : Controller
     [HttpGet]
     public async Task<JsonResult> GetDocumentList(string id)
     {
-        List<FileInfo> result = new ();
+        List<DirectoryListResponseItem> result = new ();
 
         try
         {
@@ -103,7 +157,19 @@ public sealed class attachmentController : Controller
             if(System.IO.Directory.Exists(path))
             {
                 var di = new DirectoryInfo(path);
-                result.AddRange(di.GetFiles());
+                foreach(var fileInfo in di.GetFiles())
+                {
+                    
+                    var item = new DirectoryListResponseItem()
+                    {
+                        case_id = id,
+                        name = fileInfo.Name,
+                        path = fileInfo.FullName
+                    };
+
+                    result.Add(item);
+                }
+                
             }
         }
         catch(Exception ex) 

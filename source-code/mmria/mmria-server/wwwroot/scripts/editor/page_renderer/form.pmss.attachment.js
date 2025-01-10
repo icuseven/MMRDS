@@ -559,7 +559,7 @@ async function attachment_readmultifiles(event, files)
             // do sth with bin
             readFile(index + 1)
         }
-        reader.readAsText(file);
+        reader.readAsDataURL(file);
     }
 
     for (let i = 0; i < files.length; i++) 
@@ -714,7 +714,7 @@ function render_file_info_list()
         
         result.push
         (`
-            <li>${item.Name} <input type="button" value="download" /> | <input type="button" value="delete"></li>    
+            <li>${item.name} <input type="button" value="download" /> | <input type="button" value="delete"></li>    
         `);
     }
 
@@ -730,7 +730,7 @@ function render_file_info_list()
             </ul>
         </li>
         <li style="text-align:center;">
-            <input type="button" value="upload" id="attachment_upload_button" disabled /> | 
+            <input type="button" value="upload" id="attachment_upload_button" disabled onclick="send_pdf_set()" /> | 
             <input type="button" value="reset" id="attachment_reset_button" onclick="attachment_reset_button_click()" disabled="true" />
         </li>
 
@@ -738,4 +738,52 @@ function render_file_info_list()
     `);
 
     return result.join("");
+}
+
+async function send_pdf_set() 
+{
+
+    const post_file_resquest = {
+        
+        "case_id": g_data._id,
+        "file_name_list": [],
+        "file_data_list": []
+    };
+
+    for(let i = 0; i < g_file_stat_list.length; i++)
+    {
+        post_file_resquest.file_name_list.push(g_file_stat_list[i].name);
+        post_file_resquest.file_data_list.push(g_file_content_list[i]);
+    }
+
+    const response = await $.ajax({
+        url: `${location.protocol}//${location.host}/attachment/FileUpload`,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        data: JSON.stringify(post_file_resquest),
+        type: "POST"
+    });
+
+    console.log(response);
+    /*
+
+    const buttonNext = document.getElementById('process_next');
+    let out = document.getElementById('output');
+
+    if (response.ok) 
+    {
+        out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
+
+        let button = document.getElementById('process_next');
+        buttonNext.style.display = 'inline-block';
+    }
+    else 
+    {
+        out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
+        buttonNext.style.display = 'none';
+    }
+
+    let button = document.getElementById('process');
+    button.disabled = true;
+    */
 }
