@@ -714,7 +714,7 @@ function render_file_info_list()
         
         result.push
         (`
-            <li>${item.name} <input type="button" value="download" /> | <input type="button" value="delete"></li>    
+            <li>${item.name} <a target="attachement" href="${location.protocol}//${location.host}/attachment/GetFileResult?f=${item.path}">download</a>  | <a target="attachement" href="${location.protocol}//${location.host}/attachment/DeleteFile?f=${item.path}">delete</a></li>    
         `);
     }
 

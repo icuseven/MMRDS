@@ -13,6 +13,7 @@ using  mmria.server.extension;
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.FileProviders;
+using mmria.common.functional;
 
 
 namespace mmria.server.Controllers;
@@ -144,6 +145,59 @@ public sealed class attachmentController : Controller
         return Json(result);
     }
 
+    [HttpGet]
+    public  async Task<FileResult> GetFileResult(string f)
+    {
+        //var queue_Result = new mmria.common.steve.QueueResult();
+        //var path = System.IO.Path.Combine ("/document-set", i, f);
+
+        if (!f.StartsWith("/document-set/")) return null;
+
+        byte[] fileBytes = GetFile(f);
+        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, f);
+
+    }
+
+    [HttpGet]
+    public async Task<JsonResult> DeleteFile(string f)
+    {
+        
+
+        var result = new PostFileResponse();
+
+        if (!f.StartsWith("/document-set/"))
+        {
+            result.error_message = $"file path invalid: {f}";
+        }
+        else try
+        {
+
+            //var file_name = f;
+
+
+            //var directory_path = Path.Combine("/document-set", model.case_id);
+            //System.IO.Directory.CreateDirectory(directory_path);
+        
+            //var filePath = Path.Combine(directory_path, file_name);
+            if(System.IO.File.Exists(f))
+            {
+                System.IO.File.Delete(f);
+            }
+           
+
+                
+            
+            
+            result.ok = true;           
+        }
+        catch(Exception ex)
+        {
+            result.error_message = ex.ToString();
+        }
+
+        
+        return Json(result);
+    }
     
 
     [HttpGet]
@@ -214,16 +268,7 @@ public sealed class attachmentController : Controller
         return Json(result);
     }
 
-        [HttpGet]
-    public  async Task<FileResult> GetFileResult(string FileName)
-    {
-        var queue_Result = new mmria.common.steve.QueueResult();
-        var path = System.IO.Path.Combine (download_directory, FileName);
 
-        byte[] fileBytes = GetFile(path);
-        return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, FileName);
-
-    }
 /*
     [HttpGet]
     public  async Task<JsonResult> DeleteFileResult(string FileName)
