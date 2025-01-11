@@ -764,10 +764,14 @@ async function send_pdf_set()
         type: "POST"
     });
 
-    console.log(response);
+    //console.log(response);
+    if(response.ok)
+    {
+        await Attachment_GetFileList(g_data._id);
 
-    const el = document.getElementById("attachment_file_info_list")
-    el.innerHTML = render_file_info_list();
+        const el = document.getElementById("attachment_file_info_list")
+        el.innerHTML = render_file_info_list();
+    }
 }
 
 async function on_delete_button_clicked(p_path)
@@ -784,6 +788,8 @@ async function on_delete_button_clicked(p_path)
 
    if(response.ok)
    {
+        await Attachment_GetFileList(g_data._id);
+
         const el = document.getElementById("attachment_file_info_list")
         el.innerHTML = render_file_info_list();
    }
