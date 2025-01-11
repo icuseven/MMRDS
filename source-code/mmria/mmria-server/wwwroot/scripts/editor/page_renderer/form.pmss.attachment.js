@@ -767,6 +767,8 @@ async function send_pdf_set()
     //console.log(response);
     if(response.ok)
     {
+        await attachment_reset_button_click();
+
         await Attachment_GetFileList(g_data._id);
 
         const el = document.getElementById("attachment_file_info_list")
