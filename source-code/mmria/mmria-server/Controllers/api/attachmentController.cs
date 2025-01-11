@@ -45,7 +45,8 @@ public sealed class attachmentController : Controller
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
     }
-
+    
+/*
     string userName
     {
         get
@@ -79,7 +80,7 @@ public sealed class attachmentController : Controller
             return _download_directory;
         }
     }
-
+*/
 
     public class PostFileRequest
     {
@@ -112,6 +113,17 @@ public sealed class attachmentController : Controller
     public async Task<JsonResult> FileUpload([FromBody] PostFileRequest model)
     {
         var result = new PostFileResponse();
+
+        for(var i = 0; i < model.file_name_list.Length; i++)
+        {
+                var file_name = model.file_name_list[i];
+
+                if(!file_name.EndsWith(".pdf"))
+                {
+                    result.error_message = $"Invalid File name: {file_name}";
+                    return Json(result);
+                }
+        }
 
         try
         {
@@ -148,10 +160,7 @@ public sealed class attachmentController : Controller
     [HttpGet]
     public  async Task<FileResult> GetFileResult(string f)
     {
-        //var queue_Result = new mmria.common.steve.QueueResult();
-        //var path = System.IO.Path.Combine ("/document-set", i, f);
-
-        if (!f.StartsWith("/document-set/")) return null;
+        if (!f.StartsWith("/document-set/") && !f.EndsWith(".pdf")) return null;
 
         byte[] fileBytes = GetFile(f);
         return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, f);
@@ -161,33 +170,20 @@ public sealed class attachmentController : Controller
     [HttpGet]
     public async Task<JsonResult> DeleteFile(string f)
     {
-        
-
         var result = new PostFileResponse();
 
-        if (!f.StartsWith("/document-set/"))
+        if (!f.StartsWith("/document-set/") && !f.EndsWith(".pdf"))
         {
             result.error_message = $"file path invalid: {f}";
         }
         else try
         {
 
-            //var file_name = f;
-
-
-            //var directory_path = Path.Combine("/document-set", model.case_id);
-            //System.IO.Directory.CreateDirectory(directory_path);
-        
-            //var filePath = Path.Combine(directory_path, file_name);
             if(System.IO.File.Exists(f))
             {
                 System.IO.File.Delete(f);
             }
            
-
-                
-            
-            
             result.ok = true;           
         }
         catch(Exception ex)
@@ -235,55 +231,6 @@ public sealed class attachmentController : Controller
         return Json(result);
     }
 
-    [HttpGet]
-    public async Task<JsonResult> GetJurisdictionTree(string j)
-    {
-
-        mmria.common.model.couchdb.jurisdiction_tree result = null;
-
-        try
-        {
-            var detail = configuration.GetDBConfig(j);
-            string jurisdiction_tree_url = $"{detail.url}/jurisdiction/jurisdiction_tree";
-            if(!string.IsNullOrWhiteSpace(detail.prefix))
-            {
-                jurisdiction_tree_url = $"{detail.url}/{detail.prefix}jurisdiction/jurisdiction_tree";
-            }
-
-            var jurisdiction_curl = new mmria.server.cURL("GET", null, jurisdiction_tree_url, null, detail.user_name, detail.user_value);
-            string response_from_server = await jurisdiction_curl.executeAsync ();
-
-            result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.jurisdiction_tree>(response_from_server);
-
-        }
-        catch(Exception ex) 
-        {
-            var message = $"{ex}";
-             
-             
-            System.Console.WriteLine($"{ex}");
-        }
-
-
-        return Json(result);
-    }
-
-
-/*
-    [HttpGet]
-    public  async Task<JsonResult> DeleteFileResult(string FileName)
-    {
-        var path = System.IO.Path.Combine (download_directory, FileName);
-
-        if(System.IO.File.Exists(path))
-        {
-            System.IO.File.Delete(path);
-        }
-
-        return await GetQueueResult();
-    }
-*/
-
     byte[] GetFile(string s)
     {
         byte[] data;
@@ -300,22 +247,6 @@ public sealed class attachmentController : Controller
             throw new System.IO.IOException(s);
         return data;
     }
-
-    string GetFileName(string p_file_name)
-    {
-        DateTime value = DateTime.Now;
-
-        var year = value.Year.ToString();
-        var month = value.Month.ToString().PadLeft(2,'0');
-        var day = value.Day.ToString().PadLeft(2,'0');
-        var hour = value.Hour.ToString().PadLeft(2,'0');
-        var minute = value.Minute.ToString().PadLeft(2,'0');
-        var second = value.Second.ToString().PadLeft(2,'0');
-        var milli_second = value.Millisecond.ToString().PadLeft(4,'0');
-
-        return $"steveMMRIA-{p_file_name}-{year}-{month}-{day}T{hour}-{minute}-{second}-{milli_second}";
-    }
-
 
 }
 

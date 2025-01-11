@@ -783,8 +783,6 @@ async function on_delete_button_clicked(p_path)
     const response = await $.ajax({
         url: p_path,
         contentType: 'application/json; charset=utf-8',
-        //dataType: 'json',
-        //data: JSON.stringify(post_file_resquest),
         type: "GET"
     });
 
