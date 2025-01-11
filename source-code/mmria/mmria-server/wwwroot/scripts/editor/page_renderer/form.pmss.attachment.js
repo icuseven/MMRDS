@@ -243,7 +243,7 @@ function attachment_render(
             
         
         <h3>Attachment Area:</h3>
-        <ul style="list-style-type: none;">
+        <ul id="attachment_file_info_list" style="list-style-type: none;">
         ${render_file_info_list()}
         </ul>
 
@@ -403,8 +403,8 @@ function quick_edit_header_render(
 
 function render_print_form_control(p_result, p_ui, p_metadata, p_data) {
 	if (parseInt(p_ui.url_state.path_array[0]) >= 0) {
-		p_result.push('<label for="print_case_id" class="sr-only">Print version</label>');
-		p_result.push('<select id="print_case_id" onchange="enable_print_button(event)" class="form-control" style="width:280px">');
+		p_result.push('<label for="print_attachment_case_id" class="sr-only">Print version</label>');
+		p_result.push('<select id="print_attachment_case_id" onchange="enable_print_button(event)" class="form-control" style="width:280px">');
 		p_result.push('<option value="">Select a form to print</option>');
 		p_result.push('<optgroup label="Current form">');
 
@@ -714,7 +714,7 @@ function render_file_info_list()
         
         result.push
         (`
-            <li>${item.name} <a target="attachement" href="${location.protocol}//${location.host}/attachment/GetFileResult?f=${item.path}">download</a>  | <a target="attachement" href="${location.protocol}//${location.host}/attachment/DeleteFile?f=${item.path}">delete</a></li>    
+            <li>${item.name} <a target="attachement" href="${location.protocol}//${location.host}/attachment/GetFileResult?f=${item.path}">download</a>  | <a href="javascript:on_delete_button_clicked('${location.protocol}//${location.host}/attachment/DeleteFile?f=${item.path}')">delete</a></li>    
         `);
     }
 
@@ -765,25 +765,27 @@ async function send_pdf_set()
     });
 
     console.log(response);
-    /*
 
-    const buttonNext = document.getElementById('process_next');
-    let out = document.getElementById('output');
+    const el = document.getElementById("attachment_file_info_list")
+    el.innerHTML = render_file_info_list();
+}
 
-    if (response.ok) 
-    {
-        out.value = `IJE File Set for host state ${g_host_state} successfully sent.\n\nBatch Id = ${response.batch_id}\n\nCheck the Vitals Notification Report in a few minutes to get the results of the process.`;
+async function on_delete_button_clicked(p_path)
+{
+    //console.log(p_path)
 
-        let button = document.getElementById('process_next');
-        buttonNext.style.display = 'inline-block';
-    }
-    else 
-    {
-        out.value = `IJE File error while sending for host state ${g_host_state}\nError Detail\n = ${response.detail}`;
-        buttonNext.style.display = 'none';
-    }
+    const response = await $.ajax({
+        url: p_path,
+        contentType: 'application/json; charset=utf-8',
+        //dataType: 'json',
+        //data: JSON.stringify(post_file_resquest),
+        type: "GET"
+    });
 
-    let button = document.getElementById('process');
-    button.disabled = true;
-    */
+   if(response.ok)
+   {
+        const el = document.getElementById("attachment_file_info_list")
+        el.innerHTML = render_file_info_list();
+   }
+
 }
