@@ -1,4 +1,7 @@
-
+const g_file_stat_list = []
+const g_file_content_list = []
+const g_is_file_valid_list = []
+let g_is_setup_started = false;
 
 
 window.onload = main;
@@ -13,9 +16,7 @@ async function main()
     
 }
 
-const g_file_stat_list = []
-const g_file_content_list = []
-let g_is_setup_started = false;
+
 
 var attachment_openFile = function (event) 
 {
@@ -100,22 +101,32 @@ async function attachment_setup_file_list()
     result = true;
 
     const file_html = [];
+    const valid_file_format = /\d\d\d\d\d\d\d\d.pdf/;
     for (let i = 0; i < g_file_stat_list.length; i++) 
     {
         const item = g_file_stat_list[i];
         if (typeof item !== "undefined") 
         {
-            file_html.push(`<li>${item.name}</li>`)
-            if (item.name.toLowerCase().endsWith(".pdf")) 
+            let is_valid = "Valid File Name: "
+            if (valid_file_format.test(item.name.toLowerCase())) 
             {
                 //g_cdc_identifier_set = {};
                 
                 result = result && true;
 
-
+                g_is_file_valid_list.push(true)
 
             }
-            else result = false;
+            else 
+            {
+                g_is_file_valid_list.push(false)
+                is_valid = "X invalid File Name: "
+                result = false;
+            }
+
+
+
+            file_html.push(`<li>${is_valid}${item.name}</li>`)
         }
     }
 /*
@@ -214,7 +225,7 @@ function render_file_info_list()
 
     result.push
     (`
-        <li> Select pdf you want to upload.  PDF should have PMSNO as name.</li> 
+        <li> Select pdf you want to upload.  PDF should have PMSSNO as name (JJYY####.pdf).</li> 
         <li style="text-align:center;">
             <label for="files" class="sr-only">Upload files</label>
             <input type="file" id="files" class="form-control p-1 h-auto" name="files[]" onchange="attachment_readmultifiles(event, this.files)" multiple />
@@ -238,7 +249,7 @@ async function send_pdf_set()
 {
 
     return ;
-    
+
     const post_file_resquest = {
         
         "case_id": g_data._id,
