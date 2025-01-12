@@ -143,13 +143,18 @@ async function attachment_setup_file_list()
     const el2 = document.getElementById("attachment_upload_button")
     const el3 = document.getElementById("attachment_upload_list")
 
+    const el4 = document.getElementById("override-existing-files")
+    
+
     if(result)
     {
         el2.disabled = false;
+        el4.disabled = false;
     }
     else
     {
         el2.disabled = true;
+        el4.disabled = true;
     }
 
 
@@ -183,7 +188,9 @@ async function attachment_reset_button_click()
 {
     const el = document.getElementById("attachment_upload_button")
     el.disabled = true;
-
+    
+    const el2 = document.getElementById("override-existing-files")
+    el2.disabled = true;
 
     const files_el = document.getElementById("files")
     files_el.disabled = false
@@ -235,7 +242,7 @@ function render_file_info_list()
             </ul>
         </li>
         <li style="text-align:center;">
-            <input type="button" value="upload" id="attachment_upload_button" disabled onclick="send_pdf_set()" /> | 
+            <label><input type="checkbox" id="override-existing-files" value="override_existing" disabled>Override Existing PDF(s)</label> <input type="button" value="upload" id="attachment_upload_button" disabled onclick="send_pdf_set()" /> | 
             <input type="button" value="reset" id="attachment_reset_button" onclick="attachment_reset_button_click()" disabled="true" />
         </li>
 
@@ -299,6 +306,8 @@ async function on_delete_button_clicked(p_path)
 
         const el = document.getElementById("attachment_file_info_list")
         el.innerHTML = render_file_info_list();
+
+
    }
 
 }
