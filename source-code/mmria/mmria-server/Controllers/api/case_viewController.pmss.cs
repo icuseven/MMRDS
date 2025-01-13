@@ -25,16 +25,18 @@ namespace mmria.pmss.server;
 public sealed class case_viewController: ControllerBase 
 {  
 
+    IHttpContextAccessor httpContextAccessor;
     mmria.common.couchdb.OverridableConfiguration configuration;
     common.couchdb.DBConfigurationDetail db_config;
 
     string host_prefix = null;
 
     public case_viewController  (
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor p_httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
+        httpContextAccessor = p_httpContextAccessor;
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
 
@@ -63,6 +65,7 @@ public sealed class case_viewController: ControllerBase
     ) 
     {
 
+        var User = httpContextAccessor.HttpContext.User;
         var is_identefied_case = true;
         var cvs = new mmria.pmss.server.utils.CaseViewSearch
         (

@@ -205,6 +205,9 @@ async function attachment_reset_button_click()
     const attachment_reset_button = document.getElementById("attachment_reset_button");
     attachment_reset_button.disabled = true;
 
+    const output_area = document.getElementById("output_area_id");
+    output_area.innerHTML = "";
+
 
 }
 
@@ -255,26 +258,29 @@ function render_file_info_list()
 async function send_pdf_set() 
 {
 
-    return ;
+    
 
-    const post_file_resquest = {
+    const override_control = document.getElementById("override-existing-files")
+    
+
+    const post_central_file_resquest = {
         
-        "case_id": g_data._id,
+        "override_existing": override_control.checked,
         "file_name_list": [],
         "file_data_list": []
     };
 
     for(let i = 0; i < g_file_stat_list.length; i++)
     {
-        post_file_resquest.file_name_list.push(g_file_stat_list[i].name);
-        post_file_resquest.file_data_list.push(g_file_content_list[i]);
+        post_central_file_resquest.file_name_list.push(g_file_stat_list[i].name);
+        post_central_file_resquest.file_data_list.push(g_file_content_list[i]);
     }
 
     const response = await $.ajax({
         url: `${location.protocol}//${location.host}/attachment/CentralFileUpload`,
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
-        data: JSON.stringify(post_file_resquest),
+        data: JSON.stringify(post_central_file_resquest),
         type: "POST"
     });
 
@@ -283,11 +289,12 @@ async function send_pdf_set()
     {
         await attachment_reset_button_click();
 
-        await Attachment_GetFileList(g_data._id);
 
-        const el = document.getElementById("attachment_file_info_list")
-        el.innerHTML = render_file_info_list();
     }
+
+    const output_area = document.getElementById("output_area_id");
+
+    output_area.innerHTML= `<textarea cols=80 rows=10>${JSON.stringify(response, null, 2)}</textarea>`
 }
 
 async function on_delete_button_clicked(p_path)

@@ -23,7 +23,7 @@ namespace mmria.server.Controllers;
 public sealed class attachmentController : Controller
 {
 
-
+    IHttpContextAccessor httpContextAccessor;
     private readonly ILogger<attachmentController> _logger;
 
     mmria.common.couchdb.OverridableConfiguration configuration;
@@ -36,16 +36,17 @@ public sealed class attachmentController : Controller
     public attachmentController
     (
         ILogger<attachmentController> logger,
-        IHttpContextAccessor httpContextAccessor, 
+        IHttpContextAccessor p_httpContextAccessor, 
         mmria.common.couchdb.OverridableConfiguration _configuration
     )
     {
         _logger = logger;
+        httpContextAccessor = p_httpContextAccessor;
         configuration = _configuration;
         host_prefix = httpContextAccessor.HttpContext.Request.Host.GetPrefix();
         db_config = configuration.GetDBConfig(host_prefix);
     }
-    
+
 /*
     string userName
     {
@@ -89,9 +90,27 @@ public sealed class attachmentController : Controller
         public string[] file_data_list { set; get; }
     }
 
+    public class PostCentralFileRequest
+    {
+        public bool override_existing { set;get; }
+        public string[] file_name_list { set;get; }
+        public string[] file_data_list { set; get; }
+    }
+
     public class PostFileResponse
     {
         public bool ok { set;get; }
+        public string error_message  { set; get; }
+    }
+
+    public class PostCentralFileResponse
+    {
+        public PostCentralFileResponse()
+        {
+            result_message = new();
+        }
+        public bool ok { set;get; }
+        public List<string> result_message  { set; get; }
         public string error_message  { set; get; }
     }
 
@@ -228,6 +247,118 @@ public sealed class attachmentController : Controller
         }
 
 
+        return Json(result);
+    }
+
+
+    [HttpPost]
+    public async Task<JsonResult> CentralFileUpload([FromBody] PostCentralFileRequest model)
+    {
+        var result = new PostCentralFileResponse();
+
+        Dictionary<string,string> PMSSNO_TO_ID = new(StringComparer.OrdinalIgnoreCase);
+        var  is_valid_list = new List<bool>();
+        
+        var case_viewController = new mmria.pmss.server.case_viewController(httpContextAccessor, configuration);
+
+        var valid_file_format = new System.Text.RegularExpressions.Regex("\\d\\d\\d\\d\\d\\d\\d\\d.pdf", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        var is_reject_batch = false;
+
+        for(var i = 0; i < model.file_name_list.Length; i++)
+        {
+                var file_name = model.file_name_list[i];
+
+                if(!valid_file_format.IsMatch(file_name))
+                {
+                    result.result_message.Add($"Invalid File name: {file_name}");
+                    is_reject_batch = true;
+                }
+                else
+                {
+                    var search_text = $"{file_name.Substring(0,2)}-{file_name.Substring(2,2)}-{file_name.Substring(4, 4)}";
+                    var search_result = await case_viewController. Get
+                    (
+                        System.Threading.CancellationToken.None,
+                        0,
+                        25,
+                        "by_date_created",
+                        search_text,
+                        "by_pmssno"
+                        //int skip = 0,
+                        //int take = 25,
+                        //string sort = "by_date_created",
+                        //string search_key = null,     
+                        //string field_selection = "all",
+                        //bool descending = false,
+                        //string jurisdiction = "all",
+                        //string year_of_death = "all",
+                        //string status = "all",
+                        //string classification = "all",
+                        //string date_of_death_range = "all",
+                        //string date_of_review_range = "all",
+                        //bool include_pinned_cases = false
+
+                    );
+
+                    if(search_result.rows.Count == 1)
+                    {
+                        PMSSNO_TO_ID.Add(file_name, search_result.rows[0].id);
+                        is_valid_list.Add(true);
+                    }
+                    else
+                    {
+                        result.result_message.Add($"row_count:{search_result.rows.Count} Invalid File name: {file_name}");
+                        is_valid_list.Add(false);
+                        is_reject_batch = true;
+                    }
+
+
+                }
+        }
+
+
+        if(is_reject_batch)
+        {
+            result.error_message = "Invalid Batch";
+            return Json(result);
+        }
+
+        try
+        {
+            for(var i = 0; i < model.file_name_list.Length; i++)
+            {
+                var file_name = model.file_name_list[i];
+                var file_data = model.file_data_list[i];
+                if (file_data != null)
+                {
+                    var directory_path = Path.Combine("/document-set", PMSSNO_TO_ID[file_name]);
+                    System.IO.Directory.CreateDirectory(directory_path);
+                
+                    var filePath = Path.Combine(directory_path, file_name);
+                    if(System.IO.File.Exists(filePath))
+                    {
+                        if(!model.override_existing)
+                        {
+                            result.result_message.Add($"File exists skipping: {file_name}");
+                            continue;
+                        }
+                        System.IO.File.Delete(filePath);
+                    }
+                    await System.IO.File.WriteAllBytesAsync(filePath, Convert.FromBase64String(file_data.Substring(28))); 
+                    result.result_message.Add($"Uploaded File: {file_name}");
+                    
+                } 
+            } 
+
+            result.ok = true;           
+        }
+        catch(Exception ex)
+        {
+            result.error_message = ex.ToString();
+        }
+
+        
         return Json(result);
     }
 
