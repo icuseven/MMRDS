@@ -242,7 +242,7 @@ function attachment_render(
        p_result.push(`
             
         
-        <h3>Attachment Area:</h3>
+        <h3>Attached Documents:</h3>
         <ul id="attachment_file_info_list" style="list-style-type: none;">
         ${render_file_info_list()}
         </ul>

@@ -28,7 +28,27 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
         }
         else
         {
-            parent_list_value = eval(parent_list_path);
+            //parent_list_value = eval(parent_list_path);
+            let temp_path_arrary = parent_list_path.trim().split(' ');
+            let temp_path = "";
+            if(temp_path_arrary.length == 1)
+            {
+                temp_path = temp_path_arrary[0];
+            }
+            else
+            {
+                temp_path = temp_path_arrary[1];
+            }
+
+            if(temp_path.startsWith("g_data"))
+            {
+                parent_list_value = eval(temp_path);
+            }
+            else
+            {
+                parent_list_value = eval("g_data." + temp_path.replace(/\//g, "."));
+            }
+            
         }
         
     }
