@@ -1,3 +1,4 @@
+#if IS_PMSS_ENHANCED
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -380,4 +381,4 @@ public sealed class attachmentController : Controller
     }
 
 }
-
+#endif
