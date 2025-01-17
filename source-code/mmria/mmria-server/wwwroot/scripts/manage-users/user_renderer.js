@@ -69,27 +69,27 @@ function render_user_table_navigation()
 {
     const result = [`
         <div class='d-flex mb-3 mt-2'>
-	    <button class='btn secondary-button' aria-label='View Audit Log' value='View Audit Log' onclick='view_audit_log()'>
-        <span class='x20 fill-p cdc-icon-clipboard-list-check-solid'><span class='ml-1'>View Audit Log</span></span>
-        </button>
-        <div class='ml-auto mr-3 d-flex'>
-        <div class='d-flex align-items-center'>
-        <div>Showing 1-10 of 30 cases</div>
-        <div class='row ml-2'>
-        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
-        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
-        <button class='icon-button btn-tab-navigation'>1</button>
-        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
-        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
-        </div>
-        </div>
-        </div>
-	    <button class='btn primary-button ml-1' aria-label='Add New User' value='View Audit Log' onclick='add_new_user()'>
-        <span class='x20 cdc-icon-plus'><span class='ml-1'>Add New User</span></span>
-        </button>
-        <button class='btn primary-button ml-1' aria-label='Export User list' value='Export User List' onclick='export_user_list()'>
-        <span class='x18 cdc-icon-share'><span class='ml-1'>Export User List</span></span>
-        </button>
+	        <button class='btn secondary-button' aria-label='View Audit Log' value='View Audit Log' onclick='view_audit_log_click()'>
+                <span class='x20 fill-p cdc-icon-clipboard-list-check-solid'><span class='ml-1'>View Audit Log</span></span>
+            </button>
+            <div class='ml-auto mr-3 d-flex'>
+                <div class='d-flex align-items-center'>
+                    <div>Showing 1-10 of 30 cases</div>
+                    <div class='row ml-2'>
+                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
+                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
+                        <button class='icon-button btn-tab-navigation'>1</button>
+                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
+                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
+                    </div>
+                </div>
+            </div>
+            <button class='btn primary-button ml-1' aria-label='Add New User' value='View Audit Log' onclick='add_new_user_click()'>
+                <span class='x20 cdc-icon-plus'><span class='ml-1'>Add New User</span></span>
+            </button>
+            <button class='btn primary-button ml-1' aria-label='Export User list' value='Export User List' onclick='export_user_list_click()'>
+                <span class='x18 cdc-icon-share'><span class='ml-1'>Export User List</span></span>
+            </button>
         </div>
     `];
 
@@ -98,16 +98,18 @@ function render_user_table_navigation()
 
 function user_entry_render(p_user, p_i, p_created_by, role_set)
 {
-	var result = [];
+	//var result = [];
     var role_count = 0;
-	result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' valign=top><td>");
-	result.push('<div>' + p_user.name + '</div>');
-    result.push('</td>');
+	// result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' valign=top><td>");
+	// result.push('<div>' + p_user.name + '</div>');
+    // result.push('</td>');
+    // result.push()
 
 
-	result.push("<td>");
+	// result.push("<td>");
 
-    result.push('<div style="overflow-x: hidden; overflow-y: auto; height: 100px;">')
+    // result.push('<div style="overflow-x: hidden; overflow-y: auto; height: 100px;">')
+    const role_result = [];
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
 		var user_role = g_user_role_jurisdiction[i];
@@ -127,7 +129,7 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
             user_role.user_id == p_user.name
         )
 		{
-            result.push('<div>');
+            role_result.push('<div>');
             var role_name = user_role.role_name.split('_');
             role_name = role_name.map(section => {
                 if (section === 'steve' || section === 'mmria' || section === 'prams')
@@ -135,22 +137,17 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
                 else
                     return section[0].toUpperCase() + section.slice(1)
             });
-			result.push(role_name.join(" "));
-			result.push(" / ");
-			result.push(user_role.jurisdiction_id  == "/"? "Top Folder": user_role.jurisdiction_id);
-			result.push(" / ");
+			role_result.push(role_name.join(" "));
+			role_result.push(" / ");
+			role_result.push(user_role.jurisdiction_id  == "/"? "Top Folder": user_role.jurisdiction_id);
+			role_result.push(" / ");
             if(user_role.is_active)
-			    result.push(" Active");
+			    role_result.push(" Active");
             else
-                result.push(" Inactive");
-            result.push('</div>');
+                role_result.push(" Inactive");
+            role_result.push('</div>');
 		}
 	}
-    result.push('</div>');
-
-	result.push("</td>");	
-
-
 	// Role edit -start 
 	var temp_user_role = user_role_jurisdiction_add
     (
@@ -164,15 +161,39 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
     );
 
 
-	result.push("<td>")
-    result.push("<div class='d-flex flex-column col-12'>");
-	result.push("<input class='btn secondary-button' aria-label='Set All Roles to Inactive for " + p_user.name + "' type='button' value='Set All Roles to Inactive' onclick='set_role_to_inactive_for_user(\"" + p_user._id + "\")'/>");
-    result.push("<input class='btn delete-button' type='button' aria-label='Delete User " + p_user.name + "' value='Delete' onclick='delete_user(\"" + p_user._id + "\")'/>");
-    result.push("</div>");
+	// result.push("<td>")
+    // result.push("<div class='d-flex flex-column col-12'>");
+	// result.push("<input class='btn secondary-button' aria-label='Set All Roles to Inactive for " + p_user.name + "' type='button' value='Set All Roles to Inactive' onclick='set_role_to_inactive_for_user(\"" + p_user._id + "\")'/>");
+    // result.push("<input class='btn delete-button' type='button' aria-label='Delete User " + p_user.name + "' value='Delete' onclick='delete_user(\"" + p_user._id + "\")'/>");
+    // result.push("</div>");
 
-	result.push("</td>")
-	result.push("</tr>");
+	// result.push("</td>")
+	// result.push("</tr>");
 
+    const result = [`
+        <tr id=" +  ${convert_to_jquery_id(p_user._id)} + " valign=top>
+            <td>
+                <div>
+                    <button onclick="edit_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
+                </div>
+            </td>
+            <td>
+                <div style="overflow-x: hidden; overflow-y: auto; height: 100px;">
+                    ${role_result.join("")}
+                </div>
+            </td>
+            <td>
+                <div class="d-flex flex-column col-12">
+                <button class="btn secondary-button" aria-label="Set all roles to inactive for ${p_user.name}" onclick="set_roles_inactive_for_user_click('${p_user._id}')">
+                    Set All Roles to Inactive
+                </button>
+                <button class="btn delete-button" aria-label="Delete user ${p_user.name}" onclick="delete_user_click('${p_user._id}')">
+                    Delete
+                </button>
+                </div>
+            </td>
+        </tr>
+    `];
 
 
 	return result;

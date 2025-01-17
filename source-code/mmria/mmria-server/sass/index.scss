@@ -1370,3 +1370,21 @@ tr.sticky {
 .is-invalid {
     outline: 2px solid $red-invalid;
 }
+
+.accessible-hide {
+    position: absolute;
+    left: -10000px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  
+.border-none {
+    border: none !important;
+}
+
+.footer-float-right {
+    float: right;
+}

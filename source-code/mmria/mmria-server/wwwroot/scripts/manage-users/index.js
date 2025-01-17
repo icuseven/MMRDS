@@ -73,14 +73,26 @@ async function on_hash_change(e)
         var new_url = e.newURL || window.location.href;
 
         g_ui.url_state = url_monitor.get_url_state(new_url);
-        
+        console.log(g_ui.url_state);
     }
 }
 
 
 async function load_values()
 {
-
+    $("#manage_user_label").html('Manage Users');
+    show_hide_user_management_back_button(false);
+    $('#form_content_id').html(
+        `
+        <span class="spinner-container spinner-content spinner-active">
+            <span class="spinner-body text-primary">
+                <span class="spinner"></span>
+                <span class="spinner-info">Loading...</span>
+            </span>
+        </span>
+  `
+    );
+    //window.location.href = set_url_hash(``);
     const get_initial_data_response = await $.ajax({
         url: location.protocol + '//' + location.host + '/manage-users/GetInitialData',
     });
@@ -214,6 +226,76 @@ function server_save(p_user)
 }
 
 function add_new_user_click()
+{
+    console.log("add new user clicked");
+    window.location.href = set_url_hash('add-new-user');
+    document.getElementById('form_content_id').innerHTML = add_new_user_render().join("");
+    show_hide_user_management_back_button(true);
+}
+
+function export_user_list_click()
+{
+    console.log("export user list clicked");
+    //window.location.href = set_url_hash('edit-user');
+}
+
+function view_audit_log_click()
+{
+    console.log("view audit log clicked");
+    //window.location.href = set_url_hash('add-new-user');
+}
+
+function edit_user_click(p_user_id)
+{
+    console.log(`edit ${p_user_id} clicked`);
+    window.location.href = set_url_hash(`edit-user?${p_user_id}`);
+    show_hide_user_management_back_button(true);
+}
+
+function delete_user_click(p_user_id)
+{
+    console.log(`delete user ${p_user_id} clicked`);
+    //window.location.href = set_url_hash('add-new-user');
+}
+
+function set_roles_inactive_for_user_click(p_user_id)
+{
+    console.log(`set roles inactive for ${p_user_id} clicked`);
+    //window.location.href = set_url_hash('add-new-user');
+}
+
+function back_to_landing_clicked()
+{
+    load_values();
+}
+
+function set_url_hash(new_hash)
+{
+    const current_url = new URL(window.location.href);
+    current_url.hash = new_hash;
+    return current_url;
+}
+
+function show_hide_user_management_back_button(shouldShow)
+{
+    if(shouldShow)
+    {
+        $("#navigate_back_to_landing").html(
+            `
+                <button class="btn btn-link" onclick="back_to_landing_clicked()">
+                    <span class="x32 fill-p cdc-icon-chevron-left"></span> Back to user Management
+                </button>
+            `
+        )
+    }
+    else
+    {
+        $("#navigate_back_to_landing").html("");
+    }
+}
+
+
+function add_new_user_save()
 {
 	var new_user_name = document.getElementById('new_user_name').value.trim();
 	var new_user_password = null;

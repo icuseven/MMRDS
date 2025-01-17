@@ -37816,4 +37816,21 @@ tr.sticky th, tr.sticky td {
   outline: 2px solid #dc3545;
 }
 
+.accessible-hide {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.border-none {
+  border: none !important;
+}
+
+.footer-float-right {
+  float: right;
+}
+
 /*# sourceMappingURL=index.css.map */
