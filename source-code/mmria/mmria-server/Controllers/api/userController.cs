@@ -81,7 +81,7 @@ public sealed class userController: ControllerBase
     //public IEnumerable<mmria.common.model.couchdb.user_alldocs_response> Get() 
     [Authorize(Roles  = "jurisdiction_admin,installation_admin")]
     [HttpGet]
-    public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>> Get() 
+    public async System.Threading.Tasks.Task<mmria.common.model.couchdb.get_response_header<mmria.common.model.couchdb.user>> Get(int skip = 1, int take = 9000) 
     { 
 
         try
@@ -99,7 +99,7 @@ public sealed class userController: ControllerBase
             var jurisdiction_username_hashset = mmria.pmss.server.utils.authorization_case.get_user_jurisdiction_set(db_config);
             #endif
 
-            string request_string = db_config.url + "/_users/_all_docs?include_docs=true&skip=1";
+            string request_string = $"{db_config.url}/_users/_all_docs?include_docs=true&skip={skip}&take={take}";
 
             var user_curl = new cURL("GET",null,request_string,null, db_config.user_name, db_config.user_value);
             string responseFromServer = await user_curl.executeAsync();
