@@ -7,6 +7,8 @@ var g_jurisdiction_list = [];
 
 let g_managed_jurisdiction_set = {}
 
+g_user_set = new Set();
+
 var g_ui = { 
 	user_summary_list:[],
 	user_list:[],
@@ -110,6 +112,7 @@ async function load_values()
         break;
     }
 
+    
     g_jurisdiction_list = []
     for(let i in get_initial_data_response.my_roles.rows)
     {
@@ -134,6 +137,7 @@ async function load_values()
             diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
         }
 
+        
 
         if(diffDays < 0)
         {
@@ -175,15 +179,32 @@ async function load_values()
 
     g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
 
+    
 
-    var temp = [];
-    for(var i = 0; i < get_initial_data_response.user_list.rows.length; i++)
+    let temp = [];
+    for(let i = 0; i < get_initial_data_response.user_list.rows.length; i++)
     {
         temp.push(get_initial_data_response.user_list.rows[i].doc);
     }
 
     g_ui.user_summary_list = temp;
+    
+    
+/*
+    let temp = [];
+    for(let i = 0; i < get_initial_data_response.user_role_jurisdiction.rows.length; i++)
+    {
+        const item = get_initial_data_response.user_role_jurisdiction.rows[i].value;
+        if(item.user_id != null)
+        {
+            temp.push(item);
+            g_user_set.add(item.user_id) 
+        }
+        
+    }
 
+    g_ui.user_summary_list = temp;
+*/
     g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
 
