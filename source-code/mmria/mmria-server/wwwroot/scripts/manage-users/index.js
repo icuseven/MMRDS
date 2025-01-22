@@ -177,7 +177,11 @@ async function load_values()
 
     g_user_role_jurisdiction = [];
 
-    g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
+    //g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
+    for(let i = 0; i < get_initial_data_response.user_role_jurisdiction.rows.length; i++)
+    {
+        g_user_role_jurisdiction.push(get_initial_data_response.user_role_jurisdiction.rows[i].value);
+    }
 
     
 
