@@ -99,7 +99,7 @@ public sealed class userController: ControllerBase
             var jurisdiction_username_hashset = mmria.pmss.server.utils.authorization_case.get_user_jurisdiction_set(db_config);
             #endif
 
-            string request_string = $"{db_config.url}/_users/_all_docs?include_docs=true&skip={skip}&take={take}";
+            string request_string = $"{db_config.url}/_users/_all_docs?include_docs=true&skip={skip}&limit={take}";
 
             var user_curl = new cURL("GET",null,request_string,null, db_config.user_name, db_config.user_value);
             string responseFromServer = await user_curl.executeAsync();
