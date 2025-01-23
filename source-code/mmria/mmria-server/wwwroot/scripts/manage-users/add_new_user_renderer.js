@@ -95,7 +95,8 @@ function add_new_user_render()
             </div>
         </div>
     `];
-    return result;
+    document.getElementById('form_content_id').innerHTML = result.join("");
+    show_hide_user_management_back_button(true);
 }
 
 function delete_role(role_to_delete)
