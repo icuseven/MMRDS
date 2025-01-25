@@ -1207,12 +1207,21 @@ function user_role_jurisdiction_add
 
 function g_render()
 {
-
-    switch(g_ui.url_state.selected_form_name)
+    let form_name = g_ui.url_state.selected_form_name;
+    let path_array = [];
+    if(form_name != null && form_name.indexOf("?") > -1)
     {
+        path_array = g_ui.url_state.path_array[0].split("?");
+        form_name = path_array[0];
+    }
 
+    switch(form_name)
+    {
         case "view-user":
-
+            const user_id =  path_array[1];
+            
+            document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
+            show_hide_user_management_back_button(true);
             break;
         case "add-new-user":
             document.getElementById('form_content_id').innerHTML = add_new_user_render();

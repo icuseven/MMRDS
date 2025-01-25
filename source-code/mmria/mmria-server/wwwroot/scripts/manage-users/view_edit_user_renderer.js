@@ -1,9 +1,16 @@
 function view_edit_user_renderer(p_user)
 {
-    $("#manage_user_label").html('Edit User');
-    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === p_user);
-    const result = 
-    [`
+
+    let role_user_name = p_user;
+    if(p_user.indexOf(":") > -1)
+    {
+        role_user_name =  p_user.split(":")[1];
+    }
+
+    $("#manage_user_label").html('View User');
+    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
+    
+    return `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
@@ -17,7 +24,7 @@ function view_edit_user_renderer(p_user)
         <div class="d-flex">
             <div class="vertical-control required col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
-                <input disabled aria-disabled="true" value="${p_user}" autocomplete="off" class="form-control" type="text" id="new_user_email">
+                <input disabled aria-disabled="true" value="${role_user_name}" autocomplete="off" class="form-control" type="text" id="new_user_email">
             </div>
         </div>
         <div class="d-flex flex-column mt-4">
@@ -37,7 +44,7 @@ function view_edit_user_renderer(p_user)
                     ${
                         user_role_jurisdiction.map(jurisdiction => {
                             return user_assigned_role_renderer(jurisdiction)
-                        }).join("")
+                        })
                     }
                 </tbody>
             </table>
@@ -59,7 +66,7 @@ function view_edit_user_renderer(p_user)
                 </div>
             </div>
             <div class="d-flex ml-auto">
-                ${(render_account_history_table_navigation())}
+                ${render_account_history_table_navigation()}
             </div>
         </div>
         <div>
@@ -102,9 +109,8 @@ function view_edit_user_renderer(p_user)
                 </tbody>
             </table>
         </div>
-    `];
-    document.getElementById('form_content_id').innerHTML = result.join("");
-    show_hide_user_management_back_button(true);
+    `;
+
 }
 
 function delete_role(role_to_delete)
