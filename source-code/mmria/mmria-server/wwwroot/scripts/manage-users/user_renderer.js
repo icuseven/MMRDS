@@ -395,16 +395,10 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 	var result = [];
 	if( p_data._id)
 	{
-
-		result.push("<select id='selected_user_role_for_" + p_user_name + "_jurisdiction' size=1")
 		result.push("><option></option>")
 		p_level = 0;
 	}
-
-
-
     let is_managed_jusisdiction = false;
-
     for (const key in g_managed_jurisdiction_set) 
     {
         if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
@@ -416,8 +410,6 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
             }
         }
     }
-
-
     if(is_managed_jusisdiction)
     {
         result.push(`<option value=${p_data.name}`);
@@ -429,7 +421,6 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
         result.push(p_data.name == "/" ? "Top Folder" : p_data.name);
         result.push("</option>");
     }
-
     if(p_data.children != null)
     {
         for(var i = 0; i < p_data.children.length; i++)
@@ -439,15 +430,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
             
         }
     }
-    
-
-	if( p_data._id)
-	{
-		result.push("</select>");
-	}
-
 	return result;
-
 }
 
 function user_role_edit_render(p_user, p_user_role_jurisdiction, p_updated_by)

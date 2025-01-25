@@ -14,11 +14,10 @@ var g_ui = {
 	user_list:[],
 	data:null,
 	url_state: {
-    selected_form_name: null,
-    selected_id: null,
-    selected_child_id: null,
-    path_array : []
-
+        selected_form_name: null,
+        selected_id: null,
+        selected_child_id: null,
+        path_array : []
   }
 };
 
@@ -73,7 +72,6 @@ async function on_hash_change(e)
     if(e.isTrusted)
     {
         var new_url = e.newURL || window.location.href;
-
         g_ui.url_state = url_monitor.get_url_state(new_url);
         //console.log(g_ui.url_state);
 
@@ -255,7 +253,6 @@ function add_new_user_click()
 {
     console.log("add new user clicked");
     window.location.href = set_url_hash('add-new-user');
-
 }
 
 function export_user_list_click()
@@ -307,8 +304,8 @@ function show_hide_user_management_back_button(shouldShow)
     {
         $("#navigate_back_to_landing").html(
             `
-                <button class="btn btn-link" onclick="back_to_landing_clicked()">
-                    <span class="x32 fill-p cdc-icon-chevron-left"></span> Back to user Management
+                <button class="btn btn-link pl-0" onclick="back_to_landing_clicked()">
+                    <span class="x16 cdc-icon-chevron-circle-left"></span> Back to user Management
                 </button>
             `
         )
@@ -1077,6 +1074,74 @@ function remove_jurisdiction(p_search_id, p_node)
 	}
 
 	return;
+}
+
+function user_assigned_role_renderer(p_user_jurisdiction)
+{
+    const role_set = get_role_list();
+    const temp_result = [];
+    role_set.forEach(role => {
+        if(role !== "")
+        {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            temp_result.push("<option ");
+            if(p_user_jurisdiction.role_name === role)
+                temp_result.push( "selected ");
+            temp_result.push("value ='" + role + "'>");
+            temp_result.push(role_name.join(" "));
+            temp_result.push("</option>");
+        }
+
+    })
+    const result = [`
+        <tr>
+            <td width="485">
+                <div class="vertical-control p-0 mb-4 col-md-12">
+                    <select aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
+                    ${temp_result.join("")}
+                    </select>
+                </div>
+            </td>
+            <td width="485">
+                <div class="vertical-control p-0 mb-4 col-md-12">
+                    <select aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
+                        ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0, p_user_jurisdiction.user_id).join("")}
+                    </select>
+                </div>
+            </td>
+            <td>
+                <div class="vertical-control col-md-12">
+                    <fieldset>
+                        <legend class="accessible-hide">Active Status</legend>
+                        <div class="form-check">
+                            <input ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="" id="${p_user_jurisdiction.role_name}_active_status_true">
+                            <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
+                            <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
+                                Inactive
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </td>
+            <td class="d-flex pt-3 justify-content-center border-none">
+                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('test')">
+                    Delete Role
+                </button>
+            </td>
+        </tr>
+    `].join("");
+    return result;
 }
 
 

@@ -440,6 +440,7 @@ async function print_pdf(ctx) {
 			tableDetail: {
 				color: '#000000',
 				fontSize: 9,
+                margin: [4, 0, 0, 0]
 			},
 			narrativeDetail: {
 				color: '#000000',
@@ -2143,7 +2144,7 @@ function print_pdf_render_content(ctx) {
 								case 'number':
 								case 'time':
 								case 'hidden':
-									colPrompt.push({ text: `${metaChild[i].prompt}: `, style: ['tableLabel'], alignment: 'right', },);
+									colPrompt.push({ text: `${metaChild[i].prompt.replace(" - ", "-")}: `, style: ['tableLabel'], alignment: 'right', },);
 									colData.push({ text: dataChild[metaChild[i].name] || '-', style: ['tableDetail'], },);
 									break;
 								default:
