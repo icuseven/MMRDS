@@ -1,8 +1,7 @@
 function add_new_user_render()
 {
     $("#manage_user_label").html('Add New User');
-    const result = 
-    [`
+    return `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
@@ -94,8 +93,8 @@ function add_new_user_render()
                 </button>
             </div>
         </div>
-    `];
-    return result;
+    `;
+
 }
 
 function delete_role(role_to_delete)

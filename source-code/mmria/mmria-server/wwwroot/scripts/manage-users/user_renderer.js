@@ -174,7 +174,7 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
         <tr id=" +  ${convert_to_jquery_id(p_user._id)} + " valign=top>
             <td>
                 <div>
-                    <button onclick="edit_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
+                    <button onclick="view_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
                 </div>
             </td>
             <td>
@@ -558,10 +558,12 @@ function remove_user_click(p_user_id, p_rev)
 					if(g_ui.user_summary_list[i]._id == response.id)
 					{
 						g_ui.user_summary_list.splice(i,1)
-
+/*
 						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("")
 						+ "<p>tree</p><ul>" + jurisdiction_render(g_jurisdiction_tree).join("") + "</ul>";
 						;
+*/
+                        g_render();
 
 						break;
 					}

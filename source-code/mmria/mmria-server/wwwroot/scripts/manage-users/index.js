@@ -75,15 +75,16 @@ async function on_hash_change(e)
         var new_url = e.newURL || window.location.href;
 
         g_ui.url_state = url_monitor.get_url_state(new_url);
-        console.log(g_ui.url_state);
+        //console.log(g_ui.url_state);
+
+        g_render();
     }
 }
 
 
 async function load_values()
 {
-    $("#manage_user_label").html('Manage Users');
-    show_hide_user_management_back_button(false);
+
     $('#form_content_id').html(
         `
         <span class="spinner-container spinner-content spinner-active">
@@ -212,8 +213,8 @@ async function load_values()
     g_ui.url_state = url_monitor.get_url_state(window.location.href);
 
 
-    document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-
+    //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+    g_render();
 
 }
 
@@ -254,14 +255,13 @@ function add_new_user_click()
 {
     console.log("add new user clicked");
     window.location.href = set_url_hash('add-new-user');
-    document.getElementById('form_content_id').innerHTML = add_new_user_render().join("");
-    show_hide_user_management_back_button(true);
+
 }
 
 function export_user_list_click()
 {
     console.log("export user list clicked");
-    //window.location.href = set_url_hash('edit-user');
+    //window.location.href = set_url_hash('view-user');
 }
 
 function view_audit_log_click()
@@ -270,11 +270,11 @@ function view_audit_log_click()
     //window.location.href = set_url_hash('add-new-user');
 }
 
-function edit_user_click(p_user_id)
+function view_user_click(p_user_id)
 {
     console.log(`edit ${p_user_id} clicked`);
-    window.location.href = set_url_hash(`edit-user?${p_user_id}`);
-    show_hide_user_management_back_button(true);
+    window.location.href = set_url_hash(`view-user?${p_user_id}`);
+    
 }
 
 function delete_user_click(p_user_id)
@@ -291,7 +291,7 @@ function set_roles_inactive_for_user_click(p_user_id)
 
 function back_to_landing_clicked()
 {
-    load_values();
+    window.location.href = set_url_hash(`summary`);
 }
 
 function set_url_hash(new_hash)
@@ -427,7 +427,8 @@ function check_if_existing_user(p_user_id, p_new_user_password)
 						}
 					}
 	
-					document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+					//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+                    g_render();
 					create_status_message("new user has been added.", "new_user");
 	
 				}
@@ -511,7 +512,7 @@ function change_password_user_click(p_user_id)
 							$mmria.addCookie("AuthSession", response_obj.auth_session);
 						}
 
-						document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+						//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 						create_status_message("user information saved", convert_to_jquery_id(user._id));
 						console.log("password saved sent", response);
 
@@ -524,8 +525,8 @@ function change_password_user_click(p_user_id)
 		}
 		else
 		{
-			document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-			//console.log("greatness awaits.");
+			//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+			g_render();
 		}
 	}
 	else
@@ -629,7 +630,8 @@ function save_user(p_user_id)
                     }
                 }
 
-                document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+                //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+                g_render();
                 create_status_message("user information saved", convert_to_jquery_id(user._id));
                 console.log("password saved sent", response);
 
@@ -1136,4 +1138,31 @@ function user_role_jurisdiction_add
 	}
 
 	return result;
+}
+
+function g_render()
+{
+
+    switch(g_ui.url_state.selected_form_name)
+    {
+
+        case "view-user":
+
+            break;
+        case "add-new-user":
+            document.getElementById('form_content_id').innerHTML = add_new_user_render();
+            show_hide_user_management_back_button(true);
+            break;
+        case "summary":
+        default:
+            document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+            //
+    }
+
+    /*
+    $("#manage_user_label").html('Manage Users');
+    show_hide_user_management_back_button(false);
+
+    */
+
 }
