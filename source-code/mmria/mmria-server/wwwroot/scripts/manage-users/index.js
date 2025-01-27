@@ -1149,14 +1149,22 @@ function g_render()
         form_name = path_array[0];
     }
 
+
+    let user_id = null;
     switch(form_name)
     {
         case "view-user":
-            const user_id =  path_array[1];
+            user_id = path_array[1];
             
-            document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
+            document.getElementById('form_content_id').innerHTML = view_user_renderer(user_id);
             show_hide_user_management_back_button(true);
             break;
+        case "edit-user":
+                user_id =  path_array[1];
+                
+                document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
+                show_hide_user_management_back_button(true);
+                break;
         case "add-new-user":
             document.getElementById('form_content_id').innerHTML = add_new_user_render();
             show_hide_user_management_back_button(true);
@@ -1164,7 +1172,7 @@ function g_render()
         case "summary":
         default:
             document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-            //
+            show_hide_user_management_back_button(false);
     }
 
     /*

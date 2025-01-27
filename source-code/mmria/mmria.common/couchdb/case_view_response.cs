@@ -24,6 +24,10 @@ public sealed class case_view_sortable_item
 
     public string record_id{ get; set; }
     public string agency_case_id{ get; set; }
+
+    public string local_file_number { get; set; }
+
+    public string state_file_number { get; set; }
     public DateTime? date_of_committee_review{ get; set; }
 
     public string jurisdiction_id {get; set;}
