@@ -23,6 +23,9 @@ public sealed class MaidenNameDetail
     // public string StateOfDeath { get; set; }
     public string LastUpdatedBy { get; set; }
     public DateTime? DateLastUpdated { get; set; }
+    public string AgencyCaseId { get; set; }
+    public string LocalFileNumber { get; set; }
+    public string StateFileNumber { get; set; }
 
     public string MaidenName { get; set; }
     public string MaidenNameReplacement { get; set; }

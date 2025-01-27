@@ -39,6 +39,9 @@ public sealed class YearOfDeathDetail
     public string StateDatabase {get; set; }
 
     public string Role { get; set; }  = "jurisdiction_admin";
+    public string AgencyCaseId { get; set; }
+    public string LocalFileNumber { get; set; }
+    public string StateFileNumber { get; set; }
 }
 
 public sealed class YearOfDeathRequestResponse

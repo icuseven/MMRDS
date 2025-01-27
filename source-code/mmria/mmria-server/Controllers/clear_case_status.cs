@@ -115,6 +115,9 @@ public sealed class clear_case_statusController : Controller
                             MiddleName = item.value?.middle_name,
                             DateOfDeath = $"{item.value?.date_of_death_month}/{item.value.date_of_death_year}",
                             StateOfDeath = item.value?.host_state,
+                            AgencyCaseId = item.value?.agency_case_id,
+                            LocalFileNumber = item.value?.local_file_number,
+                            StateFileNumber = item.value?.state_file_number,
 
                             LastUpdatedBy = item.value?.last_updated_by,
 

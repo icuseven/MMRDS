@@ -36,11 +36,14 @@ else
     <thead class="thead"><tr class="tr bg-tertiary"><th class="th h4" colspan="99" scope="colgroup">Search results</th></tr></thead>
     <thead class="thead">
         <tr class="tr">
-            <th class="th">#</th>
-            <th class="th">MMRIA Record ID</th>
+            <th width="50" class="th">#</th>
+            <th width="150" class="th">MMRIA Record ID</th>
+            <th class="th">Agency ID#</th>
+            <th class="th">DC Local File#</th>
+            <th class="th">DC State File#</th>
             <th class="th">Case Status</th>
             <th class="th">Name (First, Middle, Last Name)</th>
-            <th class="th">Date Of Death</th>
+            <th width="100" class="th">Date Of Death</th>
             <th class="th">Last Updated (User, Date/Time)</th>
             <th class="th">Actions</th>
         </tr>
@@ -66,10 +69,33 @@ else
                 Locked_status_list.IndexOf(item.CaseStatus.Value) > -1
             )
             {
-
                 <tr class="tr">
                     <td class="td">@i</td>
                     <td class="td">@item.RecordId</td>
+                    @if(item.AgencyCaseId == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.AgencyCaseId</td>
+                    }
+                    @if(item.LocalFileNumber == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.LocalFileNumber</td>
+                    }
+                    @if(item.StateFileNumber == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.StateFileNumber</td>
+                    }
                     <td class="td">@item.CaseStatusDisplay</td>
                     <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
                     <td class="td">@item.DateOfDeath</td>
@@ -101,6 +127,30 @@ else
                 <tr class="tr">
                     <td class="td">@i</td>
                     <td class="td">@item.RecordId</td>
+                    @if(item.AgencyCaseId == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.AgencyCaseId</td>
+                    }
+                    @if(item.LocalFileNumber == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.LocalFileNumber</td>
+                    }
+                    @if(item.StateFileNumber == "")
+                    {
+                        <td class="td">(blank)</td>
+                    }
+                    else
+                    {
+                        <td class="td">@item.StateFileNumber</td>
+                    }
                     <td class="td">@item.CaseStatusDisplay</td>
                     <td class="td">@item.FirstName @item.MiddleName @item.LastName</td>
                     <td class="td">@item.DateOfDeath</td>

@@ -1156,7 +1156,7 @@ function g_render()
         case "view-user":
             user_id = path_array[1];
             
-            document.getElementById('form_content_id').innerHTML = view_user_renderer(user_id);
+            document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
             show_hide_user_management_back_button(true);
             break;
         case "edit-user":

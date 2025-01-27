@@ -27,6 +27,9 @@ public sealed class CaseStatusDetail
 
     public int? CaseStatus { get; set; }
     public string CaseStatusDisplay { get; set; }
+    public string AgencyCaseId { get; set; }
+    public string LocalFileNumber { get; set; }
+    public string StateFileNumber { get; set; }
 
     public string StateDatabase {get; set; }
 

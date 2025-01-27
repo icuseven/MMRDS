@@ -106,6 +106,9 @@ public sealed class update_year_of_deathController : Controller
             {
               _id = item.id,
               RecordId = item.value?.record_id,
+              AgencyCaseId = item.value?.agency_case_id,
+              LocalFileNumber = item.value?.local_file_number,
+              StateFileNumber = item.value?.state_file_number,
               FirstName = item.value?.first_name,
               LastName = item.value?.last_name,
               MiddleName = item.value?.middle_name,
