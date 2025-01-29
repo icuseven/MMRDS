@@ -1,4 +1,4 @@
-function view_edit_user_renderer(p_user)
+function view_user_renderer(p_user)
 {
 
     let role_user_name = p_user;

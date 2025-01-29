@@ -1156,13 +1156,13 @@ function g_render()
         case "view-user":
             user_id = path_array[1];
             
-            document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
+            document.getElementById('form_content_id').innerHTML = view_user_renderer(user_id);
             show_hide_user_management_back_button(true);
             break;
         case "edit-user":
                 user_id =  path_array[1];
                 
-                document.getElementById('form_content_id').innerHTML = view_edit_user_renderer(user_id);
+                document.getElementById('form_content_id').innerHTML = edit_user_renderer(user_id);
                 show_hide_user_management_back_button(true);
                 break;
         case "add-new-user":
@@ -1175,10 +1175,5 @@ function g_render()
             show_hide_user_management_back_button(false);
     }
 
-    /*
-    $("#manage_user_label").html('Manage Users');
-    show_hide_user_management_back_button(false);
-
-    */
 
 }
