@@ -443,7 +443,7 @@ d3.select('#chart svg').append('text')
 
       if (p_metadata.x_axis && p_metadata.x_axis != '') 
       {
-        p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M:%S',");
+        p_post_html_render.push("x: 'x', xFormat: '%Y-%m-%d %H:%M',");
         //p_post_html_render.push("x: 'x', ");
       }
 
@@ -756,7 +756,8 @@ function get_chart_x_range_from_path(p_metadata, p_metadata_path, p_multiform_in
 				}
 				else 
 				{
-					const res2 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+					//const res2 = val.match(/^\d\d\d\d-\d\d?-\d\d?[ T]?\d?\d:\d\d:\d\d(.\d\d\d)?[Z]?$/)
+                    const res2 = val.match(/^\d{4}-\d{2}-\d{2}[ T]?\d{2}:\d{2}:\d{2}(\.\d{3})?([+-]\d{2}:\d{2}|Z)?$/);
 					if(res2)
 					{
 						//let date_time = new Date(val);
