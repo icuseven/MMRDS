@@ -61,7 +61,7 @@ public sealed class view_data_summaryController : Controller
 
             var cells = new List<FastExcel.Cell>();
 
-            cells.Add(new FastExcel.Cell(1, p_row_number));
+            cells.Add(new FastExcel.Cell(1, p_row_number -1));
             cells.Add(new FastExcel.Cell(2, item));
 
             return new FastExcel.Row(p_row_number, cells);
