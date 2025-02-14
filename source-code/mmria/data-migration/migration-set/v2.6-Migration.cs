@@ -1206,7 +1206,7 @@ if
                 shared_node.parent_id = "jurisdiction_tree";
                 new_list.Add(shared_node);
 
-                phila_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+                phila_node.children = new List<mmria.common.model.couchdb.jurisdiction>();
                 new_list.Add(phila_node);
             }
 
@@ -1251,7 +1251,7 @@ if
                 new_list.Add(shared_node);
 
 
-                nyc_node.children = new List<mmria.common.model.couchdb.jurisdiction>().ToArray();
+                nyc_node.children = new List<mmria.common.model.couchdb.jurisdiction>();
                 new_list.Add(nyc_node);
             }
         }

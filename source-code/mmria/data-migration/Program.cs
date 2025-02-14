@@ -544,8 +544,11 @@ ma",
                 else if(MigrationType == RunTypeEnum.OneTime)
                 {
 
-                    var v3_4_PreUpgrade = new migrate.set.v3_4_PreUpgrade(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
-                    await v3_4_PreUpgrade.execute();
+                    var v3_7_Migration = new migrate.set.v3_7_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    await v3_7_Migration.execute();
+
+                    //var v3_4_PreUpgrade = new migrate.set.v3_4_PreUpgrade(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    //await v3_4_PreUpgrade.execute();
 
                     //var v3_4_TimeField = new migrate.set.v3_4_TimeField(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                     //await v3_4_TimeField.execute();
