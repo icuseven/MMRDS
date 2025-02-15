@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using mmria.common.metadata;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace migrate.set;
 
@@ -111,7 +112,29 @@ public sealed class v3_7_Migration
 			
 			var id_record_id_tuple = GetIdList();
 
-			var prefix = host_db_url.Split(".")[0].Split("-")[2].ToUpper();
+			var prefix = "";
+			
+			var prefix_split = host_db_url.Split(".")[0].Split("-");
+			if(prefix_split.Length > 2)
+			{
+				prefix = prefix_split[2].ToUpper();
+			}
+			else
+			{
+				prefix = prefix_split[0].ToUpper();
+			}
+
+			if(prefix.Contains("//"))
+			{
+				prefix_split = prefix.Split("//");
+				prefix = prefix_split[1];
+			}
+
+			if(prefix.Contains(":"))
+			{
+				prefix_split = prefix.Split(":");
+				prefix = prefix_split[0];
+			}
 
 			//mmria.mmrds.util.csv_Data csv_data = new mmria.mmrds.util.csv_Data();
 			//System.Data.DataTable cvs_data_table = csv_data.get_datatable($"{base_folder}/{prefix}.csv");
@@ -170,7 +193,7 @@ public sealed class v3_7_Migration
 				{
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
-					//string mmria_id = value_result.result.ToString();
+
 					
 					string get_value(string p_path)
 					{
@@ -189,6 +212,24 @@ public sealed class v3_7_Migration
 
 						return result;
 					}
+
+
+					List<(int, object)> get_grid_value(string p_path)
+					{
+						List<(int, object)> result = null;
+
+						C_Get_Set_Value.get_grid_value_result get_grid_value_result = gs.get_grid_value(doc, p_path);
+
+
+						if(!get_grid_value_result.is_error)
+                        {
+							result = get_grid_value_result.result;
+						}
+
+						return result;
+					}
+
+					                        
 					
 					bool set_value(string p_path, string p_value)
 
@@ -204,27 +245,58 @@ public sealed class v3_7_Migration
 						return case_has_changed;
 					}
 
+					
+					bool set_grid_value(string p_path, object p_value_list)
 
-					foreach(var path in path_of_interest_set)
 					{
-						var current_value = get_value(path);
-
-						if(current_value.Contains("Trazadone"))
+						if(case_change_count == 0)
 						{
-							var new_value = current_value.Replace("Trazadone", "Trazodone");
-
-							if(set_value(path, new_value))
-							{
-								System.Console.WriteLine($"Updated Trazodone for {current_value} : {path}");
-							}
-							else
-							{
-								System.Console.WriteLine($"Unable to update Trazodone for {current_value} : {path}");
-							}
+							case_change_count += 1;
+							case_has_changed = true;
 						}
+
+						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
+
+						return case_has_changed;
 					}
 
 
+					foreach(var path in path_of_interest_set)
+					{
+						var new_list = new List<(int, object)>();
+						var has_changed = false;
+
+						var current_list = get_grid_value(path);
+
+						if (current_list == null) continue;
+
+						for(var i = 0; i < current_list.Count; i ++)
+						{
+							var current_item = current_list[i];
+
+							var current_value = current_item.Item2 as string;
+
+							if(!string.IsNullOrWhiteSpace(current_value) && current_value.Contains("Trazadone", StringComparison.CurrentCultureIgnoreCase))
+							{
+								var new_value = current_value.Replace("Trazadone", "Trazodone");
+
+								new_list.Add((current_item.Item1, new_value));
+								has_changed = true;
+								System.Console.WriteLine($"Updated Trazodone for {current_value} : {path}");
+								
+							}
+							else
+							{
+								new_list.Add((current_item.Item1, current_item.Item2));
+								//System.Console.WriteLine($"Unable to update Trazodone for {current_value} : {path}");
+							}
+						}
+
+						if(has_changed)
+						{
+							set_grid_value(path, new_list);
+						}
+					}
 
 
 				if(!is_report_only_mode && case_has_changed)
