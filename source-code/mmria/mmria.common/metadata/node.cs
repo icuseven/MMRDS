@@ -50,6 +50,9 @@ public sealed class node
 
 
     public string description { get; set; }
+
+    public string data_summary_report_description { get; set; }
+
     public string validation_description { get; set; }
 
     public System.Dynamic.ExpandoObject validation { get; set; } 

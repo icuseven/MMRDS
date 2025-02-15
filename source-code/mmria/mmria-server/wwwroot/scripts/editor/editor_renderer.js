@@ -817,6 +817,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 					
 					result.push('</textarea> </li>');			
 				break;
+            case "data_summary_report_description":
 			case "validation_description":
             case "committee_description":
 			case "description":
@@ -1107,6 +1108,7 @@ function render_attribute_add_control(p_path, node_type)
 	result.push('">');
 	result.push('<option></option>');
     result.push('<option>description</option>');
+    result.push('<option>data_summary_report_description</option>')
     result.push('<option>committee_description</option>');
     result.push('<option>other_specify_list</option>');
     result.push('<option>disable_on_selected_item_list</option>')
@@ -1768,6 +1770,7 @@ function editor_add_to_attributes(e, p_ui)
 				break;
 			case "default_value":
 			case "description":
+            case "data_summary_report_description":
             case "other_specify_list":
             case "disable_on_selected_item_list":
             case "parent_list":

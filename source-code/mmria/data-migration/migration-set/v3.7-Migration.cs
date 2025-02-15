@@ -125,6 +125,8 @@ public sealed class v3_7_Migration
 
 /*
 
+	Trazadone (Oleptro) => Trazodone (Oleptro)
+
 	/prenatal/substance_use_grid/substance
 	/prenatal/substance_use_grid/substance_other
 	/autopsy_report/toxicology/substance
@@ -132,6 +134,16 @@ public sealed class v3_7_Migration
 	/social_and_environmental_profile/if_yes_specify_substances/substance
 	/social_and_environmental_profile/if_yes_specify_substances/substance_other
 */
+
+			var path_of_interest_set = new HashSet<string>()
+			{
+				"prenatal/substance_use_grid/substance",
+				"prenatal/substance_use_grid/substance_other",
+				"autopsy_report/toxicology/substance",
+				"autopsy_report/toxicology/substance_other",
+				"social_and_environmental_profile/if_yes_specify_substances/substance",
+				"social_and_environmental_profile/if_yes_specify_substances/substance_other"
+			};
 
 			foreach(var kv in id_record_id_tuple)
 			{
