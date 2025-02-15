@@ -48,8 +48,8 @@ class Program
     {
         //"qa"
 //"localhost",
-"fl_dev",
-//"test"
+//"fl_dev",
+"test"
 /*
 "as",
 "cnmi",
@@ -317,9 +317,9 @@ ma",
         config_metadata_value = Configuration["mmria_settings:metadata_timer_password"];
         */
 
-        bool is_test_list = false;
+        bool is_test_list = true;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.OneTime;

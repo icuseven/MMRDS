@@ -159,38 +159,8 @@ public sealed class v3_7_Migration
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
 				string responseFromServer = await case_curl.executeAsync();
 
-
-
 				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
 				
-
-				var time_of_delivery_path = "birth_certificate_infant_fetal_section/record_identification/time_of_delivery";
-
-				/*
-				string get_doc_value(string p_path)
-				{
-					var result = String.Empty;
-
-
-					migrate.C_Get_Set_Value.get_value_result temp_result = gs.get_value(doc, p_path);
-					if
-					(
-						! temp_result.is_error &&
-						temp_result.result != null
-					)
-					{
-						result = temp_result.result.ToString();
-					}
-
-					return result;
-				}
-				string mmria_record_id = get_doc_value("home_record/record_id");
-				string mmria_id = get_doc_value("_id");*/
-
-
-
-				//var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
-				//var case_item in case_response.rows
 				var case_has_changed = false;
 				var case_change_count = 0;
 
@@ -219,44 +189,6 @@ public sealed class v3_7_Migration
 
 						return result;
 					}
-
-
-					string get_first_multiform_value(string p_path)
-					{
-						var result = String.Empty;
-
-
-						migrate.C_Get_Set_Value.get_multiform_value_result temp_result = gs.get_multiform_value(doc, p_path);
-						if
-						(
-							! temp_result.is_error &&
-							temp_result.result != null &&
-							temp_result.result is List<(int, object)> result_list &&
-							result_list.Count > 0
-						)
-						{
-							var (index, value) = result_list[0];
-
-							if(value != null)
-								result = value.ToString();
-						}
-
-						return result;
-					}
-
-					bool set_first_multiform_value(string p_path, object p_value)
-
-					{
-						if(case_change_count == 0)
-						{
-							case_change_count += 1;
-							case_has_changed = true;
-						}
-
-						case_has_changed = case_has_changed  &&  gs.set_multiform_value(doc, p_path, new List<(int, object)>() { ( 0, p_value) });
-
-						return case_has_changed;
-					}
 					
 					bool set_value(string p_path, string p_value)
 
@@ -273,43 +205,25 @@ public sealed class v3_7_Migration
 					}
 
 
-					//bool set_grid_value(string p_path, List<(int, object)> p_value_list)
-					bool set_grid_value(string p_path, object p_value_list)
-
+					foreach(var path in path_of_interest_set)
 					{
-						if(case_change_count == 0)
+						var current_value = get_value(path);
+
+						if(current_value.Contains("Trazadone"))
 						{
-							case_change_count += 1;
-							case_has_changed = true;
+							var new_value = current_value.Replace("Trazadone", "Trazodone");
+
+							if(set_value(path, new_value))
+							{
+								System.Console.WriteLine($"Updated Trazodone for {current_value} : {path}");
+							}
+							else
+							{
+								System.Console.WriteLine($"Unable to update Trazodone for {current_value} : {path}");
+							}
 						}
-
-						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
-
-						return case_has_changed;
 					}
 
-				var current_value = get_first_multiform_value(time_of_delivery_path);
-
-				if
-				(
-					!string.IsNullOrWhiteSpace(current_value) &&
-					(
-						current_value.IndexOf("AM", StringComparison.OrdinalIgnoreCase) > -1 ||
-						current_value.IndexOf("PM", StringComparison.OrdinalIgnoreCase) > -1 
-					)
-
-				)
-				{
-
-					var new_value = ConvertToStandardTime(current_value);
-
-					var text = $"Found TimeField for id: {kv._id} record_id: {kv.record_id} to be changed: {current_value} => {new_value}";
-					System.Console.WriteLine(text);
-					this.output_builder.AppendLine(text);
-
-					set_first_multiform_value(time_of_delivery_path, new_value);
-
-				}
 
 
 
