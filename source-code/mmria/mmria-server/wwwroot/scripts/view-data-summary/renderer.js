@@ -723,9 +723,9 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
 
 
-			if(p_metadata.description != null)
+			if(p_metadata.data_summary_report_description != null)
 			{
-				description = p_metadata.description;
+				description = p_metadata.data_summary_report_description;
 			}
 
             const stat_type = p_metadata.tags.filter(filter_tag).join("").toUpperCase();
