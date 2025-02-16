@@ -246,7 +246,7 @@ public sealed class v3_7_Migration
 					}
 
 					
-					bool set_grid_value(string p_path, object p_value_list)
+					bool set_grid_value(string p_path, List<(int, object)> p_value_list)
 
 					{
 						if(case_change_count == 0)
@@ -255,7 +255,7 @@ public sealed class v3_7_Migration
 							case_has_changed = true;
 						}
 
-						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path, new List<(int, object)>() { ( 0, p_value_list) });
+						case_has_changed = case_has_changed  &&  gs.set_grid_value(doc, p_path,  p_value_list);
 
 						return case_has_changed;
 					}
