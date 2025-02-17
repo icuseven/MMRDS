@@ -883,7 +883,7 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 
                             list_values.push(`
                                 <tr class="tr"  id="tr-${current_path}-${ki}">
-                                    <td class="td" width="820" colspan=2>${ki} &lt;- missing</td>
+                                    <td class="td" width="820" colspan=2>${ki} : Missing</td>
                                     <td class="td" width="260" id="${current_path}-${ki}"  align=right>${html_link}</td>
                                 </tr>
                             `);
