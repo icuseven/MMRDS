@@ -958,6 +958,11 @@ function formatDate(dateObj)
         console.log("here");
     }
 
+    if(result == "NaN/NaN/NaN")
+    {
+        result = "(-)";
+    }
+
     return result;
 }
 

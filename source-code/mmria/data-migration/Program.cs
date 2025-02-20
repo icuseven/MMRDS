@@ -47,9 +47,9 @@ class Program
     static List<string> test_list = new List<string>()
     {
         //"qa"
-"localhost",
+//"localhost",
 //"fl_dev",
-//"test"
+"test"
 /*
 "as",
 "cnmi",
