@@ -955,7 +955,7 @@ function formatDate(dateObj)
     }
     else
     {
-        console.log("here");
+        //console.log("here");
     }
 
     if(result == "NaN/NaN/NaN")
