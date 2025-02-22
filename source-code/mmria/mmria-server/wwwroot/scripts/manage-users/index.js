@@ -1178,7 +1178,7 @@ function g_render()
             break;
         case "summary":
         default:
-            document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+            document.getElementById('form_content_id').innerHTML = summary_render(g_ui, g_current_u_id).join("");
             show_hide_user_management_back_button(false);
     }
 

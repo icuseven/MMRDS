@@ -42,9 +42,7 @@ function view_user_renderer(p_user)
                 </thead>
                 <tbody>
                     ${
-                        user_role_jurisdiction.map(jurisdiction => {
-                            return user_assigned_role_renderer_view(jurisdiction)
-                        })
+                        render_read_only_role_rows(user_role_jurisdiction)
                     }
                 </tbody>
             </table>
@@ -134,6 +132,24 @@ function render_account_history_table_navigation_view()
     `];
 
     return result.join("");
+}
+
+
+
+function render_read_only_role_rows(p_user_role_jurisdiction)
+{
+    const result = [];
+
+
+    for(var i = 0; i < p_user_role_jurisdiction.length; i++)
+    {
+        const item = p_user_role_jurisdiction[i];
+
+        result.push(user_assigned_role_renderer_view(item))
+    }
+
+    return result.join("");
+
 }
 
 function user_assigned_role_renderer_view(p_user_jurisdiction)

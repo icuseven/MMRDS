@@ -47,9 +47,7 @@ function edit_user_renderer(p_user)
                 </thead>
                 <tbody>
                     ${
-                        user_role_jurisdiction.map(jurisdiction => {
-                            return user_assigned_role_renderer(jurisdiction)
-                        })
+                        render_editable_role_rows(user_role_jurisdiction)
                     }
                 </tbody>
             </table>
@@ -152,6 +150,22 @@ function render_account_history_table_navigation()
     return result.join("");
 }
 
+
+function render_editable_role_rows(p_user_role_jurisdiction)
+{
+    const result = [];
+
+
+    for(var i = 0; i < p_user_role_jurisdiction.length; i++)
+    {
+        const item = p_user_role_jurisdiction[i];
+
+        result.push(user_assigned_role_renderer(item))
+    }
+
+    return result.join("");
+
+}
 function user_assigned_role_renderer(p_user_jurisdiction)
 {
     const role_set = get_role_list();
