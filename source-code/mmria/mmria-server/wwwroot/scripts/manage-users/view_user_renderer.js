@@ -16,7 +16,7 @@ function view_user_renderer(p_user)
                 <h2 class="h4">User Info</h2>
             </div>
             <div class="ml-auto">
-                <button class="btn primary-button">Enable Edit</button>
+                <button class="btn primary-button" onclick="edit_user_click('${p_user}')">Enable Edit</button>
                 <button disabled aria-disabled="true" class="btn primary-button">Save User Edits</button>
                 <button disabled aria-disabled="true" class="btn primary-button">Undo</button>
             </div>
@@ -43,7 +43,7 @@ function view_user_renderer(p_user)
                 <tbody>
                     ${
                         user_role_jurisdiction.map(jurisdiction => {
-                            return user_assigned_role_renderer(jurisdiction)
+                            return user_assigned_role_renderer_view(jurisdiction)
                         })
                     }
                 </tbody>
@@ -66,7 +66,7 @@ function view_user_renderer(p_user)
                 </div>
             </div>
             <div class="d-flex ml-auto">
-                ${render_account_history_table_navigation()}
+                ${render_account_history_table_navigation_view()}
             </div>
         </div>
         <div>
@@ -113,19 +113,8 @@ function view_user_renderer(p_user)
 
 }
 
-function delete_role(role_to_delete)
-{
-    //To-Do: delete role
-    console.log(`Deleting role ${role_to_delete}`);
-}
 
-function add_new_role()
-{
-    //To-Do: add role
-    console.log(`Adding role`);
-}
-
-function render_account_history_table_navigation()
+function render_account_history_table_navigation_view()
 {
     const result = [`
         <div class='d-flex mb-2 mt-2'>
@@ -147,7 +136,7 @@ function render_account_history_table_navigation()
     return result.join("");
 }
 
-function user_assigned_role_renderer(p_user_jurisdiction)
+function user_assigned_role_renderer_view(p_user_jurisdiction)
 {
     const role_set = get_role_list();
     const temp_result = [];
@@ -174,14 +163,14 @@ function user_assigned_role_renderer(p_user_jurisdiction)
         <tr>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
+                    <select disabled aria-disabled="true" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
                     ${temp_result.join("")}
                     </select>
                 </div>
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
+                    <select disabled aria-disabled="true"  aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
                         ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0, p_user_jurisdiction.user_id).join("")}
                     </select>
                 </div>
@@ -191,13 +180,13 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                     <fieldset>
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="" id="${p_user_jurisdiction.role_name}_active_status_true">
+                            <input disabled aria-disabled="true"  ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="" id="${p_user_jurisdiction.role_name}_active_status_true">
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
+                            <input disabled aria-disabled="true"  ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
                                 Inactive
                             </label>
@@ -206,7 +195,7 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                 </div>
             </td>
             <td class="d-flex pt-3 justify-content-center border-none">
-                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('test')">
+                <button disabled aria-disabled="true" class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('test')">
                     Delete Role
                 </button>
             </td>

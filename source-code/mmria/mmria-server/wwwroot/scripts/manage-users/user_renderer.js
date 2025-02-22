@@ -244,6 +244,7 @@ function get_role_list()
         }
     }
     
+    result.sort();
 
     return result;
 }

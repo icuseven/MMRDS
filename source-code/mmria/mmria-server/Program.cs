@@ -608,8 +608,8 @@ public sealed partial class Program
 
             app.UseDefaultFiles();
 
-            app.MapStaticAssets();
-            //app.UseStaticFiles();
+            //app.MapStaticAssets();
+            app.UseStaticFiles();
 
 
 

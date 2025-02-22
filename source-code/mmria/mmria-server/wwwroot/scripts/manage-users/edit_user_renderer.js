@@ -7,7 +7,7 @@ function edit_user_renderer(p_user)
         role_user_name =  p_user.split(":")[1];
     }
 
-    $("#manage_user_label").html('View User');
+    $("#manage_user_label").html('Edit User');
     const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
     
     return `
@@ -16,9 +16,9 @@ function edit_user_renderer(p_user)
                 <h2 class="h4">User Info</h2>
             </div>
             <div class="ml-auto">
-                <button class="btn primary-button">Enable Edit</button>
-                <button disabled aria-disabled="true" class="btn primary-button">Save User Edits</button>
-                <button disabled aria-disabled="true" class="btn primary-button">Undo</button>
+                <button disabled aria-disabled="true" class="btn primary-button">Enable Edit</button>
+                <button class="btn primary-button">Save User Edits</button>
+                <button class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
@@ -151,6 +151,7 @@ function user_assigned_role_renderer(p_user_jurisdiction)
 {
     const role_set = get_role_list();
     const temp_result = [];
+
     role_set.forEach(role => {
         if(role !== "")
         {
@@ -213,4 +214,95 @@ function user_assigned_role_renderer(p_user_jurisdiction)
         </tr>
     `;
     return result;
+}
+
+function get_role_list()
+{
+    let result = [];
+
+    if(g_is_pmss_enhanced)
+    {
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin', "vro"];
+        }
+    }
+    else
+    {
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
+        }
+    }
+    
+    result.sort();
+
+    return result;
+}
+
+function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_name)
+{
+	var result = [];
+	if( p_data._id)
+	{
+		result.push("><option></option>")
+		p_level = 0;
+	}
+    let is_managed_jusisdiction = false;
+    for (const key in g_managed_jurisdiction_set) 
+    {
+        if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+        {
+            if(p_data.name.indexOf(key) == 0)
+            {
+                is_managed_jusisdiction = true;
+                break;
+            }
+        }
+    }
+    if(is_managed_jusisdiction)
+    {
+        result.push(`<option value=${p_data.name}`);
+        if(p_data.name == p_selected_id)
+        {
+            result.push(" selected=true")
+        }
+        result.push(">");
+        result.push(p_data.name == "/" ? "Top Folder" : p_data.name);
+        result.push("</option>");
+    }
+    if(p_data.children != null)
+    {
+        for(var i = 0; i < p_data.children.length; i++)
+        {
+            var child = p_data.children[i];
+            Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1, p_user_name));
+            
+        }
+    }
+	return result;
 }
