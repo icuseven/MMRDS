@@ -8,7 +8,12 @@ function edit_user_renderer(p_user)
     }
 
     $("#manage_user_label").html('Edit User');
-    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
+
+    function sort_list(a, b)
+    {
+        return ('' + a.role_name).localeCompare(b.role_name)
+    }
+    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name).sort(sort_list);
     
     return `
         <div class="d-flex mt-4">
@@ -228,7 +233,7 @@ function get_role_list()
             g_is_installation_admin.toLowerCase() == "true"
         )
         {
-            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'installation_admin', 'steve_mmria', 'steve_prams', 'vital_importer', "vro"];
         }
         else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
         {
@@ -247,7 +252,7 @@ function get_role_list()
             g_is_installation_admin.toLowerCase() == "true"
         )
         {
-            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
+            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'installation_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
         }
         else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
         {
