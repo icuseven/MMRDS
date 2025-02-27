@@ -74,7 +74,7 @@ function render_user_table_navigation()
             </button>
             <div class='ml-auto mr-3 d-flex'>
                 <div class='d-flex align-items-center'>
-                    <div>Showing 1-10 of 30 cases</div>
+                    <div>Showing 1-10 of 30 user(s)</div>
                     <div class='row ml-2'>
                         <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
                         <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>

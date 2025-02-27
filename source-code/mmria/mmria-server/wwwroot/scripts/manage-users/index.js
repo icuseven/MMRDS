@@ -9,7 +9,7 @@ let g_managed_jurisdiction_set = {}
 
 g_user_set = new Set();
 
-var g_ui = { 
+const g_ui = { 
 	user_summary_list:[],
 	user_list:[],
 	data:null,
