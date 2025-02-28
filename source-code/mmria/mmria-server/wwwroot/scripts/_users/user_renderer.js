@@ -406,8 +406,8 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 	if( p_data._id)
 	{
 
-		result.push("<select id='selected_user_role_for_" + p_user_name + "_jurisdiction' size=1")
-		result.push("><option></option>")
+		result.push("<select id='selected_user_role_for_" + p_user_name + "_jurisdiction' size=1>")
+		result.push("<option value=''>Select Case Folder</option>")
 		p_level = 0;
 	}
 

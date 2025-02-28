@@ -42,7 +42,7 @@ function summary_render(p_ui, p_created_by)
         <div style='clear:both;'>
             <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User management table</caption>
                 <thead>
-                    <tr class='header-level-2'>
+                    <tr class='header-level-2 sticky-header z-index-top'>
                         <th width='250' scope='colgroup'>Username (Email Address)</th>
                         <th scope='colgroup;'>Role(s)</th>
                         <th width='250' scope='colgroup;'>Actions</th>
@@ -100,6 +100,7 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
 {
 	//var result = [];
     var role_count = 0;
+    var disable_inactive_state_button = true;
 	// result.push("<tr id='" +  convert_to_jquery_id(p_user._id) + "' valign=top><td>");
 	// result.push('<div>' + p_user.name + '</div>');
     // result.push('</td>');
@@ -129,6 +130,7 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
             user_role.user_id == p_user.name
         )
 		{
+            role_count = role_count + 1;
             role_result.push('<div>');
             var role_name = user_role.role_name.split('_');
             role_name = role_name.map(section => {
@@ -142,9 +144,14 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
 			role_result.push(user_role.jurisdiction_id  == "/"? "Top Folder": user_role.jurisdiction_id);
 			role_result.push(" / ");
             if(user_role.is_active)
+            {
 			    role_result.push(" Active");
+                disable_inactive_state_button = false;
+            }
             else
+            {
                 role_result.push(" Inactive");
+            }
             role_result.push('</div>');
 		}
 	}
@@ -169,32 +176,34 @@ function user_entry_render(p_user, p_i, p_created_by, role_set)
 
 	// result.push("</td>")
 	// result.push("</tr>");
-
+    if(role_count <= 0)
+    {
+        disable_inactive_state_button = true;
+    }
     const result = [`
         <tr id=" +  ${convert_to_jquery_id(p_user._id)} + " valign=top>
             <td>
                 <div>
-                    <button onclick="view_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
+                    <button aria-label="View user ${p_user.name}" onclick="view_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
                 </div>
             </td>
             <td>
-                <div style="overflow-x: hidden; overflow-y: auto; height: 100px;">
+                <div id="role_results_${p_user.name}" style="overflow-x: hidden; overflow-y: auto; height: 100px;">
                     ${role_result.join("")}
                 </div>
             </td>
             <td>
                 <div class="d-flex flex-column col-12">
-                <button class="btn secondary-button" aria-label="Set all roles to inactive for ${p_user.name}" onclick="set_roles_inactive_for_user_click('${p_user._id}')">
+                <button aria-disabled="${disable_inactive_state_button ? true : false}" ${disable_inactive_state_button ? 'disabled' : ''} id="set_role_active_state_button_${p_user.name}" class="btn secondary-button" aria-label="Set all roles to inactive for ${p_user.name}" onclick="set_all_roles_active_state('${p_user.name}')">
                     Set All Roles to Inactive
                 </button>
-                <button class="btn delete-button" aria-label="Delete user ${p_user.name}" onclick="delete_user_click('${p_user._id}')">
+                <button id="delete_button_${p_user.name}" class="btn delete-button" aria-label="Delete user ${p_user.name}" onclick="init_small_loader(function(){ $mmria.confirm_user_delete_dialog_show('${p_user._id}', '${p_user._rev}', delete_user_click) })">
                     Delete
                 </button>
                 </div>
             </td>
         </tr>
     `];
-
 
 	return result;
 }
@@ -347,7 +356,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 	var result = [];
 	if( p_data._id)
 	{
-		result.push("><option></option>")
+
 		p_level = 0;
 	}
     let is_managed_jusisdiction = false;
@@ -364,7 +373,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
     }
     if(is_managed_jusisdiction)
     {
-        result.push(`<option value=${p_data.name}`);
+        result.push(`<option value="${p_data.name}"`);
         if(p_data.name == p_selected_id)
         {
             result.push(" selected=true")

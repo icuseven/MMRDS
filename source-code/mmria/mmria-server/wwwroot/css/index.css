@@ -37833,4 +37833,16 @@ tr.sticky th, tr.sticky td {
   float: right;
 }
 
+.is-invalid-button {
+  outline: none;
+  box-shadow: 0 0 0 2px #dc3545;
+}
+
+.data-cell-error-message {
+  position: absolute;
+  top: 100%; /* Position below the select element */
+  left: 0;
+  width: 100%;
+}
+
 /*# sourceMappingURL=index.css.map */
