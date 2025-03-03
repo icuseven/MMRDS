@@ -194,6 +194,8 @@ public sealed class v3_7_Migration
 
 					C_Get_Set_Value.get_value_result value_result = gs.get_value(doc, "_id");
 
+					var mmria_case_id = value_result.result.ToString();
+
 					
 					string get_value(string p_path)
 					{
@@ -282,7 +284,7 @@ public sealed class v3_7_Migration
 
 								new_list.Add((current_item.Item1, new_value));
 								has_changed = true;
-								System.Console.WriteLine($"Updated Trazodone for {current_value} : {path}");
+								System.Console.WriteLine($"Updated Trazodone for {mmria_case_id} {current_value} => {new_value}: {path}");
 								
 							}
 							else

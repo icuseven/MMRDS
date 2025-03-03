@@ -46,10 +46,10 @@ class Program
 
     static List<string> test_list = new List<string>()
     {
-        //"qa"
+        "qa"
 //"localhost",
 //"fl_dev",
-"test"
+//"test"
 /*
 "as",
 "cnmi",
@@ -322,7 +322,7 @@ ma",
         bool is_report_only_mode = false;
 
 
-        RunTypeEnum MigrationType = RunTypeEnum.OneTime;
+        RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
 
         
 
@@ -532,8 +532,8 @@ ma",
                 else if(MigrationType == RunTypeEnum.DataMigration)
                 {
                     
-                    var v3_3_Migration = new migrate.set.v3_3_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
-                    await v3_3_Migration.execute();
+                    var v3_7_Migration = new migrate.set.v3_7_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
+                    await v3_7_Migration.execute();
 
                     //var CVS_Migration = new migrate.set.CVS_Migration(config_couchdb_url, db_name, config_timer_user_name, config_timer_value, output_string_builder["Process_Migrate_Charactor_to_Numeric"][prefix], summary_value_dictionary[prefix], is_report_only_mode, ConfigurationSet);
                     //await CVS_Migration.execute();
