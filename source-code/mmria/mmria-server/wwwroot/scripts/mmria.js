@@ -1239,6 +1239,67 @@ var $mmria = function()
             let el = document.getElementById("confirm-external-nav-dialog-id");
             el.close();
         },
+        confirm_user_delete_dialog_show: function 
+        (
+            p_user_id,
+            p_rev,
+            p_confirm_dialog_confirm_callback, 
+        )
+        {
+            let element = document.getElementById("confirm-user-delete-dialog-id");
+            if(element == null)
+            {
+                element = document.createElement("dialog");
+                element.classList.add(...['p-0', 'set-radius', 'card-container-dark', 'col-md-4']);
+                element.setAttribute("id", "confirm-user-delete-dialog-id");
+                element.setAttribute("role", "dialog");
+
+                document.firstElementChild.appendChild(element);
+            }
+
+
+            let html = [];
+            html.push(`
+                <div class="ui-dialog-titlebar modal-header ui-widget-header ui-helper-clearfix">
+                    <div id="ui-id-1" class="ui-dialog-title">Delete User Confirmation</div>
+                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_user_delete_dialog_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                </div>
+                <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
+                    <div class="modal-body card-content">
+                        <p>Are you sure want to delete: <b class="text-danger">${p_user_id.split(":")[1]}</b>?</p>
+                    </div>
+                    <footer class="modal-footer">
+                        <button onclick="$mmria.confirm_user_delete_dialog_close()" id="confirm-user-delete-dialog-id-cancel-button" class="btn secondary-button mr-1" autofocus >Cancel</button>
+                        <button id="confirm-user-delete-dialog-id-confirm-button" class="btn delete-button mr-1" >Delete user</button> 
+                    </footer>
+                </div>
+            `);
+            
+            element.innerHTML = html.join("");
+
+            element.style.top = ((window.innerHeight/2) - (element.offsetHeight/2))+'px';
+            //element.style.left = ((window.innerWidth/2) - (element.offsetWidth/2))+'px';
+
+            let confirm_button = document.getElementById("confirm-user-delete-dialog-id-confirm-button");
+            let cancel_button = document.getElementById("confirm-user-delete-dialog-id-cancel-button");
+            //let modal_confirm_cancel_icon = document.getElementById("modal_confirm_external_cancel_icon");
+
+            confirm_button.onclick =  () => {
+                p_confirm_dialog_confirm_callback(p_user_id, p_rev);
+            };
+            //modal_confirm_cancel_icon.onclick = p_confirm_dialog_cancel_callback;
+
+
+            mmria_pre_modal("confirm-user-delete-dialog-id");
+
+            element.showModal();
+        },
+        confirm_user_delete_dialog_close: function ()
+        {
+            mmria_post_modal();
+            let el = document.getElementById("confirm-user-delete-dialog-id");
+            el.close();
+        },
         get_year_and_quarter: function (p_value)
         {
             let result = null;

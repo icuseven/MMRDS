@@ -27,9 +27,22 @@ function edit_user_renderer(p_user)
             </div>
         </div>
         <div class="d-flex">
-            <div class="vertical-control required col-4 pl-0">
+            <div class="vertical-control col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
                 <input disabled aria-disabled="true" value="${role_user_name}" autocomplete="off" class="form-control" type="text" id="new_user_email">
+            </div>
+        </div>
+        <div class="mt-3 mb-3">
+            <h2 class="h4">Change Password</h2>
+        </div>
+        <div class="d-flex">
+            <div class="vertical-control col-4 pl-0">
+                <label>Password</label>
+                <input type="password" autocomplete="off" class="form-control" type="text" id="new_user_password">
+            </div>
+            <div class="vertical-control col-4 pl-0 pr-0">
+                <label>Verify Password</label>
+                <input type="password" autocomplete="off" class="form-control" type="text" id="new_user_password_verify">
             </div>
         </div>
         <div class="d-flex flex-column mt-4">
@@ -38,21 +51,25 @@ function edit_user_renderer(p_user)
             </div>
             <table class="table mt-3">
                 <thead>
-                    <tr class="header-level-2">
+                    <tr class="header-level-2 sticky-header z-index-top">
                         <th>Role Name</th>
                         <th>Case Folder Access</th>
+                        <th>Effective Start Date</th>
+                        <th>Effective End Date</th>
                         <th>Active Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="edit_user_roles">
                     ${
-                        render_editable_role_rows(user_role_jurisdiction)
+                        user_role_jurisdiction && user_role_jurisdiction.length > 0
+                            ? render_editable_role_rows(user_role_jurisdiction)
+                            : '<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>'
                     }
                 </tbody>
             </table>
-            <div id="add_new_role_container" class="d-none ml-auto mt-2">
-                <button class="btn secondary-button col-12 hidden" aria-label="Add new role" onclick="add_new_role()">
+            <div id="add_new_role_container" class="ml-auto mt-2">
+                <button class="btn secondary-button col-12" aria-label="Add new role" onclick='edit_add_role(${JSON.stringify(user_role_jurisdiction || [])})'>
                     Add New Role
                 </button>
             </div>
@@ -116,13 +133,15 @@ function edit_user_renderer(p_user)
 
 }
 
-function delete_role(role_to_delete)
+function delete_role(p_user_roles, p_role_to_delete)
 {
     //To-Do: delete role
-    console.log(`Deleting role ${role_to_delete}`);
+    if(p_user_roles.length <= 0)
+        $("#edit_user_roles").append('<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>')
+    console.log(`Deleting role ${p_role_to_delete}`);
 }
 
-function add_new_role()
+function add_edit_role()
 {
     //To-Do: add role
     console.log(`Adding role`);
@@ -171,6 +190,7 @@ function user_assigned_role_renderer(p_user_jurisdiction)
     const role_set = get_role_list();
     const temp_result = [];
 
+    temp_result.push('<option value="">Select Role</option>');
     role_set.forEach(role => {
         if(role !== "")
         {
@@ -207,17 +227,23 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                 </div>
             </td>
             <td>
+                <input id="${new_user_roles.length.toString()}_role_effective_start_date" aria-label="Effective Start Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
+            <td>
+                <input id="${new_user_roles.length.toString()}_role_effective_end_date" aria-label="Effective End Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
+            <td>
                 <div class="vertical-control col-md-12">
                     <fieldset>
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="" id="${p_user_jurisdiction.role_name}_active_status_true">
+                            <input ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="true" id="${p_user_jurisdiction.role_name}_active_status_true">
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
+                            <input ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="false" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
                                 Inactive
                             </label>
@@ -226,7 +252,7 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                 </div>
             </td>
             <td class="d-flex pt-3 justify-content-center border-none">
-                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('test')">
+                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role(${new_user_roles.length.toString()}, '${p_user_jurisdiction.role_name}')">
                     Delete Role
                 </button>
             </td>
@@ -288,7 +314,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
 	var result = [];
 	if( p_data._id)
 	{
-		result.push("><option></option>")
+		result.push("<option value=''>Select Case Folder</option>")
 		p_level = 0;
 	}
     let is_managed_jusisdiction = false;
@@ -305,7 +331,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
     }
     if(is_managed_jusisdiction)
     {
-        result.push(`<option value=${p_data.name}`);
+        result.push(`<option value="${p_data.name}"`);
         if(p_data.name == p_selected_id)
         {
             result.push(" selected=true")
@@ -324,4 +350,101 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
         }
     }
 	return result;
+}
+
+function edit_add_role(user_role_jurisdiction)
+{
+    $('#no-roles-placeholder').remove();
+    //const user_current_roles = JSON.parse(user_role_jurisdiction);
+    console.log("Adding new role");
+    console.log(user_role_jurisdiction);
+    $('#edit_user_roles').append(edit_add_assigned_role(user_role_jurisdiction));
+}
+
+function edit_add_assigned_role(user_role_jurisdiction)
+{
+    const unique_guid = $mmria.get_new_guid();
+    user_role_jurisdiction.push({
+        _id: unique_guid,
+        role_name : "",
+        user_id: "",
+        jurisdiction_id: "",
+        effective_start_date: new Date(new Date().setHours(0,0,0,0)),
+        effective_end_date: g_policy_values.default_days_in_effective_date_interval != null && parseInt(g_policy_values.default_days_in_effective_date_interval) >0? new Date(new Date().getTime() + parseInt(g_policy_values.default_days_in_effective_date_interval)*24*60*60*1000).setHours(0,0,0,0) : "",
+        is_active: true,
+        date_created: new Date(),
+        created_by: g_current_u_id,
+        date_last_updated: new Date(),
+        last_updated_by: g_current_u_id,
+        data_type:"user_role_jursidiction"
+    });
+    const role_set = get_role_list();
+    const temp_result = [];
+    temp_result.push('<option value="">Select Role</option>');
+    role_set.forEach(role => {
+        if(role !== "")
+        {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            temp_result.push("<option ");
+            temp_result.push("value ='" + role + "'>");
+            temp_result.push(role_name.join(" "));
+            temp_result.push("</option>");
+        }
+
+    })
+    const result = `
+        <tr id="${new_user_roles.length.toString()}_role">
+            <td width="485">
+                <div class="vertical-control p-0 mb-4 col-md-12">
+                    <select id="${unique_guid}_role_type" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
+                        ${temp_result.join("")}
+                    </select>
+                </div>
+            </td>
+            <td width="485">
+                <div class="vertical-control p-0 mb-4 col-md-12">
+                    <select id="${unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
+                        ${user_role_jurisdiction_render(g_jurisdiction_tree, "", 0, "").join("")}
+                    </select>
+                </div>
+            </td>
+            <td>
+                <input value="${format_date(new Date().toISOString())}" id="${unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
+            <td>
+                <input id="${unique_guid}_role_effective_end_date" aria-label="Effective End Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
+            <td>
+                <div class="vertical-control col-md-12">
+                    <fieldset>
+                        <legend class="accessible-hide">Active Status</legend>
+                        <div class="form-check">
+                            <input checked class="form-check-input big-radio" name="${unique_guid}_role_active_status" type="radio" value="true" id="${unique_guid}_role_active_status_true">
+                            <label class="form-check-label" for="${unique_guid}_role_active_status_true">
+                                Active
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input big-radio" type="radio" value="false" name="${unique_guid}_role_active_status" id="${unique_guid}_role_active_status_false">
+                            <label class="form-check-label" for="${unique_guid}_role_active_status_false">
+                                Inactive
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+            </td>
+            <td class="d-flex pt-3 justify-content-center border-none">
+                <button id="${unique_guid}_delete" class="btn delete-button col-12" aria-label="Delete role" onclick="delete_new_role('${unique_guid}')">
+                    Delete Role
+                </button>
+            </td>
+        </tr>
+    `;
+    return result;
 }

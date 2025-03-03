@@ -22,7 +22,7 @@ function view_user_renderer(p_user)
             </div>
         </div>
         <div class="d-flex">
-            <div class="vertical-control required col-4 pl-0">
+            <div class="vertical-control col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
                 <input disabled aria-disabled="true" value="${role_user_name}" autocomplete="off" class="form-control" type="text" id="new_user_email">
             </div>
@@ -33,16 +33,20 @@ function view_user_renderer(p_user)
             </div>
             <table class="table mt-3">
                 <thead>
-                    <tr class="header-level-2">
+                    <tr class="header-level-2 sticky-header z-index-top">
                         <th>Role Name</th>
                         <th>Case Folder Access</th>
+                        <th>Effective Start Date</th>
+                        <th>Effective End Date</th>
                         <th>Active Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${
-                        render_read_only_role_rows(user_role_jurisdiction)
+                        user_role_jurisdiction && user_role_jurisdiction.length > 0
+                            ? render_read_only_role_rows(user_role_jurisdiction)
+                            : '<tr class="text-center"><td colspan="6">No roles assigned.</td></tr>'
                     }
                 </tbody>
             </table>
@@ -111,6 +115,12 @@ function view_user_renderer(p_user)
 
 }
 
+
+// function add_new_role()
+// {
+//     //To-Do: add role
+//     console.log(`Adding role`);
+// }
 
 function render_account_history_table_navigation_view()
 {
@@ -191,6 +201,12 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
                     </select>
                 </div>
             </td>
+             <td>
+                <input disabled aria-disabled="true" id="${new_user_roles.length.toString()}_role_effective_start_date" aria-label="Effective Start Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
+            <td>
+                <input disabled aria-disabled="true"  id="${new_user_roles.length.toString()}_role_effective_end_date" aria-label="Effective End Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+            </td>
             <td>
                 <div class="vertical-control col-md-12">
                     <fieldset>
@@ -218,4 +234,12 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
         </tr>
     `;
     return result;
+}
+
+function format_date(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
