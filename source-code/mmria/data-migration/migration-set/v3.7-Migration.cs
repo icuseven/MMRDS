@@ -284,7 +284,9 @@ public sealed class v3_7_Migration
 
 								new_list.Add((current_item.Item1, new_value));
 								has_changed = true;
-								System.Console.WriteLine($"Updated Trazodone for {mmria_case_id} {current_value} => {new_value}: {path}");
+								var text = $"Updated Trazodone for {mmria_case_id} {current_value} => {new_value}: {path}";
+								System.Console.WriteLine(text);
+								output_builder.AppendLine(text);
 								
 							}
 							else
