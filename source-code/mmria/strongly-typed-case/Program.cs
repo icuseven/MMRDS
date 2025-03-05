@@ -24,6 +24,14 @@ internal class Program
         {
             Console.WriteLine("Executinng: Generate_From_Metadata");
 
+            var di = new System.IO.DirectoryInfo("output");
+
+            foreach (System.IO.FileInfo file in di.GetFiles())
+            {
+                file.Delete(); 
+            }
+
+
             /*
 
             using System.Net.Http.Json;
@@ -61,10 +69,11 @@ internal class Program
             "23.11.08",
             "24.03.01",
             "24.06.16",
-            "24.10.01"
+            "24.10.01",
+            "25.02.13"
         };
 
-        var metadata_index = 3;
+        var metadata_index = 4;
 
         //var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
 
@@ -85,7 +94,8 @@ internal class Program
             Console.WriteLine($"node name: {metadata.name} prompt: {metadata.prompt} type: {metadata.type}");
         }
 
-        var metadata_mgr = new metadata_mgr(metadata, "v1");
+        var name_space_version = $"v{metadata_version.Replace(".", "")}";
+        var metadata_mgr = new metadata_mgr(metadata, name_space_version);
         var total_count = metadata_mgr.single_form_value_set.Count + 
             metadata_mgr.single_form_grid_value_set.Count + 
             metadata_mgr.multiform_value_set.Count + 
@@ -133,33 +143,36 @@ namespace mmria.case_version.v241001;");*/
 
         System.IO.File.WriteAllText("output/mmria_case.cs", builder.ToString());
 
+        var mmria_case_convert_template = System.IO.File.ReadAllText("mmria_case.convert.cs").Replace(".v241001;",$".{name_space_version};");
+        System.IO.File.WriteAllText("output/mmria_case.convert.cs", mmria_case_convert_template);
+
 // S
 
-        var S_Get = new Template_Writer_S_Get(metadata_mgr.dictionary_set);
+        var S_Get = new Template_Writer_S_Get(metadata_mgr.dictionary_set, name_space_version);
         await S_Get.Execute();
         
 //  SG
 
-        var SG_Get = new Template_Writer_SG_Get(metadata_mgr.dictionary_set);
+        var SG_Get = new Template_Writer_SG_Get(metadata_mgr.dictionary_set, name_space_version);
         await SG_Get.Execute();
 
-        var S_Set = new Template_Writer_S_Set(metadata_mgr.dictionary_set);
+        var S_Set = new Template_Writer_S_Set(metadata_mgr.dictionary_set, name_space_version);
         await S_Set.Execute();
 
 
-        var SG_Set = new Template_Writer_SG_Set(metadata_mgr.dictionary_set);
+        var SG_Set = new Template_Writer_SG_Set(metadata_mgr.dictionary_set, name_space_version);
         await SG_Set.Execute();
 
-        var M_Get = new Template_Writer_M_Get(metadata_mgr.dictionary_set);
+        var M_Get = new Template_Writer_M_Get(metadata_mgr.dictionary_set, name_space_version);
         await M_Get.Execute();
 
-        var MG_Get = new Template_Writer_MG_Get(metadata_mgr.dictionary_set);
+        var MG_Get = new Template_Writer_MG_Get(metadata_mgr.dictionary_set, name_space_version);
         await MG_Get.Execute();
 
-        var M_Set = new Template_Writer_M_Set(metadata_mgr.dictionary_set);
+        var M_Set = new Template_Writer_M_Set(metadata_mgr.dictionary_set, name_space_version);
         await M_Set.Execute();
 
-        var MG_Set = new Template_Writer_MG_Set(metadata_mgr.dictionary_set);
+        var MG_Set = new Template_Writer_MG_Set(metadata_mgr.dictionary_set, name_space_version);
         await MG_Set.Execute();
         
         /*
@@ -173,16 +186,16 @@ namespace mmria.case_version.v241001;");*/
         {
             Console.WriteLine("Executinng: Test_Output_Load_Json");
 
-            mmria.case_version.v1.mmria_case test_case = new mmria.case_version.v1.mmria_case();
+/*            mmria.case_version.v1.mmria_case test_case = new mmria.case_version.v1.mmria_case();
             try
             {
 
-/*
+
                 System.Text.Json.JsonDocumentOptions options = new()
                 {
                     WriteIndented = true
                 };
-                */
+                * /
 
                 using System.IO.FileStream stream = System.IO.File.OpenRead("json-convert-test/23.11.08.json");
                 //test_case = await System.Text.Json.JsonSerializer.DeserializeAsync<mmria.case_version.v1.mmria_case>(stream);
@@ -237,6 +250,7 @@ namespace mmria.case_version.v241001;");*/
             {
                 System.Console.WriteLine(ex);
             }
+            */
 
         }
 
