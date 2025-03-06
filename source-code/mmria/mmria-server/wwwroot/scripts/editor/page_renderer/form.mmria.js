@@ -1955,7 +1955,7 @@ function show_audit_click(p_id)
 }
 
 
-function form_get_disabled(p_metadata)
+function form_get_disabled(p_metadata, p_path)
 {
     let result = " disabled = 'disabled' ";
 

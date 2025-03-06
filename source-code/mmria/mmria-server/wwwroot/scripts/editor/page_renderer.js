@@ -380,7 +380,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		disabled_html = " ";
 	}
 */
-    let disabled_html = form_get_disabled(p_metadata);
+    let disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
 
 	p_result.push("<input autocomplete=off ");
 	p_result.push(` id="${convert_object_path_to_jquery_id(p_object_path)}_control" `);

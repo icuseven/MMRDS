@@ -1836,14 +1836,103 @@ function get_header_name(p_value)
 	return `${display_name} - ${g_data.tracking.admin_info.track_year} - ${g_data.tracking.death_certificate_number}`;
 }
 
-function form_get_disabled(p_metadata)
+function form_get_disabled(p_metadata, p_dictionary_path)
 {
     let result = " disabled = 'disabled' ";
 
+    const control_path = new Set();
+
+    control_path.add('tracking/cdc_case_matching_results/preg_cb_match');
+    control_path.add('tracking/cdc_case_matching_results/literal_cod_match');
+    control_path.add('tracking/cdc_case_matching_results/icd10_match');
+    control_path.add('tracking/cdc_case_matching_results/bc_match');
+    control_path.add('tracking/cdc_case_matching_results/fdc_match');
+
+    const check_value = g_data.tracking.admin_info.steve_transfer;
+
+    const form_path = new Set();
+
+    form_path.add('ije_dc');
+    form_path.add('ije_bc');
+    form_path.add('ije_fetaldc');
+
+
+
 	if(g_data_is_checked_out || p_metadata.type == 'always_enabled_button')
 	{
-		result = " ";
+        if(g_data_is_checked_out)
+        {
+            if(check_value != 1)
+            {
+                result = " ";
+            }
+            else
+            {
+                let is_found = false;
+
+                if(control_path.has(p_dictionary_path))
+                {
+                    is_found = true;
+                }
+                else
+                {
+                    for(var i of form_path)
+                    {
+                        if(p_dictionary_path.indexOf(i) == 0)
+                        {
+                            is_found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (! is_found)
+                {
+                    result = " ";
+                }
+            }
+        }
+        else
+        {
+            result = " ";
+        }
+
 	}
+
+    
 
     return result;
 }
+
+/*
+
+Stated Rule: 	If “12c. Maternal Birthplace” is “1:Born in the United States (including territories)” Then ENABLE “12c1. Birhtplace State” AND DISABLE	“12c2. Birthplace Country”
+
+Coded Rule:	IF  app/demographic/q12/matbplc = 1 THEN ENABLE app/demographic/q12/matbplc_us  AND DISABLE 	app/demographic/q12/matbplc_else			(1:US)
+		ELSE IF  app/demographic/q12/matbplc = 2 THEN ENABLE app/demographic/q12/matbplc_else  AND DISABLE  app/demographic/q12/matbplc_us	
+		ELSE IF  app/demographic/q12/matbplc = 9 THEN DISABLE app/demographic/q12/matbplc_us  AND DISABLE  app/demographic/q12/matbplc_else
+When:		When user edits data in the “12c. Maternal Birthplace” field (app/demographic/q12/matbplc)    OR  when the form is first opened (data being prefilled via vitals import or manually entered previously).
+
+
+path=tracking/admin_info/steve_transfer value == 1
+
+        1 ije_dc
+        1 ije_bc
+        1 ije_fetaldc
+        1 tracking/cdc_case_matching_results/preg_cb_match
+        1 tracking/cdc_case_matching_results/literal_cod_match
+        1 tracking/cdc_case_matching_results/icd10_match
+        1 tracking/cdc_case_matching_results/bc_match
+        1 tracking/cdc_case_matching_results/fdc_match
+
+        set_enable: function(p_dictionary_path, p_form_index, p_grid_index)
+        
+         if(p_value == 1)
+            set_disable: function(p_dictionary_path, p_form_index, p_grid_index)
+         else
+            set_enable
+
+        
+
+
+*/
