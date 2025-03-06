@@ -1876,7 +1876,7 @@ function form_get_disabled(p_metadata, p_dictionary_path)
                 }
                 else
                 {
-                    for(var i of form_path)
+                    for(let i of form_path)
                     {
                         if(p_dictionary_path.indexOf(i) == 0)
                         {
