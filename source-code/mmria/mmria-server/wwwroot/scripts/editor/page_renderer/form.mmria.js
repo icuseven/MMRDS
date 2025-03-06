@@ -1953,3 +1953,16 @@ function show_audit_click(p_id)
     window.open('./_audit/' + p_id + '/1', '_audit');
    //window.open('./_audit/' + p_id, '_audit');
 }
+
+
+function form_get_disabled(p_metadata)
+{
+    let result = " disabled = 'disabled' ";
+
+	if(g_data_is_checked_out || p_metadata.type == 'always_enabled_button')
+	{
+		result = " ";
+	}
+
+    return result;
+}

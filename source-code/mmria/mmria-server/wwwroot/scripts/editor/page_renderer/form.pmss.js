@@ -1835,3 +1835,15 @@ function get_header_name(p_value)
 	
 	return `${display_name} - ${g_data.tracking.admin_info.track_year} - ${g_data.tracking.death_certificate_number}`;
 }
+
+function form_get_disabled(p_metadata)
+{
+    let result = " disabled = 'disabled' ";
+
+	if(g_data_is_checked_out || p_metadata.type == 'always_enabled_button')
+	{
+		result = " ";
+	}
+
+    return result;
+}
