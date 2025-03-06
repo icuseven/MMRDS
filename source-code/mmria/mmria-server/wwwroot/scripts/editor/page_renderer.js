@@ -514,7 +514,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
                     !isNaN(parseInt(p_metadata.max_length, 10))
                 )
                 {
-                    p_result.push("max_length=");
+                    p_result.push("maxlength=");
                     p_result.push(p_metadata.max_length);
                 }
                 p_result.push(" type='text' name='")
