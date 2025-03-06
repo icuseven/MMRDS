@@ -1,4 +1,14 @@
 var new_user_roles = [];
+var audit_history = [];
+var can_undo = false;
+const ACTION_TYPE = {
+    ADD_USER: 'add_user',
+    ADD_ROLE: 'add_role',
+    DELETE_ROLE: 'delete_role',
+    EDIT_ROLE: 'edit_role',
+    EDIT_PASSWORD: 'edit_password',
+    EDIT_USERNAME: 'edit_username',
+}
 
 function add_new_user_render(p_user_id) {
     $("#manage_user_label").html('Add New User');
@@ -9,7 +19,7 @@ function add_new_user_render(p_user_id) {
             </div>
             <div class="ml-auto">
                 <button onclick="save_new_user()" class="btn primary-button">Save New User</button>
-                <button class="btn primary-button">Undo</button>
+                <button onclick="audit_history_undo()" id="audit_history_undo_button" ${can_undo === true ? '' : 'disabled'} aria-disabled="${can_undo ? 'false' : 'true'}" class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
@@ -213,6 +223,21 @@ $(document).on('input', '#new_user_password, #new_user_password_verify', functio
     checkPasswordsMatch();
 });
 
+$(document).on('input', 'input[type="text"], input[type="password"]', function() {
+    const id = $(this).attr('id');
+    const value = $(this).val();
+    if(id.includes('password')) {
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_PASSWORD, $(this).data('previousValue'), value);
+    } else if (id.includes('new_user_email')) {
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, $(this).data('previousValue'), value);
+    }
+});
+
+$(document).on('focus', 'input', function() {
+    $(this).data('previousValue', $(this).val());
+    console.log($(this).val());
+});
+
 // Event delegation for change event on radio buttons
 $(document).on('change', 'input[type="radio"]', function() {
     const value = $(this).val();
@@ -220,6 +245,7 @@ $(document).on('change', 'input[type="radio"]', function() {
     const role = new_user_roles.find(role => role._id === role_id);
     role.is_active = value === 'true';
     console.log(`Role ${role_id} active status changed to: ${value}`);
+    add_to_audit_history(g_current_u_id, `${role_id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, value === "true" ? "false" : "true", value);
 });
 
 // Event delegation for change event on select inputs
@@ -228,11 +254,16 @@ $(document).on('change', 'select', function() {
     console.log(`Select input changed to: ${selectedValue}`);
     const role_id = $(this).attr('id').split('_')[0];
     const role = new_user_roles.find(role => role._id === role_id);
-    if($(this).attr('id').includes('role_type'))
+    if($(this).attr('id').includes('role_type')) {
         role.role_name = selectedValue;
-    else if($(this).attr('id').includes('role_jurisdiction_type'))
+        add_to_audit_history(g_current_u_id, `${role_id}_role_type`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), selectedValue);
+    }
+    else if($(this).attr('id').includes('role_jurisdiction_type')) {
         role.jurisdiction_id = selectedValue;
+        add_to_audit_history(g_current_u_id, `${role_id}_role_jurisdiction_type`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), selectedValue);
+    }
     console.log(`Role ${role_id} jurisdiction changed to: ${selectedValue}`);
+    assigned_roles_validation_check();
 });
 
 // Event delegation for change event on date inputs
@@ -256,6 +287,7 @@ $(document).on('blur', 'input[type="date"]', function() {
             $(`#${role_id}_role_effective_start_date`).removeClass('is-invalid').css('color', '');
             $(`#${role_id}_role_start_date_validation`).text('').css('color', '');
         }
+        add_to_audit_history(g_current_u_id, `${role_id}_role_effective_start_date`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), date);
     } else if($(this).attr('id').includes('role_effective_end_date')) {
         role.effective_end_date = date === "" ? "" : new Date(date);
         if (!$(this)[0].validity.valid) {
@@ -268,6 +300,7 @@ $(document).on('blur', 'input[type="date"]', function() {
             $(`#${role_id}_role_effective_end_date`).removeClass('is-invalid').css('color', '');
             $(`#${role_id}_role_end_date_validation`).text('').css('color', '');
         }
+        add_to_audit_history(g_current_u_id, `${role_id}_role_effective_end_date`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), date);
     }
     console.log(`Role ${role_id} date changed to: ${date}`);
 });
@@ -341,7 +374,7 @@ function save_new_user() {
         $('#password_verify_validation').text('Passwords do not match').css('color', 'red');
         is_valid = false;
     }
-
+    is_valid = assigned_roles_validation_check();
     if(is_valid_user_name(new_user_email))
         {
             if
@@ -373,13 +406,30 @@ function save_new_user() {
             console.log("got nothing.");
         }
 
+    const new_user = {
+        _id: $mmria.get_new_guid(),
+        user_email: new_user_email,
+        user_password: new_user_password,
+        user_roles: new_user_roles,
+        date_created: new Date(),
+        created_by: g_current_u_id,
+        date_last_updated: new Date(),
+        last_updated_by: g_current_u_id,
+        data_type: "user"
+    };
+
+    console.log(new_user);
+    //$mmria.save_data(new_user);
+}
+
+function assigned_roles_validation_check(){
+    let is_valid = true;
     $.each(new_user_roles, function(index, role) {
         const role_id = role._id;
         const role_type = $(`#${role_id}_role_type`).val();
         const role_jurisdiction = $(`#${role_id}_role_jurisdiction_type`).val();
         const role_effective_start_date = $(`#${role_id}_role_effective_start_date`).val();
         const role_effective_end_date = $(`#${role_id}_role_effective_end_date`).val();
-        const role_active_status = $(`input[name="${role_id}_role_active_status"]:checked`).val();
         const matching_role_case = new_user_roles.filter(role => role.role_name === role_type && role.jurisdiction_id === role_jurisdiction);
         if (matching_role_case.length > 1) {
             $(`#${role_id}_role_type`).addClass('is-invalid').css('color', 'red');
@@ -435,19 +485,48 @@ function save_new_user() {
             $(`#${role_id}_role_end_date_validation`).text('').css('color', '');
         }
     });
+    return is_valid;
+}
 
-    const new_user = {
+function add_to_audit_history(p_user_id, p_elem_id, p_action, p_prev_val, p_new_val){
+    const new_audit = {
         _id: $mmria.get_new_guid(),
-        user_email: new_user_email,
-        user_password: new_user_password,
-        user_roles: new_user_roles,
+        user_id: p_user_id,
+        action: p_action,
+        element_id: p_elem_id,
+        prev_value: p_prev_val,
+        new_value: p_new_val,
         date_created: new Date(),
         created_by: g_current_u_id,
         date_last_updated: new Date(),
         last_updated_by: g_current_u_id,
-        data_type: "user"
+        data_type: "audit_history"
     };
+    audit_history.push(new_audit);
+    $('#audit_history_undo_button').prop('disabled', false);
+    $('#audit_history_undo_button').attr('aria-disabled', 'false');
+    $(`#${p_elem_id}`).data('previousValue', p_new_val);
+    console.log(audit_history);
+}
 
-    console.log(new_user);
-    //$mmria.save_data(new_user);
+function audit_history_undo() {
+    const last_audit = audit_history.pop();
+    if (last_audit) {
+        const elem_id = last_audit.element_id;
+        const prev_val = last_audit.prev_value;
+        const new_val = last_audit.new_value;
+        if(elem_id.includes('role_active_status')) {
+            $(`input[name="${elem_id}"][value="${new_val}"]`).prop('checked', false);
+            $(`input[name="${elem_id}"][value="${prev_val}"]`).prop('checked', true);
+        }
+        $(`#${elem_id}`).val(prev_val);
+        $(`#${elem_id}`).data('previousValue', prev_val);
+        can_undo = audit_history.length > 0;
+        $('#audit_history_undo_button').prop('disabled', !can_undo);
+        $('#audit_history_undo_button').attr('aria-disabled', can_undo ? 'false' : 'true');
+        if (last_audit.action === ACTION_TYPE.EDIT_ROLE) {
+            assigned_roles_validation_check();
+        }
+    }
+    console.log(audit_history);
 }
