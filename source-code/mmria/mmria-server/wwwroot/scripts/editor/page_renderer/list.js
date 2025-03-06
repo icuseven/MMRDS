@@ -172,10 +172,8 @@ function list_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obje
     
     let disabled_html = "disabled='true' ";
     
-	if(g_data_is_checked_out)
-	{
-		disabled_html = " ";
-	}
+    disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
+
     p_result.push(disabled_html);
     
     p_result.push(" dpath='")
@@ -987,10 +985,13 @@ function list_radio_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, 
             }
 
             let disabled_html = " disabled = 'disabled' ";
+            /*
             if(g_data_is_checked_out)
             {
                 disabled_html = " ";
             }
+            */
+            disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
             
             let object_id = convert_object_path_to_jquery_id(p_object_path) + '_' +  item.value.replace(/\//g, "--").replace(/ /g, "--").replace(/'/g, "-");
             let input_html = 
@@ -1238,16 +1239,16 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
         p_result.push("' ");
 
         let disabled_html = " disabled = 'disabled' ";
-        if(g_data_is_checked_out)
-        {
-            
-            if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
-            {
-                p_result.push(" disabled ");
-            }
-            else disabled_html = " ";
+     
+        disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
 
+        if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
+        {
+            p_result.push(" disabled ");
         }
+        else disabled_html = " ";
+
+        
         p_result.push(disabled_html);
 
         if(p_item.value=="9999")
@@ -1293,16 +1294,15 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
     p_result.push("' ");
 
     let disabled_html = " disabled = 'disabled' ";
-    if(g_data_is_checked_out)
-    {
+    disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
         
-        if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
-        {
-            p_result.push(" disabled ");
-        }
-        else disabled_html = " ";
-
+    if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
+    {
+        p_result.push(" disabled ");
     }
+    else disabled_html = " ";
+
+    
     p_result.push(disabled_html);
 
     if(p_item.value=="9999")

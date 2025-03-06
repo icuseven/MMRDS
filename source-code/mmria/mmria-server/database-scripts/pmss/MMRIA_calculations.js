@@ -1800,6 +1800,14 @@ event=onchange
 */
 function disable_on_selected_item_list(p_control)
 {
+
+    const control_path = new Set();
+
+    control_path.add('tracking/cdc_case_matching_results/preg_cb_match');
+    control_path.add('tracking/cdc_case_matching_results/literal_cod_match');
+    control_path.add('tracking/cdc_case_matching_results/icd10_match');
+    control_path.add('tracking/cdc_case_matching_results/bc_match');
+    control_path.add('tracking/cdc_case_matching_results/fdc_match');
     /*
         1 ije_dc
         1 ije_bc
@@ -1815,19 +1823,20 @@ function disable_on_selected_item_list(p_control)
 
     */
 
-    if(p_value == 1)
+    if(p_control.value == 1)
     {
 
-        tracking/cdc_case_matching_results/preg_cb_match
-        tracking/cdc_case_matching_results/literal_cod_match
-        tracking/cdc_case_matching_results/icd10_match
-        tracking/cdc_case_matching_results/bc_match
-        tracking/cdc_case_matching_results/fdc_match
-        $mmria.set_disable(p_dictionary_path, p_form_index, p_grid_index) 
+        for(let dictionary_path of control_path)
+        {
+            $mmria.set_disable(dictionary_path, null, null) 
+        }
     }
     else
     {
-        $mmria.set_enable(p_dictionary_path, p_form_index, p_grid_index)
+        for(let dictionary_path of control_path)
+        {
+            $mmria.set_enable(dictionary_path, null, null) 
+        }
     }
 
 

@@ -372,13 +372,15 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		`);
 	}
 
-
+/*
 	let disabled_html = " disabled = 'disabled' ";
 
 	if(g_data_is_checked_out || p_metadata.type == 'always_enabled_button')
 	{
 		disabled_html = " ";
 	}
+*/
+    let disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
 
 	p_result.push("<input autocomplete=off ");
 	p_result.push(` id="${convert_object_path_to_jquery_id(p_object_path)}_control" `);
@@ -512,7 +514,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
                     !isNaN(parseInt(p_metadata.max_length, 10))
                 )
                 {
-                    p_result.push("max_length=");
+                    p_result.push("maxlength=");
                     p_result.push(p_metadata.max_length);
                 }
                 p_result.push(" type='text' name='")

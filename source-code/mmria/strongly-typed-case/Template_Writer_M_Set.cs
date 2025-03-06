@@ -12,16 +12,17 @@ public class Template_Writer_M_Set
 {
 
     Dictionary<string, mmria.common.metadata.Metadata_Node> dictionary_set;
-
-    public Template_Writer_M_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set)
+    string name_space = string.Empty;
+    public Template_Writer_M_Set(Dictionary<string, mmria.common.metadata.Metadata_Node> _dictionary_set, string p_namespace)
     {
         dictionary_set = _dictionary_set;
+        name_space = p_namespace;
     }
 
 
     public async Task Execute()
     {
-        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.m.template.cs.text");
+        var get_set_template = System.IO.File.ReadAllText("mmria_case.set.m.template.cs.text").Replace(".v241001;",$".{name_space};");
         var template_keys = new Dictionary<string, System.Text.StringBuilder>()
         {
             {"//{set_string}", new System.Text.StringBuilder()},
