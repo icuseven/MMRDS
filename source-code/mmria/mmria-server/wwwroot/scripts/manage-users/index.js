@@ -5,9 +5,15 @@ var g_user_role_jurisdiction = null;
 var g_current_u_id = null;
 var g_jurisdiction_list = [];
 
+
 let g_managed_jurisdiction_set = {}
 
 g_user_set = new Set();
+
+
+var g_user = null;
+var g_current_user_role_jurisdiction = null;
+
 
 const g_ui = { 
 	user_summary_list:[],
@@ -251,7 +257,42 @@ function server_save(p_user)
 
 function add_new_user_click()
 {
-    console.log("add new user clicked");
+    g_user = {
+        "_id": "org.couchdb.user:new_user",
+        "iterations": 10,
+        "name": "new_user",
+        "roles": [],
+        "type": "user",
+        "derived_key": "eb257ea6d2195f72b3f48b3802d7118220ad1d6a",
+        "salt": "78b006be78ba51262287320a123e61f0",
+        "is_active": false,
+        "is_enabled": false,
+        "app_prefix_list": {
+          "__no_prefix__": true
+        },
+        "password_scheme": "pbkdf2"
+      };
+
+    g_current_user_role_jurisdiction = [
+        {
+            "_id": null,
+            "_rev": null,
+            "parent_id": null,
+            "role_name": "vital_importer",
+            "user_id": "new_user",
+            "jurisdiction_id": "/",
+            "application_namespace": null,
+            "effective_start_date": "2024-03-27T04:00:00Z",
+            "effective_end_date": null,
+            "is_active": true,
+            "date_created": "2024-03-27T10:32:17.043Z",
+            "created_by": "user1",
+            "date_last_updated": "2024-03-27T10:32:17.043Z",
+            "last_updated_by": "user1",
+            "data_type": "user_role_jurisdiction"
+        }
+    ]
+    //console.log("add new user clicked");
     window.location.href = set_url_hash('add-new-user');
 }
 

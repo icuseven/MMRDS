@@ -25,7 +25,7 @@ function add_new_user_render(p_user_id) {
         <div class="d-flex">
             <div class="vertical-control required col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
-                <input autocomplete="off" class="form-control" type="text" id="new_user_email">
+                <input autocomplete="off" class="form-control" type="text" id="new_user_email" value="${g_user.name}">
             </div>
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label>Password</label>
@@ -223,7 +223,10 @@ $(document).on('input', '#new_user_password, #new_user_password_verify', functio
     checkPasswordsMatch();
 });
 
-$(document).on('input', 'input[type="text"], input[type="password"]', function() {
+$(document).on('change', 'input[type="text"], input[type="password"]', user_email_change);
+
+function user_email_change() 
+{
     const id = $(this).attr('id');
     const value = $(this).val();
     if(id.includes('password')) {
@@ -231,7 +234,10 @@ $(document).on('input', 'input[type="text"], input[type="password"]', function()
     } else if (id.includes('new_user_email')) {
         add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, $(this).data('previousValue'), value);
     }
-});
+
+    g_render();
+}
+
 
 $(document).on('focus', 'input', function() {
     $(this).data('previousValue', $(this).val());
