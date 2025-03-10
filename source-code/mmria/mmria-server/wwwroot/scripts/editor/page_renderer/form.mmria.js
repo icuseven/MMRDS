@@ -1261,7 +1261,48 @@ function form_multi_render
                     }
                 }
                 //~~~~~~~ END the WEIRDNESS
+
+                const case_progress_map = new Map();
+                case_progress_map.set(null, '(blank)')
+                case_progress_map.set(9999, '(blank)')
+                case_progress_map.set(0, 'Not Started')
+                case_progress_map.set(1, 'In Progress')
+                case_progress_map.set(2, 'Completed')
+                case_progress_map.set(3, 'Not Available')
+                case_progress_map.set(4, 'Not Applicable')
+
+                function get_progress_label(p_value)
+                {
+                    if(case_progress_map.has(p_value))
+                    {
+                        return case_progress_map.get(p_value);
+                    }
+                    else
+                    {
+                        return '(blank)';
+                    }
+                }
+
     
+                p_result.push(`<h3 class="font-weight-bold mb-2">Form Status</h3>
+                <ul>
+                    <li>Death Certificate - ${get_progress_label(g_data.home_record.case_progress_report.death_certificate)}</li>
+                    <li>Autopsy Report - ${get_progress_label(g_data.home_record.case_progress_report.autopsy_report)}</li>
+                    <li>Birth/Fetal Death Certificate- Parent Section - ${get_progress_label(g_data.home_record.case_progress_report.birth_certificate_parent_section)}</li>
+                    <li>Birth/Fetal Death Certificate- Infant/Fetal Section - ${get_progress_label(g_data.home_record.case_progress_report.birth_certificate_infant_or_fetal_death_section)}</li>
+                    <li>Community Vital Signs - ${get_progress_label(g_data.home_record.case_progress_report.community_vital_signs)}</li>
+                    <li>Social and Environmental Profile - ${get_progress_label(g_data.home_record.case_progress_report.social_and_psychological_profile)}</li>
+                    <li>Prenatal Care Record - ${get_progress_label(g_data.home_record.case_progress_report.prenatal_care_record)}</li>
+                    <li>ER Visits and Hospitalizations - ${get_progress_label(g_data.home_record.case_progress_report.er_visits_and_hospitalizations)}</li>
+                    <li>Other Medical Office Visits - ${get_progress_label(g_data.home_record.case_progress_report.other_medical_visits)}</li>
+                    <li>Medical Transport - ${get_progress_label(g_data.home_record.case_progress_report.medical_transport)}</li>
+                    <li>Mental Health Profile - ${get_progress_label(g_data.home_record.case_progress_report.mental_health_profile)}</li>
+                    <li>Informant Interviews - ${get_progress_label(g_data.home_record.case_progress_report.informant_interviews)}</li>
+                    <li>Case Narrative - ${get_progress_label(g_data.home_record.case_progress_report.case_narrative)}</li>
+                    <li>Committee Decisions - ${get_progress_label(g_data.home_record.case_progress_report.committe_review_worksheet)}</li>
+
+                </ul>`);
+
                 //~~~ Introduction text
                 p_result.push(`<p class="mt-4">The Reviewer’s Notes below come from each individual form. To make edits, navigate to each form. This content is included for reference in order to complete the Case Narrative at the top of the page.</p>`);
     
