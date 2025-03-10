@@ -1294,7 +1294,10 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
     p_result.push("' ");
 
     let disabled_html = " disabled = 'disabled' ";
-    disabled_html = form_get_disabled(p_metadata, p_dictionary_path.substr(1));
+
+    const metadata = eval(p_metadata_path);
+
+    disabled_html = form_get_disabled(metadata, p_dictionary_path.substr(1));
         
     if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
     {
