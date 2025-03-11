@@ -409,7 +409,7 @@ function build_report()
                     }
                     */
 
-                    const detail_item_value = detail_item[v].value == null ? "(-)" : detail_item[v].value.trim().toLowerCase();
+                    const detail_item_value = detail_item[v].value == null ||  detail_item[v].value.toString().trim().length == 0  ? "(-)" : detail_item[v].value.trim().toLowerCase();
 
                     if(!g_report_map.get(s).has(detail_item_value))
                     {
@@ -437,9 +437,18 @@ function build_report()
                     //}
                     
 
+                    if(g_path_to_value_map.get(s).get(detail_item_value).has(item.record_id))
+                    {
+                        console.log(`duplicate record_id: ${item.record_id} id:${item._id.replace("freq-", "")} for ${s}`);
+                    }
+                    
+                    g_path_to_value_map.get(s).get(detail_item_value).add(item.record_id);
+                        
+                        
+                    
                     //if(entry_count > 0)
                     //{
-                        g_path_to_value_map.get(s).get(detail_item_value).add(item.record_id);
+                        
                     //}
 
 
