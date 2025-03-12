@@ -1304,7 +1304,7 @@ async function on_show_case_list_click
 
     const json_array = [];
 
-    const sorted_list = [];
+    let sorted_list = [];
 
 
 
@@ -1346,6 +1346,8 @@ async function on_show_case_list_click
         }
     
     }
+
+    sorted_list.sort();
 
     result2.push(`<ol>`);
     for(const record_id of sorted_list)
