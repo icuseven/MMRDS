@@ -870,6 +870,13 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     for(const ki of keys)
                     {
                         const vi = vi_map.get(ki);
+
+                        if(ki.indexOf('"') > 0)
+                        {
+                            console.log("here")
+                        }
+                        
+
                         if(ki == "(-)")
                         {
 
@@ -882,18 +889,18 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                             );
 
                             list_values.push(`
-                                <tr class="tr"  id="tr-${current_path}-${ki}">
-                                    <td class="td" width="820" colspan=2>${ki} : Missing</td>
-                                    <td class="td" width="260" id="${current_path}-${ki}"  align=right>${html_link}</td>
+                                <tr class="tr"  id="tr-${current_path}-${ki.replace(/"/g,"&quot;")}">
+                                    <td class="td" width="820" colspan=2>${ki.replace(/"/g,"&quot;")} : Missing</td>
+                                    <td class="td" width="260" id="${current_path}-${ki.replace(/"/g,"&quot;")}"  align=right>${html_link}</td>
                                 </tr>
                             `);
                         }
                         else
                         {
                             list_values.push(`
-                                <tr class="tr"  id="tr-${current_path}-${ki}">
-                                    <td class="td" width="820" colspan=2>${ki}</td>
-                                    <td class="td" width="260" id="${current_path}-${ki}"  align=right>${vi}</td>
+                                <tr class="tr"  id="tr-${current_path}-${ki.replace(/"/g,"&quot;")}">
+                                    <td class="td" width="820" colspan=2>${ki.replace(/"/g,"&quot;")}</td>
+                                    <td class="td" width="260" id="${current_path}-${ki.replace(/"/g,"&quot;")}"  align=right>${vi}</td>
                                 </tr>
                             `);
                         }

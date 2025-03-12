@@ -1490,8 +1490,9 @@ function render_link
     p_prompt,
 )
 {
+
     return `
-        <a aria-label="Show ${p_count} ${p_value} case list for ${p_path.split("/").pop()} field" href="javascript:on_show_case_list_click('${p_path}','${p_value}','${p_count}')">${p_count}</a>
+        <a aria-label="Show ${p_count} ${p_value} case list for ${p_path.split("/").pop()} field" href="javascript:on_show_case_list_click('${p_path}','${p_value.replace(/"/g,"&quot;")}','${p_count}')">${p_count}</a>
     `;
 
     
