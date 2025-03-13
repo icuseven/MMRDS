@@ -118,6 +118,8 @@ window.onload = main;
 
 async function main()
 {
+    
+
 	let response = await $.ajax({
 		url: `${location.protocol}//${location.host}/api/version/release-version`
 	});
@@ -154,7 +156,7 @@ async function main()
 
 
     document.getElementById('form_content_id').innerHTML = dictionary_render(g_metadata, "").join("")  + '<br/>';
-
+    set_form_enable(false);
 	$('.spinner-content').removeClass('spinner-active');
 
     window.setTimeout(get_all_report_data,0);
@@ -334,6 +336,8 @@ function set_zero()
 
 
     }
+
+    set_form_enable(true);
 
     $('.spinner-content').removeClass('spinner-active');
 }
@@ -2013,4 +2017,24 @@ function myFetch(p_data)
     a.click();
     URL.revokeObjectURL(href);
     a.remove();
+  }
+
+
+  function set_form_enable(p_value)
+  {
+    
+    for(const item of document.querySelectorAll("input"))
+    {
+        item.disabled = !p_value;
+    }
+
+    for(const item of document.querySelectorAll("button"))
+    {
+        item.disabled = !p_value;
+    }
+
+    for(const item of document.querySelectorAll("select"))
+    {
+        item.disabled = !p_value;
+    }
   }

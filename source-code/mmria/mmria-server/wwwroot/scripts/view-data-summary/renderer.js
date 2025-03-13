@@ -71,11 +71,12 @@ function dictionary_render(p_metadata, p_path)
                                 alt="clear search"
                                 onclick="search_click()">Apply Filters</button>
                             <button
+                                id="reset_button"
                                 type="button"
                                 class="btn primary-button no-print mt-0 mr-2"
                                 alt="reset search"
                                 onclick="reset_click()">Reset</button>
-                            <button type="button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+                            <button type="button" id="print_button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
                             <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>                                
                         </div>
                     </div>
@@ -352,7 +353,7 @@ function render_field_filter(p_filter)
 
 async function search_click()
 {
-
+    set_form_enable(false);
     $('.spinner-content').addClass('spinner-active');
 
     last_form = null;
