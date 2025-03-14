@@ -1404,8 +1404,9 @@ async function on_show_case_list_click
     (
         `${selected_dictionary_info.form_name} - ${selected_dictionary_info.field_name}`,
         result.join(""),
-        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count} <label><input class="btn primary-button" type="button" onclick="download_data_click('${link_field_name}','${link_field_summary}','${link_field_data}')" value="Download"/></label>`,
-        result2.join("")
+        `<b>${p_value} ${v_delimiter} ${display_value}:</b> ${p_count}`,
+        result2.join(""),
+        `<input class="btn primary-button" type="button" onclick="download_data_click('${link_field_name}','${link_field_summary}','${link_field_data}')" value="Download"/>`
     );
 }
 
@@ -1414,7 +1415,8 @@ async function data_dictionary_dialog_show
     p_title, 
     p_inner_html, 
     p_sub_title, 
-    p_detail_html
+    p_detail_html,
+    p_download_button
 )
 {
 
@@ -1468,6 +1470,7 @@ async function data_dictionary_dialog_show
         </div>
         <div>
         <footer class="modal-footer">
+            ${p_download_button}
             <button id="data_dictionary_dialog_close_button" class="btn secondary-button mr-1" onclick="$mmria.data_dictionary_dialog_click()" style="font-family: 'Open-Sans';">Close</button>
         </footer>
         </div>
