@@ -787,7 +787,34 @@ prenatal/routine_monitoring/date_and_time
                             {
                                 foreach(var (index, i) in object_list)
                                 {
-                                    if
+                                    if(i is List<object>)
+                                    {
+                                        var i_list = (List<object>) i;
+                                        foreach(var answer_item in i_list)
+                                        {
+                                            if
+                                            (
+                                                answer_item != null &&
+                                                !string.IsNullOrWhiteSpace(answer_item.ToString())
+                                            )
+                                            {
+                                                
+                                                var item = new mmria.server.model.SummaryReport.Detail();
+                                                item.value = answer_item.ToString();
+                                                item.count = 1;
+
+                                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                            }
+                                            else
+                                            {
+                                                var item = new mmria.server.model.SummaryReport.Detail();
+                                                item.value = "(-)";
+                                                item.count = 1;
+                                                Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                            }
+                                        }
+                                    }
+                                    else  if
                                     (
                                         i != null &&
                                         !string.IsNullOrWhiteSpace(i.ToString())
