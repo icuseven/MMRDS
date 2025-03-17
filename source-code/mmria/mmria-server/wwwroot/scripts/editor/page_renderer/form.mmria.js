@@ -1273,9 +1273,19 @@ function form_multi_render
 
                 function get_progress_label(p_value)
                 {
-                    if(case_progress_map.has(p_value))
+                    
+
+                    if(p_value !=null)
                     {
-                        return case_progress_map.get(p_value);
+                        let compare_value = p_value;
+                        if (typeof p_value === 'string' || p_value instanceof String)
+                            compare_value = parseInt(p_value);
+                            
+                            
+                        if(case_progress_map.has(compare_value))
+                            return case_progress_map.get(compare_value);
+                        else
+                            return '(blank)';
                     }
                     else
                     {
