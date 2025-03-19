@@ -1327,21 +1327,36 @@ async function on_show_case_list_click
         }
 
     }
-    else if(p_value == "count")
+    else if(type =="STAT_D" && p_value == "count")
+    {
+        const compare = [ "count", "missing", "min", "max", "total" ]
+        for(const [k, v] of g_path_to_value_map.get(p_path))
         {
-            const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
-            for(const [k, v] of g_path_to_value_map.get(p_path))
+
+            if(compare.indexOf(k) < 0)
+            for(const record_id of v)
             {
-    
-                if(compare.indexOf(k) < 0)
-                for(const record_id of v)
-                {
-                    sorted_list.push(record_id)
-                }
-            
+                sorted_list.push(record_id)
             }
-    
+        
         }
+
+    }
+    else if(p_value == "count")
+    {
+        const compare = [ "(-)", "count", "missing", "min", "max", "total" ]
+        for(const [k, v] of g_path_to_value_map.get(p_path))
+        {
+
+            if(compare.indexOf(k) < 0)
+            for(const record_id of v)
+            {
+                sorted_list.push(record_id)
+            }
+        
+        }
+
+    }
     else
     {
         for(const record_id of g_path_to_value_map.get(p_path).get(p_value))
