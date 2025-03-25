@@ -46,7 +46,7 @@ function dictionary_render(p_metadata, p_path)
                             onchange="search_text_change(this.value)" 
                         />
                     </div>
-                    <div class="d-flex mb-3">
+                    <div class="d-flex container-flex-wrap mb-3">
                         <div class="align-text-top pl-0 col-6">
                             <select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
                                 ${render_form_filter(g_filter)}
@@ -63,7 +63,7 @@ function dictionary_render(p_metadata, p_path)
                                 ${render_field_filter(g_filter)}
                             </div>
                         </div>
-                        <div class="pl-0 col-4">
+                        <div class="d-flex flex-wrap pl-0 col-sm-12 button-container">
                             <button
                                 id="apply_filters"
                                 type="button"
@@ -77,7 +77,7 @@ function dictionary_render(p_metadata, p_path)
                                 alt="reset search"
                                 onclick="reset_click()">Reset</button>
                             <button type="button" id="print_button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
-                            <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>                                
+                            <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>          
                         </div>
                     </div>
                     <div class="form-inline mb-3">
@@ -1324,70 +1324,67 @@ function render_pregnancy_filter(p_case_view)
 
     <div class="row" style="display:block;margin-left:0px;margin-bottom:0px;padding-bottom:0px;">
         <div>
-        <div class="d-flex align-items-center mb-2">
-            <div class="font-weight-normal mr-2 align-items-center">
-                Review Dates:
+            <div role="group" aria-labelledby="review_dates_label" class="d-flex align-items-center mb-2">
+                <div id="review_dates_label" class="font-weight-normal mr-2 align-items-center">
+                    Review Dates:
+                </div>
+                    <div style="padding-left:15px">
+                        <label for="all_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
+                        <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" ${g_filter.include_blank_date_of_reviews == true ? 'checked="true"' : '' } />
+                        &nbsp;All cases</label>
+                    </div>
+                    <div>
+                        <label aria-label="Select date range for Review Dates" id="select_dates_review_label" for="select_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
+                        <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select"  ${g_filter.include_blank_date_of_reviews == false ? 'checked="true"' : '' }/>
+                        &nbsp;Select dates</label>
+                    </div>
+                    <div role="group" aria-labelledby="select_dates_review_label" class="d-flex align-items-center">
+                        <span class="mr-3" id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
+                            <label for="review_begin_date" class="font-weight-normal mt-2 mr-2">
+                                Begin
+                            </label>
+                            <input class="form-control" id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
+                        </span>
+                        <span class="mr-3" id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
+                            <label for="review_end_date" class="font-weight-normal mt-2 mr-2">
+                                End
+                            </label>
+                            <input class="form-control" id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div style="padding-left:15px">
-                <label for="all_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
-                <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="all_review_dates_radio" value="all" ${g_filter.include_blank_date_of_reviews == true ? 'checked="true"' : '' } />
-                &nbsp;All cases</label>
+            <div role="group" aria-labelledby="dates_of_death_label" class="d-flex align-items-center">
+                <div id="dates_of_death_label" class="font-weight-normal mr-2">
+                    Dates of Death:
+                </div>
+                <div class="d-flex align-items-center">
+                    <div style="padding-left:4px">
+                        <label for="all_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
+                        <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all" ${g_filter.include_blank_date_of_deaths == true ? 'checked="true"' : '' } />
+                        &nbsp;All cases</label>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <label aria-label="Select date range for Dates of Death" id="select_dates_death_label" for="select_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
+                        <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select"  ${g_filter.include_blank_date_of_deaths == false ? 'checked="true"' : '' }/>
+                        &nbsp;Select dates</label>      
+                    </div>
+                    <div role="group" aria-labelledby="select_dates_death_label" class="d-flex align-items-center">
+                        <span class="mr-3" id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
+                            <label for="death_begin_date" class="font-weight-normal mt-2 mr-2">
+                                Begin
+                            </label>
+                            <input class="form-control" id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
+                        </span>
+                        <span class="mr-3" id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
+                            <label for="death_end_date" class="font-weight-normal mt-2 mr-2">
+                                End
+                            </label>
+                            <input class="form-control" id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div>
-            <label for="select_review_dates_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_review_panel_select(this.value)" name="select_date_of_review_panel" id="select_review_dates_radio"  value="select"  ${g_filter.include_blank_date_of_reviews == false ? 'checked="true"' : '' }/>
-            &nbsp;Select dates</label>
-            </div>
-            <div>
-                <span class="mr-3" id="date_of_review_panel_begin" style="${display_date_of_reviews_html};">
-                    <label for="review_begin_date" class="font-weight-normal mt-2 mr-2">
-                        Begin
-                    </label>
-                    <input class="form-control" id="review_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.begin)}" max="${ControlFormatDate(g_filter.date_of_review.end)}" onblur="review_begin_date_change(this.value)" />
-                </span>
-            </div>
-            <div>
-                <span class="mr-3" id="date_of_review_panel_end" style="${display_date_of_reviews_html};">
-                    <label for="review_end_date" class="font-weight-normal mt-2 mr-2">
-                        End
-                    </label>
-                    <input class="form-control" id="review_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_review.end)}"  min="${ControlFormatDate(g_filter.date_of_review.begin)}" onblur="review_end_date_change(this.value)" />
-                </span>
-            </div>
-            
-            </div>
-        </div>
-        <div class="d-flex align-items-center">
-            <div class="font-weight-normal mr-2">
-                Dates of Death:
-            </div>
-            <div style="padding-left:4px">
-                <label for="all_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
-                <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="all_date_of_death_radio" value="all" ${g_filter.include_blank_date_of_deaths == true ? 'checked="true"' : '' } />
-                &nbsp;All cases</label>
-            </div>
-            <div>
-            <label for="select_date_of_death_radio" class="font-weight-normal mb-0 mr-2" style="justify-content:left">
-            <input type="radio" onchange="date_of_death_panel_select(this.value)" name="select_date_of_death_panel" id="select_date_of_death_radio"  value="select"  ${g_filter.include_blank_date_of_deaths == false ? 'checked="true"' : '' }/>
-            &nbsp;Select dates</label>      
-            </div>
-            <div>
-                <span class="mr-3" id="date_of_death_panel_begin" style="${display_date_of_deaths_html}">
-                    <label for="death_begin_date" class="font-weight-normal mt-2 mr-2">
-                        Begin
-                    </label>
-                    <input class="form-control" id="death_begin_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.begin)}" max="${ControlFormatDate(g_filter.date_of_death.end)}" onblur="death_begin_date_change(this.value)" />
-                </span>
-            </div>
-            <div>
-                <span class="mr-3" id="date_of_death_panel_end" style="${display_date_of_deaths_html}">
-                <label for="death_end_date" class="font-weight-normal mt-2 mr-2">
-                    End
-                </label>
-                <input class="form-control" id="death_end_date" type="date" value="${ControlFormatDate(g_filter.date_of_death.end)}"  min="${ControlFormatDate(g_filter.date_of_death.begin)}" onblur="death_end_date_change(this.value)" />
-                </span>
-            </div>
-        </div>
         </div>
     </div>
 

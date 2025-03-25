@@ -1400,3 +1400,16 @@ tr.sticky {
     left: 0;
     width: 100%;
 }
+
+@media (max-width: 1439px) {
+    .button-container button {
+        margin-top: 10px; /* Add padding to the top of each button */
+    }
+
+    .button-container {
+        padding-top: 10px; /* Optional: Add padding to the container */
+    }
+    .container-flex-wrap {
+        flex-wrap: wrap;
+    }
+}
