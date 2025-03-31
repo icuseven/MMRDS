@@ -872,12 +872,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     {
                         const vi = vi_map.get(ki);
 
-                        if(ki.indexOf('"') > 0)
-                        {
-                            console.log("here")
-                        }
-                        
-
                         if(ki == "(-)")
                         {
 

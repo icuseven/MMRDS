@@ -356,6 +356,7 @@ async function get_report_data_page(p_skip = 0)
 
 function build_report()
 {
+    let salt = 0;
     g_report_stat_map.clear();
     g_report_map.clear();
     // public Dictionary<string, List<Detail>> path_to_detail { get; set; }
@@ -398,7 +399,7 @@ function build_report()
 
                 const detail_item = detail[s];
                 const list_lookup = g_value_to_display_lookup["/" + s];
-
+                
                 for(const v of Object.keys(detail_item))
                 {
 
@@ -444,7 +445,9 @@ function build_report()
                     if(g_path_to_value_map.get(s).get(detail_item_value).has(item.record_id))
                     {
                         //console.log(`duplicate record_id: ${item.record_id} id:${item._id.replace("freq-", "")} for ${s}`);
-                        g_path_to_value_map.get(s).get(detail_item_value).add(`${item.record_id} - ${item._id.replace("freq-", "")}`);
+                        const new_key = `${item.record_id} - ${item._id.replace("freq-", "")} salt:${salt}`
+                        g_path_to_value_map.get(s).get(detail_item_value).add(new_key);
+                        salt+=1;
                     }
                     else
                     {
@@ -862,7 +865,7 @@ function build_report()
             }
             else
             {
-                console.log("here");
+                //console.log("here");
             }
         }
         else if(type == "STAT_D")
@@ -1354,6 +1357,15 @@ async function on_show_case_list_click
                 sorted_list.push(record_id)
             }
         
+        }
+
+        if(sorted_list.length != p_count)
+        {
+            
+            for(const record_id of g_path_to_value_map.get(p_path).get("(-)"))
+            {
+                sorted_list.push(record_id)
+            }
         }
 
     }
