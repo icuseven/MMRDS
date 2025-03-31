@@ -1359,7 +1359,11 @@ async function on_show_case_list_click
         
         }
 
-        if(sorted_list.length != p_count)
+        if
+        (
+            sorted_list.length != p_count &&
+            g_path_to_value_map.get(p_path).get("(-)").size + sorted_list.length == p_count
+        )
         {
             
             for(const record_id of g_path_to_value_map.get(p_path).get("(-)"))
