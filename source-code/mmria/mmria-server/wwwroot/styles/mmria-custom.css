@@ -818,25 +818,25 @@ dialog::backdrop {
 }
 
 .ui-dialog-titlebar-close {
-  align-items: center;
-  background: none;
-  border: none;
-  color: var(--white);
-  cursor: pointer;
-  display: flex;
-  font-size: 28px;
-  font-weight: bold;
-  height: 20px;
-  justify-content: center;
-  opacity: 0.75;
-  outline: none;
-  padding: 0;
-  width: 20px;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+    display: flex;
+    font-size: 34px;
+    font-weight: 900;
+    height: 20px;
+    justify-content: center;
+    opacity: 1;
+    outline: none;
+    padding: 0;
+    width: 20px;
 }
 .ui-dialog-titlebar-close:focus,
 .ui-dialog-titlebar-close:hover {
   border: none;
-  opacity: 1;
+  text-decoration: underline;
   outline: none;
 }
 

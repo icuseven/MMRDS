@@ -9922,11 +9922,11 @@ dialog::backdrop {
   color: var(--white);
   cursor: pointer;
   display: flex;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 34px;
+  font-weight: bolder;
   height: 20px;
   justify-content: center;
-  opacity: 0.75;
+  opacity: 1;
   outline: none;
   padding: 0;
   width: 20px;
@@ -9935,7 +9935,7 @@ dialog::backdrop {
 .ui-dialog-titlebar-close:focus,
 .ui-dialog-titlebar-close:hover {
   border: none;
-  opacity: 1;
+  text-decoration: underline;
   outline: none;
 }
 

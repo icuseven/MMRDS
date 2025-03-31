@@ -1477,7 +1477,7 @@ async function data_dictionary_dialog_show
                     Matching MMRIA ID Numbers for ${p_title}.
                 </caption>
                 <thead>
-                    <tr class="header-level-top-black font-weight-bold">
+                    <tr class="header-level-top-black">
                         <th class="th" width="140" scope="col">MMRIA Form</th>
                         <th class="th" width="140" scope="col">Export File Name</th>
                         <th class="th" width="120" scope="col">Export Field</th>
