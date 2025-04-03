@@ -824,6 +824,18 @@ function build_report()
                                 "Missing List Values"
                             );
 
+                        const el3 = document.getElementById(`${k}-missing-detail`);
+                        if(el3 != null)
+                        {
+                            el3.innerHTML = render_link
+                            (
+                                k,
+                                "missing",
+                                current_stat.get("missing"),
+                                "Missing Date Summary"
+                            );
+                        }   
+
                     }
                     else
                     {
@@ -890,7 +902,7 @@ function build_report()
                     current_stat.get("missing"),
                     "Missing Date Summary"
                 );
-        
+
 
                 el = document.getElementById(`${k}-min`);
                 let date = new Date(current_stat.get("min").split(' @')[0]);

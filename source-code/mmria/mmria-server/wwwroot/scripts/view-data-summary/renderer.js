@@ -811,6 +811,17 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                         `);
                     }
 
+                    list_values.push
+                    (
+                        `<tr class="tr"  id="tr-${p_path.substr(1)}-missing-detail">
+										<td class="td" width="140">(-)</td>
+										<td class="td" width="680">missing</td>
+										<td class="td" width="260" id="${p_path.substr(1)}-missing-detail"  align=right>0</td>
+						</tr>`
+                    );
+
+                   
+
 					for(let i= 0; i < value_list.length; i++)
 					{
                         const value_list_value = value_list[i].value.trim().toLowerCase();
@@ -858,8 +869,6 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                                         </tr>
                                     </thead>
                                     <tbody class="tbody">`);
-
-
 
              
                 const current_path = p_path.substr(1);
