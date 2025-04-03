@@ -614,7 +614,15 @@ prenatal/routine_monitoring/date_and_time
 
                
 
-
+                if
+                (
+                    path == "home_record/how_was_this_death_identified" ||
+                    path == "birth_fetal_death_certificate_parent/race/race_of_mother" ||
+                    path == "birth_certificate_infant_fetal_section/record_type"
+                )
+                {
+                    Console.WriteLine("here");
+                }
 
 
                 List<mmria.server.model.SummaryReport.Detail> set_single_value_detail()
@@ -634,6 +642,15 @@ prenatal/routine_monitoring/date_and_time
                         { 
                             if(value_result.result is IList<object> object_list)
                             {
+                                if(object_list.Count == 0)
+                                {
+                                    var item = new mmria.server.model.SummaryReport.Detail();
+                                    item.value = "(-)";
+                                    item.count = 1;
+
+                                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+                                }
+
                                 foreach(var i in object_list)
                                 {
                                     if
@@ -651,13 +668,11 @@ prenatal/routine_monitoring/date_and_time
                                     }
                                     else
                                     {
-                                        /*
                                         var item = new mmria.server.model.SummaryReport.Detail();
-                                        item.value = value_result.result.ToString();
+                                        item.value = "(-)";
                                         item.count = 1;
-                                        
+
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
-                                        */
                                     }
                                 }
                                 
@@ -703,6 +718,12 @@ prenatal/routine_monitoring/date_and_time
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_grid_value(Context.source_object, path);
+
+                    if(path == "home_record/how_was_this_death_identified")
+                    {
+                        Console.WriteLine("here");
+                    }
+
                     if(value_result.is_error)
                     {
 
@@ -713,6 +734,16 @@ prenatal/routine_monitoring/date_and_time
                         { 
                             if(value_result.result is IList<(int, object)> object_list)
                             {
+
+                                if(object_list.Count == 0)
+                                {
+                                    var item = new mmria.server.model.SummaryReport.Detail();
+                                    item.value = "(-)";
+                                    item.count = 1;
+                                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+
+                                }
+
                                 foreach(var (index, i) in object_list)
                                 {
                                     if
@@ -785,6 +816,16 @@ prenatal/routine_monitoring/date_and_time
                         { 
                             if(value_result.result is IList<(int, object)> object_list)
                             {
+
+                                if(object_list.Count == 0)
+                                {
+                                    var item = new mmria.server.model.SummaryReport.Detail();
+                                    item.value = "(-)";
+                                    item.count = 1;
+                                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+
+                                }
+
                                 foreach(var (index, i) in object_list)
                                 {
                                     if(i is List<object>)
@@ -885,6 +926,16 @@ prenatal/routine_monitoring/date_and_time
                         { 
                             if(value_result.result is IList<(int, int, object)> object_list)
                             {
+
+                                if(object_list.Count == 0)
+                                {
+                                    var item = new mmria.server.model.SummaryReport.Detail();
+                                    item.value = "(-)";
+                                    item.count = 1;
+                                    Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
+
+                                }
+
                                 foreach(var (x, y, i) in object_list)
                                 {
                                     if
