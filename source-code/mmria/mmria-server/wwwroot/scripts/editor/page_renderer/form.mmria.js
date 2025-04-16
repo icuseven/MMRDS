@@ -1297,11 +1297,11 @@ function form_multi_render
                 p_result.push(`<h3 class="font-weight-bold mb-2">MMRIA Form Status</h3>
                 <ul>
                     <li>Death Certificate - ${get_progress_label(g_data.home_record.case_progress_report.death_certificate)}</li>
-                    <li>Autopsy Report - ${get_progress_label(g_data.home_record.case_progress_report.autopsy_report)}</li>
                     <li>Birth/Fetal Death Certificate- Parent Section - ${get_progress_label(g_data.home_record.case_progress_report.birth_certificate_parent_section)}</li>
                     <li>Birth/Fetal Death Certificate- Infant/Fetal Section - ${get_progress_label(g_data.home_record.case_progress_report.birth_certificate_infant_or_fetal_death_section)}</li>
                     <li>Community Vital Signs - ${get_progress_label(g_data.home_record.case_progress_report.community_vital_signs)}</li>
                     <li>Social and Environmental Profile - ${get_progress_label(g_data.home_record.case_progress_report.social_and_psychological_profile)}</li>
+                    <li>Autopsy Report - ${get_progress_label(g_data.home_record.case_progress_report.autopsy_report)}</li>
                     <li>Prenatal Care Record - ${get_progress_label(g_data.home_record.case_progress_report.prenatal_care_record)}</li>
                     <li>ER Visits and Hospitalizations - ${get_progress_label(g_data.home_record.case_progress_report.er_visits_and_hospitalizations)}</li>
                     <li>Other Medical Office Visits - ${get_progress_label(g_data.home_record.case_progress_report.other_medical_visits)}</li>
