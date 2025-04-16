@@ -1109,8 +1109,7 @@ function form_render(
                 <li>Medical Transport - ${get_progress_label(g_data.home_record.case_progress_report.medical_transport)}</li>
                 <li>Mental Health Profile - ${get_progress_label(g_data.home_record.case_progress_report.mental_health_profile)}</li>
                 <li>Informant Interviews - ${get_progress_label(g_data.home_record.case_progress_report.informant_interviews)}</li>
-                <li>Case Narrative - ${get_progress_label(g_data.home_record.case_progress_report.case_narrative)}</li>
-                <li>Committee Decisions - ${get_progress_label(g_data.home_record.case_progress_report.committe_review_worksheet)}</li>
+                
 
             </ul>`);
 
