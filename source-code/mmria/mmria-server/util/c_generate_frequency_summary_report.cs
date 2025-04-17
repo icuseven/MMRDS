@@ -649,7 +649,7 @@ prenatal/routine_monitoring/date_and_time
                                 if(object_list.Count == 0)
                                 {
                                     var item = new mmria.server.model.SummaryReport.Detail();
-                                    item.value = "(-)";
+                                    item.value = "9999";
                                     item.count = 1;
 
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -801,8 +801,29 @@ prenatal/routine_monitoring/date_and_time
 
                 List<mmria.server.model.SummaryReport.Detail> set_multi_form_value_detail()
                 {
-
                     var result = new List<mmria.server.model.SummaryReport.Detail>();
+
+                    var form_path = path.Split("/")[0];
+                    var is_form_exist_result = gs.get_value(Context.source_object, form_path);
+                    if(is_form_exist_result.is_error)
+                    {
+                        return result;
+                    }
+
+                    if(is_form_exist_result.result == null)
+                    {
+                        return result;
+                    }
+
+                    if(is_form_exist_result.result is IList<object> is_form_exist_object_list)
+                    {
+                        if(is_form_exist_object_list.Count == 0)
+                        {
+                            return result;
+                        }
+                    }
+
+                    
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_multiform_value(Context.source_object, path);
@@ -820,7 +841,7 @@ prenatal/routine_monitoring/date_and_time
                                 if(object_list.Count == 0)
                                 {
                                     var item = new mmria.server.model.SummaryReport.Detail();
-                                    item.value = "(-)";
+                                    item.value = "9999";
                                     item.count = 1;
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
 
@@ -912,6 +933,29 @@ prenatal/routine_monitoring/date_and_time
                 {
 
                     var result = new List<mmria.server.model.SummaryReport.Detail>();
+
+
+                    var form_path = path.Split("/")[0];
+                    var is_form_exist_result = gs.get_value(Context.source_object, form_path);
+                    if(is_form_exist_result.is_error)
+                    {
+                        return result;
+                    }
+
+                    if(is_form_exist_result.result == null)
+                    {
+                        return result;
+                    }
+
+                    if(is_form_exist_result.result is IList<object> is_form_exist_object_list)
+                    {
+                        if(is_form_exist_object_list.Count == 0)
+                        {
+                            return result;
+                        }
+                    }
+
+
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
 
                     var value_result = gs.get_multiform_grid_value(Context.source_object, path);
@@ -929,7 +973,7 @@ prenatal/routine_monitoring/date_and_time
                                 if(object_list.Count == 0)
                                 {
                                     var item = new mmria.server.model.SummaryReport.Detail();
-                                    item.value = "(-)";
+                                    item.value = "9999";
                                     item.count = 1;
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
 
