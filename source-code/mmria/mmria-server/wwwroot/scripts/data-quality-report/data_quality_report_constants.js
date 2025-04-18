@@ -286,7 +286,7 @@ function get_dqr_notes_list()
 	{
 		num: '45)',
 		title: 'Preventability Aligns with Chance to Alter Outcome:',
-		desc: 'This indicator reflects the percent of deaths where the cr_cta_preve response aligns with the cr_cta_outco response. This is a summary measure reflecting best practices for determining preventability.',
+		desc: 'This indicator reflects the percent of deaths where the cr_wtd_preve response aligns with the cr_cta_outco response. This is a summary measure reflecting best practices for determining preventability.',
 	},
 	{
 		num: '46)',
