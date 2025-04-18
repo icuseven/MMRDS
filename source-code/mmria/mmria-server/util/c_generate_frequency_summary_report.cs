@@ -718,7 +718,35 @@ prenatal/routine_monitoring/date_and_time
                 {
 
                     var result = new List<mmria.server.model.SummaryReport.Detail>();
+
+                    var is_grid_exist_result = gs.get_value(Context.source_object, p_path);
+                    if(is_grid_exist_result.is_error)
+                    {
+                        return result;
+                    }
+
+                    if(is_grid_exist_result.result == null)
+                    {
+                        return result;
+                    }
+
+                    if(is_grid_exist_result.result is IList<object> is_grid_exist_object_list)
+                    {
+                        if(is_grid_exist_object_list.Count == 0)
+                        {
+                            return result;
+                        }
+                    }
+
+
+
+
+
+
                     Context.FrequencySummaryDocument.path_to_detail.Add(path, result);
+
+
+
 
                     var value_result = gs.get_grid_value(Context.source_object, path);
 
@@ -934,8 +962,8 @@ prenatal/routine_monitoring/date_and_time
 
                     var result = new List<mmria.server.model.SummaryReport.Detail>();
 
-
-                    var form_path = path.Split("/")[0];
+                    var path_array = path.Split("/");
+                    var form_path = path_array[0];
                     var is_form_exist_result = gs.get_value(Context.source_object, form_path);
                     if(is_form_exist_result.is_error)
                     {
@@ -950,6 +978,38 @@ prenatal/routine_monitoring/date_and_time
                     if(is_form_exist_result.result is IList<object> is_form_exist_object_list)
                     {
                         if(is_form_exist_object_list.Count == 0)
+                        {
+                            return result;
+                        }
+                    }
+
+                    var grid_path = "";
+
+                    for(var i = 0; i < path_array.Length-1; i++)
+                    {
+                        if(i != 0)
+                        {
+                            grid_path += "/";
+                        }
+                        
+                        grid_path += path_array[i];
+                        
+                    }
+
+                    var is_grid_exist_result = gs.get_multiform_value(Context.source_object, grid_path);
+                    if(is_grid_exist_result.is_error)
+                    {
+                        return result;
+                    }
+
+                    if(is_grid_exist_result.result == null)
+                    {
+                        return result;
+                    }
+
+                    if(is_grid_exist_result.result is List<(int, object)> is_grid_exist_object_list)
+                    {
+                        if(is_grid_exist_object_list.Count == 0)
                         {
                             return result;
                         }
@@ -972,11 +1032,12 @@ prenatal/routine_monitoring/date_and_time
 
                                 if(object_list.Count == 0)
                                 {
+                                    /*
                                     var item = new mmria.server.model.SummaryReport.Detail();
                                     item.value = "9999";
                                     item.count = 1;
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
-
+                                    */
                                 }
                                 else foreach(var (x, y, i) in object_list)
                                 {
