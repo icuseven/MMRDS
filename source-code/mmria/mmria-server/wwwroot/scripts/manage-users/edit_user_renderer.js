@@ -1,21 +1,16 @@
-function edit_user_renderer(p_user)
+function edit_user_renderer()
 {
-
-    let role_user_name = p_user;
-    if(p_user.indexOf(":") > -1)
+    let role_user_name = g_current_user_id;
+    if(role_user_name.indexOf(":") > -1)
     {
-        role_user_name =  p_user.split(":")[1];
+        role_user_name =  role_user_name.split(":")[1];
     }
-
-    $("#manage_user_label").html('Edit User');
-
     function sort_list(a, b)
     {
         return ('' + a.role_name).localeCompare(b.role_name)
     }
     const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name).sort(sort_list);
-    
-    return `
+    const result = `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
@@ -82,7 +77,7 @@ function edit_user_renderer(p_user)
         <div class="d-flex">
             <div class='vertical-control mb-3 mt-3 pl-0 col-md-3'><div class='input-group'>
                 <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
-                <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg'></button></div>
+                <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg' alt=""></button></div>
                 </div>
             </div>
             <div class="d-flex ml-auto">
@@ -130,7 +125,9 @@ function edit_user_renderer(p_user)
             </table>
         </div>
     `;
-
+    show_hide_user_management_back_button(true);
+    set_page_title("View User");
+    document.getElementById("form_content_id").innerHTML = result;
 }
 
 function delete_role(p_user_roles, p_role_to_delete)

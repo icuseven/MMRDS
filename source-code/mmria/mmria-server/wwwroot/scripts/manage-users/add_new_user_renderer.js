@@ -10,9 +10,8 @@ const ACTION_TYPE = {
     EDIT_USERNAME: 'edit_username',
 }
 
-function add_new_user_render(p_user_id) {
-    $("#manage_user_label").html('Add New User');
-    return `
+function add_new_user_render() {
+    const result = `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
@@ -81,6 +80,9 @@ function add_new_user_render(p_user_id) {
             </div>
         </div>
     `;
+    show_hide_user_management_back_button(true);
+    set_page_title("Add New User");
+    document.getElementById('form_content_id').innerHTML = result;
 }
 
 function show_hide_password(field_id) {
@@ -235,7 +237,7 @@ function user_email_change()
         add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, $(this).data('previousValue'), value);
     }
 
-    g_render();
+    //g_render();
 }
 
 

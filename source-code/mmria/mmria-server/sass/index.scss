@@ -827,10 +827,24 @@ input:disabled {
     background-color: $purple-disabled;
   }
   &:disabled {
+    span {
+        fill: $purple-light;
+    }
     background-color: $white;
     color: $purple-light;
     cursor: initial;
   }
+}
+
+.btn-navigation-style {
+    border: 0.5px solid #cccccc;
+    color: purple;
+    border-radius: 4px;
+    background-color: $white;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    padding-top: .38rem;
 }
 
 .bottom-nav {
@@ -1412,4 +1426,14 @@ tr.sticky {
     .container-flex-wrap {
         flex-wrap: wrap;
     }
+}
+
+.sort-desc {
+    rotate: 90deg;
+    cursor: pointer;
+}
+
+.sort-asc {
+    rotate: 270deg;
+    cursor: pointer;
 }

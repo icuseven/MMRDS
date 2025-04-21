@@ -37303,6 +37303,20 @@ input:disabled {
   color: #E3D3E4;
   cursor: initial;
 }
+.btn-tab-navigation:disabled span {
+  fill: #E3D3E4;
+}
+
+.btn-navigation-style {
+  border: 0.5px solid #cccccc;
+  color: purple;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+  padding-top: 0.38rem;
+}
 
 .bottom-nav {
   background-color: #F5F5F5;
@@ -37855,6 +37869,15 @@ tr.sticky th, tr.sticky td {
   .container-flex-wrap {
     flex-wrap: wrap;
   }
+}
+.sort-desc {
+  rotate: 90deg;
+  cursor: pointer;
+}
+
+.sort-asc {
+  rotate: 270deg;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=index.css.map */
