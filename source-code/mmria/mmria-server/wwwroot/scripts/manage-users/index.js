@@ -4,6 +4,14 @@ var g_jurisdiction_tree = null;
 var g_user_role_jurisdiction = null;
 var g_current_u_id = null;
 var g_jurisdiction_list = [];
+var g_current_user_id = null;
+var g_form_name = '';
+
+var g_first_index  = 0;
+var g_last_index = 10;
+var g_current_page_number = 1;
+var g_total_users = 0;
+var g_total_users_per_page = 10;
 
 
 let g_managed_jurisdiction_set = {}
@@ -341,11 +349,10 @@ function delete_user_click(p_user_id, p_rev)
                         if(g_ui.user_summary_list[i]._id == response.id)
                         {
                             g_ui.user_summary_list.splice(i,1)
-    
-                            g_render();
                             break;
                         }
                     }
+                    g_render();
                 }
             })
             .fail(function(jqXHR, textStatus, errorThrown) {
@@ -1216,42 +1223,39 @@ function user_role_jurisdiction_add
 
 function g_render()
 {
-    let form_name = g_ui.url_state.selected_form_name;
-    let path_array = [];
-    if(form_name != null && form_name.indexOf("?") > -1)
-    {
-        path_array = g_ui.url_state.path_array[0].split("?");
-        form_name = path_array[0];
-    }
-
-
-    let user_id = null;
-    switch(form_name)
+    set_current_page_state();
+    switch(g_form_name)
     {
         case "view-user":
-            user_id = path_array[1];
-            document.getElementById('form_content_id').innerHTML = view_user_renderer(user_id);
-            show_hide_user_management_back_button(true);
+            view_user_renderer();
             break;
         case "edit-user":
-                user_id =  path_array[1];
-                document.getElementById('form_content_id').innerHTML = edit_user_renderer(user_id);
-                show_hide_user_management_back_button(true);
-                break;
+            edit_user_renderer();
+            break;
         case "add-new-user":
-            document.getElementById('form_content_id').innerHTML = add_new_user_render();
-            show_hide_user_management_back_button(true);
+            add_new_user_render();
             break;
         case "summary":
         default:
-            document.getElementById('form_content_id').innerHTML = summary_render(g_ui, g_current_u_id).join("");
-            show_hide_user_management_back_button(false);
+            summary_render();
     }
-    /*
-    $("#manage_user_label").html('Manage Users');
-    show_hide_user_management_back_button(false);
+}
 
-    */
+function set_current_page_state()
+{
+    g_form_name = g_ui.url_state.selected_form_name;
+    let path_array = [];
+    if(g_form_name != null && g_form_name.indexOf("?") > -1)
+    {
+        path_array = g_ui.url_state.path_array[0].split("?");
+        g_form_name = path_array[0];
+    }
+    g_current_user_id = path_array[1] ? path_array[1] : null; 
+}
+
+function set_page_title(p_title)
+{
+    document.getElementById('manage_user_label').innerHTML = p_title;
 }
 
 function set_all_roles_active_state(p_user_id)
