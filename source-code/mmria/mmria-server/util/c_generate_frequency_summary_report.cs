@@ -688,7 +688,7 @@ prenatal/routine_monitoring/date_and_time
                                 (
                                     string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = "(-)";
+                                    item.value = "9999";
                                 }
                                 else
                                 {
@@ -764,12 +764,12 @@ prenatal/routine_monitoring/date_and_time
 
                                 if(object_list.Count == 0)
                                 {
-                                    
+                                    /*
                                     var item = new mmria.server.model.SummaryReport.Detail();
                                     item.value = "(-)";
                                     item.count = 1;
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
-
+                                    */
 
                                 }
                                 else foreach(var (index, i) in object_list)

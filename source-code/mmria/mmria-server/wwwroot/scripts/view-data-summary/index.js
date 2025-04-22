@@ -1371,6 +1371,8 @@ async function on_show_case_list_click
         
         }
 
+        /*
+
         if
         (
             sorted_list.length != p_count &&
@@ -1383,7 +1385,7 @@ async function on_show_case_list_click
                 sorted_list.push(record_id)
             }
         }
-
+        */
     }
     else
     {
