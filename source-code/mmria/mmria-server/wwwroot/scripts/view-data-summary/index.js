@@ -807,7 +807,7 @@ function build_report()
                 {
                     if(n == "(-)")
                     {
-                        const el2 = document.getElementById(`${k}-9999`);
+                        const el2 = document.getElementById(`${k}-missing`);
                         if(el2 != null)
                             /*
                         el2.innerHTML = render_link
@@ -1371,7 +1371,7 @@ async function on_show_case_list_click
         
         }
 
-        /*
+        
 
         if
         (
@@ -1385,7 +1385,7 @@ async function on_show_case_list_click
                 sorted_list.push(record_id)
             }
         }
-        */
+        
     }
     else
     {
