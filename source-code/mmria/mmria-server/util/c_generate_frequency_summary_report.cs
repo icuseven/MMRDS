@@ -612,6 +612,13 @@ prenatal/routine_monitoring/date_and_time
                     break;
                 }
 
+
+                var BLANK_OR_MISSING = "(-)";
+
+                if(p_node.type.Trim().Equals("list", StringComparison.OrdinalIgnoreCase))
+                {
+                    BLANK_OR_MISSING = "9999";
+                }
                
 /*
                 if
@@ -636,7 +643,7 @@ prenatal/routine_monitoring/date_and_time
                     if(value_result.is_error)
                     {
                         var item = new mmria.server.model.SummaryReport.Detail();
-                        item.value = "(-)";
+                        item.value = BLANK_OR_MISSING;
                         item.count = 1;
                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                     }
@@ -649,7 +656,7 @@ prenatal/routine_monitoring/date_and_time
                                 if(object_list.Count == 0)
                                 {
                                     var item = new mmria.server.model.SummaryReport.Detail();
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                     item.count = 1;
 
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -672,7 +679,7 @@ prenatal/routine_monitoring/date_and_time
                                     else
                                     {
                                         var item = new mmria.server.model.SummaryReport.Detail();
-                                        item.value = "(-)";
+                                        item.value = BLANK_OR_MISSING;
                                         item.count = 1;
 
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
@@ -688,7 +695,7 @@ prenatal/routine_monitoring/date_and_time
                                 (
                                     string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                 }
                                 else
                                 {
@@ -704,7 +711,7 @@ prenatal/routine_monitoring/date_and_time
                         else
                         {
                             var item = new mmria.server.model.SummaryReport.Detail();
-                            item.value = "(-)";
+                            item.value = BLANK_OR_MISSING;
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
@@ -767,7 +774,7 @@ prenatal/routine_monitoring/date_and_time
                                 {
                                     /*
                                     var item = new mmria.server.model.SummaryReport.Detail();
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                     item.count = 1;
                                     Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     */
@@ -791,7 +798,7 @@ prenatal/routine_monitoring/date_and_time
                                     else
                                     {
                                         var item = new mmria.server.model.SummaryReport.Detail();
-                                        item.value = "(-)";
+                                        item.value = BLANK_OR_MISSING;
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
@@ -804,7 +811,7 @@ prenatal/routine_monitoring/date_and_time
                                 var item = new mmria.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                 }
                                 else
                                 {
@@ -818,7 +825,7 @@ prenatal/routine_monitoring/date_and_time
                         else
                         {
                             var item = new mmria.server.model.SummaryReport.Detail();
-                            item.value = "(-)";
+                            item.value = BLANK_OR_MISSING;
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
@@ -899,7 +906,7 @@ prenatal/routine_monitoring/date_and_time
                                             else
                                             {
                                                 var item = new mmria.server.model.SummaryReport.Detail();
-                                                item.value = "(-)";
+                                                item.value = BLANK_OR_MISSING;
                                                 item.count = 1;
                                                 Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                             }
@@ -921,7 +928,7 @@ prenatal/routine_monitoring/date_and_time
                                     else
                                     {
                                         var item = new mmria.server.model.SummaryReport.Detail();
-                                        item.value = "(-)";
+                                        item.value = BLANK_OR_MISSING;
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
@@ -934,7 +941,7 @@ prenatal/routine_monitoring/date_and_time
                                 var item = new mmria.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                 }
                                 else
                                 {
@@ -949,7 +956,7 @@ prenatal/routine_monitoring/date_and_time
                         else
                         {
                             var item = new mmria.server.model.SummaryReport.Detail();
-                            item.value = "(-)";
+                            item.value = BLANK_OR_MISSING;
                             item.count = 1;
                             Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                         }
@@ -1060,7 +1067,7 @@ prenatal/routine_monitoring/date_and_time
                                     else
                                     {
                                         var item = new mmria.server.model.SummaryReport.Detail();
-                                        item.value = "(-)";
+                                        item.value = BLANK_OR_MISSING;
                                         item.count = 1;
                                         Context.FrequencySummaryDocument.path_to_detail[path].Add(item);
                                     }
@@ -1073,7 +1080,7 @@ prenatal/routine_monitoring/date_and_time
                                 var item = new mmria.server.model.SummaryReport.Detail();
                                 if(string.IsNullOrWhiteSpace(value_result.result.ToString()))
                                 {
-                                    item.value = "(-)";
+                                    item.value = BLANK_OR_MISSING;
                                 }
                                 else
                                 {
