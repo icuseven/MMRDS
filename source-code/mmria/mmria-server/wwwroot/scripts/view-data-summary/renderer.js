@@ -821,10 +821,14 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
                     );
 
                    
+                    const is_written = new Set();
 
 					for(let i= 0; i < value_list.length; i++)
 					{
                         const value_list_value = value_list[i].value.trim().toLowerCase();
+
+                        const id_key = `-${p_path.substr(1)}-${value_list_value}`;
+                        is_written.add(id_key);
 
 						list_values.push(`
 									<tr class="tr"  id="tr-${p_path.substr(1)}-${value_list_value}">
@@ -834,6 +838,52 @@ function render_search_result_item(p_result, p_metadata, p_path, p_selected_form
 									</tr>
 						`);
 					}
+
+
+                    const current_path = p_path.substr(1);
+                    if(g_report_map.has(current_path))
+                    {
+                        const vi_map = g_report_map.get(current_path);
+
+                        let keys = Array.from( vi_map.keys() ).sort();
+                        for(const ki of keys)
+                        {
+                            const vi = vi_map.get(ki);
+
+                            const id_key = `-${p_path.substr(1)}-${ki}`;
+
+                            if(is_written.has(id_key)) continue;
+
+                            if(ki == "(-)")
+                            {
+
+                                const html_link = render_link
+                                (
+                                    current_path,
+                                    "missing",
+                                    vi,
+                                    "Missing List Values"
+                                );
+
+                                list_values.push(`
+                                    <tr class="tr"  id="tr-${current_path}-${ki.replace(/"/g,"&quot;")}">
+                                        <td class="td" width="820" colspan=2>${ki.replace(/"/g,"&quot;")} : Missing</td>
+                                        <td class="td" width="260" id="${current_path}-${ki.replace(/"/g,"&quot;")}"  align=right>${html_link}</td>
+                                    </tr>
+                                `);
+                            }
+                            else
+                            {
+                                list_values.push(`
+                                    <tr class="tr"  id="tr-${current_path}-${ki.replace(/"/g,"&quot;")}">
+                                        <td class="td" width="820" colspan=2>${ki.replace(/"/g,"&quot;")}</td>
+                                        <td class="td" width="260" id="${current_path}-${ki.replace(/"/g,"&quot;")}"  align=right>${vi}</td>
+                                    </tr>
+                                `);
+                            }
+                            
+                        }   
+                    }
 				
 				list_values.push(`
 								</tbody>
