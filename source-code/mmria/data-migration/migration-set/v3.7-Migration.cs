@@ -10,6 +10,9 @@ namespace migrate.set;
 public sealed class v3_7_Migration
 {
 
+	const int Second = 1000;
+    const int Sleep_Time_In_Miliseonds = 1 * Second;
+
 	record case_view_result_item(string _id, string record_id);
 
 	public string host_db_url;
@@ -180,9 +183,23 @@ public sealed class v3_7_Migration
 
 				string url = $"{host_db_url}/{db_name}/{kv._id}";
 				var case_curl = new cURL("GET", null, url, null, config_timer_user_name, config_timer_value);
-				string responseFromServer = await case_curl.executeAsync();
+				
+				System.Dynamic.ExpandoObject doc = null;
+				
+				
 
-				var doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				try
+				{
+					string responseFromServer = await case_curl.executeAsync();
+					doc = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject>(responseFromServer);
+				}
+				catch(System.Exception ex)
+				{
+					var text = $"Unable to load case {host_db_url} {kv._id}\n{ex.Message}";
+					System.Console.WriteLine(text);
+					output_builder.AppendLine(text);
+				}
+				
 				
 				var case_has_changed = false;
 				var case_change_count = 0;
@@ -309,6 +326,8 @@ public sealed class v3_7_Migration
 				}
 
 			}
+
+			//await Task.Delay(Sleep_Time_In_Miliseonds);
 
 		
 		}
