@@ -1,4 +1,5 @@
 var new_user_roles = [];
+var deleted_user_roles = [];
 var audit_history = [];
 var can_undo = false;
 const ACTION_TYPE = {
@@ -9,6 +10,17 @@ const ACTION_TYPE = {
     EDIT_PASSWORD: 'edit_password',
     EDIT_USERNAME: 'edit_username',
 }
+
+var new_user = {
+    "_id": '',
+    "password": null,
+    "iterations": 10,
+    "name": '',
+    "roles": [],
+    "type": "user",
+    "derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
+    "salt": "510427706d0deb511649021277b2c05d"
+};
 
 function add_new_user_render() {
     const result = `
@@ -24,7 +36,7 @@ function add_new_user_render() {
         <div class="d-flex">
             <div class="vertical-control required col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
-                <input autocomplete="off" class="form-control" type="text" id="new_user_email" value="${g_user.name}">
+                <input autocomplete="off" class="form-control" type="text" id="new_user_email" value="${new_user.name}">
             </div>
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label>Password</label>
@@ -70,7 +82,7 @@ function add_new_user_render() {
                     </tr>
                 </thead>
                 <tbody id="new_user_roles">
-                    ${add_assigned_role("")}
+                    <tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>
                 </tbody>
             </table>
             <div class="d-flex ml-auto mt-2">
@@ -105,7 +117,7 @@ function show_hide_password(field_id) {
     }
 }
 
-function add_assigned_role(p_user_jurisdiction) {
+function add_assigned_role() {
     const unique_guid = $mmria.get_new_guid();
     new_user_roles.push({
         _id: unique_guid,
@@ -121,32 +133,13 @@ function add_assigned_role(p_user_jurisdiction) {
         last_updated_by: g_current_u_id,
         data_type:"user_role_jursidiction"
     });
-    const role_set = get_role_list();
-    const temp_result = [];
-    temp_result.push("<option value=''>Select Role</option>");
-    role_set.forEach(role => {
-        if(role !== "") {
-            var role_name = role.split('_');
-            role_name = role_name.map(section => {
-                if (section === 'steve' || section === 'mmria' || section === 'prams')
-                    return section.toUpperCase();
-                else
-                    return section[0].toUpperCase() + section.slice(1);
-            });
-            temp_result.push("<option ");
-            if(p_user_jurisdiction.role_name === role)
-                temp_result.push( "selected ");
-            temp_result.push("value ='" + role + "'>");
-            temp_result.push(role_name.join(" "));
-            temp_result.push("</option>");
-        }
-    });
-    const result = `
+    add_to_audit_history(g_current_u_id, unique_guid, ACTION_TYPE.ADD_ROLE, null, null);
+    return result = `
         <tr id="${unique_guid}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select id="${unique_guid}_role_type" aria-label="Select Role" class="form-select form-control role-select-controls" aria-label="Select user role">
-                        ${temp_result.join("")}
+                        ${new_user_role_render()}
                     </select>
                     <span id="${unique_guid}_role_type_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
@@ -154,7 +147,7 @@ function add_assigned_role(p_user_jurisdiction) {
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select id="${unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control role-jursidiction-controls" aria-label="Select case access folder">
-                        ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0, p_user_jurisdiction.user_id).join("")}
+                        ${new_user_role_jurisdiction_render(g_jurisdiction_tree).join('')}
                     </select>
                     <span id="${unique_guid}_role_jurisdiction_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
@@ -197,13 +190,81 @@ function add_assigned_role(p_user_jurisdiction) {
             </td>
         </tr>
     `;
-    return result;
+}
+
+function new_user_role_render()
+{
+    const role_set = get_role_list();
+    const temp_result = [];
+    temp_result.push("<option value=''>Select Role</option>");
+    role_set.forEach(role => {
+        if(role !== "") {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            temp_result.push("<option ");
+            temp_result.push("value ='" + role + "'>");
+            temp_result.push(role_name.join(" "));
+            temp_result.push("</option>");
+        }
+    });
+    return temp_result.join('');
+}
+
+function new_user_role_jurisdiction_render(p_data, p_level)
+{
+    var p_level = p_level || 0;
+	var result = [];
+	if( p_data._id)
+	{
+		result.push("<option value=''>Select Case Folder</option>")
+		p_level = 0;
+	}
+    let is_managed_jusisdiction = false;
+    for (const key in g_managed_jurisdiction_set) 
+    {
+        if (g_managed_jurisdiction_set.hasOwnProperty(key)) 
+        {
+            if(p_data.name.indexOf(key) == 0)
+            {
+                is_managed_jusisdiction = true;
+                break;
+            }
+        }
+    }
+    if(is_managed_jusisdiction)
+    {
+        result.push(`<option value="${p_data.name}"`);
+        result.push(">");
+        result.push(p_data.name == "/" ? "Top Folder" : p_data.name);
+        result.push("</option>");
+    }
+    if(p_data.children != null)
+    {
+        for(var i = 0; i < p_data.children.length; i++)
+        {
+            var child = p_data.children[i];
+            Array.prototype.push.apply(result, new_user_role_jurisdiction_render(child, p_level + 1));
+            
+        }
+    }
+	return result;
 }
 
 function delete_new_role(p_role_id) {
     const p_role_index = new_user_roles.findIndex(role => role._id === p_role_id);
     if (p_role_index !== -1) {
         new_user_roles.splice(p_role_index, 1);
+        add_to_audit_history(g_current_u_id, p_role_id, ACTION_TYPE.DELETE_ROLE, null, null);
+        deleted_user_roles.push({
+            _id: p_role_id,
+            html: document.getElementById(`${p_role_id}_role`).outerHTML,
+            role: new_user_roles[p_role_index]
+        });
         $(`#${p_role_id}_role`).remove();
         console.log(new_user_roles);
         if (new_user_roles.length <= 0) {
@@ -219,10 +280,11 @@ function add_new_role() {
     console.log("Adding new role");
     console.log(new_user_roles);
     $('#new_user_roles').append(add_assigned_role(""));
+    $('#audit_history_undo_button').prop('disabled', false);
 }
 
 $(document).on('input', '#new_user_password, #new_user_password_verify', function() {
-    checkPasswordsMatch();
+    check_passwords_match();
 });
 
 $(document).on('change', 'input[type="text"], input[type="password"]', user_email_change);
@@ -236,8 +298,6 @@ function user_email_change()
     } else if (id.includes('new_user_email')) {
         add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, $(this).data('previousValue'), value);
     }
-
-    //g_render();
 }
 
 
@@ -313,7 +373,7 @@ $(document).on('blur', 'input[type="date"]', function() {
     console.log(`Role ${role_id} date changed to: ${date}`);
 });
 
-function checkPasswordsMatch() {
+function check_passwords_match() {
     const password = $('#new_user_password').val();
     const verifyPassword = $('#new_user_password_verify').val();
 
@@ -384,49 +444,43 @@ function save_new_user() {
     }
     is_valid = assigned_roles_validation_check();
     if(is_valid_user_name(new_user_email))
+    {
+        if
+        (
+            new_user_password == new_user_password_verify &&
+            is_valid_password(new_user_password)
+        )
         {
-            if
-            (
-                new_user_password == new_user_password_verify &&
-                is_valid_password(new_user_password)
-            )
-            {
-                //check_if_existing_user(new_user_email, new_user_password);
-            }
-            else
-            {
-                $('#new_user_password').addClass('is-invalid').css('color', 'red');
-                $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
-                $('#show_hide_password').addClass('is-invalid-button');
-                $('#show_hide_password_verify').addClass('is-invalid-button');
-                $('#password_validation').text('Invalid password.').css('color', 'red');
-
-                $('#password_verify_validation').text(`Invalid password.<br/>be sure that verify and password match,<br/> minimum length is: ${g_policy_values.minimum_length} and should only include characters [a-zA-Z0-9!@#$%?* ]`).css('color', 'red');
-                is_valid = false;
-            }
-    
+            //check_if_existing_user(new_user_email, new_user_password);
         }
         else
         {
-            $('#new_user_email').addClass('is-invalid').css('color', 'red');
-            $('#username_validation').text('Invalid user name. User name should be unique and at least 5 characters long').css('color', 'red');
+            $('#new_user_password').addClass('is-invalid').css('color', 'red');
+            $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
+            $('#show_hide_password').addClass('is-invalid-button');
+            $('#show_hide_password_verify').addClass('is-invalid-button');
+            $('#password_validation').text('Invalid password.').css('color', 'red');
+            $('#password_verify_validation')
+                .text(`Invalid password.<br/>be sure that verify and password match,<br/> minimum length is: ${g_policy_values.minimum_length} and should only include characters [a-zA-Z0-9!@#$%?* ]`).css('color', 'red');
             is_valid = false;
-            console.log("got nothing.");
         }
-
-    const new_user = {
-        _id: $mmria.get_new_guid(),
-        user_email: new_user_email,
-        user_password: new_user_password,
-        user_roles: new_user_roles,
-        date_created: new Date(),
-        created_by: g_current_u_id,
-        date_last_updated: new Date(),
-        last_updated_by: g_current_u_id,
-        data_type: "user"
-    };
+    }
+    else
+    {
+        $('#new_user_email').addClass('is-invalid').css('color', 'red');
+        $('#username_validation').text('Invalid user name. User name should be unique and at least 5 characters long').css('color', 'red');
+        is_valid = false;
+        console.log("got nothing.");
+    }
+    new_user._id = 'org.couchdb.user:' + new_user_email;
+    new_user.name = new_user_email;
+    new_user.password = new_user_password;
+    new_user.roles = new_user_roles;
+    new_user.date_created = new Date();
 
     console.log(new_user);
+    create_first_audit_log();
+    console.log(audit_history.pop());
     //$mmria.save_data(new_user);
 }
 
@@ -478,18 +532,12 @@ function assigned_roles_validation_check(){
             $(`#${role_id}_role_start_date_validation`).text('').css('color', '');
         }
         if (role_effective_end_date && new Date(role_effective_end_date) < new Date(role_effective_start_date)) {
-            //$(`#${role_id}_role_effective_start_date`).addClass('is-invalid').css('color', 'red');
             $(`#${role_id}_role_effective_end_date`).addClass('is-invalid').css('color', 'red');
-            //$(`#${role_id}_role_start_date_validation`).text('End Date cannot be before Start Date').css('color', 'red');
             $(`#${role_id}_role_end_date_validation`).text('Must be after Start Date').css('color', 'red');
-            //$(`#${role_id}_role_effective_end_date`).val('');
-            //$(`#${role_id}_role_effective_start_date`).val('');
             is_valid = false;
         }
         else {
-            //$(`#${role_id}_role_effective_start_date`).removeClass('is-invalid').css('color', '');
             $(`#${role_id}_role_effective_end_date`).removeClass('is-invalid').css('color', '');
-            //$(`#${role_id}_role_start_date_validation`).text('').css('color', '');
             $(`#${role_id}_role_end_date_validation`).text('').css('color', '');
         }
     });
@@ -520,15 +568,47 @@ function add_to_audit_history(p_user_id, p_elem_id, p_action, p_prev_val, p_new_
 function audit_history_undo() {
     const last_audit = audit_history.pop();
     if (last_audit) {
-        const elem_id = last_audit.element_id;
-        const prev_val = last_audit.prev_value;
-        const new_val = last_audit.new_value;
-        if(elem_id.includes('role_active_status')) {
-            $(`input[name="${elem_id}"][value="${new_val}"]`).prop('checked', false);
-            $(`input[name="${elem_id}"][value="${prev_val}"]`).prop('checked', true);
+        const role = new_user_roles.find(role => role._id === last_audit.element_id.split('_')[0]);
+        switch (last_audit.action) {
+            case ACTION_TYPE.ADD_ROLE:
+                const removed_role = {
+                    _id: last_audit.element_id,
+                    html: document.getElementById(`${last_audit.element_id}_role`).outerHTML,
+                    role: role
+                };
+                deleted_user_roles.push(removed_role);
+                new_user_roles.splice(new_user_roles.findIndex(r => r._id === last_audit.element_id), 1);
+                document.getElementById(`${last_audit.element_id}_role`).remove();
+                if (new_user_roles.length <= 0) {
+                    document.getElementById("new_user_roles").innerHTML = '<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>';
+                }
+                break;
+            case ACTION_TYPE.DELETE_ROLE:
+                if (deleted_user_roles.length > 0) {
+                    const restored_role = deleted_user_roles.pop();
+                    new_user_roles.push(restored_role.role);
+                    $('#new_user_roles').append(restored_role.html);
+                    // $(`#${restored_role.role._id}_role`).removeAttr('id');
+                    // $(`#${restored_role.role._id}_delete`).attr('onclick', `delete_new_role('${restored_role.role._id}')`);
+                }
+                break;
+            case ACTION_TYPE.EDIT_ROLE:
+                if (role) {
+                    role.role_name = last_audit.prev_value;
+                    $(`#${last_audit.element_id}`).val(last_audit.prev_value);
+                    $(`#${last_audit.element_id}`).data('previousValue', last_audit.prev_value);
+                    if(last_audit.element_id.includes('role_active_status')) {
+                        $(`input[name="${last_audit.element_id}"][value="${last_audit.new_value}"]`).prop('checked', false);
+                        $(`input[name="${last_audit.element_id}"][value="${last_audit.prev_value}"]`).prop('checked', true);
+                    }
+                }
+                break;
+            case ACTION_TYPE.EDIT_PASSWORD:
+            case ACTION_TYPE.EDIT_USERNAME:
+                $(`#${last_audit.element_id}`).val(last_audit.prev_value);
+                $(`#${last_audit.element_id}`).data('previousValue', last_audit.prev_value);
+                break;
         }
-        $(`#${elem_id}`).val(prev_val);
-        $(`#${elem_id}`).data('previousValue', prev_val);
         can_undo = audit_history.length > 0;
         $('#audit_history_undo_button').prop('disabled', !can_undo);
         $('#audit_history_undo_button').attr('aria-disabled', can_undo ? 'false' : 'true');

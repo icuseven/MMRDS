@@ -170,77 +170,78 @@ function render_account_history_table_navigation()
 function render_editable_role_rows(p_user_role_jurisdiction)
 {
     const result = [];
-
-
     for(var i = 0; i < p_user_role_jurisdiction.length; i++)
     {
         const item = p_user_role_jurisdiction[i];
-
         result.push(user_assigned_role_renderer(item))
     }
-
     return result.join("");
-
 }
+
 function user_assigned_role_renderer(p_user_jurisdiction)
 {
-    const role_set = get_role_list();
-    const temp_result = [];
-
-    temp_result.push('<option value="">Select Role</option>');
-    role_set.forEach(role => {
-        if(role !== "")
-        {
-            var role_name = role.split('_');
-            role_name = role_name.map(section => {
-                if (section === 'steve' || section === 'mmria' || section === 'prams')
-                    return section.toUpperCase();
-                else
-                    return section[0].toUpperCase() + section.slice(1);
-            });
-            temp_result.push("<option ");
-            if(p_user_jurisdiction.role_name === role)
-                temp_result.push( "selected ");
-            temp_result.push("value ='" + role + "'>");
-            temp_result.push(role_name.join(" "));
-            temp_result.push("</option>");
-        }
-
-    })
     const result = `
         <tr>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
-                    ${temp_result.join("")}
+                    ${edit_user_role_list_render(p_user_jurisdiction)}
                     </select>
                 </div>
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
-                        ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0, p_user_jurisdiction.user_id).join("")}
+                        ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0).join("")}
                     </select>
                 </div>
             </td>
             <td>
-                <input id="${new_user_roles.length.toString()}_role_effective_start_date" aria-label="Effective Start Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    id="${new_user_roles.length.toString()}_role_effective_start_date"
+                    aria-label="Effective Start Date for role ${new_user_roles.length.toString()}"
+                    value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
-                <input id="${new_user_roles.length.toString()}_role_effective_end_date" aria-label="Effective End Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    id="${new_user_roles.length.toString()}_role_effective_end_date"
+                    aria-label="Effective End Date for role ${new_user_roles.length.toString()}"
+                    value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
                 <div class="vertical-control col-md-12">
                     <fieldset>
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="true" id="${p_user_jurisdiction.role_name}_active_status_true">
+                            <input
+                                ${p_user_jurisdiction.is_active ? "checked" : ""}
+                                class="form-check-input big-radio"
+                                name="${p_user_jurisdiction.role_name}_active_status"
+                                type="radio" value="true" id="${p_user_jurisdiction.role_name}_active_status_true"
+                            >
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="false" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
+                            <input
+                                ${p_user_jurisdiction.is_active ? "" : "checked"}
+                                class="form-check-input big-radio"
+                                type="radio"
+                                value="false"
+                                name="${p_user_jurisdiction.role_name}_active_status"
+                                id="${p_user_jurisdiction.role_name}_active_status_false"
+                            >
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
                                 Inactive
                             </label>
@@ -258,6 +259,32 @@ function user_assigned_role_renderer(p_user_jurisdiction)
     return result;
 }
 
+function edit_user_role_list_render(p_user_jurisdiction) 
+{
+    const role_set = get_role_list();
+    const result = [];
+    result.push('<option value="">Select Role</option>');
+    role_set.forEach(role => {
+        if(role !== "")
+        {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            result.push("<option ");
+            if(p_user_jurisdiction.role_name === role)
+                result.push( "selected ");
+            result.push("value ='" + role + "'>");
+            result.push(role_name.join(" "));
+            result.push("</option>");
+        }
+    })
+    return result.join('');
+}
+
 function get_role_list()
 {
     let result = [];
@@ -270,7 +297,21 @@ function get_role_list()
             g_is_installation_admin.toLowerCase() == "true"
         )
         {
-            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'installation_admin', 'steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+            result = [
+                '',
+                'abstractor',
+                'data_analyst',
+                'committee_member',
+                'cdc_admin',
+                'cdc_analyst',
+                'form_designer',
+                'jurisdiction_admin',
+                'installation_admin',
+                'steve_mmria',
+                'steve_prams',
+                'vital_importer',
+                "vro"
+            ];
         }
         else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
         {
@@ -289,7 +330,20 @@ function get_role_list()
             g_is_installation_admin.toLowerCase() == "true"
         )
         {
-            result = [ '', 'abstractor','data_analyst', 'committee_member','cdc_admin','cdc_analyst','form_designer', 'jurisdiction_admin', 'installation_admin', 'steve_mmria', 'steve_prams', 'vital_importer', 'vital_importer_state'];
+            result = [
+                '',
+                'abstractor',
+                'data_analyst',
+                'committee_member',
+                'cdc_admin','cdc_analyst',
+                'form_designer',
+                'jurisdiction_admin',
+                'installation_admin',
+                'steve_mmria',
+                'steve_prams',
+                'vital_importer',
+                'vital_importer_state'
+            ];
         }
         else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
         {
@@ -306,7 +360,7 @@ function get_role_list()
     return result;
 }
 
-function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_name)
+function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
 {
 	var result = [];
 	if( p_data._id)
@@ -342,7 +396,7 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level, p_user_na
         for(var i = 0; i < p_data.children.length; i++)
         {
             var child = p_data.children[i];
-            Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1, p_user_name));
+            Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_selected_id, p_level + 1));
             
         }
     }
@@ -375,47 +429,42 @@ function edit_add_assigned_role(user_role_jurisdiction)
         last_updated_by: g_current_u_id,
         data_type:"user_role_jursidiction"
     });
-    const role_set = get_role_list();
-    const temp_result = [];
-    temp_result.push('<option value="">Select Role</option>');
-    role_set.forEach(role => {
-        if(role !== "")
-        {
-            var role_name = role.split('_');
-            role_name = role_name.map(section => {
-                if (section === 'steve' || section === 'mmria' || section === 'prams')
-                    return section.toUpperCase();
-                else
-                    return section[0].toUpperCase() + section.slice(1);
-            });
-            temp_result.push("<option ");
-            temp_result.push("value ='" + role + "'>");
-            temp_result.push(role_name.join(" "));
-            temp_result.push("</option>");
-        }
-
-    })
     const result = `
         <tr id="${new_user_roles.length.toString()}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select id="${unique_guid}_role_type" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
-                        ${temp_result.join("")}
+                        ${edit_user_add_role_render()}
                     </select>
                 </div>
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select id="${unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
-                        ${user_role_jurisdiction_render(g_jurisdiction_tree, "", 0, "").join("")}
+                        ${user_role_jurisdiction_render(g_jurisdiction_tree, "", 0).join("")}
                     </select>
                 </div>
             </td>
             <td>
-                <input value="${format_date(new Date().toISOString())}" id="${unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    value="${format_date(new Date().toISOString())}"
+                    id="${unique_guid}_role_effective_start_date"
+                    aria-label="Effective Start Date for role ${unique_guid}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
-                <input id="${unique_guid}_role_effective_end_date" aria-label="Effective End Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    id="${unique_guid}_role_effective_end_date"
+                    aria-label="Effective End Date for role ${unique_guid}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
                 <div class="vertical-control col-md-12">
@@ -444,4 +493,28 @@ function edit_add_assigned_role(user_role_jurisdiction)
         </tr>
     `;
     return result;
+}
+
+function edit_user_add_role_render()
+{
+    const role_set = get_role_list();
+    const result = [];
+    result.push('<option value="">Select Role</option>');
+    role_set.forEach(role => {
+        if(role !== "")
+        {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            result.push("<option ");
+            result.push("value ='" + role + "'>");
+            result.push(role_name.join(" "));
+            result.push("</option>");
+        }
+
+    })
 }

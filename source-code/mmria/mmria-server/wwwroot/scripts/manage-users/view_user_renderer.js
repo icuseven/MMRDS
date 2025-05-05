@@ -113,13 +113,6 @@ function view_user_renderer()
     document.getElementById("form_content_id").innerHTML = result;
 }
 
-
-// function add_new_role()
-// {
-//     //To-Do: add role
-//     console.log(`Adding role`);
-// }
-
 function render_account_history_table_navigation_view()
 {
     const result = [`
@@ -128,67 +121,48 @@ function render_account_history_table_navigation_view()
                 <div class='d-flex align-items-center'>
                     <div>Showing 1-10 of 30 cases</div>
                     <div class='row ml-2'>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 cdc-icon-chevron-double-right'></span></button>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 cdc-icon-chevron-right'></span></button>
-                        <button class='icon-button btn-tab-navigation'>1</button>
-                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 cdc-icon-chevron-right'></span></button>
-                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 cdc-icon-chevron-double-right'></span></button>
+                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'>
+                            <span class='x24 cdc-icon-chevron-double-right'></span>
+                        </button>
+                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'>
+                            <span class='x24 cdc-icon-chevron-right'></span>
+                        </button>
+                        <button class='icon-button btn-tab-navigation'>
+                            1
+                        </button>
+                        <button class='icon-button pt-1 btn-tab-navigation'>
+                            <span class='x24 cdc-icon-chevron-right'></span>
+                        </button>
+                        <button class='icon-button pt-1 btn-tab-navigation'>
+                            <span class='x24 cdc-icon-chevron-double-right'></span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     `];
-
     return result.join("");
 }
-
-
 
 function render_read_only_role_rows(p_user_role_jurisdiction)
 {
     const result = [];
-
-
     for(var i = 0; i < p_user_role_jurisdiction.length; i++)
     {
         const item = p_user_role_jurisdiction[i];
-
         result.push(user_assigned_role_renderer_view(item))
     }
-
     return result.join("");
-
 }
 
 function user_assigned_role_renderer_view(p_user_jurisdiction)
 {
-    const role_set = get_role_list();
-    const temp_result = [];
-    role_set.forEach(role => {
-        if(role !== "")
-        {
-            var role_name = role.split('_');
-            role_name = role_name.map(section => {
-                if (section === 'steve' || section === 'mmria' || section === 'prams')
-                    return section.toUpperCase();
-                else
-                    return section[0].toUpperCase() + section.slice(1);
-            });
-            temp_result.push("<option ");
-            if(p_user_jurisdiction.role_name === role)
-                temp_result.push( "selected ");
-            temp_result.push("value ='" + role + "'>");
-            temp_result.push(role_name.join(" "));
-            temp_result.push("</option>");
-        }
-
-    })
     const result = `
         <tr>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select disabled aria-disabled="true" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
-                    ${temp_result.join("")}
+                    ${user_view_role_render(p_user_jurisdiction)}
                     </select>
                 </div>
             </td>
@@ -200,23 +174,56 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
                 </div>
             </td>
              <td>
-                <input disabled aria-disabled="true" id="${new_user_roles.length.toString()}_role_effective_start_date" aria-label="Effective Start Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    disabled
+                    aria-disabled="true"
+                    id="${new_user_roles.length.toString()}_role_effective_start_date"
+                    aria-label="Effective Start Date for role ${new_user_roles.length.toString()}"
+                    value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
-                <input disabled aria-disabled="true"  id="${new_user_roles.length.toString()}_role_effective_end_date" aria-label="Effective End Date for role ${new_user_roles.length.toString()}" value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                <input
+                    disabled aria-disabled="true"
+                    id="${new_user_roles.length.toString()}_role_effective_end_date"
+                    aria-label="Effective End Date for role ${new_user_roles.length.toString()}"
+                    value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}"
+                    autocomplete="off"
+                    class="form-control mb-4"
+                    type="date"
+                    placeholder="MM/DD/YYYY"
+                >
             </td>
             <td>
                 <div class="vertical-control col-md-12">
                     <fieldset>
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
-                            <input disabled aria-disabled="true"  ${p_user_jurisdiction.is_active ? "checked" : ""} class="form-check-input big-radio" name="${p_user_jurisdiction.role_name}_active_status" type="radio" value="" id="${p_user_jurisdiction.role_name}_active_status_true">
+                            <input
+                                disabled aria-disabled="true"
+                                ${p_user_jurisdiction.is_active ? "checked" : ""}
+                                class="form-check-input big-radio"
+                                name="${p_user_jurisdiction.role_name}_active_status"
+                                type="radio" value=""
+                                id="${p_user_jurisdiction.role_name}_active_status_true"
+                            >
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input disabled aria-disabled="true"  ${p_user_jurisdiction.is_active ? "" : "checked"} class="form-check-input big-radio" type="radio" value="" name="${p_user_jurisdiction.role_name}_active_status" id="${p_user_jurisdiction.role_name}_active_status_false">
+                            <input
+                                disabled aria-disabled="true"
+                                ${p_user_jurisdiction.is_active ? "" : "checked"}
+                                class="form-check-input big-radio" type="radio"
+                                value=""
+                                name="${p_user_jurisdiction.role_name}_active_status"
+                                id="${p_user_jurisdiction.role_name}_active_status_false"
+                            >
                             <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
                                 Inactive
                             </label>
@@ -234,10 +241,27 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
     return result;
 }
 
-function format_date(dateString) {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+function user_view_role_render(p_user_jurisdiction)
+{
+    const role_set = get_role_list();
+    const result = [];
+    role_set.forEach(role => {
+        if(role !== "")
+        {
+            var role_name = role.split('_');
+            role_name = role_name.map(section => {
+                if (section === 'steve' || section === 'mmria' || section === 'prams')
+                    return section.toUpperCase();
+                else
+                    return section[0].toUpperCase() + section.slice(1);
+            });
+            result.push("<option ");
+            if(p_user_jurisdiction.role_name === role)
+                result.push( "selected ");
+            result.push("value ='" + role + "'>");
+            result.push(role_name.join(" "));
+            result.push("</option>");
+        }
+    })
+    return result.join("");
 }
