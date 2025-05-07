@@ -25,6 +25,8 @@ public sealed class Audit_Case_Summary
         public int? form_index {get;set;}
         public int? grid_index {get;set;}
         public string prompt {get;set;}
+
+        public string metadata_version {get;set;}
         
         public string metadata_type {get;set;}
 

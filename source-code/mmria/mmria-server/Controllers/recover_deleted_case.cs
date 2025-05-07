@@ -95,7 +95,7 @@ public sealed class recover_deleted_caseController : Controller
             }
 
 
-            var audit_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.audit.audit_detail_view>>(responseFromServer);
+            var audit_view_response = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.common.model.couchdb.audit.Audit_Detail_View>>(responseFromServer);
 
             foreach(var item in audit_view_response.rows)
             {
@@ -133,7 +133,7 @@ public sealed class recover_deleted_caseController : Controller
         return View(model);
     }
 
-    public IActionResult ConfirmRecoverRequest(mmria.common.model.couchdb.audit.audit_detail_view Model)
+    public IActionResult ConfirmRecoverRequest(mmria.common.model.couchdb.audit.Audit_Detail_View Model)
     {
         var model = Model;
 
@@ -144,12 +144,12 @@ public sealed class recover_deleted_caseController : Controller
     public sealed class UpdateDeletedCaseResult
     {
         public UpdateDeletedCaseResult(){}
-        public mmria.common.model.couchdb.audit.audit_detail_view detail { get; set; }
+        public mmria.common.model.couchdb.audit.Audit_Detail_View detail { get; set; }
         public bool is_problem_deleting { get; set; }
         public string problem_description { get; set; }
     }
 
-    public async Task<IActionResult> UpdateDeletedCase(mmria.common.model.couchdb.audit.audit_detail_view Model)
+    public async Task<IActionResult> UpdateDeletedCase(mmria.common.model.couchdb.audit.Audit_Detail_View Model)
     {
         var result = new UpdateDeletedCaseResult()
         {

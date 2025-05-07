@@ -37,13 +37,13 @@ public sealed class Change_Stack_Item
     
     public string metadata_type {get;set;}
 
-    public string doc_type {get;} = "Change_Stack_Item";
+    public string doc_type {get; set;} = "Change_Stack_Item";
 }
 public sealed class Change_Stack
 {
     public Change_Stack(){}
 
-    public string doc_type {get;} = "Change_Stack";
+    public string doc_type {get; set;} = "Change_Stack";
     public string _id {get;set;}
     public string _rev {get;set;}
 

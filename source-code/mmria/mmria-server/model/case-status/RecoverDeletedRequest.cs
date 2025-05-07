@@ -16,9 +16,9 @@ public sealed class RequestResponse
 {
     public RequestResponse()
     {
-        Detail = new List<mmria.common.model.couchdb.audit.audit_detail_view>();
+        Detail = new List<mmria.common.model.couchdb.audit.Audit_Detail_View>();
     }
-    public List<mmria.common.model.couchdb.audit.audit_detail_view> Detail { get; set; }
+    public List<mmria.common.model.couchdb.audit.Audit_Detail_View> Detail { get; set; }
 
     public string SearchText { get; set; }
 
