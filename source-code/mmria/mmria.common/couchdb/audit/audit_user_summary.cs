@@ -3,9 +3,9 @@ using System;
 namespace mmria.common.model.couchdb.audit;
 
 
-public sealed class audit_detail_view
+public sealed class audit_user_summary
 {
-    public audit_detail_view()
+    public audit_user_summary()
     {
         this.items = new();
     }
@@ -30,7 +30,3 @@ public sealed class audit_detail_view
 
 
 }
-
-
-
-
