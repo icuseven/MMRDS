@@ -13,6 +13,7 @@ public sealed class Audit_Case_Summary
         public string _rev {get;set;}
 
         public string user_name {get;set;}
+        public int? sequence {get; set; }
 
         public int? temp_index {get; set; }
         public DateTime? date_created {get;set;}
@@ -32,10 +33,12 @@ public sealed class Audit_Case_Summary
 
         public string doc_type {get; set; } = "Audit_Case_Summary_Item";
     }
+
     public Audit_Case_Summary()
     {
         this.items = new();
     }
+
     public string doc_type { get; set; } = "Audit_Case_Summary";
     public string _id { get;set; } // ": "245800f9-9528-4777-89ff-1c1d27ddd05f",
     public string _rev { get;set; } // ": "1-aa412d69475e8e489049276758b6469a",
@@ -78,5 +81,6 @@ detail:
     metadata_version
 
 */
+
 
 }

@@ -3,12 +3,42 @@ using System;
 namespace mmria.common.model.couchdb.audit;
 
 
+
 public sealed class Audit_Manage_User
 {
+    public sealed class Audit_Manage_User_Item
+    {
+        public Audit_Manage_User_Item(){}
+
+        public string _rev {get;set;}
+        public DateTime? date_created {get;set;}
+        public string created_by {get;set;}
+        public int? sequence {get; set; }
+
+
+
+        public string field {get;set;}
+        public string field_path {get;set;}
+        public string old_value {get;set;}
+        public string new_value {get;set;}
+        
+        public int? temp_index {get; set; }
+        public int? form_index {get;set;}
+        public int? grid_index {get;set;}
+        public string prompt {get;set;}
+
+        public string note {get;set;}
+        
+ 
+
+  
+    }
+
     public Audit_Manage_User()
     {
         this.items = new();
     }
+
     public string doc_type { get;set; } = "Audit_Manage_User";
     public string _id { get;set; } // ": "245800f9-9528-4777-89ff-1c1d27ddd05f",
     public string _rev { get;set; } // ": "1-aa412d69475e8e489049276758b6469a",
@@ -26,7 +56,7 @@ public sealed class Audit_Manage_User
 
     public string StateDatabase { get;set; }
     public DateTime? date_created { get;set; } // ": "2021-11-16T16:01:24.731Z",
-    public System.Collections.Generic.List<mmria.common.model.couchdb.Change_Stack> items { get;set; } // ": [
+    public System.Collections.Generic.List<Audit_Manage_User_Item> items { get;set; } // ": [
 
 
 }
