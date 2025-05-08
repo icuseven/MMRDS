@@ -3,9 +3,9 @@ using System;
 namespace mmria.common.model.couchdb.audit;
 
 
-public sealed class audit_user_summary
+public sealed class Audit_User_Summary
 {
-    public audit_user_summary()
+    public Audit_User_Summary()
     {
         this.items = new();
     }
@@ -26,7 +26,7 @@ public sealed class audit_user_summary
 
     public string StateDatabase { get;set; }
     public DateTime? date_created { get;set; } // ": "2021-11-16T16:01:24.731Z",
-    public System.Collections.Generic.List<mmria.common.model.couchdb.Change_Stack> items { get;set; } // ": [
+    public System.Collections.Generic.List<Audit_Manage_User.Audit_Manage_User_Item> items { get;set; } // ": [
 
 
 }
