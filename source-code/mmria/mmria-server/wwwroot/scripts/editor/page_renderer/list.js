@@ -1168,7 +1168,7 @@ function list_checkbox_render(p_result, p_metadata, p_data, p_ui, p_metadata_pat
             is_selected = " checked ";
         }
 
-        var is_read_only = "";
+        let is_read_only = "";
 
         if
         (
@@ -1247,11 +1247,11 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
             disabled_html = " disabled = 'disabled' ";
         }
         
-        p_result.push(disabled_html);
+
 
         if(p_item.value=="9999")
         {
-            p_result.push(" disabled style='display:none;' ");
+            isabled_html = " disabled style='display:none;' ";
         }
 
         if(p_is_read_only == null || p_is_read_only == "")
@@ -1274,9 +1274,15 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
             p_result.push(p_dictionary_path);
             p_result.push("\',this.value) ");
         }
+        else if(disabled_html.trim().length == 0)
+        {
+            disabled_html = p_is_read_only;
+        }
+
+        p_result.push(disabled_html);
 
         p_result.push(p_is_selected);
-        p_result.push(p_is_read_only);
+        //p_result.push(p_is_read_only);
         p_result.push("></input>");
     }
 }
@@ -1302,12 +1308,14 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
         disabled_html = " disabled = 'disabled' ";
     }
     
-    p_result.push(disabled_html);
+    
 
     if(p_item.value=="9999")
     {
-        p_result.push(" disabled style='display:none;' ");
+        disabled_html = " disabled = 'disabled' style='display:none;' ";
     }
+
+    
 
     if(p_is_read_only == null || p_is_read_only == "")
     {
@@ -1328,9 +1336,16 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
         p_result.push(p_dictionary_path);
         p_result.push("\',this.value) ");
     }
+    else if(disabled_html.trim().length == 0)
+    {
+        disabled_html = p_is_read_only;
+    }
+
+
+    p_result.push(disabled_html);
 
     p_result.push(p_is_selected);
-    p_result.push(p_is_read_only);
+    //p_result.push(p_is_read_only);
     p_result.push("></input>");
 }
 
@@ -1415,7 +1430,7 @@ function set_list_lookup
 
 function list_other_specify_create_event(p_result, p_event_name, p_code_json, p_metadata_path, p_object_path, p_dictionary_path, p_ctx)
 {
-	var post_fix = null;
+	let post_fix = null;
 
 	switch(p_event_name)
 	{
@@ -1433,7 +1448,7 @@ function list_other_specify_create_event(p_result, p_event_name, p_code_json, p_
 			break;
 	}
 
-	var code_array = [];
+	let code_array = [];
 	
 	code_array.push("x" + path_to_int_map[p_metadata_path].toString(16) + post_fix);
 	code_array.push(".call(");
