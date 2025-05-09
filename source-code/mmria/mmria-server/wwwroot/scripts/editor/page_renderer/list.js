@@ -1244,10 +1244,8 @@ function list_checkbox_input_render(p_result, p_id,  p_item, p_object_path, p_me
 
         if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
         {
-            p_result.push(" disabled ");
+            disabled_html = " disabled = 'disabled' ";
         }
-        else disabled_html = " ";
-
         
         p_result.push(disabled_html);
 
@@ -1301,10 +1299,8 @@ function list_checkbox_mutually_exclusive_input_render(p_result, p_id,  p_item, 
         
     if(p_item.is_not_selectable!= null && p_item.is_not_selectable == true)
     {
-        p_result.push(" disabled ");
+        disabled_html = " disabled = 'disabled' ";
     }
-    else disabled_html = " ";
-
     
     p_result.push(disabled_html);
 
