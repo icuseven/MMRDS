@@ -11,6 +11,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  
   @if(is_pmss_enhanced)
   {
     <meta name="description" content="The Pregnancy Mortality Surveillance System (PMSS) is a public health software tool created to collect, store, analyze and summarize information relevant to maternal deaths. The MMRIA serves 2 purposes: first to provide complete, detailed, and organized medical and social information that can be used by medical review committees to investigate individual maternal deaths; and second to provide a standardized cumulative database for future research and analysis on maternal mortality.">
@@ -28,12 +29,46 @@
   <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
   <link rel="stylesheet" href="/styles/mmria-custom.css">
   <link rel="stylesheet" href="/styles/template-package-override.css">
+  <script src="https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js"></script>
 <script type="text/javascript">
 if (top !== self) top.location.replace(self.location.href);
 </script>
-  <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
 
-  @* This optional RenderSection is used to inject custom scripts/links into the head tag *@
+
+<script type="text/javascript">
+
+const script = document.createElement("script")
+script.defer = true;
+
+const params = {
+	Account: "cdcgov",
+	pageview: "false",
+	interactions: "false",
+	ch: "MMRIA",
+	level1: "Chronic",
+	level2: "DRH",
+	level3: "MMRIA",
+	level4: ""
+
+};
+
+const queryString = Object.keys(params)
+	.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+	.join('&');
+	
+script.src = `https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+if(window.location.href.indexOf("dprpdataportal.cdc.gov") > -1)
+{
+	script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+
+}
+
+document.write(script.outerHTML);
+</script>
+</script>
+<script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
+
+ @*  This optional RenderSection is used to inject custom scripts/links into the head tag *@
   @RenderSection("HeadScripts", false)
   @RenderSection("styles", false)
 </head>

@@ -23,6 +23,38 @@
 
   <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
   <script src="/scripts/jquery-ui.min.js"></script>
+  <script src="https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js"></script>
+
+<script type="text/javascript">
+
+const script = document.createElement("script")
+script.defer = true;
+
+const params = {
+	Account: "cdcgov",
+	pageview: "false",
+	interactions: "false",
+	ch: "MMRIA",
+	level1: "Chronic",
+	level2: "DRH",
+	level3: "MMRIA",
+	level4: ""
+
+};
+
+const queryString = Object.keys(params)
+	.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+	.join('&');
+	
+script.src = `https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+if(window.location.href.indexOf("dprpdataportal.cdc.gov") > -1)
+{
+	script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+
+}
+
+document.write(script.outerHTML);
+</script>
 </head>
 
 <body>
