@@ -1,3 +1,24 @@
+﻿# nccdphp-drh-mmria-mmria
+
+## Required Project Organization Information
+
+* Point of contact: 
+* Point of contact: Vijayasarathi, Priya (CDC/NCCDPHP/OD) (CTR) <pcv8@cdc.gov>  Technical
+* Organizational unit:  nccdphp/drh
+* Related projects: 
+* Related investments: 
+* Governance status: ATO 
+* Program official: Lekiachvili, Akaki (CDC/NCCDPHP/OD) <anl5@cdc.gov>
+
+## Overview
+
+Need to fill out
+
+## Initial setup
+
+## Get Started
+
+## Learn More
 # MMRIA
 
 
@@ -70,3 +91,4 @@ To see your latest UI changes, this is required. See steps below:
 4. Under `edit version` select `draft`
 5. Under `edit attachments` click on `load latest metadata` button... Then wait a few seconds
 6. Under `edit attachments` click on #4 `ui_specifications` button to attach latest changes
+
