@@ -31,77 +31,12 @@ function dictionary_render(p_metadata, p_path)
 	    render_search_result(search_result);
     }
 
+    
+
 	result.push(`
 		<div id="filter" class="sticky-header z-index-top mt-2" data-prop="selection_type" style="background: white;">
             <form id="view-data-filter-form" class="row no-gutters align-items-center" onsubmit="event.preventDefault()">
-                <div class="d-flex flex-column mb-2 row no-gutters justify-content-between no-print">
-                    <div class="d-flex mb-3">
-                        <label class="mr-3" for="search_text" style="text-align:left; margin-top: 5px;">Search text or MMRIA ID:</label>
-                        <input type="text" 
-                            placeholder="Enter field name or MMRIA ID"
-                            class="form-control mr-2"
-                            id="search_text"
-                            value=""
-                            style="width: 570px;"
-                            onchange="search_text_change(this.value)" 
-                        />
-                    </div>
-                    <div class="d-flex container-flex-wrap mb-3">
-                        <div class="align-text-top pl-0 col-6">
-                            <select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
-                                ${render_form_filter(g_filter)}
-                            </select>
-                        </div>
-                        <div class="multiselect pl-0 col-5" style="width:410px;">
-                            <div aria-label='field filter' aria-owns="checkboxes" aria-expanded="false" role="combobox" tabindex="0" class="selectBox" onkeyup="showCheckboxes(event)" id="field_filter" onclick="showCheckboxes(event)">
-                                <select aria-hidden="true" tabindex="-1"  class="custom-select mr-2" >
-                                    <option>(Any Field)</option>
-                                </select>
-                                <div class="overSelect"></div>
-                            </div>
-                            <div id="checkboxes" style="height:200px;overflow-y:scroll;">
-                                ${render_field_filter(g_filter)}
-                            </div>
-                        </div>
-                        <div class="d-flex flex-wrap pl-0 col-sm-12 button-container">
-                            <button
-                                id="apply_filters"
-                                type="button"
-                                class="btn primary-button no-print mt-0 mr-2"
-                                alt="clear search"
-                                onclick="search_click()">Apply Filters</button>
-                            <button
-                                id="reset_button"
-                                type="button"
-                                class="btn primary-button no-print mt-0 mr-2"
-                                alt="reset search"
-                                onclick="reset_click()">Reset</button>
-                            <button type="button" id="print_button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
-                            <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>          
-                        </div>
-                    </div>
-                    <div class="form-inline mb-3">
-                        <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
-                        <select style="flex: 0 0 57.5%; max-width: 58.333333%;" id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
-                            ${renderSortCaseStatus(g_case_view_request)}
-                        </select>
-                    </div>
-                    <div class="form-inline mb-3">
-                        <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
-                        <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
-                            ${renderPregnancyRelatedness(g_case_view_request)}
-                        </select>
-                    </div>
-                    <div>
-                        ${render_pregnancy_filter(g_case_view_request)}
-                    </div>
-                    <div class="no-print">
-                        ${render_display_frequency_check_box(g_filter)}
-                    </div>
-                </div> 
-                <div id="needs_apply_id" style="visibility:hidden">
-                    <b>Click the Apply Filters button to apply changes</b>
-                </div>
+                ${g_is_pmss_enhanced? form_render_pmss(): form_render_mmria()}
             </form>
 			<div class="mt-2 vertical-control pl-0 pr-0 col-md-12">
 				<table id="search_result_list" class="table table-layout-fixed align-cell-top mb-3" style="font-size: 14px">
@@ -1814,4 +1749,154 @@ function showCheckboxes(event)
 async function on_display_zero_values_click(p_value)
 {
     g_filter.do_not_display_frequencies_equal_to_zero = p_value.checked;
+}
+
+
+function form_render_mmria()
+{
+    return `
+            <div class="d-flex flex-column mb-2 row no-gutters justify-content-between no-print">
+            <div class="d-flex mb-3">
+                <label class="mr-3" for="search_text" style="text-align:left; margin-top: 5px;">Search text or MMRIA ID:</label>
+                <input type="text" 
+                    placeholder="Enter field name or MMRIA ID"
+                    class="form-control mr-2"
+                    id="search_text"
+                    value=""
+                    style="width: 570px;"
+                    onchange="search_text_change(this.value)" 
+                />
+            </div>
+            <div class="d-flex container-flex-wrap mb-3">
+                <div class="align-text-top pl-0 col-6">
+                    <select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
+                        ${render_form_filter(g_filter)}
+                    </select>
+                </div>
+                <div class="multiselect pl-0 col-5" style="width:410px;">
+                    <div aria-label='field filter' aria-owns="checkboxes" aria-expanded="false" role="combobox" tabindex="0" class="selectBox" onkeyup="showCheckboxes(event)" id="field_filter" onclick="showCheckboxes(event)">
+                        <select aria-hidden="true" tabindex="-1"  class="custom-select mr-2" >
+                            <option>(Any Field)</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes" style="height:200px;overflow-y:scroll;">
+                        ${render_field_filter(g_filter)}
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap pl-0 col-sm-12 button-container">
+                    <button
+                        id="apply_filters"
+                        type="button"
+                        class="btn primary-button no-print mt-0 mr-2"
+                        alt="clear search"
+                        onclick="search_click()">Apply Filters</button>
+                    <button
+                        id="reset_button"
+                        type="button"
+                        class="btn primary-button no-print mt-0 mr-2"
+                        alt="reset search"
+                        onclick="reset_click()">Reset</button>
+                    <button type="button" id="print_button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+                    <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>          
+                </div>
+            </div>
+            <div class="form-inline mb-3">
+                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
+                <select style="flex: 0 0 57.5%; max-width: 58.333333%;" id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                    ${renderSortCaseStatus(g_case_view_request)}
+                </select>
+            </div>
+            <div class="form-inline mb-3">
+                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+                    ${renderPregnancyRelatedness(g_case_view_request)}
+                </select>
+            </div>
+            <div>
+                ${render_pregnancy_filter(g_case_view_request)}
+            </div>
+            <div class="no-print">
+                ${render_display_frequency_check_box(g_filter)}
+            </div>
+        </div> 
+        <div id="needs_apply_id" style="visibility:hidden">
+            <b>Click the Apply Filters button to apply changes</b>
+        </div>
+        `;
+}
+
+
+function form_render_pmss()
+{
+    return `
+            <div class="d-flex flex-column mb-2 row no-gutters justify-content-between no-print">
+            <div class="d-flex mb-3">
+                <label class="mr-3" for="search_text" style="text-align:left; margin-top: 5px;">Search text or MMRIA ID:</label>
+                <input type="text" 
+                    placeholder="Enter field name or MMRIA ID"
+                    class="form-control mr-2"
+                    id="search_text"
+                    value=""
+                    style="width: 570px;"
+                    onchange="search_text_change(this.value)" 
+                />
+            </div>
+            <div class="d-flex container-flex-wrap mb-3">
+                <div class="align-text-top pl-0 col-6">
+                    <select aria-label='form filter' id="form_filter" class="custom-select mr-2" onchange="on_form_filter_changed(this.value)">
+                        ${render_form_filter(g_filter)}
+                    </select>
+                </div>
+                <div class="multiselect pl-0 col-5" style="width:410px;">
+                    <div aria-label='field filter' aria-owns="checkboxes" aria-expanded="false" role="combobox" tabindex="0" class="selectBox" onkeyup="showCheckboxes(event)" id="field_filter" onclick="showCheckboxes(event)">
+                        <select aria-hidden="true" tabindex="-1"  class="custom-select mr-2" >
+                            <option>(Any Field)</option>
+                        </select>
+                        <div class="overSelect"></div>
+                    </div>
+                    <div id="checkboxes" style="height:200px;overflow-y:scroll;">
+                        ${render_field_filter(g_filter)}
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap pl-0 col-sm-12 button-container">
+                    <button
+                        id="apply_filters"
+                        type="button"
+                        class="btn primary-button no-print mt-0 mr-2"
+                        alt="clear search"
+                        onclick="search_click()">Apply Filters</button>
+                    <button
+                        id="reset_button"
+                        type="button"
+                        class="btn primary-button no-print mt-0 mr-2"
+                        alt="reset search"
+                        onclick="reset_click()">Reset</button>
+                    <button type="button" id="print_button" class="btn primary-button row no-gutters align-items-center mt-0 no-print" onclick="handle_print()"><span style="fill: white" class="mr-1 fill-p" aria-hidden="true" focusable="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg></span>Print</button>
+                    <span class="spinner-container spinner-inline ml-2"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>          
+                </div>
+            </div>
+            <div class="form-inline mb-3">
+                <label for="search_case_status" class="font-weight-normal mr-2">Case Status:</label>
+                <select style="flex: 0 0 57.5%; max-width: 58.333333%;" id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                    ${renderSortCaseStatus(g_case_view_request)}
+                </select>
+            </div>
+            <div class="form-inline mb-3">
+                <label for="search_pregnancy_relatedness" class="font-weight-normal mr-2">Pregnancy Relatedness:</label>
+                <select id="search_pregnancy_relatedness" class="custom-select" onchange="search_pregnancy_relatedness_onchange(this.value)">
+                    ${renderPregnancyRelatedness(g_case_view_request)}
+                </select>
+            </div>
+            <div>
+                ${render_pregnancy_filter(g_case_view_request)}
+            </div>
+            <div class="no-print">
+                ${render_display_frequency_check_box(g_filter)}
+            </div>
+        </div> 
+        <div id="needs_apply_id" style="visibility:hidden">
+            <b>Click the Apply Filters button to apply changes</b>
+        </div>
+        `;
 }
