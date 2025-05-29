@@ -544,7 +544,14 @@ effective_end_date
                 }
 
                 result.total_rows = result.rows.Count;
-                result.rows =  result.rows.Skip (skip).Take (take).ToList ();
+                if (take > -1)
+                {
+                    result.rows = result.rows.Skip(skip).Take(take).ToList();
+                }
+                else
+                {
+                    result.rows = result.rows.Skip(skip).ToList();
+                }
 
                 return result;
             }
