@@ -1,15 +1,6 @@
 var new_user_roles = [];
 var deleted_user_roles = [];
-var audit_history = [];
 var can_undo = false;
-const ACTION_TYPE = {
-    ADD_USER: 'add_user',
-    ADD_ROLE: 'add_role',
-    DELETE_ROLE: 'delete_role',
-    EDIT_ROLE: 'edit_role',
-    EDIT_PASSWORD: 'edit_password',
-    EDIT_USERNAME: 'edit_username',
-}
 
 var new_user = {
     "_id": '',
@@ -28,9 +19,15 @@ function add_new_user_render() {
             <div>
                 <h2 class="h4">User Info</h2>
             </div>
-            <div class="ml-auto">
-                <button onclick="save_new_user()" class="btn primary-button">Save New User</button>
-                <button onclick="audit_history_undo()" id="audit_history_undo_button" ${can_undo === true ? '' : 'disabled'} aria-disabled="${can_undo ? 'false' : 'true'}" class="btn primary-button">Undo</button>
+            <div class="ml-auto d-flex">
+                <span id="new_user_save_status" role="status" class="mr-2 spinner-container spinner-content">
+                    <span class="spinner-body text-primary">
+                        <span class="spinner"></span>
+                        <span class="sr-only">Saving new user...</span>
+                    </span>
+                </span>
+                <button id="save_user_button" onclick="save_new_user()" class="btn primary-button">Save New User</button>
+                <button id="undo_button" onclick="audit_history_undo()" id="audit_history_undo_button" ${can_undo === true ? '' : 'disabled'} aria-disabled="${can_undo ? 'false' : 'true'}" class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
@@ -81,7 +78,7 @@ function add_new_user_render() {
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="new_user_roles">
+                <tbody id="user_roles">
                     <tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>
                 </tbody>
             </table>
@@ -94,6 +91,7 @@ function add_new_user_render() {
     `;
     show_hide_user_management_back_button(true);
     set_page_title("Add New User");
+    //init_audit_history();
     document.getElementById('form_content_id').innerHTML = result;
 }
 
@@ -255,9 +253,11 @@ function new_user_role_jurisdiction_render(p_data, p_level)
 	return result;
 }
 
-function delete_new_role(p_role_id) {
+function delete_new_role(p_role_id) 
+{
     const p_role_index = new_user_roles.findIndex(role => role._id === p_role_id);
-    if (p_role_index !== -1) {
+    if (p_role_index !== -1) 
+    {
         new_user_roles.splice(p_role_index, 1);
         add_to_audit_history(g_current_u_id, p_role_id, ACTION_TYPE.DELETE_ROLE, null, null);
         deleted_user_roles.push({
@@ -265,356 +265,512 @@ function delete_new_role(p_role_id) {
             html: document.getElementById(`${p_role_id}_role`).outerHTML,
             role: new_user_roles[p_role_index]
         });
-        $(`#${p_role_id}_role`).remove();
+        const row = document.getElementById(`${p_role_id}_role`);
+        if (row) row.remove();
         console.log(new_user_roles);
         if (new_user_roles.length <= 0) {
-            $("#new_user_roles").append('<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>');
+            const userRoles = document.getElementById("user_roles");
+            if (userRoles) {
+                const tr = document.createElement('tr');
+                tr.id = "no-roles-placeholder";
+                tr.className = "text-center";
+                tr.innerHTML = '<td colspan="6">No roles assigned.</td>';
+                userRoles.appendChild(tr);
+            }
         }
-    } else {
+    } 
+    else 
+    {
         console.error(`Role with id ${p_role_id} not found`);
     }
 }
 
-function add_new_role() {
-    $("#no-roles-placeholder").remove();
+function add_new_role() 
+{
+    const noRolesPlaceholder = document.getElementById("no-roles-placeholder");
+    if (noRolesPlaceholder) noRolesPlaceholder.remove();
     console.log("Adding new role");
     console.log(new_user_roles);
-    $('#new_user_roles').append(add_assigned_role(""));
-    $('#audit_history_undo_button').prop('disabled', false);
+    const userRoles = document.getElementById('user_roles');
+    if (userRoles) 
+    {
+        const temp = document.createElement('tbody');
+        temp.innerHTML = add_assigned_role("");
+        Array.from(temp.children).forEach(child => userRoles.appendChild(child));
+    }
+    const undoBtn = document.getElementById('audit_history_undo_button');
+    if (undoBtn) undoBtn.disabled = false;
 }
 
-$(document).on('input', '#new_user_password, #new_user_password_verify', function() {
-    check_passwords_match();
+document.addEventListener('input', function(e) 
+{
+    if (e.target && (e.target.id === 'new_user_password' || e.target.id === 'new_user_password_verify')) 
+    {
+        check_passwords_match();
+    }
 });
 
-$(document).on('change', 'input[type="text"], input[type="password"]', user_email_change);
+document.addEventListener('change', function(e) 
+{
+    if (e.target && (e.target.type === 'text' || e.target.type === 'password')) 
+    {
+        user_email_change.call(e.target);
+    }
+});
 
 function user_email_change() 
 {
-    const id = $(this).attr('id');
-    const value = $(this).val();
-    if(id.includes('password')) {
-        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_PASSWORD, $(this).data('previousValue'), value);
-    } else if (id.includes('new_user_email')) {
-        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, $(this).data('previousValue'), value);
+    const id = this.id;
+    const value = this.value;
+    if(id.includes('password')) 
+    {
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_PASSWORD, this.dataset.previousValue, value);
+    } 
+    else if (id.includes('new_user_email')) 
+    {
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, this.dataset.previousValue, value);
     }
 }
 
-
-$(document).on('focus', 'input', function() {
-    $(this).data('previousValue', $(this).val());
-    console.log($(this).val());
-});
-
-// Event delegation for change event on radio buttons
-$(document).on('change', 'input[type="radio"]', function() {
-    const value = $(this).val();
-    const role_id = $(this).attr('name').split('_')[0];
-    const role = new_user_roles.find(role => role._id === role_id);
-    role.is_active = value === 'true';
-    console.log(`Role ${role_id} active status changed to: ${value}`);
-    add_to_audit_history(g_current_u_id, `${role_id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, value === "true" ? "false" : "true", value);
-});
-
-// Event delegation for change event on select inputs
-$(document).on('change', 'select', function() {
-    const selectedValue = $(this).val();
-    console.log(`Select input changed to: ${selectedValue}`);
-    const role_id = $(this).attr('id').split('_')[0];
-    const role = new_user_roles.find(role => role._id === role_id);
-    if($(this).attr('id').includes('role_type')) {
-        role.role_name = selectedValue;
-        add_to_audit_history(g_current_u_id, `${role_id}_role_type`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), selectedValue);
+document.addEventListener('focusin', function(e) 
+{
+    if (e.target && e.target.tagName === 'INPUT') 
+    {
+        e.target.dataset.previousValue = e.target.value;
+        console.log(e.target.value);
     }
-    else if($(this).attr('id').includes('role_jurisdiction_type')) {
-        role.jurisdiction_id = selectedValue;
-        add_to_audit_history(g_current_u_id, `${role_id}_role_jurisdiction_type`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), selectedValue);
-    }
-    console.log(`Role ${role_id} jurisdiction changed to: ${selectedValue}`);
-    assigned_roles_validation_check();
 });
 
-// Event delegation for change event on date inputs
-$(document).on('blur', 'input[type="date"]', function() {
-    const date = $(this).val();
-    const role_id = $(this).attr('id').split('_')[0];
-    const role = new_user_roles.find(role => role._id === role_id);
-    if($(this).attr('id').includes('role_effective_start_date')) {
-        role.effective_start_date = date === "" ? "" : new Date(date);
-        if (!$(this)[0].validity.valid) {
-            $(`#${role_id}_role_effective_start_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_start_date_validation`).text('Invalid Date').css('color', 'red');
-        } else if (date === "") {
-            $(`#${role_id}_role_effective_start_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_start_date_validation`).text('Start Date is required').css('color', 'red');
-        } else if (role.effective_end_date && new Date(role.effective_end_date) < new Date(date)) {
-            $(`#${role_id}_role_effective_end_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_end_date_validation`).text('Must be after Start Date').css('color', 'red');
-        }
-        if ($(this)[0].validity.valid) {
-            $(`#${role_id}_role_effective_start_date`).removeClass('is-invalid').css('color', '');
-            $(`#${role_id}_role_start_date_validation`).text('').css('color', '');
-        }
-        add_to_audit_history(g_current_u_id, `${role_id}_role_effective_start_date`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), date);
-    } else if($(this).attr('id').includes('role_effective_end_date')) {
-        role.effective_end_date = date === "" ? "" : new Date(date);
-        if (!$(this)[0].validity.valid) {
-            $(`#${role_id}_role_effective_end_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_end_date_validation`).text('Invalid Date').css('color', 'red');
-        } else if (new Date(date) < new Date(role.effective_start_date)) {
-            $(`#${role_id}_role_effective_end_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_end_date_validation`).text('Must be after Start Date').css('color', 'red');
-        } else if ($(this)[0].validity.valid && new Date(date) >= new Date(role.effective_start_date)) {
-            $(`#${role_id}_role_effective_end_date`).removeClass('is-invalid').css('color', '');
-            $(`#${role_id}_role_end_date_validation`).text('').css('color', '');
-        }
-        add_to_audit_history(g_current_u_id, `${role_id}_role_effective_end_date`, ACTION_TYPE.EDIT_ROLE, $(this).data('previousValue'), date);
+document.addEventListener('change', function(e) 
+{
+    if (e.target && e.target.type === 'radio') 
+    {
+        const value = e.target.value;
+        const role_id = e.target.name.split('_')[0];
+        const role = new_user_roles.find(role => role._id === role_id);
+        role.is_active = value === 'true';
+        console.log(`Role ${role_id} active status changed to: ${value}`);
+        add_to_audit_history(g_current_u_id, `${role_id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, value === "true" ? "false" : "true", value);
     }
-    console.log(`Role ${role_id} date changed to: ${date}`);
 });
 
-function check_passwords_match() {
-    const password = $('#new_user_password').val();
-    const verifyPassword = $('#new_user_password_verify').val();
-
-    if (password && verifyPassword) {
-        if (password === verifyPassword) {
-            $('#new_user_password').removeClass('is-invalid').css('color', 'green');
-            $('#new_user_password_verify').removeClass('is-invalid').css('color', 'green');
-            $('#show_hide_password').removeClass('is-invalid-button');
-            $('#show_hide_password_verify').removeClass('is-invalid-button');
-            $('#password_validation').text('');
-            $('#password_verify_validation').text('');
-        } else {
-            $('#new_user_password').addClass('is-invalid').css('color', 'red');
-            $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
-            $('#show_hide_password').addClass('is-invalid-button');
-            $('#show_hide_password_verify').addClass('is-invalid-button');
-            $('#password_validation').text('Passwords do not match').css('color', 'red');
-            $('#password_verify_validation').text('Passwords do not match').css('color', 'red');
+document.addEventListener('change', function(e) 
+{
+    if (e.target && e.target.tagName === 'SELECT') 
+    {
+        const selectedValue = e.target.value;
+        console.log(`Select input changed to: ${selectedValue}`);
+        const role_id = e.target.id.split('_')[0];
+        const role = new_user_roles.find(role => role._id === role_id);
+        if(e.target.id.includes('role_type')) 
+        {
+            role.role_name = selectedValue;
+            add_to_audit_history(g_current_u_id, `${role_id}_role_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue);
         }
-    } else {
-        $('#new_user_password').removeClass('is-invalid').css('color', '');
-        $('#new_user_password_verify').removeClass('is-invalid').css('color', '');
-        $('#show_hide_password').removeClass('is-invalid-button');
-        $('#show_hide_password_verify').removeClass('is-invalid-button');
-        $('#password_validation').text('');
-        $('#password_verify_validation').text('');
+        else if(e.target.id.includes('role_jurisdiction_type')) 
+        {
+            role.jurisdiction_id = selectedValue;
+            add_to_audit_history(g_current_u_id, `${role_id}_role_jurisdiction_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue);
+        }
+        console.log(`Role ${role_id} jurisdiction changed to: ${selectedValue}`);
+        assigned_roles_validation_check();
+    }
+});
+
+document.addEventListener('blur', function(e) 
+{
+    if (e.target && e.target.type === 'date') 
+    {
+        const date = e.target.value;
+        const role_id = e.target.id.split('_')[0];
+        const role = new_user_roles.find(role => role._id === role_id);
+        if(e.target.id.includes('role_effective_start_date')) 
+        {
+            role.effective_start_date = date === "" ? "" : new Date(date);
+            if (!e.target.validity.valid) 
+            {
+                addInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`, 'Invalid Date');
+            } 
+            else if (date === "") 
+            {
+                addInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`, 'Start Date is required');
+            } 
+            else if (role.effective_end_date && new Date(role.effective_end_date) < new Date(date)) 
+            {
+                addInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`, 'Must be after Start Date');
+            }
+            if (e.target.validity.valid) 
+            {
+                removeInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`);
+            }
+            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_start_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date);
+        } 
+        else if(e.target.id.includes('role_effective_end_date')) 
+        {
+            role.effective_end_date = date === "" ? "" : new Date(date);
+            if (!e.target.validity.valid) 
+            {
+                addInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`, 'Invalid Date');
+            } 
+            else if (new Date(date) < new Date(role.effective_start_date)) 
+            {
+                addInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`, 'Must be after Start Date');
+            } 
+            else if (e.target.validity.valid && new Date(date) >= new Date(role.effective_start_date)) 
+            {
+                removeInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`);
+            }
+            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_end_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date);
+        }
+        console.log(`Role ${role_id} date changed to: ${date}`);
+    }
+}, true);
+
+function check_passwords_match() 
+{
+    const password = document.getElementById('new_user_password').value;
+    const verifyPassword = document.getElementById('new_user_password_verify').value;
+
+    if (password && verifyPassword) 
+    {
+        if (password === verifyPassword) 
+        {
+            document.getElementById('new_user_password').classList.remove('is-invalid');
+            document.getElementById('new_user_password').style.color = 'green';
+            document.getElementById('new_user_password_verify').classList.remove('is-invalid');
+            document.getElementById('new_user_password_verify').style.color = 'green';
+            document.getElementById('show_hide_password').classList.remove('is-invalid-button');
+            document.getElementById('show_hide_password_verify').classList.remove('is-invalid-button');
+            document.getElementById('password_validation').textContent = '';
+            document.getElementById('password_verify_validation').textContent = '';
+        } 
+        else 
+        {
+            document.getElementById('new_user_password').classList.add('is-invalid');
+            document.getElementById('new_user_password').style.color = 'red';
+            document.getElementById('new_user_password_verify').classList.add('is-invalid');
+            document.getElementById('new_user_password_verify').style.color = 'red';
+            document.getElementById('show_hide_password').classList.add('is-invalid-button');
+            document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+            document.getElementById('password_validation').textContent = 'Passwords do not match';
+            document.getElementById('password_validation').style.color = 'red';
+            document.getElementById('password_verify_validation').textContent = 'Passwords do not match';
+            document.getElementById('password_verify_validation').style.color = 'red';
+        }
+    } 
+    else 
+    {
+        document.getElementById('new_user_password').classList.remove('is-invalid');
+        document.getElementById('new_user_password').style.color = '';
+        document.getElementById('new_user_password_verify').classList.remove('is-invalid');
+        document.getElementById('new_user_password_verify').style.color = '';
+        document.getElementById('show_hide_password').classList.remove('is-invalid-button');
+        document.getElementById('show_hide_password_verify').classList.remove('is-invalid-button');
+        document.getElementById('password_validation').textContent = '';
+        document.getElementById('password_verify_validation').textContent = '';
     }
 }
 
-// Function to save the new user
-function save_new_user() {
+function save_new_user() 
+{
+    disable_save_undo_button();
     let is_valid = true;
-    const new_user_email = $('#new_user_email').val();
-    const new_user_password = $('#new_user_password').val();
-    const new_user_password_verify = $('#new_user_password_verify').val();
+    const new_user_email = document.getElementById('new_user_email').value;
+    let new_user_password = document.getElementById('new_user_password').value;
+    let new_user_password_verify = document.getElementById('new_user_password_verify').value;
 
-    if(g_policy_values.sams_is_enabled.toLowerCase() == "True".toLowerCase())
+    if(g_policy_values.sams_is_enabled.toLowerCase() == "true") 
     {
         new_user_password = $mmria.get_new_guid().replace("-","");
         new_user_password_verify = new_user_password;
     }
 
-    if (!new_user_email) {
-        $('#new_user_email').addClass('is-invalid').css('color', 'red');
-        $('#username_validation').text('Username is required').css('color', 'red');
+    if (!new_user_email) 
+    {
+        document.getElementById('new_user_email').classList.add('is-invalid');
+        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('username_validation').textContent = 'Username is required';
+        document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }
-    if(!new_user_password) {
-        $('#new_user_password').addClass('is-invalid').css('color', 'red');
-        $('#password_validation').text('Password is required').css('color', 'red');
-        $('#show_hide_password').addClass('is-invalid-button');
+    if(!new_user_password) 
+    {
+        document.getElementById('new_user_password').classList.add('is-invalid');
+        document.getElementById('new_user_password').style.color = 'red';
+        document.getElementById('password_validation').textContent = 'Password is required';
+        document.getElementById('password_validation').style.color = 'red';
+        document.getElementById('show_hide_password').classList.add('is-invalid-button');
         is_valid = false;
     }
-    if(!new_user_password_verify) {
-        $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
-        $('#password_verify_validation').text('Verify Password is required').css('color', 'red');
-        $('#show_hide_password_verify').addClass('is-invalid-button');
+    if(!new_user_password_verify) 
+    {
+        document.getElementById('new_user_password_verify').classList.add('is-invalid');
+        document.getElementById('new_user_password_verify').style.color = 'red';
+        document.getElementById('password_verify_validation').textContent = 'Verify Password is required';
+        document.getElementById('password_verify_validation').style.color = 'red';
+        document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
         is_valid = false;
     }
-    if (new_user_password !== new_user_password_verify) {
-        $('#new_user_password').addClass('is-invalid').css('color', 'red');
-        $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
-        $('#show_hide_password').addClass('is-invalid-button');
-        $('#show_hide_password_verify').addClass('is-invalid-button');
-        $('#password_validation').text('Passwords do not match').css('color', 'red');
-        $('#password_verify_validation').text('Passwords do not match').css('color', 'red');
+    if (new_user_password !== new_user_password_verify) 
+    {
+        document.getElementById('new_user_password').classList.add('is-invalid');
+        document.getElementById('new_user_password').style.color = 'red';
+        document.getElementById('new_user_password_verify').classList.add('is-invalid');
+        document.getElementById('new_user_password_verify').style.color = 'red';
+        document.getElementById('show_hide_password').classList.add('is-invalid-button');
+        document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+        document.getElementById('password_validation').textContent = 'Passwords do not match';
+        document.getElementById('password_validation').style.color = 'red';
+        document.getElementById('password_verify_validation').textContent = 'Passwords do not match';
+        document.getElementById('password_verify_validation').style.color = 'red';
         is_valid = false;
     }
     is_valid = assigned_roles_validation_check();
-    if(is_valid_user_name(new_user_email))
+    if(is_valid_user_name(new_user_email) && is_valid) 
     {
-        if
-        (
+        if (
             new_user_password == new_user_password_verify &&
             is_valid_password(new_user_password)
-        )
+        ) 
         {
-            //check_if_existing_user(new_user_email, new_user_password);
-        }
-        else
+            check_if_existing_user(new_user_email, new_user_password);
+        } 
+        else 
         {
-            $('#new_user_password').addClass('is-invalid').css('color', 'red');
-            $('#new_user_password_verify').addClass('is-invalid').css('color', 'red');
-            $('#show_hide_password').addClass('is-invalid-button');
-            $('#show_hide_password_verify').addClass('is-invalid-button');
-            $('#password_validation').text('Invalid password.').css('color', 'red');
-            $('#password_verify_validation')
-                .text(`Invalid password.<br/>be sure that verify and password match,<br/> minimum length is: ${g_policy_values.minimum_length} and should only include characters [a-zA-Z0-9!@#$%?* ]`).css('color', 'red');
+            document.getElementById('new_user_password').classList.add('is-invalid');
+            document.getElementById('new_user_password').style.color = 'red';
+            document.getElementById('new_user_password_verify').classList.add('is-invalid');
+            document.getElementById('new_user_password_verify').style.color = 'red';
+            document.getElementById('show_hide_password').classList.add('is-invalid-button');
+            document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+            document.getElementById('password_validation').innerHTML = 'Invalid password.';
+            document.getElementById('password_validation').style.color = 'red';
+            document.getElementById('password_verify_validation').innerHTML = `Invalid password.<br/>be sure that verify and password match,<br/> minimum length is: ${g_policy_values.minimum_length} and should only include characters [a-zA-Z0-9!@#$%?* ]`;
+            document.getElementById('password_verify_validation').style.color = 'red';
             is_valid = false;
         }
-    }
-    else
+    } 
+    else 
     {
-        $('#new_user_email').addClass('is-invalid').css('color', 'red');
-        $('#username_validation').text('Invalid user name. User name should be unique and at least 5 characters long').css('color', 'red');
+        document.getElementById('new_user_email').classList.add('is-invalid');
+        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique and at least 5 characters long';
+        document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
-        console.log("got nothing.");
     }
-    new_user._id = 'org.couchdb.user:' + new_user_email;
-    new_user.name = new_user_email;
-    new_user.password = new_user_password;
-    new_user.roles = new_user_roles;
-    new_user.date_created = new Date();
-
-    console.log(new_user);
-    create_first_audit_log();
-    console.log(audit_history.pop());
-    //$mmria.save_data(new_user);
+    if (is_valid) disable_save_undo_button();
+    else enable_save_undo_button();
 }
 
-function assigned_roles_validation_check(){
+function disable_save_undo_button()
+{
+    document.getElementById('new_user_save_status').classList.add('spinner-active');
+    document.getElementById('save_user_button').disabled = true;
+    document.getElementById('save_user_button').attributes['aria-disabled'] = 'true';
+    document.getElementById('undo_button').disabled = true;
+    document.getElementById('undo_button').attributes['aria-disabled'] = 'true';
+}
+
+function enable_save_undo_button()
+{
+    document.getElementById('new_user_save_status').classList.remove('spinner-active');
+    document.getElementById('save_user_button').disabled = false;
+    document.getElementById('save_user_button').attributes['aria-disabled'] = 'false';
+    document.getElementById('undo_button').disabled = false;
+    document.getElementById('undo_button').attributes['aria-disabled'] = 'false';
+}
+
+function assigned_roles_validation_check() {
     let is_valid = true;
-    $.each(new_user_roles, function(index, role) {
+    new_user_roles.forEach(function(role) {
         const role_id = role._id;
-        const role_type = $(`#${role_id}_role_type`).val();
-        const role_jurisdiction = $(`#${role_id}_role_jurisdiction_type`).val();
-        const role_effective_start_date = $(`#${role_id}_role_effective_start_date`).val();
-        const role_effective_end_date = $(`#${role_id}_role_effective_end_date`).val();
-        const matching_role_case = new_user_roles.filter(role => role.role_name === role_type && role.jurisdiction_id === role_jurisdiction);
+        const role_type = document.getElementById(`${role_id}_role_type`).value;
+        const role_jurisdiction = document.getElementById(`${role_id}_role_jurisdiction_type`).value;
+        const role_effective_start_date = document.getElementById(`${role_id}_role_effective_start_date`).value;
+        const role_effective_end_date = document.getElementById(`${role_id}_role_effective_end_date`).value;
+        const matching_role_case = new_user_roles.filter(r => r.role_name === role_type && r.jurisdiction_id === role_jurisdiction);
+
         if (matching_role_case.length > 1) {
-            $(`#${role_id}_role_type`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_type_validation`).text('Role/Case combo already exists').css('color', 'red');
-            $(`#${role_id}_role_jurisdiction_type`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_jurisdiction_validation`).text('Role/Case combo already exists').css('color', 'red');
-            $.each(matching_role_case, function(index, role) {
-                $(`#${role._id}_role_type`).addClass('is-invalid').css('color', 'red');
-                $(`#${role._id}_role_type_validation`).text('Role/Case combo already exists').css('color', 'red');
-                $(`#${role._id}_role_jurisdiction_type`).addClass('is-invalid').css('color', 'red');
-                $(`#${role._id}_role_jurisdiction_validation`).text('Role/Case combo already exists').css('color', 'red');
+            addInvalid(`${role_id}_role_type`, `${role_id}_role_type_validation`, 'Role/Case combo already exists');
+            addInvalid(`${role_id}_role_jurisdiction_type`, `${role_id}_role_jurisdiction_validation`, 'Role/Case combo already exists');
+            matching_role_case.forEach(function(r) {
+                addInvalid(`${r._id}_role_type`, `${r._id}_role_type_validation`, 'Role/Case combo already exists');
+                addInvalid(`${r._id}_role_jurisdiction_type`, `${r._id}_role_jurisdiction_validation`, 'Role/Case combo already exists');
             });
             is_valid = false;
+        } else {
+            removeInvalid(`${role_id}_role_type`, `${role_id}_role_type_validation`);
+            removeInvalid(`${role_id}_role_jurisdiction_type`, `${role_id}_role_jurisdiction_validation`);
         }
-        else {
-            $(`#${role_id}_role_type`).removeClass('is-invalid').css('color', '');
-            $(`#${role_id}_role_type_validation`).text('').css('color', '');
-            $(`#${role._id}_role_jurisdiction_type`).removeClass('is-invalid').css('color', '');
-            $(`#${role._id}_role_jurisdiction_validation`).text('').css('color', '');
-        }
+
         if (!role_type) {
-            $(`#${role_id}_role_type`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_type_validation`).text('Role is required').css('color', 'red');
+            addInvalid(`${role_id}_role_type`, `${role_id}_role_type_validation`, 'Role is required');
             is_valid = false;
         }
         if (!role_jurisdiction) {
-            $(`#${role_id}_role_jurisdiction_type`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_jurisdiction_validation`).text('Jurisdiction is required').css('color', 'red');
+            addInvalid(`${role_id}_role_jurisdiction_type`, `${role_id}_role_jurisdiction_validation`, 'Jurisdiction is required');
             is_valid = false;
         }
         if (!role_effective_start_date) {
-            $(`#${role_id}_role_effective_start_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_start_date_validation`).text('Start Date is required').css('color', 'red');
+            addInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`, 'Start Date is required');
             is_valid = false;
-        }
-        else {
-            $(`#${role_id}_role_effective_start_date`).removeClass('is-invalid').css('color', '');
-            $(`#${role_id}_role_start_date_validation`).text('').css('color', '');
+        } else {
+            removeInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`);
         }
         if (role_effective_end_date && new Date(role_effective_end_date) < new Date(role_effective_start_date)) {
-            $(`#${role_id}_role_effective_end_date`).addClass('is-invalid').css('color', 'red');
-            $(`#${role_id}_role_end_date_validation`).text('Must be after Start Date').css('color', 'red');
+            addInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`, 'Must be after Start Date');
             is_valid = false;
-        }
-        else {
-            $(`#${role_id}_role_effective_end_date`).removeClass('is-invalid').css('color', '');
-            $(`#${role_id}_role_end_date_validation`).text('').css('color', '');
+        } else {
+            removeInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`);
         }
     });
     return is_valid;
 }
 
-function add_to_audit_history(p_user_id, p_elem_id, p_action, p_prev_val, p_new_val){
-    const new_audit = {
-        _id: $mmria.get_new_guid(),
-        user_id: p_user_id,
-        action: p_action,
-        element_id: p_elem_id,
-        prev_value: p_prev_val,
-        new_value: p_new_val,
-        date_created: new Date(),
-        created_by: g_current_u_id,
-        date_last_updated: new Date(),
-        last_updated_by: g_current_u_id,
-        data_type: "audit_history"
-    };
-    audit_history.push(new_audit);
-    $('#audit_history_undo_button').prop('disabled', false);
-    $('#audit_history_undo_button').attr('aria-disabled', 'false');
-    $(`#${p_elem_id}`).data('previousValue', p_new_val);
-    console.log(audit_history);
+function addInvalid(id, validationId, message) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.classList.add('is-invalid');
+        el.style.color = 'red';
+    }
+    const valEl = document.getElementById(validationId);
+    if (valEl) {
+        valEl.textContent = message;
+        valEl.style.color = 'red';
+    }
+}
+function removeInvalid(id, validationId) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.classList.remove('is-invalid');
+        el.style.color = '';
+    }
+    const valEl = document.getElementById(validationId);
+    if (valEl) {
+        valEl.textContent = '';
+        valEl.style.color = '';
+    }
 }
 
-function audit_history_undo() {
-    const last_audit = audit_history.pop();
-    if (last_audit) {
-        const role = new_user_roles.find(role => role._id === last_audit.element_id.split('_')[0]);
-        switch (last_audit.action) {
-            case ACTION_TYPE.ADD_ROLE:
-                const removed_role = {
-                    _id: last_audit.element_id,
-                    html: document.getElementById(`${last_audit.element_id}_role`).outerHTML,
-                    role: role
-                };
-                deleted_user_roles.push(removed_role);
-                new_user_roles.splice(new_user_roles.findIndex(r => r._id === last_audit.element_id), 1);
-                document.getElementById(`${last_audit.element_id}_role`).remove();
-                if (new_user_roles.length <= 0) {
-                    document.getElementById("new_user_roles").innerHTML = '<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>';
+function check_if_existing_user(p_user_id, p_new_user_password)
+{
+    $.ajax({
+        url: location.protocol + '//' + location.host + '/api/user/check-user/org.couchdb.user:' + p_user_id,
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        type: "GET"
+    }).done(function(user_check_response) 
+    {
+        if(user_check_response)
+        {
+            let user = eval(user_check_response);
+            let is_found = false;
+
+            for(var i = 0; i < g_ui.user_summary_list.length; i++)
+            {
+                if(g_ui.user_summary_list[i]._id == user._id)
+                {
+                    is_found = true;
+                    break;
                 }
-                break;
-            case ACTION_TYPE.DELETE_ROLE:
-                if (deleted_user_roles.length > 0) {
-                    const restored_role = deleted_user_roles.pop();
-                    new_user_roles.push(restored_role.role);
-                    $('#new_user_roles').append(restored_role.html);
-                    // $(`#${restored_role.role._id}_role`).removeAttr('id');
-                    // $(`#${restored_role.role._id}_delete`).attr('onclick', `delete_new_role('${restored_role.role._id}')`);
+            }
+            if(!is_found)
+            {
+                g_ui.user_summary_list.push(user);
+                save_user(user._id);
+            }
+        }
+        else
+        {
+			var new_user = create_new_user(p_user_id.toLowerCase(), p_new_user_password);
+			user_id = new_user._id;
+			g_ui.user_summary_list.push(new_user);
+	
+			$.ajax({
+				url: location.protocol + '//' + location.host + '/api/user',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				data: JSON.stringify(new_user),
+				type: "POST"
+			}).done(function(response) 
+			{
+				var response_obj = eval(response);
+				if(response_obj.ok)
+				{
+					for(var i = 0; i < g_ui.user_summary_list.length; i++)
+					{
+						if(g_ui.user_summary_list[i]._id == response_obj.id)
+						{
+							g_ui.user_summary_list[i]._rev = response_obj.rev; 
+							break;
+						}
+					}
+                if (new_user_roles.length > 0) 
+                {
+                    // TO-DO: save user roles
                 }
-                break;
-            case ACTION_TYPE.EDIT_ROLE:
-                if (role) {
-                    role.role_name = last_audit.prev_value;
-                    $(`#${last_audit.element_id}`).val(last_audit.prev_value);
-                    $(`#${last_audit.element_id}`).data('previousValue', last_audit.prev_value);
-                    if(last_audit.element_id.includes('role_active_status')) {
-                        $(`input[name="${last_audit.element_id}"][value="${last_audit.new_value}"]`).prop('checked', false);
-                        $(`input[name="${last_audit.element_id}"][value="${last_audit.prev_value}"]`).prop('checked', true);
+                else
+                {
+                    view_user_click(user_id);
+                }
+				}
+			});
+        }
+    });
+}
+
+function save_user(p_user_id)
+{
+	var user_index = -1;
+	var user_list = g_ui.user_summary_list;
+	for(var i = 0; i < user_list.length; i++)
+	{
+		if(user_list[i]._id == p_user_id)
+		{
+			user_index = i;
+			break;
+		}
+	}
+	if(user_index > -1)
+	{
+		var user = user_list[user_index];
+        $.ajax({
+            url: location.protocol + '//' + location.host + '/api/user',
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            data: JSON.stringify(user),
+            type: "POST"
+        }).done(function(response) 
+        {
+            var response_obj = eval(response);
+            if(response_obj.ok)
+            {
+                for(var i = 0; i < g_ui.user_summary_list.length; i++)
+                {
+                    if(g_ui.user_summary_list[i]._id == response_obj.id)
+                    {
+                        g_ui.user_summary_list[i]._rev = response_obj.rev; 
+                        break;
                     }
                 }
-                break;
-            case ACTION_TYPE.EDIT_PASSWORD:
-            case ACTION_TYPE.EDIT_USERNAME:
-                $(`#${last_audit.element_id}`).val(last_audit.prev_value);
-                $(`#${last_audit.element_id}`).data('previousValue', last_audit.prev_value);
-                break;
-        }
-        can_undo = audit_history.length > 0;
-        $('#audit_history_undo_button').prop('disabled', !can_undo);
-        $('#audit_history_undo_button').attr('aria-disabled', can_undo ? 'false' : 'true');
-        if (last_audit.action === ACTION_TYPE.EDIT_ROLE) {
-            assigned_roles_validation_check();
-        }
-    }
-    console.log(audit_history);
+                g_render();
+                create_status_message("user information saved", convert_to_jquery_id(user._id));
+                console.log("password saved sent", response);
+            }
+        });
+	}
+}
+
+function create_new_user(p_name, p_password)
+{
+    return {
+    "_id": "org.couchdb.user:" + p_name,
+    "password": p_password,
+    "iterations": 10,
+    "name": p_name,
+    "roles": [  ],
+    "type": "user",
+    "derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
+    "salt": "510427706d0deb511649021277b2c05d"
+    };
 }

@@ -47,19 +47,6 @@ var $$ = {
     {
         return false;
     }
-  },
-  add_new_user: function(p_name, p_password)
-  {
-	  return {
-		"_id": "org.couchdb.user:" + p_name,
-		"password": p_password,
-		"iterations": 10,
-		"name": p_name,
-		"roles": [  ],
-		"type": "user",
-		"derived_key": "a1bb5c132df5b7df7654bbfa0e93f9e304e40cfe",
-		"salt": "510427706d0deb511649021277b2c05d"
-		};
   }
 };
 
@@ -431,88 +418,6 @@ function add_new_user_save()
 	}
 }
 
-
-function check_if_existing_user(p_user_id, p_new_user_password)
-{
-    $.ajax({
-        url: location.protocol + '//' + location.host + '/api/user/check-user/org.couchdb.user:' + p_user_id,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        type: "GET"
-    }).done(function(user_check_response) 
-    {
-        if(user_check_response)
-        {
-            let user = eval(user_check_response);
-            let is_found = false;
-
-            for(var i = 0; i < g_ui.user_summary_list.length; i++)
-            {
-                if(g_ui.user_summary_list[i]._id == user._id)
-                {
-                    is_found = true;
-                    break;
-                }
-            }
-
-            if(!is_found)
-            {
-                g_ui.user_summary_list.push(user);
-
-                save_user(user._id);
-
-                //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-                //create_status_message("existing user has been added to this mmria instance.", user._id);
-            }
-
-
-        }
-        else
-        {
-			var new_user = $$.add_new_user(p_user_id.toLowerCase(), p_new_user_password);
-			user_id = new_user._id;
-			g_ui.user_summary_list.push(new_user);
-	
-			$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user',
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				data: JSON.stringify(new_user),
-				type: "POST"
-			}).done(function(response) 
-			{
-				var response_obj = eval(response);
-				if(response_obj.ok)
-				{
-					for(var i = 0; i < g_ui.user_summary_list.length; i++)
-					{
-						if(g_ui.user_summary_list[i]._id == response_obj.id)
-						{
-							g_ui.user_summary_list[i]._rev = response_obj.rev; 
-							break;
-						}
-					}
-	
-					//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-                    g_render();
-					create_status_message("new user has been added.", "new_user");
-	
-				}
-				//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-				
-			});
-/*
-
-
-            document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-            create_status_message("new user has been added.", "new_user");
-*/
-        }
-        //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-        
-    });
-}
-
 function change_password_user_click(p_user_id)
 {
 	
@@ -658,58 +563,6 @@ function is_valid_password(p_value)
 	
 }
 
-function save_user(p_user_id)
-{
-	var user_index = -1;
-	var user_list = g_ui.user_summary_list;
-
-	for(var i = 0; i < user_list.length; i++)
-	{
-		if(user_list[i]._id == p_user_id)
-		{
-			user_index = i;
-			break;
-		}
-	}
-
-	if(user_index > -1)
-	{
-		var user = user_list[user_index];
- 
-        $.ajax({
-            url: location.protocol + '//' + location.host + '/api/user',
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            data: JSON.stringify(user),
-            type: "POST"
-        }).done(function(response) 
-        {
-            var response_obj = eval(response);
-            if(response_obj.ok)
-            {
-                for(var i = 0; i < g_ui.user_summary_list.length; i++)
-                {
-                    if(g_ui.user_summary_list[i]._id == response_obj.id)
-                    {
-                        g_ui.user_summary_list[i]._rev = response_obj.rev; 
-                        break;
-                    }
-                }
-
-                //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-                g_render();
-                create_status_message("user information saved", convert_to_jquery_id(user._id));
-                console.log("password saved sent", response);
-
-
-            }
-            //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-            
-        });
-        
-	}
-}
-
 function add_role(p_user_id, p_created_by)
 {
 	var user_index = -1;
@@ -800,8 +653,6 @@ function add_role(p_user_id, p_created_by)
 
 function update_role(p_user_role_jurisdiction_id, p_user_id)
 {
-
-
 	var user_role_index = -1;
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
 	{
@@ -811,9 +662,6 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			break;
 		}
 	}
-
-
-
 	if(user_role_index > -1)
 	{
 		var user_index = -1;
@@ -826,25 +674,16 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 				break;
 			}
 		}
-
 		if(user_index > -1)
 		{
-
-			
-		
 			var user_role = g_user_role_jurisdiction[user_role_index];
 			var user = user_list[user_index];
-
-
-			
-
 			var selected_user_role_for_ = null;
 			var role = document.getElementById("selected_user_role_for_" + user_role.user_id + "_role");
 			var jurisdiction = document.getElementById("selected_user_role_for_" + user_role.user_id+ "_jurisdiction");
 			var effective_start_date = document.getElementById("selected_user_role_for_" + user_role.user_id + "_effective_start_date");
 			var effective_end_date = document.getElementById("selected_user_role_for_" + user_role.user_id + "_effective_end_date");
 			var is_active = document.getElementById("selected_user_role_for_" + user_role.user_id + "_is_active");
-
 			user_role.role_name = role.value;
 			user_role.jurisdiction_id = jurisdiction.value;
 			user_role.effective_start_date = new Date(effective_start_date.value);
@@ -856,10 +695,8 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			{
 				user_role.effective_end_date = null;
 			}
-			
 			user_role.is_active = (is_active.value == "true")? true: false;
 			user_role.last_updated_by = p_user_id;
-
 			if(user_role.jurisdiction_id && user_role.role_name)
 			{
 				document.getElementById(convert_to_jquery_id(user._id) + "_status_area").innerHTML = "";
@@ -870,7 +707,6 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 			{
 				create_status_warning("invalid jusidiction or role name", convert_to_jquery_id(user._id));
 			}
-
 		}
 	}
 }

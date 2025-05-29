@@ -1047,6 +1047,7 @@ function form_multi_render
             p_result.push("</p>");
     
             p_result.push("<p class='construct__subtitle'");
+
             if (p_metadata.description && p_metadata.description.length > 0) {
                 p_result.push("rel='tooltip' data-original-title='");
                 p_result.push(p_metadata.description.replace(/'/g, "\\'"));
@@ -1054,7 +1055,13 @@ function form_multi_render
             } else {
                 p_result.push(">");
             }
+            p_result.push("<span style='font-weight: bold;'>");
             p_result.push(p_metadata.prompt);
+            if (p_metadata.name === "committee_review")
+            {
+                p_result.push("<a class='ml-1' href='#'>View CDF Template</a>");
+            }
+            p_result.push("</span>");
             p_result.push("</p>");
     
             if (g_data.host_state && !isNullOrUndefined(g_data.host_state)) {

@@ -55,7 +55,7 @@ function edit_user_renderer()
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="edit_user_roles">
+                <tbody id="user_roles">
                     ${
                         user_role_jurisdiction && user_role_jurisdiction.length > 0
                             ? render_editable_role_rows(user_role_jurisdiction)
@@ -127,6 +127,7 @@ function edit_user_renderer()
     `;
     show_hide_user_management_back_button(true);
     set_page_title("View User");
+    init_audit_history();
     document.getElementById("form_content_id").innerHTML = result;
 }
 
@@ -134,7 +135,7 @@ function delete_role(p_user_roles, p_role_to_delete)
 {
     //To-Do: delete role
     if(p_user_roles.length <= 0)
-        $("#edit_user_roles").append('<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>')
+        $("#user_roles").append('<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>')
     console.log(`Deleting role ${p_role_to_delete}`);
 }
 
@@ -409,7 +410,7 @@ function edit_add_role(user_role_jurisdiction)
     //const user_current_roles = JSON.parse(user_role_jurisdiction);
     console.log("Adding new role");
     console.log(user_role_jurisdiction);
-    $('#edit_user_roles').append(edit_add_assigned_role(user_role_jurisdiction));
+    $('#user_roles').append(edit_add_assigned_role(user_role_jurisdiction));
 }
 
 function edit_add_assigned_role(user_role_jurisdiction)

@@ -133,7 +133,7 @@ function render_user_table()
             <caption class='table-caption'>User management table</caption>
             <thead>
                 <tr class='header-level-2 sticky-header z-index-top'>
-                    <th ${g_sort_order === 'ascending' ? 'aria-sort="ascending"' : 'aria-sort="descending"'} width='250'>
+                    <th ${g_sort_order === 'ascending' ? 'aria-sort="ascending"' : 'aria-sort="descending"'} width='275'>
                         Username (Email Address)
                         <span
                             onclick="sort_user_list()"
