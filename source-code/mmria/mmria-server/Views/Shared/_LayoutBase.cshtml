@@ -1,8 +1,13 @@
 @{ 
   bool is_pmss_enhanced = false;
+  bool is_analytics_enabled = false;
 
   #if IS_PMSS_ENHANCED
     is_pmss_enhanced = true;
+  #endif
+
+  #if IS_ANALYTICS_ENABLED
+    is_analytics_enabled = true;
   #endif
 }
 <!DOCTYPE html>
@@ -29,45 +34,56 @@
   <link rel="stylesheet" media="print" href="/TemplatePackage/4.0/assets/css/print.css">
   <link rel="stylesheet" href="/styles/mmria-custom.css">
   <link rel="stylesheet" href="/styles/template-package-override.css">
-  <script src="https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js"></script>
+
+
+
 <script type="text/javascript">
 if (top !== self) top.location.replace(self.location.href);
 </script>
 
-
-<script type="text/javascript">
-
-const script = document.createElement("script")
-script.defer = true;
-
-const params = {
-	Account: "cdcgov",
-	pageview: "false",
-	interactions: "false",
-	ch: "MMRIA",
-	level1: "Chronic",
-	level2: "DRH",
-	level3: "MMRIA",
-	level4: ""
-
-};
-
-const queryString = Object.keys(params)
-	.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-	.join('&');
-	
-script.src = `https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
-if(window.location.href.indexOf("dprpdataportal.cdc.gov") > -1)
+@if(is_analytics_enabled)
 {
-	script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+    @*
+        <script src="https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js"></script>
+    *@
+    <script type="text/javascript">
 
+    const script = document.createElement("script")
+    script.defer = true;
+
+    console.log(window.location.host);
+    console.log(window.location.hostname);
+    console.log(window.location.href);
+
+    const params = {
+        Account: "cdcgov",
+        pageview: "false",
+        interactions: "false",
+        ch: "MMRIA",
+        level1: "Chronic",
+        level2: "DRH",
+        level3: "MMRIA",
+        level4: ""
+
+    };
+
+    const queryString = Object.keys(params)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .join('&');
+        
+    script.src = `https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+    if(window.location.hostname.endsWith("mmria.cdc.gov") > -1)
+    {
+        script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+
+    }
+
+    document.write(script.outerHTML);
+    </script>
 }
 
-document.write(script.outerHTML);
-</script>
-</script>
-<script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
 
+<script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
  @*  This optional RenderSection is used to inject custom scripts/links into the head tag *@
   @RenderSection("HeadScripts", false)
   @RenderSection("styles", false)
