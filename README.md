@@ -1,27 +1,4 @@
-﻿# nccdphp-drh-mmria-mmria
-
-## Required Project Organization Information
-
-* Point of contact: 
-* Point of contact: Vijayasarathi, Priya (CDC/NCCDPHP/OD) (CTR) <pcv8@cdc.gov>  Technical
-* Organizational unit:  nccdphp/drh
-* Related projects: 
-* Related investments: 
-* Governance status: ATO 
-* Program official: Lekiachvili, Akaki (CDC/NCCDPHP/OD) <anl5@cdc.gov>
-
-## Overview
-
-Need to fill out
-
-## Initial setup
-
-## Get Started
-
-## Learn More
-# MMRIA
-
-
+﻿
 ## Maternal Mortality Review Information Application
 
 The Maternal Mortality Review Information Application, or  **MMRIA**, is a software tool created, developed, and maintained by CDC to collect, store, analyze, surveillance and summarize information relevant to maternal deaths. The MMRIA system as it is now is a newer, more improved version of the older system known as Maternal Mortality Review and Data System (MMRDS).
