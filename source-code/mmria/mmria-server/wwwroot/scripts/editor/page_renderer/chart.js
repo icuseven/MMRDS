@@ -560,19 +560,22 @@ function chart_switch_to_table(p_ui_div_id)
     });
     data_table_header_html.push(`</tr>`);
 
-    data.forEach(row => {
-      let date_string = "";
-      let temp_date_data = row[x_axis.replace(graph_prefix, "")];
-      if (metadata.x_type.indexOf("time") == -1)
-        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
-      else
-        date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
-      data_table_body_html.push(`<tr><td style="padding-left: 5px;">${date_string.replace(",", "")}</td>`)
-        y_axis.forEach(col => {
-          data_table_body_html.push(`<td style="padding-left: 5px;">${row[col.replace(graph_prefix, "")]}</td>`)
-        });
-        data_table_body_html.push(`</tr>`);
-    });
+data.forEach(row => {
+  let date_string = "";
+  let temp_date_data = row[x_axis.replace(graph_prefix, "")];
+  if (metadata.x_type.indexOf("time") == -1) {
+    let parts = temp_date_data.split('-');
+    let localDate = new Date(parts[0], parts[1] - 1, parts[2]);
+    date_string = localDate.toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric'});
+  } else {
+    date_string = new Date(temp_date_data).toLocaleDateString('en-us', { month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false});
+  }
+  data_table_body_html.push(`<tr><td style="padding-left: 5px;">${date_string.replace(",", "")}</td>`)
+  y_axis.forEach(col => {
+    data_table_body_html.push(`<td style="padding-left: 5px;">${row[col.replace(graph_prefix, "")]}</td>`)
+  });
+  data_table_body_html.push(`</tr>`);
+});
 
     el.outerHTML = 	`
         <div id='${convert_object_path_to_jquery_id(params.p_object_path)}'

@@ -1005,6 +1005,8 @@ function convert_object_path_to_jquery_id(p_value)
 function make_c3_date(p_value)
 {
 	//'%Y-%m-%d %H:%M:%S
+    if (p_value.indexOf('T') === -1)
+        p_value += "T00:00:00";
 	var date_time = new Date(p_value);
 	var result = [];
 
