@@ -2062,10 +2062,15 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
             mmria_post_modal();
             let el = document.getElementById("field-save-error-id");
             el.close();
+        },
+        view_cdf_template_pdf: function()
+        {
+            window.open('./pdfs/mmria-form-v24.3-fillable-web_no_hyperlinked_footnotes.pdf', '_blank');
+        },
+        view_mmria_abstractor_manual_pdf: function()
+        {
+            window.open('./pdfs/MMRC_Abstractor_Manual_V4.pdf', '_blank');
         }
-        
-
-
     };
 
 }();

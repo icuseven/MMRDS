@@ -510,10 +510,16 @@ else
                                 <a href="javascript:erase_mm_link_click()">Access the ERASE-MM Community Vital Signs (CVS) Project<span class="sr-only">external icon</span><span class="fi cdc-icon-external x16 fill-external" aria-hidden="true"></span></a>
                             </li>
                             <li>
-                                <a href="/" target="_blank">View/Download MMRIA Abstractor Manual PDF</a>
+                                <button onclick="$mmria.view_mmria_abstractor_manual_pdf()" class="btn btn-link p-0">View/Download MMRIA Abstractor Manual PDF</button>
                             </li>
                             <li>
-                                <a href="/" target="_blank">View/Download MMRIA Committee Decisions Form (CDF) Template PDF</a>
+                                <button
+                                    onclick="$mmria.view_cdf_template_pdf()"
+                                    class="btn btn-link p-0"
+                                    style="white-space: normal; vertical-align: top; text-align: left;"
+                                >
+                                    View/Download MMRIA Committee Decisions Form (CDF) Template PDF
+                                </button>
                             </li>
                         }
                     </ul>

@@ -1055,11 +1055,11 @@ function form_multi_render
             } else {
                 p_result.push(">");
             }
-            p_result.push("<span style='font-weight: bold;'>");
+            p_result.push("<span class='d-flex align-items-center' style='font-weight: bold;'>");
             p_result.push(p_metadata.prompt);
             if (p_metadata.name === "committee_review")
             {
-                p_result.push("<a class='ml-1' href='#'>View CDF Template</a>");
+                p_result.push("<button onclick='$mmria.view_cdf_template_pdf()' class='btn btn-link p-0 ml-1' class='ml-1' href='#'>View CDF Template</button>");
             }
             p_result.push("</span>");
             p_result.push("</p>");
