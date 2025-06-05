@@ -2,8 +2,8 @@
     <PropertyGroup>
         <TargetFrameworks>net9.0</TargetFrameworks>
         <UserSecretsId>mmria-secret-id</UserSecretsId>
-        <DefineConstants>IS_ANALYTICS_ENABLED</DefineConstants>
-        <!--UserSecretsId>mmria-pmss</UserSecretsId>
+        <!--DefineConstants>IS_ANALYTICS_ENABLED</DefineConstants>
+        <UserSecretsId>mmria-pmss</UserSecretsId>
         <DefineConstants>IS_PMSS_ENHANCED</DefineConstants-->
         <OutputType>Exe</OutputType>
         <DefaultItemExcludes>$(DefaultItemExcludes);MMRIA_Window_Service.cs;Program.service.cs;a\**\*.pattern</DefaultItemExcludes>
@@ -12,6 +12,7 @@
         <PublishReadyToRun>true</PublishReadyToRun-->
         <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
         <NuGetAuditMode>all</NuGetAuditMode>
+        <NoWarn>CS0414,CS0649,CS0169,CS8632,CS0219,SYSLIB0014,CS0168</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

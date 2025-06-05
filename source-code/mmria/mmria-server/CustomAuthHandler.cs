@@ -115,15 +115,22 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
             {
 
                 var date_diff = session_message.date_expired - System.DateTime.Now;
+                var time_out_value = _configuration.GetInteger("session_idle_timeout_minutes", "shared");
+                double time_out = 15;
+                
+                if(time_out_value.HasValue)
+                {
+                    time_out = time_out_value.Value;
+                }
 
                 if
                 (
                     date_diff.HasValue && 
-                    date_diff.Value.TotalMinutes < 2
+                    date_diff.Value.TotalMinutes < time_out
                 )
                 {   
 
-                    session_message.date_expired = session_message.date_expired.Value.AddMinutes(10);
+                    session_message.date_expired = session_message.date_expired.Value.AddMinutes(time_out);
                     string session_message_json = Newtonsoft.Json.JsonConvert.SerializeObject(session_message);
                     try
                     {
