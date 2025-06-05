@@ -2092,7 +2092,23 @@ async function process_save_case()
             body: JSON.stringify(save_case_request)
         });
 
-        case_response = await case_response_promise.json();
+        
+        if 
+        (
+            case_response_promise.ok &&
+            case_response_promise.redirected &&
+            case_response_promise.url.indexOf("/Account/Login") > -1
+        )
+        {
+            $mmria.unstable_network_dialog_show(401, "Your session has timeed out. redirecting you to login.");
+            window.location = case_response_promise.url;
+        }
+        else
+        {
+            case_response = await case_response_promise.json();
+        }
+
+        
     }  
     catch(xhr) 
     {
