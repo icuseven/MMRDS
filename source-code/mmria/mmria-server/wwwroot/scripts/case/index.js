@@ -2097,10 +2097,10 @@ async function process_save_case()
         (
             case_response_promise.ok &&
             case_response_promise.redirected &&
-            case_response_promise.url.indexOf("/Account/Login") > -1
+            case_response_promise.url.indexOf("/Account/") > -1
         )
         {
-            $mmria.unstable_network_dialog_show(401, "Your session has timeed out. redirecting you to login.");
+            //$mmria.unstable_network_dialog_show(401, "Your session has timeed out. redirecting you to login.");
             window.location = case_response_promise.url;
         }
         else

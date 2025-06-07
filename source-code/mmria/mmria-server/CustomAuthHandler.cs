@@ -97,7 +97,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
             {
                 return Task.FromResult(AuthenticateResult.Fail("Invalid session. Expired"));
             }
-            else if(session_message.date_expired.HasValue && session_message.date_expired.Value < System.DateTime.Now)
+            else if(session_message.date_expired.Value < System.DateTime.Now)
             {
                 if(Request.Path.Value.StartsWith("/api/"))
                 {
@@ -114,7 +114,7 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
             )
             {
 
-                var date_diff = session_message.date_expired - System.DateTime.Now;
+                var date_diff = session_message.date_expired.Value - System.DateTime.Now;
                 var time_out_value = _configuration.GetInteger("session_idle_timeout_minutes", "shared");
                 double time_out = 15;
                 
@@ -123,14 +123,21 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                     time_out = time_out_value.Value;
                 }
 
+                var session_url = false;
+
+                if(Request.Path.Value.StartsWith("/api/"))
+                {
+
+                }
+
                 if
                 (
-                    date_diff.HasValue && 
-                    date_diff.Value.TotalMinutes < time_out
+                    date_diff.TotalMinutes < time_out &&
+                    time_out - date_diff.TotalMinutes  > 1
                 )
                 {   
 
-                    session_message.date_expired = session_message.date_expired.Value.AddMinutes(time_out);
+                    session_message.date_expired = System.DateTime.Now.AddMinutes(time_out);
                     string session_message_json = Newtonsoft.Json.JsonConvert.SerializeObject(session_message);
                     try
                     {
@@ -185,13 +192,15 @@ public sealed class CustomAuthHandler : AuthenticationHandler<CustomAuthOptions>
                 userIdentity.AddClaims(claims);
                 var userPrincipal = new ClaimsPrincipal(userIdentity);
 
-                var session_idle_timeout_minutes = 30;
+                /*
+                var session_idle_timeout_minutes = 15;
                 
-                var temp_int = _configuration.GetInteger("mmria_settings:session_idle_timeout_minutes", host_prefix);
+                var temp_int = _configuration.GetInteger("session_idle_timeout_minutes", host_prefix);
                 if(temp_int.HasValue)
                 {
                     session_idle_timeout_minutes = temp_int.Value;
                 }
+                */
 
                 var ticket = new AuthenticationTicket(userPrincipal,"custom");
 
