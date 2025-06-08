@@ -2511,6 +2511,19 @@ async function mmria_api_get_url(p_url)
 }
 
 
+function mmria_check_if_need_to_redirect(p_input)
+{
+    if 
+    (
+        p_input.ok &&
+        p_input.redirected &&
+        p_input.url.indexOf("/Account/") > -1
+    )
+    {
+        window.location = p_input.url;
+    }
+}
+
 function getSSCookie() 
 {
     const value = `; ${document.cookie}`;

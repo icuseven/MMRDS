@@ -1884,9 +1884,25 @@ async function get_specific_case(p_id)
 
   try
   {
+    /*
     const case_response = await $.ajax({
         url: case_url,
     });   
+    */
+
+    const case_response_promise = await fetch(case_url, {
+        method: "get",
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=utf-8',
+        'dataType': 'json',
+        },
+
+    });
+
+    mmria_check_if_need_to_redirect(case_response_promise);
+
+    const case_response =  await case_response_promise.json();
 
     if (case_response) 
     {
@@ -2092,21 +2108,10 @@ async function process_save_case()
             body: JSON.stringify(save_case_request)
         });
 
+        mmria_check_if_need_to_redirect(case_response_promise);
         
-        if 
-        (
-            case_response_promise.ok &&
-            case_response_promise.redirected &&
-            case_response_promise.url.indexOf("/Account/") > -1
-        )
-        {
-            //$mmria.unstable_network_dialog_show(401, "Your session has timeed out. redirecting you to login.");
-            window.location = case_response_promise.url;
-        }
-        else
-        {
-            case_response = await case_response_promise.json();
-        }
+        case_response = await case_response_promise.json();
+        
 
         
     }  
