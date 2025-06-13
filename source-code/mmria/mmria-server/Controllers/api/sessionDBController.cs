@@ -18,7 +18,7 @@ using  mmria.server.extension;
 namespace mmria.server;
 
 //[Authorize(Roles  = "jurisdiction_admin")]
-[AllowAnonymous] 
+//[AllowAnonymous] 
 [Route("api/[controller]")]
 public sealed class sessionDBController: ControllerBase 
 {
