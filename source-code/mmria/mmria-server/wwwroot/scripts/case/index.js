@@ -1969,9 +1969,9 @@ async function get_specific_case(p_id)
   catch(e)
   {
     //
-    console.log('get_specific_case:', e);
-    if(e.message == 'Failed to fetch')
-        window.location = "/Case"
+    //console.log('get_specific_case:', e);
+    //if(e.message == 'Failed to fetch')
+    //    window.location = "/Case"
     
     g_data = get_local_case(p_id);
     g_data_is_checked_out = is_case_checked_out(g_data);
