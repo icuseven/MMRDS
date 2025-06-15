@@ -2453,7 +2453,7 @@ async function external_link_click(p_url)
 }
 
 
-async function mmria_api_get_url(p_url)
+async function mmria_check_session()
 {
     /*
     const response = await $.ajax
@@ -2470,7 +2470,7 @@ async function mmria_api_get_url(p_url)
     {
         const response_promise = await fetch
         (
-            `${location.protocol}//${location.host}/${p_url}`, {
+            `${location.protocol}//${location.host}/api/session`, {
             method: "GET",
             headers: {
             'Accept': 'application/json',

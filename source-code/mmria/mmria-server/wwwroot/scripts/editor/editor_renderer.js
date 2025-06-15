@@ -743,6 +743,7 @@ function attribute_renderer(p_metadata, p_path, p_object_path)
 			case "is_required":
 			case "is_multiselect":
 			case "is_read_only":
+            case "is_display_field_length":
 			case "is_save_value_display_description":
 					if(p_metadata[prop])
 					{
@@ -1131,6 +1132,7 @@ function render_attribute_add_control(p_path, node_type)
 		result.push('<option>is_core_summary</option>');
 		result.push('<option>is_required</option>');
 		result.push('<option>is_read_only</option>');
+        result.push('<option>is_display_field_length</option>')
 		
 		if(node_type.toLowerCase()== "number")
 		{
@@ -1306,6 +1308,7 @@ function editor_set_value(e, p_ui)
         case "is_not_selectable":
         case "is_mutually_exclusive":
 		case "is_save_value_display_description":
+        case "is_display_field_length":
 			eval(item_path + ' = !' + e.value);
 			window.dispatchEvent(metadata_changed_event);
 			break;
@@ -1758,6 +1761,7 @@ function editor_add_to_attributes(e, p_ui)
 			case "is_multiselect":
 			case "is_save_value_display_description":
             case "is_hidden":
+            case "is_display_field_length":
 				var path = e.attributes['path'].value;
 				var item = get_eval_string(path);
 					eval(item)[attribute] = true;
