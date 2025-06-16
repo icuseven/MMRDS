@@ -97,7 +97,7 @@ public sealed class node
 
     public string committee_description { get; set; }
 
-    public string is_display_field_length { get; set; }
+    public bool? is_display_field_length { get; set; }
 
 
 
