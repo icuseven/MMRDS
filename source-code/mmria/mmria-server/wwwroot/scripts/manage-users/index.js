@@ -1244,40 +1244,63 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 	}
 }
 
-function bulk_save_user_role_jurisdiction(user_roles, p_user_id) 
+async function bulk_save_user_role_jurisdiction(user_roles, p_user_id) 
 {
-    if (user_roles && user_roles.length > 0 && p_user_id) 
+
+    if (user_roles == null || user_roles.length == 0 || p_user_id == null  || p_user_id == "") return;
+
+
+    let response = {};
+
+    const url = `${location.protocol}//${location.host}/api/user_role_jurisdiction/bulk`
+    try
     {
-        if (user_roles && p_user_id) 
+        const response_promise = await fetch(url, {
+            method: "post",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            },
+            body: JSON.stringify(user_roles)
+        });
+
+        mmria_check_if_need_to_redirect(response_promise);
+        
+        response = await response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
+
+        $mmria.unstable_network_dialog_show(xhr, p_note);
+        if (xhr.status == 401) 
         {
-            $.ajax({
-                url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction/bulk',
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                data: JSON.stringify(user_roles),
-                type: "POST",
-            })
-            .done(function(response)
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+
+     response.forEach
+     (  (response_obj) => {
+            if (response_obj.ok) 
             {
-                if (response) {
-                    response.forEach((response_obj) => {
-                        if (response_obj.ok) {
-                            var p_user_role = g_user_role_jurisdiction.find(user_role => user_role._id == response_obj.id);
-                            if(p_user_role) {
-                                p_user_role._rev = response_obj.rev;
-                            }
-                        }
-                    });
-						console.log("Bulk save successful", response);
-					} else {
-						alert("You are not authorized to make this change.");
-					}
-				})
-				.fail(function(jqXHR, textStatus, errorThrown) {
-					console.error("Bulk save failed: ", textStatus, errorThrown);
-				});
-			}
-		}
+                var p_user_role = g_user_role_jurisdiction.find(user_role => user_role._id == response_obj.id);
+                if(p_user_role) 
+                {
+                    p_user_role._rev = response_obj.rev;
+                }
+            }
+        }
+    );
+
+		
 }
 
     function format_date(dateString) {
