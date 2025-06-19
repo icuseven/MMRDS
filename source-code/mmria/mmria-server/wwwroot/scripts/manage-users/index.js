@@ -1067,7 +1067,7 @@ function set_page_title(p_title)
     document.getElementById('manage_user_label').innerHTML = p_title;
 }
 
-function set_all_roles_active_state(p_user_id)
+async function set_all_roles_active_state(p_user_id)
 {
     const user_roles = g_user_role_jurisdiction.filter(user => user.user_id === p_user_id);
     user_roles.forEach(user_role => {
@@ -1075,14 +1075,18 @@ function set_all_roles_active_state(p_user_id)
         user_role.is_active = !user_role.is_active;
         
     });
+
+    await bulk_save_user_role_jurisdiction(user_roles, p_user_id);
+
+
     $(`#role_results_${p_user_id}`).html(function(_, html) {
         return html.replace(/Active/g, 'Inactive');
     });
     $(`#set_role_active_state_button_${p_user_id}`).attr('aria-disabled', true);
     $(`#set_role_active_state_button_${p_user_id}`).prop('disabled', true);
-    bulk_save_user_role_jurisdiction(user_roles, p_user_id);
+   
 
-    console.log(user_roles);
+    //console.log(user_roles);
 }
 
 function update_role(p_user_role_jurisdiction_id, p_user_id)
@@ -1244,10 +1248,10 @@ function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 	}
 }
 
-async function bulk_save_user_role_jurisdiction(user_roles, p_user_id) 
+async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id) 
 {
 
-    if (user_roles == null || user_roles.length == 0 || p_user_id == null  || p_user_id == "") return;
+    if (p_user_role_list == null || p_user_role_list.length == 0 || p_user_id == null  || p_user_id == "") return;
 
 
     let response = {};
@@ -1262,7 +1266,7 @@ async function bulk_save_user_role_jurisdiction(user_roles, p_user_id)
             'Content-Type': 'application/json; charset=utf-8',
             'dataType': 'json',
             },
-            body: JSON.stringify(user_roles)
+            body: JSON.stringify(p_user_role_list)
         });
 
         mmria_check_if_need_to_redirect(response_promise);
@@ -1286,21 +1290,19 @@ async function bulk_save_user_role_jurisdiction(user_roles, p_user_id)
         }
     }
 
-
-     response.forEach
-     (  (response_obj) => {
+    response.forEach
+    (  
+        (response_obj) => {
             if (response_obj.ok) 
             {
-                var p_user_role = g_user_role_jurisdiction.find(user_role => user_role._id == response_obj.id);
-                if(p_user_role) 
+                const current_urj = g_user_role_jurisdiction.find(urj => urj._id == response_obj.id);
+                if(current_urj) 
                 {
-                    p_user_role._rev = response_obj.rev;
+                    current_urj._rev = response_obj.rev;
                 }
             }
         }
     );
-
-		
 }
 
     function format_date(dateString) {
