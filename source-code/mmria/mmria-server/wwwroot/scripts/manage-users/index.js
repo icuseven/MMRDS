@@ -88,9 +88,13 @@ async function load_values()
   `
     );
     //window.location.href = set_url_hash(``);
+    /*
     const get_initial_data_response = await $.ajax({
         url: location.protocol + '//' + location.host + '/manage-users/GetInitialData',
     });
+    */
+
+    const get_initial_data_response = await get_http_get_response('manage-users/GetInitialData')
 
     //onsole.log(get_initial_data_response);
 
@@ -1254,8 +1258,12 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
     if (p_user_role_list == null || p_user_role_list.length == 0 || p_user_id == null  || p_user_id == "") return;
 
 
-    let response = {};
-
+    const response = await get_post_response
+    (
+        "api/user_role_jurisdiction/bulk",
+        p_user_role_list
+    );
+/*
     const url = `${location.protocol}//${location.host}/api/user_role_jurisdiction/bulk`
     try
     {
@@ -1275,9 +1283,8 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
     }  
     catch(xhr) 
     {
-        //alert(`server save_case: failed\n${err}\n${xhr.responseText}`);
 
-        $mmria.unstable_network_dialog_show(xhr, p_note);
+        $mmria.unstable_network_dialog_show(xhr, xhr.status);
         if (xhr.status == 401) 
         {
             let redirect_url = location.protocol + '//' + location.host;
@@ -1289,6 +1296,7 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
             window.location = redirect_url;
         }
     }
+        */
 
     response.forEach
     (  
@@ -1312,3 +1320,88 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
+
+
+async function get_post_response
+(
+    p_url_suffix,
+    p_data
+)
+{
+    let response = {};
+
+    const url = `${location.protocol}//${location.host}/${p_url_suffix}`
+    try
+    {
+        const response_promise = await fetch(url, {
+            method: "post",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            },
+            body: JSON.stringify(p_data)
+        });
+
+        mmria_check_if_need_to_redirect(response_promise);
+        
+        response = await response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        $mmria.unstable_network_dialog_show(xhr, xhr.status);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+    return response;
+}
+
+async function get_http_get_response
+(
+    p_url_suffix
+)
+{
+    let response = {};
+
+    const url = `${location.protocol}//${location.host}/${p_url_suffix}`
+    try
+    {
+        const response_promise = await fetch(url, {
+            method: "get",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            }
+        });
+
+        mmria_check_if_need_to_redirect(response_promise);
+        
+        response = await response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        $mmria.unstable_network_dialog_show(xhr, xhr.status);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+    return response;
+}
