@@ -177,7 +177,9 @@ async function load_values()
     //g_user_role_jurisdiction = get_initial_data_response.user_role_jurisdiction;
     for(let i = 0; i < get_initial_data_response.user_role_jurisdiction.rows.length; i++)
     {
-        g_user_role_jurisdiction.push(get_initial_data_response.user_role_jurisdiction.rows[i].value);
+        const item = get_initial_data_response.user_role_jurisdiction.rows[i];
+        item.value._id = item.id;
+        g_user_role_jurisdiction.push(item.value);
     }
 
     
@@ -189,6 +191,8 @@ async function load_values()
     }
 
     g_ui.user_summary_list = temp;
+
+
     
     
 /*
@@ -211,6 +215,8 @@ async function load_values()
 
     //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
     g_render();
+
+    await get_all_user_role_jurisdiction();
 
 }
 
@@ -1263,40 +1269,7 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
         "api/user_role_jurisdiction/bulk",
         p_user_role_list
     );
-/*
-    const url = `${location.protocol}//${location.host}/api/user_role_jurisdiction/bulk`
-    try
-    {
-        const response_promise = await fetch(url, {
-            method: "post",
-            headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json; charset=utf-8',
-            'dataType': 'json',
-            },
-            body: JSON.stringify(p_user_role_list)
-        });
 
-        mmria_check_if_need_to_redirect(response_promise);
-        
-        response = await response_promise.json();
-    }  
-    catch(xhr) 
-    {
-
-        $mmria.unstable_network_dialog_show(xhr, xhr.status);
-        if (xhr.status == 401) 
-        {
-            let redirect_url = location.protocol + '//' + location.host;
-            window.location = redirect_url;
-        }
-        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
-        {
-            let redirect_url = location.protocol + '//' + location.host;
-            window.location = redirect_url;
-        }
-    }
-        */
 
     response.forEach
     (  
@@ -1404,4 +1377,17 @@ async function get_http_get_response
     }
 
     return response;
+}
+
+async function get_all_user_role_jurisdiction()
+{
+    const response = await get_http_get_response("api/user_role_jurisdiction");
+    g_user_role_jurisdiction = [];
+
+    for(let i = 0; i < response.length; i++)
+    {
+        const item = response[i];
+        g_user_role_jurisdiction.push(item);
+    }
+
 }
