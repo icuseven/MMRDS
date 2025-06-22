@@ -223,32 +223,24 @@ async function load_values()
 
 
 
-function server_save(p_user)
+async function server_save(p_user)
 {
 	console.log("server save");
 	//var current_auth_session = profile.get_auth_session_cookie();
 
 	if(current_auth_session)
 	{ 
-		$.ajax({
-					url: location.protocol + '//' + location.host + '/api/user',
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(p_user),
-					type: "POST"
-			}).done(function(response) 
-			{
+        const response = await get_post_response("api/user", p_user)
 
+        const response_obj = eval(response);
+        if(response_obj.ok)
+        {
+            g_user_list._rev = response_obj.rev; 
+            document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "").join("");
+        }
+        //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+        console.log("metadata sent", response);
 
-						var response_obj = eval(response);
-						if(response_obj.ok)
-						{
-							g_user_list._rev = response_obj.rev; 
-							document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "").join("");
-						}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("metadata sent", response);
-			});
 	}
 
 }
@@ -350,6 +342,8 @@ function delete_user_click(p_user_id, p_rev)
                 alert("Failed to delete user. Please try again.");
             });
         }
+
+        
 }
 
 function set_roles_inactive_for_user_click(p_user_id)
@@ -428,7 +422,7 @@ function add_new_user_save()
 	}
 }
 
-function change_password_user_click(p_user_id)
+async function change_password_user_click(p_user_id)
 {
 	
 	var new_user_password = document.querySelector('[role="confirm_1"][path="' + p_user_id + '"]').value;
@@ -459,54 +453,32 @@ function change_password_user_click(p_user_id)
 		{
 			user.password = new_user_password;
 
-			//var current_auth_session = profile.get_auth_session_cookie();
+            const response = await get_post_response('/api/user', user)
 
-			//if(current_auth_session)
-			//{ 
-				$.ajax({
-					url: location.protocol + '//' + location.host + '/api/user',
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(user),
-					type: "POST"/*,
-					beforeSend: function (request)
-					{
-						request.setRequestHeader("AuthSession", current_auth_session);
-					}*/
-				}).done(function(response) 
-				{
-					var response_obj = eval(response);
-					if(response_obj.ok)
-					{
-						for(let i = 0; i < g_ui.user_summary_list.length; i++)
-						{
-							if(g_ui.user_summary_list[i]._id == response_obj.id)
-							{
-								g_ui.user_summary_list[i]._rev = response_obj.rev; 
-								break;
-							}
-						}
+            const response_obj = eval(response);
+            if(response_obj.ok)
+            {
+                for(let i = 0; i < g_ui.user_summary_list.length; i++)
+                {
+                    if(g_ui.user_summary_list[i]._id == response_obj.id)
+                    {
+                        g_ui.user_summary_list[i]._rev = response_obj.rev; 
+                        break;
+                    }
+                }
 
-						if(response_obj.auth_session)
-						{
-							//profile.auth_session = response_obj.auth_session;
-							$mmria.addCookie("AuthSession", response_obj.auth_session);
-						}
+                if(response_obj.auth_session)
+                {
+                    //profile.auth_session = response_obj.auth_session;
+                    $mmria.addCookie("AuthSession", response_obj.auth_session);
+                }
 
-						//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
-						create_status_message("user information saved", convert_to_jquery_id(user._id));
-						console.log("password saved sent", response);
-
-
-					}
-					//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					
-				});
-			//}
+                create_status_message("user information saved", convert_to_jquery_id(user._id));
+                console.log("password saved sent", response);
+            }
 		}
 		else
 		{
-			//document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
 			g_render();
 		}
 	}
