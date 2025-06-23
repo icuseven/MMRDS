@@ -88,11 +88,6 @@ async function load_values()
   `
     );
     //window.location.href = set_url_hash(``);
-    /*
-    const get_initial_data_response = await $.ajax({
-        url: location.protocol + '//' + location.host + '/manage-users/GetInitialData',
-    });
-    */
 
     const get_initial_data_response = await get_http_get_response('manage-users/GetInitialData')
 
@@ -230,7 +225,7 @@ async function server_save(p_user)
 
 	if(current_auth_session)
 	{ 
-        const response = await get_post_response("api/user", p_user)
+        const response = await get_http_post_response("api/user", p_user)
 
         const response_obj = eval(response);
         if(response_obj.ok)
@@ -311,37 +306,27 @@ function edit_user_click(p_user_id)
     window.location.href = set_url_hash(`edit-user?${p_user_id}`);
 }
 
-function delete_user_click(p_user_id, p_rev)
+async function delete_user_click(p_user_id, p_rev)
 {
     console.log(`delete user ${p_user_id} clicked with rev: ${p_rev}`);
     if(p_user_id && p_rev)
-        { 
-            $.ajax({
-                url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction?_id=' + p_user_id + '&rev=' + p_rev,
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                type: "DELETE"
-            }).done(function(response) 
+    { 
+        const response = await get_http_delete_response(`api/user_role_jurisdiction?_id=${p_user_id}&rev=${p_rev}`);
+
+        $mmria.confirm_user_delete_dialog_close();
+        if(response.ok)
+        {
+            for(var i in g_ui.user_summary_list)
             {
-                $mmria.confirm_user_delete_dialog_close();
-                if(response.ok)
+                if(g_ui.user_summary_list[i]._id == response.id)
                 {
-                    for(var i in g_ui.user_summary_list)
-                    {
-                        if(g_ui.user_summary_list[i]._id == response.id)
-                        {
-                            g_ui.user_summary_list.splice(i,1)
-                            break;
-                        }
-                    }
-                    g_render();
+                    g_ui.user_summary_list.splice(i,1)
+                    break;
                 }
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                console.error("Delete failed: ", textStatus, errorThrown);
-                alert("Failed to delete user. Please try again.");
-            });
+            }
+            g_render();
         }
+    }
 
         
 }
@@ -453,7 +438,7 @@ async function change_password_user_click(p_user_id)
 		{
 			user.password = new_user_password;
 
-            const response = await get_post_response('/api/user', user)
+            const response = await get_http_post_response('/api/user', user)
 
             const response_obj = eval(response);
             if(response_obj.ok)
@@ -693,7 +678,7 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 	}
 }
 
-function remove_role(p_user_role_id)
+async function remove_role(p_user_role_id)
 {
 	var user_role_index = -1;
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
@@ -718,31 +703,25 @@ function remove_role(p_user_role_id)
 
 		if(retVal && retVal.toLocaleLowerCase() == user_role.role_name && user_role._rev)
 		{ 
-			$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction?_id=' + user_role._id + '&rev=' + user_role._rev,
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				type: "DELETE"
-			}).done(function(response) 
-			{
-				if(response.ok)
-				{
-					g_user_role_jurisdiction.splice(user_role_index, 1);
+            const response = await get_http_delete_response(`api/user_role_jurisdiction?_id=${user_role._id}&rev=${user_role._rev}`);
+            if(response.ok)
+            {
+                g_user_role_jurisdiction.splice(user_role_index, 1);
 
-					
-					for(let i = 0; i < g_ui.user_summary_list.length; i++)
-					{
-						if(g_ui.user_summary_list[i].name == user_role.user_id)
-						{
-							let escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], i, g_current_u_id).join("") );
-							break;
-						}
-					}
-					document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
-					document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
-				}
-			});
+                
+                for(let i = 0; i < g_ui.user_summary_list.length; i++)
+                {
+                    if(g_ui.user_summary_list[i].name == user_role.user_id)
+                    {
+                        let escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
+                        $( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], i, g_current_u_id).join("") );
+                        break;
+                    }
+                }
+                document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
+                document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
+            }
+
 		}
 		else
 		{
@@ -1131,7 +1110,7 @@ function update_role(p_user_role_jurisdiction_id, p_user_id)
 	}
 }
 
-function remove_role(p_user_role_id)
+async function remove_role(p_user_role_id)
 {
 	var user_role_index = -1;
 	for(var i = 0; i < g_user_role_jurisdiction.length; i++)
@@ -1152,29 +1131,22 @@ function remove_role(p_user_role_id)
 		}
 		if(retVal && retVal.toLocaleLowerCase() == user_role.role_name && user_role._rev)
 		{ 
-			$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction?_id=' + user_role._id + '&rev=' + user_role._rev,
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				type: "DELETE"
-			}).done(function(response) 
-			{
-				if(response.ok)
-				{
-					g_user_role_jurisdiction.splice(user_role_index, 1);
-					for(let i = 0; i < g_ui.user_summary_list.length; i++)
-					{
-						if(g_ui.user_summary_list[i].name == user_role.user_id)
-						{
-							let escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
-							$( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], i, g_current_u_id).join("") );
-							break;
-						}
-					}
-					document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
-					document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
-				}
-			});
+            const response = await get_http_delete_response(`api/user_role_jurisdiction?_id=${user_role._id}&rev=${user_role._rev}`);
+            if(response.ok)
+            {
+                g_user_role_jurisdiction.splice(user_role_index, 1);
+                for(let i = 0; i < g_ui.user_summary_list.length; i++)
+                {
+                    if(g_ui.user_summary_list[i].name == user_role.user_id)
+                    {
+                        let escaped_id =  convert_to_jquery_id(g_ui.user_summary_list[i]._id);
+                        $( "#" + escaped_id).replaceWith( user_entry_render(g_ui.user_summary_list[i], i, g_current_u_id).join("") );
+                        break;
+                    }
+                }
+                document.getElementById("selected_user_role_for_" + user_role.user_id).innerHTML = '';
+                document.getElementById(convert_to_jquery_id("org.couchdb.user:" + user_role.user_id) + "_status_area").innerHTML = "";
+            }
 		}
 		else
 		{
@@ -1183,50 +1155,40 @@ function remove_role(p_user_role_id)
 	}
 }
 
-function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
+async function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 {
 	if(p_user_role && p_user_id)
 	{ 
-		$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction',
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			data: JSON.stringify(p_user_role),
-			type: "POST",
-		})
-		.done(
-			function(response) 
-			{
-				if(response)
-				{
-					var response_obj = eval(response);
-					if(response_obj.ok)
-					{
-						
-						for(var i in g_user_role_jurisdiction)
-						{
-							if(g_user_role_jurisdiction[i]._id == response_obj.id)
-							{
-								g_user_role_jurisdiction[i]._rev = response_obj.rev; 
-								//document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
-	
-								var render_result = render_role_list_for(p_user, p_user_id);
-								var role_list_for_ = document.getElementById("role_list_for_" + p_user.name);
-								role_list_for_.outerHTML = render_result.join("");
+        const response = await get_http_post_response(`api/user_role_jurisdiction`, p_user_role);
 
-								break;
-							}
-						}
-					}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("jurisdiction_tree sent", response);
-				}
-				else
-				{
-					alert("You are not authorized to make this change.");
-				}
-			}
-		);
+        if(response)
+        {
+            var response_obj = eval(response);
+            if(response_obj.ok)
+            {
+                
+                for(var i in g_user_role_jurisdiction)
+                {
+                    if(g_user_role_jurisdiction[i]._id == response_obj.id)
+                    {
+                        g_user_role_jurisdiction[i]._rev = response_obj.rev; 
+                        //document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
+
+                        var render_result = render_role_list_for(p_user, p_user_id);
+                        var role_list_for_ = document.getElementById("role_list_for_" + p_user.name);
+                        role_list_for_.outerHTML = render_result.join("");
+
+                        break;
+                    }
+                }
+            }
+                //{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
+            console.log("jurisdiction_tree sent", response);
+        }
+        else
+        {
+            alert("You are not authorized to make this change.");
+        }
 	}
 }
 
@@ -1236,7 +1198,7 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
     if (p_user_role_list == null || p_user_role_list.length == 0 || p_user_id == null  || p_user_id == "") return;
 
 
-    const response = await get_post_response
+    const response = await get_http_post_response
     (
         "api/user_role_jurisdiction/bulk",
         p_user_role_list
@@ -1267,7 +1229,7 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
     }
 
 
-async function get_post_response
+async function get_http_post_response
 (
     p_url_suffix,
     p_data
@@ -1322,6 +1284,47 @@ async function get_http_get_response
     {
         const response_promise = await fetch(url, {
             method: "get",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            }
+        });
+
+        mmria_check_if_need_to_redirect(response_promise);
+        
+        response = await response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        $mmria.unstable_network_dialog_show(xhr, xhr.status);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+    return response;
+}
+
+async function get_http_delete_response
+(
+    p_url_suffix
+)
+{
+    let response = {};
+
+    const url = `${location.protocol}//${location.host}/${p_url_suffix}`
+    try
+    {
+        const response_promise = await fetch(url, {
+            method: "delete",
             headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=utf-8',
