@@ -452,15 +452,7 @@ public sealed partial class Program
 
             #endif
 
-
-
-            //builder.Services.AddScoped<Microsoft.AspNetCore.Components.Authorization.AuthenticationStateProvider, PersistingAuthenticationStateProvider>();
-            //builder.Services.AddCascadingAuthenticationState();
-            
-
             bool? use_sams = overridable_config.GetBoolean("sams:is_enabled", host_prefix);
-
-            
             if 
             (
                 use_sams.HasValue && 
@@ -532,32 +524,6 @@ public sealed partial class Program
                 }
             );
 
-/*
-            builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents()
-                .AddInteractiveWebAssemblyComponents()
-                .AddAuthenticationStateSerialization();
-            builder.Services.Configure<Newtonsoft.Json.JsonSerializer>( options =>
-            {
-                options.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
-            }
-            );
-            
-            
-            builder.Services.AddControllersWithViews()
-                .AddNewtonsoftJson
-                (
-                    x => 
-                    {
-                        x.SerializerSettings.Converters.Add(new mmria.server.utils.TimeOnlyJsonConverter());
-                        x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                    }
-                );
-
-*/
-
-            /*    */
-
             builder.Services.AddControllersWithViews()
                 .AddNewtonsoftJson(x => 
                     {
@@ -588,10 +554,6 @@ public sealed partial class Program
                 ));
             }
 
-
-            //builder.Services.AddHttpClient();
-            //builder.Services.AddScoped<CookieStorageAccessor>();
-
             var app = builder.Build();
 
             if (app.Environment.IsDevelopment())
@@ -617,16 +579,6 @@ public sealed partial class Program
             app.UseAuthentication();
             app.UseAntiforgery();
             app.UseAuthorization();
-
-
-/*
-
-            app.MapRazorComponents<mmria.server.Components.App>()
-                .AddInteractiveServerRenderMode()
-                .AddInteractiveWebAssemblyRenderMode()
-                .AddAdditionalAssemblies(typeof(mmria.server.Client._Imports).Assembly);
-           */
-            
 
             //app.MapControllerRoute("Api","api/{controller}/{action}/{id?}");
             app.MapControllerRoute

@@ -1991,6 +1991,16 @@ ${p_error.responseText== undefined ? "offline" : p_error.responseText }
             let el = document.getElementById("save-error-500-id");
             el.close();
         },
+        server_response_detail_div_show:function()
+        {
+            const el = document.getElementById('server_response_detail_div');
+            el.style.display = 'block';
+        },
+        server_response_detail_div_hide:function()
+        {
+            const el = document.getElementById('server_response_detail_div');
+            el.style.display = 'none';
+        },
         field_save_error_dialog_show: async function (p_error, p_note)
         {
 
