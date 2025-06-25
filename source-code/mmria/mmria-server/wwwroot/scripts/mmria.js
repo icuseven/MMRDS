@@ -2540,3 +2540,11 @@ function getSSCookie()
     const parts = value.split(`; sid`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+function set_character_limit(p_string_to_limit, p_limit)
+{
+    if (p_string_to_limit.length > p_limit) {
+        return p_string_to_limit.substring(0, p_limit) + "...";
+    }
+    return p_string_to_limit;
+}
