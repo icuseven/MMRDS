@@ -126,7 +126,7 @@ function edit_user_renderer()
         </div>
     `;
     show_hide_user_management_back_button(true);
-    set_page_title("View User");
+    set_page_title("Edit User");
     init_audit_history();
     document.getElementById("form_content_id").innerHTML = result;
 }

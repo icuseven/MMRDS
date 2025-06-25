@@ -70,7 +70,7 @@ public sealed class manage_usersController : Controller
         result["policy_values"] = policyValues.Get();
         result["my_roles"] = await user_role_jurisdiction_view.Get();
         result["jurisdiction_tree"] = await jurisdiction_treeController.Get();
-        result["user_role_jurisdiction"] = await user_role_jurisdiction_view.Get(0, -1, "by_effective_start_date");
+        result["user_role_jurisdiction"] = await user_role_jurisdiction_view.Get(0, -1, "by_user_id");
         //result["user_role_jurisdiction"] = await user_role_jurisdictionController.Get(null);
         result["user_list"] = await userController.Get();
 

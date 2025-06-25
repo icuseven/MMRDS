@@ -164,7 +164,7 @@ async function load_values()
 
     }  
     
-
+    console.log(get_initial_data_response);
     g_jurisdiction_tree = get_initial_data_response.jurisdiction_tree;
 
     g_user_role_jurisdiction = [];
@@ -1033,21 +1033,11 @@ async function set_all_roles_active_state(p_user_id)
     const user_roles = g_user_role_jurisdiction.filter(user => user.user_id === p_user_id);
     user_roles.forEach(user_role => {
         user_role.last_updated_by = p_user_id;
-        user_role.is_active = !user_role.is_active;
-        
+        user_role.date_last_updated = new Date();
+        user_role.is_active = false;
     });
 
-    await bulk_save_user_role_jurisdiction(user_roles, p_user_id);
-
-
-    $(`#role_results_${p_user_id}`).html(function(_, html) {
-        return html.replace(/Active/g, 'Inactive');
-    });
-    $(`#set_role_active_state_button_${p_user_id}`).attr('aria-disabled', true);
-    $(`#set_role_active_state_button_${p_user_id}`).prop('disabled', true);
-   
-
-    //console.log(user_roles);
+    await bulk_save_user_role_jurisdiction(user_roles, p_user_id); 
 }
 
 function update_role(p_user_role_jurisdiction_id, p_user_id)
@@ -1197,13 +1187,11 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
 
     if (p_user_role_list == null || p_user_role_list.length == 0 || p_user_id == null  || p_user_id == "") return;
 
-
     const response = await get_http_post_response
     (
         "api/user_role_jurisdiction/bulk",
         p_user_role_list
     );
-
 
     response.forEach
     (  
@@ -1215,18 +1203,25 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
                 {
                     current_urj._rev = response_obj.rev;
                 }
+                update_roles_ui(p_user_id);
             }
         }
     );
 }
 
-    function format_date(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
+function update_roles_ui(p_user_id)
+{
+    const role_section = document.getElementById("role_results_" + p_user_id);
+    role_section.innerHTML = role_section.innerHTML.replaceAll("Active", "Inactive");
+}
+
+function format_date(dateString) {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
 
 async function get_http_post_response

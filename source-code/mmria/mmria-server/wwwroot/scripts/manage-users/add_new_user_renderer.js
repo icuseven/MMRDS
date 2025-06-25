@@ -91,7 +91,7 @@ function add_new_user_render() {
     `;
     show_hide_user_management_back_button(true);
     set_page_title("Add New User");
-    //init_audit_history();
+    init_audit_history();
     document.getElementById('form_content_id').innerHTML = result;
 }
 
@@ -126,9 +126,9 @@ function add_assigned_role() {
         effective_end_date: g_policy_values.default_days_in_effective_date_interval != null && parseInt(g_policy_values.default_days_in_effective_date_interval) >0? new Date(new Date().getTime() + parseInt(g_policy_values.default_days_in_effective_date_interval)*24*60*60*1000).setHours(0,0,0,0) : "",
         is_active: true,
         date_created: new Date(),
-        created_by: g_current_u_id,
+        created_by: g_userName,
         date_last_updated: new Date(),
-        last_updated_by: g_current_u_id,
+        last_updated_by: g_userName,
         data_type:"user_role_jursidiction"
     });
     add_to_audit_history(g_current_u_id, unique_guid, ACTION_TYPE.ADD_ROLE, null, null);
@@ -560,6 +560,7 @@ function save_new_user()
     }
     if (is_valid) disable_save_undo_button();
     else enable_save_undo_button();
+    console.log(new_user_roles);
 }
 
 function disable_save_undo_button()
@@ -652,71 +653,76 @@ function removeInvalid(id, validationId) {
     }
 }
 
-function check_if_existing_user(p_user_id, p_new_user_password)
+async function check_if_existing_user(p_user_id, p_new_user_password)
 {
-    $.ajax({
-        url: location.protocol + '//' + location.host + '/api/user/check-user/org.couchdb.user:' + p_user_id,
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        type: "GET"
-    }).done(function(user_check_response) 
+    const response = await get_http_get_response(`api/user/check-user/org.couchdb.user:${p_user_id}`);
+    if(response.name === null || response.name === undefined || response.name === "")
     {
-        if(user_check_response)
-        {
-            let user = eval(user_check_response);
-            let is_found = false;
+        create_new_user_account(p_user_id, p_new_user_password);
+    }
+    else
+    {
+        document.getElementById('new_user_email').classList.add('is-invalid');
+        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique and at least 5 characters long';
+        document.getElementById('username_validation').style.color = 'red';
+        is_valid = false;
+    }
+}
 
-            for(var i = 0; i < g_ui.user_summary_list.length; i++)
+async function create_new_user_account(p_user_id, p_new_user_password)
+{
+    let new_user = create_new_user(p_user_id.toLowerCase(), p_new_user_password);
+    g_ui.user_summary_list.push(new_user);
+    
+    const new_user_response = await get_http_post_response('api/user', new_user);
+    if(new_user_response.ok)
+    {
+        for(var i = 0; i < g_ui.user_summary_list.length; i++)
+        {
+            if(g_ui.user_summary_list[i]._id == new_user_response.id)
             {
-                if(g_ui.user_summary_list[i]._id == user._id)
-                {
-                    is_found = true;
-                    break;
-                }
+                g_ui.user_summary_list[i]._rev = new_user_response.rev; 
+                break;
             }
-            if(!is_found)
-            {
-                g_ui.user_summary_list.push(user);
-                save_user(user._id);
-            }
+        }
+        if (new_user_roles && new_user_roles.length > 0) 
+        {
+            add_new_user_roles(p_user_id);
         }
         else
         {
-			var new_user = create_new_user(p_user_id.toLowerCase(), p_new_user_password);
-			user_id = new_user._id;
-			g_ui.user_summary_list.push(new_user);
-	
-			$.ajax({
-				url: location.protocol + '//' + location.host + '/api/user',
-				contentType: 'application/json; charset=utf-8',
-				dataType: 'json',
-				data: JSON.stringify(new_user),
-				type: "POST"
-			}).done(function(response) 
-			{
-				var response_obj = eval(response);
-				if(response_obj.ok)
-				{
-					for(var i = 0; i < g_ui.user_summary_list.length; i++)
-					{
-						if(g_ui.user_summary_list[i]._id == response_obj.id)
-						{
-							g_ui.user_summary_list[i]._rev = response_obj.rev; 
-							break;
-						}
-					}
-                if (new_user_roles.length > 0) 
-                {
-                    // TO-DO: save user roles
-                }
-                else
-                {
-                    view_user_click(user_id);
-                }
-				}
-			});
+            view_user_click(p_user_id);
+        }
+    }
+}
+
+async function add_new_user_roles(p_user_id)
+{
+    let was_successful = true;
+    new_user_roles.forEach(role => {
+        role.user_id = p_user_id;
+    });
+    const new_user_roles_response = await get_http_post_response
+    (
+        "api/user_role_jurisdiction/bulk",
+        new_user_roles
+    );
+
+    new_user_roles_response.forEach(response => {
+        if (response.ok)
+        {
+            const user_role = new_user_roles.find(role => role._id === response.id);
+            user_role._rev = response.rev;
+            g_user_role_jurisdiction.push(user_role);
+        }
+        else
+        {
+            was_successful = false;
+            console.error(`Failed to add role ${response.id}:`, response);
         }
     });
+    if(was_successful) view_user_click(p_user_id);
 }
 
 function save_user(p_user_id)

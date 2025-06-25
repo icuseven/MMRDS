@@ -295,13 +295,13 @@ effective_end_date
 
     var User = httpContextAccessor.HttpContext.User;
 
-        search_key = "";
-        if (User.Identities.Any(u => u.IsAuthenticated))
-        {
-            search_key = User.Identities.First(
-                u => u.IsAuthenticated && 
-                u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
-        }
+        // search_key = "";
+        // if (User.Identities.Any(u => u.IsAuthenticated))
+        // {
+        //     search_key = User.Identities.First(
+        //         u => u.IsAuthenticated && 
+        //         u.HasClaim(c => c.Type == ClaimTypes.Name)).FindFirst(ClaimTypes.Name).Value;
+        // }
 
         #if !IS_PMSS_ENHANCED
         var jurisdiction_hashset = mmria.server.utils.authorization_user.get_current_jurisdiction_id_set_for(db_config, User);
@@ -345,7 +345,7 @@ effective_end_date
             {
                 if (skip > -1) 
                 {
-                    request_builder.Append ($"skip={skip}");
+                    request_builder.Append ($"?skip={skip}");
                 } 
                 else 
                 {
@@ -356,21 +356,21 @@ effective_end_date
 
                 if (take > -1) 
                 {
-                    request_builder.Append ($"&limit={take}");
+                    request_builder.Append ($"?&limit={take}");
                 }
 
                 if (descending) 
                 {
-                    request_builder.Append ("&descending=true");
+                    request_builder.Append ("?&descending=true");
                 }
             } 
             else 
             {
-                request_builder.Append ("skip=0");
+                request_builder.Append ("?skip=0");
 
                 if (descending) 
                 {
-                    request_builder.Append ("&descending=true");
+                    request_builder.Append ("?&descending=true");
                 }
             }
 
@@ -540,7 +540,10 @@ effective_end_date
                     }
 
                     if(add_item && is_jurisdiction_ok) result.rows.Add (cvi);
-                    
+                    if(!add_item) 
+                        Console.WriteLine($"Filtered out - no search match: {cvi.id}");
+                    if (!is_jurisdiction_ok)
+                        Console.WriteLine($"Filtered out - no jurisdiction access: {cvi.id}");
                 }
 
                 result.total_rows = result.rows.Count;
