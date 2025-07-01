@@ -234,12 +234,21 @@ prenatal/routine_monitoring/date_and_time
     
         FrequencySummaryDocument._id  = ((object)value_result.result).ToString();
 
+        #if !IS_PMSS_ENHANCED
         value_result = gs.get_value(source_object, "home_record/jurisdiction_id");
         FrequencySummaryDocument.case_folder = ((object)value_result.result).ToString();
 
         value_result = gs.get_value(source_object, "home_record/record_id");
         FrequencySummaryDocument.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
-    
+        #endif
+
+        #if IS_PMSS_ENHANCED
+        value_result = gs.get_value(source_object, "tracking/admin_info/jurisdiction");
+        FrequencySummaryDocument.case_folder = ((object)value_result.result).ToString();
+
+        value_result = gs.get_value(source_object, "tracking/admin_info/pmssno");
+        FrequencySummaryDocument.record_id = value_result.result != null? ((object)value_result.result).ToString() : ""; //'OR-2019-4806',
+        #endif
         //FrequencySummaryDocument._id  = value_result.result != null ? ((object)value_result.result).ToString(): "/";
 
         FrequencySummaryDocument.date_created = DateTime.Now;
@@ -280,9 +289,11 @@ prenatal/routine_monitoring/date_and_time
         }
         
         // host_state  *** end
-
+        
+        #if !IS_PMSS_ENHANCED
         try
         {
+         
             val = gs.get_value(source_object,  "home_record/case_status/overall_case_status").result;
             if(val != null && val.ToString() != "")
             {
@@ -306,14 +317,15 @@ prenatal/routine_monitoring/date_and_time
             {
                 FrequencySummaryDocument.day_of_death = System.Convert.ToInt32(val);
             }
+            
+        
         }
         catch(Exception)
         {
             //System.Console.WriteLine (ex);
         }
 
-
-        try
+                try
         {
             val = gs.get_value(source_object, "committee_review/date_of_review").result;
             if
@@ -357,6 +369,89 @@ prenatal/routine_monitoring/date_and_time
         {
             //System.Console.WriteLine (ex);
         }
+        #endif
+
+        #if IS_PMSS_ENHANCED
+        try
+        {
+         
+
+            val = gs.get_value(source_object,  "tracking/admin_info/status").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.case_status  = System.Convert.ToInt32(val);
+            }
+
+            val = gs.get_value(source_object, "tracking/admin_info/track_year").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.year_of_death = System.Convert.ToInt32(val);
+            }
+
+            val = gs.get_value(source_object, "tracking/date_of_death/month").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.month_of_death = System.Convert.ToInt32(val);
+            }
+
+            val = gs.get_value(source_object, "tracking/date_of_death/day").result;
+            if(val != null && val.ToString() != "")
+            {
+                FrequencySummaryDocument.day_of_death = System.Convert.ToInt32(val);
+            }
+        
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
+
+        try
+        {
+            val = gs.get_value(source_object, "preparer_remarks/preparer_grp/review_1_on").result;
+            if
+            (
+                val != null && 
+                val.ToString() != ""
+            )
+            {
+                FrequencySummaryDocument.day_of_case_review = System.Convert.ToDateTime(val).Day;
+                FrequencySummaryDocument.year_of_case_review = System.Convert.ToDateTime(val).Year;
+                FrequencySummaryDocument.month_of_case_review = System.Convert.ToDateTime(val).Month;
+            }
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
+
+        try
+        {
+
+            value_result = gs.get_value(source_object, "cause_of_death/class");
+            if
+            (
+                ! value_result.is_error &&
+                value_result.result != null
+            )
+            {
+                val = value_result.result.ToString();
+
+                if(int.TryParse(val.ToString(), out var test_int))
+                {
+                    FrequencySummaryDocument.pregnancy_relatedness = test_int;
+                }
+
+
+            }
+
+        }
+        catch(Exception)
+        {
+            //System.Console.WriteLine (ex);
+        }
+        #endif
+
 
         var SetDetailContext = new SetDetailContext()
         {
