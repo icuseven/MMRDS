@@ -1,4 +1,4 @@
-#if !IS_PMSS_ENHANCED
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,8 +71,12 @@ public sealed class data_summary_viewControllerController: ControllerBase
             var case_curl = new cURL("GET", null, find_url, null, config_timer_user_name, config_timer_value);
             string responseFromServer = await case_curl.executeAsync();
             
-            var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
-
+            #if !IS_PMSS_ENHANCED
+                var jurisdiction_hashset = mmria.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
+            #endif
+            #if IS_PMSS_ENHANCED
+                var jurisdiction_hashset = mmria.pmss.server.utils.authorization.get_current_jurisdiction_id_set_for(db_config, User);
+            #endif
 
             List<mmria.server.model.SummaryReport.FrequencySummaryDocument> new_list = new();
             result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.get_sortable_view_reponse_header<mmria.server.model.SummaryReport.FrequencySummaryDocument>>(responseFromServer);
@@ -160,4 +164,3 @@ public sealed class data_summary_viewControllerController: ControllerBase
 } 
 
 
-#endif
