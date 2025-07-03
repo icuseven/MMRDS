@@ -26,6 +26,698 @@ var g_current_user_role_jurisdiction = null;
 const g_ui = { 
 	user_summary_list:[],
 	user_list:[],
+    audit_history: [
+    {
+        "_id": "a0caf458-f560-461e-a25c-99883e99b576",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_start_date",
+        "prev_value": "2025-05-01",
+        "value": "2025-05-01",
+        "date_created": "2025-07-02T01:53:47.403Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:47.403Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_start_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "5b509616-7cd0-42f5-a9e3-922ee6b689c7",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_end_date",
+        "prev_value": "",
+        "value": "2025-07-25",
+        "date_created": "2025-07-02T01:53:40.721Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:40.721Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_end_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "8c11d160-58c8-404b-9ebb-b1863a1bc01b",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/",
+        "date_created": "2025-07-02T01:53:36.111Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:36.111Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "7e7077fa-effc-488d-9749-aee3025341d2",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_type",
+        "prev_value": "",
+        "value": "data_analyst",
+        "date_created": "2025-07-02T01:53:35.095Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:35.095Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "080d079f-8181-4bbe-979c-ef67013247c3",
+        "user_id": "absanl",
+        "action": "add_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T01:53:33.077Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:33.077Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "c4b1ec0f-dc57-4118-aeea-bd504f510225",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_active_status",
+        "prev_value": true,
+        "value": "false",
+        "date_created": "2025-07-02T01:53:32.461Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:32.461Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "281cab4c-a9ff-42d4-8798-452e55a07f9a",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_jurisdiction_type",
+        "prev_value": "/",
+        "value": "/Philadelphia",
+        "date_created": "2025-07-02T01:53:31.713Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:31.713Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "aca46d1c-f7e1-497a-8efe-f941e000671f",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_type",
+        "prev_value": "data_analyst",
+        "value": "committee_member",
+        "date_created": "2025-07-02T01:53:30.556Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:30.556Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "a0caf458-f560-461e-a25c-99883e99b576",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_start_date",
+        "prev_value": "2025-05-01",
+        "value": "2025-05-01",
+        "date_created": "2025-07-02T01:53:47.403Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:47.403Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_start_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "5b509616-7cd0-42f5-a9e3-922ee6b689c7",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_end_date",
+        "prev_value": "",
+        "value": "2025-07-25",
+        "date_created": "2025-07-02T01:53:40.721Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:40.721Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_end_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "8c11d160-58c8-404b-9ebb-b1863a1bc01b",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/",
+        "date_created": "2025-07-02T01:53:36.111Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:36.111Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "7e7077fa-effc-488d-9749-aee3025341d2",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_type",
+        "prev_value": "",
+        "value": "data_analyst",
+        "date_created": "2025-07-02T01:53:35.095Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:35.095Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "080d079f-8181-4bbe-979c-ef67013247c3",
+        "user_id": "absanl",
+        "action": "add_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T01:53:33.077Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:33.077Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "c4b1ec0f-dc57-4118-aeea-bd504f510225",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_active_status",
+        "prev_value": true,
+        "value": "false",
+        "date_created": "2025-07-02T01:53:32.461Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:32.461Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "281cab4c-a9ff-42d4-8798-452e55a07f9a",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_jurisdiction_type",
+        "prev_value": "/",
+        "value": "/Philadelphia",
+        "date_created": "2025-07-02T01:53:31.713Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:31.713Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "aca46d1c-f7e1-497a-8efe-f941e000671f",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_type",
+        "prev_value": "data_analyst",
+        "value": "committee_member",
+        "date_created": "2025-07-02T01:53:30.556Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:30.556Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "a0caf458-f560-461e-a25c-99883e99b576",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_start_date",
+        "prev_value": "2025-05-01",
+        "value": "2025-05-01",
+        "date_created": "2025-07-02T01:53:47.403Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:47.403Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_start_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "5b509616-7cd0-42f5-a9e3-922ee6b689c7",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_effective_end_date",
+        "prev_value": "",
+        "value": "2025-07-25",
+        "date_created": "2025-07-02T01:53:40.721Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:40.721Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "effective_end_date",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "8c11d160-58c8-404b-9ebb-b1863a1bc01b",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_jurisdiction_type",
+        "prev_value": "previous value",
+        "value": "/",
+        "date_created": "2025-07-02T01:53:36.111Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:36.111Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "7e7077fa-effc-488d-9749-aee3025341d2",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700_role_type",
+        "prev_value": "",
+        "value": "data_analyst",
+        "date_created": "2025-07-02T01:53:35.095Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:35.095Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "080d079f-8181-4bbe-979c-ef67013247c3",
+        "user_id": "absanl",
+        "action": "add_role",
+        "element_id": "8f73dde7-918c-43a2-834e-b3d2d0ab1700",
+        "prev_value": "hahasha",
+        "value": "",
+        "date_created": "2025-07-02T01:53:33.077Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:33.077Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "c4b1ec0f-dc57-4118-aeea-bd504f510225",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_active_status",
+        "prev_value": true,
+        "value": "false",
+        "date_created": "2025-07-02T01:53:32.461Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:32.461Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "281cab4c-a9ff-42d4-8798-452e55a07f9a",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_jurisdiction_type",
+        "prev_value": "/",
+        "value": "/can you see me?",
+        "date_created": "2025-07-02T01:53:31.713Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:31.713Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "aca46d1c-f7e1-497a-8efe-f941e000671f",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "11dbedaa-32f8-468b-ba74-8aeff6e3a772_role_type",
+        "prev_value": "data_analyst",
+        "value": "committee_member",
+        "date_created": "2025-07-02T01:53:30.556Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T01:53:30.556Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "0e310034-4904-48cc-950c-1077b7f48ea1",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "4a66dffe-b902-455a-ae9a-eeef748e6c6c_role_active_status",
+        "prev_value": "true",
+        "value": "false",
+        "date_created": "2025-07-02T18:09:47.211Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:47.211Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "94762f88-1293-43cd-8d1a-63dd44ad8ab4",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "4a66dffe-b902-455a-ae9a-eeef748e6c6c_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/",
+        "date_created": "2025-07-02T18:09:46.243Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:46.243Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "999a83e2-570e-400c-b4f8-e89e31cb1293",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "4a66dffe-b902-455a-ae9a-eeef748e6c6c_role_type",
+        "prev_value": "",
+        "value": "committee_member",
+        "date_created": "2025-07-02T18:09:44.693Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:44.693Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "33f5ecd5-c77c-4f85-ae42-44d849b4e7b4",
+        "user_id": "absanl",
+        "action": "add_role",
+        "element_id": "4a66dffe-b902-455a-ae9a-eeef748e6c6c",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T18:09:42.702Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:42.702Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "0aedafb8-2812-4f20-9151-56eedc765199",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "c793fe22-68b1-49ac-9a03-eeed8c8566be_role_jurisdiction_type",
+        "prev_value": "/",
+        "value": "/Committee_Review",
+        "date_created": "2025-07-02T18:09:41.351Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:41.351Z",
+        "last_updated_by": "user5",
+        "parent_id": "abstractor",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "df035975-fb52-4ce7-b083-fb8062125adf",
+        "user_id": "absanl",
+        "action": "edit_password",
+        "element_id": "user_password",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T18:09:36.578Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:09:36.578Z",
+        "last_updated_by": "user5",
+        "parent_id": "",
+        "data_id": "password",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "7b1f4f2e-df48-46fc-9db1-28dfacb77ea2",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "5825d70a-dd02-4635-a427-1d2ffb8a9277_role_active_status",
+        "prev_value": false,
+        "value": "false",
+        "date_created": "2025-07-02T18:14:50.013Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:14:50.013Z",
+        "last_updated_by": "user5",
+        "parent_id": "vital_importer",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "4abc77d2-2fc2-4f79-bc81-20fc835140e2",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "5825d70a-dd02-4635-a427-1d2ffb8a9277_role_jurisdiction_type",
+        "prev_value": "/Philadelphia",
+        "value": "/Philadelphia",
+        "date_created": "2025-07-02T18:14:48.365Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:14:48.365Z",
+        "last_updated_by": "user5",
+        "parent_id": "vital_importer",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "ad335b71-91d1-4bb3-8253-5867e8c5ee23",
+        "user_id": "absanl",
+        "action": "edit_role",
+        "element_id": "5825d70a-dd02-4635-a427-1d2ffb8a9277_role_type",
+        "prev_value": "vital_importer",
+        "value": "vital_importer",
+        "date_created": "2025-07-02T18:14:46.188Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:14:46.188Z",
+        "last_updated_by": "user5",
+        "parent_id": "vital_importer",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "ec645642-585e-4d05-947a-230b04c081d2",
+        "user_id": "absanl",
+        "action": "add_role",
+        "element_id": "5825d70a-dd02-4635-a427-1d2ffb8a9277",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T18:14:44.341Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:14:44.341Z",
+        "last_updated_by": "user5",
+        "parent_id": "vital_importer",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "23bfa9b2-77e1-4261-919c-01e692e44829",
+        "user_id": "absanl",
+        "action": "add_user",
+        "element_id": "add_user",
+        "prev_value": "",
+        "value": "absanl",
+        "date_created": "2025-07-02T18:14:33.027Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T18:14:33.027Z",
+        "last_updated_by": "user5",
+        "parent_id": "",
+        "data_id": "add_user",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "b464036b-6d5e-41dc-b173-413855e542e5",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "e7c30ad9-2f3f-4d96-b27e-202ce0a7f63c_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/Philadelphia",
+        "date_created": "2025-07-02T20:16:47.548Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:47.548Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "b6fc3d1c-b4f9-400f-9cee-bd2bcc504504",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "e7c30ad9-2f3f-4d96-b27e-202ce0a7f63c_role_active_status",
+        "prev_value": "",
+        "value": "false",
+        "date_created": "2025-07-02T20:16:44.795Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:44.795Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "is_active",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "deac4f06-aa58-4e91-9e15-a3b45452d558",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "e7c30ad9-2f3f-4d96-b27e-202ce0a7f63c_role_type",
+        "prev_value": "",
+        "value": "committee_member",
+        "date_created": "2025-07-02T20:16:43.231Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:43.231Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "81ded66d-9980-41fd-adcb-046066be7c08",
+        "user_id": "audit_test",
+        "action": "add_role",
+        "element_id": "e7c30ad9-2f3f-4d96-b27e-202ce0a7f63c",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T20:16:41.473Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:41.473Z",
+        "last_updated_by": "user5",
+        "parent_id": "committee_member",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "d9ee1a03-0c8b-4023-96ae-a1a44260b08f",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "aa27d9de-47d6-439c-8a0b-318c0b47d830_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/",
+        "date_created": "2025-07-02T20:16:40.560Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:40.560Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "1898555b-5fd5-43d5-9f59-5f1d94579a9b",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "aa27d9de-47d6-439c-8a0b-318c0b47d830_role_type",
+        "prev_value": "",
+        "value": "data_analyst",
+        "date_created": "2025-07-02T20:16:39.222Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:39.222Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "853956d7-73b0-4cac-9086-1d84b9c85e46",
+        "user_id": "audit_test",
+        "action": "add_role",
+        "element_id": "aa27d9de-47d6-439c-8a0b-318c0b47d830",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T20:16:37.920Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:37.920Z",
+        "last_updated_by": "user5",
+        "parent_id": "data_analyst",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "9adfdd35-7a78-4af8-8772-7dd83ffab333",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "7eb39186-862b-4fff-89fa-9d3a307f80d6_role_jurisdiction_type",
+        "prev_value": "",
+        "value": "/",
+        "date_created": "2025-07-02T20:16:36.987Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:36.987Z",
+        "last_updated_by": "user5",
+        "parent_id": "abstractor",
+        "data_id": "jurisdiction_id",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "6ac94f82-56b7-4534-a359-e1f292123bc3",
+        "user_id": "audit_test",
+        "action": "edit_role",
+        "element_id": "7eb39186-862b-4fff-89fa-9d3a307f80d6_role_type",
+        "prev_value": "",
+        "value": "abstractor",
+        "date_created": "2025-07-02T20:16:36.137Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:36.137Z",
+        "last_updated_by": "user5",
+        "parent_id": "abstractor",
+        "data_id": "role_name",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "82e8d42c-f99f-4f56-967e-ef13796cdfea",
+        "user_id": "audit_test",
+        "action": "add_role",
+        "element_id": "7eb39186-862b-4fff-89fa-9d3a307f80d6",
+        "prev_value": "",
+        "value": "",
+        "date_created": "2025-07-02T20:16:34.809Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:34.809Z",
+        "last_updated_by": "user5",
+        "parent_id": "abstractor",
+        "data_id": "add_role",
+        "data_type": "audit_history"
+    },
+    {
+        "_id": "4e396322-2afe-4caf-8eaf-fdad78505ff8",
+        "user_id": "audit_test",
+        "action": "add_user",
+        "element_id": "add_user",
+        "prev_value": "",
+        "value": "audit_test",
+        "date_created": "2025-07-02T20:16:19.737Z",
+        "created_by": "user5",
+        "date_last_updated": "2025-07-02T20:16:19.737Z",
+        "last_updated_by": "user5",
+        "parent_id": "",
+        "data_id": "add_user",
+        "data_type": "audit_history"
+    }
+],
 	data:null,
 	url_state: {
         selected_form_name: null,
@@ -108,29 +800,21 @@ async function load_values()
     g_jurisdiction_list = []
     for(let i in get_initial_data_response.my_roles.rows)
     {
-
         var current_date = new Date();
         var oneDay = 24*60*60*1000; // hours*minutes*seconds*milliseconds
-
         var value = get_initial_data_response.my_roles.rows[i].value;
-
         var diffDays = 0;
         var effective_start_date = "";
         var effective_end_date = "never";
-
         if(value.effective_start_date && value.effective_start_date != "")
         {
             effective_start_date = value.effective_start_date.split('T')[0];
         }
-
         if(value.effective_end_date && value.effective_end_date != "")
         {
             effective_end_date = value.effective_end_date.split('T')[0];
             diffDays = Math.round((new Date(value.effective_end_date).getTime() - current_date.getTime())/(oneDay));
         }
-
-        
-
         if(diffDays < 0)
         {
             //role_list_html.push("<td class='td'>false</td>");
@@ -211,7 +895,7 @@ async function load_values()
     //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
     g_render();
 
-    await get_all_user_role_jurisdiction();
+    //await get_all_user_role_jurisdiction();
 
 }
 
@@ -290,7 +974,7 @@ function export_user_list_click()
 function view_audit_log_click()
 {
     console.log("view audit log clicked");
-    //window.location.href = set_url_hash('add-new-user');
+    window.location.href = set_url_hash('audit-log');
 }
 
 function view_user_click(p_user_id)
@@ -1005,6 +1689,9 @@ function g_render()
         case "add-new-user":
             add_new_user_render();
             break;
+        case "audit-log":
+            audit_log_renderer();
+            break;
         case "summary":
         default:
             summary_render();
@@ -1213,6 +1900,9 @@ function update_roles_ui(p_user_id)
 {
     const role_section = document.getElementById("role_results_" + p_user_id);
     role_section.innerHTML = role_section.innerHTML.replaceAll("Active", "Inactive");
+    Array.from(role_section.children).forEach(child => {
+        child.classList.add('inactive-role');
+    });
 }
 
 function format_date(dateString) {
@@ -1360,4 +2050,97 @@ async function get_all_user_role_jurisdiction()
         g_user_role_jurisdiction.push(item);
     }
 
+}
+
+function sort_list(a, b)
+{
+    return ('' + a.role_name).localeCompare(b.role_name)
+}
+
+function role_id_to_proper_case(p_string)
+{
+    if (!p_string || p_string.length <= 0) return "";
+    var role_name = p_string.toString().split('_');
+    role_name = role_name.map(section => {
+        if (section === 'steve' || section === 'mmria' || section === 'prams')
+            return section.toUpperCase();
+        else
+            return section[0].toUpperCase() + section.slice(1)
+    });
+    return role_name.join(" ");
+}
+
+function get_role_list()
+{
+    let result = [];
+
+    if(g_is_pmss_enhanced)
+    {
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [
+                '',
+                'abstractor',
+                'data_analyst',
+                'committee_member',
+                'cdc_admin',
+                'cdc_analyst',
+                'form_designer',
+                'jurisdiction_admin',
+                'installation_admin',
+                'steve_mmria',
+                'steve_prams',
+                'vital_importer',
+                "vro"
+            ];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin', "vro"];
+        }
+    }
+    else
+    {
+        if
+        (
+            g_is_installation_admin && 
+            g_is_installation_admin.toLowerCase() == "true"
+        )
+        {
+            result = [
+                '',
+                'abstractor',
+                'data_analyst',
+                'committee_member',
+                'cdc_admin','cdc_analyst',
+                'form_designer',
+                'jurisdiction_admin',
+                'installation_admin',
+                'steve_mmria',
+                'steve_prams',
+                'vital_importer',
+                'vital_importer_state'
+            ];
+        }
+        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
+        }
+        else
+        {
+            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
+        }
+    }
+    
+    result.sort();
+
+    return result;
 }

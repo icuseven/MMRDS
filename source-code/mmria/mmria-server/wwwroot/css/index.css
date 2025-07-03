@@ -37880,4 +37880,9 @@ tr.sticky th, tr.sticky td {
   cursor: pointer;
 }
 
+.inactive-role {
+  color: #575555;
+  font-style: italic;
+}
+
 /*# sourceMappingURL=index.css.map */

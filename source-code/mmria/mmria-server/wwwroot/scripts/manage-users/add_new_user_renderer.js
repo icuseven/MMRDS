@@ -1,8 +1,8 @@
-var new_user_roles = [];
+var user_roles = [];
 var deleted_user_roles = [];
 var can_undo = false;
 
-var new_user = {
+var user = {
     "_id": '',
     "password": null,
     "iterations": 10,
@@ -14,33 +14,34 @@ var new_user = {
 };
 
 function add_new_user_render() {
+    user_roles = [];
     const result = `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
             </div>
             <div class="ml-auto d-flex">
-                <span id="new_user_save_status" role="status" class="mr-2 spinner-container spinner-content">
+                <span id="user_save_status" role="status" class="mr-2 spinner-container spinner-content">
                     <span class="spinner-body text-primary">
                         <span class="spinner"></span>
                         <span class="sr-only">Saving new user...</span>
                     </span>
                 </span>
-                <button id="save_user_button" onclick="save_new_user()" class="btn primary-button">Save New User</button>
+                <button id="save_user_button" onclick="save_user_click()" class="btn primary-button">Save New User</button>
                 <button id="undo_button" onclick="audit_history_undo()" id="audit_history_undo_button" ${can_undo === true ? '' : 'disabled'} aria-disabled="${can_undo ? 'false' : 'true'}" class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
             <div class="vertical-control required col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
-                <input autocomplete="off" class="form-control" type="text" id="new_user_email" value="${new_user.name}">
+                <input autocomplete="off" class="form-control" type="text" id="user_email" value="${user.name}">
             </div>
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label>Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="new_user_password">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password">
                     <div class="input-group-append">
-                        <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('new_user_password')" type="button" class="btn btn-inline-primary mr-3">
+                        <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('user_password')" type="button" class="btn btn-inline-primary mr-3">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
                         </button>
                     </div>
@@ -49,9 +50,9 @@ function add_new_user_render() {
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label>Verify Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="new_user_password_verify">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password_verify">
                     <div class="input-group-append">
-                        <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('new_user_password_verify')" type="button" class="btn btn-inline-primary">
+                        <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('user_password_verify')" type="button" class="btn btn-inline-primary">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
                         </button>
                     </div>
@@ -83,7 +84,7 @@ function add_new_user_render() {
                 </tbody>
             </table>
             <div class="d-flex ml-auto mt-2">
-                <button class="btn secondary-button col-12" aria-label="Add new role" onclick="add_new_role()">
+                <button class="btn secondary-button col-12" aria-label="Add new role" onclick="add_role()">
                     Add New Role
                 </button>
             </div>
@@ -92,6 +93,7 @@ function add_new_user_render() {
     show_hide_user_management_back_button(true);
     set_page_title("Add New User");
     init_audit_history();
+    create_initial_audit("", "add_user", ACTION_TYPE.ADD_USER, "", "New user creation started", 'add_user');
     document.getElementById('form_content_id').innerHTML = result;
 }
 
@@ -117,7 +119,7 @@ function show_hide_password(field_id) {
 
 function add_assigned_role() {
     const unique_guid = $mmria.get_new_guid();
-    new_user_roles.push({
+    const new_role = {
         _id: unique_guid,
         role_name : "",
         user_id: "",
@@ -130,36 +132,43 @@ function add_assigned_role() {
         date_last_updated: new Date(),
         last_updated_by: g_userName,
         data_type:"user_role_jursidiction"
-    });
-    add_to_audit_history(g_current_u_id, unique_guid, ACTION_TYPE.ADD_ROLE, null, null);
-    return result = `
-        <tr id="${unique_guid}_role">
+    };
+    user_roles.push(new_role);
+    const role_description = `New role added (ID: ${unique_guid})`;
+    add_to_audit_history(g_current_u_id, unique_guid, ACTION_TYPE.ADD_ROLE, "", "", 'add_role');
+    return user_assigned_role_render(unique_guid);
+}
+    
+function user_assigned_role_render(p_unique_guid)
+{
+ return result = `
+        <tr id="${p_unique_guid}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select id="${unique_guid}_role_type" aria-label="Select Role" class="form-select form-control role-select-controls" aria-label="Select user role">
-                        ${new_user_role_render()}
+                    <select id="${p_unique_guid}_role_type" aria-label="Select Role" class="form-select form-control role-select-controls" aria-label="Select user role">
+                        ${user_role_render()}
                     </select>
-                    <span id="${unique_guid}_role_type_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
+                    <span id="${p_unique_guid}_role_type_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select id="${unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control role-jursidiction-controls" aria-label="Select case access folder">
-                        ${new_user_role_jurisdiction_render(g_jurisdiction_tree).join('')}
+                    <select id="${p_unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control role-jursidiction-controls" aria-label="Select case access folder">
+                        ${user_role_jurisdiction_render(g_jurisdiction_tree).join('')}
                     </select>
-                    <span id="${unique_guid}_role_jurisdiction_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
+                    <span id="${p_unique_guid}_role_jurisdiction_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
             <td>
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <input value="${format_date(new Date().toISOString())}" id="${unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
-                    <span id="${unique_guid}_role_start_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
+                    <input value="${format_date(new Date().toISOString())}" id="${p_unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${p_unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                    <span id="${p_unique_guid}_role_start_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
             <td>
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <input id="${unique_guid}_role_effective_end_date" aria-label="Effective End Date for role ${unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
-                    <span id="${unique_guid}_role_end_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>           
+                    <input id="${p_unique_guid}_role_effective_end_date" aria-label="Effective End Date for role ${p_unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                    <span id="${p_unique_guid}_role_end_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>           
                 </div>  
             </td>
             <td>
@@ -167,14 +176,14 @@ function add_assigned_role() {
                     <fieldset>
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
-                            <input checked class="form-check-input big-radio" name="${unique_guid}_role_active_status" type="radio" value="true" id="${unique_guid}_role_active_status_true">
-                            <label class="form-check-label" for="${unique_guid}_role_active_status_true">
+                            <input checked class="form-check-input big-radio" name="${p_unique_guid}_role_active_status" type="radio" value="true" id="${p_unique_guid}_role_active_status_true">
+                            <label class="form-check-label" for="${p_unique_guid}_role_active_status_true">
                                 Active
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input big-radio" type="radio" value="false" name="${unique_guid}_role_active_status" id="${unique_guid}_role_active_status_false">
-                            <label class="form-check-label" for="${unique_guid}_role_active_status_false">
+                            <input class="form-check-input big-radio" type="radio" value="false" name="${p_unique_guid}_role_active_status" id="${p_unique_guid}_role_active_status_false">
+                            <label class="form-check-label" for="${p_unique_guid}_role_active_status_false">
                                 Inactive
                             </label>
                         </div>
@@ -182,7 +191,7 @@ function add_assigned_role() {
                 </div>
             </td>
             <td class="d-flex pt-3 justify-content-center border-none">
-                <button id="${unique_guid}_delete" class="btn delete-button col-12" aria-label="Delete role" onclick="delete_new_role('${unique_guid}')">
+                <button id="${p_unique_guid}_delete" class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('${p_unique_guid}')">
                     Delete Role
                 </button>
             </td>
@@ -190,7 +199,7 @@ function add_assigned_role() {
     `;
 }
 
-function new_user_role_render()
+function user_role_render()
 {
     const role_set = get_role_list();
     const temp_result = [];
@@ -213,7 +222,7 @@ function new_user_role_render()
     return temp_result.join('');
 }
 
-function new_user_role_jurisdiction_render(p_data, p_level)
+function user_role_jurisdiction_render(p_data, p_level)
 {
     var p_level = p_level || 0;
 	var result = [];
@@ -246,29 +255,32 @@ function new_user_role_jurisdiction_render(p_data, p_level)
         for(var i = 0; i < p_data.children.length; i++)
         {
             var child = p_data.children[i];
-            Array.prototype.push.apply(result, new_user_role_jurisdiction_render(child, p_level + 1));
-            
+            Array.prototype.push.apply(result, user_role_jurisdiction_render(child, p_level + 1));
         }
     }
 	return result;
 }
 
-function delete_new_role(p_role_id) 
+function delete_role(p_role_id) 
 {
-    const p_role_index = new_user_roles.findIndex(role => role._id === p_role_id);
+    const p_role_index = user_roles.findIndex(role => role._id === p_role_id);
     if (p_role_index !== -1) 
     {
-        new_user_roles.splice(p_role_index, 1);
-        add_to_audit_history(g_current_u_id, p_role_id, ACTION_TYPE.DELETE_ROLE, null, null);
+        const role_to_delete = user_roles.splice(p_role_index, 1)[0];
+        
+        // For DELETE_ROLE: prev_value should describe the deleted role, value should be null
+        const role_description = `Role deleted: ${role_to_delete.role_name || 'Unnamed'} - ${role_to_delete.jurisdiction_id || 'No jurisdiction'} (ID: ${p_role_id})`;
+        add_to_audit_history(g_current_u_id, p_role_id, ACTION_TYPE.DELETE_ROLE, role_description, null, 'delete_role');
+        
         deleted_user_roles.push({
             _id: p_role_id,
             html: document.getElementById(`${p_role_id}_role`).outerHTML,
-            role: new_user_roles[p_role_index]
+            role: role_to_delete
         });
         const row = document.getElementById(`${p_role_id}_role`);
         if (row) row.remove();
-        console.log(new_user_roles);
-        if (new_user_roles.length <= 0) {
+        console.log(user_roles);
+        if (user_roles.length <= 0) {
             const userRoles = document.getElementById("user_roles");
             if (userRoles) {
                 const tr = document.createElement('tr');
@@ -285,12 +297,12 @@ function delete_new_role(p_role_id)
     }
 }
 
-function add_new_role() 
+function add_role() 
 {
     const noRolesPlaceholder = document.getElementById("no-roles-placeholder");
     if (noRolesPlaceholder) noRolesPlaceholder.remove();
     console.log("Adding new role");
-    console.log(new_user_roles);
+    console.log(user_roles);
     const userRoles = document.getElementById('user_roles');
     if (userRoles) 
     {
@@ -304,7 +316,7 @@ function add_new_role()
 
 document.addEventListener('input', function(e) 
 {
-    if (e.target && (e.target.id === 'new_user_password' || e.target.id === 'new_user_password_verify')) 
+    if (e.target && (e.target.id === 'user_password' || e.target.id === 'user_password_verify')) 
     {
         check_passwords_match();
     }
@@ -324,20 +336,37 @@ function user_email_change()
     const value = this.value;
     if(id.includes('password')) 
     {
-        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_PASSWORD, this.dataset.previousValue, value);
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_PASSWORD, this.dataset.previousValue, value, 'password');
     } 
-    else if (id.includes('new_user_email')) 
+    else if (id.includes('user_email')) 
     {
-        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, this.dataset.previousValue, value);
+        role_user_name = value;
+        add_to_audit_history(g_current_u_id, id, ACTION_TYPE.EDIT_USERNAME, this.dataset.previousValue, value, 'user_id');
     }
 }
 
-document.addEventListener('focusin', function(e) 
+document.addEventListener('focus', function(e) 
 {
-    if (e.target && e.target.tagName === 'INPUT') 
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) 
     {
         e.target.dataset.previousValue = e.target.value;
-        console.log(e.target.value);
+    }
+}, true);
+
+
+document.addEventListener('mousedown', function(e) 
+{
+    if (e.target && e.target.tagName === 'SELECT') 
+    {
+        e.target.dataset.previousValue = e.target.value;
+    }
+});
+
+document.addEventListener('click', function(e) 
+{
+    if (e.target && e.target.tagName === 'SELECT' && !e.target.dataset.previousValue) 
+    {
+        e.target.dataset.previousValue = e.target.value;
     }
 });
 
@@ -347,30 +376,62 @@ document.addEventListener('change', function(e)
     {
         const value = e.target.value;
         const role_id = e.target.name.split('_')[0];
-        const role = new_user_roles.find(role => role._id === role_id);
+        const role = user_roles.find(role => role._id === role_id);
+        const active_role_true = document.getElementById(`${role_id}_role_active_status_true`);
+        const active_role_false = document.getElementById(`${role_id}_role_active_status_false`);
+        if(value === 'true')
+        {
+            active_role_true.setAttribute('checked', '');
+            active_role_false.removeAttribute('checked');
+        }
+        else
+        {
+            active_role_false.setAttribute('checked', '');
+            active_role_true.removeAttribute('checked');
+        }
+        // Update the data model
         role.is_active = value === 'true';
         console.log(`Role ${role_id} active status changed to: ${value}`);
-        add_to_audit_history(g_current_u_id, `${role_id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, value === "true" ? "false" : "true", value);
+        add_to_audit_history(g_current_u_id, `${role_id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, value === "true" ? "false" : "true", value, 'is_active');
     }
-});
-
-document.addEventListener('change', function(e) 
-{
     if (e.target && e.target.tagName === 'SELECT') 
     {
         const selectedValue = e.target.value;
+        e.target.value = selectedValue; // Ensure the select value is set
         console.log(`Select input changed to: ${selectedValue}`);
         const role_id = e.target.id.split('_')[0];
-        const role = new_user_roles.find(role => role._id === role_id);
+        const role = user_roles.find(role => role._id === role_id);
         if(e.target.id.includes('role_type')) 
         {
             role.role_name = selectedValue;
-            add_to_audit_history(g_current_u_id, `${role_id}_role_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue);
+            const options = e.target.querySelectorAll('option');
+            options.forEach(option => {
+                option.removeAttribute('selected');
+            });
+            const selectedOption = e.target.querySelector(`option[value="${selectedValue}"]`);
+            if (selectedOption) {
+                selectedOption.setAttribute('selected', '');
+                console.log(`Updated selected attribute for option with value: ${selectedValue}`);
+            } else {
+                console.warn(`No option found with value: ${selectedValue}`);
+            }
+            add_to_audit_history(g_current_u_id, `${role_id}_role_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue, 'role_name');
         }
         else if(e.target.id.includes('role_jurisdiction_type')) 
         {
             role.jurisdiction_id = selectedValue;
-            add_to_audit_history(g_current_u_id, `${role_id}_role_jurisdiction_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue);
+            const options = e.target.querySelectorAll('option');
+            options.forEach(option => {
+                option.removeAttribute('selected');
+            });
+            const selectedOption = e.target.querySelector(`option[value="${selectedValue}"]`);
+            if (selectedOption) {
+                selectedOption.setAttribute('selected', '');
+                console.log(`Updated selected attribute for option with value: ${selectedValue}`);
+            } else {
+                console.warn(`No option found with value: ${selectedValue}`);
+            }
+            add_to_audit_history(g_current_u_id, `${role_id}_role_jurisdiction_type`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, selectedValue, 'jurisdiction_id');
         }
         console.log(`Role ${role_id} jurisdiction changed to: ${selectedValue}`);
         assigned_roles_validation_check();
@@ -382,8 +443,9 @@ document.addEventListener('blur', function(e)
     if (e.target && e.target.type === 'date') 
     {
         const date = e.target.value;
+        e.target.setAttribute('value', date); // Ensure the date input value is set
         const role_id = e.target.id.split('_')[0];
-        const role = new_user_roles.find(role => role._id === role_id);
+        const role = user_roles.find(role => role._id === role_id);
         if(e.target.id.includes('role_effective_start_date')) 
         {
             role.effective_start_date = date === "" ? "" : new Date(date);
@@ -403,7 +465,7 @@ document.addEventListener('blur', function(e)
             {
                 removeInvalid(`${role_id}_role_effective_start_date`, `${role_id}_role_start_date_validation`);
             }
-            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_start_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date);
+            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_start_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date, 'effective_start_date');
         } 
         else if(e.target.id.includes('role_effective_end_date')) 
         {
@@ -420,7 +482,7 @@ document.addEventListener('blur', function(e)
             {
                 removeInvalid(`${role_id}_role_effective_end_date`, `${role_id}_role_end_date_validation`);
             }
-            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_end_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date);
+            add_to_audit_history(g_current_u_id, `${role_id}_role_effective_end_date`, ACTION_TYPE.EDIT_ROLE, e.target.dataset.previousValue, date, 'effective_end_date');
         }
         console.log(`Role ${role_id} date changed to: ${date}`);
     }
@@ -428,17 +490,17 @@ document.addEventListener('blur', function(e)
 
 function check_passwords_match() 
 {
-    const password = document.getElementById('new_user_password').value;
-    const verifyPassword = document.getElementById('new_user_password_verify').value;
+    const password = document.getElementById('user_password').value;
+    const verifyPassword = document.getElementById('user_password_verify').value;
 
     if (password && verifyPassword) 
     {
         if (password === verifyPassword) 
         {
-            document.getElementById('new_user_password').classList.remove('is-invalid');
-            document.getElementById('new_user_password').style.color = 'green';
-            document.getElementById('new_user_password_verify').classList.remove('is-invalid');
-            document.getElementById('new_user_password_verify').style.color = 'green';
+            document.getElementById('user_password').classList.remove('is-invalid');
+            document.getElementById('user_password').style.color = 'green';
+            document.getElementById('user_password_verify').classList.remove('is-invalid');
+            document.getElementById('user_password_verify').style.color = 'green';
             document.getElementById('show_hide_password').classList.remove('is-invalid-button');
             document.getElementById('show_hide_password_verify').classList.remove('is-invalid-button');
             document.getElementById('password_validation').textContent = '';
@@ -446,10 +508,10 @@ function check_passwords_match()
         } 
         else 
         {
-            document.getElementById('new_user_password').classList.add('is-invalid');
-            document.getElementById('new_user_password').style.color = 'red';
-            document.getElementById('new_user_password_verify').classList.add('is-invalid');
-            document.getElementById('new_user_password_verify').style.color = 'red';
+            document.getElementById('user_password').classList.add('is-invalid');
+            document.getElementById('user_password').style.color = 'red';
+            document.getElementById('user_password_verify').classList.add('is-invalid');
+            document.getElementById('user_password_verify').style.color = 'red';
             document.getElementById('show_hide_password').classList.add('is-invalid-button');
             document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
             document.getElementById('password_validation').textContent = 'Passwords do not match';
@@ -460,10 +522,10 @@ function check_passwords_match()
     } 
     else 
     {
-        document.getElementById('new_user_password').classList.remove('is-invalid');
-        document.getElementById('new_user_password').style.color = '';
-        document.getElementById('new_user_password_verify').classList.remove('is-invalid');
-        document.getElementById('new_user_password_verify').style.color = '';
+        document.getElementById('user_password').classList.remove('is-invalid');
+        document.getElementById('user_password').style.color = '';
+        document.getElementById('user_password_verify').classList.remove('is-invalid');
+        document.getElementById('user_password_verify').style.color = '';
         document.getElementById('show_hide_password').classList.remove('is-invalid-button');
         document.getElementById('show_hide_password_verify').classList.remove('is-invalid-button');
         document.getElementById('password_validation').textContent = '';
@@ -471,52 +533,52 @@ function check_passwords_match()
     }
 }
 
-function save_new_user() 
+function save_user_click() 
 {
     disable_save_undo_button();
     let is_valid = true;
-    const new_user_email = document.getElementById('new_user_email').value;
-    let new_user_password = document.getElementById('new_user_password').value;
-    let new_user_password_verify = document.getElementById('new_user_password_verify').value;
+    const user_email = document.getElementById('user_email').value;
+    let user_password = document.getElementById('user_password').value;
+    let user_password_verify = document.getElementById('user_password_verify').value;
 
     if(g_policy_values.sams_is_enabled.toLowerCase() == "true") 
     {
-        new_user_password = $mmria.get_new_guid().replace("-","");
-        new_user_password_verify = new_user_password;
+        user_password = $mmria.get_guid().replace("-","");
+        user_password_verify = user_password;
     }
 
-    if (!new_user_email) 
+    if (!user_email) 
     {
-        document.getElementById('new_user_email').classList.add('is-invalid');
-        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('user_email').classList.add('is-invalid');
+        document.getElementById('user_email').style.color = 'red';
         document.getElementById('username_validation').textContent = 'Username is required';
         document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }
-    if(!new_user_password) 
+    if(!user_password) 
     {
-        document.getElementById('new_user_password').classList.add('is-invalid');
-        document.getElementById('new_user_password').style.color = 'red';
+        document.getElementById('user_password').classList.add('is-invalid');
+        document.getElementById('user_password').style.color = 'red';
         document.getElementById('password_validation').textContent = 'Password is required';
         document.getElementById('password_validation').style.color = 'red';
         document.getElementById('show_hide_password').classList.add('is-invalid-button');
         is_valid = false;
     }
-    if(!new_user_password_verify) 
+    if(!user_password_verify) 
     {
-        document.getElementById('new_user_password_verify').classList.add('is-invalid');
-        document.getElementById('new_user_password_verify').style.color = 'red';
+        document.getElementById('user_password_verify').classList.add('is-invalid');
+        document.getElementById('user_password_verify').style.color = 'red';
         document.getElementById('password_verify_validation').textContent = 'Verify Password is required';
         document.getElementById('password_verify_validation').style.color = 'red';
         document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
         is_valid = false;
     }
-    if (new_user_password !== new_user_password_verify) 
+    if (user_password !== user_password_verify) 
     {
-        document.getElementById('new_user_password').classList.add('is-invalid');
-        document.getElementById('new_user_password').style.color = 'red';
-        document.getElementById('new_user_password_verify').classList.add('is-invalid');
-        document.getElementById('new_user_password_verify').style.color = 'red';
+        document.getElementById('user_password').classList.add('is-invalid');
+        document.getElementById('user_password').style.color = 'red';
+        document.getElementById('user_password_verify').classList.add('is-invalid');
+        document.getElementById('user_password_verify').style.color = 'red';
         document.getElementById('show_hide_password').classList.add('is-invalid-button');
         document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
         document.getElementById('password_validation').textContent = 'Passwords do not match';
@@ -526,21 +588,21 @@ function save_new_user()
         is_valid = false;
     }
     is_valid = assigned_roles_validation_check();
-    if(is_valid_user_name(new_user_email) && is_valid) 
+    if(is_valid_user_name(user_email) && is_valid) 
     {
         if (
-            new_user_password == new_user_password_verify &&
-            is_valid_password(new_user_password)
+            user_password == user_password_verify &&
+            is_valid_password(user_password)
         ) 
         {
-            check_if_existing_user(new_user_email, new_user_password);
+            check_if_existing_user(user_email, user_password);
         } 
         else 
         {
-            document.getElementById('new_user_password').classList.add('is-invalid');
-            document.getElementById('new_user_password').style.color = 'red';
-            document.getElementById('new_user_password_verify').classList.add('is-invalid');
-            document.getElementById('new_user_password_verify').style.color = 'red';
+            document.getElementById('user_password').classList.add('is-invalid');
+            document.getElementById('user_password').style.color = 'red';
+            document.getElementById('user_password_verify').classList.add('is-invalid');
+            document.getElementById('user_password_verify').style.color = 'red';
             document.getElementById('show_hide_password').classList.add('is-invalid-button');
             document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
             document.getElementById('password_validation').innerHTML = 'Invalid password.';
@@ -552,20 +614,22 @@ function save_new_user()
     } 
     else 
     {
-        document.getElementById('new_user_email').classList.add('is-invalid');
-        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('user_email').classList.add('is-invalid');
+        document.getElementById('user_email').style.color = 'red';
         document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique and at least 5 characters long';
         document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }
     if (is_valid) disable_save_undo_button();
     else enable_save_undo_button();
-    console.log(new_user_roles);
+    // initial_user_roles = [...user_roles];
+    // create_audit_history();
+    // console.log(user_roles);
 }
 
 function disable_save_undo_button()
 {
-    document.getElementById('new_user_save_status').classList.add('spinner-active');
+    document.getElementById('user_save_status').classList.add('spinner-active');
     document.getElementById('save_user_button').disabled = true;
     document.getElementById('save_user_button').attributes['aria-disabled'] = 'true';
     document.getElementById('undo_button').disabled = true;
@@ -574,7 +638,7 @@ function disable_save_undo_button()
 
 function enable_save_undo_button()
 {
-    document.getElementById('new_user_save_status').classList.remove('spinner-active');
+    document.getElementById('user_save_status').classList.remove('spinner-active');
     document.getElementById('save_user_button').disabled = false;
     document.getElementById('save_user_button').attributes['aria-disabled'] = 'false';
     document.getElementById('undo_button').disabled = false;
@@ -583,13 +647,13 @@ function enable_save_undo_button()
 
 function assigned_roles_validation_check() {
     let is_valid = true;
-    new_user_roles.forEach(function(role) {
+    user_roles.forEach(function(role) {
         const role_id = role._id;
         const role_type = document.getElementById(`${role_id}_role_type`).value;
         const role_jurisdiction = document.getElementById(`${role_id}_role_jurisdiction_type`).value;
         const role_effective_start_date = document.getElementById(`${role_id}_role_effective_start_date`).value;
         const role_effective_end_date = document.getElementById(`${role_id}_role_effective_end_date`).value;
-        const matching_role_case = new_user_roles.filter(r => r.role_name === role_type && r.jurisdiction_id === role_jurisdiction);
+        const matching_role_case = user_roles.filter(r => r.role_name === role_type && r.jurisdiction_id === role_jurisdiction);
 
         if (matching_role_case.length > 1) {
             addInvalid(`${role_id}_role_type`, `${role_id}_role_type_validation`, 'Role/Case combo already exists');
@@ -653,66 +717,69 @@ function removeInvalid(id, validationId) {
     }
 }
 
-async function check_if_existing_user(p_user_id, p_new_user_password)
+async function check_if_existing_user(p_user_id, p_user_password)
 {
     const response = await get_http_get_response(`api/user/check-user/org.couchdb.user:${p_user_id}`);
     if(response.name === null || response.name === undefined || response.name === "")
     {
-        create_new_user_account(p_user_id, p_new_user_password);
+        create_user_account(p_user_id, p_user_password);
     }
     else
     {
-        document.getElementById('new_user_email').classList.add('is-invalid');
-        document.getElementById('new_user_email').style.color = 'red';
+        document.getElementById('user_email').classList.add('is-invalid');
+        document.getElementById('user_email').style.color = 'red';
         document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique and at least 5 characters long';
         document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }
 }
 
-async function create_new_user_account(p_user_id, p_new_user_password)
+async function create_user_account(p_user_id, p_user_password)
 {
-    let new_user = create_new_user(p_user_id.toLowerCase(), p_new_user_password);
-    g_ui.user_summary_list.push(new_user);
+    let user = create_user(p_user_id.toLowerCase(), p_user_password);
+    g_ui.user_summary_list.push(user);
     
-    const new_user_response = await get_http_post_response('api/user', new_user);
-    if(new_user_response.ok)
+    const user_response = await get_http_post_response('api/user', user);
+    if(user_response.ok)
     {
         for(var i = 0; i < g_ui.user_summary_list.length; i++)
         {
-            if(g_ui.user_summary_list[i]._id == new_user_response.id)
+            if(g_ui.user_summary_list[i]._id == user_response.id)
             {
-                g_ui.user_summary_list[i]._rev = new_user_response.rev; 
+                g_ui.user_summary_list[i]._rev = user_response.rev; 
                 break;
             }
         }
-        if (new_user_roles && new_user_roles.length > 0) 
+        if (user_roles && user_roles.length > 0) 
         {
-            add_new_user_roles(p_user_id);
+            add_user_roles(p_user_id);
         }
         else
         {
+            //TODO: add_audit_history();
+            mock_audit_history_push();
             view_user_click(p_user_id);
         }
     }
 }
 
-async function add_new_user_roles(p_user_id)
+async function add_user_roles(p_user_id)
 {
     let was_successful = true;
-    new_user_roles.forEach(role => {
+    user_roles.forEach(role => {
         role.user_id = p_user_id;
     });
-    const new_user_roles_response = await get_http_post_response
+    initial_user_roles = [...user_roles];
+    const user_roles_response = await get_http_post_response
     (
         "api/user_role_jurisdiction/bulk",
-        new_user_roles
+        user_roles
     );
 
-    new_user_roles_response.forEach(response => {
+    user_roles_response.forEach(response => {
         if (response.ok)
         {
-            const user_role = new_user_roles.find(role => role._id === response.id);
+            const user_role = user_roles.find(role => role._id === response.id);
             user_role._rev = response.rev;
             g_user_role_jurisdiction.push(user_role);
         }
@@ -722,7 +789,11 @@ async function add_new_user_roles(p_user_id)
             console.error(`Failed to add role ${response.id}:`, response);
         }
     });
-    if(was_successful) view_user_click(p_user_id);
+    if(was_successful)
+    {
+        mock_audit_history_push();
+        view_user_click(p_user_id);
+    }
 }
 
 function save_user(p_user_id)
@@ -767,7 +838,7 @@ function save_user(p_user_id)
 	}
 }
 
-function create_new_user(p_name, p_password)
+function create_user(p_name, p_password)
 {
     return {
     "_id": "org.couchdb.user:" + p_name,

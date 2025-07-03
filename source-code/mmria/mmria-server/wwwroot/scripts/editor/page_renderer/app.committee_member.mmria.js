@@ -46,6 +46,20 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
     
     p_result.push("</div>");
 
+    if(case_status_enabled)
+    {
+    /* Case Status */
+    p_result.push(
+        `<div class="form-inline mb-2">
+            <label for="search_case_status" class="mr-2">Case Status:</label>
+            <select id="search_case_status" class="custom-select" onchange="search_case_status_onchange(this.value)">
+                ${renderSortCaseStatus(p_ui.case_view_request)}
+            </select>
+        </div>`
+    );
+    }
+    else
+    {
     /* Case Status */
     p_result.push(
         `<div class="form-inline mb-2">
@@ -55,6 +69,7 @@ function app_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_objec
             </select>
         </div>`
     );
+    }
 
     /* Sort By: */
     p_result.push(

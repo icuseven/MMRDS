@@ -1,11 +1,16 @@
+var role_user_name = '';
+
 function view_user_renderer()
 {
-    let role_user_name = g_current_user_id;
+    g_is_audit_log_view = false;
+    role_user_name = g_current_user_id;
     if(role_user_name.indexOf(":") > -1)
     {
         role_user_name =  role_user_name.split(":")[1];
     }
-    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
+    user_roles = [];
+    user_roles = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
+    init_audit_history();
     const result = `
         <div class="d-flex mt-4">
             <div>
@@ -14,7 +19,7 @@ function view_user_renderer()
             <div class="ml-auto">
                 <button class="btn primary-button" onclick="edit_user_click('${g_current_user_id}')">Enable Edit</button>
                 <button disabled aria-disabled="true" class="btn primary-button">Save User Edits</button>
-                <button disabled aria-disabled="true" class="btn primary-button">Undo</button>
+                <button id="undo_button" disabled aria-disabled="true" class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
@@ -40,8 +45,8 @@ function view_user_renderer()
                 </thead>
                 <tbody>
                     ${
-                        user_role_jurisdiction && user_role_jurisdiction.length > 0
-                            ? render_read_only_role_rows(user_role_jurisdiction)
+                        user_roles && user_roles.length > 0
+                            ? render_read_only_role_rows(user_roles)
                             : '<tr class="text-center"><td colspan="6">No roles assigned.</td></tr>'
                     }
                 </tbody>
@@ -58,12 +63,11 @@ function view_user_renderer()
             </div>
         </div>
         <div class="d-flex">
-            <div class='vertical-control mb-3 mt-3 pl-0 col-md-3'><div class='input-group'>
-                <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
-                <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg' alt=""></button></div>
-                </div>
+            <div class='horizontal-control mb-3 mt-3 pl-0 col-md-4'>
+                <input id="audit_history_filter" onkeyup="filter_audit_history(this.value)" class='form-control' type='text' placeholder='Filter account history...'>
+                <button disabled aria-disabled="true" id="clear_filter_button" onclick="clear_audit_filter()" class="btn btn-link ml-2 pl-0" aria-label="clear filter" value="clear filter">Clear filter</button>
             </div>
-            <div class="d-flex ml-auto">
+            <div class="d-flex ml-auto audit_navigation_container">
                 ${render_account_history_table_navigation_view()}
             </div>
         </div>
@@ -71,39 +75,16 @@ function view_user_renderer()
             <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User account history table</caption>
                 <thead>
                     <tr class='header-level-2'>
-                        <th width='150' scope='colgroup'>Date/Time</th>
-                        <th width="225">Editor</th>
+                        <th width='200' scope='colgroup'>Date/Time</th>
+                        <th width="175">Editor</th>
                         <th width='150' scope='colgroup;'>Action</th>
                         <th>Field</th>
                         <th width="150">Old Value</th>
                         <th width="150">New Value</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>07/15/2022 10:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Edit Role</td>
-                        <td>Assigned Roles / Data Analyst / Active Status</td>
-                        <td>Active</td>
-                        <td>Inactive</td>
-                    </tr>
-                    <tr>
-                        <td>03/05/2022 07:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Edit Role</td>
-                        <td>Assigned Roles / Abstractor</td>
-                        <td>Abstractor</td>
-                        <td>Data Analyst</td>
-                    </tr>
-                    <tr>
-                        <td>01/01/2022 15:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Add User</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tbody id="audit_history_table_body">
+                    ${render_audit_history_body()}
                 </tbody>
             </table>
         </div>
@@ -111,37 +92,6 @@ function view_user_renderer()
     show_hide_user_management_back_button(true);
     set_page_title("View User");
     document.getElementById("form_content_id").innerHTML = result;
-}
-
-function render_account_history_table_navigation_view()
-{
-    const result = [`
-        <div class='d-flex mb-2 mt-2'>
-            <div class='ml-auto mr-3 d-flex'>
-                <div class='d-flex align-items-center'>
-                    <div>Showing 1-10 of 30 cases</div>
-                    <div class='row ml-2'>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'>
-                            <span class='x24 cdc-icon-chevron-double-right'></span>
-                        </button>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'>
-                            <span class='x24 cdc-icon-chevron-right'></span>
-                        </button>
-                        <button class='icon-button btn-tab-navigation'>
-                            1
-                        </button>
-                        <button class='icon-button pt-1 btn-tab-navigation'>
-                            <span class='x24 cdc-icon-chevron-right'></span>
-                        </button>
-                        <button class='icon-button pt-1 btn-tab-navigation'>
-                            <span class='x24 cdc-icon-chevron-double-right'></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `];
-    return result.join("");
 }
 
 function render_read_only_role_rows(p_user_role_jurisdiction)
@@ -177,8 +127,8 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
                 <input
                     disabled
                     aria-disabled="true"
-                    id="${new_user_roles.length.toString()}_role_effective_start_date"
-                    aria-label="Effective Start Date for role ${new_user_roles.length.toString()}"
+                    id="${user_roles.length.toString()}_role_effective_start_date"
+                    aria-label="Effective Start Date for role ${user_roles.length.toString()}"
                     value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}"
                     autocomplete="off"
                     class="form-control mb-4"
@@ -189,8 +139,8 @@ function user_assigned_role_renderer_view(p_user_jurisdiction)
             <td>
                 <input
                     disabled aria-disabled="true"
-                    id="${new_user_roles.length.toString()}_role_effective_end_date"
-                    aria-label="Effective End Date for role ${new_user_roles.length.toString()}"
+                    id="${user_roles.length.toString()}_role_effective_end_date"
+                    aria-label="Effective End Date for role ${user_roles.length.toString()}"
                     value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}"
                     autocomplete="off"
                     class="form-control mb-4"

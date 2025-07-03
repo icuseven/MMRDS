@@ -1,44 +1,70 @@
+var initial_user_roles = [];
+
 function edit_user_renderer()
 {
-    let role_user_name = g_current_user_id;
+    g_is_audit_log_view = false;
+    role_user_name = g_current_user_id;
     if(role_user_name.indexOf(":") > -1)
     {
         role_user_name =  role_user_name.split(":")[1];
     }
-    function sort_list(a, b)
-    {
-        return ('' + a.role_name).localeCompare(b.role_name)
-    }
-    const user_role_jurisdiction = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name).sort(sort_list);
+    user_roles = [];
+    user_roles = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
+    initial_user_roles = JSON.parse(JSON.stringify(user_roles));
+    init_audit_history();
     const result = `
         <div class="d-flex mt-4">
             <div>
                 <h2 class="h4">User Info</h2>
             </div>
-            <div class="ml-auto">
+            <div class="ml-auto d-flex">
+                <span id="user_save_status" role="status" class="mr-2 spinner-container spinner-content">
+                    <span class="spinner-body text-primary">
+                        <span class="spinner"></span>
+                        <span class="sr-only">Saving new user...</span>
+                    </span>
+                </span>
                 <button disabled aria-disabled="true" class="btn primary-button">Enable Edit</button>
-                <button class="btn primary-button">Save User Edits</button>
-                <button class="btn primary-button">Undo</button>
+                <button id="save_user_button" onclick="save_user_edits()" class="btn primary-button">Save User Edits</button>
+                <button id="undo_button" onclick="audit_history_undo()" id="audit_history_undo_button" ${can_undo === true ? '' : 'disabled'} aria-disabled="${can_undo ? 'false' : 'true'}" class="btn primary-button">Undo</button>
             </div>
         </div>
         <div class="d-flex">
             <div class="vertical-control col-4 pl-0">
                 <label>Username (i.e., Email Address)</label>
-                <input disabled aria-disabled="true" value="${role_user_name}" autocomplete="off" class="form-control" type="text" id="new_user_email">
+                <input disabled aria-disabled="true" value="${role_user_name}" autocomplete="off" class="form-control" type="text" id="user_email">
             </div>
         </div>
         <div class="mt-3 mb-3">
             <h2 class="h4">Change Password</h2>
         </div>
-        <div class="d-flex">
-            <div class="vertical-control col-4 pl-0">
+        <div class="d-flex flex-row">
+            <div class="vertical-control col-4 pl-0 pr-0">
                 <label>Password</label>
-                <input type="password" autocomplete="off" class="form-control" type="text" id="new_user_password">
+                <div class="input-group">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password">
+                    <div class="input-group-append">
+                        <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('user_password')" type="button" class="btn btn-inline-primary mr-3">
+                            <span class="x22 fill-p cdc-icon-eye-solid"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="vertical-control col-4 pl-0 pr-0">
                 <label>Verify Password</label>
-                <input type="password" autocomplete="off" class="form-control" type="text" id="new_user_password_verify">
+                <div class="input-group">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password_verify">
+                    <div class="input-group-append">
+                        <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('user_password_verify')" type="button" class="btn btn-inline-primary">
+                            <span class="x22 fill-p cdc-icon-eye-solid"></span>
+                        </button>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="d-flex">
+            <div id="password_validation" class="col-4 pl-0 pr-2"></div>
+            <div id="password_verify_validation" class="col-4 pl-0 pr-2"></div>
         </div>
         <div class="d-flex flex-column mt-4">
             <div>
@@ -57,14 +83,14 @@ function edit_user_renderer()
                 </thead>
                 <tbody id="user_roles">
                     ${
-                        user_role_jurisdiction && user_role_jurisdiction.length > 0
-                            ? render_editable_role_rows(user_role_jurisdiction)
+                        user_roles && user_roles.length > 0
+                            ? render_editable_role_rows(user_roles)
                             : '<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>'
                     }
                 </tbody>
             </table>
             <div id="add_new_role_container" class="ml-auto mt-2">
-                <button class="btn secondary-button col-12" aria-label="Add new role" onclick='edit_add_role(${JSON.stringify(user_role_jurisdiction || [])})'>
+                <button class="btn secondary-button col-12" aria-label="Add new role" onclick='add_role()'>
                     Add New Role
                 </button>
             </div>
@@ -75,96 +101,162 @@ function edit_user_renderer()
             </div>
         </div>
         <div class="d-flex">
-            <div class='vertical-control mb-3 mt-3 pl-0 col-md-3'><div class='input-group'>
-                <input autocomplete='off' class='form-control' type='text' placeholder='Search'>
-                <div class='input-group-append'><button class='btn btn-outline-secondary'><img src='./img/icon_search.svg' alt=""></button></div>
-                </div>
+            <div class='horizontal-control mb-3 mt-3 pl-0 col-md-4'>
+                <input id="audit_history_filter" onkeyup="filter_audit_history(this.value)" class='form-control' type='text' placeholder='Filter account history...'>
+                <button disabled aria-disabled="true" id="clear_filter_button" onclick="clear_audit_filter()" class="btn btn-link ml-2 pl-0" aria-label="clear filter" value="clear filter">Clear filter</button>
             </div>
-            <div class="d-flex ml-auto">
-                ${render_account_history_table_navigation()}
+            <div class="d-flex ml-auto audit_navigation_container">
+                ${render_account_history_table_navigation_view()}
             </div>
         </div>
         <div>
             <table class='table table-layout-fixed align-cell-top'><caption class='table-caption'>User account history table</caption>
                 <thead>
                     <tr class='header-level-2'>
-                        <th width='150' scope='colgroup'>Date/Time</th>
-                        <th width="225">Editor</th>
+                        <th width='200' scope='colgroup'>Date/Time</th>
+                        <th width="175">Editor</th>
                         <th width='150' scope='colgroup;'>Action</th>
                         <th>Field</th>
                         <th width="150">Old Value</th>
                         <th width="150">New Value</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>07/15/2022 10:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Edit Role</td>
-                        <td>Assigned Roles / Data Analyst / Active Status</td>
-                        <td>Active</td>
-                        <td>Inactive</td>
-                    </tr>
-                    <tr>
-                        <td>03/05/2022 07:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Edit Role</td>
-                        <td>Assigned Roles / Abstractor</td>
-                        <td>Abstractor</td>
-                        <td>Data Analyst</td>
-                    </tr>
-                    <tr>
-                        <td>01/01/2022 15:42:00</td>
-                        <td>abcd@cdc.gov</td>
-                        <td>Add User</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                <tbody id="audit_history_table_body">
+                    ${g_filtered_audit_list && g_filtered_audit_list.length > 0
+                        ? g_filtered_audit_list.map(audit => render_account_history_row(audit)).join("")
+                        : '<tr class="text-center"><td colspan="6">No audit history available.</td></tr>'
+                    }
                 </tbody>
             </table>
         </div>
     `;
     show_hide_user_management_back_button(true);
     set_page_title("Edit User");
-    init_audit_history();
     document.getElementById("form_content_id").innerHTML = result;
 }
 
-function delete_role(p_user_roles, p_role_to_delete)
+function save_user_edits()
 {
-    //To-Do: delete role
-    if(p_user_roles.length <= 0)
-        $("#user_roles").append('<tr id="no-roles-placeholder" class="text-center"><td colspan="6">No roles assigned.</td></tr>')
-    console.log(`Deleting role ${p_role_to_delete}`);
+    if(g_audit_history.length <= 0)
+    {
+        view_user_click(g_current_user_id);
+    }
+    else
+    {
+        disable_save_undo_button();
+        const password = document.getElementById("user_password").value;
+        const password_verify = document.getElementById("user_password_verify").value;
+        if(password && password.length > 0 && password_verify && password_verify.length > 0)
+        {
+            if(
+		        password == password_verify &&
+		        is_valid_password(password)
+	            )
+                {
+                    update_user_password(password, password_verify);
+                }
+                else
+                {
+                    enable_save_undo_button();
+                }
+        }
+        else
+        {
+            update_assigned_roles();
+        }
+    }
+
 }
 
-function add_edit_role()
+function temp_update_roles_audit_test()
 {
-    //To-Do: add role
-    console.log(`Adding role`);
+    create_audit_history();
 }
 
-function render_account_history_table_navigation()
+async function update_user_password(p_password)
 {
-    const result = [`
-        <div class='d-flex mb-2 mt-2'>
-            <div class='ml-auto mr-3 d-flex'>
-                <div class='d-flex align-items-center'>
-                    <div>Showing 1-10 of 30 cases</div>
-                    <div class='row ml-2'>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
-                        <button disabled='' aria-disabled='true' class='icon-button btn-tab-navigation reverse'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
-                        <button class='icon-button btn-tab-navigation'>1</button>
-                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-right'></span></button>
-                        <button class='icon-button pt-1 btn-tab-navigation'><span class='x24 fill-p cdc-icon-chevron-double-right'></span></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `];
+    const user = g_ui.user_summary_list.find(user => user._id === g_current_user_id);
+    if(user)
+    {
+        user.password = p_password;
+        const response = await get_http_post_response("api/user", user);
+        const response_obj = eval(response);
+        if(response_obj.ok)
+        {
+            user._rev = response_obj.rev; 
+            if(user_roles.length > 0 && user_roles_changed())
+            {
+                update_assigned_roles();
+            }
+            else
+            {
+                mock_audit_history_push();
+                view_user_click(g_current_user_id);
+            }
+        }
+        else
+        {
+            enable_save_undo_button();
+        }
+    }
+}
 
-    return result.join("");
+async function update_assigned_roles()
+{
+    let was_successful = true;
+    user_roles.forEach((role) => {
+        role.user_id = role_user_name;
+    });
+    deleted_user_roles.forEach((deleted_role) => {
+        if(deleted_role.role.hasOwnProperty('_rev'))
+        {
+            deleted_role.role._deleted = true;
+            user_roles.push(deleted_role.role);
+        }
+    });
+    const response = await get_http_post_response
+    (
+        "api/user_role_jurisdiction/bulk",
+        user_roles
+    );
+
+    response.forEach
+    (  
+        (response_obj) => {
+            if (response_obj.ok) 
+            {
+                const current_urj = g_user_role_jurisdiction.find(urj => urj._id == response_obj.id);
+                if(current_urj) 
+                {
+                    current_urj._rev = response_obj.rev;
+                    if(current_urj._deleted)
+                        g_user_role_jurisdiction = g_user_role_jurisdiction.filter(urj => urj._id != response_obj.id);
+                }
+            }
+            else
+            {
+                was_successful = false;
+            }
+        }
+    );
+    if(was_successful)
+    {
+        mock_audit_history_push();
+        view_user_click(g_current_user_id);
+    }
+}
+
+
+function user_roles_changed() {
+    var has_changed = false;
+    if(initial_user_roles.length !== user_roles.length) has_changed = true;
+    user_roles.forEach((role, index) => 
+    {
+        var current_role_string = JSON.stringify(role);
+        var initial_role_string = JSON.stringify(initial_user_roles[index]);
+        if (current_role_string !== initial_role_string) has_changed = true;
+    });
+    return has_changed;
 }
 
 
@@ -182,42 +274,46 @@ function render_editable_role_rows(p_user_role_jurisdiction)
 function user_assigned_role_renderer(p_user_jurisdiction)
 {
     const result = `
-        <tr>
+        <tr id="${p_user_jurisdiction._id}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
+                    <select id="${p_user_jurisdiction._id}_role_type" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">
                     ${edit_user_role_list_render(p_user_jurisdiction)}
                     </select>
+                    <span id="${p_user_jurisdiction._id}_role_type_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
+                    <select id="${p_user_jurisdiction._id}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control" aria-label="Select case access folder">
                         ${user_role_jurisdiction_render(g_jurisdiction_tree, p_user_jurisdiction.jurisdiction_id, 0).join("")}
                     </select>
+                    <span id="${p_user_jurisdiction._id}_role_jurisdiction_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
             <td>
                 <input
-                    id="${new_user_roles.length.toString()}_role_effective_start_date"
-                    aria-label="Effective Start Date for role ${new_user_roles.length.toString()}"
+                    id="${p_user_jurisdiction._id}_role_effective_start_date"
+                    aria-label="Effective Start Date for role ${p_user_jurisdiction._id}"
                     value="${p_user_jurisdiction.effective_start_date != null ? format_date(p_user_jurisdiction.effective_start_date) : ""}"
                     autocomplete="off"
                     class="form-control mb-4"
                     type="date"
                     placeholder="MM/DD/YYYY"
                 >
+                <span id="${p_user_jurisdiction._id}_role_start_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
             </td>
             <td>
                 <input
-                    id="${new_user_roles.length.toString()}_role_effective_end_date"
-                    aria-label="Effective End Date for role ${new_user_roles.length.toString()}"
+                    id="${p_user_jurisdiction._id}_role_effective_end_date"
+                    aria-label="Effective End Date for role ${p_user_jurisdiction._id}"
                     value="${p_user_jurisdiction.effective_end_date != null ? format_date(p_user_jurisdiction.effective_end_date.toString()) : ""}"
                     autocomplete="off"
                     class="form-control mb-4"
                     type="date"
                     placeholder="MM/DD/YYYY"
                 >
+                <span id="${p_user_jurisdiction._id}_role_end_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
             </td>
             <td>
                 <div class="vertical-control col-md-12">
@@ -225,12 +321,14 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                         <legend class="accessible-hide">Active Status</legend>
                         <div class="form-check">
                             <input
+                                id="${p_user_jurisdiction._id}_role_active_status_true"
                                 ${p_user_jurisdiction.is_active ? "checked" : ""}
                                 class="form-check-input big-radio"
-                                name="${p_user_jurisdiction.role_name}_active_status"
-                                type="radio" value="true" id="${p_user_jurisdiction.role_name}_active_status_true"
+                                name="${p_user_jurisdiction._id}_role_active_status"
+                                type="radio"
+                                value="true"
                             >
-                            <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_true">
+                            <label class="form-check-label" for="${p_user_jurisdiction._id}_role_active_status_true">
                                 Active
                             </label>
                         </div>
@@ -240,10 +338,10 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                                 class="form-check-input big-radio"
                                 type="radio"
                                 value="false"
-                                name="${p_user_jurisdiction.role_name}_active_status"
-                                id="${p_user_jurisdiction.role_name}_active_status_false"
+                                name="${p_user_jurisdiction._id}_role_active_status"
+                                id="${p_user_jurisdiction._id}_role_active_status_false"
                             >
-                            <label class="form-check-label" for="${p_user_jurisdiction.role_name}_active_status_false">
+                            <label class="form-check-label" for="${p_user_jurisdiction._id}_role_active_status_false">
                                 Inactive
                             </label>
                         </div>
@@ -251,7 +349,7 @@ function user_assigned_role_renderer(p_user_jurisdiction)
                 </div>
             </td>
             <td class="d-flex pt-3 justify-content-center border-none">
-                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role(${new_user_roles.length.toString()}, '${p_user_jurisdiction.role_name}')">
+                <button class="btn delete-button col-12" aria-label="Delete role" onclick="delete_role('${p_user_jurisdiction._id}')">
                     Delete Role
                 </button>
             </td>
@@ -284,81 +382,6 @@ function edit_user_role_list_render(p_user_jurisdiction)
         }
     })
     return result.join('');
-}
-
-function get_role_list()
-{
-    let result = [];
-
-    if(g_is_pmss_enhanced)
-    {
-        if
-        (
-            g_is_installation_admin && 
-            g_is_installation_admin.toLowerCase() == "true"
-        )
-        {
-            result = [
-                '',
-                'abstractor',
-                'data_analyst',
-                'committee_member',
-                'cdc_admin',
-                'cdc_analyst',
-                'form_designer',
-                'jurisdiction_admin',
-                'installation_admin',
-                'steve_mmria',
-                'steve_prams',
-                'vital_importer',
-                "vro"
-            ];
-        }
-        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
-        {
-            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer', "vro"];
-        }
-        else
-        {
-            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin', "vro"];
-        }
-    }
-    else
-    {
-        if
-        (
-            g_is_installation_admin && 
-            g_is_installation_admin.toLowerCase() == "true"
-        )
-        {
-            result = [
-                '',
-                'abstractor',
-                'data_analyst',
-                'committee_member',
-                'cdc_admin','cdc_analyst',
-                'form_designer',
-                'jurisdiction_admin',
-                'installation_admin',
-                'steve_mmria',
-                'steve_prams',
-                'vital_importer',
-                'vital_importer_state'
-            ];
-        }
-        else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
-        {
-            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer'];
-        }
-        else
-        {
-            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin'];
-        }
-    }
-    
-    result.sort();
-
-    return result;
 }
 
 function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
@@ -404,15 +427,6 @@ function user_role_jurisdiction_render(p_data, p_selected_id, p_level)
 	return result;
 }
 
-function edit_add_role(user_role_jurisdiction)
-{
-    $('#no-roles-placeholder').remove();
-    //const user_current_roles = JSON.parse(user_role_jurisdiction);
-    console.log("Adding new role");
-    console.log(user_role_jurisdiction);
-    $('#user_roles').append(edit_add_assigned_role(user_role_jurisdiction));
-}
-
 function edit_add_assigned_role(user_role_jurisdiction)
 {
     const unique_guid = $mmria.get_new_guid();
@@ -431,7 +445,7 @@ function edit_add_assigned_role(user_role_jurisdiction)
         data_type:"user_role_jursidiction"
     });
     const result = `
-        <tr id="${new_user_roles.length.toString()}_role">
+        <tr id="${user_roles.length.toString()}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
                     <select id="${unique_guid}_role_type" aria-label="Select Role" class="form-select form-control" aria-label="Select user role">

@@ -335,7 +335,10 @@ function user_entry_render(p_user, role_set)
             user_role.user_id == p_user.name
         ) {
             role_count = role_count + 1;
-            role_result.push('<div>');
+            if(user_role.is_active)
+                role_result.push('<div>');
+            else
+                role_result.push('<div class="inactive-role">');
             var role_name = user_role.role_name.split('_');
             role_name = role_name.map(section => {
                 if (section === 'steve' || section === 'mmria' || section === 'prams')

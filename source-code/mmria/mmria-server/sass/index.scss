@@ -111,7 +111,7 @@ $red-invalid: #dc3545;
 
 $gray: #555555;
 $gray-dark: #333333;
-$gray-light: #797979;
+$gray-light: #575555;
 $gray-disabled: #F5F5F5;
 
 $yellow: #fbab18;
@@ -1436,4 +1436,9 @@ tr.sticky {
 .sort-asc {
     rotate: 270deg;
     cursor: pointer;
+}
+
+.inactive-role {
+    color: $gray-light;
+    font-style: italic;
 }
