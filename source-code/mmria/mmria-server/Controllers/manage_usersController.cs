@@ -223,4 +223,93 @@ public sealed class manage_usersController : Controller
 
         public List<FormAccess> access_list { get; set;}
     }
+
+    public sealed class UserExportParams
+    {
+        public List<UserExportData> users { get; set; }
+        public string title { get; set; } = "User Management Export";
+    }
+
+    public sealed class UserExportData
+    {
+        public string user_id { get; set; }
+        public string role_name { get; set; }
+        public string jurisdiction_id { get; set; }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ExportUsers
+    (
+        [FromBody]
+        UserExportParams exportParams
+    )
+    {
+        FastExcel.Row ConvertToUserRow(int p_row_number, UserExportData user)
+        {
+            var cells = new List<FastExcel.Cell>();
+
+            cells.Add(new FastExcel.Cell(1, user.user_id ?? ""));
+            cells.Add(new FastExcel.Cell(2, user.role_name ?? ""));
+            cells.Add(new FastExcel.Cell(3, user.jurisdiction_id ?? ""));
+
+
+            return new FastExcel.Row(p_row_number, cells);
+        }   
+
+        var Template_xlsx = "database-scripts/Template.xlsx";
+        var Output_xlsx = System.IO.Path.Combine(configuration.GetString("export_directory", host_prefix), "UserExport.xlsx");
+
+        if(Output_xlsx.StartsWith("/home/net_core_user/app/workdir/mmria-export"))
+        {
+            Template_xlsx = "/opt/app-root/src/source-code/mmria/mmria-server/database-scripts/Template.xlsx";
+        }
+
+        if(System.IO.File.Exists(Output_xlsx))
+            System.IO.File.Delete(Output_xlsx);
+
+        using (FastExcel.FastExcel fastExcel = new FastExcel.FastExcel(new System.IO.FileInfo(Template_xlsx), new System.IO.FileInfo(Output_xlsx)))
+        {
+            var worksheet = new FastExcel.Worksheet();
+            var rows = new System.Collections.Generic.List<FastExcel.Row>();
+
+            var row_number = 1;
+
+            // Add column headers
+            var columnHeaders = new List<FastExcel.Cell>();
+            columnHeaders.Add(new FastExcel.Cell(1, "Username (Email Address)"));
+            columnHeaders.Add(new FastExcel.Cell(2, "Role(s)"));
+            columnHeaders.Add(new FastExcel.Cell(3, "Case Folder"));
+            rows.Add(new FastExcel.Row(row_number, columnHeaders));
+
+            // Add user data rows
+            foreach (var user in exportParams.users ?? new List<UserExportData>())
+            {
+                row_number++;
+                rows.Add(ConvertToUserRow(row_number, user));
+            }
+
+            worksheet.Rows = rows;
+            fastExcel.Write(worksheet, "sheet1");
+        }
+
+        byte[] fileBytes = GetFile(Output_xlsx);
+        return File(fileBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "UserManagementExport.xlsx");
+    }
+
+    byte[] GetFile(string s)
+    {
+        byte[] data;
+        int br;
+        int fs_length;
+
+        using(System.IO.FileStream fs = new System.IO.FileStream(s, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+        {
+            fs_length = (int) fs.Length;
+            data = new byte[fs.Length];
+            br = fs.Read(data, 0, data.Length);
+        }
+        if (br != (int) fs_length)
+            throw new System.IO.IOException(s);
+        return data;
+    }
 }

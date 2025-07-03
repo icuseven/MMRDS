@@ -89,10 +89,10 @@ function filter_by_username(selectedValue)
     const usernameFilterInput = document.getElementById("username_filter");
     const currentFilterValue = usernameFilterInput.value;
     usernameFilterInput.value = currentFilterValue;
-    document.getElementById("role_filter").value = "Filter by Role";
     if (selectedValue === "") {
         g_filtered_user_list = [...g_ui.user_summary_list];
     } else {
+        document.getElementById("role_filter").value = "Filter by Role";
         g_filtered_user_list = g_ui.user_summary_list.filter(user => {
             return user.name.toLowerCase().includes(selectedValue.toLowerCase());
         });
@@ -135,15 +135,6 @@ function render_user_table()
                 <tr class='header-level-2 sticky-header z-index-top'>
                     <th ${g_sort_order === 'ascending' ? 'aria-sort="ascending"' : 'aria-sort="descending"'} width='275'>
                         Username (Email Address)
-                        <span
-                            onclick="sort_user_list()"
-                            onkeydown="sort_user_list(event)"
-                            style="margin-left: .4rem;"
-                            role="button" tabindex="0"
-                            id="sort_users" role="button"
-                            class="x32 cdc-icon-cdc-play ${g_sort_order === 'ascending' ? 'sort-asc' : 'sort-desc'}"
-                        >
-                        </span>
                     </th>
                     <th style="padding-bottom: 1rem !important;">Role(s)</th>
                     <th style="padding-bottom: 1rem !important;" width='250'>Actions</th>
@@ -195,26 +186,28 @@ function render_user_table_navigation()
                     Showing ${g_first_index + 1}-${Math.min(g_last_index, g_total_users)} of ${g_filtered_user_list.length} user(s)
                 </div>
                 <div class='row ml-2'>
-                    <button onclick="first_page_click()"
-                        aria-label="First page results" ${g_first_index == 0 ? 'disabled="true"' : ''}
+                    <button aria-label="Navigate to first page" onclick="first_page_click()"
+                        aria-label="First page results"
+                        ${g_first_index == 0 ? 'disabled="true" aria-disabled="true"' : ''}
                         class='icon-button btn-tab-navigation reverse'>
                         <span class='x24 cdc-icon-chevron-double-right'></span>
                     </button>
-                    <button onclick="previous_page_click()"
-                        aria-label="Previous page results" ${g_first_index == 0 ? 'disabled="true"' : ''}
+                    <button aria-label="Navigate to previous page"  onclick="previous_page_click()"
+                        aria-label="Previous page results"
+                        ${g_first_index == 0 ? 'disabled="true" aria-disabled="true"' : ''}
                         class='icon-button btn-tab-navigation reverse'>
                         <span class='x24 cdc-icon-chevron-right'></span>
                     </button>
                     <span tabindex="-1" aria-label="Current page Results" class='icon-button btn-navigation-style'>
                         ${g_current_page_number}
                     </span>
-                    <button onclick="next_page_click()"
-                        ${g_last_index >= g_filtered_user_list.length ? 'disabled="true"' : ''}
+                    <button aria-label="Navigate to next page" onclick="next_page_click()"
+                        ${g_last_index >= g_filtered_user_list.length ? 'disabled="true" aria-disabled="true"' : ''}
                         class='icon-button btn-tab-navigation'>
                         <span class='x24 cdc-icon-chevron-right pt-1'></span>
                     </button>
-                    <button onclick="last_page_click()"
-                        ${g_last_index >= g_filtered_user_list.length ? 'disabled="true"' : ''}
+                    <button aria-label="Navigate to last page" onclick="last_page_click()"
+                        ${g_last_index >= g_filtered_user_list.length ? 'disabled="true" aria-disabled="true"' : ''}
                         class='icon-button btn-tab-navigation'>
                         <span class='x24 cdc-icon-chevron-double-right pt-1'></span>
                     </button>

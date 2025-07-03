@@ -137,7 +137,7 @@ function edit_user_renderer()
 
 function save_user_edits()
 {
-    if(g_audit_history.length <= 0)
+    if(g_user_audit_history.length <= 0)
     {
         view_user_click(g_current_user_id);
     }
@@ -231,6 +231,15 @@ async function update_assigned_roles()
                     current_urj._rev = response_obj.rev;
                     if(current_urj._deleted)
                         g_user_role_jurisdiction = g_user_role_jurisdiction.filter(urj => urj._id != response_obj.id);
+                }
+                else
+                {
+                    const new_role = user_roles.find(urj => urj._id == response_obj.id);
+                    if(new_role)
+                    {
+                        new_role._rev = response_obj.rev;
+                        g_user_role_jurisdiction.push(new_role);
+                    }
                 }
             }
             else

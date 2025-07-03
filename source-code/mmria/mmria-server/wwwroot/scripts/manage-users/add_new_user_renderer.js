@@ -33,13 +33,13 @@ function add_new_user_render() {
         </div>
         <div class="d-flex">
             <div class="vertical-control required col-4 pl-0">
-                <label>Username (i.e., Email Address)</label>
-                <input autocomplete="off" class="form-control" type="text" id="user_email" value="${user.name}">
+                <label id="username_label">Username (i.e., Email Address)</label>
+                <input aria-required="true" aria-labelledby="username_label" autocomplete="off" class="form-control" type="text" id="user_email" value="${user.name}">
             </div>
             <div class="vertical-control required col-4 pl-0 pr-0">
-                <label>Password</label>
+                <label id="password_label">Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="user_password">
+                    <input aria-required="true" aria-labelledby="password_label" type="password" autocomplete="off" class="form-control" id="user_password">
                     <div class="input-group-append">
                         <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('user_password')" type="button" class="btn btn-inline-primary mr-3">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
@@ -48,9 +48,9 @@ function add_new_user_render() {
                 </div>
             </div>
             <div class="vertical-control required col-4 pl-0 pr-0">
-                <label>Verify Password</label>
+                <label id="password_verify_label">Verify Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="user_password_verify">
+                    <input aria-required="true" aria-labelledby="password_verify_label" type="password" autocomplete="off" class="form-control" id="user_password_verify">
                     <div class="input-group-append">
                         <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('user_password_verify')" type="button" class="btn btn-inline-primary">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
@@ -145,7 +145,7 @@ function user_assigned_role_render(p_unique_guid)
         <tr id="${p_unique_guid}_role">
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select id="${p_unique_guid}_role_type" aria-label="Select Role" class="form-select form-control role-select-controls" aria-label="Select user role">
+                    <select aria-required="true" id="${p_unique_guid}_role_type" aria-label="Select Role" class="form-select form-control role-select-controls" aria-label="Select user role">
                         ${user_role_render()}
                     </select>
                     <span id="${p_unique_guid}_role_type_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
@@ -153,7 +153,7 @@ function user_assigned_role_render(p_unique_guid)
             </td>
             <td width="485">
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <select id="${p_unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control role-jursidiction-controls" aria-label="Select case access folder">
+                    <select aria-required="true" id="${p_unique_guid}_role_jurisdiction_type" aria-label="Select folder" class="form-select form-control role-jursidiction-controls" aria-label="Select case access folder">
                         ${user_role_jurisdiction_render(g_jurisdiction_tree).join('')}
                     </select>
                     <span id="${p_unique_guid}_role_jurisdiction_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
@@ -161,7 +161,7 @@ function user_assigned_role_render(p_unique_guid)
             </td>
             <td>
                 <div class="vertical-control p-0 mb-4 col-md-12">
-                    <input value="${format_date(new Date().toISOString())}" id="${p_unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${p_unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
+                    <input aria-required="true" value="${format_date(new Date().toISOString())}" id="${p_unique_guid}_role_effective_start_date" aria-label="Effective Start Date for role ${p_unique_guid}" autocomplete="off" class="form-control mb-4" type="date" placeholder="MM/DD/YYYY">
                     <span id="${p_unique_guid}_role_start_date_validation" class="col-12 data-cell-error-message pl-0 pr-0"></span>
                 </div>
             </td>
@@ -622,9 +622,6 @@ function save_user_click()
     }
     if (is_valid) disable_save_undo_button();
     else enable_save_undo_button();
-    // initial_user_roles = [...user_roles];
-    // create_audit_history();
-    // console.log(user_roles);
 }
 
 function disable_save_undo_button()

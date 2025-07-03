@@ -1,4 +1,4 @@
-var g_audit_history = [];
+var g_user_audit_history = [];
 const ACTION_TYPE = {
     ADD_USER: 'add_user',
     ADD_ROLE: 'add_role',
@@ -19,12 +19,12 @@ var g_is_audit_log_view = false;
 
 function init_audit_history() 
 {
-    g_audit_history = [];
+    g_user_audit_history = [];
     init_audit_history_object = null;
     if(role_user_name && role_user_name.length > 0)
-        g_filtered_audit_list = g_ui.audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+        g_filtered_audit_list = g_audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     else
-        g_filtered_audit_list = g_ui.audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+        g_filtered_audit_list = g_audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     console.log(g_filtered_audit_list);
     reset_audit_pagination();
 }
@@ -42,13 +42,13 @@ function reset_audit_pagination()
 
 function add_to_audit_history(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id)
 {
-    g_audit_history.push(create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id));
+    g_user_audit_history.push(create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id));
     const element = document.getElementById(p_elem_id);
     if (element) {
         element.dataset.previousValue = p_val;
     }
     enable_audit_history_undo_button();
-    console.log(g_audit_history);
+    console.log(g_user_audit_history);
 }
 
 function create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id)
@@ -79,7 +79,7 @@ function enable_audit_history_undo_button()
 
 function audit_history_undo() 
 {
-    const last_audit = g_audit_history.pop();
+    const last_audit = g_user_audit_history.pop();
     if (last_audit) {
         const role = user_roles.find(role => role._id === last_audit.element_id.split('_')[0]);
         switch (last_audit.action) 
@@ -128,7 +128,7 @@ function audit_history_undo()
                 }
                 break;
         }
-        can_undo = g_audit_history.length > 0;
+        can_undo = g_user_audit_history.length > 0;
         const undoButton = document.getElementById('undo_button');
         undoButton.disabled = !can_undo;
         undoButton.setAttribute('aria-disabled', can_undo ? 'false' : 'true');
@@ -136,7 +136,7 @@ function audit_history_undo()
             assigned_roles_validation_check();
         }
     }
-    console.log(g_audit_history);
+    console.log(g_user_audit_history);
 }
 
 async function add_audit_history()
@@ -154,12 +154,12 @@ async function add_audit_history()
         (response_obj) => {
             if (response_obj.ok) 
             {
-                const current_audit = g_audit_history.find(audit => audit._id == response_obj.id);
+                const current_audit = g_user_audit_history.find(audit => audit._id == response_obj.id);
                 if(current_audit) 
                 {
                     current_audit._rev = response_obj.rev;
                 }
-                g_ui.audit_history.push(current_audit);
+                g_audit_history.push(current_audit);
             }
         }
     );
@@ -169,7 +169,7 @@ function mock_audit_history_push()
 {
     const audit_history = create_audit_history();
     audit_history.forEach(audit => {
-        g_ui.audit_history.push(audit);
+        g_audit_history.push(audit);
     });
 }
 
@@ -186,7 +186,7 @@ function create_audit_history()
         sanitize_audit_history_for_first_audit();
     else
         sanitize_audit_history();
-    var temp_audit_history = init_audit_history_object ? [init_audit_history_object, ...g_audit_history] : [...g_audit_history];
+    var temp_audit_history = init_audit_history_object ? [init_audit_history_object, ...g_user_audit_history] : [...g_user_audit_history];
     while (temp_audit_history.length > 0)
     {
         var audit = temp_audit_history.pop();
@@ -246,21 +246,21 @@ function sanitize_audit_history_for_first_audit()
     if(deleted_user_roles && deleted_user_roles.length > 0)
     {
         deleted_user_roles.forEach(deleted_role => {
-            g_audit_history = g_audit_history.filter(audit => audit.element_id.split("_")[0] !== deleted_role._id);
+            g_user_audit_history = g_user_audit_history.filter(audit => audit.element_id.split("_")[0] !== deleted_role._id);
         });
     }
-    g_audit_history.forEach(audit => 
+    g_user_audit_history.forEach(audit => 
     {
         audit.prev_value = "";
     });
-    console.log(`g_audit_history after sanitization:`);
-    console.log(g_audit_history);
+    console.log(`g_user_audit_history after sanitization:`);
+    console.log(g_user_audit_history);
 }
 
 function sanitize_audit_history()
 {
     var audit_history_id_set = new Set();
-    g_audit_history.forEach(audit => {
+    g_user_audit_history.forEach(audit => {
         if(audit.action === ACTION_TYPE.DELETE_ROLE)
             audit_history_id_set.add(audit.element_id);
     });
@@ -270,16 +270,16 @@ function sanitize_audit_history()
             const user_role = initial_user_roles.find(role => role._id === id);
             if(user_role === undefined)
             {
-                g_audit_history = g_audit_history.filter(audit => audit.element_id.split("_")[0] !== id);
+                g_user_audit_history = g_user_audit_history.filter(audit => audit.element_id.split("_")[0] !== id);
             }
             else
             {
-                g_audit_history.find(audit => audit.element_id === id).value = user_role.role_name;
+                g_user_audit_history.find(audit => audit.element_id === id).value = user_role.role_name;
             }
         });
     }
-    console.log(`g_audit_history regular after sanitization:`);
-    console.log(g_audit_history);
+    console.log(`g_user_audit_history regular after sanitization:`);
+    console.log(g_user_audit_history);
 }
 
 function first_audit_page_click()
@@ -405,20 +405,22 @@ function render_account_history_table_navigation_view()
     `];
     return result.join("");
 }
+// {
+//     _id: $mmria.get_new_guid(),
+//     user_id: p_user_id,
+//     action: p_action,
+//     element_id: p_elem_id,
+//     prev_value: p_prev_val,
+//     value: p_val,
+//     date_created: new Date(),
+//     created_by: g_userName,
+//     date_last_updated: new Date(),
+//     last_updated_by: g_userName,
+//     data_id: p_data_id,
+//     parent_id: '',
+//     data_type: "audit_history"
+// }
 
-// _id: $mmria.get_new_guid(),
-// user_id: p_user_id,
-// action: p_action,
-// element_id: p_elem_id,
-// prev_value: p_prev_val,
-// value: p_val,
-// date_created: new Date(),
-// created_by: g_userName,
-// date_last_updated: new Date(),
-// last_updated_by: g_userName,
-// data_id: p_data_id,
-// parent_id: '',
-// data_type: "audit_history"
 
 function render_account_history_row(p_audit)
 {
@@ -484,9 +486,10 @@ function format_value_label(p_value)
 
 function isDateFormat(p_value)
 {
-    // Check if it matches YYYY-MM-DD format
+    // Check if it matches YYYY-MM-DD format or ISO date format with timezone
     const dateFormatRegex = /^\d{4}-\d{2}-\d{2}$/;
-    return dateFormatRegex.test(p_value);
+    const isoDateFormatRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z?$/;
+    return dateFormatRegex.test(p_value) || isoDateFormatRegex.test(p_value);
 }
 
 function create_date_time_string(p_date)
@@ -580,7 +583,7 @@ function filter_audit_history(p_filter_value)
     if(p_filter_value && p_filter_value.length > 0)
     {
         p_filter_value !== "" ? toggle_clear_filter_enabled(true) : toggle_clear_filter_enabled(false);
-        g_filtered_audit_list = g_ui.audit_history
+        g_filtered_audit_list = g_audit_history
         .map(audit => {
             // Create a copy and update the values
             const updatedAudit = { ...audit };
@@ -642,9 +645,9 @@ function filter_audit_history(p_filter_value)
     else
     {
         if(g_is_audit_log_view)
-            g_filtered_audit_list = g_ui.audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+            g_filtered_audit_list = g_audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
         else
-            g_filtered_audit_list = g_ui.audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+            g_filtered_audit_list = g_audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     }
     reset_audit_pagination();
     render_audit_pagination_controls();
@@ -655,9 +658,9 @@ function clear_audit_filter()
 {
     document.getElementById("audit_history_filter").value = "";
     if(g_is_audit_log_view)
-        g_filtered_audit_list = g_ui.audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+        g_filtered_audit_list = g_audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     else
-        g_filtered_audit_list = g_ui.audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+        g_filtered_audit_list = g_audit_history.filter(audit => audit.user_id === role_user_name).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     reset_audit_pagination();
     render_audit_pagination_controls();
     render_audit_summary_table();

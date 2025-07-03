@@ -6,6 +6,7 @@ var g_current_u_id = null;
 var g_jurisdiction_list = [];
 var g_current_user_id = null;
 var g_form_name = '';
+var g_audit_history = [];
 
 var g_first_index  = 0;
 var g_last_index = 10;
@@ -23,7 +24,7 @@ var g_user = null;
 var g_current_user_role_jurisdiction = null;
 
 
-const g_ui = { 
+const g_ui = {
 	user_summary_list:[],
 	user_list:[],
     audit_history: [],
@@ -274,10 +275,71 @@ function add_new_user_click()
     window.location.href = set_url_hash('add-new-user');
 }
 
-function export_user_list_click()
+/*
+ Username
+ Roles(s)
+ Case Folder
+*/
+
+async function export_user_list_click()
 {
     console.log("export user list clicked");
-    //window.location.href = set_url_hash('view-user');
+    const excel_user_lists = g_user_role_jurisdiction
+        .filter(item => item.user_id !== null && item.user_id !== "")
+        .filter(item => g_ui.user_summary_list.find(user => user.name === item.user_id))
+        .sort((a, b) => a.user_id.localeCompare(b.user_id));
+    
+    // Prepare data for export
+    const exportData = {
+        title: "User Management Export",
+        users: excel_user_lists.map(item => ({
+            user_id: item.user_id,
+            role_name: `${format_role_label(item.role_name)} (${item.is_active ? "Active" : "Inactive"})`,
+            jurisdiction_id: item.jurisdiction_id === "/" ? "Top Folder" : item.jurisdiction_id,
+        }))
+    };
+
+    try {
+        const response = await fetch('/manage-users/ExportUsers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(exportData)
+        });
+
+        if (response.ok) {
+            // Create a blob from the response and trigger download
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'UserManagementExport.xlsx';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            console.log("User export completed successfully");
+        } else {
+            console.error("Export failed:", response.statusText);
+            alert("Export failed. Please try again.");
+        }
+    } catch (error) {
+        console.error("Export error:", error);
+        alert("Export failed. Please check your connection and try again.");
+    }
+}
+
+function format_role_label(p_role_name)
+{
+    const role_name_parts = p_role_name.split("_");
+    return role_name_parts.map(section => {
+        if (section === 'steve' || section === 'mmria' || section === 'prams') {
+            return section.toUpperCase();
+        } else {
+            return section[0].toUpperCase() + section.slice(1);
+        }
+    }).join(" ");
 }
 
 function view_audit_log_click()
@@ -399,76 +461,6 @@ function add_new_user_save()
 		console.log("got nothing.");
 	}
 }
-
-async function change_password_user_click(p_user_id)
-{
-	
-	var new_user_password = document.querySelector('[role="confirm_1"][path="' + p_user_id + '"]').value;
-	var new_confirm_password = document.querySelector('[role="confirm_2"][path="' + p_user_id + '"]').value;
-
-	var user_index = -1;
-	var user_list = g_ui.user_summary_list;
-	var user = null;
-	for(var i = 0; i < user_list.length; i++)
-	{
-		if(user_list[i]._id == p_user_id)
-		{
-			user = user_list[i];
-			break;
-		}
-	}
-
-
-	if(
-		new_user_password == new_confirm_password &&
-		is_valid_password(new_user_password)
-	)
-	{
-
-
-
-		if(user)
-		{
-			user.password = new_user_password;
-
-            const response = await get_http_post_response('/api/user', user)
-
-            const response_obj = eval(response);
-            if(response_obj.ok)
-            {
-                for(let i = 0; i < g_ui.user_summary_list.length; i++)
-                {
-                    if(g_ui.user_summary_list[i]._id == response_obj.id)
-                    {
-                        g_ui.user_summary_list[i]._rev = response_obj.rev; 
-                        break;
-                    }
-                }
-
-                if(response_obj.auth_session)
-                {
-                    //profile.auth_session = response_obj.auth_session;
-                    $mmria.addCookie("AuthSession", response_obj.auth_session);
-                }
-
-                create_status_message("user information saved", convert_to_jquery_id(user._id));
-                console.log("password saved sent", response);
-            }
-		}
-		else
-		{
-			g_render();
-		}
-	}
-	else
-	{
-
-		create_status_warning("invalid password.<br/>be sure that verify and password match,<br/>  minimum length is: " + g_policy_values.minimum_length + " and should only include characters [a-zA-Z0-9!@#$%?* ]", convert_to_jquery_id(user._id));
-		//create_status_warning("invalid password and confirm", convert_to_jquery_id(user._id));
-		console.log("got nothing.");
-	}
-}
-
 
 function is_valid_user_name(p_value)
 {
@@ -1216,9 +1208,12 @@ function update_roles_ui(p_user_id)
 
 function format_date(dateString) {
     const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    
+    // Use UTC methods to avoid timezone conversion issues
+    const year = date.getUTCFullYear();
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    
     return `${year}-${month}-${day}`;
 }
 
@@ -1382,7 +1377,6 @@ function role_id_to_proper_case(p_string)
 function get_role_list()
 {
     let result = [];
-
     if(g_is_pmss_enhanced)
     {
         if
@@ -1409,7 +1403,15 @@ function get_role_list()
         }
         else if(g_jurisdiction_list.find(f => f.role_name == "cdc_admin"))
         {
-            result = [ '', 'abstractor','data_analyst', 'committee_member', 'jurisdiction_admin','steve_mmria', 'steve_prams', 'vital_importer', "vro"];
+            result = [
+                '',
+                'abstractor','data_analyst',
+                'committee_member',
+                'jurisdiction_admin','steve_mmria',
+                'steve_prams',
+                'vital_importer',
+                "vro"
+            ];
         }
         else
         {
