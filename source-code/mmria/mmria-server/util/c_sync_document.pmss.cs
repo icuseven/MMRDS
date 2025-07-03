@@ -184,6 +184,58 @@ public sealed class c_sync_document
             //System.Console.WriteLine(ex);
         }
     
+
+        try
+        {
+            string freq_detail_report_json = new mmria.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version, db_config).execute();
+
+            if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
+            {
+                var freq_id = "freq-" + this.document_id;
+                string current_detail_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + freq_id);
+
+
+                var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (freq_detail_report_json);
+                var byName = (IDictionary<string,object>)dqr_report_expando_object;
+                byName["_id"] = freq_id;
+                freq_detail_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(dqr_report_expando_object);
+                
+                System.Text.StringBuilder freq_detail_url = new System.Text.StringBuilder();
+
+                if(!string.IsNullOrEmpty(current_detail_revision))
+                {
+                    freq_detail_report_json = set_revision (freq_detail_report_json, current_detail_revision);
+                }
+                else
+                {
+                    byName.Remove("_rev");
+                    freq_detail_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(dqr_report_expando_object);
+                }
+
+
+                freq_detail_url.Append(db_config.url);
+                freq_detail_url.Append($"/{db_config.prefix}report/");
+                freq_detail_url.Append(freq_id);
+    
+                if(this.method == "DELETE")
+                {
+                    freq_detail_url.Append("?rev=");
+                    freq_detail_url.Append(current_detail_revision);	
+                }
+
+                var freq_detail_curl = new mmria.server.cURL(this.method, null, freq_detail_url.ToString(), freq_detail_report_json,  db_config.user_name, db_config.user_value);
+
+                string freq_detail_result = await freq_detail_curl.executeAsync();
+                System.Console.WriteLine("c_sync_document freq detail");
+                System.Console.WriteLine(freq_detail_result);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            System.Console.WriteLine("sync freq detail error");
+            System.Console.WriteLine(ex);
+        }
         
         return;
 
@@ -377,57 +429,7 @@ public sealed class c_sync_document
         
 
 
-        try
-        {
-            string freq_detail_report_json = new mmria.server.utils.c_generate_frequency_summary_report(document_json, "freq-detail", metadata_version, db_config).execute();
-
-            if(!string.IsNullOrWhiteSpace(freq_detail_report_json))
-            {
-                var freq_id = "freq-" + this.document_id;
-                string current_detail_revision = await get_revision (db_config.url + $"/{db_config.prefix}report/" + freq_id);
-
-
-                var dqr_report_expando_object = Newtonsoft.Json.JsonConvert.DeserializeObject<System.Dynamic.ExpandoObject> (freq_detail_report_json);
-                var byName = (IDictionary<string,object>)dqr_report_expando_object;
-                byName["_id"] = freq_id;
-                freq_detail_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(dqr_report_expando_object);
-                
-                System.Text.StringBuilder freq_detail_url = new System.Text.StringBuilder();
-
-                if(!string.IsNullOrEmpty(current_detail_revision))
-                {
-                    freq_detail_report_json = set_revision (freq_detail_report_json, current_detail_revision);
-                }
-                else
-                {
-                    byName.Remove("_rev");
-                    freq_detail_report_json =  Newtonsoft.Json.JsonConvert.SerializeObject(dqr_report_expando_object);
-                }
-
-
-                freq_detail_url.Append(db_config.url);
-                freq_detail_url.Append($"/{db_config.prefix}report/");
-                freq_detail_url.Append(freq_id);
-    
-                if(this.method == "DELETE")
-                {
-                    freq_detail_url.Append("?rev=");
-                    freq_detail_url.Append(current_detail_revision);	
-                }
-
-                var freq_detail_curl = new mmria.server.cURL(this.method, null, freq_detail_url.ToString(), freq_detail_report_json,  db_config.user_name, db_config.user_value);
-
-                string freq_detail_result = await freq_detail_curl.executeAsync();
-                System.Console.WriteLine("c_sync_document freq detail");
-                System.Console.WriteLine(freq_detail_result);
-            }
-
-        }
-        catch (Exception ex)
-        {
-            System.Console.WriteLine("sync freq detail error");
-            System.Console.WriteLine(ex);
-        }
+ 
 
     }
 }

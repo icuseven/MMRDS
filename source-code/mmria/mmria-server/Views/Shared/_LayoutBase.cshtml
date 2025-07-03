@@ -63,7 +63,7 @@ if (top !== self) top.location.replace(self.location.href);
 
     const queryString = "@analytics_url";
         
-    script.src = `https://oadc-dmb-dev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
+    script.src = `https://wwwdev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
     if(window.location.hostname.endsWith("mmria.cdc.gov") > -1)
     {
         script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
