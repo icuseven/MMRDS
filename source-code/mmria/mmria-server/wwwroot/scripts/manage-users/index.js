@@ -20,6 +20,27 @@ let g_managed_jurisdiction_set = {}
 g_user_set = new Set();
 
 
+/*
+
+{
+    _id: $mmria.get_new_guid(),
+    user_id: p_user_id,
+    action: p_action,
+    element_id: p_elem_id,
+    prev_value: p_prev_val,
+    value: p_val,
+    date_created: new Date(),
+    created_by: g_userName,
+    date_last_updated: new Date(),
+    last_updated_by: g_userName,
+    data_id: p_data_id,
+    parent_id: '',
+    data_type: "audit_history"
+}
+
+
+*/
+
 var g_user = null;
 var g_current_user_role_jurisdiction = null;
 
