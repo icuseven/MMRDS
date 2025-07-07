@@ -535,12 +535,7 @@ function get_updated_field_path(p_audit)
     }
     else
     {
-        return `
-            Assigned Roles /
-            ${role_id_to_proper_case(p_audit.parent_id)}
-            ${p_audit.parent_id === "" ? "" : " / "}
-            ${role_id_to_proper_case(p_audit.data_id == 'jurisdiction_id' ? 'Case Folder Access' : p_audit.data_id)}
-        `;
+        return `Assigned Roles / ${role_id_to_proper_case(p_audit.parent_id)}${p_audit.parent_id === "" ? "" : " / "}${role_id_to_proper_case(p_audit.data_id == 'jurisdiction_id' ? 'Case Folder Access' : p_audit.data_id)}`;
     }
 }
 
