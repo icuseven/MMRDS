@@ -58,12 +58,11 @@ function create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, 
         user_id: p_user_id,
         action: p_action,
         element_id: p_elem_id,
-        prev_value: p_prev_val,
-        value: p_val,
+        old_value: p_prev_val,
+        new_value: p_val,
+        field: '',
         date_created: new Date(),
         created_by: g_userName,
-        //date_last_updated: new Date(),
-        //last_updated_by: g_userName,
         parent_id: '',
         data_id: p_data_id,
         data_type: "audit_history"
@@ -105,15 +104,15 @@ function audit_history_undo()
                 break;
             case ACTION_TYPE.EDIT_ROLE:
                 if (role) {
-                    role.role_name = last_audit.prev_value;
+                    role.role_name = last_audit.old_value;
                     const element = document.getElementById(last_audit.element_id);
                     if (element) {
-                        element.value = last_audit.prev_value;
-                        element.dataset.previousValue = last_audit.prev_value;
+                        element.new_value = last_audit.old_value;
+                        element.dataset.previousValue = last_audit.old_value;
                     }
                     if(last_audit.element_id.includes('role_active_status')) {
-                        const newValueRadio = document.querySelector(`input[name="${last_audit.element_id}"][value="${last_audit.value}"]`);
-                        const prevValueRadio = document.querySelector(`input[name="${last_audit.element_id}"][value="${last_audit.prev_value}"]`);
+                        const newValueRadio = document.querySelector(`input[name="${last_audit.element_id}"][value="${last_audit.new_value}"]`);
+                        const prevValueRadio = document.querySelector(`input[name="${last_audit.element_id}"][value="${last_audit.old_value}"]`);
                         if (newValueRadio) newValueRadio.checked = false;
                         if (prevValueRadio) prevValueRadio.checked = true;
                     }
@@ -123,8 +122,8 @@ function audit_history_undo()
             case ACTION_TYPE.EDIT_USERNAME:
                 const element = document.getElementById(last_audit.element_id);
                 if (element) {
-                    element.value = last_audit.prev_value;
-                    element.dataset.previousValue = last_audit.prev_value;
+                    element.new_value = last_audit.old_value;
+                    element.dataset.previousValue = last_audit.old_value;
                 }
                 break;
         }
@@ -212,32 +211,35 @@ function create_audit_history()
         if(initial_user_role)
         {
             if(audit.action !== ACTION_TYPE.DELETE_ROLE && audit.action !== ACTION_TYPE.ADD_ROLE && audit.action !== ACTION_TYPE.ADD_USER && !init_audit_history_object)
-                audit.prev_value = initial_user_role[audit.data_id]
+                audit.old_value = initial_user_role[audit.data_id]
             else
-                audit.prev_value = "";
+                audit.old_value = "";
             finalized_audit_history.push(audit);
         }
         else
         {
-            audit.prev_value = "";
+            audit.old_value = "";
             if(audit.action === ACTION_TYPE.EDIT_ROLE || audit.action === ACTION_TYPE.ADD_ROLE)
             {
                 finalized_audit_history.push(audit);
             }
             else if (audit.action === ACTION_TYPE.ADD_USER)
             {
-                audit.value = role_user_name;
+                audit.new_value = role_user_name;
                 finalized_audit_history.push(audit);
             }
             else if ((audit.action === ACTION_TYPE.EDIT_PASSWORD && audit.element_id === 'user_password') && !init_audit_history_object)
             {
-                audit.value = "";
+                audit.new_value = "";
                 finalized_audit_history.push(audit);
             }
         }
     });
     console.log(`finalized_audit_history:`);
     console.log(finalized_audit_history);
+    finalized_audit_history.forEach(audit => {
+        delete audit.element_id;
+    });
     return finalized_audit_history;
 }
 
@@ -251,7 +253,8 @@ function sanitize_audit_history_for_first_audit()
     }
     g_user_audit_history.forEach(audit => 
     {
-        audit.prev_value = "";
+        audit.old_value = "";
+        audit.field = get_updated_field_path(audit);
     });
     console.log(`g_user_audit_history after sanitization:`);
     console.log(g_user_audit_history);
@@ -274,10 +277,13 @@ function sanitize_audit_history()
             }
             else
             {
-                g_user_audit_history.find(audit => audit.element_id === id).value = user_role.role_name;
+                g_user_audit_history.find(audit => audit.element_id === id).new_value = user_role.role_name;
             }
         });
     }
+    g_user_audit_history.forEach(audit => {
+        audit.field = get_updated_field_path(audit);
+    });
     console.log(`g_user_audit_history regular after sanitization:`);
     console.log(g_user_audit_history);
 }
@@ -409,13 +415,10 @@ function render_account_history_table_navigation_view()
 //     _id: $mmria.get_new_guid(),
 //     user_id: p_user_id,
 //     action: p_action,
-//     element_id: p_elem_id,
-//     prev_value: p_prev_val,
-//     value: p_val,
+//     old_value: p_prev_val,
+//     new_value: p_val,
 //     date_created: new Date(),
 //     created_by: g_userName,
-//     date_last_updated: new Date(),
-//     last_updated_by: g_userName,
 //     data_id: p_data_id,
 //     parent_id: '',
 //     data_type: "audit_history"
@@ -429,9 +432,13 @@ function render_account_history_row(p_audit)
             <td>${create_date_time_string(p_audit.date_created)}</td>
             <td>${p_audit.created_by}</td>
             <td>${get_action_type(p_audit.action)}</td>
-            <td>${get_updated_field_path(p_audit)}</td>
-            <td>${format_value_label(p_audit.prev_value)}</td>
-            <td>${format_value_label(p_audit.value)}</td>
+            <td>${p_audit.field}</td>
+            <td>${format_value_label(p_audit.old_value)}</td>
+            ${
+                p_audit.action === ACTION_TYPE.ADD_USER 
+                    ? `<td>${p_audit.new_value}</td>`
+                    : `<td>${format_value_label(p_audit.new_value)}</td>`
+            }
         </tr>
     `
 }
@@ -444,9 +451,13 @@ function render_account_log_history_row(p_audit)
             <td>${create_date_time_string(p_audit.date_created)}</td>
             <td>${p_audit.created_by}</td>
             <td>${get_action_type(p_audit.action)}</td>
-            <td>${get_updated_field_path(p_audit)}</td>
-            <td>${format_value_label(p_audit.prev_value)}</td>
-            <td>${format_value_label(p_audit.value)}</td>
+            <td>${p_audit.field}</td>
+            <td>${format_value_label(p_audit.old_value)}</td>
+            ${
+                p_audit.action === ACTION_TYPE.ADD_USER 
+                    ? `<td>${p_audit.new_value}</td>`
+                    : `<td>${format_value_label(p_audit.new_value)}</td>`
+            }
         </tr>
     `
 }
@@ -585,61 +596,60 @@ function filter_audit_history(p_filter_value)
         p_filter_value !== "" ? toggle_clear_filter_enabled(true) : toggle_clear_filter_enabled(false);
         g_filtered_audit_list = g_audit_history
         .map(audit => {
-            // Create a copy and update the values
             const updatedAudit = { ...audit };
-            if (updatedAudit.prev_value === '/')
+            if (updatedAudit.old_value === '/')
             {
-                updatedAudit.prev_value = 'Top Folder';
+                updatedAudit.old_value = 'Top Folder';
             }
-            else if (isDateFormat(updatedAudit.prev_value))
+            else if (isDateFormat(updatedAudit.old_value))
             {
                 // For YYYY-MM-DD format, create date as local time to avoid timezone shift
-                const parts = updatedAudit.prev_value.split('-');
+                const parts = updatedAudit.old_value.split('-');
                 const year = parseInt(parts[0], 10);
                 const month = parseInt(parts[1], 10) - 1; // Month is 0-based
                 const day = parseInt(parts[2], 10);
                 const localDate = new Date(year, month, day);
-                updatedAudit.prev_value = localDate.toLocaleDateString('en-US');
+                updatedAudit.old_value = localDate.toLocaleDateString('en-US');
             }
-            if (updatedAudit.value === '/')
+            if (updatedAudit.new_value === '/')
             {
-                updatedAudit.value = 'Top Folder';
+                updatedAudit.new_value = 'Top Folder';
             }
-            else if (isDateFormat(updatedAudit.value))
+            else if (isDateFormat(updatedAudit.new_value))
             {
                 // For YYYY-MM-DD format, create date as local time to avoid timezone shift
-                const parts = updatedAudit.value.split('-');
+                const parts = updatedAudit.new_value.split('-');
                 const year = parseInt(parts[0], 10);
                 const month = parseInt(parts[1], 10) - 1; // Month is 0-based
                 const day = parseInt(parts[2], 10);
                 const localDate = new Date(year, month, day);
-                updatedAudit.value = localDate.toLocaleDateString('en-US');
+                updatedAudit.new_value = localDate.toLocaleDateString('en-US');
             }
             return updatedAudit;
         })
         .filter(audit => {
-            var date_last_updated =
-                new Date(audit.date_last_updated).toLocaleDateString('en-US') +
+            var date_created =
+                new Date(audit.date_created).toLocaleDateString('en-US') +
                 " " +
-                new Date(audit.date_last_updated).toLocaleTimeString('en-US');
+                new Date(audit.date_created).toLocaleTimeString('en-US');
             return g_is_audit_log_view
             ?  audit.action.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.last_updated_by.toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                date_last_updated.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                audit.created_by.toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                date_created.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.data_id.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.element_id.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.prev_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                audit.old_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                audit.new_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.user_id.toLowerCase().includes(p_filter_value.toLowerCase())
             : audit.user_id === role_user_name && 
                 (audit.action.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.last_updated_by.toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                date_last_updated.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                audit.created_by.toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                date_created.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.data_id.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.element_id.split("_").join(" ").toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.prev_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
-                audit.value.toString().toLowerCase().includes(p_filter_value.toLowerCase()))
-        }).sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
+                audit.old_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
+                audit.new_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()))
+        }).sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
         console.log(g_filtered_audit_list);
     }
     else
@@ -656,7 +666,7 @@ function filter_audit_history(p_filter_value)
 
 function clear_audit_filter()
 {
-    document.getElementById("audit_history_filter").value = "";
+    document.getElementById("audit_history_filter").new_value = "";
     if(g_is_audit_log_view)
         g_filtered_audit_list = g_audit_history.sort((a, b) => new Date(b.date_last_updated) - new Date(a.date_last_updated));
     else
