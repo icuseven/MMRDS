@@ -69,7 +69,19 @@ let fdTemplates = {
             }
             else
             {
-                return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${p_index}">${value.prompt}</label>`;
+                let prompt = value.prompt;
+                if
+                (
+                    value.type.toLowerCase() === 'string' &&
+                    value.max_length != null &&
+                    parseInt(value.max_length) > 0 &&
+                    value.is_display_field_length != null &&
+                    value.is_display_field_length == true
+                )
+                {
+                    prompt += ` (Max ${value.max_length} characters)`
+                }
+                return `<label for="${formName}--${value.name}" class="form-field-item resize-drag drag-drop yes-drop item fd-path-object" data-order="${p_index}">${prompt}</label>`;
             }
             
         },

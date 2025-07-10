@@ -83,13 +83,26 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     }
 
 
+    let prompt = p_metadata.prompt;
+    if
+    (
+        p_metadata.type.toLowerCase() === 'string' &&
+        p_metadata.max_length != null &&
+        parseInt(p_metadata.max_length) > 0 &&
+        p_metadata.is_display_field_length != null &&
+        p_metadata.is_display_field_length == true
+    )
+    {
+        prompt += ` (Max ${value.max_length} characters)`
+    }
+
     p_result.push(`<div id="${convert_object_path_to_jquery_id(p_object_path)}" class="form-control-outer" mpath="${p_metadata_path}" style="${visibility_html}">`);
         p_result.push(`
             <label for="${convert_object_path_to_jquery_id(p_object_path)}_control"
                    ${styleObject ? `style="${get_style_string(styleObject.prompt.style)}"` : ''}
                    ${pDescription && pDescription.length > 0 ? `rel="tooltip" data-original-title="${pDescription.replace(/'/g, "\\'")}"` : ''}
                    ${pValidationDescript && pValidationDescript.length > 0 ? `validation-tooltip="${p_validation_description.replace(/'/g, "\\'")}"` : ''}>
-                ${p_metadata.prompt}
+                ${prompt}
                 ${render_data_analyst_dictionary_link
                     (
                         p_metadata, 
