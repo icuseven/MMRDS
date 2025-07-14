@@ -1,4 +1,49 @@
 const chart_function_params_map = new Map();
+const chart_start_increment_map = new Map();
+
+chart_start_increment_map.set("blood_pressure_graph", { start: 40, increment: 20});
+chart_start_increment_map.set("prm_diast", { start: 40, increment: 20});
+chart_start_increment_map.set("prm_weigh", { start: 100, increment: 20});
+chart_start_increment_map.set("prm_b_hemat", { start: 10, increment: 2});
+chart_start_increment_map.set("evahmrvs_tempe", { start: 90, increment: 2});
+chart_start_increment_map.set("evahmrvs_pulse", { start: 0, increment: 10});
+chart_start_increment_map.set("evahmrvs_respi", { start: 0, increment: 2});
+chart_start_increment_map.set("evahmrvs_b_systo", { start: 40, increment: 20});
+chart_start_increment_map.set("evahmrvs_b_dias", { start: 40, increment: 20});
+
+
+      /*
+Blood Pressure 
+prenatal/routine_monitoring/systolic_bp
+    systolic_bp prm_s_bp Systolic 40 20
+
+prenatal/routine_monitoring/diastolic
+    diastolic prm_diast Diastolic 40 20
+
+prenatal/routine_monitoring/weight
+prm_weigh
+Weight Gain weight Weight Gain (lbs.) 100 20
+
+prenatal/routine_monitoring/blood_hematocrit
+Hematocrit prm_b_hemat Blood Hematocrit 10 2
+
+er_visit_and_hospital_medical_records/vital_signs/temperature
+Temperature evahmrvs_tempe Temperature 90 2
+
+er_visit_and_hospital_medical_records/vital_signs/pulse
+Heart Rate evahmrvs_pulse Pulse 0 10
+
+er_visit_and_hospital_medical_records/vital_signs/respiration
+Respiration evahmrvs_respi Respiration 0 2
+
+er_visit_and_hospital_medical_records/vital_signs/bp_systolic
+Blood Pressure evahmrvs_b_systo Systolic 40 20
+
+er_visit_and_hospital_medical_records/vital_signs/bp_diastolic
+evahmrvs_b_dias Diastolic 40 20
+
+*/
+
 function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p_dictionary_path, p_is_grid_context, p_post_html_render, p_search_ctx, p_ctx, p_is_de_identified = false)
 {
 	let style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
@@ -88,6 +133,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
       },`);
 
 
+
     if(p_metadata.x_axis && p_metadata.x_axis != "")
     {
         p_post_html_render.push("axis: {");
@@ -115,12 +161,28 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 		p_post_html_render.push("height: 55");
 		p_post_html_render.push("        }");
 
+
+        let minimum_graph_value = 0;
+        let increment_graph_value = 10;
+        
+        if
+        (
+            chart_start_increment_map.has(p_metadata.name)
+        )
+        {
+            const key_value = chart_start_increment_map.get(p_metadata.name);
+
+            minimum_graph_value = key_value.start;
+            increment_graph_value = key_value.increment;
+
+        }
+
 		if (p_metadata.name == "temperature_graph") {
 			p_post_html_render.push(",y: {");
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.1f'),");
 			p_post_html_render.push("  },");
-			p_post_html_render.push("  min: 0,");
+			p_post_html_render.push("  min: 90,");
             p_post_html_render.push("  padding: {top: 0, bottom: 0},");
 			p_post_html_render.push("},");
 		}
@@ -129,7 +191,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.0f'),");
 			p_post_html_render.push("  },");
-			p_post_html_render.push("  min: 0,");
+			p_post_html_render.push(`  min: ${minimum_graph_value},`);
             p_post_html_render.push("  padding: {top: 0, bottom: 0},");
 			p_post_html_render.push("},");
 		}
