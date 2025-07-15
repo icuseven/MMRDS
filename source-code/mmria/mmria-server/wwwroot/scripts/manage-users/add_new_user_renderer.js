@@ -267,9 +267,7 @@ function delete_role(p_role_id)
     if (p_role_index !== -1) 
     {
         const role_to_delete = user_roles.splice(p_role_index, 1)[0];
-        
-        // For DELETE_ROLE: prev_value should describe the deleted role, value should be null
-        const role_description = `Role deleted: ${role_to_delete.role_name || 'Unnamed'} - ${role_to_delete.jurisdiction_id || 'No jurisdiction'} (ID: ${p_role_id})`;
+        const role_description = `${role_to_delete.role_name || ''}`;
         add_to_audit_history(g_current_u_id, p_role_id, ACTION_TYPE.DELETE_ROLE, role_description, null, 'delete_role');
         
         deleted_user_roles.push({
@@ -754,8 +752,7 @@ async function create_user_account(p_user_id, p_user_password)
         else
         {
             //TODO: add_audit_history();
-            mock_audit_history_push();
-            view_user_click(p_user_id);
+            save_audit_history(p_user_id);
         }
     }
 }
@@ -766,7 +763,7 @@ async function add_user_roles(p_user_id)
     user_roles.forEach(role => {
         role.user_id = p_user_id;
     });
-    initial_user_roles = [...user_roles];
+    //initial_user_roles = [...user_roles];
     const user_roles_response = await get_http_post_response
     (
         "api/user_role_jurisdiction/bulk",
@@ -788,8 +785,7 @@ async function add_user_roles(p_user_id)
     });
     if(was_successful)
     {
-        mock_audit_history_push();
-        view_user_click(p_user_id);
+        save_audit_history(p_user_id);
     }
 }
 

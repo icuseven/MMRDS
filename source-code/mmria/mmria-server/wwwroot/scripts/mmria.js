@@ -1262,11 +1262,17 @@ var $mmria = function()
             html.push(`
                 <div class="ui-dialog-titlebar modal-header ui-widget-header ui-helper-clearfix">
                     <div id="ui-id-1" class="ui-dialog-title">Delete User Confirmation</div>
-                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_user_delete_dialog_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
+                    <button id="cancel-user-delete-button" type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="×" onclick="$mmria.confirm_user_delete_dialog_close()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                 </div>
                 <div id="mmria_dialog4" style="width: auto; min-height: 101px; max-height: none; height: auto;" class="ui-dialog-content ui-widget-content">
                     <div class="modal-body card-content">
                         <p>Are you sure want to delete: <b class="text-danger">${p_user_id.split(":")[1]}</b>?</p>
+                        <span id="${p_user_id}_status" role="status" class="mr-2 spinner-container spinner-content spinner-sm">
+                            <span style="background-color: transparent !important;" class="spinner-body text-primary">
+                                <span class="spinner"></span>
+                                <span class="sr-only">Deleting User...</span>
+                            </span>
+                        </span>
                     </div>
                     <footer class="modal-footer">
                         <button onclick="$mmria.confirm_user_delete_dialog_close()" id="confirm-user-delete-dialog-id-cancel-button" class="btn secondary-button mr-1" autofocus >Cancel</button>

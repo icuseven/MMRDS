@@ -6,6 +6,7 @@ var g_current_u_id = null;
 var g_jurisdiction_list = [];
 var g_current_user_id = null;
 var g_form_name = '';
+var g_manage_user_audit = null;
 var g_audit_history = [];
 
 var g_first_index  = 0;
@@ -191,47 +192,23 @@ async function load_values()
         item.value._id = item.id;
         g_user_role_jurisdiction.push(item.value);
     }
-
-    
-
     let temp = [];
     for(let i = 0; i < get_initial_data_response.user_list.rows.length; i++)
     {
         temp.push(get_initial_data_response.user_list.rows[i].doc);
     }
-
     g_ui.user_summary_list = temp;
-
-
-    
-    
-/*
-    let temp = [];
-    for(let i = 0; i < get_initial_data_response.user_role_jurisdiction.rows.length; i++)
-    {
-        const item = get_initial_data_response.user_role_jurisdiction.rows[i].value;
-        if(item.user_id != null)
-        {
-            temp.push(item);
-            g_user_set.add(item.user_id) 
-        }
-        
-    }
-
-    g_ui.user_summary_list = temp;
-*/
     g_ui.url_state = url_monitor.get_url_state(window.location.href);
-
-
-    //document.getElementById('form_content_id').innerHTML = user_render(g_ui, g_current_u_id).join("");
+    if(get_initial_data_response.manage_user_audit)
+    {
+        g_manage_user_audit = get_initial_data_response.manage_user_audit;
+    }
+    else
+    {
+        g_manage_user_audit = create_initial_audit_document();
+    }
     g_render();
-
-    //await get_all_user_role_jurisdiction();
-
 }
-
-
-
 
 async function server_save(p_user)
 {
@@ -385,11 +362,12 @@ function edit_user_click(p_user_id)
 async function delete_user_click(p_user_id, p_rev)
 {
     console.log(`delete user ${p_user_id} clicked with rev: ${p_rev}`);
+    set_confirm_delete_dialog_button_state(true, p_user_id);
+    create_delete_user_audit_history(p_user_id);
     if(p_user_id && p_rev)
     { 
         const response = await get_http_delete_response(`api/user_role_jurisdiction?_id=${p_user_id}&rev=${p_rev}`);
-
-        $mmria.confirm_user_delete_dialog_close();
+        
         if(response.ok)
         {
             for(var i in g_ui.user_summary_list)
@@ -400,11 +378,35 @@ async function delete_user_click(p_user_id, p_rev)
                     break;
                 }
             }
+            $mmria.confirm_user_delete_dialog_close();
+            save_audit_history();
             g_render();
         }
     }
 
         
+}
+
+function create_delete_user_audit_history(p_user_id)
+{
+    var user_name = p_user_id.split("org.couchdb.user:")[1];
+    role_user_name = user_name;
+    g_user_audit_history.push(create_audit_object(user_name, "", ACTION_TYPE.DELETE_USER, "", "", ""));
+}
+
+function set_confirm_delete_dialog_button_state(p_is_disabled, p_user_id)
+{
+    var user_status_element = document.getElementById(p_user_id + "_status");
+    var user_delete_button = document.getElementById(`confirm-user-delete-dialog-id-confirm-button`);
+    var user_cancel_button = document.getElementById(`confirm-user-delete-dialog-id-cancel-button`);
+    var user_dialog_close_button = document.getElementById(`cancel-user-delete-button`);
+    user_status_element.classList.add("spinner-active");
+    user_delete_button.disabled = p_is_disabled;
+    user_delete_button.setAttribute("aria-disabled", p_is_disabled);
+    user_cancel_button.disabled = p_is_disabled;
+    user_cancel_button.setAttribute("aria-disabled", p_is_disabled);
+    user_dialog_close_button.disabled = p_is_disabled;
+    user_dialog_close_button.setAttribute("aria-disabled", p_is_disabled);
 }
 
 function set_roles_inactive_for_user_click(p_user_id)
@@ -1039,11 +1041,16 @@ function set_page_title(p_title)
 
 async function set_all_roles_active_state(p_user_id)
 {
-    const user_roles = g_user_role_jurisdiction.filter(user => user.user_id === p_user_id);
+    user_roles = [...g_user_role_jurisdiction.filter(user => user.user_id === p_user_id)];
+    const user_role_status_icon = document.getElementById(`${p_user_id}_role_status`);
+    user_role_status_icon.classList.add("spinner-active");
+    role_user_name = p_user_id;
+    initial_user_roles = JSON.parse(JSON.stringify(user_roles));
     user_roles.forEach(user_role => {
         user_role.last_updated_by = p_user_id;
         user_role.date_last_updated = new Date();
         user_role.is_active = false;
+        g_user_audit_history.push(create_audit_object(role_user_name, `${user_role._id}_role_active_status`, ACTION_TYPE.EDIT_ROLE, "true", "false", "is_active"));
     });
 
     await bulk_save_user_role_jurisdiction(user_roles, p_user_id); 
@@ -1193,7 +1200,7 @@ async function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
 
 async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id) 
 {
-
+    var is_successful = true;
     if (p_user_role_list == null || p_user_role_list.length == 0 || p_user_id == null  || p_user_id == "") return;
 
     const response = await get_http_post_response
@@ -1212,19 +1219,30 @@ async function bulk_save_user_role_jurisdiction(p_user_role_list, p_user_id)
                 {
                     current_urj._rev = response_obj.rev;
                 }
-                update_roles_ui(p_user_id);
+            }
+            else
+            {
+                is_successful = false;
+                console.error(`Failed to save user role jurisdiction: ${response_obj.error}`);
             }
         }
     );
+    if(is_successful)
+    {
+        save_audit_history();
+        update_roles_ui(p_user_id);
+    }
 }
 
 function update_roles_ui(p_user_id)
 {
     const role_section = document.getElementById("role_results_" + p_user_id);
+    const user_role_status_icon = document.getElementById(`${p_user_id}_role_status`);
     role_section.innerHTML = role_section.innerHTML.replaceAll("Active", "Inactive");
     Array.from(role_section.children).forEach(child => {
         child.classList.add('inactive-role');
     });
+    user_role_status_icon.classList.remove("spinner-active");
 }
 
 function format_date(dateString) {
