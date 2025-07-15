@@ -2,17 +2,27 @@ const chart_function_params_map = new Map();
 const chart_start_increment_map = new Map();
 
 chart_start_increment_map.set("blood_pressure_graph", { start: 40, increment: 20});
-chart_start_increment_map.set("prm_diast", { start: 40, increment: 20});
-chart_start_increment_map.set("prm_weigh", { start: 100, increment: 20});
-chart_start_increment_map.set("prm_b_hemat", { start: 10, increment: 2});
-chart_start_increment_map.set("evahmrvs_tempe", { start: 90, increment: 2});
-chart_start_increment_map.set("evahmrvs_pulse", { start: 0, increment: 10});
-chart_start_increment_map.set("evahmrvs_respi", { start: 0, increment: 2});
-chart_start_increment_map.set("evahmrvs_b_systo", { start: 40, increment: 20});
-chart_start_increment_map.set("evahmrvs_b_dias", { start: 40, increment: 20});
+//chart_start_increment_map.set("prm_diast", { start: 40, increment: 20});
+chart_start_increment_map.set("weight_gain_graph", { start: 100, increment: 20});
+chart_start_increment_map.set("hematocrit_graph", { start: 10, increment: 2});
+chart_start_increment_map.set("temperature_graph", { start: 90, increment: 2});
+chart_start_increment_map.set("pulse_graph", { start: 0, increment: 10});
+//chart_start_increment_map.set("respiration_graph", { start: 0, increment: 2});
+//chart_start_increment_map.set("evahmrvs_b_systo", { start: 40, increment: 20});
+//chart_start_increment_map.set("evahmrvs_b_dias", { start: 40, increment: 20});
 
 
       /*
+
+
+weight_gain_graph 
+hematocrit_graph 
+temperature_graph 
+pulse_graph 
+respiration_graph 
+
+
+
 Blood Pressure 
 prenatal/routine_monitoring/systolic_bp
     systolic_bp prm_s_bp Systolic 40 20
