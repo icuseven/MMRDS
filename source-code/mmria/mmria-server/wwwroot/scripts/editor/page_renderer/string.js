@@ -86,14 +86,14 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
     let prompt = p_metadata.prompt;
     if
     (
-        p_metadata.type.toLowerCase() === 'string' &&
+        p_metadata.type.toLowerCase() == 'string' &&
         p_metadata.max_length != null &&
         parseInt(p_metadata.max_length) > 0 &&
         p_metadata.is_display_field_length != null &&
         p_metadata.is_display_field_length == true
     )
     {
-        prompt += ` (Max ${value.max_length} characters)`
+        prompt += ` (Max ${p_metadata.max_length} characters)`
     }
 
     p_result.push(`<div id="${convert_object_path_to_jquery_id(p_object_path)}" class="form-control-outer" mpath="${p_metadata_path}" style="${visibility_html}">`);
