@@ -56,6 +56,7 @@ public sealed class manage_usersController : Controller
         var jurisdiction_treeController = new jurisdiction_treeController(httpContextAccessor, configuration);
         var user_role_jurisdictionController = new user_role_jurisdictionController(httpContextAccessor, configuration);
         var userController = new userController(httpContextAccessor, configuration);
+        var auditController = new _auditController(httpContextAccessor, configuration);
         /*
             /api/policyvalues
             /api/user_role_jurisdiction_view/my-roles
@@ -64,7 +65,7 @@ public sealed class manage_usersController : Controller
             /api/user       
         */
 
-// policyvalues
+        // policyvalues
 
 
         result["policy_values"] = policyValues.Get();
@@ -73,6 +74,7 @@ public sealed class manage_usersController : Controller
         result["user_role_jurisdiction"] = await user_role_jurisdiction_view.Get(0, -1, "by_user_id");
         //result["user_role_jurisdiction"] = await user_role_jurisdictionController.Get(null);
         result["user_list"] = await userController.Get();
+        result["manage_user_audit"] = await auditController.GetAuditDocument();
 
         return Json(result);
     }

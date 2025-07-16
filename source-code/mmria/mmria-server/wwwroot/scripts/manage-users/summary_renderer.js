@@ -7,6 +7,7 @@ function summary_render()
     let result = [];
     g_role_set = get_role_list();
     g_filtered_user_list = [...g_ui.user_summary_list];
+    initial_user_roles = [];
     reset_pagination();
     result.push(`
         <div class='d-flex'>
@@ -33,6 +34,7 @@ function summary_render()
     `);
     show_hide_user_management_back_button(false);
     set_page_title('Manage Users');
+    init_audit_history();
     document.getElementById('form_content_id').innerHTML = result.join("");
 }
 
@@ -359,8 +361,14 @@ function user_entry_render(p_user, role_set)
     const result = [`
         <tr id=" +  ${convert_to_jquery_id(p_user._id)} + " valign=top>
             <td>
-                <div>
+                <div class="d-flex align-items-center">
                     <button aria-label="View user ${p_user.name}" onclick="view_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
+                    <span id="${p_user._id.split("org.couchdb.user:")[1]}_role_status" role="status" class="mr-2 spinner-container spinner-content">
+                        <span class="spinner-body text-primary">
+                            <span class="spinner"></span>
+                            <span class="sr-only">Saving new user...</span>
+                        </span>
+                    </span>
                 </div>
             </td>
             <td>
@@ -369,24 +377,26 @@ function user_entry_render(p_user, role_set)
                 </div>
             </td>
             <td>
-                <div class="d-flex flex-column col-12">
-                    <button
-                        aria-disabled="${disable_inactive_state_button ? true : false}" ${disable_inactive_state_button ? 'disabled' : ''}
-                        id="set_role_active_state_button_${p_user.name}"
-                        class="btn secondary-button"
-                        aria-label="Set all roles to inactive for ${p_user.name}"
-                        onclick="set_all_roles_active_state('${p_user.name}')"
-                    >
-                        Set All Roles to Inactive
-                    </button>
-                    <button
-                        id="delete_button_${p_user.name}"
-                        class="btn delete-button"
-                        aria-label="Delete user ${p_user.name}"
-                        onclick="init_small_loader(function(){ $mmria.confirm_user_delete_dialog_show('${p_user._id}', '${p_user._rev}', delete_user_click) })"
-                    >
-                        Delete
-                    </button>
+                <div class="d-flex">
+                    <div class="d-flex flex-column col-12">
+                        <button
+                            aria-disabled="${disable_inactive_state_button ? true : false}" ${disable_inactive_state_button ? 'disabled' : ''}
+                            id="set_role_active_state_button_${p_user.name}"
+                            class="btn secondary-button"
+                            aria-label="Set all roles to inactive for ${p_user.name}"
+                            onclick="set_all_roles_active_state('${p_user.name}')"
+                        >
+                            Set All Roles to Inactive
+                        </button>
+                        <button
+                            id="delete_button_${p_user.name}"
+                            class="btn delete-button"
+                            aria-label="Delete user ${p_user.name}"
+                            onclick="init_small_loader(function(){ $mmria.confirm_user_delete_dialog_show('${p_user._id}', '${p_user._rev}', delete_user_click) })"
+                        >
+                            Delete
+                        </button>
+                    </div>
                 </div>
             </td>
         </tr>

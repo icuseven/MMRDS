@@ -2,11 +2,13 @@ var initial_user_roles = [];
 
 function edit_user_renderer()
 {
+    if(g_ui.user_summary_list.find(user => user._id === g_current_user_id) === undefined)
+        back_to_landing_clicked();
     g_is_audit_log_view = false;
     role_user_name = g_current_user_id;
     if(role_user_name.indexOf(":") > -1)
     {
-        role_user_name =  role_user_name.split(":")[1];
+        role_user_name =  role_user_name.split("org.couchdb.user:")[1];
     }
     user_roles = [];
     user_roles = g_user_role_jurisdiction.filter(jurisdiction => jurisdiction.user_id === role_user_name);
@@ -190,8 +192,7 @@ async function update_user_password(p_password)
             }
             else
             {
-                mock_audit_history_push();
-                view_user_click(g_current_user_id);
+                save_audit_history(g_current_user_id);
             }
         }
         else
@@ -250,8 +251,7 @@ async function update_assigned_roles()
     );
     if(was_successful)
     {
-        mock_audit_history_push();
-        view_user_click(g_current_user_id);
+        save_audit_history(g_current_user_id);
     }
 }
 

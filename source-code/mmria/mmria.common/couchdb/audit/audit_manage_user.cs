@@ -32,12 +32,13 @@ public sealed class Audit_Manage_User
 */
         public Audit_Manage_User_Item(){}
 
-        public DateTimeOffset? date_created {get;set;}
-        public string created_by {get;set;}
-        public string action {get;set;}
-        public int? element_id {get; set; }
+        public DateTimeOffset? date_created { get; set; }
+        public string created_by { get; set; }
+        public string action { get; set; }
+        public int? element_id { get; set; }
+        public string user_id { get; set; }
 
-        public string field {get;set;}
+        public string field { get; set; }
         public string field_path {get;set;}
         public string old_value {get;set;}
         public string new_value {get;set;}
