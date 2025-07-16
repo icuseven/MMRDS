@@ -38,7 +38,21 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             p_result.push("'");
         }
         p_result.push(">");
-            p_result.push(p_metadata.prompt);
+
+        let prompt = p_metadata.prompt;
+        if
+        (
+            p_metadata.type.toLowerCase() == 'string' &&
+            p_metadata.max_length != null &&
+            parseInt(p_metadata.max_length) > 0 &&
+            p_metadata.is_display_field_length != null &&
+            p_metadata.is_display_field_length == true
+        )
+        {
+            prompt += ` (Max ${p_metadata.max_length} characters)`
+        }
+
+            p_result.push(prompt);
             p_result.push
             (`
                 ${render_data_analyst_dictionary_link

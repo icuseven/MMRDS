@@ -72,7 +72,10 @@ let fdTemplates = {
                 let prompt = value.prompt;
                 if
                 (
-                    value.type.toLowerCase() === 'string' &&
+                    (
+                        value.type.toLowerCase() == 'string' ||
+                        value.type.toLowerCase() == 'textarea'
+                    ) &&
                     value.max_length != null &&
                     parseInt(value.max_length) > 0 &&
                     value.is_display_field_length != null &&

@@ -1,3 +1,12 @@
+const chart_start_increment_map = new Map();
+
+chart_start_increment_map.set("blood_pressure_graph", { start: 40, increment: 20});
+
+chart_start_increment_map.set("weight_gain_graph", { start: 100, increment: 20});
+chart_start_increment_map.set("hematocrit_graph", { start: 10, increment: 2});
+chart_start_increment_map.set("temperature_graph", { start: 90, increment: 2});
+chart_start_increment_map.set("pulse_graph", { start: 0, increment: 10});
+
 function print_version_render
 (
   p_metadata,
@@ -347,6 +356,23 @@ function print_version_render
       break;
 
     case 'chart':
+
+        let minimum_graph_value = 0;
+        let increment_graph_value = 10;
+        
+        if
+        (
+            chart_start_increment_map.has(p_metadata.name)
+        )
+        {
+            const key_value = chart_start_increment_map.get(p_metadata.name);
+
+            minimum_graph_value = key_value.start;
+            increment_graph_value = key_value.increment;
+
+        }
+
+
       result.push("<div  class='chart' id='");
       result.push
       (
@@ -416,25 +442,25 @@ d3.select('#chart svg').append('text')
         p_post_html_render.push("height: 55");
         p_post_html_render.push("        }");
 
-        if (p_metadata.name === "temperature_graph") {
-            p_post_html_render.push(",y: {");
-            p_post_html_render.push("  tick: {");
-            p_post_html_render.push("   format: d3.format('.1f'),");
-            p_post_html_render.push("  },");
-            p_post_html_render.push("  min: 0,");
-            p_post_html_render.push("  padding: {top: 0, bottom: 0},");
-            p_post_html_render.push("},");
-        }
-        else
+        let format_text_size = ".0f";
+        if (p_metadata.name === "temperature_graph") 
         {
-            p_post_html_render.push(",y: {");
-            p_post_html_render.push("  tick: {");
-            p_post_html_render.push("   format: d3.format('.0f'),");
-            p_post_html_render.push("  },");
-            p_post_html_render.push("  min: 0,");
-            p_post_html_render.push("  padding: {top: 0, bottom: 0},");
-            p_post_html_render.push("},");
+            format_text_size = ".1f"
         }
+
+
+        p_post_html_render.push
+        (`
+            ,y: {
+                
+                tick: {
+                        values: d3.range(${minimum_graph_value}, 450, ${increment_graph_value}),
+                        format: d3.format('${format_text_size}'),
+                        },
+                min: ${minimum_graph_value},
+                padding: {top: 0, bottom: 0},
+            },
+        `);
 
         p_post_html_render.push("        },");
       }

@@ -192,7 +192,7 @@ function chart_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_obj
 			p_post_html_render.push("  tick: {");
 			p_post_html_render.push("   format: d3.format('.1f'),");
 			p_post_html_render.push("  },");
-			p_post_html_render.push("  min: 90,");
+			p_post_html_render.push(`  min: ${minimum_graph_value},`);
             p_post_html_render.push("  padding: {top: 0, bottom: 0},");
 			p_post_html_render.push("},");
 		}
