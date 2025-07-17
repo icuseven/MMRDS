@@ -47,7 +47,10 @@ let fdTemplates = {
 
             if 
             (
-                (value.is_multiselect && value.is_multiselect == true) ||
+                (
+                    value.is_multiselect && 
+                    value.is_multiselect == true
+                ) ||
                 value.control_style && 
                 (
                     value.control_style.indexOf("checkbox") > -1 ||
