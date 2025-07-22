@@ -664,7 +664,7 @@ function filter_audit_history(p_filter_value)
 
 function clear_audit_filter()
 {
-    document.getElementById("audit_history_filter").new_value = "";
+    document.getElementById("audit_history_filter").value = "";
     sort_audit_history_list();
     reset_audit_pagination();
     render_audit_pagination_controls();

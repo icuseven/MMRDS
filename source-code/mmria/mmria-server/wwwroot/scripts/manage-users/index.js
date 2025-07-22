@@ -1238,6 +1238,9 @@ function update_roles_ui(p_user_id)
 {
     const role_section = document.getElementById("role_results_" + p_user_id);
     const user_role_status_icon = document.getElementById(`${p_user_id}_role_status`);
+    const user_role_set_inactive_button = document.getElementById(`set_role_active_state_button_${p_user_id}`);
+    user_role_set_inactive_button.disabled = true;
+    user_role_set_inactive_button.setAttribute("aria-disabled", true);
     role_section.innerHTML = role_section.innerHTML.replaceAll("Active", "Inactive");
     Array.from(role_section.children).forEach(child => {
         child.classList.add('inactive-role');

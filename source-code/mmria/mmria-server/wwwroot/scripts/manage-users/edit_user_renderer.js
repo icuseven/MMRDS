@@ -145,26 +145,68 @@ function save_user_edits()
     }
     else
     {
+        var is_valid = true;
         disable_save_undo_button();
         const password = document.getElementById("user_password").value;
         const password_verify = document.getElementById("user_password_verify").value;
+        
         if(password && password.length > 0 && password_verify && password_verify.length > 0)
         {
-            if(
-		        password == password_verify &&
-		        is_valid_password(password)
-	            )
-                {
-                    update_user_password(password, password_verify);
-                }
-                else
-                {
-                    enable_save_undo_button();
-                }
+            if(password !== password_verify)
+            {
+                is_valid = false;
+                document.getElementById('user_password').classList.add('is-invalid');
+                document.getElementById('user_password').style.color = 'red';
+                document.getElementById('user_password_verify').classList.add('is-invalid');
+                document.getElementById('user_password_verify').style.color = 'red';
+                document.getElementById('show_hide_password').classList.add('is-invalid-button');
+                document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+                document.getElementById('password_validation').textContent = 'Passwords do not match';
+                document.getElementById('password_validation').style.color = 'red';
+                document.getElementById('password_verify_validation').textContent = 'Passwords do not match';
+                document.getElementById('password_verify_validation').style.color = 'red';
+            }
+            if(!is_valid_password(password))
+            {
+                is_valid = false;
+                document.getElementById('user_password').classList.add('is-invalid');
+                document.getElementById('user_password').style.color = 'red';
+                document.getElementById('user_password_verify').classList.add('is-invalid');
+                document.getElementById('user_password_verify').style.color = 'red';
+                document.getElementById('show_hide_password').classList.add('is-invalid-button');
+                document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+                document.getElementById('password_validation').textContent = 'Invalid password.  Minimum length is: ' + g_policy_values.minimum_length + ' and should only include characters [a-zA-Z0-9!@#$%?* ]';
+                document.getElementById('password_validation').style.color = 'red';
+            }
+            if(user_roles.length > 0 && user_roles_changed())
+            {
+                if(!assigned_roles_validation_check()) is_valid = false;
+            }
+            if(is_valid) update_user_password(password, password_verify);
+            else enable_save_undo_button();
+        }
+        else if ((!password && password_verify) || (password && !password_verify))
+        {
+            document.getElementById('user_password').classList.add('is-invalid');
+            document.getElementById('user_password').style.color = 'red';
+            document.getElementById('user_password_verify').classList.add('is-invalid');
+            document.getElementById('user_password_verify').style.color = 'red';
+            document.getElementById('show_hide_password').classList.add('is-invalid-button');
+            document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+            document.getElementById('password_validation').textContent = 'Passwords do not match';
+            document.getElementById('password_validation').style.color = 'red';
+            document.getElementById('password_verify_validation').textContent = 'Passwords do not match';
+            document.getElementById('password_verify_validation').style.color = 'red';
+            enable_save_undo_button();
+        }
+        else if(user_roles.length > 0 && user_roles_changed())
+        {
+            if(assigned_roles_validation_check()) update_assigned_roles();
+            else enable_save_undo_button();
         }
         else
         {
-            update_assigned_roles();
+            enable_save_undo_button();
         }
     }
 
@@ -188,7 +230,10 @@ async function update_user_password(p_password)
             user._rev = response_obj.rev; 
             if(user_roles.length > 0 && user_roles_changed())
             {
-                update_assigned_roles();
+                if(assigned_roles_validation_check())
+                    update_assigned_roles();
+                else
+                    enable_save_undo_button();
             }
             else
             {
