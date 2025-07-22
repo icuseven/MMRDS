@@ -70,22 +70,23 @@ internal class Program
             "24.03.01",
             "24.06.16",
             "24.10.01",
-            "25.02.13"
+            "25.02.13",
+            "25.06.16"
         };
 
-        var metadata_index = 4;
+        var metadata_index = 5;
 
         //var metadata_url = $"https://couchdb-231-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.06.16/metadata"; // pmss
 
         //var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-23.11.08/metadata"; // mmria
 
         var metadata_version = metadata_list[metadata_index];
-        //var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-{metadata_version}/metadata"; // mmria
+        var metadata_url = $"https://couchdb-test-mmria.apps.ecpaas-dev.cdc.gov/metadata/version_specification-{metadata_version}/metadata"; // mmria
         //24.03.01
 
         //24.06.16
 
-        var metadata_url = $"http://localhost:5984/metadata/version_specification-{metadata_version}/metadata"; // mmria
+        //var metadata_url = $"http://localhost:5984/metadata/version_specification-{metadata_version}/metadata"; // mmria
 
         using(var metadata_client = new HttpClient ())
         {
