@@ -146,7 +146,8 @@ function save_user_edits()
     else
     {
         var is_valid = true;
-        disable_save_undo_button();
+        disable_save_button();
+        disable_undo_button();
         const password = document.getElementById("user_password").value;
         const password_verify = document.getElementById("user_password_verify").value;
         
@@ -182,8 +183,21 @@ function save_user_edits()
             {
                 if(!assigned_roles_validation_check()) is_valid = false;
             }
-            if(is_valid) update_user_password(password, password_verify);
-            else enable_save_undo_button();
+            if (is_valid)
+            {
+                update_user_password(password, password_verify);
+                disable_save_button();
+                disable_undo_button();
+            }
+            else if (!is_valid && g_user_audit_history.length > 0)
+            {
+                enable_save_button();
+                enable_undo_button();
+            }
+            else if(!is_valid && g_user_audit_history.length <= 0)
+            {
+                enable_save_button();
+            }
         }
         else if ((!password && password_verify) || (password && !password_verify))
         {
@@ -197,16 +211,31 @@ function save_user_edits()
             document.getElementById('password_validation').style.color = 'red';
             document.getElementById('password_verify_validation').textContent = 'Passwords do not match';
             document.getElementById('password_verify_validation').style.color = 'red';
-            enable_save_undo_button();
+            enable_save_button();
+            if( g_user_audit_history.length > 0)
+            {
+                enable_undo_button();
+            }
         }
         else if(user_roles.length > 0 && user_roles_changed())
         {
-            if(assigned_roles_validation_check()) update_assigned_roles();
-            else enable_save_undo_button();
+            if(assigned_roles_validation_check())
+            {
+                update_assigned_roles();
+            }
+            else if(!assigned_roles_validation_check() && g_user_audit_history.length > 0) 
+            {
+                enable_save_button();
+                enable_undo_button();
+            }
+            else if(!assigned_roles_validation_check() && g_user_audit_history.length <= 0)
+            {
+                enable_save_button();
+            }
         }
         else
         {
-            enable_save_undo_button();
+            view_user_click(g_current_user_id);
         }
     }
 
@@ -230,10 +259,19 @@ async function update_user_password(p_password)
             user._rev = response_obj.rev; 
             if(user_roles.length > 0 && user_roles_changed())
             {
-                if(assigned_roles_validation_check())
-                    update_assigned_roles();
-                else
-                    enable_save_undo_button();
+                if (assigned_roles_validation_check())
+                {
+                    await update_assigned_roles();
+                }
+                else if (!assigned_roles_validation_check() && g_user_audit_history.length > 0)
+                {
+                    enable_save_button();
+                    enable_undo_button();
+                }
+                else if (!assigned_roles_validation_check() && g_user_audit_history.length <= 0)
+                {
+                    enable_save_button();
+                }
             }
             else
             {
@@ -242,7 +280,11 @@ async function update_user_password(p_password)
         }
         else
         {
-            enable_save_undo_button();
+            enable_save_button();
+            if(g_user_audit_history.length > 0)
+            {
+                enable_undo_button();
+            }
         }
     }
 }
