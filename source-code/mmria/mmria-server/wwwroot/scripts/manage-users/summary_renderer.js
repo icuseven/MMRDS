@@ -364,7 +364,7 @@ function user_entry_render(p_user, role_set)
                 <div class="d-flex align-items-center">
                     <button aria-label="View user ${p_user.name}" onclick="view_user_click('${p_user._id}')" class="btn btn-link">${p_user.name}</button>
                     <span id="${p_user._id.split("org.couchdb.user:")[1]}_role_status" role="status" class="mr-2 spinner-container spinner-content">
-                        <span class="spinner-body text-primary">
+                        <span style="background: transparent;" class="spinner-body text-primary">
                             <span class="spinner"></span>
                             <span class="sr-only">Saving new user...</span>
                         </span>

@@ -533,7 +533,8 @@ function check_passwords_match()
 
 function save_user_click() 
 {
-    disable_save_undo_button();
+    disable_save_button();
+    disable_undo_button();
     let is_valid = true;
     const user_email = document.getElementById('user_email').value;
     let user_password = document.getElementById('user_password').value;
@@ -585,32 +586,19 @@ function save_user_click()
         document.getElementById('password_verify_validation').style.color = 'red';
         is_valid = false;
     }
-    is_valid = assigned_roles_validation_check();
-    if(is_valid_user_name(user_email) && is_valid) 
+    if (user_password && !is_valid_password(user_password))
     {
-        if (
-            user_password == user_password_verify &&
-            is_valid_password(user_password)
-        ) 
-        {
-            check_if_existing_user(user_email, user_password);
-        } 
-        else 
-        {
-            document.getElementById('user_password').classList.add('is-invalid');
-            document.getElementById('user_password').style.color = 'red';
-            document.getElementById('user_password_verify').classList.add('is-invalid');
-            document.getElementById('user_password_verify').style.color = 'red';
-            document.getElementById('show_hide_password').classList.add('is-invalid-button');
-            document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
-            document.getElementById('password_validation').innerHTML = 'Invalid password.';
-            document.getElementById('password_validation').style.color = 'red';
-            document.getElementById('password_verify_validation').innerHTML = `Invalid password.<br/>be sure that verify and password match,<br/> minimum length is: ${g_policy_values.minimum_length} and should only include characters [a-zA-Z0-9!@#$%?* ]`;
-            document.getElementById('password_verify_validation').style.color = 'red';
-            is_valid = false;
-        }
-    } 
-    else 
+        document.getElementById('user_password').classList.add('is-invalid');
+        document.getElementById('user_password').style.color = 'red';
+        document.getElementById('user_password_verify').classList.add('is-invalid');
+        document.getElementById('user_password_verify').style.color = 'red';
+        document.getElementById('show_hide_password').classList.add('is-invalid-button');
+        document.getElementById('show_hide_password_verify').classList.add('is-invalid-button');
+        document.getElementById('password_validation').textContent = 'Invalid password.  Minimum length is: ' + g_policy_values.minimum_length + ' and should only include characters [a-zA-Z0-9!@#$%?* ]';
+        document.getElementById('password_validation').style.color = 'red';
+        is_valid = false;
+    }
+    if (user_email && !is_valid_user_name(user_email))
     {
         document.getElementById('user_email').classList.add('is-invalid');
         document.getElementById('user_email').style.color = 'red';
@@ -618,26 +606,48 @@ function save_user_click()
         document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }
-    if (is_valid) disable_save_undo_button();
-    else enable_save_undo_button();
+    if (!assigned_roles_validation_check()) is_valid = false;
+    if (is_valid) check_if_existing_user(user_email, user_password);
+    if (is_valid)
+    {
+        disable_save_button();
+        disable_undo_button();
+    }
+    else if (!is_valid && g_user_audit_history.length > 0)
+    {
+        enable_save_button();
+        enable_undo_button();
+    }
+    else if(!is_valid && g_user_audit_history.length <= 0)
+    {
+        enable_save_button();
+    }
 }
 
-function disable_save_undo_button()
+function disable_save_button()
 {
     document.getElementById('user_save_status').classList.add('spinner-active');
     document.getElementById('save_user_button').disabled = true;
     document.getElementById('save_user_button').attributes['aria-disabled'] = 'true';
+}
+
+function disable_undo_button()
+{
     document.getElementById('undo_button').disabled = true;
     document.getElementById('undo_button').attributes['aria-disabled'] = 'true';
 }
 
-function enable_save_undo_button()
+function enable_undo_button()
+{
+    document.getElementById('undo_button').disabled = false;
+    document.getElementById('undo_button').attributes['aria-disabled'] = 'false';
+}
+
+function enable_save_button()
 {
     document.getElementById('user_save_status').classList.remove('spinner-active');
     document.getElementById('save_user_button').disabled = false;
     document.getElementById('save_user_button').attributes['aria-disabled'] = 'false';
-    document.getElementById('undo_button').disabled = false;
-    document.getElementById('undo_button').attributes['aria-disabled'] = 'false';
 }
 
 function assigned_roles_validation_check() {
@@ -723,7 +733,7 @@ async function check_if_existing_user(p_user_id, p_user_password)
     {
         document.getElementById('user_email').classList.add('is-invalid');
         document.getElementById('user_email').style.color = 'red';
-        document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique and at least 5 characters long';
+        document.getElementById('username_validation').textContent = 'Invalid user name. User name should be unique.';
         document.getElementById('username_validation').style.color = 'red';
         is_valid = false;
     }

@@ -884,7 +884,48 @@ function getSectionTitle(name) {
 	return g_md.children[idx].prompt.toUpperCase();
 }
 
-function doChart2(p_id_prefix, chartData, chartTitle, chartMessage) {
+
+
+const chart_start_increment_map = new Map();
+
+chart_start_increment_map.set("blood_pressure_graph", { start: 40, increment: 20});
+chart_start_increment_map.set("weight_gain_graph", { start: 100, increment: 20});
+chart_start_increment_map.set("hematocrit_graph", { start: 10, increment: 2});
+chart_start_increment_map.set("temperature_graph", { start: 90, increment: 2});
+chart_start_increment_map.set("pulse_graph", { start: 0, increment: 10});
+
+
+function doChart2
+(
+    p_id_prefix, 
+    chartData, 
+    chartTitle, 
+    chartMessage,
+    p_metadata
+) 
+{
+
+    let minimum_graph_value = 0;
+    let increment_graph_value = 10;
+    let y_is_beginAtZero = true;
+    
+    if
+    (
+        chart_start_increment_map.has(p_metadata.name)
+    )
+    {
+        const key_value = chart_start_increment_map.get(p_metadata.name);
+
+        minimum_graph_value = key_value.start;
+        increment_graph_value = key_value.increment;
+
+        if (minimum_graph_value != 0)
+        {
+            y_is_beginAtZero = false;
+        }
+
+    }
+
 	let wrapper_id = `${p_id_prefix}chartWrapper`;
 	let container = document.getElementById(wrapper_id);
 
@@ -924,7 +965,10 @@ function doChart2(p_id_prefix, chartData, chartTitle, chartMessage) {
 			animate: false,
 			scales: {
 				y: {
-					beginAtZero: true,
+					beginAtZero: y_is_beginAtZero,
+                    min: minimum_graph_value,
+                    //max: 450,
+                    stepSize: increment_graph_value,
 					ticks: {
 						font: {
 							size: 20,
@@ -2796,7 +2840,7 @@ function print_pdf_render_content(ctx) {
 				let imgName = (typeof ctx.multiFormIndex == 'undefined')
 					? `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_`
 					: `${y_axis_parts[0][0]}_${y_axis_parts[0][1]}_${y_axis_parts[0][2]}_0${ctx.multiFormIndex}_`;
-				retImg = doChart2(imgName, optData, ctx.metadata.prompt, ctx.p_chart_message);
+				retImg = doChart2(imgName, optData, ctx.metadata.prompt, ctx.p_chart_message, ctx.metadata);
 
 				chartBody.push
                 (

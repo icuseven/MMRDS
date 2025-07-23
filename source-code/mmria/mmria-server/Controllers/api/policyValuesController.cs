@@ -33,13 +33,13 @@ public sealed class policyValuesController : Controller
     {
         var result = new Dictionary<string,string>(StringComparer.OrdinalIgnoreCase);
 
-        var minimum_length = configuration.GetInteger("password_minimum_length", host_prefix);
-        var days_before_expires = configuration.GetInteger("password_days_before_expires", host_prefix);
-        var days_before_user_is_notified_of_expiration = configuration.GetInteger("password_days_before_user_is_notified_of_expiration", host_prefix);
-        var default_days_in_effective_date_interval = configuration.GetInteger("authentication_settings:default_days_in_effective_date_interval", host_prefix);
-        var unsuccessful_login_attempts_number_before_lockout = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_number_before_lockout", host_prefix);
-        var unsuccessful_login_attempts_within_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_within_number_of_minutes", host_prefix);
-        var unsuccessful_login_attempts_lockout_number_of_minutes = configuration.GetInteger("authentication_settings:unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix);
+        var minimum_length = configuration.GetInteger("pass_word_minimum_length", host_prefix);
+        var days_before_expires = configuration.GetInteger("pass_word_days_before_expires", host_prefix);
+        var days_before_user_is_notified_of_expiration = configuration.GetInteger("pass_word_days_before_user_is_notified_of_expiration", host_prefix);
+        var default_days_in_effective_date_interval = configuration.GetInteger("default_days_in_effective_date_interval", host_prefix);
+        var unsuccessful_login_attempts_number_before_lockout = configuration.GetInteger("unsuccessful_login_attempts_number_before_lockout", host_prefix);
+        var unsuccessful_login_attempts_within_number_of_minutes = configuration.GetInteger("unsuccessful_login_attempts_within_number_of_minutes", host_prefix);
+        var unsuccessful_login_attempts_lockout_number_of_minutes = configuration.GetInteger("unsuccessful_login_attempts_lockout_number_of_minutes", host_prefix);
         var sams_is_enabled = configuration.GetBoolean("sams:is_enabled", host_prefix);
 /*
         System.Console.WriteLine($"Get Policy Values");
