@@ -42,7 +42,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
         let prompt = p_metadata.prompt;
         if
         (
-            p_metadata.type.toLowerCase() == 'string' &&
+            p_metadata.type.toLowerCase() == 'textarea' &&
             p_metadata.max_length != null &&
             parseInt(p_metadata.max_length) > 0 &&
             p_metadata.is_display_field_length != null &&
