@@ -103,8 +103,18 @@ function jurisdiction_render(p_data, p_path, p_nested_level = 0)
 	
 	if(p_data._id)
 	{
-		result.push("<br id='case_folder_break'/><input class='primary-button mr-3' type='button' value='Save Folder Changes' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />");
-		result.push(`<span class="spinner-container spinner-small ml-1"><span class="spinner-body text-primary"><span class="spinner"></span></span></span>`);
+		result.push(
+            `<br id='case_folder_break'/>
+                <div class="d-flex align-items-center">
+                    <input class='primary-button mr-3' type='button' value='Save Folder Changes' onclick='init_small_loader(function(){ save_jurisdiction_tree_click(\"\") })' />
+                    <span id="case_folder_save_status" role="status" class="mr-2 spinner-container spinner-content">
+                        <span class="spinner-body text-primary">
+                            <span class="spinner"></span>
+                            <span class="sr-only">Saving case folder...</span>
+                        </span>
+                    </span>
+                </div>
+        `);
 	}
 
 	return result;
@@ -234,75 +244,3 @@ function render_show_hide_buttons(p_data, indent_level)
 	data_type:"jursidiction_tree"
 }
 */
-
-
-function save_jurisdiction_tree_click()
-{
-	if(g_jurisdiction_tree && g_current_u_id)
-	{ 
-		$.ajax({
-					url: location.protocol + '//' + location.host + '/api/jurisdiction_tree',
-					contentType: 'application/json; charset=utf-8',
-					dataType: 'json',
-					data: JSON.stringify(g_jurisdiction_tree),
-					type: "POST"
-			}).done(function(response) 
-			{
-						var response_obj = eval(response);
-						if(response_obj.ok)
-						{
-							g_jurisdiction_tree._rev = response_obj.rev; 
-							//document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
-						}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("jurisdiction_tree sent", response);
-			});
-	}
-}
-
-function save_user_role_jurisdiction(p_user_role, p_user, p_user_id)
-{
-	if(p_user_role && p_user_id)
-	{ 
-		$.ajax({
-			url: location.protocol + '//' + location.host + '/api/user_role_jurisdiction',
-			contentType: 'application/json; charset=utf-8',
-			dataType: 'json',
-			data: JSON.stringify(p_user_role),
-			type: "POST",
-		})
-		.done(
-			function(response) 
-			{
-				if(response)
-				{
-					var response_obj = eval(response);
-					if(response_obj.ok)
-					{
-						
-						for(var i in g_user_role_jurisdiction)
-						{
-							if(g_user_role_jurisdiction[i]._id == response_obj.id)
-							{
-								g_user_role_jurisdiction[i]._rev = response_obj.rev; 
-								//document.getElementById('form_content_id').innerHTML = editor_render(g_user_list, "", g_ui).join("");
-	
-								var render_result = render_role_list_for(p_user, p_user_id);
-								var role_list_for_ = document.getElementById("role_list_for_" + p_user.name);
-								role_list_for_.outerHTML = render_result.join("");
-
-								break;
-							}
-						}
-					}
-						//{ok: true, id: "2016-06-12T13:49:24.759Z", rev: "3-c0a15d6da8afa0f82f5ff8c53e0cc998"}
-					console.log("jurisdiction_tree sent", response);
-				}
-				else
-				{
-					alert("You are not authorized to make this change.");
-				}
-			}
-		);
-	}
-}

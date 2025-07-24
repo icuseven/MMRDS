@@ -571,3 +571,67 @@ function jurisdiction_delete()
 {
 	
 }
+
+async function save_jurisdiction_tree_click()
+{
+    const save_status = document.getElementById('case_folder_save_status');
+    const save_status_success = document.getElementById('case_folder_save_success');
+    save_status.classList.add('spinner-active');
+	if(g_jurisdiction_tree && g_current_u_id)
+	{
+        const response = await get_http_post_response("api/jurisdiction_tree", g_jurisdiction_tree);
+        const response_obj = eval(response);
+        if(response_obj.ok)
+        {
+            g_jurisdiction_tree._rev = response_obj.rev;
+            save_status_success.classList.add('spinner-active');
+                setTimeout(() => {
+                    save_status_success.classList.remove('spinner-active');
+                }, 4000);
+        }
+        save_status.classList.remove('spinner-active');
+	}
+}
+
+async function get_http_post_response
+(
+    p_url_suffix,
+    p_data
+)
+{
+    let response = {};
+
+    const url = `${location.protocol}//${location.host}/${p_url_suffix}`
+    try
+    {
+        const response_promise = await fetch(url, {
+            method: "post",
+            headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+            'dataType': 'json',
+            },
+            body: JSON.stringify(p_data)
+        });
+
+        mmria_check_if_need_to_redirect(response_promise);
+        
+        response = await response_promise.json();
+    }  
+    catch(xhr) 
+    {
+        $mmria.unstable_network_dialog_show(xhr, xhr.status);
+        if (xhr.status == 401) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+        else if (xhr.status == 200 && xhr.responseText.length >= 49000) 
+        {
+            let redirect_url = location.protocol + '//' + location.host;
+            window.location = redirect_url;
+        }
+    }
+
+    return response;
+}

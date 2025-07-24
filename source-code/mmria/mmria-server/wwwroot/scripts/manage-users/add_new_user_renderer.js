@@ -39,7 +39,7 @@ function add_new_user_render() {
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label id="password_label">Password</label>
                 <div class="input-group">
-                    <input aria-required="true" aria-labelledby="password_label" type="password" autocomplete="off" class="form-control" id="user_password">
+                    <input aria-required="true" aria-labelledby="password_label" type="password" autocomplete="off" class="form-control" id="user_password" data-ms-reveal="false">
                     <div class="input-group-append">
                         <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('user_password')" type="button" class="btn btn-inline-primary mr-3">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
@@ -50,7 +50,7 @@ function add_new_user_render() {
             <div class="vertical-control required col-4 pl-0 pr-0">
                 <label id="password_verify_label">Verify Password</label>
                 <div class="input-group">
-                    <input aria-required="true" aria-labelledby="password_verify_label" type="password" autocomplete="off" class="form-control" id="user_password_verify">
+                    <input aria-required="true" aria-labelledby="password_verify_label" type="password" autocomplete="off" class="form-control" id="user_password_verify" data-ms-reveal="false">
                     <div class="input-group-append">
                         <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('user_password_verify')" type="button" class="btn btn-inline-primary">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
