@@ -1004,7 +1004,13 @@ function convert_object_path_to_jquery_id(p_value)
 
 
 function formatToTwoDigits(dateString) {
+    
+    if (!dateString || !dateString.length || dateString.length === 0 || dateString.indexOf("T")) return dateString;
+
     const parts = dateString.split('-'); // Assuming 'YYYY-MM-DD'
+
+    if (parts.length !== 3) return dateString;
+
     const year = parseInt(parts[0], 10);
     const month = parseInt(parts[1], 10);
     const day = parts[2];
@@ -1023,7 +1029,7 @@ function formatToTwoDigits(dateString) {
 
 
 function make_c3_date(p_value)
-{       
+{   
     p_value = formatToTwoDigits(p_value)//check and and convert single digit day/month to two digit values
     
     if (p_value.indexOf('T') === -1)
