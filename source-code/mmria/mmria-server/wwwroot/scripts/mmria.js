@@ -1842,7 +1842,8 @@ Please update the duplicate record as applicable.
                     element.classList.add('set-radius');
                     element.setAttribute("id", "unstable-network-id");
                     element.setAttribute("role", "dialog");
-    
+                    element.setAttribute("aria-label","Unable To Save/Unstable Network Dialog");
+
                     document.firstElementChild.appendChild(element);
                 }
 
@@ -1853,7 +1854,7 @@ Please update the duplicate record as applicable.
     
                 let html = [];
                 html.push(`
-                    <div aria-modal="true" class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
+                    <div role='alertdialog' aria-modal="true" aria-labelledby='ui-id-1' aria-describedby='mmria-dialog5' class="ui-dialog-titlebar modal-header bg-primary ui-widget-header ui-helper-clearfix">
                         <span id="ui-id-1" class="ui-dialog-title" style="font-family: 'Open-Sans';">Unable to Save/Network Unstable</span>
                         <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close" onclick="$mmria.unstable_network_dialog_click()"><span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>×</button>
                     </div>
