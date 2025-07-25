@@ -1005,7 +1005,7 @@ function convert_object_path_to_jquery_id(p_value)
 
 function formatToTwoDigits(dateString) {
     
-    if (!dateString || !dateString.length || dateString.length === 0 || dateString.indexOf("T")) return dateString;
+    if (!dateString || !dateString.length || dateString.length === 0 || dateString.indexOf("T") > 0) return dateString;
 
     const parts = dateString.split('-'); // Assuming 'YYYY-MM-DD'
 
@@ -1033,7 +1033,7 @@ function make_c3_date(p_value)
     p_value = formatToTwoDigits(p_value)//check and and convert single digit day/month to two digit values
     
     if (p_value.indexOf('T') === -1)
-        p_value += "T05:00:00Z";//specifying T00:00:00Z would be a subtraction from UTC possibly showing a prior date
+        p_value += "T05:00:00.000Z";//specifying T00:00:00Z would be a subtraction from UTC possibly showing a prior date
 
 	var date_time = new Date(p_value);
 	var result = [];
