@@ -433,8 +433,8 @@ function show_hide_user_management_back_button(shouldShow)
     {
         $("#navigate_back_to_landing").html(
             `
-                <button class="btn btn-link pl-0" onclick="back_to_landing_clicked()">
-                    <span class="x16 cdc-icon-chevron-circle-left"></span> Back to user Management
+                <button class="btn btn-link pl-0 d-flex align-items-center" onclick="back_to_landing_clicked()">
+                    <span class="x16 cdc-icon-chevron-circle-left pr-1"></span> Back to User Management
                 </button>
             `
         )

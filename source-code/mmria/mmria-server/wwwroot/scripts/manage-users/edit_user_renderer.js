@@ -42,9 +42,9 @@ function edit_user_renderer()
         </div>
         <div class="d-flex flex-row">
             <div class="vertical-control col-4 pl-0 pr-0">
-                <label>Password</label>
+                <label>New Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="user_password">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password" data-ms-reveal="false">
                     <div class="input-group-append">
                         <button id="show_hide_password"  aria-label="Show password" onclick="show_hide_password('user_password')" type="button" class="btn btn-inline-primary mr-3">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>
@@ -55,7 +55,7 @@ function edit_user_renderer()
             <div class="vertical-control col-4 pl-0 pr-0">
                 <label>Verify Password</label>
                 <div class="input-group">
-                    <input type="password" autocomplete="off" class="form-control" id="user_password_verify">
+                    <input type="password" autocomplete="off" class="form-control" id="user_password_verify" data-ms-reveal="false">
                     <div class="input-group-append">
                         <button id="show_hide_password_verify" aria-label="Show password verify" onclick="show_hide_password('user_password_verify')" type="button" class="btn btn-inline-primary">
                             <span class="x22 fill-p cdc-icon-eye-solid"></span>

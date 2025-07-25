@@ -10,7 +10,7 @@ function summary_render()
     initial_user_roles = [];
     reset_pagination();
     result.push(`
-        <div class='d-flex'>
+        <div class='d-flex pb-2'>
             <select id="role_filter" onchange="filter_by_role(this.value)" aria-label="Select role to filter by" class='form-control col-3'>
                 ${role_filter_options_renderer()}
             </select>
@@ -112,12 +112,13 @@ function filter_by_role(selectedValue) {
         console.log("No specific role selected. Resetting filter...");
         g_filtered_user_list = [...g_ui.user_summary_list];
     } else {
+        g_filtered_user_list = [];
         console.log(`Filtering users by role: ${selectedValue}`);
         const filter_jurisdiction = g_jurisdiction_list.filter(jurisdiction => {
-            return jurisdiction.role_name === selectedValue;
+            return jurisdiction.role_name === selectedValue && jurisdiction.user_id !== "" && jurisdiction.user_id !== null;
         });
         g_filtered_user_list = g_ui.user_summary_list.filter(user => {
-            return filter_jurisdiction.some(jurisdiction => jurisdiction.user_id.includes(user.name));
+            return filter_jurisdiction.some(jurisdiction => jurisdiction.user_id.endsWith(user.name) || jurisdiction.user_id === user.name);
         });
         console.log(`Filtered Users:`, g_filtered_user_list);
     }
@@ -138,8 +139,8 @@ function render_user_table()
                     <th ${g_sort_order === 'ascending' ? 'aria-sort="ascending"' : 'aria-sort="descending"'} width='275'>
                         Username (Email Address)
                     </th>
-                    <th style="padding-bottom: 1rem !important;">Role(s)</th>
-                    <th style="padding-bottom: 1rem !important;" width='250'>Actions</th>
+                    <th>Role(s)</th>
+                    <th width='250'>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -176,9 +177,9 @@ function render_user_table_navigation()
 {
     const result = [`
         <div class='d-flex mb-3 mt-2'>
-            <button class='btn secondary-button' aria-label='View Audit Log' value='View Audit Log'
+            <button class='btn secondary-button d-flex' aria-label='View Audit Log' value='View Audit Log'
                 onclick='view_audit_log_click()'>
-                <span class='x20 fill-p cdc-icon-clipboard-list-check-solid'>
+                <span class='x16 fill-p cdc-icon-clipboard-list-check-solid'>
                     <span class='ml-1'>View Audit Log</span>
                 </span>
             </button>
@@ -216,15 +217,15 @@ function render_user_table_navigation()
                 </div>
             </div>
             </div>
-            <button class='btn primary-button ml-1' aria-label='Add New User' value='View Audit Log'
+            <button class='btn primary-button ml-1 d-flex' aria-label='Add New User' value='View Audit Log'
                 onclick='add_new_user_click()'>
-                <span class='x20 cdc-icon-plus'>
+                <span class='x16 cdc-icon-plus'>
                     <span class='ml-1'>Add New User</span>
                 </span>
             </button>
-            <button class='btn primary-button ml-1' aria-label='Export User list' value='Export User List'
+            <button class='btn primary-button ml-1 d-flex' aria-label='Export User list' value='Export User List'
                 onclick='export_user_list_click()'>
-                <span class='x18 cdc-icon-share'>
+                <span class='x16 cdc-icon-share'>
                     <span class='ml-1'>Export User List</span>
                 </span>
             </button>
