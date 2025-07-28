@@ -227,7 +227,7 @@ function page_render(p_metadata, p_data, p_ui, p_metadata_path, p_object_path, p
 	return result;
 }
 
-
+/*
 function get_style_string(p_style_string)
 {
 	//"{"position":"absolute","top":12,"left":8,"height":50,"width":110.219,"font-weight":"400","font-size":"16px","font-style":"normal","color":"rgb(0, 0, 0)"}"
@@ -237,6 +237,7 @@ function get_style_string(p_style_string)
 
 	return result;
 }
+*/
 
 function get_grid_style_string(p_grid_style_string, p_style_string)
 {
@@ -348,6 +349,22 @@ function convert_dictionary_path_to_lookup_object(p_path)
 function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path, p_object_path, p_dictionary_path, p_ctx, p_valid)
 {
 	var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
+
+    let is_highlight_border = false;
+
+    if
+    (
+        p_metadata.type.toLowerCase() == 'string' &&
+        p_metadata.max_length != null &&
+        p_data != null &&
+        p_data.toString().length >= parseInt(p_metadata.max_length) //&&
+        //p_metadata.is_display_field_length != null &&
+        //.is_display_field_length == true
+    )
+    {
+       
+       is_highlight_border = true;
+    }
 	
 	if (!isNullOrUndefined(p_valid))
 	{
@@ -402,6 +419,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 		p_result.push(" style='");
+        if(is_highlight_border) p_result.push("border-color: #AF4448;");
 
         if
         (
@@ -916,6 +934,22 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 {
 	let disabled_html = " disabled ";
 
+    let is_highlight_border = false;
+
+    if
+    (
+        p_metadata.type.toLowerCase() == 'string' &&
+        p_metadata.max_length != null &&
+        p_data != null &&
+        p_data.toString().length >= parseInt(p_metadata.max_length) //&&
+        //p_metadata.is_display_field_length != null &&
+        //.is_display_field_length == true
+    )
+    {
+       
+       is_highlight_border = true;
+    }
+
 	if(g_data_is_checked_out)
 	{
 		disabled_html = " ";
@@ -954,6 +988,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
     if(style_object && p_metadata.name != "case_opening_overview")
     {
         p_result.push(" style='");
+        if(is_highlight_border) p_result.push("border-color: #AF4448;");
         p_result.push(get_style_string(style_object.control.style));
         p_result.push("'");
     }
