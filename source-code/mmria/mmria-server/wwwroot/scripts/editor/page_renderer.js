@@ -1011,8 +1011,8 @@ function formatToTwoDigits(dateString) {
 
     if (parts.length !== 3) return dateString;
 
-    const year = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10);
+    const year = parts[0];
+    const month = parts[1];
     const day = parts[2];
 
     if (month.length === 1 || day.length === 1) {
@@ -1030,11 +1030,12 @@ function formatToTwoDigits(dateString) {
 
 function make_c3_date(p_value)
 {   
+    
     p_value = formatToTwoDigits(p_value)//check and and convert single digit day/month to two digit values
     
     if (p_value.indexOf('T') === -1)
         p_value += "T05:00:00.000Z";//specifying T00:00:00Z would be a subtraction from UTC possibly showing a prior date
-
+    
 	var date_time = new Date(p_value);
 	var result = [];
 
