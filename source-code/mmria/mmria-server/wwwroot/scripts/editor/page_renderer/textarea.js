@@ -49,7 +49,21 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             p_metadata.is_display_field_length == true
         )
         {
-            prompt += ` (Max ${p_metadata.max_length} characters)`
+
+            let is_highlight_border = false;
+
+            if
+            (
+
+                p_data != null &&
+                p_data.toString().length >= parseInt(p_metadata.max_length) 
+            )
+            {
+                is_highlight_border = true;
+            }
+
+
+            prompt += ` <span style='color: #AF4448;'>(Max ${p_metadata.max_length} characters)</span>`
         }
 
             p_result.push(prompt);

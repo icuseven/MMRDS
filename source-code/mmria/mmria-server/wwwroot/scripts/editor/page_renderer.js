@@ -938,7 +938,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
 
     if
     (
-        p_metadata.type.toLowerCase() == 'string' &&
+        p_metadata.type.toLowerCase() == 'textarea' &&
         p_metadata.max_length != null &&
         p_data != null &&
         p_data.toString().length >= parseInt(p_metadata.max_length) //&&
@@ -981,6 +981,18 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
     )
     {
         p_result.push(" readonly='true' ");
+    }
+
+    if
+    (
+        p_metadata.type.toLowerCase() == 'textarea' &&
+        p_metadata.max_length != null &&
+        parseInt(p_metadata.max_length) > 0 &&
+        p_metadata.is_display_field_length != null &&
+        p_metadata.is_display_field_length == true
+    )
+    {
+        p_result.push(` maxlength='${ parseInt(p_metadata.max_length)}' `);
     }
 
     var style_object = g_default_ui_specification.form_design[p_dictionary_path.substring(1)];
