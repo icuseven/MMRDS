@@ -103,10 +103,15 @@ function string_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_ob
         )
         {
             is_highlight_border = true;
+            prompt += ` <span style='color: #AF4448;'>(Max ${p_metadata.max_length} characters)</span>`
+        }
+        else
+        {
+            prompt += ` (Max ${p_metadata.max_length} characters)`
         }
 
 
-        prompt += ` <span style='color: #AF4448;'>(Max ${p_metadata.max_length} characters)</span>`
+        
     }
 
     p_result.push(`<div id="${convert_object_path_to_jquery_id(p_object_path)}" class="form-control-outer" mpath="${p_metadata_path}" style="${visibility_html}">`);
