@@ -238,6 +238,9 @@ function g_apply_sort_compareDateDesc(x, y)
 
 function g_apply_sort_compareTimeAsc(x, y) 
 {
+    if(x == null) return -1;
+    if(y == null) return 1;
+
     const A = x.split(":");
     const B = y.split(":");
 
@@ -249,6 +252,9 @@ function g_apply_sort_compareTimeAsc(x, y)
 
 function g_apply_sort_compareTimeDesc(x, y) 
 {
+    if(x == null) return -1;
+    if(y == null) return 1;
+
     const A = x.split(":");
     const B = y.split(":");
 
