@@ -626,8 +626,8 @@ function chart_switch_to_table(p_ui_div_id)
         header_string = element.replace(graph_prefix, "").replace(bp_header_prefix, "").replace(bp_header_suffix, "");
         header_string = header_string.replace("_", " ");
         header_string = header_string.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1, word.length + 1)).join(' ');
-        if(header_string == "Weight")
-          header_string += " (lbs.)";
+        //if(header_string == "Weight")
+        //  header_string += " (lbs.)";
         data_table_header_html.push(`<th style="background-color: #E3D3E4; padding-left: 5px;">${header_string}</th>`)
     });
     data_table_header_html.push(`</tr>`);
