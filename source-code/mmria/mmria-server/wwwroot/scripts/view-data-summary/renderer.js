@@ -1649,7 +1649,7 @@ function form_render_mmria()
                         ${render_field_filter(g_filter)}
                     </div>
                 </div>
-                <div class="d-flex flex-wrap pl-0 col-sm-12 button-container">
+                <div class="d-flex flex-wrap align-items-start pl-0 col-sm-12 button-container">
                     <button
                         id="apply_filters"
                         type="button"
