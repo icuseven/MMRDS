@@ -60,7 +60,7 @@ function textarea_render(p_result, p_metadata, p_data, p_ui, p_metadata_path, p_
             )
             {
                 is_highlight_border = true;
-                prompt += ` <span style='color: #AF4448;'>(Max ${p_metadata.max_length} characters)</span>`
+                prompt += ` <span style='color: #BB6C49;'>(Max ${p_metadata.max_length} characters)</span>`
             }
             else
             {
