@@ -419,7 +419,7 @@ function page_render_create_input(p_result, p_metadata, p_data, p_metadata_path,
 		}
 
 		p_result.push(" style='");
-        if(is_highlight_border) p_result.push("border-color: #AF4448;");
+        if(is_highlight_border) p_result.push("border-color: #BB6C49;");
 
         if
         (
@@ -1000,7 +1000,7 @@ function page_render_create_textarea(p_result, p_metadata, p_data, p_metadata_pa
     if(style_object && p_metadata.name != "case_opening_overview")
     {
         p_result.push(" style='");
-        if(is_highlight_border) p_result.push("border-color: #AF4448;");
+        if(is_highlight_border) p_result.push("border-color: #BB6C49;");
         p_result.push(get_style_string(style_object.control.style));
         p_result.push("'");
     }
