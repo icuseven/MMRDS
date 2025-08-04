@@ -1,26 +1,9 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @{ 
   bool is_pmss_enhanced = false;
-  bool is_analytics_enabled = false;
-
-  string analytics_url = string.Empty;
 
   #if IS_PMSS_ENHANCED
     is_pmss_enhanced = true;
-  #endif
-
-  #if IS_ANALYTICS_ENABLED
-    is_analytics_enabled = true;
-
-    analytics_url = @"Account=cdcgov&
-        pageview=false&
-        interactions=false&
-        ch=MMRIA&
-        level1=Chronic&
-        level2=DRH&
-        level3=MMRIA&
-        level4=".Replace("\n", "").Replace("\t", "").Replace(" ", "");
-
   #endif
 }
 <!DOCTYPE html>
@@ -53,25 +36,6 @@
 <script type="text/javascript">
 if (top !== self) top.location.replace(self.location.href);
 </script>
-
-@if(is_analytics_enabled)
-{
-    <script type="text/javascript">
-
-    const script = document.createElement("script")
-    script.defer = true;
-
-    const queryString = "@analytics_url";
-        
-    script.src = `https://wwwdev.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
-    if(window.location.hostname.endsWith("mmria.cdc.gov") > -1)
-    {
-        script.src = `https://www.cdc.gov/JScript/dmat/cdc-dmat.js?${queryString}`;
-    }
-
-    document.write(script.outerHTML);
-    </script>
-}
 
 
 <script src="/TemplatePackage/4.0/assets/vendor/js/jquery.min.js"></script>
