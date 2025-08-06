@@ -319,7 +319,7 @@ ma",
 
         bool is_test_list = true;
         
-        bool is_report_only_mode = false;
+        bool is_report_only_mode = true;
 
 
         RunTypeEnum MigrationType = RunTypeEnum.DataMigration;
