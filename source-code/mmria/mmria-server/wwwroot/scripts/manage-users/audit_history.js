@@ -26,7 +26,6 @@ function init_audit_history()
     init_audit_history_object = null;
     sort_audit_history_list();
     reset_audit_pagination();
-    console.log(g_filtered_audit_list);
 }
 
 function reset_audit_pagination()
@@ -48,7 +47,6 @@ function add_to_audit_history(p_user_id, p_elem_id, p_action, p_prev_val, p_val,
     }
     g_user_audit_history.push(create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id));
     set_audit_history_undo_button_enable_state(true);
-    console.log(g_user_audit_history);
 }
 
 function create_audit_object(p_user_id, p_elem_id, p_action, p_prev_val, p_val, p_data_id)
@@ -140,7 +138,6 @@ function audit_history_undo()
             assigned_roles_validation_check();
         }
     }
-    console.log(g_user_audit_history);
 }
 
 async function save_audit_history(p_user_id = "")
@@ -249,8 +246,6 @@ function create_finalized_audit_history(p_audit_history_set)
             }
         }
     });
-    console.log(`finalized_audit_history:`);
-    console.log(finalized_audit_history_set);
     finalized_audit_history_set.forEach(audit => {
         delete audit.element_id;
     });
@@ -265,8 +260,6 @@ function sanitize_audit_history_for_first_audit()
             g_user_audit_history = g_user_audit_history.filter(audit => audit.element_id.split("_")[0] !== deleted_role._id);
         });
     }
-    console.log(`g_user_audit_history after sanitization:`);
-    console.log(g_user_audit_history);
 }
 
 function sanitize_audit_history()
@@ -286,8 +279,6 @@ function sanitize_audit_history()
             }
         });
     }
-    console.log(`g_user_audit_history regular after sanitization:`);
-    console.log(g_user_audit_history);
 }
 
 function first_audit_page_click()
@@ -651,7 +642,6 @@ function filter_audit_history(p_filter_value)
                 audit.old_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()) ||
                 audit.new_value.toString().toLowerCase().includes(p_filter_value.toLowerCase()))
         }).sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
-        console.log(g_filtered_audit_list);
     }
     else
     {
