@@ -215,7 +215,7 @@ public sealed class userController: ControllerBase
     [Route("check-user/{id}")]
     public async System.Threading.Tasks.Task<mmria.common.model.couchdb.user> CheckUser(string id)
     {
-        mmria.common.model.couchdb.user result = new mmria.common.model.couchdb.user();
+        mmria.common.model.couchdb.user result = null;
         try
         {
             string request_string = db_config.url + "/_users/" + id;
@@ -223,17 +223,15 @@ public sealed class userController: ControllerBase
             var user_curl = new cURL("GET", null, request_string, null, db_config.user_name, db_config.user_value);
             var responseFromServer = await user_curl.executeAsync();
 
-            if (!string.IsNullOrEmpty(responseFromServer))
-            {
                 result = Newtonsoft.Json.JsonConvert.DeserializeObject<mmria.common.model.couchdb.user>(responseFromServer);
-            }
+            
             // If responseFromServer is null/empty, result remains as empty user object
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
             // On exception, return empty user object instead of null
-            result = new mmria.common.model.couchdb.user();
+            //result = new mmria.common.model.couchdb.user();
         }
 
         return result;
@@ -266,7 +264,6 @@ public sealed class userController: ControllerBase
             {
                 user.app_prefix_list.Add(db_config.prefix, true);
             }
-            
 
             Newtonsoft.Json.JsonSerializerSettings settings = new Newtonsoft.Json.JsonSerializerSettings ();
             settings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;

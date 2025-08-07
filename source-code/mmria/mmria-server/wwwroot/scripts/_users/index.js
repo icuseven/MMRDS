@@ -342,7 +342,6 @@ function check_if_existing_user(p_user_id, p_new_user_password)
 
             if(!is_found)
             {
-                g_ui.user_summary_list.push(user);
 
                 save_user(user._id);
 
