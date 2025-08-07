@@ -893,6 +893,7 @@ chart_start_increment_map.set("weight_gain_graph", { start: 100, increment: 20})
 chart_start_increment_map.set("hematocrit_graph", { start: 10, increment: 2});
 chart_start_increment_map.set("temperature_graph", { start: 90, increment: 2});
 chart_start_increment_map.set("pulse_graph", { start: 0, increment: 10});
+chart_start_increment_map.set("respiration_graph", { start: 0, increment: 2});
 
 
 function doChart2
